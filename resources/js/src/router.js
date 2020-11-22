@@ -413,7 +413,7 @@ const router = new Router({
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'پروفایل', active: true }
+                            { title: 'مدیریت کاربر', active: true }
                         ],
                         rule: 'editor'
                     }
