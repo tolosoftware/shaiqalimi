@@ -372,6 +372,10 @@ const router = new Router({
                     component: () =>
                         import ('./views/apps/procurments/Procurment.vue'),
                     meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'خریداری', active: true }
+                        ],
                         rule: 'editor'
                     }
                 },
