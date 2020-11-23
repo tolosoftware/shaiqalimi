@@ -15,8 +15,9 @@
             class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium"
           >
             <!-- <span class="mr-2">۴ از ۱۰</span> -->
-            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span>
-            <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span> -->
+            <span
+              class="mr-2"
+            >{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} تا {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span>
             <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -103,7 +104,9 @@
               <feather-icon
                 icon="EditIcon"
                 svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                @click.stop="editData(tr)"
+                @click="$router.push({
+                  name: 'user-profile-edit', 
+                  params: {user_id: tr.id }}).catch(() => {})"
               />
               <feather-icon
                 icon="TrashIcon"
@@ -127,9 +130,9 @@ export default {
   data() {
     return {
       statusFa: {
-        on_hold: 'درجریان',
-        delivered: 'تکمیل',
-        canceled: 'نا موفق',
+        on_hold: 'مدیر',
+        delivered: 'ادمین',
+        canceled: 'سوپروایزر',
       },
       selected: [],
       // products: [],
@@ -142,8 +145,6 @@ export default {
   components: {
   },
   created() {
-    console.log(moduleDataList);
-    
     if (!moduleDataList.isRegistered) {
       this.$store.registerModule('dataList',moduleDataList)
       moduleDataList.isRegistered = true
@@ -260,7 +261,7 @@ export default {
           price: 39.99
         }
       ]
-  },
+    },
     queriedItems() {
       return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
     }
@@ -309,7 +310,7 @@ export default {
     },
   },
   mounted() {
-    this.isMounted = false
+    this.isMounted = true
   }
 }
 </script>

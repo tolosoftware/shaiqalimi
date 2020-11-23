@@ -403,11 +403,11 @@ const router = new Router({
                     }
                 },
                 // =============================================================================
-                // Pages Routes
+                // User Routes
                 // =============================================================================
                 {
-                    path: '/user/profile',
-                    name: 'page-profile',
+                    path: '/user/management',
+                    name: 'user-management',
                     component: () =>
                         import ('./views/apps/user/Profile.vue'),
                     meta: {
@@ -418,9 +418,48 @@ const router = new Router({
                         rule: 'editor'
                     }
                 },
+                {
+                    path: '/user/edit/:user_id',
+                    name: 'user-profile-edit',
+                    component: () =>
+                        import('./views/apps/user/sub/UserEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home',url: '/'},
+                            {title: 'مدیریت کاربر',url: {name: 'user-management'}},
+                            {title: 'ویرایش کاربر', active: true}
+                        ],
+                        rule: 'editor'
+                    }
+                },
             ],
         },
+        // =============================================================================
+        // FULL PAGE LAYOUTS
+        // =============================================================================
+        {
+            path: '',
+            component: () => import('@/layouts/full-page/FullPage.vue'),
+            children: [
+                // =============================================================================
+                // PAGES
+                // =============================================================================
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: () => import('@/views/pages/login/Login.vue'),
+                    meta: {
+                        rule: 'editor'
+                    }
+                },
 
+            ]
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            redirect: '/login'
+        },
         // Redirect to 404 page, if no match found
         {
             path: '*',
