@@ -87,15 +87,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_1___default.a,
+    "v-select": vue_select__WEBPACK_IMPORTED_MODULE_1___default.a,
     Accountadd: _Accountadd_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
@@ -104,49 +100,49 @@ __webpack_require__.r(__webpack_exports__);
       addNewDataSidebar: false,
       sidebarData: {},
       currentx: 14,
-      fruits: ['قراداد ها', 'بانکها', 'دارایی ها', 'مشتریان', 'مصارف'],
+      fruits: ["قراداد ها", "بانکها", "دارایی ها", "مشتریان", "مصارف"],
       users: [{
-        "id": 1,
-        "name": "Leanne Graham",
-        "username": "Bret",
-        "email": "Sincere@april.biz",
-        "website": "hildegard.org"
+        id: 1,
+        name: "Leanne Graham",
+        username: "Bret",
+        email: "Sincere@april.biz",
+        website: "hildegard.org"
       }, {
-        "id": 2,
-        "name": "Ervin Howell",
-        "username": "Antonette",
-        "email": "Shanna@melissa.tv",
-        "website": "anastasia.net"
+        id: 2,
+        name: "Ervin Howell",
+        username: "Antonette",
+        email: "Shanna@melissa.tv",
+        website: "anastasia.net"
       }, {
-        "id": 3,
-        "name": "Clementine Bauch",
-        "username": "Samantha",
-        "email": "Nathan@yesenia.net",
-        "website": "ramiro.info"
+        id: 3,
+        name: "Clementine Bauch",
+        username: "Samantha",
+        email: "Nathan@yesenia.net",
+        website: "ramiro.info"
       }, {
-        "id": 4,
-        "name": "Patricia Lebsack",
-        "username": "Karianne",
-        "email": "Julianne.OConner@kory.org",
-        "website": "kale.biz"
+        id: 4,
+        name: "Patricia Lebsack",
+        username: "Karianne",
+        email: "Julianne.OConner@kory.org",
+        website: "kale.biz"
       }, {
-        "id": 5,
-        "name": "Chelsey Dietrich",
-        "username": "Kamren",
-        "email": "Lucio_Hettinger@annie.ca",
-        "website": "demarco.info"
+        id: 5,
+        name: "Chelsey Dietrich",
+        username: "Kamren",
+        email: "Lucio_Hettinger@annie.ca",
+        website: "demarco.info"
       }, {
-        "id": 6,
-        "name": "Mrs. Dennis Schulist",
-        "username": "Leopoldo_Corkery",
-        "email": "Karley_Dach@jasper.info",
-        "website": "ola.org"
+        id: 6,
+        name: "Mrs. Dennis Schulist",
+        username: "Leopoldo_Corkery",
+        email: "Karley_Dach@jasper.info",
+        website: "ola.org"
       }, {
-        "id": 7,
-        "name": "Kurtis Weissnat",
-        "username": "Elwyn.Skiles",
-        "email": "Telly.Hoeger@billy.biz",
-        "website": "elvis.io"
+        id: 7,
+        name: "Kurtis Weissnat",
+        username: "Elwyn.Skiles",
+        email: "Telly.Hoeger@billy.biz",
+        website: "elvis.io"
       }]
     };
   },
@@ -470,7 +466,7 @@ var render = function() {
         _c("div", { staticClass: "vx-row mb-3" }, [
           _c("div", { staticClass: "vx-col w-1/2" }, [
             _c("h3", { staticClass: "mt-4" }, [
-              _c("b", [_vm._v("\n لیست حسابات    \n          ")])
+              _c("b", [_vm._v(" لیست حسابات ")])
             ])
           ]),
           _vm._v(" "),
@@ -585,7 +581,9 @@ var render = function() {
               [
                 _c("template", { slot: "header" }, [
                   _c("h4", { staticClass: "p-4" }, [
-                    _c("b", [_vm._v("\n   " + _vm._s(fruit) + "\n          ")])
+                    _c("b", [
+                      _vm._v("\n            " + _vm._s(fruit) + "\n          ")
+                    ])
                   ])
                 ]),
                 _vm._v(" "),
@@ -593,13 +591,13 @@ var render = function() {
                   "template",
                   { slot: "thead" },
                   [
-                    _c("vs-th", [_vm._v("\n          Email\n        ")]),
+                    _c("vs-th", [_vm._v(" Email ")]),
                     _vm._v(" "),
-                    _c("vs-th", [_vm._v("\n          Name\n        ")]),
+                    _c("vs-th", [_vm._v(" Name ")]),
                     _vm._v(" "),
-                    _c("vs-th", [_vm._v("\n          Website\n        ")]),
+                    _c("vs-th", [_vm._v(" Website ")]),
                     _vm._v(" "),
-                    _c("vs-th", [_vm._v("\n          Nro\n        ")])
+                    _c("vs-th", [_vm._v(" Nro ")])
                   ],
                   1
                 )

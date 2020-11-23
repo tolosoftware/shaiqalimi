@@ -392,7 +392,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "[dir=ltr] .customstyle{\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle{\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\n   \n", ""]);
+exports.push([module.i, "[dir=ltr] .customstyle{\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle{\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\r\n   \r\n", ""]);
 
 // exports
 
@@ -578,7 +578,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                             "
+                                          "\r\n                                             "
                                         ),
                                         _c("b", [_vm._v("افغانی")])
                                       ]
@@ -616,7 +616,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                          "
+                                          "\r\n                                          "
                                         ),
                                         _c("b", [_vm._v("دالر")])
                                       ]
@@ -669,7 +669,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                             "
+                                          "\r\n                                             "
                                         ),
                                         _c("b", [_vm._v("عاید")])
                                       ]
@@ -707,7 +707,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                          "
+                                          "\r\n                                          "
                                         ),
                                         _c("b", [_vm._v("ساده")])
                                       ]

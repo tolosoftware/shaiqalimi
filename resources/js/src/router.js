@@ -16,7 +16,6 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-
 import Vue from 'vue'
 import Router from 'vue-router'
 import auth from '@/auth/authService'
@@ -32,9 +31,7 @@ const router = new Router({
     scrollBehavior() {
         return { x: 0, y: 0 }
     },
-    routes: [
-
-        {
+    routes: [{
             // =============================================================================
             // MAIN LAYOUT ROUTES
             // =============================================================================
@@ -55,9 +52,7 @@ const router = new Router({
                     component: () =>
                         import ('./views/DashboardAnalytics.vue'),
                     meta: {
-                        breadcrumb: [
-                            { title: 'صفحه عمومی', active: true },
-                        ],
+                        breadcrumb: [{ title: 'صفحه عمومی', active: true }],
                         rule: 'editor'
                     }
                 },
@@ -70,7 +65,7 @@ const router = new Router({
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'اعلانات', url: '/notifications', active: true },
+                            { title: 'اعلانات', url: '/notifications', active: true }
                             // { title: 'Import/Export', url: '/'},
                             // { title: 'Export Selected', active: true }
                         ],
@@ -78,14 +73,13 @@ const router = new Router({
                     }
                 },
 
-
                 // =============================================================================
                 // Application Routes
                 // =============================================================================
                 {
                     path: '/projects',
                     redirect: '/projects/list',
-                    name: 'projects',
+                    name: 'projects'
                 },
                 {
                     path: '/projects/list',
@@ -94,13 +88,16 @@ const router = new Router({
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'پروژه ها و قراردادها', url: '/projects/list', active: true },
+                            {
+                                title: 'پروژه ها و قراردادها',
+                                url: '/projects/list',
+                                active: true
+                            }
                         ],
                         rule: 'editor',
                         parent: 'projects',
                         no_scroll: true
                     }
-
                 },
                 {
                     path: '/projects/add',
@@ -111,9 +108,9 @@ const router = new Router({
                             { title: 'Home', url: '/' },
                             { title: 'پروژه ها و قراردادها', url: '/projects/list' },
                             {
-                                title: 'افزودن پروژه جدید',
+                                title: 'افزودن پروژه جدید و لست قرار دادها',
                                 active: true
-                            },
+                            }
                             // { title: 'Export Selected', active: true }
                         ],
                         rule: 'editor',
@@ -134,11 +131,11 @@ const router = new Router({
                             },
                             {
                                 title: 'پروژه ها و قراردادها',
-                                url: '/projects/list',
+                                url: '/projects/list'
                             },
                             {
                                 dyTitle: true
-                            },
+                            }
                         ],
                         rule: 'editor',
                         parent: 'projects',
@@ -157,12 +154,12 @@ const router = new Router({
                             },
                             {
                                 title: 'پروژه ها و قراردادها',
-                                url: '/projects/list',
+                                url: '/projects/list'
                             },
                             {
                                 title: 'ثبت پیشنهاد جدید',
                                 active: true
-                            },
+                            }
                         ],
                         rule: 'editor'
                     }
@@ -179,12 +176,12 @@ const router = new Router({
                             },
                             {
                                 title: 'پروژه ها و قراردادها',
-                                url: '/projects/list',
+                                url: '/projects/list'
                             },
                             {
                                 title: 'ثبت اعلان جدید',
                                 active: true
-                            },
+                            }
                         ],
 
                         rule: 'editor'
@@ -204,14 +201,12 @@ const router = new Router({
                             {
                                 title: 'فروشات',
                                 active: true
-                            },
+                            }
                         ],
 
                         rule: 'editor'
                     }
                 },
-
-
 
                 {
                     path: '/transactions',
@@ -226,8 +221,7 @@ const router = new Router({
                             {
                                 title: 'معاملات',
                                 active: true
-                            },
-
+                            }
                         ],
                         rule: 'editor'
                     }
@@ -256,8 +250,7 @@ const router = new Router({
                             {
                                 title: 'حسابات',
                                 active: true
-                            },
-
+                            }
                         ],
                         rule: 'editor'
                     }
@@ -271,7 +264,7 @@ const router = new Router({
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'مخارج', active: true },
+                            { title: 'مخارج', active: true }
                         ],
                         pageTitle: 'مصرف',
                         rule: 'editor'
@@ -290,10 +283,10 @@ const router = new Router({
                             {
                                 title: 'دخایر و تانک تیل',
                                 active: true
-                            },
+                            }
                         ],
                         rule: 'editor'
-                    },
+                    }
                 },
                 {
                     path: '/inventory/fuel-station',
@@ -312,11 +305,11 @@ const router = new Router({
                             {
                                 title: 'تانک تیل',
                                 active: true
-                            },
+                            }
                         ],
                         rule: 'editor',
-                        parent: 'inventory',
-                    },
+                        parent: 'inventory'
+                    }
                 },
                 {
                     path: '/inventory/goods',
@@ -335,12 +328,11 @@ const router = new Router({
                             {
                                 title: 'اجناس و محصولات',
                                 active: true
-                            },
-
+                            }
                         ],
                         rule: 'editor',
-                        parent: 'inventory',
-                    },
+                        parent: 'inventory'
+                    }
                 },
                 {
                     path: '/inventory/godams',
@@ -359,12 +351,11 @@ const router = new Router({
                             {
                                 title: 'گدام ها',
                                 active: true
-                            },
-
+                            }
                         ],
                         rule: 'editor',
-                        parent: 'inventory',
-                    },
+                        parent: 'inventory'
+                    }
                 },
                 {
                     path: '/procurment',
@@ -381,6 +372,16 @@ const router = new Router({
                     component: () =>
                         import ('./views/apps/archives/Archive.vue'),
                     meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'آرشیف',
+                                active: true
+                            }
+                            // { title: 'Export Selected', active: true }
+                        ],
                         rule: 'editor'
                     }
                 },
@@ -417,8 +418,8 @@ const router = new Router({
                         ],
                         rule: 'editor'
                     }
-                },
-            ],
+                }
+            ]
         },
 
         // Redirect to 404 page, if no match found
@@ -439,7 +440,6 @@ router.afterEach(() => {
 
 router.beforeEach((to, from, next) => {
     firebase.auth().onAuthStateChanged(() => {
-
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
 
@@ -467,9 +467,7 @@ router.beforeEach((to, from, next) => {
             // Specify the current path as the customState parameter, meaning it
             // will be returned to the application after auth
             // auth.login({ target: to.path });
-
     })
-
 })
 
 export default router
