@@ -36,7 +36,8 @@
                     <div class="vx-col w-1/3 pt-5 pb-0">
                         <label for="date" class="mt-3"><small>تاریخ نشر اعلان</small></label>
                         <date-picker
-                          input-format="YYYY/MM/DD"
+                    color="#e85454"
+                    input-format="YYYY/MM/DD"
                           format="jYYYY/jMM/jDD"
                           :auto-submit="true"
                            size="large" ></date-picker>
@@ -123,7 +124,8 @@
                     <div class="vx-col w-1/3 ">
                        <label for="date" class="mt-3"><small>تاریخ  آفرگشایی</small></label>
                         <date-picker
-                          input-format="YYYY/MM/DD"
+                    color="#e85454"
+                    input-format="YYYY/MM/DD"
                           format="jYYYY/jMM/jDD"
                           :auto-submit="true"
                            size="large" ></date-picker>
@@ -133,7 +135,8 @@
                     <div class="vx-col w-1/3">
                        <label for="date" class="mt-3"><small>  ختم پیشنهادات</small></label>
                         <date-picker
-                          input-format="YYYY/MM/DD"
+                    color="#e85454"
+                    input-format="YYYY/MM/DD"
                           format="jYYYY/jMM/jDD"
                           :auto-submit="true"
                            size="large" ></date-picker>

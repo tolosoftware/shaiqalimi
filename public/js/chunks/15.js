@@ -204,6 +204,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -920,6 +923,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("date-picker", {
                               attrs: {
+                                color: "#e85454",
                                 "input-format": "YYYY/MM/DD",
                                 format: "jYYYY/jMM/jDD",
                                 "auto-submit": true,
@@ -1205,6 +1209,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("date-picker", {
                               attrs: {
+                                color: "#e85454",
                                 "input-format": "YYYY/MM/DD",
                                 format: "jYYYY/jMM/jDD",
                                 "auto-submit": true,
@@ -1227,6 +1232,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("date-picker", {
                               attrs: {
+                                color: "#e85454",
                                 "input-format": "YYYY/MM/DD",
                                 format: "jYYYY/jMM/jDD",
                                 "auto-submit": true,

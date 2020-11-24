@@ -60,6 +60,7 @@
                     ><small>تاریخ نشر اعلان</small></label
                   >
                   <date-picker
+                    color="#e85454"
                     input-format="YYYY/MM/DD"
                     format="jYYYY/jMM/jDD"
                     :auto-submit="true"
@@ -194,6 +195,7 @@
                     ><small>تاریخ آفرگشایی</small></label
                   >
                   <date-picker
+                    color="#e85454"
                     input-format="YYYY/MM/DD"
                     format="jYYYY/jMM/jDD"
                     :auto-submit="true"
@@ -207,6 +209,7 @@
                     ><small> ختم پیشنهادات</small></label
                   >
                   <date-picker
+                    color="#e85454"
                     input-format="YYYY/MM/DD"
                     format="jYYYY/jMM/jDD"
                     :auto-submit="true"
