@@ -276,6 +276,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -291,27 +322,27 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     VuePerfectScrollbar: vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_0___default.a,
-    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_1___default.a
+    "v-select": vue_select__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   data: function data() {
     return {
       itemType: [{
-        text: 'تیل دیزل',
-        value: '1'
+        text: "تیل دیزل",
+        value: "1"
       }, {
-        text: 'تیل گاز',
-        value: '2'
+        text: "تیل گاز",
+        value: "2"
       }, {
-        text: 'تیل پطرول',
-        value: '3'
+        text: "تیل پطرول",
+        value: "3"
       }, {
-        text: 'موبلین',
-        value: '4'
+        text: "موبلین",
+        value: "4"
       }],
       settings: {
         // perfectscrollbar settings
         maxScrollbarLength: 60,
-        wheelSpeed: .60
+        wheelSpeed: 0.6
       }
     };
   },
@@ -323,7 +354,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       set: function set(val) {
         if (!val) {
-          this.$emit('closeSidebar');
+          this.$emit("closeSidebar");
         }
       }
     },
@@ -725,7 +756,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "vx-col  mt-4" },
+                { staticClass: "vx-col mt-4" },
                 [
                   _c("label", { attrs: { for: "" } }, [
                     _c("small", [_vm._v("نوعیت")])
@@ -742,7 +773,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "  vx-col w-1/3 mt-5" }, [
+              _c("div", { staticClass: "vx-col w-1/3 mt-5" }, [
                 _c(
                   "label",
                   { staticClass: "ml-4 mr-4 mb-2", attrs: { for: "" } },
@@ -777,13 +808,13 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "vx-row  mt-4" }, [
+              _c("div", { staticClass: "vx-row mt-4" }, [
                 _c(
                   "div",
                   { staticClass: "vx-col w-1/2 pt-4" },
                   [
                     _c("label", { attrs: { for: "" } }, [
-                      _c("small", [_vm._v("  کردیت")])
+                      _c("small", [_vm._v(" کردیت")])
                     ]),
                     _vm._v(" "),
                     _c(
@@ -811,7 +842,7 @@ var render = function() {
                   { staticClass: "vx-col w-1/2 pt-4" },
                   [
                     _c("label", { attrs: { for: "" } }, [
-                      _c("small", [_vm._v("  دبت")])
+                      _c("small", [_vm._v(" دبت")])
                     ]),
                     _vm._v(" "),
                     _c(
