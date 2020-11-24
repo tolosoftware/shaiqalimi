@@ -170,5 +170,7 @@ export default {
     AF: 'افغانی',
     WhoopsNothinghere: 'مورد مشابه یافت نشد.',
     Profile: 'تنظیمات کاربر',
+    logout: 'خروج',
+    The_email_field_is_required: 'فورم ایمیل الزامی است.'
   }
 }

@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <Organizationadd
@@ -440,7 +439,6 @@ export default {
           value: "4",
         },
       ],
-
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},
@@ -494,7 +492,6 @@ export default {
         }
       });
     },
-
     addNewData() {
       this.sidebarData = {};
       this.toggleDataSidebar(true);
@@ -556,7 +553,6 @@ export default {
     .product-name {
       max-width: 23rem;
     }
-
     .vs-table--header {
       display: flex;
       flex-wrap: wrap-reverse;
@@ -566,30 +562,24 @@ export default {
         display: flex;
         flex-grow: 1;
       }
-
       .vs-table--search {
         padding-top: 0;
-
         .vs-table--search-input {
           padding: 0.9rem 2.5rem;
           font-size: 1rem;
-
           & + i {
             left: 1rem;
           }
-
           &:focus + i {
             left: 1rem;
           }
         }
       }
     }
-
     .vs-table {
       border-collapse: separate;
       border-spacing: 0 1.3rem;
       padding: 0 1rem;
-
       tr {
         box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
         td {
@@ -605,12 +595,10 @@ export default {
           &.img-container {
             // width: 1rem;
             // background: #fff;
-
             span {
               display: flex;
               justify-content: flex-start;
             }
-
             .product-img {
               height: 110px;
             }
@@ -621,12 +609,10 @@ export default {
         }
       }
     }
-
     .vs-table--thead {
       th {
         padding-top: 0;
         padding-bottom: 0;
-
         .vs-table-text {
           text-transform: uppercase;
           font-weight: 600;
@@ -640,12 +626,9 @@ export default {
         box-shadow: none;
       }
     }
-
     .vs-table--pagination {
       justify-content: center;
     }
   }
 }
 </style>
-
-
