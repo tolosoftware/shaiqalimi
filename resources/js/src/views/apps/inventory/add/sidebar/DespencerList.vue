@@ -138,33 +138,6 @@ export default {
           popularity: 99,
           price: 39.99
         },
-        {
-          id: 8,
-          category: "4398",
-          img: require("@assets/images/profile/user-uploads/user-05.jpg"),
-          name: 'دسپنسر V',
-          order_status: "canceled",
-          popularity: 91,
-          price: 39.99
-        },
-        {
-          id: 10,
-          category: "4398",
-          img: require("@assets/images/profile/user-uploads/user-06.jpg"),
-          name: 'دسپنسر 32',
-          order_status: "canceled",
-          popularity: 64,
-          price: 39.99
-        },
-        {
-          id: 1,
-          category: "4398 ال پی جی",
-          img: require("@assets/images/profile/user-uploads/user-07.jpg"),
-          name: 'دسپنسر 12',
-          order_status: "on_hold",
-          popularity: 97,
-          price: 69.99
-        },
       ]
     },
     queriedItems() {
