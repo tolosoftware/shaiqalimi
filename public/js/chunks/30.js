@@ -100,6 +100,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -177,209 +179,254 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { attrs: { action: "", method: "post" } }, [
-    _c("div", { staticClass: "vx-row" }, [
-      _c("div", { staticClass: "vx-col w-2/3 vx-row" }, [
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full",
-                attrs: { label: "نام" },
-                model: {
-                  value: _vm.user.name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "name", $$v)
-                  },
-                  expression: "user.name"
-                }
-              })
-            ],
-            1
-          )
+  return _c("vx-card", [
+    _c("form", { attrs: { action: "", method: "post" } }, [
+      _c("div", { staticClass: "vx-row" }, [
+        _c("div", { staticClass: "vx-col w-2/3 vx-row" }, [
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full",
+                  attrs: { label: "نام" },
+                  model: {
+                    value: _vm.user.name,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "name", $$v)
+                    },
+                    expression: "user.name"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full",
+                  attrs: { label: "تخلص" },
+                  model: {
+                    value: _vm.user.lastname,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "lastname", $$v)
+                    },
+                    expression: "user.lastname"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full",
+                  attrs: { type: "email", label: "ایمیل" },
+                  model: {
+                    value: _vm.user.email,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "email", $$v)
+                    },
+                    expression: "user.email"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full number-rtl",
+                  attrs: { label: "شماره تماس" },
+                  model: {
+                    value: _vm.user.phone,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "phone", $$v)
+                    },
+                    expression: "user.phone"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full",
+                  attrs: { label: "آدرس" },
+                  model: {
+                    value: _vm.user.address,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "address", $$v)
+                    },
+                    expression: "user.address"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full",
+                  attrs: { label: "نام کاربری" },
+                  model: {
+                    value: _vm.user.username,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "username", $$v)
+                    },
+                    expression: "user.username"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full",
+                  attrs: { label: "زبان" },
+                  model: {
+                    value: _vm.user.language,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "language", $$v)
+                    },
+                    expression: "user.language"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
+            _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c("vs-input", {
+                  staticClass: "w-full",
+                  attrs: { type: "password", label: "رمز" },
+                  model: {
+                    value: _vm.user.password,
+                    callback: function($$v) {
+                      _vm.$set(_vm.user, "password", $$v)
+                    },
+                    expression: "user.password"
+                  }
+                })
+              ],
+              1
+            )
+          ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full",
-                attrs: { label: "تخلص" },
-                model: {
-                  value: _vm.user.lastname,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "lastname", $$v)
-                  },
-                  expression: "user.lastname"
-                }
-              })
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full",
-                attrs: { type: "email", label: "ایمیل" },
-                model: {
-                  value: _vm.user.email,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "email", $$v)
-                  },
-                  expression: "user.email"
-                }
-              })
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full number-rtl",
-                attrs: { label: "شماره تماس" },
-                model: {
-                  value: _vm.user.phone,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "phone", $$v)
-                  },
-                  expression: "user.phone"
-                }
-              })
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full",
-                attrs: { label: "آدرس" },
-                model: {
-                  value: _vm.user.address,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "address", $$v)
-                  },
-                  expression: "user.address"
-                }
-              })
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full",
-                attrs: { label: "نام کاربری" },
-                model: {
-                  value: _vm.user.username,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "username", $$v)
-                  },
-                  expression: "user.username"
-                }
-              })
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full",
-                attrs: { label: "زبان" },
-                model: {
-                  value: _vm.user.language,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "language", $$v)
-                  },
-                  expression: "user.language"
-                }
-              })
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "vx-col mb-6 w-1/2" }, [
-          _c(
-            "div",
-            { staticClass: "w-full" },
-            [
-              _c("vs-input", {
-                staticClass: "w-full",
-                attrs: { type: "password", label: "رمز" },
-                model: {
-                  value: _vm.user.password,
-                  callback: function($$v) {
-                    _vm.$set(_vm.user, "password", $$v)
-                  },
-                  expression: "user.password"
-                }
-              })
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "vx-col w-1/3" },
-        [
-          _vm.user.dataImg
-            ? [
-                _c(
+        _c(
+          "div",
+          { staticClass: "vx-col w-1/3" },
+          [
+            _vm.user.dataImg
+              ? [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "img-container w-64 mx-auto flex items-center justify-center"
+                    },
+                    [
+                      _c("img", {
+                        staticClass: "user_image responsive",
+                        attrs: {
+                          src: _vm.user.dataImg,
+                          width: "50px",
+                          height: "50px",
+                          alt: "img"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "modify-img flex justify-center mt-5" },
+                    [
+                      _c("input", {
+                        ref: "updateImgInput",
+                        staticClass: "hidden",
+                        attrs: { type: "file", accept: "image/*" },
+                        on: { change: _vm.updateCurrImg }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "vs-button",
+                        {
+                          staticClass: "mr-4",
+                          attrs: { type: "flat" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$refs.updateImgInput.click()
+                            }
+                          }
+                        },
+                        [_vm._v("تغییر")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "vs-button",
+                        {
+                          attrs: { type: "flat", color: "#999" },
+                          on: {
+                            click: function($event) {
+                              _vm.user.dataImg = null
+                            }
+                          }
+                        },
+                        [_vm._v("حذف")]
+                      )
+                    ],
+                    1
+                  )
+                ]
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.user.dataImg
+              ? _c(
                   "div",
-                  {
-                    staticClass:
-                      "img-container w-64 mx-auto flex items-center justify-center"
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "user_image responsive",
-                      attrs: {
-                        src: _vm.user.dataImg,
-                        width: "50px",
-                        height: "50px",
-                        alt: "img"
-                      }
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "modify-img flex justify-center mt-5" },
+                  { staticClass: "upload-img mt-5 text-center" },
                   [
                     _c("input", {
-                      ref: "updateImgInput",
+                      ref: "uploadImgInput",
                       staticClass: "hidden",
                       attrs: { type: "file", accept: "image/*" },
                       on: { change: _vm.updateCurrImg }
@@ -388,86 +435,43 @@ var render = function() {
                     _c(
                       "vs-button",
                       {
-                        staticClass: "mr-4",
-                        attrs: { type: "flat" },
                         on: {
                           click: function($event) {
-                            return _vm.$refs.updateImgInput.click()
+                            return _vm.$refs.uploadImgInput.click()
                           }
                         }
                       },
-                      [_vm._v("تغییر")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "vs-button",
-                      {
-                        attrs: { type: "flat", color: "#999" },
-                        on: {
-                          click: function($event) {
-                            _vm.user.dataImg = null
-                          }
-                        }
-                      },
-                      [_vm._v("حذف")]
+                      [_vm._v("آپلود تصویر")]
                     )
                   ],
                   1
                 )
-              ]
-            : _vm._e(),
-          _vm._v(" "),
-          !_vm.user.dataImg
-            ? _c(
-                "div",
-                { staticClass: "upload-img mt-5 text-center" },
-                [
-                  _c("input", {
-                    ref: "uploadImgInput",
-                    staticClass: "hidden",
-                    attrs: { type: "file", accept: "image/*" },
-                    on: { change: _vm.updateCurrImg }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "vs-button",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.$refs.uploadImgInput.click()
-                        }
-                      }
-                    },
-                    [_vm._v("آپلود تصویر")]
-                  )
-                ],
-                1
-              )
-            : _vm._e()
-        ],
-        2
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "vx-row" }, [
-      _c("div", { staticClass: "vx-col pt-5" }, [
-        _c(
-          "div",
-          { staticClass: "w-full" },
-          [
-            _c("vs-button", { staticClass: "mr-3 mb-2" }, [_vm._v("ثبت")]),
-            _vm._v(" "),
-            _c(
-              "vs-button",
-              {
-                staticClass: "mb-2",
-                attrs: { color: "warning", type: "border" }
-              },
-              [_vm._v("پاک کردن")]
-            )
+              : _vm._e()
           ],
-          1
+          2
         )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "vx-row" }, [
+        _c("div", { staticClass: "vx-col pt-5" }, [
+          _c(
+            "div",
+            { staticClass: "w-full" },
+            [
+              _c("vs-button", { staticClass: "mr-3 mb-2" }, [_vm._v("ثبت")]),
+              _vm._v(" "),
+              _c(
+                "vs-button",
+                {
+                  staticClass: "mb-2",
+                  attrs: { color: "warning", type: "border" }
+                },
+                [_vm._v("پاک کردن")]
+              )
+            ],
+            1
+          )
+        ])
       ])
     ])
   ])

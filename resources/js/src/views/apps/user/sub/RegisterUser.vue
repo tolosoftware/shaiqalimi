@@ -1,4 +1,5 @@
 <template>
+<vx-card>
   <form action method="post">
     <div class="vx-row">
       <div class="vx-row w-2/3">
@@ -93,6 +94,7 @@
       </div>
     </div>
   </form>
+</vx-card>
 </template>
 <script>
 export default {
