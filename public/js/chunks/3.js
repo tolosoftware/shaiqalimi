@@ -282,6 +282,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -319,7 +352,7 @@ __webpack_require__.r(__webpack_exports__);
       this.toggleDataSidebar(true);
     },
     deleteData: function deleteData(id) {
-      this.$store.dispatch('dataList/removeItem', id).catch(function (err) {
+      this.$store.dispatch("dataList/removeItem", id).catch(function (err) {
         console.error(err);
       });
     },
@@ -329,17 +362,17 @@ __webpack_require__.r(__webpack_exports__);
       this.toggleDataSidebar(true);
     },
     getOrderStatusColor: function getOrderStatusColor(status) {
-      if (status === 'on_hold') return 'warning';
-      if (status === 'delivered') return 'success';
-      if (status === 'canceled') return 'danger';
-      return 'primary';
+      if (status === "on_hold") return "warning";
+      if (status === "delivered") return "success";
+      if (status === "canceled") return "danger";
+      return "primary";
     },
     getPopularityColor: function getPopularityColor(num) {
-      if (num > 90) return 'success';
-      if (num > 70) return 'primary';
-      if (num >= 50) return 'warning';
-      if (num < 50) return 'danger';
-      return 'primary';
+      if (num > 90) return "success";
+      if (num > 70) return "primary";
+      if (num >= 50) return "warning";
+      if (num < 50) return "danger";
+      return "primary";
     },
     toggleDataSidebar: function toggleDataSidebar() {
       var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -348,11 +381,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (!_store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"].isRegistered) {
-      this.$store.registerModule('dataList', _store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+      this.$store.registerModule("dataList", _store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
       _store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"].isRegistered = true;
     }
 
-    this.$store.dispatch('dataList/fetchDataListItems');
+    this.$store.dispatch("dataList/fetchDataListItems");
   },
   mounted: function mounted() {
     this.isMounted = true;
@@ -1064,7 +1097,7 @@ var render = function() {
                                 _vm.currentPage * _vm.itemsPerPage -
                                   (_vm.itemsPerPage - 1)
                               ) +
-                                " - " +
+                                " -\n              " +
                                 _vm._s(
                                   _vm.products.length -
                                     _vm.currentPage * _vm.itemsPerPage >
@@ -1072,7 +1105,7 @@ var render = function() {
                                     ? _vm.currentPage * _vm.itemsPerPage
                                     : _vm.products.length
                                 ) +
-                                " of " +
+                                "\n              of " +
                                 _vm._s(_vm.queriedItems)
                             )
                           ]),

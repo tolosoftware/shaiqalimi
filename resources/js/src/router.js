@@ -315,7 +315,7 @@ const router = new Router({
                     path: '/inventory/goods',
                     name: 'goods',
                     component: () =>
-                        import ('./views/apps/inventory/add/GoodsAdd.vue'),
+                        import ('./views/apps/inventory/Goods/Goods_list.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',
@@ -338,7 +338,7 @@ const router = new Router({
                     path: '/inventory/godams',
                     name: 'godams',
                     component: () =>
-                        import ('./views/apps/inventory/add/GodamsAdd.vue'),
+                        import ('./views/apps/inventory/Godams/Godams_lis.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',
