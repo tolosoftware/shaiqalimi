@@ -135,10 +135,16 @@ export default [{
                 i18n: 'Settings'
             },
             {
-                url: '/user/profile',
-                name: 'user-profile',
+                url: {name: 'user-management'},
+                name: 'user-management',
                 icon: 'UserIcon',
                 i18n: 'Profile',
+            },
+            {
+                url: {name: 'logout'},
+                name: 'logout',
+                icon: 'LogOutIcon',
+                i18n: 'logout',
             }
         ]
     },

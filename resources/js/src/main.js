@@ -136,7 +136,19 @@ Vue.filter('NumToPer', function(input) {
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 Vue.component('date-picker', VuePersianDatetimePicker);
 
+// define a mixin object
+const Mixin = {
+  methods: {
+    Alerta() {
+      alert("WORK!")
+    }
+  }
+}
 
+new Vue({
+  mixins: [Mixin],
+  el: "#app"
+})
 
 // Vue select css
 // Note: In latest version you have to add it separately

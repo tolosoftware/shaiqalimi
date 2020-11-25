@@ -137,6 +137,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -282,6 +332,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -319,7 +402,7 @@ __webpack_require__.r(__webpack_exports__);
       this.toggleDataSidebar(true);
     },
     deleteData: function deleteData(id) {
-      this.$store.dispatch('dataList/removeItem', id).catch(function (err) {
+      this.$store.dispatch("dataList/removeItem", id).catch(function (err) {
         console.error(err);
       });
     },
@@ -329,17 +412,17 @@ __webpack_require__.r(__webpack_exports__);
       this.toggleDataSidebar(true);
     },
     getOrderStatusColor: function getOrderStatusColor(status) {
-      if (status === 'on_hold') return 'warning';
-      if (status === 'delivered') return 'success';
-      if (status === 'canceled') return 'danger';
-      return 'primary';
+      if (status === "on_hold") return "warning";
+      if (status === "delivered") return "success";
+      if (status === "canceled") return "danger";
+      return "primary";
     },
     getPopularityColor: function getPopularityColor(num) {
-      if (num > 90) return 'success';
-      if (num > 70) return 'primary';
-      if (num >= 50) return 'warning';
-      if (num < 50) return 'danger';
-      return 'primary';
+      if (num > 90) return "success";
+      if (num > 70) return "primary";
+      if (num >= 50) return "warning";
+      if (num < 50) return "danger";
+      return "primary";
     },
     toggleDataSidebar: function toggleDataSidebar() {
       var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -348,11 +431,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (!_store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"].isRegistered) {
-      this.$store.registerModule('dataList', _store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+      this.$store.registerModule("dataList", _store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
       _store_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_0__["default"].isRegistered = true;
     }
 
-    this.$store.dispatch('dataList/fetchDataListItems');
+    this.$store.dispatch("dataList/fetchDataListItems");
   },
   mounted: function mounted() {
     this.isMounted = true;
@@ -392,7 +475,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "[dir=ltr] .customstyle{\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle{\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\n   \n", ""]);
+exports.push([module.i, "[dir=ltr] .customstyle {\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle {\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\r\n", ""]);
 
 // exports
 
@@ -540,7 +623,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "vx-col w-1/3 mt-4" }, [
                           _c("label", { attrs: { for: "" } }, [
-                            _vm._v("  واحد پولی ")
+                            _vm._v("واحد پولی")
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "btn-group" }, [
@@ -551,7 +634,7 @@ var render = function() {
                                 _c(
                                   "vs-button",
                                   {
-                                    staticClass: " vx-col w-1/2 customstyle",
+                                    staticClass: "vx-col w-1/2 customstyle",
                                     attrs: { color: "success" }
                                   },
                                   [
@@ -578,7 +661,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                             "
+                                          "\n                         \n                        "
                                         ),
                                         _c("b", [_vm._v("افغانی")])
                                       ]
@@ -589,7 +672,7 @@ var render = function() {
                                 _c(
                                   "vs-button",
                                   {
-                                    staticClass: " vx-col w-1/2 customstyle",
+                                    staticClass: "vx-col w-1/2 customstyle",
                                     attrs: { color: "success" }
                                   },
                                   [
@@ -616,7 +699,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                          "
+                                          "\n                         \n                        "
                                         ),
                                         _c("b", [_vm._v("دالر")])
                                       ]
@@ -631,7 +714,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "vx-col w-1/3 mt-4" }, [
                           _c("label", { attrs: { for: "" } }, [
-                            _vm._v(" حالت معامله ")
+                            _vm._v("حالت معامله")
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "btn-group" }, [
@@ -642,7 +725,7 @@ var render = function() {
                                 _c(
                                   "vs-button",
                                   {
-                                    staticClass: " vx-col w-1/2 customstyle",
+                                    staticClass: "vx-col w-1/2 customstyle",
                                     attrs: { color: "success" }
                                   },
                                   [
@@ -669,7 +752,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                             "
+                                          "\n                         \n                        "
                                         ),
                                         _c("b", [_vm._v("عاید")])
                                       ]
@@ -680,7 +763,7 @@ var render = function() {
                                 _c(
                                   "vs-button",
                                   {
-                                    staticClass: " vx-col w-1/2 customstyle",
+                                    staticClass: "vx-col w-1/2 customstyle",
                                     attrs: { color: "success" }
                                   },
                                   [
@@ -707,7 +790,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                          "
+                                          "\n                         \n                        "
                                         ),
                                         _c("b", [_vm._v("ساده")])
                                       ]
@@ -749,7 +832,7 @@ var render = function() {
                           { staticClass: "vx-col w-1/3 pt-4" },
                           [
                             _c("label", { attrs: { for: "" } }, [
-                              _c("small", [_vm._v(" مقدار")])
+                              _c("small", [_vm._v("مقدار")])
                             ]),
                             _vm._v(" "),
                             _c(
@@ -777,7 +860,7 @@ var render = function() {
                           { staticClass: "vx-col w-1/3 mt-4" },
                           [
                             _c("label", { attrs: { for: "" } }, [
-                              _c("small", [_vm._v(" حساب کریدیت")])
+                              _c("small", [_vm._v("حساب کریدیت")])
                             ]),
                             _vm._v(" "),
                             _c("v-select", {
@@ -797,7 +880,7 @@ var render = function() {
                           { staticClass: "vx-col w-1/3 mt-4" },
                           [
                             _c("label", { attrs: { for: "" } }, [
-                              _c("small", [_vm._v(" حساب دبت")])
+                              _c("small", [_vm._v("حساب دبت")])
                             ]),
                             _vm._v(" "),
                             _c("v-select", {
@@ -1064,7 +1147,7 @@ var render = function() {
                                 _vm.currentPage * _vm.itemsPerPage -
                                   (_vm.itemsPerPage - 1)
                               ) +
-                                " - " +
+                                " -\n              " +
                                 _vm._s(
                                   _vm.products.length -
                                     _vm.currentPage * _vm.itemsPerPage >
@@ -1072,7 +1155,7 @@ var render = function() {
                                     ? _vm.currentPage * _vm.itemsPerPage
                                     : _vm.products.length
                                 ) +
-                                " of " +
+                                "\n              of " +
                                 _vm._s(_vm.queriedItems)
                             )
                           ]),

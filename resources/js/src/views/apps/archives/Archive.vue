@@ -1,6 +1,4 @@
 
-
-
 <template>
   <div>
     <div class="vx-row">
@@ -275,6 +273,5 @@ export default {
     VuePerfectScrollbar,
     "v-select": vSelect,
   },
-};
+}
 </script>
-
