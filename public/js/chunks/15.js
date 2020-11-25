@@ -485,7 +485,7 @@ var render = function() {
                   attrs: { color: "primary", type: "filled" },
                   on: { click: _vm.addNewData }
                 },
-                [_vm._v("اکونت جدید")]
+                [_vm._v("حساب جدید")]
               ),
               _vm._v(" "),
               _c("vs-input", {

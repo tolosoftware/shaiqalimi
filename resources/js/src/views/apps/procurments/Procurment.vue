@@ -1,5 +1,6 @@
 <template>
 <div>
+       <Procurmentadd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
     <vs-tabs>
         <vs-tab label="ثبت خریداری">
             <div class="vx-row">
@@ -9,7 +10,7 @@
                             <h3>فارم ثبت خریداری</h3>
                         </div>
                          <div class="vx-col w-1/2">
-                            <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block float-lift">ثبت فروشنده جدید</vs-button>
+                            <vs-button type="filled" @click="addNewData" class="mt-5 float-right ">ثبت فروشنده جدید</vs-button>
                         </div>
                     </div>
 
@@ -72,11 +73,16 @@
                                   
                                 </div>
                             </div>
+
+                        </div>
                             <!-- end currency -->
+                    <!-- eteration -->
+                          <div v-for="(i , index) in item" class="vx-row">
+                              
 
                               <div class="vx-col w-1/4 mt-4">
                                 <label for=""><small> محصول </small></label>
-                                <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                                <v-select label="text" v-model="item.product" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                             </div>
                         
 
@@ -90,13 +96,13 @@
                                         </div>
                                     </template>
 
-                                    <vs-input type="number" />
+                                    <vs-input type="number" v-model="item.amount" />
                                 </vx-input-group>
                                 <!-- /TITLE -->
                             </div>
 
                                <div class="vx-col w-1/4">
-                                <vs-input size="medium" v-validate="'serialnumber'" label=" معادل" name="serialnumber"  class="mt-5 w-full" />
+                                <vs-input size="medium" v-model="item.equal" v-validate="'serialnumber'" label=" معادل" name="serialnumber"  class="mt-5 w-full" />
                                 <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
                             </div>
 
@@ -110,13 +116,33 @@
                                         </div>
                                     </template>
 
-                                    <vs-input type="number" />
+                                    <vs-input type="number"  v-model="item.price" />
                                 </vx-input-group>
                                 <!-- /TITLE -->
                             </div>
+                            </div>
 
+                            <!-- end eteration -->
 
-                            <div class="vx-col w-full mt-4">
+                             
+
+                           
+                            <div class="vx-row">
+                                  <div class=" w-1/4 ">
+                                <!-- TITLE -->
+                               <vs-button type="filled" color="success" @click="addNewRow" class="mt-5 ml-4 " >
+                                   اضافه
+                               </vs-button>
+                                  
+                               
+                               
+                               <vs-button type="filled" color="success" @click="removeRow" class="mt-5 " > 
+                                   حذف
+                               </vs-button>
+                            
+                                <!-- /TITLE -->
+                               </div>
+                            <div class="vx-col w-3/4 mt-4">
                                 <vs-textarea placeholder="تفصیلات"></vs-textarea>
                             </div>
 
@@ -137,16 +163,31 @@
 </template>
 
 <script>
-import Procurmentlist from "./Procurmentlist.vue";
-import vSelect from "vue-select";
+import Procurmentlist from './Procurmentlist.vue'
+import Procurmentadd from './Procurmentadd.vue'
+import vSelect from 'vue-select'
 
 export default {
     components: {
         Procurmentlist,
+        Procurmentadd,
         "v-select": vSelect,
     },
+
     data() {
         return {
+
+            // Data Sidebar
+            addNewDataSidebar: false,
+            sidebarData: {},
+            
+               item: [{
+                product: '',
+                amount: '',
+                equal: '',
+                price: '',
+                }],
+
             itemType: [{
                     text: "تیل دیزل",
                     value: "1",
@@ -168,15 +209,28 @@ export default {
     },
 
     methods: {
+          addNewData () {
+            this.sidebarData = {}
+            this.toggleDataSidebar(true)
+            },
+        toggleDataSidebar (val = false) {
+        this.addNewDataSidebar = val
+        },
         submitForm() {
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    // if form have no errors
-                    alert("form submitted!");
-                } else {
-                    // form have errors
-                }
-            });
+            
+        },
+
+        addNewRow(){
+             this.item.push({
+                 product: '',
+                amount: '',
+                equal: '',
+                price: '',
+            })
+        },
+
+           removeRow() {
+            this.item.splice(this.item.length-1, 1)
         },
     },
 };

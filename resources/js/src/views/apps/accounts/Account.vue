@@ -16,7 +16,7 @@
       </div>
 
       <div class="vx-col w-1/2 float-left">
-       <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">اکونت جدید</vs-button>
+       <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
                 <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Search account" class="mt-1 float-right" style="max-width:320px"/>
                
       </div>
