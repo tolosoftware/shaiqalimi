@@ -1,21 +1,3 @@
-/*=========================================================================================
-  File Name: router.js
-  Description: Routes for vue-router. Lazy loading is enabled.
-  Object Strucutre:
-                    path => router path
-                    name => router name
-                    component(lazy loading) => component to load
-                    meta : {
-                      rule => which user can have access (ACL)
-                      breadcrumb => Add breadcrumb to specific page
-                      pageTitle => Display title besides breadcrumb
-                    }
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
 import Vue from 'vue'
 import Router from 'vue-router'
 import auth from '@/auth/authService'
@@ -423,12 +405,12 @@ const router = new Router({
                     path: '/user/edit/:user_id',
                     name: 'user-profile-edit',
                     component: () =>
-                        import('./views/apps/user/sub/UserEdit.vue'),
+                        import ('./views/apps/user/sub/UserEdit.vue'),
                     meta: {
                         breadcrumb: [
-                            {title: 'Home',url: '/'},
-                            {title: 'مدیریت کاربر',url: {name: 'user-management'}},
-                            {title: 'ویرایش کاربر', active: true}
+                            { title: 'Home', url: '/' },
+                            { title: 'مدیریت کاربر', url: { name: 'user-management' } },
+                            { title: 'ویرایش کاربر', active: true }
                         ],
                         rule: 'editor'
                     }
@@ -440,7 +422,8 @@ const router = new Router({
         // =============================================================================
         {
             path: '',
-            component: () => import('@/layouts/full-page/FullPage.vue'),
+            component: () =>
+                import ('@/layouts/full-page/FullPage.vue'),
             children: [
                 // =============================================================================
                 // PAGES
@@ -448,7 +431,8 @@ const router = new Router({
                 {
                     path: '/login',
                     name: 'login',
-                    component: () => import('@/views/pages/login/Login.vue'),
+                    component: () =>
+                        import ('@/views/pages/login/Login.vue'),
                     meta: {
                         rule: 'editor'
                     }
