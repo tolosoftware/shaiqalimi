@@ -6,28 +6,25 @@
       pagination
       :max-items="itemsPerPage"
       search
-      :data="products"
+      :data="projects"
     >
-      <div
-        slot="header"
-        class="flex flex-wrap-reverse items-center flex-grow justify-between"
-      >
+      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
         <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
           <div
             class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium"
           >
             <!-- <span class="mr-2">۴ از ۱۰</span> -->
-            <span class="mr-2"
-              >{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
+            <span class="mr-2">
+              {{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
               {{
-                products.length - currentPage * itemsPerPage > 0
-                  ? currentPage * itemsPerPage
-                  : products.length
+              projects.length - currentPage * itemsPerPage > 0
+              ? currentPage * itemsPerPage
+              : projects.length
               }}
-              از {{ queriedItems }}</span
-            >
-            <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span> -->
+              از {{ queriedItems }}
+            </span>
+            <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ projects.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : projects.length }} از {{ queriedItems }}</span> -->
             <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -49,11 +46,15 @@
       </div>
 
       <template slot="thead">
-        <vs-th>نهاد</vs-th>
-        <vs-th sort-key="name">پروژه</vs-th>
-        <vs-th sort-key="category">دسته</vs-th>
-        <vs-th sort-key="popularity">پیشرفت</vs-th>
-        <vs-th sort-key="order_status">وضعیت</vs-th>
+        <vs-th sort-key="img">نهاد</vs-th>
+        <!-- <vs-th>نهاد</vs-th> -->
+        <vs-th sort-key="title">عنوان</vs-th>
+        <vs-th sort-key="s_number">سریال نمبر</vs-th>
+        <vs-th sort-key="issue_date">نشر اعلان</vs-th>
+        <vs-th sort-key="issue_address">منبع اعلان</vs-th>
+        <vs-th sort-key="source_address">آدرس</vs-th>
+        <vs-th sort-key="auth_number">شماره شناسایی</vs-th>
+        <vs-th sort-key="type">نوعیت</vs-th>
         <vs-th sort-key="price">قیمت</vs-th>
         <vs-th>بررسی</vs-th>
       </template>
@@ -67,7 +68,7 @@
                 :to="{
                   path: '/projects/project/${tr.id}',
                   name: 'project-view',
-                  params: { id: tr.id, dyTitle: tr.name },
+                  params: { id: tr.id, dyTitle: tr.title },
                 }"
               >
                 <img :src="tr.img" class="product-img" />
@@ -81,36 +82,48 @@
                   :to="{
                     path: '/projects/project/${tr.id}',
                     name: 'project-view',
-                    params: { id: tr.id, dyTitle: tr.name },
+                    params: { id: tr.id, dyTitle: tr.title },
                   }"
-                  >{{ tr.name }}</router-link
-                >
+                >{{ tr.title }}</router-link>
               </div>
             </vs-td>
-
             <vs-td>
-              <p class="product-category">{{ tr.category }}</p>
+              <p>{{ tr.s_number }}</p>
+            </vs-td>
+            <vs-td>
+              <p>{{ tr.issue_date }}</p>
+            </vs-td>
+            <vs-td>
+              <p>{{ statusFa[tr.issue_address] }}</p>
+            </vs-td>
+            <vs-td>
+              <p>{{ tr.source_address }}</p>
+            </vs-td>
+            <vs-td>
+              <p>{{ tr.auth_number }}</p>
+            </vs-td>
+            <vs-td>
+              <p class="product-category">{{ tr.type }}</p>
             </vs-td>
 
             <vs-td>
+              <p class="product-price">{{ tr.price }}</p>
+            </vs-td>
+
+            <!-- <vs-td>
               <vs-progress
                 :percent="Number(tr.popularity)"
                 :color="getPopularityColor(Number(tr.popularity))"
                 class="shadow-md"
               />
-            </vs-td>
+            </vs-td>-->
 
-            <vs-td>
+            <!-- <vs-td>
               <vs-chip
                 :color="getOrderStatusColor(tr.order_status)"
                 class="product-order-status"
-                >{{ statusFa[tr.order_status] }}</vs-chip
-              >
-            </vs-td>
-
-            <vs-td>
-              <p class="product-price">{{ tr.price }} دالر</p>
-            </vs-td>
+              >{{ statusFa[tr.order_status] }}</vs-chip>
+            </vs-td>-->
 
             <vs-td class="whitespace-no-wrap notupfromall">
               <feather-icon
@@ -135,19 +148,41 @@
 <script>
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
+import {Form,HasError,AlertError} from 'vform'
 
 export default {
   name: "vx-project-list",
   data() {
     return {
+      // Project Form
+      pForm: new Form({
+        s_number: '',
+        issue_date: '',
+        issue_address: '',
+        source_address: '',
+        title: '',
+        img: '',
+        auth_number: '',
+        type: '',
+        price: '',
+        duration: '',
+        offer_date: '',
+        close_date: '',
+        offer_price: '',
+        project_price: '',
+        announce_id: '',
+        organization_id: '',
+      }),
+      // End Project Form
+
       statusFa: {
         on_hold: "درجریان",
         delivered: "تکمیل",
         canceled: "نا موفق",
       },
       selected: [],
-      // products: [],
-      itemsPerPage: 4,
+      projects: [],
+      itemsPerPage: 5,
       isMounted: false,
       addNewDataSidebar: false,
       sidebarData: {},
@@ -157,8 +192,9 @@ export default {
     DataViewSidebar,
   },
   created() {
+    this.getProject();
     if (!moduleDataList.isRegistered) {
-      this.$store.registerModule("dataList", moduleDataList);
+      this.$store.registerModule("dataList",moduleDataList);
       moduleDataList.isRegistered = true;
     }
     this.$store.dispatch("dataList/fetchDataListItems");
@@ -170,23 +206,30 @@ export default {
       }
       return 0;
     },
-    products() {
-      return this.$store.state.dataList.products;
-    },
+    // projects() {
+    //   return this.$store.state.dataList.projects;
+    // },
     queriedItems() {
       return this.$refs.table
         ? this.$refs.table.queriedResults.length
-        : this.products.length;
+        : this.projects.length;
     },
   },
   methods: {
+    getProject() {
+      this.pForm.get('/api/project').then((data) => {
+        this.projects = data.data;
+      })
+        .catch(() => {});
+    },
+
     // Start Custom
     goTo(data) {
       this.$router
         .push({
           path: "/projects/project/${data.id}",
           name: "project-view",
-          params: { id: data.id, dyTitle: data.name },
+          params: {id: data.id,dyTitle: data.name},
         })
         .catch(() => {});
     },
@@ -200,7 +243,7 @@ export default {
       this.toggleDataSidebar(true);
     },
     deleteData(id) {
-      this.$store.dispatch("dataList/removeItem", id).catch((err) => {
+      this.$store.dispatch("dataList/removeItem",id).catch((err) => {
         console.error(err);
       });
     },

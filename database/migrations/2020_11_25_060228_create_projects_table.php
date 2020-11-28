@@ -17,17 +17,17 @@ class CreateProjectsTable extends Migration
             $table->id();
 
             $table->string('s_number')->unique();
-            $table->timestamp('issue_date');
+            $table->date('issue_date');
             $table->text('issue_address');
             $table->text('source_address');
             $table->string('title');
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->string('auth_number')->nullable();
-            $table->integer('type')->default(1);
+            $table->string('type')->default(1);
             $table->float('price')->default(0);
             $table->float('duration')->nullable();
-            $table->timestamp('offer_date')->nullable();
-            $table->timestamp('close_date')->nullable();
+            $table->date('offer_date')->nullable();
+            $table->date('close_date')->nullable();
             $table->float('offer_price')->nullable();
             $table->float('project_price')->nullable();
             $table->unsignedBigInteger('announce_id')->nullable();

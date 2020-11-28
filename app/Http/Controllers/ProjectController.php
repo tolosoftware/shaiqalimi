@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Carbon\Carbon as Carbon;
 
 class ProjectController extends Controller
 {
@@ -14,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return Project::all();
     }
 
     /**
@@ -35,7 +36,38 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // return $request;
+        // return Carbon::parse($request->issue_date);
+        // $this->validate($request, [
+        //     // 's_number' => 'required',
+        //     // 'issue_date' => 'required',
+        //     // 'issue_address' => '',
+        //     // 'source_address' => '',
+        //     // 'title' => 'required',
+        //     // 'img' => '',
+        //     // 'auth_number' => '',
+        //     // 'type' => 'required',
+        //     // 'price' => 'required',
+        //     // 'duration' => '',
+        //     // 'offer_date' => 'required',
+        //     // 'close_date' => 'required',
+        //     // 'offer_price' => 'required',
+        //     // 'project_price' => 'required',
+        //     // 'announce_id' => 'required',
+        //     // 'organization_id' => 'required',
+        //     // 'status' => '',
+        //     // 'progress' => ''
+
+        // ]);
+
+         Project::create($request->all());
+         return "ok";
+        // $project = new Project();
+        // $project_data = $request->all();
+        // $project->fill($project_data);
+        // $status = $project->save();
+        // return $status;
     }
 
     /**

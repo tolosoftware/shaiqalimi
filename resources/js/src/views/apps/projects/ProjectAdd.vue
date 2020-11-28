@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Organizationadd
+    <!-- <Organizationadd
       :isSidebarActive="addNewDataSidebar"
       @closeSidebar="toggleDataSidebar"
       :data="sidebarData"
-    />
+    />-->
 
     <vs-tabs>
       <vs-tab label=" ثبت قرارداد جدید">
@@ -22,9 +22,9 @@
                 <div class="vx-col w-1/3">
                   <vs-input
                     size="medium"
-                    v-validate="'serialnumber'"
+                    v-validate="'required|min:6|max:10'"
                     label="سریال نمبر"
-                    name="serialnumber"
+                    v-model="pForm.s_number"
                     class="mt-5 w-full"
                     placeholder="101"
                     disabled
@@ -32,23 +32,16 @@
                   <span
                     class="text-danger text-sm"
                     v-show="errors.has('serialnumber')"
-                    >{{ errors.first("serialnumber") }}</span
-                  >
+                  >{{ errors.first("serialnumber") }}</span>
                 </div>
 
                 <div class="vx-col w-1/3 mt-4">
-                  <label for=""><small>انتخاب اعلان </small></label>
+                  <label for>
+                    <small>انتخاب اعلان</small>
+                  </label>
                   <v-select
                     label="text"
-                    :options="itemType"
-                    :dir="$vs.rtl ? 'rtl' : 'ltr'"
-                  />
-                </div>
-
-                <div class="vx-col w-1/3 mt-4">
-                  <label for=""><small>انتخاب از پیشنهاد </small></label>
-                  <v-select
-                    label="text"
+                    @input="setAnnounceId"
                     :options="itemType"
                     :dir="$vs.rtl ? 'rtl' : 'ltr'"
                   />
@@ -56,10 +49,11 @@
 
                 <!-- Only alphabetic characters -->
                 <div class="vx-col w-1/3 pt-5 pb-0">
-                  <label for="date" class="mt-3"
-                    ><small>تاریخ نشر اعلان</small></label
-                  >
+                  <label for="date" class="mt-3">
+                    <small>تاریخ نشر اعلان</small>
+                  </label>
                   <date-picker
+                    v-model="pForm.issue_date"
                     color="#e85454"
                     input-format="YYYY/MM/DD"
                     format="jYYYY/jMM/jDD"
@@ -71,24 +65,26 @@
                 <!-- Only alphabetic characters, numbers, dashes or underscores -->
                 <div class="vx-col w-1/3">
                   <vs-input
+                    v-model="pForm.issue_address"
                     size="medium"
-                    v-validate="'announceplace'"
+                    v-validate="'required'"
                     label="محل اعلان"
-                    name="announceplace"
                     class="mt-5 w-full"
                   />
                   <span
                     class="text-danger text-sm"
                     v-show="errors.has('announceplace')"
-                    >{{ errors.first("announceplace") }}</span
-                  >
+                  >{{ errors.first("announceplace") }}</span>
                 </div>
 
                 <!-- May contain alphabetic characters or numbers -->
 
                 <div class="vx-col w-1/3 mt-4">
-                  <label for=""><small>نهاد تطبیق کننده</small></label>
+                  <label for>
+                    <small>نهاد تطبیق کننده</small>
+                  </label>
                   <v-select
+                    @input="setOrganizationId"
                     label="text"
                     :options="itemType"
                     :dir="$vs.rtl ? 'rtl' : 'ltr'"
@@ -100,43 +96,45 @@
                     type="filled"
                     class="mt-5 block"
                     @click="addNewData"
-                    >نهاد جدید اضافه کنید</vs-button
-                  >
+                  >نهاد جدید اضافه کنید</vs-button>
                 </div>
 
                 <!-- Must only consist of numbers -->
                 <div class="vx-col w-1/3">
                   <vs-input
                     size="medium"
-                    v-validate="'projecttitle'"
+                    v-model="pForm.title"
+                    v-validate="'required|min:6'"
                     label="عنوان پروژه"
-                    name="projecttitle"
                     class="mt-5 w-full"
                   />
                   <span
                     class="text-danger text-sm"
                     v-show="errors.has('projecttitle')"
-                    >{{ errors.first("projecttitle") }}</span
-                  >
+                  >{{ errors.first("projecttitle") }}</span>
                 </div>
 
                 <!-- Must be a valid email -->
                 <div class="vx-col w-1/3 mt-5">
-                  <label for="" class="ml-4 mr-4 mb-2">نوع قرارداد</label>
+                  <label for class="ml-4 mr-4 mb-2">نوع قرارداد</label>
                   <ul class="leftx">
                     <li>
                       <vs-radio
                         vs-name="radios1"
-                        vs-value="luis"
+                        v-model="pForm.type"
+                        vs-value="1"
                         class="ml-4 mr-4"
-                        ><small>چارچوبی</small>
+                      >
+                        <small>چارچوبی</small>
                       </vs-radio>
                       <vs-radio
                         vs-name="radios1"
-                        vs-value="carols"
+                        v-model="pForm.type"
+                        vs-value="2"
                         class="ml-4 mr-4"
-                        ><small>معین</small></vs-radio
                       >
+                        <small>معین</small>
+                      </vs-radio>
                     </li>
                   </ul>
                 </div>
@@ -146,21 +144,22 @@
                 <div class="vx-col w-1/3">
                   <vs-input
                     size="medium"
-                    v-validate="'identitynumber'"
+                    v-model="pForm.auth_number"
+                    v-validate="'required|min:6'"
                     label="شماره شناسایی"
-                    name="identitynumber"
                     class="mt-5 w-full"
                   />
                   <span
                     class="text-danger text-sm"
                     v-show="errors.has('identitynumber')"
-                    >{{ errors.first("identitynumber") }}</span
-                  >
+                  >{{ errors.first("identitynumber") }}</span>
                 </div>
 
                 <div class="vx-col w-1/3 pt-4">
                   <!-- TITLE -->
-                  <label for=""> <small>مدت قرار داد</small></label>
+                  <label for>
+                    <small>مدت قرار داد</small>
+                  </label>
                   <vx-input-group class="mb-base">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
@@ -168,7 +167,7 @@
                       </div>
                     </template>
 
-                    <vs-input type="number" />
+                    <vs-input type="number" v-model="pForm.duration" />
                   </vx-input-group>
                   <!-- /TITLE -->
                 </div>
@@ -176,7 +175,9 @@
                 <!-- Length should not be less than the specified length : 3 -->
                 <div class="vx-col w-1/3 pt-4">
                   <!-- TITLE -->
-                  <label for=""><small>ارزش قرارداد</small></label>
+                  <label for>
+                    <small>ارزش قرارداد</small>
+                  </label>
                   <vx-input-group class="mb-base">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
@@ -184,17 +185,18 @@
                       </div>
                     </template>
 
-                    <vs-input type="number" />
+                    <vs-input type="number" v-model="pForm.price" />
                   </vx-input-group>
                   <!-- /TITLE -->
                 </div>
 
                 <!-- Length may not exceed the specified length : 6 -->
                 <div class="vx-col w-1/3 pt-4">
-                  <label for="date" class="mt-3"
-                    ><small>تاریخ آفرگشایی</small></label
-                  >
+                  <label for="date" class="mt-3">
+                    <small>تاریخ آفرگشایی</small>
+                  </label>
                   <date-picker
+                    v-model="pForm.offer_date"
                     color="#e85454"
                     input-format="YYYY/MM/DD"
                     format="jYYYY/jMM/jDD"
@@ -205,10 +207,11 @@
 
                 <!-- Password 1 -->
                 <div class="vx-col w-1/3 pt-4">
-                  <label for="date" class="mt-3"
-                    ><small> ختم پیشنهادات</small></label
-                  >
+                  <label for="date" class="mt-3">
+                    <small>ختم پیشنهادات</small>
+                  </label>
                   <date-picker
+                    v-model="pForm.close_date"
                     color="#e85454"
                     input-format="YYYY/MM/DD"
                     format="jYYYY/jMM/jDD"
@@ -220,9 +223,9 @@
                 <!-- Confirm Password -->
                 <div class="vx-col w-1/3">
                   <vs-input
+                    v-model="pForm.source_address"
                     size="medium"
                     label="آدرس داوطلبی"
-                    name="offeraddress"
                     class="mt-5 w-full"
                   />
                 </div>
@@ -230,7 +233,9 @@
                 <!-- Date Format: dd/MM/yyyy -->
                 <div class="vx-col w-1/3 mt-5">
                   <!-- TITLE -->
-                  <label for=""><small> مقدار معین آفر</small></label>
+                  <label for>
+                    <small>مقدار معین آفر</small>
+                  </label>
                   <vx-input-group class="mb-base">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
@@ -238,7 +243,7 @@
                       </div>
                     </template>
 
-                    <vs-input type="number" />
+                    <vs-input v-model="pForm.offer_price" type="number" />
                   </vx-input-group>
                   <!-- /TITLE -->
                 </div>
@@ -246,7 +251,9 @@
                 <!-- Numeric value between minimum value and a maximum value : 1 and 11 -->
                 <div class="vx-col w-1/3 mt-5">
                   <!-- TITLE -->
-                  <label for=""><small> مقدار معین پروژه </small></label>
+                  <label for>
+                    <small>مقدار معین پروژه</small>
+                  </label>
                   <vx-input-group class="mb-base">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
@@ -254,158 +261,24 @@
                       </div>
                     </template>
 
-                    <vs-input type="number" />
+                    <vs-input v-model="pForm.project_price" type="number" />
                   </vx-input-group>
                   <!-- /TITLE -->
                 </div>
               </div>
               <vs-button
                 type="filled"
+                :disabled="!isFormValid"
                 @click.prevent="submitForm"
                 class="mt-5 block"
-                >Submit</vs-button
-              >
+              >Submit</vs-button>
             </form>
           </vx-card>
         </div>
       </vs-tab>
       <vs-tab label=" لست قرار دادها">
         <div class="vx-row">
-          <div id="data-list-thumb-view" class="w-full data-list-container">
-            <vs-table
-              class="w-full"
-              ref="table"
-              pagination
-              :max-items="itemsPerPage"
-              search
-              :data="products"
-            >
-              <div
-                slot="header"
-                class="flex flex-wrap-reverse items-center flex-grow justify-between"
-              >
-                <!-- ITEMS PER PAGE -->
-                <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
-                  <div
-                    class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium"
-                  >
-                    <!-- <span class="mr-2">۴ از ۱۰</span> -->
-                    <span class="mr-2"
-                      >{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
-                      {{
-                        products.length - currentPage * itemsPerPage > 0
-                          ? currentPage * itemsPerPage
-                          : products.length
-                      }}
-                      از {{ queriedItems }}</span
-                    >
-                    <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span> -->
-                    <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-                  </div>
-                  <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
-                  <vs-dropdown-menu>
-                    <vs-dropdown-item @click="itemsPerPage = 4">
-                      <span>۴</span>
-                    </vs-dropdown-item>
-                    <vs-dropdown-item @click="itemsPerPage = 10">
-                      <span>۱۰</span>
-                    </vs-dropdown-item>
-                    <vs-dropdown-item @click="itemsPerPage = 15">
-                      <span>۱۵</span>
-                    </vs-dropdown-item>
-                    <vs-dropdown-item @click="itemsPerPage = 20">
-                      <span>۲۰</span>
-                    </vs-dropdown-item>
-                  </vs-dropdown-menu>
-                </vs-dropdown>
-              </div>
-
-              <template slot="thead">
-                <vs-th>نهاد</vs-th>
-                <vs-th sort-key="name">موضوع قرارداد</vs-th>
-                <vs-th sort-key="category">دسته</vs-th>
-                <vs-th sort-key="popularity">مقدار</vs-th>
-                <vs-th sort-key="order_status">وضعیت</vs-th>
-                <vs-th sort-key="price">قیمت</vs-th>
-                <vs-th>بررسی</vs-th>
-              </template>
-
-              <template slot-scope="{ data }">
-                <tbody>
-                  <vs-tr
-                    :data="tr"
-                    :key="indextr"
-                    v-for="(tr, indextr) in data"
-                  >
-                    <vs-td class="img-container">
-                      <router-link
-                        class="product-name font-medium truncate"
-                        :to="{
-                          path: '/projects/project/${tr.id}',
-                          name: 'project-view',
-                          params: { id: tr.id, dyTitle: tr.name },
-                        }"
-                      >
-                        <img :src="tr.img" class="product-img" />
-                      </router-link>
-                    </vs-td>
-
-                    <vs-td>
-                      <div @click="goTo(tr)">
-                        <router-link
-                          class="product-name font-medium truncate"
-                          :to="{
-                            path: '/projects/project/${tr.id}',
-                            name: 'project-view',
-                            params: { id: tr.id, dyTitle: tr.name },
-                          }"
-                          >{{ tr.name }}</router-link
-                        >
-                      </div>
-                    </vs-td>
-
-                    <vs-td>
-                      <p class="product-category">{{ tr.category }}</p>
-                    </vs-td>
-
-                    <vs-td>
-                      <vs-progress
-                        :percent="Number(tr.popularity)"
-                        :color="getPopularityColor(Number(tr.popularity))"
-                        class="shadow-md"
-                      />
-                    </vs-td>
-
-                    <vs-td>
-                      <vs-chip
-                        :color="getOrderStatusColor(tr.order_status)"
-                        class="product-order-status"
-                        >{{ statusFa[tr.order_status] }}</vs-chip
-                      >
-                    </vs-td>
-
-                    <vs-td>
-                      <p class="product-price">{{ tr.price }} دالر</p>
-                    </vs-td>
-
-                    <vs-td class="whitespace-no-wrap notupfromall">
-                      <feather-icon
-                        icon="EditIcon"
-                        svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                        @click.stop="editData(tr)"
-                      />
-                      <feather-icon
-                        icon="TrashIcon"
-                        svgClasses="w-5 h-5 hover:text-danger stroke-current"
-                        class="ml-2"
-                        @click.stop="deleteData(tr.id)"
-                      />
-                    </vs-td>
-                  </vs-tr>
-                </tbody>
-              </template>
-            </vs-table>
-          </div>
+          <project-list></project-list>
         </div>
       </vs-tab>
     </vs-tabs>
@@ -417,13 +290,38 @@ import vSelect from "vue-select";
 // import Organizationadd from "./proposals/Organizationadd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
+import ProjectList from "./ProjectList.vue";
+import {Form,HasError,AlertError} from 'vform'
+
 export default {
   components: {
     // Organizationadd,
+    ProjectList,
     "v-select": vSelect,
   },
   data() {
     return {
+      // Project Form
+
+      pForm: new Form({
+        s_number: 4398,
+        issue_date: '',
+        issue_address: '',
+        source_address: '',
+        title: '',
+        img: '',
+        auth_number: '',
+        type: '',
+        price: '',
+        duration: '',
+        offer_date: '',
+        close_date: '',
+        offer_price: '',
+        project_price: '',
+        announce_id: '',
+        organization_id: '',
+      }),
+      // End Project Form
       itemType: [
         {
           text: "تیل دیزل",
@@ -460,12 +358,15 @@ export default {
   },
   created() {
     if (!moduleDataList.isRegistered) {
-      this.$store.registerModule("dataList", moduleDataList);
+      this.$store.registerModule("dataList",moduleDataList);
       moduleDataList.isRegistered = true;
     }
     this.$store.dispatch("dataList/fetchDataListItems");
   },
   computed: {
+    isFormValid() {
+      return Object.keys(this.fields).some(key => this.fields[key].validated) && Object.keys(this.fields).some(key => this.fields[key].valid);
+    },
     currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx;
@@ -483,17 +384,35 @@ export default {
   },
   mounted() {
     this.isMounted = false;
+    this.$validator.validate();
   },
   methods: {
+    setAnnounceId(arr) {
+     //  trigger a mutation, or dispatch an action  
+     this.pForm.announce_id = arr.value;
+  },
+    setOrganizationId(arr) {
+     //  trigger a mutation, or dispatch an action  
+     this.pForm.organization_id = arr.value;
+  },
     submitForm() {
+      console.log(this.pForm);
+
       this.$validator.validateAll().then((result) => {
         if (result) {
           // if form have no errors
-          alert("form submitted!");
+          // Submit the form via a POST request
+          this.pForm.post('/api/project')
+            .then(({data}) => {console.log(data)})
         } else {
+          console.log("There is errors");
+
           // form have errors
         }
       });
+      this.pForm.post('/api/project')
+        .then(({data}) => {console.log(data)});
+
     },
     addNewData() {
       this.sidebarData = {};
@@ -507,7 +426,7 @@ export default {
         .push({
           path: "/projects/project/${data.id}",
           name: "project-view",
-          params: { id: data.id, dyTitle: data.name },
+          params: {id: data.id,dyTitle: data.name},
         })
         .catch(() => {});
     },
@@ -521,7 +440,7 @@ export default {
       this.toggleDataSidebar(true);
     },
     deleteData(id) {
-      this.$store.dispatch("dataList/removeItem", id).catch((err) => {
+      this.$store.dispatch("dataList/removeItem",id).catch((err) => {
         console.error(err);
       });
     },
