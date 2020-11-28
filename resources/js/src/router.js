@@ -143,6 +143,30 @@ const router = new Router({
                     }
                 },
                 {
+                    path: '/projects/project/:id/edit',
+                    name: 'project-view',
+                    component: () =>
+                        import ('./views/apps/projects/ProjectEdit.vue'),
+                    props: true,
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'پروژه ها و قراردادها',
+                                url: '/projects/list'
+                            },
+                            {
+                                dyTitle: true
+                            }
+                        ],
+                        rule: 'editor',
+                        parent: 'projects',
+                        no_scroll: true
+                    }
+                },
+                {
                     path: '/projects/proposal',
                     name: 'proposal',
                     component: () =>

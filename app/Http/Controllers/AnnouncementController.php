@@ -14,7 +14,7 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        //
+        return Announcement::all();
     }
 
     /**
@@ -81,5 +81,9 @@ class AnnouncementController extends Controller
     public function destroy(Announcement $announcement)
     {
         //
+    }
+
+    public function latest(){
+        return Announcement::latest('id')->first()->id;
     }
 }

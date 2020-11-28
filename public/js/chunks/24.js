@@ -378,12 +378,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
     }, _defineProperty(_ref, "addNewDataSidebar", false), _defineProperty(_ref, "sidebarData", {}), _ref;
   },
   created: function created() {
-    if (!_data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_4__["default"].isRegistered) {
-      this.$store.registerModule("dataList", _data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_4__["default"]);
-      _data_list_moduleDataList_js__WEBPACK_IMPORTED_MODULE_4__["default"].isRegistered = true;
-    }
-
-    this.$store.dispatch("dataList/fetchDataListItems");
+    this.getAnnounces();
   },
   computed: {
     isFormValid: function isFormValid() {
@@ -422,6 +417,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
       //  trigger a mutation, or dispatch an action  
       this.pForm.organization_id = arr.value;
     },
+    getAnnounces: function getAnnounces() {
+      window.axios.get('/api/announce').then(function (_ref2) {
+        var data = _ref2.data;
+        console.log(data);
+      });
+    },
+    getOrganizationId: function getOrganizationId() {},
     submitForm: function submitForm() {
       var _this2 = this;
 
@@ -430,16 +432,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
         if (result) {
           // if form have no errors
           // Submit the form via a POST request
-          _this2.pForm.post('/api/project').then(function (_ref2) {
-            var data = _ref2.data;
+          _this2.pForm.post('/api/project').then(function (_ref3) {
+            var data = _ref3.data;
             console.log(data);
           });
         } else {
           console.log("There is errors"); // form have errors
         }
       });
-      this.pForm.post('/api/project').then(function (_ref3) {
-        var data = _ref3.data;
+      this.pForm.post('/api/project').then(function (_ref4) {
+        var data = _ref4.data;
         console.log(data);
       });
     },

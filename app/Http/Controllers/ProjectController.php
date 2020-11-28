@@ -37,7 +37,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
 
-        // return $request;
+        return $request;
         // return Carbon::parse($request->issue_date);
         // $this->validate($request, [
         //     // 's_number' => 'required',
@@ -113,5 +113,8 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+    public function latest(){
+        return Project::latest('id')->first()->id;
     }
 }

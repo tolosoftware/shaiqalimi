@@ -357,11 +357,7 @@ export default {
     };
   },
   created() {
-    if (!moduleDataList.isRegistered) {
-      this.$store.registerModule("dataList",moduleDataList);
-      moduleDataList.isRegistered = true;
-    }
-    this.$store.dispatch("dataList/fetchDataListItems");
+    this.getAnnounces();
   },
   computed: {
     isFormValid() {
@@ -388,84 +384,90 @@ export default {
   },
   methods: {
     setAnnounceId(arr) {
-     //  trigger a mutation, or dispatch an action  
-     this.pForm.announce_id = arr.value;
-  },
+      //  trigger a mutation, or dispatch an action  
+      this.pForm.announce_id = arr.value;
+    },
     setOrganizationId(arr) {
-     //  trigger a mutation, or dispatch an action  
-     this.pForm.organization_id = arr.value;
+      //  trigger a mutation, or dispatch an action  
+      this.pForm.organization_id = arr.value;
+    },
+    getAnnounces() {
+    window.axios.get('/api/announce')
+      .then(({data}) => {console.log(data)})
   },
-    submitForm() {
-      console.log(this.pForm);
-
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          // if form have no errors
-          // Submit the form via a POST request
-          this.pForm.post('/api/project')
-            .then(({data}) => {console.log(data)})
-        } else {
-          console.log("There is errors");
-
-          // form have errors
-        }
-      });
-      this.pForm.post('/api/project')
-        .then(({data}) => {console.log(data)});
-
-    },
-    addNewData() {
-      this.sidebarData = {};
-      this.toggleDataSidebar(true);
-    },
-    toggleDataSidebar(val = false) {
-      this.addNewDataSidebar = val;
-    },
-    goTo(data) {
-      this.$router
-        .push({
-          path: "/projects/project/${data.id}",
-          name: "project-view",
-          params: {id: data.id,dyTitle: data.name},
-        })
-        .catch(() => {});
-    },
-    viewProject(id) {
-      // Vue.$forceUpdate();
-      this.$router.push("/projects/project/" + id).catch(() => {});
-    },
-    // End Custom
-    addNewData() {
-      this.sidebarData = {};
-      this.toggleDataSidebar(true);
-    },
-    deleteData(id) {
-      this.$store.dispatch("dataList/removeItem",id).catch((err) => {
-        console.error(err);
-      });
-    },
-    editData(data) {
-      // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-      this.sidebarData = data;
-      this.toggleDataSidebar(true);
-    },
-    getOrderStatusColor(status) {
-      if (status === "on_hold") return "warning";
-      if (status === "delivered") return "success";
-      if (status === "canceled") return "danger";
-      return "primary";
-    },
-    getPopularityColor(num) {
-      if (num > 90) return "success";
-      if (num > 70) return "primary";
-      if (num >= 50) return "warning";
-      if (num < 50) return "danger";
-      return "primary";
-    },
-    toggleDataSidebar(val = false) {
-      this.addNewDataSidebar = val;
-    },
+  getOrganizationId() {
   },
+  submitForm() {
+    console.log(this.pForm);
+
+    this.$validator.validateAll().then((result) => {
+      if (result) {
+        // if form have no errors
+        // Submit the form via a POST request
+        this.pForm.post('/api/project')
+          .then(({data}) => {console.log(data)})
+      } else {
+        console.log("There is errors");
+
+        // form have errors
+      }
+    });
+    this.pForm.post('/api/project')
+      .then(({data}) => {console.log(data)});
+
+  },
+  addNewData() {
+    this.sidebarData = {};
+    this.toggleDataSidebar(true);
+  },
+  toggleDataSidebar(val = false) {
+    this.addNewDataSidebar = val;
+  },
+  goTo(data) {
+    this.$router
+      .push({
+        path: "/projects/project/${data.id}",
+        name: "project-view",
+        params: {id: data.id,dyTitle: data.name},
+      })
+      .catch(() => {});
+  },
+  viewProject(id) {
+    // Vue.$forceUpdate();
+    this.$router.push("/projects/project/" + id).catch(() => {});
+  },
+  // End Custom
+  addNewData() {
+    this.sidebarData = {};
+    this.toggleDataSidebar(true);
+  },
+  deleteData(id) {
+    this.$store.dispatch("dataList/removeItem",id).catch((err) => {
+      console.error(err);
+    });
+  },
+  editData(data) {
+    // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
+    this.sidebarData = data;
+    this.toggleDataSidebar(true);
+  },
+  getOrderStatusColor(status) {
+    if (status === "on_hold") return "warning";
+    if (status === "delivered") return "success";
+    if (status === "canceled") return "danger";
+    return "primary";
+  },
+  getPopularityColor(num) {
+    if (num > 90) return "success";
+    if (num > 70) return "primary";
+    if (num >= 50) return "warning";
+    if (num < 50) return "danger";
+    return "primary";
+  },
+  toggleDataSidebar(val = false) {
+    this.addNewDataSidebar = val;
+  },
+},
 };
 </script>
 
