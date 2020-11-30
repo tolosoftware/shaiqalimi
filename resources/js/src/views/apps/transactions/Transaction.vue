@@ -1,23 +1,24 @@
 <template>
   <div>
     <vs-tabs>
-      <vs-tab label="ثبت معاملات"> </vs-tab>
-      <Transaction-add></Transaction-add>
       <vs-tab label="لیست معاملات">
-        <Transactionlist></Transactionlist>
+        <Transaction-list></Transaction-list>
+      </vs-tab>
+      <vs-tab label="ثبت معاملات">
+        <Transaction-add></Transaction-add>
       </vs-tab>
     </vs-tabs>
   </div>
 </template>
 
 <script>
-import Transactionlist from "./Transactionlist.vue";
+import TransactionList from "./Transactionlist.vue";
 import TransactionAdd from "./Transaction_add.vue";
 
 export default {
   components: {
     TransactionAdd,
-    Transactionlist,
+    TransactionList,
   },
   data() {
     return {

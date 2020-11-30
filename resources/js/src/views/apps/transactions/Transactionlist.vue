@@ -1,20 +1,5 @@
-<!-- =========================================================================================
-  File Name: DataListListView.vue
-  Description: Data List - List View
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
   <div id="data-list-list-view" class="data-list-container">
-    <data-view-sidebar
-      :isSidebarActive="addNewDataSidebar"
-      @closeSidebar="toggleDataSidebar"
-      :data="sidebarData"
-    />
-
     <vs-table
       ref="table"
       pagination
@@ -68,50 +53,74 @@
       </div>
 
       <template slot="thead">
-        <vs-th sort-key="name">Name</vs-th>
-        <vs-th sort-key="category">Category</vs-th>
-        <vs-th sort-key="popularity">Popularity</vs-th>
-        <vs-th sort-key="order_status">Order Status</vs-th>
-        <vs-th sort-key="price">Price</vs-th>
-        <vs-th>Action</vs-th>
+        <vs-th sort-key="deal_serial_number">سریال نمبر</vs-th>
+        <vs-th sort-key="deal_date">تاریخ معامله</vs-th>
+        <vs-th sort-key="deal_curency">واحدپولی</vs-th>
+        <vs-th sort-key="deal_amount">مقدار معامله</vs-th>
+        <vs-th sort-key="deal_status">نوع معامله</vs-th>
+        <!-- <vs-th sort-key="order_status">تاریخ معامله</vs-th> -->
+        <vs-th sort-key="deal_title">عنوان معامله</vs-th>
+        <vs-th>بررسی</vs-th>
       </template>
 
       <template slot-scope="{ data }">
         <tbody>
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
             <vs-td>
-              <p class="product-name font-medium truncate">{{ tr.name }}</p>
+              <p class="product-name font-medium truncate">
+                {{ tr.deal_serial_number }}
+              </p>
+            </vs-td>
+            <vs-td>
+              <p class="product-name font-medium truncate">
+                {{ tr.deal_date }}
+              </p>
+            </vs-td>
+            <vs-td>
+              <p class="product-name font-medium truncate">
+                {{ tr.deal_currency }}
+              </p>
+            </vs-td>
+            <vs-td>
+              <p class="product-category">{{ tr.deal_amount }}</p>
             </vs-td>
 
-            <vs-td>
-              <p class="product-category">{{ tr.category | title }}</p>
-            </vs-td>
-
-            <vs-td>
+            <!-- <vs-td>
               <vs-progress
-                :percent="Number(tr.popularity)"
-                :color="getPopularityColor(Number(tr.popularity))"
+                :percent="Number(tr.deal_amount)"
+                :color="getPopularityColor(Number(tr.deal_amount))"
                 class="shadow-md"
               />
-            </vs-td>
+            </vs-td> -->
 
             <vs-td>
               <vs-chip
-                :color="getOrderStatusColor(tr.order_status)"
+                :color="getOrderStatusColor(tr.deal_status)"
                 class="product-order-status"
-                >{{ tr.order_status | title }}</vs-chip
+                >{{ tr.deal_status }}</vs-chip
               >
             </vs-td>
 
             <vs-td>
-              <p class="product-price">${{ tr.price }}</p>
+              <p class="product-price">{{ tr.deal_title }}</p>
             </vs-td>
 
             <vs-td class="whitespace-no-wrap">
+              <!-- <feather-icon
+                icon="ViewIcom"
+                svgClasses="w-5 h-5 hover:text-primary stroke-current"
+                @click.stop="showData(tr)"
+              /> -->
+              <router-link
+                class="product-name font-medium truncate"
+                :to="{
+                  name: 'edit_transaction',
+                }"
+              >
+              </router-link>
               <feather-icon
                 icon="EditIcon"
                 svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                @click.stop="editData(tr)"
               />
               <feather-icon
                 icon="TrashIcon"
@@ -128,23 +137,16 @@
 </template>
 
 <script>
-//import DataViewSidebar from '../../../DataViewSidebar.vue'
-import moduleDataList from "@/store/data-list/moduleDataList.js";
-
 export default {
   components: {
     // DataViewSidebar
   },
   data() {
     return {
-      selected: [],
-      // products: [],
+      // selected: [],
+      products: [],
       itemsPerPage: 10,
       isMounted: false,
-
-      // Data Sidebar
-      addNewDataSidebar: false,
-      sidebarData: {},
     };
   },
   computed: {
@@ -154,9 +156,6 @@ export default {
       }
       return 0;
     },
-    products() {
-      return this.$store.state.dataList.products;
-    },
     queriedItems() {
       return this.$refs.table
         ? this.$refs.table.queriedResults.length
@@ -164,20 +163,25 @@ export default {
     },
   },
   methods: {
-    addNewData() {
-      this.sidebarData = {};
-      this.toggleDataSidebar(true);
-    },
-    deleteData(id) {
-      this.$store.dispatch("dataList/removeItem", id).catch((err) => {
-        console.error(err);
+    getTransactionData() {
+      this.axios.get("/api/transaction/getTransactionData").then((response) => {
+        this.products = response.data;
       });
     },
-    editData(data) {
-      // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-      this.sidebarData = data;
-      this.toggleDataSidebar(true);
-    },
+    // addNewData() {
+    //   this.sidebarData = {};
+    //   this.toggleDataSidebar(true);
+    // },
+    // deleteData(id) {
+    //   this.$store.dispatch("dataList/removeItem", id).catch((err) => {
+    //     console.error(err);
+    //   });
+    // },
+    // editData(data) {
+    //   // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
+    //   this.sidebarData = data;
+    //   this.toggleDataSidebar(true);
+    // },
     getOrderStatusColor(status) {
       if (status === "on_hold") return "warning";
       if (status === "delivered") return "success";
@@ -196,11 +200,7 @@ export default {
     },
   },
   created() {
-    if (!moduleDataList.isRegistered) {
-      this.$store.registerModule("dataList", moduleDataList);
-      moduleDataList.isRegistered = true;
-    }
-    this.$store.dispatch("dataList/fetchDataListItems");
+    this.getTransactionData();
   },
   mounted() {
     this.isMounted = true;

@@ -18,3 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('transaction/create', "TransactionController@savetransaction");
+Route::get('transaction/getnextserialno', "TransactionController@getserialnumber");
+Route::get('transaction/getTransactionData', "TransactionController@getTransactionData");

@@ -414,12 +414,12 @@
 
 <script>
 import vSelect from "vue-select";
-// import Organizationadd from "./proposals/Organizationadd.vue";
+ import Organizationadd from "./proposals/Organizationadd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 export default {
   components: {
-    // Organizationadd,
+     Organizationadd,
     "v-select": vSelect,
   },
   data() {

@@ -15,11 +15,24 @@ import Vuesax from 'vuesax'
 
 Vue.use(Vuesax)
 
-// axios
-import axios from './axios.js'
-Vue.prototype.$http = axios
-Vue.use(axios)
-    // API Calls
+// configuration of vue-axios
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+
+//
+// import swal from 'sweetalert2'
+// window.swal = swal
+// const toast = swal.mixin({
+//     toast: true,
+//     position: 'top-end',
+//     showConfirmButton: false,
+//     timer: 8000
+// })
+// window.toast = toast
+// window.Fire = new Vue()
+//
 import './http/requests'
 
 // mock

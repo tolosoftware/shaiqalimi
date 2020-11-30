@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <div class="vx-row">
@@ -231,5 +232,5 @@ export default {
     ArchieveList,
     "v-select": vSelect,
   },
-};
+}
 </script>

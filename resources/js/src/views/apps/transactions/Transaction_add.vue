@@ -38,7 +38,6 @@
                     @change="onChange_curency($event)"
                     v-model="transaction.deal_curency"
                     value="afghani"
-                    checked
                     style="height: 25px; width: 25px"
                   />
                   <label class="form-check-label" for="afghani">
@@ -109,7 +108,6 @@
                     @change="onChange_deal_status($event)"
                     id="deal_status2"
                     value="normal"
-                    checked
                     style="height: 25px; width: 25px"
                   />
                   <label class="form-check-label" for="deal_status">
@@ -183,6 +181,10 @@
                 name="deal_crdt_acnt_desc"
                 class="w-full"
               />
+              <!-- <div
+                class="validation-message"
+                v-text="validation.getMessage('deal_crdt_acnt_desc')"
+              ></div> -->
             </div>
             <!-- deal detail -->
             <div class="vx-col w-full mt-6">
@@ -216,47 +218,32 @@ export default {
       success: false,
       loaded: true,
       debit_options: [
-        { text: "گزینه ۱", value: "1" },
-        { text: "گزینه ۲", value: "2" },
-        { text: "گزینه ۳", value: "3" },
+        { text: "گزینه ۱", value: "iption1" },
+        { text: "گزینه ۲", value: "option2" },
+        { text: "گزینه ۳", value: "option3" },
       ],
       credit_options: [
-        { text: "گزینه ۱", value: "1" },
-        { text: "گزینه ۲", value: "2" },
-      ],
-      itemType: [
-        {
-          text: "تیل دیزل",
-          value: "1",
-        },
-        {
-          text: "تیل گاز",
-          value: "2",
-        },
-        {
-          text: "تیل پطرول",
-          value: "3",
-        },
-        {
-          text: "موبلین",
-          value: "4",
-        },
+        { text: "گزینه ۱", value: "option1" },
+        { text: "گزینه ۲", value: "option2" },
       ],
       transaction: {
-        deal_serial_number: "1001",
-        deal_curency: "afghani",
-        deal_amount: "4564",
-        deal_status: "normal",
-        deal_date: "1399/09/08",
-        deal_title: "حل مشکلات مبنی بر قرار داد وزارت",
+        deal_serial_number: 100,
+        deal_curency: "",
+        deal_amount: "",
+        deal_status: "",
+        deal_date: "",
+        deal_title: "",
         deal_debit_account: "",
-        deal_dbt_acnt_desc: "kslfjlaskfa",
+        deal_dbt_acnt_desc: "",
         deal_credit_account: "",
-        deal_crdt_acnt_desc: "klsjflkasjfl",
-        deal_description: "lksjfklajsflaj",
+        deal_crdt_acnt_desc: "",
+        deal_description: "",
       },
       validation: new Validation(),
     };
+  },
+  created() {
+    this.nextSerialNumber();
   },
   components: { "v-select": vSelect },
   methods: {
@@ -267,18 +254,17 @@ export default {
       } else if (this.transaction.curency == "dolar") {
         this.curency_label = "دالر";
       }
-      console.log(this.transaction.curency);
     },
     onChange_deal_status(event) {
       this.transaction.deal_status = event.target.value;
-      console.log(this.transaction.deal_status);
     },
     submitForm() {
-      //   console.log("data", this.transaction);
       if (this.loaded) {
         this.loaded = false;
         this.success = false;
         let transactionDate = this.transaction;
+        transactionDate.deal_debit_account = this.transaction.deal_debit_account.value;
+        transactionDate.deal_credit_account = this.transaction.deal_credit_account.value;
         this.validation.empty();
         this.axios
           .post("api/transaction/create", transactionDate)
@@ -299,6 +285,17 @@ export default {
           });
       }
     },
+    nextSerialNumber() {
+      this.axios.get("/api/transaction/getnextserialno").then((response) => {
+        this.transaction.deal_serial_number = response.data;
+      });
+    },
   },
 };
 </script>
+<style scoped>
+.validation-message {
+  color: red;
+  font-size: 1em;
+}
+</style>
