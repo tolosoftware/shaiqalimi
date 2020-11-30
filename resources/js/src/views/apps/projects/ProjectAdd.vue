@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Organizationadd
+    <OrganizationAdd
       :isSidebarActive="addNewDataSidebar"
       @closeSidebar="toggleDataSidebar"
       :data="sidebarData"
@@ -287,7 +287,7 @@
 
 <script>
 import vSelect from "vue-select";
-import Organizationadd from "./proposals/Organizationadd.vue";
+import OrganizationAdd from "./OrganizationAdd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
@@ -295,7 +295,7 @@ import {Form,HasError,AlertError} from 'vform'
 
 export default {
   components: {
-    Organizationadd,
+    OrganizationAdd,
     ProjectList,
     "v-select": vSelect,
   },

@@ -101,6 +101,7 @@ const router = new Router({
                 },
                 {
                     path: '/projects/add',
+                    name: 'project-add',
                     component: () =>
                         import ('./views/apps/projects/ProjectAdd.vue'),
                     meta: {
@@ -115,7 +116,7 @@ const router = new Router({
                         ],
                         rule: 'editor',
                         // parent: 'projects',
-                        no_scroll: true
+                        no_scroll: false
                     }
                 },
                 {
@@ -144,7 +145,7 @@ const router = new Router({
                 },
                 {
                     path: '/projects/project/:id/edit',
-                    name: 'project-view',
+                    name: 'project-edit',
                     component: () =>
                         import ('./views/apps/projects/ProjectEdit.vue'),
                     props: true,
@@ -164,28 +165,6 @@ const router = new Router({
                         rule: 'editor',
                         parent: 'projects',
                         no_scroll: true
-                    }
-                },
-                {
-                    path: '/projects/proposal',
-                    name: 'proposal',
-                    component: () =>
-                        import ('./views/apps/projects/proposals/Proposal.vue'),
-                    meta: {
-                        breadcrumb: [{
-                                title: 'Home',
-                                url: '/'
-                            },
-                            {
-                                title: 'پروژه ها و قراردادها',
-                                url: '/projects/list'
-                            },
-                            {
-                                title: 'ثبت پیشنهاد جدید',
-                                active: true
-                            }
-                        ],
-                        rule: 'editor'
                     }
                 },
                 {
