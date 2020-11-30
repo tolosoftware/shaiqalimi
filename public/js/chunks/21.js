@@ -72,6 +72,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -139,6 +141,19 @@ __webpack_require__.r(__webpack_exports__);
     toggleDataSidebar: function toggleDataSidebar() {
       var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       this.addNewDataSidebar = val;
+    },
+    testTost: function testTost() {
+      //sweetalirt
+      swal.fire('The Internet?', 'That thing is still around?', 'question'); // tost notification
+
+      this.$vs.notify({
+        title: 'Icon mail',
+        text: 'Lorem ipsum dolor sit amet, consectetur',
+        color: 'success',
+        iconPack: 'feather',
+        icon: 'icon-check',
+        position: 'top-right'
+      });
     }
   }
 });
@@ -498,6 +513,10 @@ var render = function() {
                 },
                 [_vm._v("حساب جدید")]
               ),
+              _vm._v(" "),
+              _c("vs-button", { on: { click: _vm.testTost } }, [
+                _vm._v("tost")
+              ]),
               _vm._v(" "),
               _c("vs-input", {
                 staticClass: "mt-1 float-right",
