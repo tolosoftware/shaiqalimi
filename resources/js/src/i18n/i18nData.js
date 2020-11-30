@@ -171,6 +171,21 @@ export default {
     WhoopsNothinghere: 'مورد مشابه یافت نشد.',
     Profile: 'تنظیمات کاربر',
     logout: 'خروج',
-    The_email_field_is_required: 'فورم ایمیل الزامی است.'
+    The_email_field_is_required: 'فورم ایمیل الزامی است.',
+    s_number: 'سریال نمبر',
+    issue_date: 'تاریخ نشر',
+    issue_address: 'آدرس',
+    title: 'عنوان',
+    type: 'نوعیت',
+    auth_number: 'شماره شناسایی',
+    duration: 'مدت زمان',
+    price: 'قیمت',
+    offer_date: 'تاریخ آفر گشایی',
+    close_date: 'تاریخ ختم آفر',
+    source_address: 'منبع',
+    offer_price: 'میزان آفر',
+    project_price: 'قیمت پروژه',
+    announce_id: 'اعلان',
+    organization_id: 'نهاد',
   }
 }

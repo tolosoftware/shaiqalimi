@@ -62,9 +62,8 @@ class ProjectController extends Controller
         //     // 'progress' => ''
 
         // ]);
-
-         Project::create($request->all());
-         return "ok";
+        $request['s_number'] = Project::max('s_number') + 1;
+        return Project::create($request->all());
     }
 
     /**
@@ -76,7 +75,6 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return $project;
-        // return Project::find();
     }
 
     /**
@@ -114,6 +112,6 @@ class ProjectController extends Controller
     }
     
     public function latest(){
-        return Project::latest('id')->first()->id;
+        return Project::max('s_number') + 1;
     }
 }

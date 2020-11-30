@@ -47,7 +47,7 @@ class OrganizationController extends Controller
      */
     public function show(Organization $organization)
     {
-        //
+        return $organization;
     }
 
     /**

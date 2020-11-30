@@ -64,7 +64,7 @@
             v-if="salesBarSession.analyticsData"
           >
             <div>
-              <h2 class="mb-1 font-bold">پیشنهادات</h2>
+              <h2 class="mb-1 font-bold">قراردادها</h2>
             </div>
           </div>
 
@@ -85,25 +85,25 @@
 
         <div class="vx-row">
           <div class="vx-col w-1/2 mb-3">
-            <small>همه پشنهادات: ۳۴۲</small>
+            <small>همه قراردادها: ۳۴۲</small>
             <vs-progress class="block mt-1" :percent="50" color="primary"></vs-progress>
           </div>
           <div class="vx-col w-1/2 mb-3">
-            <small>پیشنهاد جدید: ۱۰۰</small>
+            <small>قرارداد جدید: ۱۰۰</small>
             <vs-progress class="block mt-1" :percent="60" color="warning"></vs-progress>
           </div>
           <div class="vx-col w-1/2 mb-3">
-            <small>پشنهادات این ماه: ۸</small>
+            <small>قراردادها این ماه: ۸</small>
             <vs-progress class="block mt-1" :percent="70" color="danger"></vs-progress>
           </div>
           <div class="vx-col w-1/2 mb-3">
-            <router-link to="proposal">
+            <router-link to="/projects/add">
               <vs-button
                 icon-pack="feather"
                 icon="icon-chevrons-left"
                 icon-after
-                class="shadow-md w-full lg:mt-0 mt-1"
-              >ثبت پیشنهاد جدید</vs-button>
+                class="shadow-md w-full lg:mt-0 mt-4"
+              >مدیریت قراردادها</vs-button>
             </router-link>
           </div>
         </div>

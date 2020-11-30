@@ -101,6 +101,7 @@ const router = new Router({
                 },
                 {
                     path: '/projects/add',
+                    name: 'project-add',
                     component: () =>
                         import ('./views/apps/projects/ProjectAdd.vue'),
                     meta: {
@@ -115,7 +116,7 @@ const router = new Router({
                         ],
                         rule: 'editor',
                         // parent: 'projects',
-                        no_scroll: true
+                        no_scroll: false
                     }
                 },
                 {
@@ -144,7 +145,7 @@ const router = new Router({
                 },
                 {
                     path: '/projects/project/:id/edit',
-                    name: 'project-view',
+                    name: 'project-edit',
                     component: () =>
                         import ('./views/apps/projects/ProjectEdit.vue'),
                     props: true,
@@ -159,33 +160,11 @@ const router = new Router({
                             },
                             {
                                 dyTitle: true
-                            }
+                            },
                         ],
                         rule: 'editor',
                         parent: 'projects',
                         no_scroll: true
-                    }
-                },
-                {
-                    path: '/projects/proposal',
-                    name: 'proposal',
-                    component: () =>
-                        import ('./views/apps/projects/proposals/Proposal.vue'),
-                    meta: {
-                        breadcrumb: [{
-                                title: 'Home',
-                                url: '/'
-                            },
-                            {
-                                title: 'پروژه ها و قراردادها',
-                                url: '/projects/list'
-                            },
-                            {
-                                title: 'ثبت پیشنهاد جدید',
-                                active: true
-                            }
-                        ],
-                        rule: 'editor'
                     }
                 },
                 {
@@ -232,35 +211,52 @@ const router = new Router({
                     }
                 },
 
-                {
-                    path: '/transactions',
-                    name: 'transactions',
-                    component: () =>
-                        import ('./views/apps/transactions/Transaction.vue'),
-                    meta: {
-                        breadcrumb: [{
-                                title: 'Home',
-                                url: '/'
-                            },
-                            {
-                                title: 'معاملات',
-                                active: true
-                            }
-                        ],
-                        rule: 'editor'
+              {
+                path: '/transactions',
+                name: 'transactions',
+                component: () => import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  breadcrumb: [
+                    {
+                      title: 'Home',
+                      url: '/'
+                    },
+                    {
+                      title: 'معاملات',
+                      active: true
                     }
-                },
-
-                {
-                    path: '/transactions/:filter',
-                    component: () =>
-                        import ('./views/apps/transactions/Transaction.vue'),
-                    meta: {
-                        rule: 'editor',
-                        parent: 'email',
-                        no_scroll: true
+                  ],
+                  rule: 'editor'
+                }
+              },
+              {
+                path: '/transaction/:id/edit',
+                name: 'edit_transaction',
+                component: () =>
+                  import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  breadcrumb: [
+                    {
+                      title: 'Home',
+                      url: '/'
+                    },
+                    {
+                      title: 'ویرایش معاملات',
+                      active: true
                     }
+                  ]
                 },
+                rule: 'editor'
+              },
+              {
+                path: '/transactions/:filter',
+                component: () => import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  rule: 'editor',
+                  parent: 'email',
+                  no_scroll: true
+                }
+              },
                 {
                     path: '/accounts',
                     name: 'accounts',

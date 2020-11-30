@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Organizationadd
+    <OrganizationAdd
       :isSidebarActive="addNewDataSidebar"
       @closeSidebar="toggleDataSidebar"
       :data="sidebarData"
@@ -253,7 +253,7 @@
           </div>
           <vs-button
             type="filled"
-            :disabled="!isFormValid"
+            :disabled="pForm.busy"
             @click.prevent="submitForm"
             class="mt-5 block"
           >ثبت قرارداد</vs-button>
@@ -265,7 +265,7 @@
 
 <script>
 import vSelect from "vue-select";
-import Organizationadd from "./proposals/Organizationadd.vue";
+import OrganizationAdd from "./OrganizationAdd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
@@ -273,7 +273,7 @@ import {Form,HasError,AlertError} from 'vform'
 
 export default {
   components: {
-    Organizationadd,
+    OrganizationAdd,
     ProjectList,
     "v-select": vSelect,
   },
@@ -323,14 +323,13 @@ export default {
   },
   created() {
     this.getAnnounces();
-    this.getOrganizations();
-    this.getLastProj();
-    this.getProject();
   },
   computed: {
-    isFormValid() {
-      return Object.keys(this.fields).some(key => this.fields[key].validated) && Object.keys(this.fields).some(key => this.fields[key].valid);
-    },
+    // isFormValid() {
+    //   console.log(this.pForm.errors);
+    //   return this.pForm.errors;
+    //   // return Object.keys(this.pForm).some(key => this.pForm[key].validated) && Object.keys(this.pForm).some(key => this.pForm[key].valid);
+    // },
     currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx;
@@ -359,27 +358,38 @@ export default {
       this.selectedOrg = arr;
     },
     getAnnounces() {
-      this.axios.get('/api/announce')
+      // Start the Progress Bar
+      this.$Progress.start()
+      this.$vs.loading({type: 'border',color: '#432e81'});
+
+      this.axios.get('/api/announcement')
         .then((response) => {
           this.announces = response.data;
+          this.getOrganizations();
         })
     },
     getLastProj() {
       this.axios.get('/api/project-last')
         .then((response) => {
           this.pForm.s_number = response.data;
+          this.getProject();
         })
     },
     getOrganizations() {
       this.axios.get('/api/organization')
         .then((response) => {
           this.org = response.data;
+          this.getLastProj();
         })
     },
     getProject() {
       this.axios.get('/api/project/' + this.$route.params.id)
         .then((response) => {
           this.setPFromValue(response.data);
+          Object.keys(this.announces).some(key => console.log(this.announces[key].id == response.data.announce_id))
+          // Finish the Progress Bar
+          this.$vs.loading.close()
+          this.$Progress.set(100)
         })
     },
     setPFromValue(resp) {
@@ -388,20 +398,17 @@ export default {
       }
     },
     submitForm(id) {
-      // this.$validator.validateAll().then((result) => {
-      //   if (result) {
-      //     // if form have no errors
-      //     // Submit the form via a POST request
-      //     this.pForm.post('/api/project')
-      //       .then(({data}) => {console.log(data)})
-      //   } else {
-      //     console.log("There is errors");
+      // Start the Progress Bar
+      this.$Progress.start()
+      this.$vs.loading({type: 'border',color: '#432e81'});
 
-      //     // form have errors
-      //   }
-      // });      
       this.pForm.patch('/api/project/' + this.$route.params.id)
-        .then(({data}) => {console.log(data)});
+        .then(({data}) => {
+
+          // Finish the Progress Bar
+          this.$vs.loading.close()
+          this.$Progress.set(100)
+        });
     },
     addNewData() {
       this.sidebarData = {};
