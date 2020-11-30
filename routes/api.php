@@ -17,6 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+<<<<<<< HEAD
 Route::post('transaction/create', "TransactionController@savetransaction");
 Route::get('transaction/getnextserialno', "TransactionController@getserialnumber");
 Route::get('transaction/getTransactionData', "TransactionController@getTransactionData");
+=======
+
+// Product Review
+Route::resource('project','ProjectController');
+Route::resource('announce','AnnouncementController');
+Route::resource('organization','OrganizationController');
+
+// Latest Records
+Route::get('announce-last','AnnouncementController@latest');
+Route::get('project-last','ProjectController@latest');
+Route::get('organization-last','OrganizationController@latest');
+>>>>>>> 5b321742c76ffbf0cb67fab72c626b6320720276

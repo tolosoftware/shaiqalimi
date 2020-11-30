@@ -15,11 +15,15 @@ import Vuesax from 'vuesax'
 
 Vue.use(Vuesax)
 
+
+
+
 // configuration of vue-axios
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
+    //end
 
 //
 // import swal from 'sweetalert2'
@@ -34,6 +38,11 @@ Vue.use(VueAxios, axios)
 // window.Fire = new Vue()
 //
 import './http/requests'
+
+// start sweetalert
+import Swal from 'sweetalert2'
+window.swal = Swal;
+// end sweetalert
 
 // mock
 import './fake-db/index.js'

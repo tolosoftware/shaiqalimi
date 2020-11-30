@@ -173,8 +173,8 @@ export default {
 
       settings: {
         // perfectscrollbar settings
-        maxScrollbarLength: 60,
-        wheelSpeed: 0.6,
+        // maxScrollbarLength: 60,
+        // wheelSpeed: 0.6,
       },
     };
   },
