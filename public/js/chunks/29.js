@@ -16,8 +16,156 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'vx-project-view'
+  data: function data() {
+    return {
+      // init values
+      announce: [],
+      org: [],
+      selectedAnnounce: null,
+      selectedOrg: null,
+      project: null,
+      statusFa: {
+        on_hold: "درجریان",
+        delivered: "تکمیل",
+        canceled: "نا موفق"
+      }
+    };
+  },
+  created: function created() {
+    this.getProject();
+  },
+  methods: {
+    setAnnounceId: function setAnnounceId(arr) {
+      //  trigger a mutation, or dispatch an action  
+      this.selectedAnnounce = arr;
+    },
+    setOrganizationId: function setOrganizationId(arr) {
+      //  trigger a mutation, or dispatch an action  
+      this.selectedOrg = arr;
+    },
+    getAnnounces: function getAnnounces() {
+      var _this = this;
+
+      console.log(this.project.announce_id);
+
+      if (this.project.announce_id) {
+        this.axios.get('/api/announcement/' + this.project.announce_id).then(function (response) {
+          _this.announce = response.data; // Finish the Progress Bar
+
+          _this.$vs.loading.close();
+
+          _this.$Progress.set(100);
+        });
+      } else {
+        // Finish the Progress Bar
+        this.$vs.loading.close();
+        this.$Progress.set(100);
+      }
+    },
+    getOrganizations: function getOrganizations() {
+      var _this2 = this;
+
+      console.log(this.project.organization_id);
+
+      if (this.project.organization_id) {
+        this.axios.get('/api/organization/' + this.project.organization_id).then(function (response) {
+          _this2.org = response.data;
+
+          _this2.getAnnounces();
+        });
+      } else {
+        this.getAnnounces();
+      }
+    },
+    getProject: function getProject() {
+      var _this3 = this;
+
+      // Start the Progress Bar
+      this.$Progress.start();
+      this.$vs.loading({
+        type: 'border',
+        color: '#432e81'
+      });
+      this.axios.get('/api/project/' + this.$route.params.id).then(function (response) {
+        _this3.project = response.data;
+
+        _this3.getOrganizations();
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -37,8 +185,289 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("vx-card", { staticClass: "height-vh-80" }, [
-    _c("h1", { staticClass: "text-center" }, [_vm._v("در حال توسعه ...")])
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "vx-row" },
+      [
+        _vm.project != null
+          ? _c(
+              "vx-card",
+              [
+                _c("div", { staticClass: "vx-row" }, [
+                  _c("div", { staticClass: "vx-col w-1/2" }, [
+                    _c("h3", [
+                      _vm._v("معلومات پروژه " + _vm._s(_vm.project.title))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("vs-divider", { staticClass: "my-6" }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "vx-col lg:w-1/2 w-full" },
+                  [
+                    _c(
+                      "vs-table",
+                      {
+                        staticClass:
+                          "table-striped vs-table vs-table--tbody-table",
+                        attrs: { stripe: "", data: [1] }
+                      },
+                      [
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("title")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [_vm._v(_vm._s(_vm.project.title))])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("s_number")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [_vm._v(_vm._s(_vm.project.s_number))])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("issue_date")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.issue_date))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("issue_address")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.issue_address))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("type")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [_vm._v(_vm._s(_vm.project.type))])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("auth_number")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.auth_number))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("duration")) + " ماه")]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [_vm._v(_vm._s(_vm.project.duration))])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("price")) + " افغانی")]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [_vm._v(_vm._s(_vm.project.price))])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("offer_date")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.offer_date))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("close_date")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.close_date))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("source_address")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.source_address))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.$t("offer_price")) + " افغانی"
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.offer_price))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.$t("project_price")) + " افغانی"
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.project.project_price))
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("announce_id")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(
+                                _vm._s(_vm.announce ? _vm.announce.title : "")
+                              )
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "vs-tr",
+                          [
+                            _c(
+                              "vs-td",
+                              { staticClass: "font-semibold pr-10" },
+                              [_vm._v(_vm._s(_vm.$t("organization_id")))]
+                            ),
+                            _vm._v(" "),
+                            _c("vs-td", [
+                              _vm._v(_vm._s(_vm.org ? _vm.org.title : ""))
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          : _vm._e()
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []

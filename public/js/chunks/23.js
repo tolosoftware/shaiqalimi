@@ -375,20 +375,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
   },
   created: function created() {
     this.getAnnounces();
-    this.getOrganizations();
-    this.getLastProj();
-    this.getProject();
   },
   computed: {
-    isFormValid: function isFormValid() {
-      var _this = this;
-
-      return _babel_runtime_core_js_object_keys__WEBPACK_IMPORTED_MODULE_3___default()(this.fields).some(function (key) {
-        return _this.fields[key].validated;
-      }) && _babel_runtime_core_js_object_keys__WEBPACK_IMPORTED_MODULE_3___default()(this.fields).some(function (key) {
-        return _this.fields[key].valid;
-      });
-    },
+    // isFormValid() {
+    //   console.log(this.pForm.errors);
+    //   return this.pForm.errors;
+    //   // return Object.keys(this.pForm).some(key => this.pForm[key].validated) && Object.keys(this.pForm).some(key => this.pForm[key].valid);
+    // },
     currentPage: function currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx;
@@ -416,31 +409,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
       this.selectedOrg = arr;
     },
     getAnnounces: function getAnnounces() {
-      var _this2 = this;
+      var _this = this;
 
-      this.axios.get('/api/announce').then(function (response) {
-        _this2.announces = response.data;
+      // Start the Progress Bar
+      this.$Progress.start();
+      this.$vs.loading({
+        type: 'border',
+        color: '#432e81'
+      });
+      this.axios.get('/api/announcement').then(function (response) {
+        _this.announces = response.data;
+
+        _this.getOrganizations();
       });
     },
     getLastProj: function getLastProj() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.axios.get('/api/project-last').then(function (response) {
-        _this3.pForm.s_number = response.data;
+        _this2.pForm.s_number = response.data;
+
+        _this2.getProject();
       });
     },
     getOrganizations: function getOrganizations() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.axios.get('/api/organization').then(function (response) {
-        _this4.org = response.data;
+        _this3.org = response.data;
+
+        _this3.getLastProj();
       });
     },
     getProject: function getProject() {
-      var _this5 = this;
+      var _this4 = this;
 
       this.axios.get('/api/project/' + this.$route.params.id).then(function (response) {
-        _this5.setPFromValue(response.data);
+        _this4.setPFromValue(response.data);
+
+        _babel_runtime_core_js_object_keys__WEBPACK_IMPORTED_MODULE_3___default()(_this4.announces).some(function (key) {
+          return console.log(_this4.announces[key].id == response.data.announce_id);
+        }); // Finish the Progress Bar
+
+
+        _this4.$vs.loading.close();
+
+        _this4.$Progress.set(100);
       });
     },
     setPFromValue: function setPFromValue(resp) {
@@ -455,20 +469,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
       }
     },
     submitForm: function submitForm(id) {
-      // this.$validator.validateAll().then((result) => {
-      //   if (result) {
-      //     // if form have no errors
-      //     // Submit the form via a POST request
-      //     this.pForm.post('/api/project')
-      //       .then(({data}) => {console.log(data)})
-      //   } else {
-      //     console.log("There is errors");
-      //     // form have errors
-      //   }
-      // });      
+      var _this5 = this;
+
+      // Start the Progress Bar
+      this.$Progress.start();
+      this.$vs.loading({
+        type: 'border',
+        color: '#432e81'
+      });
       this.pForm.patch('/api/project/' + this.$route.params.id).then(function (_ref2) {
         var data = _ref2.data;
-        console.log(data);
+
+        // Finish the Progress Bar
+        _this5.$vs.loading.close();
+
+        _this5.$Progress.set(100);
       });
     },
     addNewData: function addNewData() {
@@ -1191,7 +1206,7 @@ var render = function() {
                   "vs-button",
                   {
                     staticClass: "mt-5 block",
-                    attrs: { type: "filled", disabled: !_vm.isFormValid },
+                    attrs: { type: "filled", disabled: _vm.pForm.busy },
                     on: {
                       click: function($event) {
                         $event.preventDefault()

@@ -423,7 +423,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
     getAnnounces: function getAnnounces() {
       var _this2 = this;
 
-      this.axios.get('/api/announce').then(function (response) {
+      // Start the Progress Bar
+      this.$Progress.start();
+      this.$vs.loading({
+        type: 'border',
+        color: '#432e81'
+      });
+      this.axios.get('/api/announcement').then(function (response) {
         _this2.announces = response.data;
       });
     },
@@ -438,27 +444,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
       var _this4 = this;
 
       this.axios.get('/api/organization').then(function (response) {
-        _this4.org = response.data;
+        _this4.org = response.data; // Finish the Progress Bar
+
+        _this4.$vs.loading.close();
+
+        _this4.$Progress.set(100);
       });
     },
     submitForm: function submitForm() {
       var _this5 = this;
 
-      this.$validator.validateAll().then(function (result) {
-        if (result) {
-          // if form have no errors
-          // Submit the form via a POST request
-          _this5.pForm.post('/api/project').then(function (_ref2) {
-            var data = _ref2.data;
-            console.log(data);
-          });
-        } else {
-          console.log("There is errors"); // form have errors
-        }
+      // Start the Progress Bar
+      this.$Progress.start();
+      this.$vs.loading({
+        type: 'border',
+        color: '#432e81'
       });
-      this.pForm.post('/api/project').then(function (_ref3) {
-        var data = _ref3.data;
-        console.log(data);
+      this.pForm.post('/api/project').then(function (_ref2) {
+        var data = _ref2.data;
+
+        // Finish the Progress Bar
+        _this5.$vs.loading.close();
+
+        _this5.$Progress.set(100);
       });
     },
     addNewData: function addNewData() {

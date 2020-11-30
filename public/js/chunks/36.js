@@ -423,7 +423,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
     getAnnounces: function getAnnounces() {
       var _this2 = this;
 
-      this.axios.get('/api/announce').then(function (response) {
+      this.axios.get('/api/announcement').then(function (response) {
         _this2.announces = response.data;
       });
     },

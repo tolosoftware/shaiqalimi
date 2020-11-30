@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Product Review
 Route::resource('project','ProjectController');
-Route::resource('announce','AnnouncementController');
+Route::resource('announcement','AnnouncementController');
 Route::resource('organization','OrganizationController');
 
 // Latest Records

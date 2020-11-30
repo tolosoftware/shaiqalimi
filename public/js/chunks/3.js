@@ -166,6 +166,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -248,7 +249,17 @@ __webpack_require__.r(__webpack_exports__);
         name: "project-view",
         params: {
           id: data.id,
-          dyTitle: data.name
+          dyTitle: data.title
+        }
+      }).catch(function () {});
+    },
+    goToEdit: function goToEdit(data) {
+      this.$router.push({
+        path: "/projects/project/${data.id}/edit",
+        name: "project-edit",
+        params: {
+          id: data.id,
+          dyTitle: data.title
         }
       }).catch(function () {});
     },
@@ -257,12 +268,31 @@ __webpack_require__.r(__webpack_exports__);
       this.sidebarData = {};
       this.toggleDataSidebar(true);
     },
-    deleteData: function deleteData(id) {
+    deleteData: function deleteData(id, title) {
       var _this2 = this;
 
-      this.pForm.delete('/api/project/' + id).then(function (id) {
-        _this2.getProject();
-      }).catch(function () {});
+      swal.fire({
+        title: 'آیا متمعن هستید؟',
+        text: "پروژه " + title + " حذف خواهد شد",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله، حذف شود!</span>',
+        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          _this2.pForm.delete('/api/project/' + id).then(function (id) {
+            swal.fire({
+              title: 'عملیه موفقانه انجام شد.',
+              text: "پروژه " + title + " از سیستم پاک شد!",
+              icon: 'success'
+            });
+
+            _this2.getProject();
+          }).catch(function () {});
+        }
+      });
     },
     editData: function editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
@@ -437,7 +467,11 @@ var render = function() {
                                       to: {
                                         path: "/projects/project/${tr.id}",
                                         name: "project-view",
-                                        params: { id: tr.id, dyTitle: tr.title }
+                                        params: {
+                                          id: tr.id,
+                                          dyTitle: tr.title,
+                                          snumber: tr.s_number
+                                        }
                                       }
                                     }
                                   },
@@ -491,8 +525,8 @@ var render = function() {
                                     "product-name font-medium truncate",
                                   attrs: {
                                     to: {
-                                      path:
-                                        "/projects/project/" + tr.id + "/edit",
+                                      path: "/projects/project/${tr.id}/edit",
+                                      name: "project-edit",
                                       params: { id: tr.id, dyTitle: tr.title }
                                     }
                                   }
@@ -519,7 +553,7 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     $event.stopPropagation()
-                                    return _vm.deleteData(tr.id)
+                                    return _vm.deleteData(tr.id, tr.title)
                                   }
                                 }
                               })

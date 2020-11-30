@@ -82,7 +82,7 @@
                   :to="{
                     path: '/projects/project/${tr.id}',
                     name: 'project-view',
-                    params: { id: tr.id, dyTitle: tr.title },
+                    params: { id: tr.id, dyTitle: tr.title, snumber: tr.s_number },
                   }"
                 >{{ tr.title }}</router-link>
               </div>
@@ -129,9 +129,10 @@
               <router-link
                 class="product-name font-medium truncate"
                 :to="{
-                    path: '/projects/project/' + tr.id + '/edit',
-                    params: { id: tr.id, dyTitle: tr.title },
-                  }"
+                  path: '/projects/project/${tr.id}/edit',
+                  name: 'project-edit',
+                  params: { id: tr.id, dyTitle: tr.title },
+                }"
               >
                 <feather-icon
                   icon="EditIcon"
@@ -142,7 +143,7 @@
                 icon="TrashIcon"
                 svgClasses="w-5 h-5 hover:text-danger stroke-current"
                 class="ml-2"
-                @click.stop="deleteData(tr.id)"
+                @click.stop="deleteData(tr.id, tr.title)"
               />
             </vs-td>
           </vs-tr>
@@ -217,10 +218,7 @@ export default {
     getProject() {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({
-        type: 'border',
-        color: '#432e81',
-      });
+      this.$vs.loading({type: 'border',color: '#432e81'});
 
       this.pForm.get('/api/project').then((data) => {
         this.projects = data.data;
@@ -237,7 +235,16 @@ export default {
         .push({
           path: "/projects/project/${data.id}",
           name: "project-view",
-          params: {id: data.id,dyTitle: data.name},
+          params: {id: data.id,dyTitle: data.title},
+        })
+        .catch(() => {});
+    },
+    goToEdit(data) {
+      this.$router
+        .push({
+          path: "/projects/project/${data.id}/edit",
+          name: "project-edit",
+          params: {id: data.id,dyTitle: data.title},
         })
         .catch(() => {});
     },
@@ -246,11 +253,29 @@ export default {
       this.sidebarData = {};
       this.toggleDataSidebar(true);
     },
-    deleteData(id) {
-      this.pForm.delete('/api/project/' + id).then((id) => {
-        this.getProject();
+    deleteData(id,title) {
+      swal.fire({
+        title: 'آیا متمعن هستید؟',
+        text: "پروژه " + title + " حذف خواهد شد",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله، حذف شود!</span>',
+        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.pForm.delete('/api/project/' + id).then((id) => {
+            swal.fire({
+              title: 'عملیه موفقانه انجام شد.',
+              text: "پروژه " + title + " از سیستم پاک شد!",
+              icon: 'success',
+            })
+            this.getProject();
+          })
+            .catch(() => {});
+        }
       })
-        .catch(() => {});
     },
     editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))

@@ -302,8 +302,8 @@ export default {
   data() {
     return {
       // init values
-      announces : [],
-      org : [],
+      announces: [],
+      org: [],
       // Project Form
       pForm: new Form({
         s_number: '',
@@ -393,7 +393,11 @@ export default {
       this.pForm.organization_id = arr.value;
     },
     getAnnounces() {
-      this.axios.get('/api/announce')
+      // Start the Progress Bar
+      this.$Progress.start()
+      this.$vs.loading({type: 'border',color: '#432e81'});
+
+      this.axios.get('/api/announcement')
         .then((response) => {
           this.announces = response.data;
         })
@@ -408,23 +412,23 @@ export default {
       this.axios.get('/api/organization')
         .then((response) => {
           this.org = response.data;
+          // Finish the Progress Bar
+          this.$vs.loading.close()
+          this.$Progress.set(100)
         })
     },
     submitForm() {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          // if form have no errors
-          // Submit the form via a POST request
-          this.pForm.post('/api/project')
-            .then(({data}) => {console.log(data)})
-        } else {
-          console.log("There is errors");
+      // Start the Progress Bar
+      this.$Progress.start()
+      this.$vs.loading({type: 'border',color: '#432e81'});
 
-          // form have errors
-        }
-      });
       this.pForm.post('/api/project')
-        .then(({data}) => {console.log(data)});
+        .then(({data}) => {
+          // Finish the Progress Bar
+          this.$vs.loading.close()
+          this.$Progress.set(100)
+
+        });
 
     },
     addNewData() {
