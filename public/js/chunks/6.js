@@ -1,6 +1,7 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[6],{
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/components/statistics-cards/StatisticsCardLine.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/components/statistics-cards/StatisticsCardLine.vue?vue&type=script&lang=js& ***!
@@ -51713,6 +51714,8 @@ function parseStyleAttribute(xmlNode) {
     return result;
   }
 =======
+=======
+>>>>>>> ad0d967eb7e6fde57f407591212fd97c259f3e66
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/views/apps/transactions/Transaction.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/views/apps/transactions/Transaction.vue?vue&type=script&lang=js& ***!
@@ -51720,7 +51723,6 @@ function parseStyleAttribute(xmlNode) {
 >>>>>>> 3b8b8eeaca77d64b766ed85b3d98a23647da348e
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
->>>>>>> 5b321742c76ffbf0cb67fab72c626b6320720276
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);

@@ -233,7 +233,7 @@ const router = new Router({
                 path: '/transaction/:id/edit',
                 name: 'edit_transaction',
                 component: () =>
-                  import('./views/apps/transactions/Transaction_edit.vue'),
+                  import('./views/apps/transactions/Transaction.vue'),
                 meta: {
                   breadcrumb: [
                     {

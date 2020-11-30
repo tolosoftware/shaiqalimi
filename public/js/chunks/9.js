@@ -1445,7 +1445,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "the-navbar-horizontal",
+  name: 'the-navbar-horizontal',
   props: {
     logo: {
       type: String
@@ -1466,18 +1466,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     navbarColor: function navbarColor() {
-      var color = "#fff";
-      if (this.navbarType === "sticky") color = "#f7f7f7";else if (this.navbarType === "static") {
+      var color = '#fff';
+      if (this.navbarType === 'sticky') color = '#f7f7f7';else if (this.navbarType === 'static') {
         if (this.scrollY < 50) {
-          color = "#f7f7f7";
+          color = '#f7f7f7';
         }
       }
 
-      if (this.isThemedark === "dark") {
-        if (color === "#fff") {
-          color = "#10163a";
+      if (this.isThemedark === 'dark') {
+        if (color === '#fff') {
+          color = '#10163a';
         } else {
-          color = "#262c49";
+          color = '#262c49';
         }
       }
 
@@ -1487,12 +1487,12 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.state.theme;
     },
     navbarStyle: function navbarStyle() {
-      return this.navbarType === "static" ? {
-        transition: "all .25s ease-in-out"
+      return this.navbarType === 'static' ? {
+        transition: 'all .25s ease-in-out'
       } : {};
     },
     navbarClasses: function navbarClasses() {
-      return this.scrollY > 5 && this.navbarType === "static" ? null : "d-theme-dark-light-bg shadow-none";
+      return this.scrollY > 5 && this.navbarType === 'static' ? null : 'd-theme-dark-light-bg shadow-none';
     },
     scrollY: function scrollY() {
       return this.$store.state.scrollY;
@@ -5587,15 +5587,25 @@ var render = function() {
             _vm.windowWidth >= 992
               ? _c("bookmarks", { attrs: { navbarColor: _vm.navbarColor } })
               : _vm._e(),
-            _vm._v(
-              '\n\n      < tag="div" to="/" class="vx-logo cursor-pointer mx-auto flex items-center">\n        '
-            ),
-            _c("logo", { staticClass: "w-10 mr-4 fill-current text-primary" }),
             _vm._v(" "),
-            _c("span", { staticClass: "vx-logo-text text-primary" }, [
-              _vm._v("Vuexy")
-            ]),
-            _vm._v("\n      </>\n\n      "),
+            _c(
+              "router-link",
+              {
+                staticClass: "vx-logo cursor-pointer mx-auto flex items-center",
+                attrs: { tag: "div", to: "/" }
+              },
+              [
+                _c("logo", {
+                  staticClass: "w-10 mr-4 fill-current text-primary"
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "vx-logo-text text-primary" }, [
+                  _vm._v("Vuexy")
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
             _c("i18n"),
             _vm._v(" "),
             _c("search-bar"),
