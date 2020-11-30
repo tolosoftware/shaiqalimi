@@ -130,7 +130,92 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+=======
 // import DataViewSidebar from "../../../DataViewSidebar.vue";
+>>>>>>> 5b321742c76ffbf0cb67fab72c626b6320720276
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {// DataViewSidebar
@@ -550,7 +635,11 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
+<<<<<<< HEAD
+exports.push([module.i, "[dir=ltr] .customstyle {\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle {\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\r\n", ""]);
+=======
 exports.push([module.i, ".vs-input--icon {\n  top: 12px;\n}\n[dir=ltr] .customstyle {\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}\n[dir=rtl] .customstyle {\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n", ""]);
+>>>>>>> 5b321742c76ffbf0cb67fab72c626b6320720276
 
 // exports
 
@@ -1044,6 +1133,331 @@ var render = function() {
                     _c("small", [_vm._v("کتگوری")])
                   ]),
                   _vm._v(" "),
+<<<<<<< HEAD
+                  _c(
+                    "form",
+                    [
+                      _c("div", { staticClass: "vx-row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/3" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "serialnumber",
+                                  expression: "'serialnumber'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "large",
+                                label: "سریال نمبر",
+                                name: "serialnumber",
+                                placeholder: "101",
+                                disabled: ""
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.errors.has("serialnumber"),
+                                    expression: "errors.has('serialnumber')"
+                                  }
+                                ],
+                                staticClass: "text-danger text-sm"
+                              },
+                              [_vm._v(_vm._s(_vm.errors.first("serialnumber")))]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "vx-col w-1/3 mt-4" }, [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v(" واحد پولی ")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "btn-group" }, [
+                            _c(
+                              "div",
+                              { staticClass: "vx-row pl-4 pr-4" },
+                              [
+                                _c(
+                                  "vs-button",
+                                  {
+                                    staticClass: "vx-col w-1/2 customstyle",
+                                    attrs: { color: "success" }
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-check-input",
+                                      staticStyle: {
+                                        height: "15px",
+                                        width: "15px"
+                                      },
+                                      attrs: {
+                                        type: "radio",
+                                        name: "curency",
+                                        id: "exampleRadios1",
+                                        value: "option1",
+                                        checked: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "form-check-label",
+                                        attrs: { for: "exampleRadios1" }
+                                      },
+                                      [
+                                        _vm._v("\n                          "),
+                                        _c("b", [_vm._v("افغانی")])
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "vs-button",
+                                  {
+                                    staticClass: "vx-col w-1/2 customstyle",
+                                    attrs: { color: "success" }
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-check-input",
+                                      staticStyle: {
+                                        height: "15px",
+                                        width: "15px"
+                                      },
+                                      attrs: {
+                                        type: "radio",
+                                        name: "curency",
+                                        id: "exampleRadios",
+                                        value: "option1",
+                                        checked: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "form-check-label",
+                                        attrs: { for: "exampleRadios" }
+                                      },
+                                      [
+                                        _vm._v("\n                          "),
+                                        _c("b", [_vm._v("دالر")])
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/3 pt-5 pb-0" },
+                          [
+                            _c(
+                              "label",
+                              { staticClass: "mt-3", attrs: { for: "date" } },
+                              [_c("small", [_vm._v("تاریخ ")])]
+                            ),
+                            _vm._v(" "),
+                            _c("date-picker", {
+                              attrs: { "auto-submit": true, type: "datetime" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-2/3" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "projecttitle",
+                                  expression: "'projecttitle'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "medium",
+                                label: "عنوان ",
+                                name: "projecttitle"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/3 pt-4" },
+                          [
+                            _c("label", { attrs: { for: "" } }, [
+                              _c("small", [_vm._v(" مقدار")])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "vx-input-group",
+                              { staticClass: "mb-base" },
+                              [
+                                _c("template", { slot: "prepend" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "prepend-text bg-primary" },
+                                    [_c("span", [_vm._v("AFN")])]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("vs-input", { attrs: { type: "number" } })
+                              ],
+                              2
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/3 mt-4" },
+                          [
+                            _c("label", { attrs: { for: "" } }, [
+                              _c("small", [_vm._v(" حساب کریدیت")])
+                            ]),
+                            _vm._v(" "),
+                            _c("v-select", {
+                              attrs: {
+                                size: "large",
+                                label: "text",
+                                options: _vm.itemType,
+                                dir: _vm.$vs.rtl ? "rtl" : "ltr"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-2/3" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "projecttitle",
+                                  expression: "'projecttitle'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "medium",
+                                label: "تفصیلات ",
+                                name: "projecttitle"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/3 mt-4" },
+                          [
+                            _c("label", { attrs: { for: "" } }, [
+                              _c("small", [_vm._v(" حساب دبت")])
+                            ]),
+                            _vm._v(" "),
+                            _c("v-select", {
+                              attrs: {
+                                label: "text",
+                                options: _vm.itemType,
+                                dir: _vm.$vs.rtl ? "rtl" : "ltr"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-2/3" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "projecttitle",
+                                  expression: "'projecttitle'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "medium",
+                                label: "تفصیلات ",
+                                name: "projecttitle"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-full mt-4" },
+                          [
+                            _c("vs-textarea", {
+                              attrs: { placeholder: "تفصیلات" }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "vs-button",
+                        {
+                          staticClass: "mt-5 block",
+                          attrs: { type: "filled" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.submitForm($event)
+                            }
+                          }
+                        },
+                        [_vm._v("ثبت")]
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ],
+              1
+            )
+          ]),
+=======
                   _c("v-select", {
                     attrs: {
                       label: "text",
@@ -1115,6 +1529,7 @@ var render = function() {
             { staticClass: "mr-6", on: { click: _vm.submitData } },
             [_vm._v("انجام")]
           ),
+>>>>>>> 5b321742c76ffbf0cb67fab72c626b6320720276
           _vm._v(" "),
           _c(
             "vs-button",

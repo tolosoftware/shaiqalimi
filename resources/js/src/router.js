@@ -211,35 +211,52 @@ const router = new Router({
                     }
                 },
 
-                {
-                    path: '/transactions',
-                    name: 'transactions',
-                    component: () =>
-                        import ('./views/apps/transactions/Transaction.vue'),
-                    meta: {
-                        breadcrumb: [{
-                                title: 'Home',
-                                url: '/'
-                            },
-                            {
-                                title: 'معاملات',
-                                active: true
-                            }
-                        ],
-                        rule: 'editor'
+              {
+                path: '/transactions',
+                name: 'transactions',
+                component: () => import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  breadcrumb: [
+                    {
+                      title: 'Home',
+                      url: '/'
+                    },
+                    {
+                      title: 'معاملات',
+                      active: true
                     }
-                },
-
-                {
-                    path: '/transactions/:filter',
-                    component: () =>
-                        import ('./views/apps/transactions/Transaction.vue'),
-                    meta: {
-                        rule: 'editor',
-                        parent: 'email',
-                        no_scroll: true
+                  ],
+                  rule: 'editor'
+                }
+              },
+              {
+                path: '/transaction/:id/edit',
+                name: 'edit_transaction',
+                component: () =>
+                  import('./views/apps/transactions/Transaction_edit.vue'),
+                meta: {
+                  breadcrumb: [
+                    {
+                      title: 'Home',
+                      url: '/'
+                    },
+                    {
+                      title: 'ویرایش معاملات',
+                      active: true
                     }
+                  ]
                 },
+                rule: 'editor'
+              },
+              {
+                path: '/transactions/:filter',
+                component: () => import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  rule: 'editor',
+                  parent: 'email',
+                  no_scroll: true
+                }
+              },
                 {
                     path: '/accounts',
                     name: 'accounts',

@@ -287,6 +287,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -610,7 +668,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "[dir=ltr] .customstyle{\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle{\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\n   \n", ""]);
+exports.push([module.i, "[dir=ltr] .customstyle {\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle {\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\n", ""]);
 
 // exports
 
@@ -833,7 +891,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "vx-col w-1/3 mt-4" }, [
                           _c("label", { attrs: { for: "" } }, [
-                            _vm._v("  واحد پولی ")
+                            _vm._v(" واحد پولی ")
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "btn-group" }, [
@@ -844,7 +902,7 @@ var render = function() {
                                 _c(
                                   "vs-button",
                                   {
-                                    staticClass: " vx-col w-1/2 customstyle",
+                                    staticClass: "vx-col w-1/2 customstyle",
                                     attrs: { color: "success" }
                                   },
                                   [
@@ -870,9 +928,7 @@ var render = function() {
                                         attrs: { for: "exampleRadios1" }
                                       },
                                       [
-                                        _vm._v(
-                                          "\n                                             "
-                                        ),
+                                        _vm._v("\n                          "),
                                         _c("b", [_vm._v("افغانی")])
                                       ]
                                     )
@@ -882,7 +938,7 @@ var render = function() {
                                 _c(
                                   "vs-button",
                                   {
-                                    staticClass: " vx-col w-1/2 customstyle",
+                                    staticClass: "vx-col w-1/2 customstyle",
                                     attrs: { color: "success" }
                                   },
                                   [
@@ -908,9 +964,7 @@ var render = function() {
                                         attrs: { for: "exampleRadios" }
                                       },
                                       [
-                                        _vm._v(
-                                          "\n                                          "
-                                        ),
+                                        _vm._v("\n                          "),
                                         _c("b", [_vm._v("دالر")])
                                       ]
                                     )
@@ -929,7 +983,7 @@ var render = function() {
                             _c(
                               "label",
                               { staticClass: "mt-3", attrs: { for: "date" } },
-                              [_c("small", [_vm._v("تاریخ  ")])]
+                              [_c("small", [_vm._v("تاریخ ")])]
                             ),
                             _vm._v(" "),
                             _c("date-picker", {
