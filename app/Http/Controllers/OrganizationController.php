@@ -14,7 +14,8 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        return Organization::all();
+
     }
 
     /**
@@ -82,4 +83,8 @@ class OrganizationController extends Controller
     {
         //
     }
+    public function latest(){
+        return Organization::latest('id')->first()->id;
+    }
+
 }

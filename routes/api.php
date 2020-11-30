@@ -21,7 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Product Review
 Route::resource('project','ProjectController');
 Route::resource('announce','AnnouncementController');
+Route::resource('organization','OrganizationController');
 
 // Latest Records
 Route::get('announce-last','AnnouncementController@latest');
 Route::get('project-last','ProjectController@latest');
+Route::get('organization-last','OrganizationController@latest');

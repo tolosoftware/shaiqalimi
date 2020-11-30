@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Organization;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
 
@@ -37,7 +39,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
 
-        return $request;
+        // return $request;
         // return Carbon::parse($request->issue_date);
         // $this->validate($request, [
         //     // 's_number' => 'required',
@@ -63,11 +65,6 @@ class ProjectController extends Controller
 
          Project::create($request->all());
          return "ok";
-        // $project = new Project();
-        // $project_data = $request->all();
-        // $project->fill($project_data);
-        // $status = $project->save();
-        // return $status;
     }
 
     /**
@@ -78,7 +75,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return $project;
+        // return Project::find();
     }
 
     /**
@@ -101,7 +99,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        return $project->update($request->all());
     }
 
     /**
@@ -112,8 +110,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        return $project->delete();
     }
+    
     public function latest(){
         return Project::latest('id')->first()->id;
     }

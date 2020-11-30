@@ -40,9 +40,9 @@
                     <small>انتخاب اعلان</small>
                   </label>
                   <v-select
-                    label="text"
+                    label="title"
                     @input="setAnnounceId"
-                    :options="itemType"
+                    :options="announces"
                     :dir="$vs.rtl ? 'rtl' : 'ltr'"
                   />
                 </div>
@@ -85,8 +85,8 @@
                   </label>
                   <v-select
                     @input="setOrganizationId"
-                    label="text"
-                    :options="itemType"
+                    label="title"
+                    :options="org"
                     :dir="$vs.rtl ? 'rtl' : 'ltr'"
                   />
                 </div>
@@ -271,7 +271,7 @@
                 :disabled="!isFormValid"
                 @click.prevent="submitForm"
                 class="mt-5 block"
-              >Submit</vs-button>
+              >ثبت قرارداد</vs-button>
             </form>
           </vx-card>
         </div>
@@ -287,7 +287,7 @@
 
 <script>
 import vSelect from "vue-select";
- import Organizationadd from "./proposals/Organizationadd.vue";
+import Organizationadd from "./proposals/Organizationadd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
@@ -301,10 +301,12 @@ export default {
   },
   data() {
     return {
+      // init values
+      announces : [],
+      org : [],
       // Project Form
-
       pForm: new Form({
-        s_number: 4398,
+        s_number: '',
         issue_date: '',
         issue_address: '',
         source_address: '',
@@ -358,6 +360,8 @@ export default {
   },
   created() {
     this.getAnnounces();
+    this.getOrganizations();
+    this.getLastProj();
   },
   computed: {
     isFormValid() {
@@ -368,9 +372,6 @@ export default {
         return this.$refs.table.currentx;
       }
       return 0;
-    },
-    products() {
-      return this.$store.state.dataList.products;
     },
     queriedItems() {
       return this.$refs.table
@@ -392,82 +393,92 @@ export default {
       this.pForm.organization_id = arr.value;
     },
     getAnnounces() {
-    window.axios.get('/api/announce')
-      .then(({data}) => {console.log(data)})
-  },
-  getOrganizationId() {
-  },
-  submitForm() {
-    console.log(this.pForm);
+      this.axios.get('/api/announce')
+        .then((response) => {
+          this.announces = response.data;
+        })
+    },
+    getLastProj() {
+      this.axios.get('/api/project-last')
+        .then((response) => {
+          this.pForm.s_number = response.data;
+        })
+    },
+    getOrganizations() {
+      this.axios.get('/api/organization')
+        .then((response) => {
+          this.org = response.data;
+        })
+    },
+    submitForm() {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          // if form have no errors
+          // Submit the form via a POST request
+          this.pForm.post('/api/project')
+            .then(({data}) => {console.log(data)})
+        } else {
+          console.log("There is errors");
 
-    this.$validator.validateAll().then((result) => {
-      if (result) {
-        // if form have no errors
-        // Submit the form via a POST request
-        this.pForm.post('/api/project')
-          .then(({data}) => {console.log(data)})
-      } else {
-        console.log("There is errors");
+          // form have errors
+        }
+      });
+      this.pForm.post('/api/project')
+        .then(({data}) => {console.log(data)});
 
-        // form have errors
-      }
-    });
-    this.pForm.post('/api/project')
-      .then(({data}) => {console.log(data)});
-
+    },
+    addNewData() {
+      this.sidebarData = {};
+      this.toggleDataSidebar(true);
+    },
+    toggleDataSidebar(val = false) {
+      this.addNewDataSidebar = val;
+    },
+    goTo(data) {
+      this.$router
+        .push({
+          path: "/projects/project/${data.id}",
+          name: "project-view",
+          params: {id: data.id,dyTitle: data.name},
+        })
+        .catch(() => {});
+    },
+    viewProject(id) {
+      // Vue.$forceUpdate();
+      this.$router.push("/projects/project/" + id).catch(() => {});
+    },
+    // End Custom
+    addNewData() {
+      this.sidebarData = {};
+      this.toggleDataSidebar(true);
+    },
+    deleteData(id) {
+      this.$store.dispatch("dataList/removeItem",id).catch((err) => {
+        console.error(err);
+      });
+    },
+    editData(data) {
+      // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
+      this.sidebarData = data;
+      this.toggleDataSidebar(true);
+    },
+    getOrderStatusColor(status) {
+      if (status === "on_hold") return "warning";
+      if (status === "delivered") return "success";
+      if (status === "canceled") return "danger";
+      return "primary";
+    },
+    getPopularityColor(num) {
+      if (num > 90) return "success";
+      if (num > 70) return "primary";
+      if (num >= 50) return "warning";
+      if (num < 50) return "danger";
+      return "primary";
+    },
+    toggleDataSidebar(val = false) {
+      this.addNewDataSidebar = val;
+    },
   },
-  addNewData() {
-    this.sidebarData = {};
-    this.toggleDataSidebar(true);
-  },
-  toggleDataSidebar(val = false) {
-    this.addNewDataSidebar = val;
-  },
-  goTo(data) {
-    this.$router
-      .push({
-        path: "/projects/project/${data.id}",
-        name: "project-view",
-        params: {id: data.id,dyTitle: data.name},
-      })
-      .catch(() => {});
-  },
-  viewProject(id) {
-    // Vue.$forceUpdate();
-    this.$router.push("/projects/project/" + id).catch(() => {});
-  },
-  // End Custom
-  addNewData() {
-    this.sidebarData = {};
-    this.toggleDataSidebar(true);
-  },
-  deleteData(id) {
-    this.$store.dispatch("dataList/removeItem",id).catch((err) => {
-      console.error(err);
-    });
-  },
-  editData(data) {
-    // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-    this.sidebarData = data;
-    this.toggleDataSidebar(true);
-  },
-  getOrderStatusColor(status) {
-    if (status === "on_hold") return "warning";
-    if (status === "delivered") return "success";
-    if (status === "canceled") return "danger";
-    return "primary";
-  },
-  getPopularityColor(num) {
-    if (num > 90) return "success";
-    if (num > 70) return "primary";
-    if (num >= 50) return "warning";
-    if (num < 50) return "danger";
-    return "primary";
-  },
-  toggleDataSidebar(val = false) {
-    this.addNewDataSidebar = val;
-  },
-},
 };
 </script>
 

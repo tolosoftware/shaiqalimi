@@ -126,11 +126,18 @@
             </vs-td>-->
 
             <vs-td class="whitespace-no-wrap notupfromall">
-              <feather-icon
-                icon="EditIcon"
-                svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                @click.stop="editData(tr)"
-              />
+              <router-link
+                class="product-name font-medium truncate"
+                :to="{
+                    path: '/projects/project/' + tr.id + '/edit',
+                    params: { id: tr.id, dyTitle: tr.title },
+                  }"
+              >
+                <feather-icon
+                  icon="EditIcon"
+                  svgClasses="w-5 h-5 hover:text-primary stroke-current"
+                />
+              </router-link>
               <feather-icon
                 icon="TrashIcon"
                 svgClasses="w-5 h-5 hover:text-danger stroke-current"
@@ -147,7 +154,6 @@
 
 <script>
 import DataViewSidebar from "./DataViewSidebar.vue";
-import moduleDataList from "./data-list/moduleDataList.js";
 import {Form,HasError,AlertError} from 'vform'
 
 export default {
@@ -193,11 +199,6 @@ export default {
   },
   created() {
     this.getProject();
-    if (!moduleDataList.isRegistered) {
-      this.$store.registerModule("dataList",moduleDataList);
-      moduleDataList.isRegistered = true;
-    }
-    this.$store.dispatch("dataList/fetchDataListItems");
   },
   computed: {
     currentPage() {
@@ -206,9 +207,6 @@ export default {
       }
       return 0;
     },
-    // projects() {
-    //   return this.$store.state.dataList.projects;
-    // },
     queriedItems() {
       return this.$refs.table
         ? this.$refs.table.queriedResults.length
@@ -217,8 +215,18 @@ export default {
   },
   methods: {
     getProject() {
+      // Start the Progress Bar
+      this.$Progress.start()
+      this.$vs.loading({
+        type: 'border',
+        color: '#432e81',
+      });
+
       this.pForm.get('/api/project').then((data) => {
         this.projects = data.data;
+        // Finish the Progress Bar
+        this.$vs.loading.close()
+        this.$Progress.set(100)
       })
         .catch(() => {});
     },
@@ -233,19 +241,16 @@ export default {
         })
         .catch(() => {});
     },
-    viewProject(id) {
-      // Vue.$forceUpdate();
-      this.$router.push("/projects/project/" + id).catch(() => {});
-    },
     // End Custom
     addNewData() {
       this.sidebarData = {};
       this.toggleDataSidebar(true);
     },
     deleteData(id) {
-      this.$store.dispatch("dataList/removeItem",id).catch((err) => {
-        console.error(err);
-      });
+      this.pForm.delete('/api/project/' + id).then((id) => {
+        this.getProject();
+      })
+        .catch(() => {});
     },
     editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
