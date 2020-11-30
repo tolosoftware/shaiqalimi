@@ -709,7 +709,11 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
+<<<<<<< HEAD
+exports.push([module.i, "[dir=ltr] .customstyle{\n  border-right: solid;\n  border-right-width: initial;\n  border-right-style: solid;\n  border-right-color: initial;\n}[dir=rtl] .customstyle{\n  border-left: solid;\n  border-left-width: initial;\n  border-left-style: solid;\n  border-left-color: initial;\n}\n[dir=ltr] .vs-radio {\n  border-top-left-radius: 1 !important;\n  border-bottom-left-radius: 1 !important;\n}\n[dir=rtl] .vs-radio {\n  border-top-right-radius: 1 !important;\n  border-bottom-right-radius: 1 !important;\n}\r\n   \r\n", ""]);
+=======
 exports.push([module.i, "#data-list-thumb-view .vs-con-table .product-name {\n  max-width: 23rem;\n}\n#data-list-thumb-view .vs-con-table .vs-table--header {\n  display: flex;\n  flex-wrap: wrap-reverse;\n}\n[dir=ltr] #data-list-thumb-view .vs-con-table .vs-table--header {\n  margin-left: 1.5rem;\n  margin-right: 1.5rem;\n}\n[dir=rtl] #data-list-thumb-view .vs-con-table .vs-table--header {\n  margin-right: 1.5rem;\n  margin-left: 1.5rem;\n}\n#data-list-thumb-view .vs-con-table .vs-table--header > span {\n  display: flex;\n  flex-grow: 1;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table--header .vs-table--search {\n  padding-top: 0;\n}\n#data-list-thumb-view .vs-con-table .vs-table--header .vs-table--search .vs-table--search-input {\n  font-size: 1rem;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table--header .vs-table--search .vs-table--search-input {\n  padding: 0.9rem 2.5rem;\n}\n[dir=ltr] #data-list-thumb-view .vs-con-table .vs-table--header .vs-table--search .vs-table--search-input + i {\n  left: 1rem;\n}\n[dir=rtl] #data-list-thumb-view .vs-con-table .vs-table--header .vs-table--search .vs-table--search-input + i {\n  right: 1rem;\n}\n[dir=ltr] #data-list-thumb-view .vs-con-table .vs-table--header .vs-table--search .vs-table--search-input:focus + i {\n  left: 1rem;\n}\n[dir=rtl] #data-list-thumb-view .vs-con-table .vs-table--header .vs-table--search .vs-table--search-input:focus + i {\n  right: 1rem;\n}\n#data-list-thumb-view .vs-con-table .vs-table {\n  border-collapse: separate;\n  border-spacing: 0 1.3rem;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table {\n  padding: 0 1rem;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table tr {\n  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table tr td {\n  padding: 10px;\n}\n[dir=ltr] #data-list-thumb-view .vs-con-table .vs-table tr td:first-child {\n  border-top-left-radius: 0.5rem;\n  border-bottom-left-radius: 0.5rem;\n}\n[dir=rtl] #data-list-thumb-view .vs-con-table .vs-table tr td:first-child {\n  border-top-right-radius: 0.5rem;\n  border-bottom-right-radius: 0.5rem;\n}\n[dir=ltr] #data-list-thumb-view .vs-con-table .vs-table tr td:last-child {\n  border-top-right-radius: 0.5rem;\n  border-bottom-right-radius: 0.5rem;\n}\n[dir=rtl] #data-list-thumb-view .vs-con-table .vs-table tr td:last-child {\n  border-top-left-radius: 0.5rem;\n  border-bottom-left-radius: 0.5rem;\n}\n#data-list-thumb-view .vs-con-table .vs-table tr td.img-container span {\n  display: flex;\n  justify-content: flex-start;\n}\n#data-list-thumb-view .vs-con-table .vs-table tr td.img-container .product-img {\n  height: 110px;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table tr td.td-check {\n  padding: 20px !important;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table--thead th {\n  padding-top: 0;\n  padding-bottom: 0;\n}\n#data-list-thumb-view .vs-con-table .vs-table--thead th .vs-table-text {\n  text-transform: uppercase;\n  font-weight: 600;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table--thead th.td-check {\n  padding: 0 15px !important;\n}\n[dir] #data-list-thumb-view .vs-con-table .vs-table--thead tr {\n  background: none;\n  box-shadow: none;\n}\n#data-list-thumb-view .vs-con-table .vs-table--pagination {\n  justify-content: center;\n}", ""]);
+>>>>>>> 5b321742c76ffbf0cb67fab72c626b6320720276
 
 // exports
 
@@ -997,6 +1001,507 @@ var render = function() {
                     "div",
                     { staticClass: "modify-img flex justify-center mt-5" },
                     [
+<<<<<<< HEAD
+                      _c("div", { staticClass: "vx-row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/4 mt-4" },
+                          [
+                            _c("label", { attrs: { for: "" } }, [
+                              _c("small", [_vm._v(" حساب فروشنده")])
+                            ]),
+                            _vm._v(" "),
+                            _c("v-select", {
+                              attrs: {
+                                label: "text",
+                                options: _vm.itemType,
+                                dir: _vm.$vs.rtl ? "rtl" : "ltr"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/4" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "serialnumber",
+                                  expression: "'serialnumber'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "medium",
+                                label: "نام",
+                                name: "serialnumber"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.errors.has("serialnumber"),
+                                    expression: "errors.has('serialnumber')"
+                                  }
+                                ],
+                                staticClass: "text-danger text-sm"
+                              },
+                              [_vm._v(_vm._s(_vm.errors.first("serialnumber")))]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/4" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "serialnumber",
+                                  expression: "'serialnumber'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "medium",
+                                label: "شماره تماس",
+                                name: "serialnumber"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.errors.has("serialnumber"),
+                                    expression: "errors.has('serialnumber')"
+                                  }
+                                ],
+                                staticClass: "text-danger text-sm"
+                              },
+                              [_vm._v(_vm._s(_vm.errors.first("serialnumber")))]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/4" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "serialnumber",
+                                  expression: "'serialnumber'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "medium",
+                                label: "آدرس",
+                                name: "serialnumber"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.errors.has("serialnumber"),
+                                    expression: "errors.has('serialnumber')"
+                                  }
+                                ],
+                                staticClass: "text-danger text-sm"
+                              },
+                              [_vm._v(_vm._s(_vm.errors.first("serialnumber")))]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/3" },
+                          [
+                            _c("vs-input", {
+                              directives: [
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "serialnumber",
+                                  expression: "'serialnumber'"
+                                }
+                              ],
+                              staticClass: "mt-5 w-full",
+                              attrs: {
+                                size: "medium",
+                                label: "سریال نمبر",
+                                name: "serialnumber",
+                                value: "1001",
+                                disabled: ""
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.errors.has("serialnumber"),
+                                    expression: "errors.has('serialnumber')"
+                                  }
+                                ],
+                                staticClass: "text-danger text-sm"
+                              },
+                              [_vm._v(_vm._s(_vm.errors.first("serialnumber")))]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-1/3 mt-4" },
+                          [
+                            _c("label", { attrs: { for: "" } }, [
+                              _c("small", [_vm._v("  ذخیره / گدام")])
+                            ]),
+                            _vm._v(" "),
+                            _c("v-select", {
+                              attrs: {
+                                label: "text",
+                                options: _vm.itemType,
+                                dir: _vm.$vs.rtl ? "rtl" : "ltr"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "vx-col w-1/3 mt-4" }, [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v("  واحد پولی ")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "btn-group" }, [
+                            _c(
+                              "div",
+                              { staticClass: "vx-row pl-4 pr-4" },
+                              [
+                                _c(
+                                  "vs-button",
+                                  {
+                                    staticClass: " vx-col w-1/2 customstyle",
+                                    attrs: { color: "success" }
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-check-input",
+                                      staticStyle: {
+                                        height: "15px",
+                                        width: "15px"
+                                      },
+                                      attrs: {
+                                        type: "radio",
+                                        name: "curency",
+                                        id: "exampleRadios1",
+                                        value: "option1",
+                                        checked: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "form-check-label",
+                                        attrs: { for: "exampleRadios1" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\r\n                                             "
+                                        ),
+                                        _c("b", [_vm._v("افغانی")])
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "vs-button",
+                                  {
+                                    staticClass: " vx-col w-1/2 customstyle",
+                                    attrs: { color: "success" }
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-check-input",
+                                      staticStyle: {
+                                        height: "15px",
+                                        width: "15px"
+                                      },
+                                      attrs: {
+                                        type: "radio",
+                                        name: "curency",
+                                        id: "exampleRadios",
+                                        value: "option1",
+                                        checked: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "form-check-label",
+                                        attrs: { for: "exampleRadios" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\r\n                                          "
+                                        ),
+                                        _c("b", [_vm._v("دالر")])
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.item, function(i, index) {
+                        return _c("div", { staticClass: "vx-row" }, [
+                          _c(
+                            "div",
+                            { staticClass: "vx-col w-1/4 mt-4" },
+                            [
+                              _c("label", { attrs: { for: "" } }, [
+                                _c("small", [_vm._v(" محصول ")])
+                              ]),
+                              _vm._v(" "),
+                              _c("v-select", {
+                                attrs: {
+                                  label: "text",
+                                  options: _vm.itemType,
+                                  dir: _vm.$vs.rtl ? "rtl" : "ltr"
+                                },
+                                model: {
+                                  value: _vm.item.product,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.item, "product", $$v)
+                                  },
+                                  expression: "item.product"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "vx-col w-1/4 pt-4" },
+                            [
+                              _c("label", { attrs: { for: "" } }, [
+                                _c("small", [_vm._v(" مقدار")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "vx-input-group",
+                                { staticClass: "mb-base" },
+                                [
+                                  _c("template", { slot: "prepend" }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "prepend-text bg-primary"
+                                      },
+                                      [_c("span", [_vm._v("AFN")])]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("vs-input", {
+                                    attrs: { type: "number" },
+                                    model: {
+                                      value: _vm.item.amount,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.item, "amount", $$v)
+                                      },
+                                      expression: "item.amount"
+                                    }
+                                  })
+                                ],
+                                2
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "vx-col w-1/4" },
+                            [
+                              _c("vs-input", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "serialnumber",
+                                    expression: "'serialnumber'"
+                                  }
+                                ],
+                                staticClass: "mt-5 w-full",
+                                attrs: {
+                                  size: "medium",
+                                  label: " معادل",
+                                  name: "serialnumber"
+                                },
+                                model: {
+                                  value: _vm.item.equal,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.item, "equal", $$v)
+                                  },
+                                  expression: "item.equal"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.errors.has("serialnumber"),
+                                      expression: "errors.has('serialnumber')"
+                                    }
+                                  ],
+                                  staticClass: "text-danger text-sm"
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.errors.first("serialnumber"))
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "vx-col w-1/4 pt-4" },
+                            [
+                              _c("label", { attrs: { for: "" } }, [
+                                _c("small", [_vm._v(" هزینه")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "vx-input-group",
+                                { staticClass: "mb-base" },
+                                [
+                                  _c("template", { slot: "prepend" }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "prepend-text bg-primary"
+                                      },
+                                      [_c("span", [_vm._v("AFN")])]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("vs-input", {
+                                    attrs: { type: "number" },
+                                    model: {
+                                      value: _vm.item.price,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.item, "price", $$v)
+                                      },
+                                      expression: "item.price"
+                                    }
+                                  })
+                                ],
+                                2
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "vx-row" }, [
+                        _c(
+                          "div",
+                          { staticClass: " w-1/4 " },
+                          [
+                            _c(
+                              "vs-button",
+                              {
+                                staticClass: "mt-5 ml-4 ",
+                                attrs: { type: "filled", color: "success" },
+                                on: { click: _vm.addNewRow }
+                              },
+                              [
+                                _vm._v(
+                                  "\r\n                                   اضافه\r\n                               "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "vs-button",
+                              {
+                                staticClass: "mt-5 ",
+                                attrs: { type: "filled", color: "success" },
+                                on: { click: _vm.removeRow }
+                              },
+                              [
+                                _vm._v(
+                                  " \r\n                                   حذف\r\n                               "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "vx-col w-3/4 mt-4" },
+                          [
+                            _c("vs-textarea", {
+                              attrs: { placeholder: "تفصیلات" }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+=======
                       _c("input", {
                         ref: "updateImgInput",
                         staticClass: "hidden",
@@ -1017,6 +1522,7 @@ var render = function() {
                         },
                         [_vm._v("تغییر")]
                       ),
+>>>>>>> 5b321742c76ffbf0cb67fab72c626b6320720276
                       _vm._v(" "),
                       _c(
                         "vs-button",
