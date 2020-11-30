@@ -17,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Product Review
+Route::resource('project','ProjectController');
+Route::resource('announce','AnnouncementController');
+Route::resource('organization','OrganizationController');
+
+// Latest Records
+Route::get('announce-last','AnnouncementController@latest');
+Route::get('project-last','ProjectController@latest');
+Route::get('organization-last','OrganizationController@latest');

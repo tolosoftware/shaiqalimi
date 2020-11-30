@@ -94,7 +94,7 @@ export default {
     },
     data: {
       type: Object,
-      default: () => {}
+      default: () => {},
     }
   },
   components: {
@@ -102,7 +102,7 @@ export default {
   },
   data () {
     return {
-
+      isFormValid: false,
       dataId: null,
       dataName: '',
       dataCategory: null,
