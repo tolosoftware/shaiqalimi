@@ -59,14 +59,14 @@
   </vx-card>
 </template>
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 
 import vSelect from 'vue-select'
 export default {
   name: 'vx-archive',
   components: {
     'v-select': vSelect,
-    VuePerfectScrollbar
+    
   },
 }
 </script>

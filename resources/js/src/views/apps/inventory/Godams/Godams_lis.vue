@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
+
 import Godamsadd from "./Godams_add.vue";
 import ListOfGodam from "./DatatableSample.vue";
 import vSelect from "vue-select";
@@ -133,7 +133,7 @@ export default {
 
   components: {
     "v-select": vSelect,
-    VuePerfectScrollbar,
+
     Godamsadd,
     ListOfGodam,
   },
