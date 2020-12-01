@@ -194,7 +194,7 @@ body .ps__scrollbar-y-rail{
   margin: unset !important;
 }
 .ps:hover>.ps__scrollbar-y-rail:hover>.ps__scrollbar-y{
-  display: none;
+  // display: none;
 }
 .number-rtl input, .number-rtl{
   font-family: 'YekanWeb' !important;
@@ -226,4 +226,18 @@ body .ps__scrollbar-y-rail{
 }
 .invalid-feedback{
   color: #e85454 !important;
+}
+[dir] ::-webkit-scrollbar-thumb{
+  // display: none !important;
+}
+.ps:hover>.ps__scrollbar-y-rail:hover,
+.ps.ps--in-scrolling.ps--y>.ps__scrollbar-y-rail,
+.ps:hover.ps--in-scrolling.ps--y>.ps__scrollbar-y-rail{
+  background-color: transparent !important;
+}
+.ps.ps--in-scrolling.ps--y>.ps__scrollbar-y-rail>.ps__scrollbar-y{
+  background-color: #562db8 !important;
+}
+.ps>.ps__scrollbar-y-rail>.ps__scrollbar-y{
+  right: 0px !important;
 }

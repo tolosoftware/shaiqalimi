@@ -436,7 +436,8 @@ const router = new Router({
                             { title: 'Home', url: '/' },
                             { title: 'مدیریت کاربر', active: true }
                         ],
-                        rule: 'editor'
+                        rule: 'editor',
+                        no_scroll: false
                     }
                 },
                 {
@@ -450,7 +451,8 @@ const router = new Router({
                             {title: 'مدیریت کاربر',url: {name: 'user-management'}},
                             {title: 'ویرایش کاربر', active: true}
                         ],
-                        rule: 'editor'
+                        rule: 'editor',
+                        no_scroll: true
                     }
                 }
             ]
