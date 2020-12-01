@@ -196,10 +196,10 @@ body .ps__scrollbar-y-rail{
 .ps:hover>.ps__scrollbar-y-rail:hover>.ps__scrollbar-y{
   display: none;
 }
-.number-rtl input{
+.number-rtl input, .number-rtl{
   font-family: 'YekanWeb' !important;
   direction: rtl !important;
-  text-align: left !important;
+  text-align: right !important;
 }
 .vs-input--input.normal, .v-select .vs__dropdown-toggle{
   height: 2.8em !important;
@@ -223,4 +223,7 @@ body .ps__scrollbar-y-rail{
 }
 .icon-12px{
   height: 12px !important;
+}
+.invalid-feedback{
+  color: #e85454 !important;
 }

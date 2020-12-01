@@ -41,28 +41,29 @@ class ProjectController extends Controller
 
         // return $request;
         // return Carbon::parse($request->issue_date);
-        // $this->validate($request, [
-        //     // 's_number' => 'required',
-        //     // 'issue_date' => 'required',
-        //     // 'issue_address' => '',
-        //     // 'source_address' => '',
-        //     // 'title' => 'required',
-        //     // 'img' => '',
-        //     // 'auth_number' => '',
-        //     // 'type' => 'required',
-        //     // 'price' => 'required',
-        //     // 'duration' => '',
-        //     // 'offer_date' => 'required',
-        //     // 'close_date' => 'required',
-        //     // 'offer_price' => 'required',
-        //     // 'project_price' => 'required',
-        //     // 'announce_id' => 'required',
-        //     // 'organization_id' => 'required',
-        //     // 'status' => '',
-        //     // 'progress' => ''
+        $this->validate($request, [
+            's_number' => 'required|unique',
+            'issue_date' => 'required|date',
+            'type' => 'required',
+            'price' => 'required:max:20',
+            'offer_date' => 'required|date',
+            'close_date' => 'required|date',
+            'offer_price' => 'required|max:20',
+            'project_price' => 'required|max:20',
+            'announce_id' => 'required',
+            'organization_id' => 'required',
+            'title' => 'required|min:3',
+            'issue_address' => 'required|min:3',
+            'source_address' => 'required|min:3',
+            // 'img' => '',
+            // 'auth_number' => '',
+            // 'duration' => '',
+            // 'status' => '',
+            // 'progress' => ''
 
-        // ]);
-        $request['s_number'] = Project::max('s_number') + 1;
+        ]);
+        // return Project::max('s_number') + 1; 
+        $request['s_number'] = Project::withTrashed()->max('s_number') + 1;
         return Project::create($request->all());
     }
 
@@ -97,7 +98,11 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        return $project->update($request->all());
+        if ($project->update($request->all())) {
+            return $project;
+        }else{
+            return 0;
+        }
     }
 
     /**
@@ -112,6 +117,6 @@ class ProjectController extends Controller
     }
     
     public function latest(){
-        return Project::max('s_number') + 1;
+        return Project::withTrashed()->max('s_number') + 1;
     }
 }

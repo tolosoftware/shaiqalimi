@@ -133,13 +133,11 @@ export default {
           .then((response) => {
             this.announce = response.data;
             // Finish the Progress Bar
-            this.$vs.loading.close()
             this.$Progress.set(100)
           })
       }
       else {
         // Finish the Progress Bar
-        this.$vs.loading.close()
         this.$Progress.set(100)
       }
     },
@@ -159,8 +157,6 @@ export default {
     getProject() {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({type: 'border',color: '#432e81'});
-
       this.axios.get('/api/project/' + this.$route.params.id)
         .then((response) => {
           this.project = response.data;

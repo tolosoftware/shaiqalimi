@@ -11,7 +11,7 @@
         <div class="vx-row">
           <vx-card class="height-vh-80">
             <div class="vx-row">
-              <div class="vx-col w-1/2">
+              <div class="vx-col mb-base w-1/2">
                 <h3>فارم ثبت پروژه قرار دادی</h3>
               </div>
             </div>
@@ -19,7 +19,7 @@
             <form>
               <div class="vx-row">
                 <!-- required -->
-                <div class="vx-col w-1/3">
+                <div class="vx-col mb-base w-1/3">
                   <vs-input
                     size="medium"
                     v-validate="'required|min:6|max:10'"
@@ -35,7 +35,7 @@
                   >{{ errors.first("serialnumber") }}</span>
                 </div>
 
-                <div class="vx-col w-1/3 mt-4">
+                <div class="vx-col mb-base w-1/3 mt-4">
                   <label for>
                     <small>انتخاب اعلان</small>
                   </label>
@@ -45,10 +45,11 @@
                     :options="announces"
                     :dir="$vs.rtl ? 'rtl' : 'ltr'"
                   />
+                  <has-error :form="pForm" field="announce_id"></has-error>
                 </div>
 
                 <!-- Only alphabetic characters -->
-                <div class="vx-col w-1/3 pt-5 pb-0">
+                <div class="vx-col mb-base w-1/3 pt-5 pb-0">
                   <label for="date" class="mt-3">
                     <small>تاریخ نشر اعلان</small>
                   </label>
@@ -60,10 +61,11 @@
                     :auto-submit="true"
                     size="large"
                   ></date-picker>
+                  <has-error :form="pForm" field="issue_date"></has-error>
                 </div>
 
                 <!-- Only alphabetic characters, numbers, dashes or underscores -->
-                <div class="vx-col w-1/3">
+                <div class="vx-col mb-base w-1/3">
                   <vs-input
                     v-model="pForm.issue_address"
                     size="medium"
@@ -71,15 +73,12 @@
                     label="محل اعلان"
                     class="mt-5 w-full"
                   />
-                  <span
-                    class="text-danger text-sm"
-                    v-show="errors.has('announceplace')"
-                  >{{ errors.first("announceplace") }}</span>
+                  <has-error :form="pForm" field="issue_address"></has-error>
                 </div>
 
                 <!-- May contain alphabetic characters or numbers -->
 
-                <div class="vx-col w-1/3 mt-4">
+                <div class="vx-col mb-base w-1/3 mt-4">
                   <label for>
                     <small>نهاد تطبیق کننده</small>
                   </label>
@@ -89,9 +88,10 @@
                     :options="org"
                     :dir="$vs.rtl ? 'rtl' : 'ltr'"
                   />
+                  <has-error :form="pForm" field="organization_id"></has-error>
                 </div>
 
-                <div class="vx-col w-1/3 mt-4">
+                <div class="vx-col mb-base w-1/3 mt-4">
                   <vs-button
                     type="filled"
                     class="mt-5 block"
@@ -100,7 +100,7 @@
                 </div>
 
                 <!-- Must only consist of numbers -->
-                <div class="vx-col w-1/3">
+                <div class="vx-col mb-base w-1/3">
                   <vs-input
                     size="medium"
                     v-model="pForm.title"
@@ -108,14 +108,11 @@
                     label="عنوان پروژه"
                     class="mt-5 w-full"
                   />
-                  <span
-                    class="text-danger text-sm"
-                    v-show="errors.has('projecttitle')"
-                  >{{ errors.first("projecttitle") }}</span>
+                  <has-error :form="pForm" field="title"></has-error>
                 </div>
 
                 <!-- Must be a valid email -->
-                <div class="vx-col w-1/3 mt-5">
+                <div class="vx-col mb-base w-1/3 mt-5">
                   <label for class="ml-4 mr-4 mb-2">نوع قرارداد</label>
                   <ul class="leftx">
                     <li>
@@ -137,11 +134,12 @@
                       </vs-radio>
                     </li>
                   </ul>
+                  <has-error :form="pForm" field="type"></has-error>
                 </div>
                 <!-- Must be a valid url -->
 
                 <!-- Only alphabetic characters or spaces -->
-                <div class="vx-col w-1/3">
+                <div class="vx-col mb-base w-1/3">
                   <vs-input
                     size="medium"
                     v-model="pForm.auth_number"
@@ -149,18 +147,15 @@
                     label="شماره شناسایی"
                     class="mt-5 w-full"
                   />
-                  <span
-                    class="text-danger text-sm"
-                    v-show="errors.has('identitynumber')"
-                  >{{ errors.first("identitynumber") }}</span>
+                  <has-error :form="pForm" field="auth_number"></has-error>
                 </div>
 
-                <div class="vx-col w-1/3 pt-4">
+                <div class="vx-col mb-base w-1/3 pt-4">
                   <!-- TITLE -->
                   <label for>
                     <small>مدت قرار داد</small>
                   </label>
-                  <vx-input-group class="mb-base">
+                  <vx-input-group>
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>ماه</span>
@@ -169,16 +164,17 @@
 
                     <vs-input type="number" v-model="pForm.duration" />
                   </vx-input-group>
+                  <has-error :form="pForm" field="duration"></has-error>
                   <!-- /TITLE -->
                 </div>
 
                 <!-- Length should not be less than the specified length : 3 -->
-                <div class="vx-col w-1/3 pt-4">
+                <div class="vx-col mb-base w-1/3 pt-4">
                   <!-- TITLE -->
                   <label for>
                     <small>ارزش قرارداد</small>
                   </label>
-                  <vx-input-group class="mb-base">
+                  <vx-input-group>
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
@@ -187,11 +183,12 @@
 
                     <vs-input type="number" v-model="pForm.price" />
                   </vx-input-group>
+                  <has-error :form="pForm" field="price"></has-error>
                   <!-- /TITLE -->
                 </div>
 
                 <!-- Length may not exceed the specified length : 6 -->
-                <div class="vx-col w-1/3 pt-4">
+                <div class="vx-col mb-base w-1/3 pt-4">
                   <label for="date" class="mt-3">
                     <small>تاریخ آفرگشایی</small>
                   </label>
@@ -203,10 +200,11 @@
                     :auto-submit="true"
                     size="large"
                   ></date-picker>
+                  <has-error :form="pForm" field="offer_date"></has-error>
                 </div>
 
                 <!-- Password 1 -->
-                <div class="vx-col w-1/3 pt-4">
+                <div class="vx-col mb-base w-1/3 pt-4">
                   <label for="date" class="mt-3">
                     <small>ختم پیشنهادات</small>
                   </label>
@@ -218,25 +216,27 @@
                     :auto-submit="true"
                     size="large"
                   ></date-picker>
+                  <has-error :form="pForm" field="close_date"></has-error>
                 </div>
 
                 <!-- Confirm Password -->
-                <div class="vx-col w-1/3">
+                <div class="vx-col mb-base w-1/3">
                   <vs-input
                     v-model="pForm.source_address"
                     size="medium"
                     label="آدرس داوطلبی"
                     class="mt-5 w-full"
                   />
+                  <has-error :form="pForm" field="source_address"></has-error>
                 </div>
 
                 <!-- Date Format: dd/MM/yyyy -->
-                <div class="vx-col w-1/3 mt-5">
+                <div class="vx-col mb-base w-1/3 mt-5">
                   <!-- TITLE -->
                   <label for>
                     <small>مقدار معین آفر</small>
                   </label>
-                  <vx-input-group class="mb-base">
+                  <vx-input-group>
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
@@ -245,16 +245,18 @@
 
                     <vs-input v-model="pForm.offer_price" type="number" />
                   </vx-input-group>
+                  <has-error :form="pForm" field="offer_price"></has-error>
+
                   <!-- /TITLE -->
                 </div>
 
                 <!-- Numeric value between minimum value and a maximum value : 1 and 11 -->
-                <div class="vx-col w-1/3 mt-5">
+                <div class="vx-col mb-base w-1/3 mt-5">
                   <!-- TITLE -->
                   <label for>
                     <small>مقدار معین پروژه</small>
                   </label>
-                  <vx-input-group class="mb-base">
+                  <vx-input-group>
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
@@ -263,15 +265,16 @@
 
                     <vs-input v-model="pForm.project_price" type="number" />
                   </vx-input-group>
+                  <has-error :form="pForm" field="project_price"></has-error>
                   <!-- /TITLE -->
                 </div>
               </div>
               <vs-button
                 type="filled"
-                :disabled="!isFormValid"
+                :disabled="pForm.busy"
                 @click.prevent="submitForm"
-                class="mt-5 block"
               >ثبت قرارداد</vs-button>
+              <vs-button type="border" @click.prevent="formReset()">پاک کردن</vs-button>
             </form>
           </vx-card>
         </div>
@@ -298,12 +301,15 @@ export default {
     OrganizationAdd,
     ProjectList,
     "v-select": vSelect,
+    HasError,
+    AlertError,
   },
   data() {
     return {
       // init values
       announces: [],
       org: [],
+      mainSNumber: 0,
       // Project Form
       pForm: new Form({
         s_number: '',
@@ -324,24 +330,7 @@ export default {
         organization_id: '',
       }),
       // End Project Form
-      itemType: [
-        {
-          text: "تیل دیزل",
-          value: "1",
-        },
-        {
-          text: "تیل گاز",
-          value: "2",
-        },
-        {
-          text: "تیل پطرول",
-          value: "3",
-        },
-        {
-          text: "موبلین",
-          value: "4",
-        },
-      ],
+
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},
@@ -395,8 +384,6 @@ export default {
     getAnnounces() {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({type: 'border',color: '#432e81'});
-
       this.axios.get('/api/announcement')
         .then((response) => {
           this.announces = response.data;
@@ -405,7 +392,8 @@ export default {
     getLastProj() {
       this.axios.get('/api/project-last')
         .then((response) => {
-          this.pForm.s_number = response.data;
+          this.mainSNumber = response.data;
+          this.pForm.s_number = this.mainSNumber;
         })
     },
     getOrganizations() {
@@ -413,23 +401,41 @@ export default {
         .then((response) => {
           this.org = response.data;
           // Finish the Progress Bar
-          this.$vs.loading.close()
           this.$Progress.set(100)
         })
     },
     submitForm() {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({type: 'border',color: '#432e81'});
 
       this.pForm.post('/api/project')
         .then(({data}) => {
           // Finish the Progress Bar
-          this.$vs.loading.close()
+          this.getLastProj();
           this.$Progress.set(100)
-
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'قرارداد ' + data.title + ' موفقانه ثبت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        }).catch((errors) => {
+          this.$Progress.set(100)
+          this.$vs.notify({
+            title: 'ناموفق!',
+            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-cross',
+            position: 'top-right'
+          })
         });
-
+    },
+    formReset() {
+      this.pForm.reset();
+      this.pForm.s_number = this.mainSNumber;
     },
     addNewData() {
       this.sidebarData = {};
