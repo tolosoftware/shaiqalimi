@@ -71,6 +71,25 @@
               <vs-td>{{ (org) ? org.title : '' }}</vs-td>
             </vs-tr>
           </vs-table>
+          <div class="mt-5">
+            <router-link
+              :to="{
+                    path: '/projects/project/${project.id}/edit',
+                    name: 'project-edit',
+                    params: { id: project.id, dyTitle: project.title },
+                  }"
+            >
+              <vs-button>ویرایش قرارداد</vs-button>
+            </router-link>
+            <vs-button color="warning" @click="$router.go(-1)" type="border">
+              بازگشت
+              <feather-icon
+                icon="ArrowLeftIcon"
+                svgClasses="w-5 h-5"
+                class="icon-12px position-relative top-5 ml-2"
+              />
+            </vs-button>
+          </div>
         </div>
       </vx-card>
     </div>

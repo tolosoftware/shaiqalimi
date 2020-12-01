@@ -251,12 +251,12 @@
               <!-- /TITLE -->
             </div>
           </div>
-          <vs-button
-            type="filled"
-            :disabled="pForm.busy"
-            @click.prevent="submitForm"
-            class="mt-5 block"
-          >ثبت قرارداد</vs-button>
+
+          <vs-button type="filled" :disabled="pForm.busy" @click.prevent="submitForm">ثبت قرارداد</vs-button>
+          <vs-button color="warning" @click="$router.go(-1)" type="border">
+            بازگشت
+            <feather-icon icon="ArrowLeftIcon" svgClasses="w-5 h-5" class="icon-12px position-relative top-5 ml-2" />
+          </vs-button>
         </form>
       </vx-card>
     </div>
