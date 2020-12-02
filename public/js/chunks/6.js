@@ -12,7 +12,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, ".echarts {\n  width: 600px;\n  height: 400px;\n}\n", ""]);
+exports.push([module.i, ".echarts {\n  width: 600px;\n  height: 400px;\n}\r\n", ""]);
 
 // exports
 

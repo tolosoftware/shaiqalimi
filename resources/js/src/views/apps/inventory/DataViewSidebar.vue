@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 import vSelect from 'vue-select'
 import AllInventory from './add/AllInventory';
 import AddNewInventory from './add/AddNewInventory';
@@ -53,7 +53,7 @@ export default {
   },
   components: {
     'v-select': vSelect,
-    VuePerfectScrollbar,
+
     AllInventory,
     AddNewInventory,
   },

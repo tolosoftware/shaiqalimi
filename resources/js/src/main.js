@@ -17,12 +17,26 @@ import Vuesax from 'vuesax'
 Vue.use(Vuesax)
 
 
-// axios
-import axios from './axios.js'
-Vue.prototype.$http = axios
+// vForm start
+import { Form, HasError, AlertError } from 'vform';
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+    // vForm ended
 
-// API Calls
+// configuration of vue-axios
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+    //end
+
 import './http/requests'
+
+// start sweetalert
+import Swal from 'sweetalert2'
+window.swal = Swal;
+// end sweetalert
 
 // mock
 import './fake-db/index.js'
@@ -83,11 +97,11 @@ Vue.use(VeeValidate)
 // Google Maps
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
-  load: {
-    // Add your API key here
-    key: 'AIzaSyB4DDathvvwuwlwnUu7F4Sow3oU22y5T1Y',
-    libraries: 'places' // This is required if you use the Auto complete plug-in
-  }
+    load: {
+        // Add your API key here
+        key: 'AIzaSyB4DDathvvwuwlwnUu7F4Sow3oU22y5T1Y',
+        libraries: 'places' // This is required if you use the Auto complete plug-in
+    }
 })
 
 // Vuejs - Vue wrapper for hammerjs
@@ -136,7 +150,19 @@ Vue.filter('NumToPer', function(input) {
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 Vue.component('date-picker', VuePersianDatetimePicker);
 
+// define a mixin object
+const Mixin = {
+    methods: {
+        Alerta() {
+            alert("WORK!")
+        }
+    }
+}
 
+new Vue({
+    mixins: [Mixin],
+    el: "#app"
+})
 
 // Vue select css
 // Note: In latest version you have to add it separately
@@ -145,9 +171,9 @@ Vue.component('date-picker', VuePersianDatetimePicker);
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  i18n,
-  acl,
-  render: h => h(App)
+    router,
+    store,
+    i18n,
+    acl,
+    render: h => h(App)
 }).$mount('#app')

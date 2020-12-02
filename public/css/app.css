@@ -5351,18 +5351,19 @@ text {
   display: none;
 }
 
-.number-rtl input {
+.number-rtl input,
+.number-rtl {
   font-family: "YekanWeb" !important;
 }
 
-[dir=ltr] .number-rtl input {
+[dir=ltr] .number-rtl input, [dir=ltr] .number-rtl {
   direction: rtl !important;
-  text-align: left !important;
+  text-align: right !important;
 }
 
-[dir=rtl] .number-rtl input {
+[dir=rtl] .number-rtl input, [dir=rtl] .number-rtl {
   direction: ltr !important;
-  text-align: right !important;
+  text-align: left !important;
 }
 
 .vs-input--input.normal,
@@ -5377,5 +5378,21 @@ text {
 
 .vs__selected-options {
   overflow: hidden !important;
+}
+
+.swal2-container {
+  z-index: 300000 !important;
+}
+
+.top-5 {
+  top: 5px !important;
+}
+
+.icon-12px {
+  height: 12px !important;
+}
+
+.invalid-feedback {
+  color: #e85454 !important;
 }
 

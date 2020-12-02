@@ -3364,7 +3364,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var VxTour = function VxTour() {
-  return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! @/components/VxTour.vue */ "./resources/js/src/components/VxTour.vue"));
+  return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! @/components/VxTour.vue */ "./resources/js/src/components/VxTour.vue"));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -9150,10 +9150,19 @@ __webpack_require__.r(__webpack_exports__);
     icon: 'SettingsIcon',
     i18n: 'Settings'
   }, {
-    url: '/user/profile',
-    name: 'user-profile',
+    url: {
+      name: 'user-management'
+    },
+    name: 'user-management',
     icon: 'UserIcon',
     i18n: 'Profile'
+  }, {
+    url: {
+      name: 'logout'
+    },
+    name: 'logout',
+    icon: 'LogOutIcon',
+    i18n: 'logout'
   }]
 }]);
 

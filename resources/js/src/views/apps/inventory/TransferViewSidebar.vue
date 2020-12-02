@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 import vSelect from 'vue-select'
 import AllTransfer from './add/AllTransfer';
 import AddNewTransfer from './add/AddNewTransfer';
@@ -53,7 +53,7 @@ export default {
   },
   components: {
     'v-select': vSelect,
-    VuePerfectScrollbar,
+
     AllTransfer,
     AddNewTransfer,
   },

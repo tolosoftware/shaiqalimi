@@ -24,12 +24,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/core-js/object/entries */ "./node_modules/@babel/runtime/core-js/object/entries.js");
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-perfect-scrollbar */ "./node_modules/vue-perfect-scrollbar/dist/index.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _add_AllInventory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./add/AllInventory */ "./resources/js/src/views/apps/inventory/add/AllInventory.vue");
-/* harmony import */ var _add_AddNewInventory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./add/AddNewInventory */ "./resources/js/src/views/apps/inventory/add/AddNewInventory.vue");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _add_AllInventory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./add/AllInventory */ "./resources/js/src/views/apps/inventory/add/AllInventory.vue");
+/* harmony import */ var _add_AddNewInventory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./add/AddNewInventory */ "./resources/js/src/views/apps/inventory/add/AddNewInventory.vue");
 
 
 //
@@ -67,7 +65,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
@@ -83,10 +80,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_3___default.a,
-    VuePerfectScrollbar: vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default.a,
-    AllInventory: _add_AllInventory__WEBPACK_IMPORTED_MODULE_4__["default"],
-    AddNewInventory: _add_AddNewInventory__WEBPACK_IMPORTED_MODULE_5__["default"]
+    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_2___default.a,
+    AllInventory: _add_AllInventory__WEBPACK_IMPORTED_MODULE_3__["default"],
+    AddNewInventory: _add_AddNewInventory__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
@@ -736,12 +732,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/core-js/object/entries */ "./node_modules/@babel/runtime/core-js/object/entries.js");
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-perfect-scrollbar */ "./node_modules/vue-perfect-scrollbar/dist/index.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _add_AllTransfer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./add/AllTransfer */ "./resources/js/src/views/apps/inventory/add/AllTransfer.vue");
-/* harmony import */ var _add_AddNewTransfer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./add/AddNewTransfer */ "./resources/js/src/views/apps/inventory/add/AddNewTransfer.vue");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _add_AllTransfer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./add/AllTransfer */ "./resources/js/src/views/apps/inventory/add/AllTransfer.vue");
+/* harmony import */ var _add_AddNewTransfer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./add/AddNewTransfer */ "./resources/js/src/views/apps/inventory/add/AddNewTransfer.vue");
 
 
 //
@@ -779,7 +773,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
@@ -795,10 +788,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_3___default.a,
-    VuePerfectScrollbar: vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default.a,
-    AllTransfer: _add_AllTransfer__WEBPACK_IMPORTED_MODULE_4__["default"],
-    AddNewTransfer: _add_AddNewTransfer__WEBPACK_IMPORTED_MODULE_5__["default"]
+    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_2___default.a,
+    AllTransfer: _add_AllTransfer__WEBPACK_IMPORTED_MODULE_3__["default"],
+    AddNewTransfer: _add_AddNewTransfer__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
@@ -975,10 +967,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/core-js/object/entries */ "./node_modules/@babel/runtime/core-js/object/entries.js");
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-perfect-scrollbar */ "./node_modules/vue-perfect-scrollbar/dist/index.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_2__);
 
 
 //
@@ -1046,7 +1036,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1060,8 +1049,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_3___default.a,
-    VuePerfectScrollbar: vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default.a
+    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_2___default.a
   },
   data: function data() {
     return {
@@ -1238,10 +1226,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/core-js/object/entries */ "./node_modules/@babel/runtime/core-js/object/entries.js");
 /* harmony import */ var _babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_object_entries__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-perfect-scrollbar */ "./node_modules/vue-perfect-scrollbar/dist/index.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_2__);
 
 
 //
@@ -1309,7 +1295,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1323,8 +1308,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_3___default.a,
-    VuePerfectScrollbar: vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default.a
+    'v-select': vue_select__WEBPACK_IMPORTED_MODULE_2___default.a
   },
   data: function data() {
     return {
@@ -1500,8 +1484,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
 /* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _analyticsData_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../analyticsData.js */ "./resources/js/src/views/apps/inventory/analyticsData.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-perfect-scrollbar */ "./node_modules/vue-perfect-scrollbar/dist/index.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -1554,7 +1536,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1668,8 +1649,7 @@ __webpack_require__.r(__webpack_exports__);
     console.log(this.radialBarChart);
   },
   components: {
-    VueApexCharts: vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a,
-    VuePerfectScrollbar: vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default.a
+    VueApexCharts: vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
   }
 });
 
@@ -1687,8 +1667,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
 /* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _analyticsData_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../analyticsData.js */ "./resources/js/src/views/apps/inventory/analyticsData.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-perfect-scrollbar */ "./node_modules/vue-perfect-scrollbar/dist/index.js");
-/* harmony import */ var vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -1741,7 +1719,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1855,8 +1832,7 @@ __webpack_require__.r(__webpack_exports__);
     console.log(this.radialBarChart);
   },
   components: {
-    VueApexCharts: vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a,
-    VuePerfectScrollbar: vue_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_2___default.a
+    VueApexCharts: vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
   }
 });
 
@@ -2530,13 +2506,7 @@ var render = function() {
                           _c(
                             "p",
                             { staticClass: "mb-4 text-3xl font-semibold" },
-                            [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.goalOverview.analyticsData.completed.toLocaleString()
-                                )
-                              )
-                            ]
+                            [_vm._v("349879")]
                           )
                         ]
                       ),
@@ -2596,389 +2566,43 @@ var render = function() {
           _c(
             "vx-card",
             [
-              Object.entries(_vm.funding).length
-                ? _c("template", { slot: "no-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "p-8 clearfix" },
-                      [
-                        _c("div", { staticClass: "mb-5" }, [
-                          _c("h1", [_c("span", [_vm._v("تانک های تیل")])]),
-                          _vm._v(" "),
-                          _c("small", [
-                            _c("span", { staticClass: "text-grey" }, [
-                              _vm._v("تعداد:")
-                            ]),
-                            _vm._v(" "),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(_vm.funding.depostis.toLocaleString())
-                              )
-                            ])
-                          ])
+              _c("template", { slot: "no-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "p-8 clearfix" },
+                  [
+                    _c("div", { staticClass: "mb-5" }, [
+                      _c("h1", [_c("span", [_vm._v("تانک های تیل")])]),
+                      _vm._v(" "),
+                      _c("small", [
+                        _c("span", { staticClass: "text-grey" }, [
+                          _vm._v("تعداد:")
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass: "mt-2 mb-8 text-xl font-medium",
-                            class: 283 >= 0 ? "text-success" : "text-danger"
-                          },
-                          [
-                            _c("span", { staticClass: "ml-1" }, [
-                              _vm._v("ارزش: 2398 دالر")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "product-name font-medium truncate",
-                            attrs: { to: { name: "fuel-station" } }
-                          },
-                          [
-                            _c(
-                              "vs-button",
-                              {
-                                staticClass: "shadow-md w-full",
-                                attrs: {
-                                  "icon-pack": "feather",
-                                  icon: "icon-chevrons-left",
-                                  "icon-after": ""
-                                }
-                              },
-                              [_vm._v("بررسی")]
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
+                        _c("span", [_vm._v("298")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass: "mt-2 mb-8 text-xl font-medium",
+                        class: 283 >= 0 ? "text-success" : "text-danger"
+                      },
+                      [
+                        _c("span", { staticClass: "ml-1" }, [
+                          _vm._v("ارزش: 2398 دالر")
+                        ])
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
-                      "div",
+                      "router-link",
                       {
-                        staticClass:
-                          "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
+                        staticClass: "product-name font-medium truncate",
+                        attrs: { to: { name: "fuel-station" } }
                       },
                       [
-                        _c(
-                          "div",
-                          { staticClass: "mb-4" },
-                          [
-                            _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.earned.progress,
-                                color: "success"
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c("small", [_vm._v("مدت زمان: ۲ سال")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.duration.progress,
-                                color: "warning"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]
-                    )
-                  ])
-                : _vm._e()
-            ],
-            2
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4" },
-        [
-          _c(
-            "vx-card",
-            [
-              Object.entries(_vm.funding).length
-                ? _c("template", { slot: "no-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "p-8 clearfix" },
-                      [
-                        _c("div", { staticClass: "mb-5" }, [
-                          _c("h1", [_c("span", [_vm._v("اجناس و محصولات")])]),
-                          _vm._v(" "),
-                          _c("small", [
-                            _c("span", { staticClass: "text-grey" }, [
-                              _vm._v("تعداد:")
-                            ]),
-                            _vm._v(" "),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(_vm.funding.depostis.toLocaleString())
-                              )
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass: "mt-2 mb-8 text-xl font-medium",
-                            class: 283 >= 0 ? "text-success" : "text-danger"
-                          },
-                          [
-                            _c("span", { staticClass: "ml-1" }, [
-                              _vm._v("ارزش: 2398 دالر")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "product-name font-medium truncate",
-                            attrs: { to: { name: "goods" } }
-                          },
-                          [
-                            _c(
-                              "vs-button",
-                              {
-                                staticClass: "shadow-md w-full",
-                                attrs: {
-                                  "icon-pack": "feather",
-                                  icon: "icon-chevrons-left",
-                                  "icon-after": ""
-                                }
-                              },
-                              [_vm._v("بررسی")]
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
-                      },
-                      [
-                        _c(
-                          "div",
-                          { staticClass: "mb-4" },
-                          [
-                            _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.earned.progress,
-                                color: "success"
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c("small", [_vm._v("مدت زمان: ۲ سال")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.duration.progress,
-                                color: "warning"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]
-                    )
-                  ])
-                : _vm._e()
-            ],
-            2
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4" },
-        [
-          _c(
-            "vx-card",
-            [
-              Object.entries(_vm.funding).length
-                ? _c("template", { slot: "no-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "p-8 clearfix" },
-                      [
-                        _c("div", { staticClass: "mb-5" }, [
-                          _c("h1", [_c("span", [_vm._v("گدام‌ها")])]),
-                          _vm._v(" "),
-                          _c("small", [
-                            _c("span", { staticClass: "text-grey" }, [
-                              _vm._v("اجناس:")
-                            ]),
-                            _vm._v(" "),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(_vm.funding.depostis.toLocaleString())
-                              )
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass: "mt-2 mb-8 text-xl font-medium",
-                            class: 283 >= 0 ? "text-success" : "text-danger"
-                          },
-                          [
-                            _c("span", { staticClass: "ml-1" }, [
-                              _vm._v("ارزش: 2398 دالر")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "product-name font-medium truncate",
-                            attrs: { to: { name: "godams" } }
-                          },
-                          [
-                            _c(
-                              "vs-button",
-                              {
-                                staticClass: "shadow-md w-full",
-                                attrs: {
-                                  "icon-pack": "feather",
-                                  icon: "icon-chevrons-left",
-                                  "icon-after": ""
-                                }
-                              },
-                              [_vm._v("مدیریت")]
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
-                      },
-                      [
-                        _c(
-                          "div",
-                          { staticClass: "mb-4" },
-                          [
-                            _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.earned.progress,
-                                color: "success"
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c("small", [_vm._v("مدت زمان: ۲ سال")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.duration.progress,
-                                color: "warning"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]
-                    )
-                  ])
-                : _vm._e()
-            ],
-            2
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4" },
-        [
-          _c(
-            "vx-card",
-            [
-              Object.entries(_vm.funding).length
-                ? _c("template", { slot: "no-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "p-8 clearfix" },
-                      [
-                        _c("div", { staticClass: "mb-5" }, [
-                          _c("h1", [_c("span", [_vm._v("انتقالات")])]),
-                          _vm._v(" "),
-                          _c("small", [
-                            _c("span", { staticClass: "text-grey" }, [
-                              _vm._v("تعداد:")
-                            ]),
-                            _vm._v(" "),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(_vm.funding.depostis.toLocaleString())
-                              )
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass: "mt-2 mb-8 text-xl font-medium",
-                            class: 283 >= 0 ? "text-success" : "text-danger"
-                          },
-                          [
-                            _c("span", { staticClass: "ml-1" }, [
-                              _vm._v("ارزش: 2398 دالر")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
                         _c(
                           "vs-button",
                           {
@@ -2987,60 +2611,358 @@ var render = function() {
                               "icon-pack": "feather",
                               icon: "icon-chevrons-left",
                               "icon-after": ""
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.ToggleTransfer()
-                              }
                             }
                           },
                           [_vm._v("بررسی")]
                         )
                       ],
                       1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "mb-4" },
+                      [
+                        _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 23, color: "success" }
+                        })
+                      ],
+                      1
                     ),
                     _vm._v(" "),
                     _c(
                       "div",
+                      [
+                        _c("small", [_vm._v("مدت زمان: ۲ سال")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 48, color: "warning" }
+                        })
+                      ],
+                      1
+                    )
+                  ]
+                )
+              ])
+            ],
+            2
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4" },
+        [
+          _c(
+            "vx-card",
+            [
+              _c("template", { slot: "no-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "p-8 clearfix" },
+                  [
+                    _c("div", { staticClass: "mb-5" }, [
+                      _c("h1", [_c("span", [_vm._v("اجناس و محصولات")])]),
+                      _vm._v(" "),
+                      _c("small", [
+                        _c("span", { staticClass: "text-grey" }, [
+                          _vm._v("تعداد:")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("238")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "p",
                       {
-                        staticClass:
-                          "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
+                        staticClass: "mt-2 mb-8 text-xl font-medium",
+                        class: 283 >= 0 ? "text-success" : "text-danger"
+                      },
+                      [
+                        _c("span", { staticClass: "ml-1" }, [
+                          _vm._v("ارزش: 2398 دالر")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "product-name font-medium truncate",
+                        attrs: { to: { name: "goods" } }
                       },
                       [
                         _c(
-                          "div",
-                          { staticClass: "mb-4" },
-                          [
-                            _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.earned.progress,
-                                color: "success"
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c("small", [_vm._v("مدت زمان: ۲ سال")]),
-                            _vm._v(" "),
-                            _c("vs-progress", {
-                              attrs: {
-                                percent: _vm.funding.meta.duration.progress,
-                                color: "warning"
-                              }
-                            })
-                          ],
-                          1
+                          "vs-button",
+                          {
+                            staticClass: "shadow-md w-full",
+                            attrs: {
+                              "icon-pack": "feather",
+                              icon: "icon-chevrons-left",
+                              "icon-after": ""
+                            }
+                          },
+                          [_vm._v("بررسی")]
                         )
-                      ]
+                      ],
+                      1
                     )
-                  ])
-                : _vm._e()
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "mb-4" },
+                      [
+                        _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 34, color: "success" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      [
+                        _c("small", [_vm._v("مدت زمان: ۲ سال")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 32, color: "warning" }
+                        })
+                      ],
+                      1
+                    )
+                  ]
+                )
+              ])
+            ],
+            2
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4" },
+        [
+          _c(
+            "vx-card",
+            [
+              _c("template", { slot: "no-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "p-8 clearfix" },
+                  [
+                    _c("div", { staticClass: "mb-5" }, [
+                      _c("h1", [_c("span", [_vm._v("گدام‌ها")])]),
+                      _vm._v(" "),
+                      _c("small", [
+                        _c("span", { staticClass: "text-grey" }, [
+                          _vm._v("اجناس:")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("3248")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass: "mt-2 mb-8 text-xl font-medium",
+                        class: 283 >= 0 ? "text-success" : "text-danger"
+                      },
+                      [
+                        _c("span", { staticClass: "ml-1" }, [
+                          _vm._v("ارزش: 2398 دالر")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "product-name font-medium truncate",
+                        attrs: { to: { name: "godams" } }
+                      },
+                      [
+                        _c(
+                          "vs-button",
+                          {
+                            staticClass: "shadow-md w-full",
+                            attrs: {
+                              "icon-pack": "feather",
+                              icon: "icon-chevrons-left",
+                              "icon-after": ""
+                            }
+                          },
+                          [_vm._v("مدیریت")]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "mb-4" },
+                      [
+                        _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 73, color: "success" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      [
+                        _c("small", [_vm._v("مدت زمان: ۲ سال")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 21, color: "warning" }
+                        })
+                      ],
+                      1
+                    )
+                  ]
+                )
+              ])
+            ],
+            2
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4" },
+        [
+          _c(
+            "vx-card",
+            [
+              _c("template", { slot: "no-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "p-8 clearfix" },
+                  [
+                    _c("div", { staticClass: "mb-5" }, [
+                      _c("h1", [_c("span", [_vm._v("انتقالات")])]),
+                      _vm._v(" "),
+                      _c("small", [
+                        _c("span", { staticClass: "text-grey" }, [
+                          _vm._v("تعداد:")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("3248")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass: "mt-2 mb-8 text-xl font-medium",
+                        class: 283 >= 0 ? "text-success" : "text-danger"
+                      },
+                      [
+                        _c("span", { staticClass: "ml-1" }, [
+                          _vm._v("ارزش: 2398 دالر")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "vs-button",
+                      {
+                        staticClass: "shadow-md w-full",
+                        attrs: {
+                          "icon-pack": "feather",
+                          icon: "icon-chevrons-left",
+                          "icon-after": ""
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.ToggleTransfer()
+                          }
+                        }
+                      },
+                      [_vm._v("بررسی")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "mb-4" },
+                      [
+                        _c("small", [_vm._v("درآمد: ۴۳۸۷ دالر")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 73, color: "success" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      [
+                        _c("small", [_vm._v("مدت زمان: ۲ سال")]),
+                        _vm._v(" "),
+                        _c("vs-progress", {
+                          attrs: { percent: 21, color: "warning" }
+                        })
+                      ],
+                      1
+                    )
+                  ]
+                )
+              ])
             ],
             2
           )

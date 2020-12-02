@@ -179,7 +179,7 @@
   </form>
 </template>
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 import vSelect from 'vue-select'
 
 
@@ -192,7 +192,7 @@ export default {
   },
   components: {
     'v-select': vSelect,
-    VuePerfectScrollbar
+    
   },
   data() {
     return {

@@ -14,8 +14,7 @@
   Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
+*/
 
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -32,9 +31,7 @@ const router = new Router({
     scrollBehavior() {
         return { x: 0, y: 0 }
     },
-    routes: [
-
-        {
+    routes: [{
             // =============================================================================
             // MAIN LAYOUT ROUTES
             // =============================================================================
@@ -55,9 +52,7 @@ const router = new Router({
                     component: () =>
                         import ('./views/DashboardAnalytics.vue'),
                     meta: {
-                        breadcrumb: [
-                            { title: 'صفحه عمومی', active: true },
-                        ],
+                        breadcrumb: [{ title: 'صفحه عمومی', active: true }],
                         rule: 'editor'
                     }
                 },
@@ -70,7 +65,7 @@ const router = new Router({
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'اعلانات', url: '/notifications', active: true },
+                            { title: 'اعلانات', url: '/notifications', active: true }
                             // { title: 'Import/Export', url: '/'},
                             // { title: 'Export Selected', active: true }
                         ],
@@ -78,14 +73,13 @@ const router = new Router({
                     }
                 },
 
-
                 // =============================================================================
                 // Application Routes
                 // =============================================================================
                 {
                     path: '/projects',
                     redirect: '/projects/list',
-                    name: 'projects',
+                    name: 'projects'
                 },
                 {
                     path: '/projects/list',
@@ -94,16 +88,20 @@ const router = new Router({
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'پروژه ها و قراردادها', url: '/projects/list', active: true },
+                            {
+                                title: 'پروژه ها و قراردادها',
+                                url: '/projects/list',
+                                active: true
+                            }
                         ],
                         rule: 'editor',
                         parent: 'projects',
                         no_scroll: true
                     }
-
                 },
                 {
                     path: '/projects/add',
+                    name: 'project-add',
                     component: () =>
                         import ('./views/apps/projects/ProjectAdd.vue'),
                     meta: {
@@ -111,14 +109,14 @@ const router = new Router({
                             { title: 'Home', url: '/' },
                             { title: 'پروژه ها و قراردادها', url: '/projects/list' },
                             {
-                                title: 'افزودن پروژه جدید',
+                                title: 'افزودن پروژه جدید و لست قرار دادها',
                                 active: true
-                            },
+                            }
                             // { title: 'Export Selected', active: true }
                         ],
                         rule: 'editor',
                         // parent: 'projects',
-                        no_scroll: true
+                        no_scroll: false
                     }
                 },
                 {
@@ -134,7 +132,31 @@ const router = new Router({
                             },
                             {
                                 title: 'پروژه ها و قراردادها',
-                                url: '/projects/list',
+                                url: '/projects/list'
+                            },
+                            {
+                                dyTitle: true
+                            }
+                        ],
+                        rule: 'editor',
+                        parent: 'projects',
+                        no_scroll: true
+                    }
+                },
+                {
+                    path: '/projects/project/:id/edit',
+                    name: 'project-edit',
+                    component: () =>
+                        import ('./views/apps/projects/ProjectEdit.vue'),
+                    props: true,
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'پروژه ها و قراردادها',
+                                url: '/projects/list'
                             },
                             {
                                 dyTitle: true
@@ -143,28 +165,6 @@ const router = new Router({
                         rule: 'editor',
                         parent: 'projects',
                         no_scroll: true
-                    }
-                },
-                {
-                    path: '/projects/proposal',
-                    name: 'proposal',
-                    component: () =>
-                        import ('./views/apps/projects/proposals/Proposal.vue'),
-                    meta: {
-                        breadcrumb: [{
-                                title: 'Home',
-                                url: '/'
-                            },
-                            {
-                                title: 'پروژه ها و قراردادها',
-                                url: '/projects/list',
-                            },
-                            {
-                                title: 'ثبت پیشنهاد جدید',
-                                active: true
-                            },
-                        ],
-                        rule: 'editor'
                     }
                 },
                 {
@@ -179,12 +179,12 @@ const router = new Router({
                             },
                             {
                                 title: 'پروژه ها و قراردادها',
-                                url: '/projects/list',
+                                url: '/projects/list'
                             },
                             {
                                 title: 'ثبت اعلان جدید',
                                 active: true
-                            },
+                            }
                         ],
 
                         rule: 'editor'
@@ -204,45 +204,59 @@ const router = new Router({
                             {
                                 title: 'فروشات',
                                 active: true
-                            },
+                            }
                         ],
 
                         rule: 'editor'
                     }
                 },
 
-
-
-                {
-                    path: '/transactions',
-                    name: 'transactions',
-                    component: () =>
-                        import ('./views/apps/transactions/Transaction.vue'),
-                    meta: {
-                        breadcrumb: [{
-                                title: 'Home',
-                                url: '/'
-                            },
-                            {
-                                title: 'معاملات',
-                                active: true
-                            },
-
-                        ],
-                        rule: 'editor'
+              {
+                path: '/transactions',
+                name: 'transactions',
+                component: () => import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  breadcrumb: [
+                    {
+                      title: 'Home',
+                      url: '/'
+                    },
+                    {
+                      title: 'معاملات',
+                      active: true
                     }
-                },
-
-                {
-                    path: '/transactions/:filter',
-                    component: () =>
-                        import ('./views/apps/transactions/Transaction.vue'),
-                    meta: {
-                        rule: 'editor',
-                        parent: 'email',
-                        no_scroll: true
+                  ],
+                  rule: 'editor'
+                }
+              },
+              {
+                path: '/transaction/:id/edit',
+                name: 'edit_transaction',
+                component: () =>
+                  import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  breadcrumb: [
+                    {
+                      title: 'Home',
+                      url: '/'
+                    },
+                    {
+                      title: 'ویرایش معاملات',
+                      active: true
                     }
+                  ]
                 },
+                rule: 'editor'
+              },
+              {
+                path: '/transactions/:filter',
+                component: () => import('./views/apps/transactions/Transaction.vue'),
+                meta: {
+                  rule: 'editor',
+                  parent: 'email',
+                  no_scroll: true
+                }
+              },
                 {
                     path: '/accounts',
                     name: 'accounts',
@@ -256,8 +270,7 @@ const router = new Router({
                             {
                                 title: 'حسابات',
                                 active: true
-                            },
-
+                            }
                         ],
                         rule: 'editor'
                     }
@@ -271,7 +284,7 @@ const router = new Router({
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'مخارج', active: true },
+                            { title: 'مخارج', active: true }
                         ],
                         pageTitle: 'مصرف',
                         rule: 'editor'
@@ -290,10 +303,10 @@ const router = new Router({
                             {
                                 title: 'دخایر و تانک تیل',
                                 active: true
-                            },
+                            }
                         ],
                         rule: 'editor'
-                    },
+                    }
                 },
                 {
                     path: '/inventory/fuel-station',
@@ -312,17 +325,17 @@ const router = new Router({
                             {
                                 title: 'تانک تیل',
                                 active: true
-                            },
+                            }
                         ],
                         rule: 'editor',
-                        parent: 'inventory',
-                    },
+                        parent: 'inventory'
+                    }
                 },
                 {
                     path: '/inventory/goods',
                     name: 'goods',
                     component: () =>
-                        import ('./views/apps/inventory/add/GoodsAdd.vue'),
+                        import ('./views/apps/inventory/Goods/Goods_list.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',
@@ -335,18 +348,17 @@ const router = new Router({
                             {
                                 title: 'اجناس و محصولات',
                                 active: true
-                            },
-
+                            }
                         ],
                         rule: 'editor',
-                        parent: 'inventory',
-                    },
+                        parent: 'inventory'
+                    }
                 },
                 {
                     path: '/inventory/godams',
                     name: 'godams',
                     component: () =>
-                        import ('./views/apps/inventory/add/GodamsAdd.vue'),
+                        import ('./views/apps/inventory/Godams/Godams_lis.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',
@@ -359,12 +371,11 @@ const router = new Router({
                             {
                                 title: 'گدام ها',
                                 active: true
-                            },
-
+                            }
                         ],
                         rule: 'editor',
-                        parent: 'inventory',
-                    },
+                        parent: 'inventory'
+                    }
                 },
                 {
                     path: '/procurment',
@@ -381,6 +392,16 @@ const router = new Router({
                     component: () =>
                         import ('./views/apps/archives/Archive.vue'),
                     meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'آرشیف',
+                                active: true
+                            }
+                            // { title: 'Export Selected', active: true }
+                        ],
                         rule: 'editor'
                     }
                 },
@@ -403,24 +424,63 @@ const router = new Router({
                     }
                 },
                 // =============================================================================
-                // Pages Routes
+                // User Routes
                 // =============================================================================
                 {
-                    path: '/user/profile',
-                    name: 'page-profile',
+                    path: '/user/management',
+                    name: 'user-management',
                     component: () =>
                         import ('./views/apps/user/Profile.vue'),
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
-                            { title: 'پروفایل', active: true }
+                            { title: 'مدیریت کاربر', active: true }
                         ],
                         rule: 'editor'
                     }
                 },
-            ],
+                {
+                    path: '/user/edit/:user_id',
+                    name: 'user-profile-edit',
+                    component: () =>
+                        import('./views/apps/user/sub/UserEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home',url: '/'},
+                            {title: 'مدیریت کاربر',url: {name: 'user-management'}},
+                            {title: 'ویرایش کاربر', active: true}
+                        ],
+                        rule: 'editor'
+                    }
+                }
+            ]
         },
+        // =============================================================================
+        // FULL PAGE LAYOUTS
+        // =============================================================================
+        {
+            path: '',
+            component: () => import('@/layouts/full-page/FullPage.vue'),
+            children: [
+                // =============================================================================
+                // PAGES
+                // =============================================================================
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: () => import('@/views/pages/login/Login.vue'),
+                    meta: {
+                        rule: 'editor'
+                    }
+                },
 
+            ]
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            redirect: '/login'
+        },
         // Redirect to 404 page, if no match found
         {
             path: '*',
@@ -439,7 +499,6 @@ router.afterEach(() => {
 
 router.beforeEach((to, from, next) => {
     firebase.auth().onAuthStateChanged(() => {
-
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
 
@@ -467,9 +526,6 @@ router.beforeEach((to, from, next) => {
             // Specify the current path as the customState parameter, meaning it
             // will be returned to the application after auth
             // auth.login({ target: to.path });
-
     })
-
 })
-
 export default router
