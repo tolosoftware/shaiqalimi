@@ -73,7 +73,7 @@
   </div>
 </template>
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 import vSelect from 'vue-select'
 import FuelStationAddSideBar from './sidebar/FuelStationAddSideBar.vue'
 import FuelStoreStationAddSideBar from './sidebar/FuelStoreStationAddSideBar.vue'
@@ -85,7 +85,7 @@ export default {
   name: 'vx-archive',
   components: {
     'v-select': vSelect,
-    VuePerfectScrollbar,
+
     'fuel-sidebar': FuelStationAddSideBar,
     'fuel-store-sidebar': FuelStoreStationAddSideBar,
     'despencer-sidebar': DespencerAddSideBar,

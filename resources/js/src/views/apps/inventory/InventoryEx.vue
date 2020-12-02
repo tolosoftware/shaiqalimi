@@ -79,7 +79,7 @@
               <p class="mt-4">تعداد ذخایر</p>
               <p
                 class="mb-4 text-3xl font-semibold"
-              >{{ goalOverview.analyticsData.completed.toLocaleString() }}</p>
+              >349879</p>
             </div>
             <div
               class="w-1/2 justify-center border border-solid d-theme-border-grey-light border-r-0 border-b-0"
@@ -103,7 +103,7 @@
       <!-- Start Tank Till -->
       <div class="vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4">
         <vx-card>
-          <template slot="no-body" v-if="Object.entries(funding).length">
+          <template slot="no-body">
             <div class="p-8 clearfix">
               <div class="mb-5">
                 <h1>
@@ -111,7 +111,7 @@
                 </h1>
                 <small>
                   <span class="text-grey">تعداد:</span>
-                  <span>{{ funding.depostis.toLocaleString() }}</span>
+                  <span>298</span>
                 </small>
               </div>
               <p
@@ -135,11 +135,11 @@
             >
               <div class="mb-4">
                 <small>درآمد: ۴۳۸۷ دالر</small>
-                <vs-progress :percent="funding.meta.earned.progress" color="success"></vs-progress>
+                <vs-progress :percent="23" color="success"></vs-progress>
               </div>
               <div>
                 <small>مدت زمان: ۲ سال</small>
-                <vs-progress :percent="funding.meta.duration.progress" color="warning"></vs-progress>
+                <vs-progress :percent="48" color="warning"></vs-progress>
               </div>
             </div>
           </template>
@@ -149,7 +149,7 @@
       <!-- Start Goods -->
       <div class="vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4">
         <vx-card>
-          <template slot="no-body" v-if="Object.entries(funding).length">
+          <template slot="no-body">
             <div class="p-8 clearfix">
               <div class="mb-5">
                 <h1>
@@ -157,7 +157,7 @@
                 </h1>
                 <small>
                   <span class="text-grey">تعداد:</span>
-                  <span>{{ funding.depostis.toLocaleString() }}</span>
+                  <span>238</span>
                 </small>
               </div>
               <p
@@ -181,11 +181,11 @@
             >
               <div class="mb-4">
                 <small>درآمد: ۴۳۸۷ دالر</small>
-                <vs-progress :percent="funding.meta.earned.progress" color="success"></vs-progress>
+                <vs-progress :percent="34" color="success"></vs-progress>
               </div>
               <div>
                 <small>مدت زمان: ۲ سال</small>
-                <vs-progress :percent="funding.meta.duration.progress" color="warning"></vs-progress>
+                <vs-progress :percent="32" color="warning"></vs-progress>
               </div>
             </div>
           </template>
@@ -195,7 +195,7 @@
       <!-- Start Godams -->
       <div class="vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4">
         <vx-card>
-          <template slot="no-body" v-if="Object.entries(funding).length">
+          <template slot="no-body">
             <div class="p-8 clearfix">
               <div class="mb-5">
                 <h1>
@@ -203,7 +203,7 @@
                 </h1>
                 <small>
                   <span class="text-grey">اجناس:</span>
-                  <span>{{ funding.depostis.toLocaleString() }}</span>
+                  <span>3248</span>
                 </small>
               </div>
               <p
@@ -227,11 +227,11 @@
             >
               <div class="mb-4">
                 <small>درآمد: ۴۳۸۷ دالر</small>
-                <vs-progress :percent="funding.meta.earned.progress" color="success"></vs-progress>
+                <vs-progress :percent="73" color="success"></vs-progress>
               </div>
               <div>
                 <small>مدت زمان: ۲ سال</small>
-                <vs-progress :percent="funding.meta.duration.progress" color="warning"></vs-progress>
+                <vs-progress :percent="21" color="warning"></vs-progress>
               </div>
             </div>
           </template>
@@ -241,7 +241,7 @@
       <!-- Start Transfers -->
       <div class="vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4">
         <vx-card>
-          <template slot="no-body" v-if="Object.entries(funding).length">
+          <template slot="no-body">
             <div class="p-8 clearfix">
               <div class="mb-5">
                 <h1>
@@ -249,7 +249,7 @@
                 </h1>
                 <small>
                   <span class="text-grey">تعداد:</span>
-                  <span>{{ funding.depostis.toLocaleString() }}</span>
+                  <span>3248</span>
                 </small>
               </div>
               <p
@@ -272,11 +272,11 @@
             >
               <div class="mb-4">
                 <small>درآمد: ۴۳۸۷ دالر</small>
-                <vs-progress :percent="funding.meta.earned.progress" color="success"></vs-progress>
+                <vs-progress :percent="73" color="success"></vs-progress>
               </div>
               <div>
                 <small>مدت زمان: ۲ سال</small>
-                <vs-progress :percent="funding.meta.duration.progress" color="warning"></vs-progress>
+                <vs-progress :percent="21" color="warning"></vs-progress>
               </div>
             </div>
           </template>

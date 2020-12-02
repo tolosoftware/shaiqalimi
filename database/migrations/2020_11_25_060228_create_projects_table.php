@@ -24,12 +24,12 @@ class CreateProjectsTable extends Migration
             $table->string('img')->nullable();
             $table->string('auth_number')->nullable();
             $table->string('type')->default(1);
-            $table->float('price')->default(0);
-            $table->float('duration')->nullable();
+            $table->bigInteger('price')->default(0);
+            $table->bigInteger('duration')->nullable();
             $table->date('offer_date')->nullable();
             $table->date('close_date')->nullable();
-            $table->float('offer_price')->nullable();
-            $table->float('project_price')->nullable();
+            $table->bigInteger('offer_price')->nullable();
+            $table->bigInteger('project_price')->nullable();
             $table->unsignedBigInteger('announce_id')->nullable();
             $table->unsignedBigInteger('organization_id')->nullable();
             

@@ -53,7 +53,7 @@
 <script>
 import VueApexCharts from 'vue-apexcharts'
 import analyticsData from '../analyticsData.js'
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 
 export default {
   name: 'vx-archive',
@@ -163,7 +163,7 @@ export default {
   },
   components: {
     VueApexCharts,
-    VuePerfectScrollbar
+    
   },
 }
 </script>

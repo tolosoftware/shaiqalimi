@@ -218,12 +218,10 @@ export default {
     getProject() {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({type: 'border',color: '#432e81'});
 
       this.pForm.get('/api/project').then((data) => {
         this.projects = data.data;
         // Finish the Progress Bar
-        this.$vs.loading.close()
         this.$Progress.set(100)
       })
         .catch(() => {});

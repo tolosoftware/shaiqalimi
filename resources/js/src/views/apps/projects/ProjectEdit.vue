@@ -228,7 +228,7 @@
                   </div>
                 </template>
 
-                <vs-input v-model="pForm.offer_price" type="number" />
+                <vs-input v-model="pForm.offer_price" type="number" class="number-rtl" />
               </vx-input-group>
               <!-- /TITLE -->
             </div>
@@ -251,12 +251,16 @@
               <!-- /TITLE -->
             </div>
           </div>
-          <vs-button
-            type="filled"
-            :disabled="pForm.busy"
-            @click.prevent="submitForm"
-            class="mt-5 block"
-          >ثبت قرارداد</vs-button>
+
+          <vs-button type="filled" :disabled="pForm.busy" @click.prevent="submitForm">ثبت قرارداد</vs-button>
+          <vs-button color="warning" @click="$router.go(-1)" type="border">
+            بازگشت
+            <feather-icon
+              icon="ArrowLeftIcon"
+              svgClasses="w-5 h-5"
+              class="icon-12px position-relative top-5 ml-2"
+            />
+          </vs-button>
         </form>
       </vx-card>
     </div>
@@ -360,7 +364,7 @@ export default {
     getAnnounces() {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({type: 'border',color: '#432e81'});
+      // this.$vs.loading({type: 'border',color: '#432e81'});
 
       this.axios.get('/api/announcement')
         .then((response) => {
@@ -386,9 +390,11 @@ export default {
       this.axios.get('/api/project/' + this.$route.params.id)
         .then((response) => {
           this.setPFromValue(response.data);
-          Object.keys(this.announces).some(key => console.log(this.announces[key].id == response.data.announce_id))
+
+          // Find and set default value for selections.
+          Object.keys(this.announces).some(key => (this.announces[key].id == response.data.announce_id) ? this.selectedAnnounce = this.announces[key] : null)
+          Object.keys(this.org).some(key => (this.org[key].id == response.data.organization_id) ? this.selectedOrg = this.org[key] : null)
           // Finish the Progress Bar
-          this.$vs.loading.close()
           this.$Progress.set(100)
         })
     },
@@ -400,14 +406,21 @@ export default {
     submitForm(id) {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({type: 'border',color: '#432e81'});
+      // this.$vs.loading({type: 'border',color: '#432e81'});
 
       this.pForm.patch('/api/project/' + this.$route.params.id)
         .then(({data}) => {
-
           // Finish the Progress Bar
-          this.$vs.loading.close()
           this.$Progress.set(100)
+          // toast notification
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'قرارداد ' + data.title + ' موفقانه آپدیت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
         });
     },
     addNewData() {

@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 
 export default {
   props: {
@@ -94,7 +94,7 @@ export default {
     }
   },
   components: {
-    VuePerfectScrollbar
+    
   },
   data () {
     return {

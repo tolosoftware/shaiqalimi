@@ -71,6 +71,25 @@
               <vs-td>{{ (org) ? org.title : '' }}</vs-td>
             </vs-tr>
           </vs-table>
+          <div class="mt-5">
+            <router-link
+              :to="{
+                    path: '/projects/project/${project.id}/edit',
+                    name: 'project-edit',
+                    params: { id: project.id, dyTitle: project.title },
+                  }"
+            >
+              <vs-button>ویرایش قرارداد</vs-button>
+            </router-link>
+            <vs-button color="warning" @click="$router.go(-1)" type="border">
+              بازگشت
+              <feather-icon
+                icon="ArrowLeftIcon"
+                svgClasses="w-5 h-5"
+                class="icon-12px position-relative top-5 ml-2"
+              />
+            </vs-button>
+          </div>
         </div>
       </vx-card>
     </div>
@@ -114,13 +133,11 @@ export default {
           .then((response) => {
             this.announce = response.data;
             // Finish the Progress Bar
-            this.$vs.loading.close()
             this.$Progress.set(100)
           })
       }
       else {
         // Finish the Progress Bar
-        this.$vs.loading.close()
         this.$Progress.set(100)
       }
     },
@@ -140,8 +157,6 @@ export default {
     getProject() {
       // Start the Progress Bar
       this.$Progress.start()
-      this.$vs.loading({type: 'border',color: '#432e81'});
-
       this.axios.get('/api/project/' + this.$route.params.id)
         .then((response) => {
           this.project = response.data;

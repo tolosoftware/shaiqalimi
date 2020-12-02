@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
+
 import vSelect from "vue-select";
 export default {
   props: {
@@ -100,7 +100,7 @@ export default {
     },
   },
   components: {
-    VuePerfectScrollbar,
+
     "v-select": vSelect,
   },
   data() {
