@@ -11,7 +11,8 @@
 
 <template>
   <div id="app" :class="vueAppClasses">
-    <router-view :key="$route.fullPath" @setAppClasses="setAppClasses" />
+    <router-view @setAppClasses="setAppClasses" />
+    <!-- <router-view :key="$route.fullPath" @setAppClasses="setAppClasses" /> -->
     <!-- set progressbar -->
     <vue-progress-bar></vue-progress-bar>
   </div>

@@ -8,11 +8,11 @@
                     <b> لیست حسابات </b>
                 </h3>
             </div>
-
+            
             <div class="vx-col w-1/2 float-left">
                 <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
                 <vs-button @click="testTost">tost</vs-button>
-                
+
                 <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Search account" class="mt-1 float-right" style="max-width:320px" />
 
             </div>
@@ -136,27 +136,26 @@ export default {
             this.addNewDataSidebar = val;
         },
 
-        testTost(){
-        //sweetalirt
-           swal.fire(
-            'The Internet?',
-            'That thing is still around?',
-            'question'
+        testTost() {
+            //sweetalirt
+            swal.fire(
+                'The Internet?',
+                'That thing is still around?',
+                'question'
             )
 
-        // tost notification
+            // tost notification
             this.$vs.notify({
-            title:'Icon mail',
-            text:'Lorem ipsum dolor sit amet, consectetur',
-            color:'success',
-            iconPack: 'feather',
-            icon:'icon-check',
-            position:'top-right'})
+                title: 'Icon mail',
+                text: 'Lorem ipsum dolor sit amet, consectetur',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+            })
         }
     },
 
-
-  
 };
 </script>
 
