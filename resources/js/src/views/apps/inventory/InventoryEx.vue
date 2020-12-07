@@ -59,27 +59,22 @@
           <template slot="no-body">
             <div class="mt-10">
               <vue-apex-charts
+                v-if="goalOverviewRadialBar"
                 type="radialBar"
                 height="240"
-                :options="analyticsData.goalOverviewRadialBar.chartOptions"
-                :series="goalOverview.series"
+                :options="goalOverviewRadialBar.chartOptions"
+                :series="goalOverviewRadialBar.series"
               />
             </div>
           </template>
 
           <!-- DATA -->
-          <div
-            v-if="goalOverview.analyticsData"
-            class="flex justify-between text-center mt-4"
-            slot="no-body-bottom"
-          >
+          <div class="flex justify-between text-center mt-4" slot="no-body-bottom">
             <div
               class="w-1/2 border border-solid d-theme-border-grey-light border-r-0 border-b-0 border-l-0"
             >
               <p class="mt-4">تعداد ذخایر</p>
-              <p
-                class="mb-4 text-3xl font-semibold"
-              >349879</p>
+              <p class="mb-4 text-3xl font-semibold">349879</p>
             </div>
             <div
               class="w-1/2 justify-center border border-solid d-theme-border-grey-light border-r-0 border-b-0"
@@ -259,13 +254,13 @@
                 <span class="ml-1">ارزش: 2398 دالر</span>
               </p>
 
-                <vs-button
-                  icon-pack="feather"
-                  icon="icon-chevrons-left"
-                  icon-after
-                  class="shadow-md w-full"
-                  @click="ToggleTransfer()"
-                >بررسی</vs-button>
+              <vs-button
+                icon-pack="feather"
+                icon="icon-chevrons-left"
+                icon-after
+                class="shadow-md w-full"
+                @click="ToggleTransfer()"
+              >بررسی</vs-button>
             </div>
             <div
               class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0"
@@ -312,8 +307,80 @@ export default {
       salesRadar: {},
       supportTracker: {},
 
-      revenueComparisonLine: {},
-      goalOverview: {},
+      revenueComparisonLine: {
+        analyticsData: {
+          thisMonth: 86589,
+          lastMonth: 73683
+        },
+        series: [
+          {
+            name: 'ماه جاری',
+            data: [45000,47000,44800,47500,45500,48000,46500,48600]
+          },
+          {
+            name: 'ماه گذشته',
+            data: [46000,48000,45500,46600,44500,46500,45000,47000]
+          }
+        ]
+      },
+      goalOverviewRadialBar: {
+        chartOptions: {
+          plotOptions: {
+            radialBar: {
+              size: 110,
+              startAngle: -150,
+              endAngle: 150,
+              hollow: {
+                size: '77%'
+              },
+              track: {
+                background: '#bfc5cc',
+                strokeWidth: '50%'
+              },
+              dataLabels: {
+                name: {
+                  show: false
+                },
+                value: {
+                  offsetY: 18,
+                  color: '#99a2ac',
+                  fontSize: '4rem'
+                }
+              }
+            }
+          },
+          colors: ['#00db89'],
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shade: 'dark',
+              type: 'horizontal',
+              shadeIntensity: 0.5,
+              gradientToColors: ['#00b5b5'],
+              inverseColors: true,
+              opacityFrom: 1,
+              opacityTo: 1,
+              stops: [0,100]
+            }
+          },
+          stroke: {
+            lineCap: 'round'
+          },
+          chart: {
+            sparkline: {
+              enabled: true
+            },
+            dropShadow: {
+              enabled: true,
+              blur: 3,
+              left: 1,
+              top: 1,
+              opacity: 0.1
+            }
+          }
+        },
+        series: [83]
+      },
 
       salesBarSession: {},
       sessionDataTime: 'lastWeek',
@@ -336,7 +403,7 @@ export default {
     TransferViewSidebar
   },
   methods: {
-    ToggleTransfer(){
+    ToggleTransfer() {
       this.sidebarData = {}
       this.toggleTSidebar(true)
     },
@@ -351,72 +418,7 @@ export default {
       this.transferSidebar = val
     }
   },
-  created() {
-    // Sessions By Device
-    this.$http.get('/api/card/card-analytics/session-by-device')
-      .then((response) => {this.sessionsData = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Products Order
-    this.$http.get('/api/card/card-analytics/products-orders')
-      .then((response) => {this.productsOrder = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Customers
-    this.$http.get('/api/card/card-analytics/customers')
-      .then((response) => {this.customersData = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Sales Radar
-    this.$http.get('/api/card/card-analytics/sales/radar')
-      .then((response) => {this.salesRadar = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Support Tracker
-    this.$http.get('/api/card/card-analytics/support-tracker')
-      .then((response) => {this.supportTracker = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Revenue Comparison
-    this.$http.get('/api/card/card-analytics/revenue-comparison')
-      .then((response) => {this.revenueComparisonLine = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Goal Overview
-    this.$http.get('/api/card/card-analytics/goal-overview')
-      .then((response) => {this.goalOverview = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Sales bar
-    this.$http.get('/api/card/card-analytics/sales/bar')
-      .then((response) => {this.salesBarSession = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Todo
-    this.$http.get('/api/card/card-analytics/todo/today')
-      .then((response) => {this.todoToday = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Funding
-    this.$http.get('/api/card/card-analytics/funding')
-      .then((response) => {this.funding = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Sales line
-    this.$http.get('/api/card/card-analytics/sales/line')
-      .then((response) => {this.salesLine = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Browser Analytics
-    this.$http.get('/api/card/card-analytics/browser-analytics')
-      .then((response) => {this.browserStatistics = response.data})
-      .catch((error) => {console.log(error)})
-
-    // Client Retention
-    this.$http.get('/api/card/card-analytics/client-retention')
-      .then((response) => {this.clientRetentionBar = response.data})
-      .catch((error) => {console.log(error)})
-  }
+  created() {}
 }
 </script>
 
