@@ -5420,3 +5420,39 @@ text {
   left: 0px !important;
 }
 
+.radio-group {
+  display: inline-flex;
+  overflow: hidden;
+}
+
+[dir] .radio-group {
+  border: solid 1px #cccccc;
+  border-radius: 5px;
+}
+
+.radio-group input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+.radio-group label {
+  display: inline-block;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+[dir] .radio-group label {
+  cursor: pointer;
+  padding: 8px;
+}
+
+.radio-group input[type=radio]:checked + label {
+  color: white;
+}
+
+[dir] .radio-group input[type=radio]:checked + label {
+  background: #e85454;
+  box-shadow: 0 8px 25px -8px #e85454;
+}
+
