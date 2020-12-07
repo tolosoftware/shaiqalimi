@@ -114,26 +114,30 @@
                 <!-- Must be a valid email -->
                 <div class="vx-col mb-base w-1/3 mt-5">
                   <label for class="ml-4 mr-4 mb-2">نوع قرارداد</label>
-                  <ul class="leftx">
-                    <li>
-                      <vs-radio
-                        vs-name="radios1"
-                        v-model="pForm.type"
-                        vs-value="1"
-                        class="ml-4 mr-4"
-                      >
-                        <small>چارچوبی</small>
-                      </vs-radio>
-                      <vs-radio
-                        vs-name="radios1"
-                        v-model="pForm.type"
-                        vs-value="2"
-                        class="ml-4 mr-4"
-                      >
-                        <small>معین</small>
-                      </vs-radio>
-                    </li>
-                  </ul>
+                  <div class="vx-row pl-4 pr-4">
+                    <div class="radio-group w-full">
+                      <div class="w-1/2">
+                        <input
+                          type="radio"
+                          v-model="pForm.type"
+                          value="1"
+                          id="afn"
+                          name="type"
+                        />
+                        <label for="afn" class="w-full text-center">چارچوبی</label>
+                      </div>
+                      <div class="w-1/2">
+                        <input
+                          type="radio"
+                          v-model="pForm.type"
+                          value="2"
+                          id="usd"
+                          name="type"
+                        />
+                        <label for="usd" class="w-full text-center">معین</label>
+                      </div>
+                    </div>
+                  </div>
                   <has-error :form="pForm" field="type"></has-error>
                 </div>
                 <!-- Must be a valid url -->
@@ -319,7 +323,7 @@ export default {
         title: '',
         img: '',
         auth_number: '',
-        type: '',
+        type: "1",
         price: '',
         duration: '',
         offer_date: '',
@@ -375,11 +379,11 @@ export default {
   methods: {
     setAnnounceId(arr) {
       //  trigger a mutation, or dispatch an action  
-      this.pForm.announce_id = arr.value;
+      this.pForm.announce_id = arr.id;
     },
     setOrganizationId(arr) {
       //  trigger a mutation, or dispatch an action  
-      this.pForm.organization_id = arr.value;
+      this.pForm.organization_id = arr.id;
     },
     getAnnounces() {
       // Start the Progress Bar
