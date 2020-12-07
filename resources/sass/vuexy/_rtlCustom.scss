@@ -252,9 +252,17 @@ $borderWidth: 1px;
 
 .radio-group {
   display: inline-flex;
-  border: solid $borderWidth $bc;
-  border-radius: 5px;
-  overflow: hidden;
+  overflow: visible;
+  div:first-child label{
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    overflow: hidden;
+  }
+  div:last-child label{
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    overflow: hidden;
+  }
   input[type=radio] {
     position: absolute;
     visibility: hidden;
@@ -265,14 +273,16 @@ $borderWidth: 1px;
     display: inline-block;
     cursor: pointer;
     font-weight: bold;
-    transition: .3s;
+    transition: .4s;
     padding: 8px;
+    border: solid $borderWidth $bc;
   }
 
   input[type=radio]:checked + label{
     background: $bg;
     color: white;
     box-shadow: 0 8px 25px -8px $bg;
+    border-color: $bg;
   }
 
 }

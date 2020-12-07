@@ -115,6 +115,7 @@
               </div>
               <!-- end currency -->
               <!-- eteration -->
+              
               <div v-for="(i , index) in item" class="vx-row">
                 <div class="vx-col w-1/4 mt-4">
                   <label for>

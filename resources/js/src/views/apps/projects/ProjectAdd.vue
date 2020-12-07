@@ -14,6 +14,13 @@
               <div class="vx-col mb-base w-1/2">
                 <h3>فارم ثبت پروژه قرار دادی</h3>
               </div>
+              <div class="vx-col mb-base w-1/3 mt-4">
+                  <vs-button
+                    type="filled"
+                    class="mt-5 block"
+                    @click="addNewData"
+                  >نهاد جدید اضافه کنید</vs-button>
+                </div>
             </div>
 
             <form>
@@ -50,9 +57,7 @@
 
                 <!-- Only alphabetic characters -->
                 <div class="vx-col mb-base w-1/3 pt-5 pb-0">
-                  <label for="date" class="mt-3">
-                    <small>تاریخ نشر اعلان</small>
-                  </label>
+                  <label for="date" class="mt-3">تاریخ عقد قرارداد</label>
                   <date-picker
                     v-model="pForm.issue_date"
                     color="#e85454"
@@ -64,24 +69,10 @@
                   <has-error :form="pForm" field="issue_date"></has-error>
                 </div>
 
-                <!-- Only alphabetic characters, numbers, dashes or underscores -->
-                <div class="vx-col mb-base w-1/3">
-                  <vs-input
-                    v-model="pForm.issue_address"
-                    size="medium"
-                    v-validate="'required'"
-                    label="محل اعلان"
-                    class="mt-5 w-full"
-                  />
-                  <has-error :form="pForm" field="issue_address"></has-error>
-                </div>
-
                 <!-- May contain alphabetic characters or numbers -->
 
                 <div class="vx-col mb-base w-1/3 mt-4">
-                  <label for>
-                    <small>نهاد تطبیق کننده</small>
-                  </label>
+                  <label>مرجع مربوطه</label>
                   <v-select
                     @input="setOrganizationId"
                     label="title"
@@ -90,27 +81,6 @@
                   />
                   <has-error :form="pForm" field="organization_id"></has-error>
                 </div>
-
-                <div class="vx-col mb-base w-1/3 mt-4">
-                  <vs-button
-                    type="filled"
-                    class="mt-5 block"
-                    @click="addNewData"
-                  >نهاد جدید اضافه کنید</vs-button>
-                </div>
-
-                <!-- Must only consist of numbers -->
-                <div class="vx-col mb-base w-1/3">
-                  <vs-input
-                    size="medium"
-                    v-model="pForm.title"
-                    v-validate="'required|min:6'"
-                    label="عنوان پروژه"
-                    class="mt-5 w-full"
-                  />
-                  <has-error :form="pForm" field="title"></has-error>
-                </div>
-
                 <!-- Must be a valid email -->
                 <div class="vx-col mb-base w-1/3 mt-5">
                   <label for class="ml-4 mr-4 mb-2">نوع قرارداد</label>
@@ -142,13 +112,25 @@
                 </div>
                 <!-- Must be a valid url -->
 
+                <!-- Must only consist of numbers -->
+                <div class="vx-col mb-base w-2/3">
+                  <vs-input
+                    size="medium"
+                    v-model="pForm.title"
+                    v-validate="'required|min:6'"
+                    label="عنوان قرارداد"
+                    class="mt-5 w-full"
+                  />
+                  <has-error :form="pForm" field="title"></has-error>
+                </div>
+
                 <!-- Only alphabetic characters or spaces -->
                 <div class="vx-col mb-base w-1/3">
                   <vs-input
                     size="medium"
                     v-model="pForm.auth_number"
                     v-validate="'required|min:6'"
-                    label="شماره شناسایی"
+                    label="شماره شناسایی قرارداد"
                     class="mt-5 w-full"
                   />
                   <has-error :form="pForm" field="auth_number"></has-error>
@@ -157,17 +139,16 @@
                 <div class="vx-col mb-base w-1/3 pt-4">
                   <!-- TITLE -->
                   <label for>
-                    <small>مدت قرار داد</small>
+                    <small>تاریخ ختم قرارداد</small>
                   </label>
-                  <vx-input-group>
-                    <template slot="prepend">
-                      <div class="prepend-text bg-primary">
-                        <span>ماه</span>
-                      </div>
-                    </template>
-
-                    <vs-input type="number" v-model="pForm.duration" />
-                  </vx-input-group>
+                  <date-picker
+                    v-model="pForm.duration"
+                    color="#e85454"
+                    input-format="YYYY/MM/DD"
+                    format="jYYYY/jMM/jDD"
+                    :auto-submit="true"
+                    size="large"
+                  ></date-picker>
                   <has-error :form="pForm" field="duration"></has-error>
                   <!-- /TITLE -->
                 </div>
@@ -177,6 +158,91 @@
                   <!-- TITLE -->
                   <label for>
                     <small>ارزش قرارداد</small>
+                  </label>
+                  <vx-input-group>
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+
+                    <vs-input type="number" v-model="pForm.price" />
+                  </vx-input-group>
+                  <has-error :form="pForm" field="price"></has-error>
+                  <!-- /TITLE -->
+                </div>
+                <div class="vx-col mb-base w-1/3 pt-4">
+                  <!-- TITLE -->
+                  <label for>
+                    <small>تضمین قرارداد</small>
+                  </label>
+                  <vx-input-group>
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+
+                    <vs-input type="number" v-model="pForm.price" />
+                  </vx-input-group>
+                  <has-error :form="pForm" field="price"></has-error>
+                  <!-- /TITLE -->
+                </div>
+                <div class="vx-col mb-base w-1/3 pt-4">
+                  <!-- TITLE -->
+                  <label for>
+                    <small>متفرقه</small>
+                  </label>
+                  <vx-input-group>
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+
+                    <vs-input type="number" v-model="pForm.price" />
+                  </vx-input-group>
+                  <has-error :form="pForm" field="price"></has-error>
+                  <!-- /TITLE -->
+                </div>
+                <div class="vx-col mb-base w-1/3 pt-4">
+                  <!-- TITLE -->
+                  <label for>
+                    <small>انتقالات</small>
+                  </label>
+                  <vx-input-group>
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+
+                    <vs-input type="number" v-model="pForm.price" />
+                  </vx-input-group>
+                  <has-error :form="pForm" field="price"></has-error>
+                  <!-- /TITLE -->
+                </div>
+                <div class="vx-col mb-base w-1/3 pt-4">
+                  <!-- TITLE -->
+                  <label for>
+                    <small>تأمینات</small>
+                  </label>
+                  <vx-input-group>
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+
+                    <vs-input type="number" v-model="pForm.price" />
+                  </vx-input-group>
+                  <has-error :form="pForm" field="price"></has-error>
+                  <!-- /TITLE -->
+                </div>
+                <div class="vx-col mb-base w-1/3 pt-4">
+                  <!-- TITLE -->
+                  <label for>
+                    <small>مالیات</small>
                   </label>
                   <vx-input-group>
                     <template slot="prepend">
