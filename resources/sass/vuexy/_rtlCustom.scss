@@ -41,10 +41,6 @@ time:not(.glyphicon), mark:not(.glyphicon), audio:not(.glyphicon), video , span:
 .vx-breadcrumb .breadcrumb-separator {
   transform: rotate(180 deg);
 }
-body .ps__scrollbar-y-rail{
-  right: auto !important;
-  left: 1px !important;
-}
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
@@ -193,9 +189,6 @@ body .ps__scrollbar-y-rail{
 .vs-tabs--content > form > .vx-row{
   margin: unset !important;
 }
-.ps:hover>.ps__scrollbar-y-rail:hover>.ps__scrollbar-y{
-  // display: none;
-}
 .number-rtl input, .number-rtl{
   font-family: 'YekanWeb' !important;
   direction: rtl !important;
@@ -238,6 +231,14 @@ body .ps__scrollbar-y-rail{
 .ps.ps--in-scrolling.ps--y>.ps__scrollbar-y-rail>.ps__scrollbar-y{
   background-color: #562db8 !important;
 }
-.ps>.ps__scrollbar-y-rail>.ps__scrollbar-y{
+body .ps__scrollbar-y-rail{
+  right: auto !important;
+  left: 0px !important;
+}
+.vuesax-app-is-rtl .scroll-area-v-nav-menu .ps__scrollbar-y-rail{
+  right: 0px !important;
+}
+.ps > .ps__scrollbar-y-rail > .ps__scrollbar-y{
+  width: 100% !important;
   right: 0px !important;
 }

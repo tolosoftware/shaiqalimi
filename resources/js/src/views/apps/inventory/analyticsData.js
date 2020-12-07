@@ -10,15 +10,15 @@
 
 export default {
   revenueComparisonLine: {
-    // series: [{
-    //         name: "This Month",
-    //         data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600]
-    //     },
-    //     {
-    //         name: "Last Month",
-    //         data: [46000, 48000, 45500, 46600, 44500, 46500, 45000, 47000]
-    //     }
-    // ],
+    series: [{
+            name: "This Month",
+            data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600]
+        },
+        {
+            name: "Last Month",
+            data: [46000, 48000, 45500, 46600, 44500, 46500, 45000, 47000]
+        }
+    ],
     chartOptions: {
       chart: {
         toolbar: { show: false },
