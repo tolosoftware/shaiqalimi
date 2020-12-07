@@ -99,38 +99,16 @@
                 <!-- currency -->
                 <div class="vx-col w-1/3 mt-4">
                   <label for>واحد پولی</label>
-                  <div class="btn-group">
-                    <div class="vx-row pl-4 pr-4">
-                      <vs-button class="vx-col w-1/2 customstyle" color="success">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="curency"
-                          id="exampleRadios1"
-                          value="option1"
-                          checked
-                          style="height:15px; width: 15px;"
-                        />
-                        <label class="form-check-label" for="exampleRadios1">
-                          &nbsp;
-                          <b>افغانی</b>
-                        </label>
-                      </vs-button>
-                      <vs-button class="vx-col w-1/2 customstyle" color="success">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="curency"
-                          id="exampleRadios"
-                          value="option1"
-                          checked
-                          style="height:15px; width: 15px;"
-                        />
-                        <label class="form-check-label" for="exampleRadios">
-                          &nbsp;
-                          <b>دالر</b>
-                        </label>
-                      </vs-button>
+                  <div class="vx-row pl-4 pr-4">
+                    <div class="radio-group w-full">
+                      <div class="w-1/2">
+                        <input type="radio" id="afn" name="currency" checked />
+                        <label for="afn" class="w-full text-center">افغانی</label>
+                      </div>
+                      <div class="w-1/2">
+                        <input type="radio" id="usd" name="currency" />
+                        <label for="usd" class="w-full text-center">دالر</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -247,7 +225,7 @@ export default {
 
   data() {
     return {
-
+      active: true,
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},

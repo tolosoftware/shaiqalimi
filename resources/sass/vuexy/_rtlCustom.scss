@@ -242,3 +242,37 @@ body .ps__scrollbar-y-rail{
   width: 100% !important;
   right: 0px !important;
 }
+
+
+// Group Radio Button
+$bg: #e85454;
+$bc: #cccccc; 
+$fg: lighten($bg,20%);
+$borderWidth: 1px;
+
+.radio-group {
+  display: inline-flex;
+  border: solid $borderWidth $bc;
+  border-radius: 5px;
+  overflow: hidden;
+  input[type=radio] {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+  }
+
+  label {
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .3s;
+    padding: 8px;
+  }
+
+  input[type=radio]:checked + label{
+    background: $bg;
+    color: white;
+    box-shadow: 0 8px 25px -8px $bg;
+  }
+
+}
