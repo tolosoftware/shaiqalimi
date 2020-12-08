@@ -13,20 +13,29 @@
           <vs-row vs-w="12">
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="4" vs-xs="5">
               <div class="pt-5 w-full">
+
                 <h3>
                   فارم ثبت اعلانات
                 </h3>
+
               </div>
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="4" vs-xs="2"></vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="4" vs-xs="5">
               <div class="pt-5 w-full">
-                <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
+                <vx-tooltip color="primary" text="برای ثبت نهاد جدید اینجارا کلیک کنید">
+                  <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
+                </vx-tooltip>
               </div>
             </vs-col>
           </vs-row>
           <form>
             <vs-row vs-w="12">
+              <vs-divider>
+                <h4>
+                  معلومات عمومی
+                </h4>
+              </vs-divider>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                 <div class="pt-4 w-4/5">
                   <vs-input size="medium" v-validate="'serialnumber'" label="سریال نمبر" name="serialnumber" class="mt-1 w-full" placeholder="101" disabled />
@@ -205,11 +214,11 @@
               </vs-col>
             </vs-row>
             <vs-row vs-w="12">
-              <div>
+              <vs-divider>
                 <h4>
-                  اکمالات / اقلام:
+                  اکمالات / اقلام
                 </h4>
-              </div>
+              </vs-divider>
             </vs-row>
             <div v-for="(i , index) in item">
               <vs-row vs-w="12">
@@ -251,6 +260,9 @@
 
                 <!-- /TITLE -->
               </vs-col>
+            </vs-row>
+            <vs-row vs-w="12">
+            
             </vs-row>
           </form>
         </vx-card>
