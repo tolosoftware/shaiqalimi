@@ -1,212 +1,285 @@
-
 <template>
-
-  <div>
-
+<div>
   <Orgnizationregister :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
- <vs-tabs>
-       <vs-tab label="لیست اعلانات">
-          <div class="vx-row">
-            <Advertismentlist></Advertismentlist>
-          </div>
-        </vs-tab>
-        <vs-tab label="ثبت اعلان">
-          <div class="vx-row">
-             <vx-card class="height-vh-80">
-                  <div class="vx-row">
-                    <div class="vx-col w-1/2">
-                      <h3>
-                فارم ثبت اعلانات
-                      </h3>
-                  
-                    </div>
-                    
+  <vs-tabs>
+    <vs-tab label="لیست اعلانات">
+      <div class="vx-row">
+        <Advertismentlist></Advertismentlist>
+      </div>
+    </vs-tab>
+    <vs-tab label="ثبت اعلان">
+      <div class="vx-row">
+        <vx-card class="height-vh-80">
+          <vs-row vs-w="12">
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="4" vs-xs="5">
+              <div class="pt-5 w-full">
+                <h3>
+                  فارم ثبت اعلانات
+                </h3>
+              </div>
+            </vs-col>
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="4" vs-xs="2"></vs-col>
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="4" vs-xs="5">
+              <div class="pt-5 w-full">
+                <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
+              </div>
+            </vs-col>
+          </vs-row>
+          <form>
+            <vs-row vs-w="12">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="pt-4 w-4/5">
+                  <vs-input size="medium" v-validate="'serialnumber'" label="سریال نمبر" name="serialnumber" class="mt-1 w-full" placeholder="101" disabled />
+                  <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first('serialnumber') }}</span>
                 </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="pt-5 w-4/5">
+                  <vs-input v-validate="'identitynumber'" label=" شماره شناسایی قرارداد" name="identitynumber" class="w-full" />
+                  <span class="text-danger text-sm" v-show="errors.has('identitynumber')">{{ errors.first('identitynumber') }}</span>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/4 pt-5">
+                  <label for="" class="ml-4 mr-4 mb-2">نوعیت قرارداد</label>
+                  <ul class="leftx">
+                    <li>
+                      <vs-radio vs-name="radios1" vs-value="luis" class="ml-4 mr-4"><small>چارچوبی</small> </vs-radio>
+                      <vs-radio vs-name="radios1" vs-value="carols" class="ml-4 mr-4"><small>معین</small></vs-radio>
+                    </li>
+                  </ul>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-6">
+                  <label for="date" class="mt-3"><small>تاریخ آفرگشایی</small></label>
+                  <date-picker color="#e85454" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" class="mt-5 w-full" :auto-submit="true" size="large"></date-picker>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-6">
+                  <label for="date" class="mt-3"><small> ختم پیشنهادات</small></label>
+                  <date-picker color="#e85454" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="pt-6 w-4/5">
+                  <label for="date" class="mt-3"><small>تاریخ نشر اعلان</small></label>
+                  <date-picker color="#e85454" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-3">
+                  <label for=""><small>نهاد تطبیق کننده</small></label>
+                  <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-3">
+                  <vs-input size="medium" v-validate="'projecttitle'" label="عنوان قرارداد" name="projecttitle" class="w-full" />
+                  <span class="text-danger text-sm" v-show="errors.has('projecttitle')">{{ errors.first('projecttitle') }}</span>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-6">
+                  <!-- TITLE -->
+                  <label for=""> <small>مدت قرار داد</small></label>
+                  <vx-input-group class="mb-base pt-3">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>ماه</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" />
+                  </vx-input-group>
+                  <!-- /TITLE -->
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5">
+                  <vs-input size="medium" label="آدرس آفرگشایی" name="offeraddress" class="w-full" />
+                </div>
+              </vs-col>
 
-                <form>
-                  <div class="vx-row">
-
-                    <!-- required -->
-                    <div class="vx-col w-1/3">
-                      <vs-input size="medium" v-validate="'serialnumber'"  label="سریال نمبر" name="serialnumber"  class="mt-5 w-full" placeholder="101" disabled/>
-                      <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first('serialnumber') }}</span>
-                    </div>
-
-                    <!-- Only alphabetic characters -->
-                    <div class="vx-col w-1/3 pt-5 pb-0">
-                        <label for="date" class="mt-3"><small>تاریخ نشر اعلان</small></label>
-                        <date-picker
-                    color="#e85454"
-                    input-format="YYYY/MM/DD"
-                          format="jYYYY/jMM/jDD"
-                          :auto-submit="true"
-                           size="large" ></date-picker>
-                     
-                    </div>
-
-                    <!-- Only alphabetic characters, numbers, dashes or underscores -->
-                    <div class="vx-col w-1/3">
-                      <vs-input size="medium" v-validate="'announceplace'" label="محل اعلان" name="announceplace"  class="mt-5 w-full" />
-                      <span class="text-danger text-sm" v-show="errors.has('announceplace')">{{ errors.first('announceplace') }}</span>
-                    </div>
-
-                    <!-- May contain alphabetic characters or numbers -->
-                  
-                    <div class="vx-col w-1/3 mt-4">
-                    <label for=""><small>نهاد تطبیق کننده</small></label>
-                    <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                    </div>
-
-                    <div class="vx-col w-1/3 mt-4">
-                    <vs-button type="filled"  class="mt-5 block"  @click="addNewData" >نهاد جدید اضافه کنید</vs-button>
-                    </div>
-
-                    <!-- Must only consist of numbers -->
-                    <div class="vx-col w-1/3">
-                      <vs-input size="medium" v-validate="'projecttitle'" label="عنوان پروژه" name="projecttitle" class="mt-5 w-full" />
-                      <span class="text-danger text-sm" v-show="errors.has('projecttitle')">{{ errors.first('projecttitle') }}</span>
-                    </div>
-
-                    
-                    <!-- Must be a valid email -->
-                        <div class="  vx-col w-1/3 mt-5">
-                              <label for="" class="ml-4 mr-4 mb-2">نوع قرارداد</label>
-                                <ul class="leftx">
-                               
-                                  <li>
-                                    <vs-radio  vs-name="radios1" vs-value="luis" class="ml-4 mr-4"><small>چارچوبی</small> </vs-radio>
-                                     <vs-radio  vs-name="radios1" vs-value="carols" class="ml-4 mr-4"><small>معین</small></vs-radio>
-                                  </li>
-                                 
-                                </ul>
-                        </div>
-                    <!-- Must be a valid url -->
-
-
-                    <!-- Only alphabetic characters or spaces -->
-                    <div class="vx-col w-1/3">
-                      <vs-input size="medium" v-validate="'identitynumber'" label="شماره شناسایی" name="identitynumber"  class="mt-5 w-full" />
-                      <span class="text-danger text-sm" v-show="errors.has('identitynumber')">{{ errors.first('identitynumber') }}</span>
-                    </div>
-
-                    <div class="vx-col w-1/3 pt-4">
-                    <!-- TITLE -->
-                    <label for=""> <small>مدت قرار داد</small></label>
-                      <vx-input-group class="mb-base">
-                        <template slot="prepend">
-                          <div class="prepend-text bg-primary">
-                            <span>ماه</span>
-                          </div>
-                        </template>
-
-                        <vs-input  type="number"  />
-                      </vx-input-group>
-                      <!-- /TITLE -->
-                   </div>
-
-                    <!-- Length should not be less than the specified length : 3 -->
-                    <div class="vx-col w-1/3  ">
-                    <!-- TITLE -->
-                    <label for="" ><small>ارزش قرارداد</small></label>
-                      <vx-input-group class="mb-base">
-                        <template slot="prepend">
-                          <div class="prepend-text bg-primary">
-                            <span>AFN</span>
-                          </div>
-                        </template>
-
-                        <vs-input  type="number"  />
-                      </vx-input-group>
-                      <!-- /TITLE -->
-                   </div>
-
-                    <!-- Length may not exceed the specified length : 6 -->
-                    <div class="vx-col w-1/3 ">
-                       <label for="date" class="mt-3"><small>تاریخ  آفرگشایی</small></label>
-                        <date-picker
-                    color="#e85454"
-                    input-format="YYYY/MM/DD"
-                          format="jYYYY/jMM/jDD"
-                          :auto-submit="true"
-                           size="large" ></date-picker>
-                    </div>
-
-                    <!-- Password 1 -->
-                    <div class="vx-col w-1/3">
-                       <label for="date" class="mt-3"><small>  ختم پیشنهادات</small></label>
-                        <date-picker
-                    color="#e85454"
-                    input-format="YYYY/MM/DD"
-                          format="jYYYY/jMM/jDD"
-                          :auto-submit="true"
-                           size="large" ></date-picker>
-                    </div>
-
-                    <!-- Confirm Password -->
-                    <div class="vx-col w-1/3">
-                      <vs-input size="medium"  label="آدرس داوطلبی" name="offeraddress"  class="mt-5 w-full"  />
-                     
-                    </div>
-
-                    <!-- Date Format: dd/MM/yyyy -->
-                      <div class="vx-col w-1/3 mt-5">
-                    <!-- TITLE -->
-                    <label for=""><small> مقدار معین آفر</small></label>
-                      <vx-input-group class="mb-base">
-                        <template slot="prepend">
-                          <div class="prepend-text bg-primary">
-                            <span>AFN</span>
-                          </div>
-                        </template>
-
-                        <vs-input  type="number"  />
-                      </vx-input-group>
-                      <!-- /TITLE -->
-                   </div>
-
-                    <!-- Numeric value between minimum value and a maximum value : 1 and 11 -->
-                      <div class="vx-col w-1/3 mt-5">
-                    <!-- TITLE -->
-                    <label for=""><small> مقدار معین پروژه </small></label>
-                      <vx-input-group class="mb-base">
-                        <template slot="prepend">
-                          <div class="prepend-text bg-primary">
-                            <span>AFN</span>
-                          </div>
-                        </template>
-
-                        <vs-input  type="number"  />
-                      </vx-input-group>
-                      <!-- /TITLE -->
-                   </div>
-
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5">
+                  <vs-input size="medium" v-validate="'announceplace'" label="تضمین قرارداد ها" name="announceplace" class="w-full" />
+                  <span class="text-danger text-sm" v-show="errors.has('announceplace')">{{ errors.first('announceplace') }}</span>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5">
+                  <vs-input v-validate="'announceplace'" label="آدرس نشراعلان" name="announceplace" class="w-full" />
+                  <span class="text-danger text-sm" v-show="errors.has('announceplace')">{{ errors.first('announceplace') }}</span>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-5">
+                  <!-- TITLE -->
+                  <label for=""><small> مقدار معین آفر</small></label>
+                  <vx-input-group class="mb-base">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" />
+                  </vx-input-group>
+                  <!-- /TITLE -->
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-5">
+                  <!-- TITLE -->
+                  <label for=""><small> مقدار معین پروژه </small></label>
+                  <vx-input-group class="mb-base">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" />
+                  </vx-input-group>
+                  <!-- /TITLE -->
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5 pt-6">
+                  <!-- TITLE -->
+                  <label for=""><small>ارزش قرارداد</small></label>
+                  <vx-input-group class="mb-base">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" />
+                  </vx-input-group>
+                  <!-- /TITLE -->
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5">
+                  <!-- TITLE -->
+                  <label for=""><small>تضمین قرارداد</small></label>
+                  <vx-input-group class="mb-base">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" />
+                  </vx-input-group>
+                  <!-- /TITLE -->
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5">
+                  <!-- TITLE -->
+                  <label for=""><small>تامینات</small></label>
+                  <vx-input-group class="mb-base">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>٪</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" />
+                  </vx-input-group>
+                  <!-- /TITLE -->
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-4/5">
+                  <!-- TITLE -->
+                  <label for=""><small>مالیات</small></label>
+                  <vx-input-group class="mb-base">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>٪</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" />
+                  </vx-input-group>
+                  <!-- /TITLE -->
+                </div>
+              </vs-col>
+            </vs-row>
+            <vs-row vs-w="12">
+              <div>
+                <h4>
+                  اکمالات / اقلام:
+                </h4>
+              </div>
+            </vs-row>
+            <div v-for="(i , index) in item">
+              <vs-row vs-w="12">
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+                  <div class="w-4/5">
+                    <label for=""><small>جنس / محصول</small></label>
+                    <v-select label="text" v-model="i.product" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                   </div>
-                  <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">Submit</vs-button>
-                </form>
-              </vx-card>
-          </div>
-         
-        </vs-tab>
+                </vs-col>
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+                  <div class="pt-6 w-4/5">
+                    <label for>
+                      <small>مقدار</small>
+                    </label>
+                    <vx-input-group class="mb-base pt-1">
+                      <template slot="prepend">
+                        <div class="prepend-text bg-primary">
+                          <span>AFN</span>
+                        </div>
+                      </template>
+                      <vs-input type="number" v-model="i.amount" />
+                    </vx-input-group>
+                  </div>
+                </vs-col>
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+                  <div class="w-4/5">
+                    <vs-input v-model="i.unit" size="medium" label="واحد اندازه گیری" name="offeraddress" class="w-full" />
+                  </div>
+                </vs-col>
+              </vs-row>
+            </div>
+            <br>
+            <vs-row vs-w="12">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+                <!-- TITLE -->
+                <vs-button type="filled" @click="addNewRow" icon="add">اضافه</vs-button> &nbsp;&nbsp;
 
-      </vs-tabs>
-  </div>
+                <vs-button type="filled" @click="removeRow" icon="delete">حذف</vs-button>
+
+                <!-- /TITLE -->
+              </vs-col>
+            </vs-row>
+          </form>
+        </vx-card>
+      </div>
+      <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">ارسال معلومات</vs-button>
+
+    </vs-tab>
+  </vs-tabs>
+</div>
 </template>
 
 <script>
-
 import Advertismentlist from './Advertismentlist.vue'
 import vSelect from 'vue-select'
 import Orgnizationregister from './Orgnizationregister.vue'
 export default {
-  components:{
+  components: {
     Advertismentlist,
     'v-select': vSelect,
     Orgnizationregister
   },
   data() {
     return {
-     itemType: [
-        {
+      item: [{
+        product: '',
+        amount: '',
+        unit: ''
+      }],
+      itemType: [{
           text: 'تیل دیزل',
           value: '1'
         },
@@ -241,16 +314,23 @@ export default {
         }
       })
     },
-
-  addNewData () {
+    addNewRow() {
+      this.item.push({
+        product: '',
+        amount: '',
+        unit: '',
+      })
+    },
+    removeRow() {
+      this.item.splice(this.item.length - 1, 1)
+    },
+    addNewData() {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
     },
-  toggleDataSidebar (val = false) {
-  this.addNewDataSidebar = val
-   }
-
-
+    toggleDataSidebar(val = false) {
+      this.addNewDataSidebar = val
+    }
 
   },
 }
