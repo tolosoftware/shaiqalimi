@@ -5420,3 +5420,64 @@ text {
   left: 0px !important;
 }
 
+.radio-group {
+  display: inline-flex;
+  overflow: visible;
+}
+
+.radio-group div:first-child label {
+  overflow: hidden;
+}
+
+[dir=ltr] .radio-group div:first-child label {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+[dir=rtl] .radio-group div:first-child label {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.radio-group div:last-child label {
+  overflow: hidden;
+}
+
+[dir=ltr] .radio-group div:last-child label {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+[dir=rtl] .radio-group div:last-child label {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.radio-group input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+.radio-group label {
+  display: inline-block;
+  font-weight: bold;
+  transition: 0.4s;
+}
+
+[dir] .radio-group label {
+  cursor: pointer;
+  padding: 8px;
+  border: solid 1px #cccccc;
+}
+
+.radio-group input[type=radio]:checked + label {
+  color: white;
+}
+
+[dir] .radio-group input[type=radio]:checked + label {
+  background: #e85454;
+  box-shadow: 0 8px 25px -8px #e85454;
+  border-color: #e85454;
+}
+

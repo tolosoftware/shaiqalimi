@@ -42,7 +42,7 @@ class ProjectController extends Controller
         // return $request;
         // return Carbon::parse($request->issue_date);
         $this->validate($request, [
-            's_number' => 'required|unique',
+            // 's_number' => 'required|unique',
             'issue_date' => 'required|date',
             'type' => 'required',
             'price' => 'required:max:20',
