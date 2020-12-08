@@ -18,9 +18,14 @@ Vue.use(Vuesax)
 
 
 
+// vForm start
+import { Form, HasError, AlertError } from 'vform';
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+    // vForm ended
 
 // configuration of vue-axios
-
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
