@@ -273,7 +273,6 @@ import OrganizationAdd from "./OrganizationAdd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
-import {Form,HasError,AlertError} from 'vform'
 
 export default {
   components: {

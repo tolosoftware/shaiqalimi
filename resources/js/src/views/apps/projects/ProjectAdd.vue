@@ -344,11 +344,7 @@ import OrganizationAdd from "./OrganizationAdd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
-import {
-  Form,
-  HasError,
-  AlertError
-} from 'vform'
+
 import {
   FormWizard,
   TabContent
@@ -360,8 +356,6 @@ export default {
     OrganizationAdd,
     ProjectList,
     "v-select": vSelect,
-    HasError,
-    AlertError,
     FormWizard,
     TabContent,
   },
