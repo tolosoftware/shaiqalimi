@@ -171,152 +171,12 @@
                   <has-error :form="pForm" field="price"></has-error>
                   <!-- /TITLE -->
                 </div>
-
-                <!-- Length may not exceed the specified length : 6 -->
-                <div class="vx-col mb-base w-1/3 pt-4">
-                  <label for="date" class="mt-3">
-                    <small>تاریخ آفرگشایی</small>
-                  </label>
-                  <date-picker v-model="pForm.offer_date" color="#e85454" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
-                  <has-error :form="pForm" field="offer_date"></has-error>
-                </div>
-
-                <!-- Password 1 -->
-                <div class="vx-col mb-base w-1/3 pt-4">
-                  <label for="date" class="mt-3">
-                    <small>ختم پیشنهادات</small>
-                  </label>
-                  <date-picker v-model="pForm.close_date" color="#e85454" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
-                  <has-error :form="pForm" field="close_date"></has-error>
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="vx-col mb-base w-1/3">
-                  <vs-input v-model="pForm.source_address" size="medium" label="آدرس داوطلبی" class="mt-5 w-full" />
-                  <has-error :form="pForm" field="source_address"></has-error>
-                </div>
-
-                <!-- Date Format: dd/MM/yyyy -->
-                <div class="vx-col mb-base w-1/3 mt-5">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>مقدار معین آفر</small>
-                  </label>
-                  <vx-input-group>
-                    <template slot="prepend">
-                      <div class="prepend-text bg-primary">
-                        <span>AFN</span>
-                      </div>
-                    </template>
-
-                    <vs-input v-model="pForm.offer_price" type="number" />
-                  </vx-input-group>
-                  <has-error :form="pForm" field="offer_price"></has-error>
-
-                  <!-- /TITLE -->
-                </div>
-
-                <!-- Numeric value between minimum value and a maximum value : 1 and 11 -->
-                <div class="vx-col mb-base w-1/3 mt-5">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>مقدار معین پروژه</small>
-                  </label>
-                  <vx-input-group>
-                    <template slot="prepend">
-                      <div class="prepend-text bg-primary">
-                        <span>AFN</span>
-                      </div>
-                    </template>
-
-                    <vs-input v-model="pForm.project_price" type="number" />
-                  </vx-input-group>
-                  <has-error :form="pForm" field="project_price"></has-error>
-                  <!-- /TITLE -->
-                </div>
               </div>
             </tab-content>
 
             <!-- tab 2 content -->
             <tab-content title="اکمالات/اقلام" class="mb-5">
-              <!-- eteration -->
-              <div v-for="(i , index) in pForm.item" class="vx-row">
-                <div class="vx-col w-1/4 mt-4">
-                  <label for>
-                    <small>محصول</small>
-                  </label>
-                  <v-select label="text" v-model="i.product" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                </div>
-
-                <div class="vx-col w-1/4 pt-4">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>مقدار</small>
-                  </label>
-                  <vx-input-group class="mb-base">
-                    <template slot="prepend">
-                      <div class="prepend-text bg-primary">
-                        <span>AFN</span>
-                      </div>
-                    </template>
-
-                    <vs-input type="number" v-model="i.amount" />
-                  </vx-input-group>
-                  <!-- /TITLE -->
-                </div>
-
-                <div class="vx-col w-1/4">
-                  <vs-input size="medium" v-model="i.equal" label=" معادل" class="mt-5 w-full" />
-                  <span class="text-danger text-sm" v-show="errors.has('equal')">{{ errors.first("equal") }}</span>
-                </div>
-
-                <div class="vx-col w-1/4 pt-4">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>هزینه</small>
-                  </label>
-                  <vx-input-group class="mb-base">
-                    <template slot="prepend">
-                      <div class="prepend-text bg-primary">
-                        <span>AFN</span>
-                      </div>
-                    </template>
-
-                    <vs-input type="number" v-model="i.price" />
-                  </vx-input-group>
-                  <!-- /TITLE -->
-                </div>
-              </div>
-
-              <!-- end eteration -->
-
-              <div class="vx-row">
-                <div class="inline-flex">
-                  <!-- TITLE -->
-                  <vs-button title="افزودن" class="m-2" color="success" type="border" @click="addNewRow" icon-pack="feather" icon="icon-plus"></vs-button>
-                  <vs-button title="حذف" class="m-2" color="danger" type="border" @click="removeRow" icon-pack="feather" icon="icon-x"></vs-button>
-
-                  <!-- /TITLE -->
-                </div>
-              </div>
-              <!-- Length should not be less than the specified length : 3 -->
-              <div class="vx-col mb-base w-1/3 pt-4">
-                <!-- TITLE -->
-                <label for>
-                  <small>ارزش قرارداد</small>
-                </label>
-                <vx-input-group>
-                  <template slot="prepend">
-                    <div class="prepend-text bg-primary">
-                      <span>AFN</span>
-                    </div>
-                  </template>
-
-                  <vs-input type="number" v-model="pForm.price" />
-                </vx-input-group>
-                <has-error :form="pForm" field="price"></has-error>
-                <!-- /TITLE -->
-              </div>
+              <ekmalat :items="pForm.item" :form="pForm"></ekmalat>
             </tab-content>
 
             <!-- tab 3 content -->
@@ -344,6 +204,7 @@ import OrganizationAdd from "./OrganizationAdd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
+import Ekmalat from "./Ekmalat.vue";
 
 import {
   FormWizard,
@@ -358,6 +219,7 @@ export default {
     "v-select": vSelect,
     FormWizard,
     TabContent,
+    Ekmalat,
   },
   data() {
     return {
@@ -462,7 +324,9 @@ export default {
       })
     },
     removeRow() {
-      this.pForm.item.splice(this.item.length - 1, 1)
+      if (this.pForm.item.length > 1) {
+        this.pForm.item.splice(this.pForm.item.length - 1, 1)
+      }
     },
     setAnnounceId(arr) {
       //  trigger a mutation, or dispatch an action  
