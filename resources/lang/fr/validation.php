@@ -135,7 +135,18 @@ return [
         'auth_number' => 'شماره شناسایی',
         'duration' => 'مدت قرارداد',
         'status' => '',
-        'progress' => ''
+        'progress' => '',
+
+
+        'publish_date' => 'تاریخ نشر',
+        'publish_address' => 'آدرس نشر',
+        'client_id' => 'مرجع تطبیق کننده',
+        'reference_no' => 'شماره شناسایی قرارداد',
+        'submission_date' => 'تاریخ ختم پیشنهاد',
+        'bidding_date' => 'تاریخ آفرگشایی',
+        'bidding_address' => 'آدرس آفرگشایی',
+        'offer_quaratee' => 'تظمین قرار داد'
+
     ],
 
 ];
