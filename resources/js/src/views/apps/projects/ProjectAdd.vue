@@ -4,190 +4,396 @@
 
   <vs-tabs>
     <vs-tab label=" ثبت قرارداد جدید">
-      <div class="vx-row">
-        <vx-card class="height-vh-80">
-          <div class="vx-row">
-            <div class="vx-col mb-base w-1/2">
-              <h3>فارم ثبت پروژه قرار دادی</h3>
+      <vx-card class="mb-1">
+        <vs-row vs-w="12">
+          <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="3" vs-sm="6" vs-xs="7">
+            <div class="">
+              <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
+                فارم ثبت پروژه قرار دادی
+              </h3>
             </div>
-            <div class="vx-col mb-base w-1/3 mt-4">
-              <vs-button type="filled" class="mt-5 block" @click="addNewData">نهاد جدید اضافه کنید</vs-button>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="7" vs-sm="3" vs-xs="1"></vs-col>
+          <vs-col vs-type="flex" vs-justify="left" vs-align="left" vs-lg="2" vs-sm="3" vs-xs="4">
+            <div class="">
+              <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
             </div>
-          </div>
-          <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="ثبت قرارداد" @on-complete="submitForm">
-            <tab-content title="معلومات" class="mb-5">
-              <!-- tab 1 content -->
-              <div class="vx-row">
-                <!-- required -->
-                <div class="vx-col mb-base w-1/3">
-                  <vs-input size="medium" v-validate="'required|min:6|max:10'" label="سریال نمبر" v-model="pForm.s_number" class="mt-5 w-full" placeholder="101" disabled />
-                  <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
+          </vs-col>
+        </vs-row>
+      </vx-card>
+      <vx-card class="height-vh-80">
+        <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="ثبت قرارداد" @on-complete="submitForm">
+          <tab-content title="معلومات عمومی قرارداد" class="mb-5">
+            <vs-row vs-w="12">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <vs-input size="medium" v-model="pForm.serial_no" v-validate="'required'" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
+                  <span class="text-danger text-sm" v-show="errors.has('serial_no')">{{ errors.first('serial_no') }}</span>
                 </div>
-
-                <div class="vx-col mb-base w-1/3 mt-4">
-                  <label for>
-                    <small>انتخاب اعلان</small>
-                  </label>
-                  <v-select label="title" @input="setAnnounceId" :options="announces" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                  <has-error :form="pForm" field="announce_id"></has-error>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>انتخاب اعلان</small></label>
+                  <v-select label="text" v-model="pForm.proposal_id" v-validate="'required'" :options="announces" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                  <has-error :form="pForm" field="proposal_id"></has-error>
                 </div>
-
-                <!-- Only alphabetic characters -->
-                <div class="vx-col mb-base w-1/3 pt-5 pb-0">
-                  <label for="date" class="mt-3">تاریخ عقد قرارداد</label>
-                  <date-picker v-model="pForm.issue_date" color="#e85454" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
-                  <has-error :form="pForm" field="issue_date"></has-error>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for="date" class="mt-3"><small>تاریخ عقد قرارداد</small></label>
+                  <date-picker color="#e85454" v-validate="'required'" v-model="pForm.contract_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+                  <has-error :form="pForm" field="contract_date"></has-error>
                 </div>
-
-                <!-- May contain alphabetic characters or numbers -->
-
-                <div class="vx-col mb-base w-1/3 mt-4">
-                  <label>مرجع مربوطه</label>
-                  <v-select @input="setOrganizationId" label="title" :options="org" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                  <has-error :form="pForm" field="organization_id"></has-error>
+              </vs-col>
+            </vs-row>
+            <vs-row vs-w="12" class="pt-2">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>مرجع مربوطه</small></label>
+                  <v-select label="text" v-model="pForm.client_id" v-validate="'required'" :options="organs" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                  <has-error :form="pForm" field="client_id"></has-error>
                 </div>
-                <!-- Must be a valid email -->
-                <div class="vx-col mb-base w-1/3 mt-5">
-                  <label for class="ml-4 mr-4 mb-2">نوع قرارداد</label>
-                  <div class="vx-row pl-4 pr-4">
-                    <div class="radio-group w-full">
-                      <div class="w-1/2">
-                        <input type="radio" v-model="pForm.type" value="1" id="afn" name="type" />
-                        <label for="afn" class="w-full text-center">چارچوبی</label>
-                      </div>
-                      <div class="w-1/2">
-                        <input type="radio" v-model="pForm.type" value="2" id="usd" name="type" />
-                        <label for="usd" class="w-full text-center">معین</label>
-                      </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <vs-input size="medium" v-model="pForm.title" v-validate="'required|min:6'" label="عنوان قرارداد" name="title" class="w-full" />
+                  <has-error :form="pForm" field="title"></has-error>
+                  <!-- <span class="text-danger text-sm" v-show="errors.has('title')">{{ errors.first('title') }}</span> -->
+                </div>
+              </vs-col>
+            </vs-row>
+            <vs-row vs-w="12" class="pt-2">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for class="ml-4 mr-4 mb-2">نوعیت قرارداد</label>
+                  <div class="radio-group w-full">
+                    <div class="w-1/2">
+                      <input type="radio" v-model="pForm.status" value="1" id="struct" name="status" />
+                      <label for="struct" class="w-full text-center">چارچوبی</label>
+                    </div>
+                    <div class="w-1/2">
+                      <input type="radio" v-model="pForm.status" value="2" id="specific" name="status" />
+                      <label for="specific" class="w-full text-center">معین</label>
                     </div>
                   </div>
-                  <has-error :form="pForm" field="type"></has-error>
+                  <has-error :form="pForm" field="status"></has-error>
                 </div>
-                <!-- Must be a valid url -->
-
-                <!-- Must only consist of numbers -->
-                <div class="vx-col mb-base w-2/3">
-                  <vs-input size="medium" v-model="pForm.title" v-validate="'required|min:6'" label="عنوان قرارداد" class="mt-5 w-full" />
-                  <has-error :form="pForm" field="title"></has-error>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <vs-input v-validate="'required|min:6'" v-model="pForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
+                  <has-error :form="pForm" field="reference_no"></has-error>
+                  <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
                 </div>
-
-                <!-- Only alphabetic characters or spaces -->
-                <div class="vx-col mb-base w-1/3">
-                  <vs-input size="medium" v-model="pForm.auth_number" v-validate="'required|min:6'" label="شماره شناسایی قرارداد" class="mt-5 w-full" />
-                  <has-error :form="pForm" field="auth_number"></has-error>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for="date" class="mt-3"><small>تاریخ ختم قرارداد</small></label>
+                  <date-picker color="#e85454" v-validate="'required'" v-model="pForm.contract_end_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+                  <has-error :form="pForm" field="contract_end_date"></has-error>
                 </div>
-
-                <div class="vx-col mb-base w-1/3 pt-4">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>تاریخ ختم قرارداد</small>
-                  </label>
-                  <date-picker v-model="pForm.duration" color="#e85454" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
-                  <has-error :form="pForm" field="duration"></has-error>
-                  <!-- /TITLE -->
-                </div>
-                <div class="vx-col mb-base w-1/3 pt-4">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>تضمین قرارداد</small>
-                  </label>
-                  <vx-input-group>
+              </vs-col>
+            </vs-row>
+            <vs-row vs-w="12" class="pt-2">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>تضمین قرارداد</small></label>
+                  <vx-input-group class="">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
                       </div>
                     </template>
-
-                    <vs-input type="number" v-model="pForm.price" />
+                    <vs-input type="number" v-validate="'required'" v-model="pForm.project_guarantee" />
                   </vx-input-group>
-                  <has-error :form="pForm" field="price"></has-error>
-                  <!-- /TITLE -->
+                  <has-error :form="pForm" field="project_guarantee"></has-error>
                 </div>
-                <div class="vx-col mb-base w-1/3 pt-4">
+              </vs-col>
+            </vs-row>
+          </tab-content>
+
+          <tab-content title="اکمالات/ مصارف" class="mb-5">
+            <ekmalat :items="pForm.item" :form="pForm"></ekmalat>
+            <vs-row vs-w="12">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
                   <!-- TITLE -->
-                  <label for>
-                    <small>متفرقه</small>
-                  </label>
-                  <vx-input-group>
+                  <label for=""><small>تامینات</small></label>
+                  <vx-input-group class="">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>٪</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" v-model="pForm.deposit" />
+                  </vx-input-group>
+                  <has-error :form="pForm" field="deposit"></has-error>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>مالیات</small></label>
+                  <vx-input-group class="">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>٪</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" v-model="pForm.tax" />
+                  </vx-input-group>
+                  <has-error :form="pForm" field="tax"></has-error>
+                </div>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>متفرقه</small></label>
+                  <vx-input-group class="">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
                       </div>
                     </template>
-
-                    <vs-input type="number" v-model="pForm.price" />
+                    <vs-input type="number" v-model="pForm.others" />
                   </vx-input-group>
-                  <has-error :form="pForm" field="price"></has-error>
-                  <!-- /TITLE -->
+                  <has-error :form="pForm" field="others"></has-error>
                 </div>
-                <div class="vx-col mb-base w-1/3 pt-4">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>انتقالات</small>
-                  </label>
-                  <vx-input-group>
+              </vs-col>
+            </vs-row>
+            <vs-row vs-w="12" class="mb-base">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>ارزش قرارداد</small></label>
+                  <vx-input-group class="">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
                       </div>
                     </template>
-
-                    <vs-input type="number" v-model="pForm.price" />
+                    <vs-input type="number" v-model="pForm.pr_worth" />
                   </vx-input-group>
-                  <has-error :form="pForm" field="price"></has-error>
-                  <!-- /TITLE -->
+                  <has-error :form="pForm" field="pr_worth"></has-error>
                 </div>
-                <div class="vx-col mb-base w-1/3 pt-4">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>تأمینات</small>
-                  </label>
-                  <vx-input-group>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>انتقالات</small></label>
+                  <vx-input-group class="">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
                       </div>
                     </template>
-
-                    <vs-input type="number" v-model="pForm.price" />
+                    <vs-input type="number" v-model="pForm.transit" />
                   </vx-input-group>
-                  <has-error :form="pForm" field="price"></has-error>
-                  <!-- /TITLE -->
+                  <has-error :form="pForm" field="transit"></has-error>
                 </div>
-                <div class="vx-col mb-base w-1/3 pt-4">
-                  <!-- TITLE -->
-                  <label for>
-                    <small>مالیات</small>
-                  </label>
-                  <vx-input-group>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+                <div class="w-full pt-2 ml-3 mr-3">
+                  <label for=""><small>نرخ دهی</small></label>
+                  <vx-input-group class="">
                     <template slot="prepend">
                       <div class="prepend-text bg-primary">
                         <span>AFN</span>
                       </div>
                     </template>
-
-                    <vs-input type="number" v-model="pForm.price" />
+                    <vs-input type="number" />
                   </vx-input-group>
-                  <has-error :form="pForm" field="price"></has-error>
-                  <!-- /TITLE -->
                 </div>
-              </div>
-            </tab-content>
+              </vs-col>
+            </vs-row>
+          </tab-content>
 
-            <!-- tab 2 content -->
-            <tab-content title="اکمالات/اقلام" class="mb-5">
-              <ekmalat :items="pForm.item" :form="pForm"></ekmalat>
-            </tab-content>
+          <!-- tab 3 content -->
+          <tab-content title="بررسی" class="mb-5">
+            <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+                <h4>&nbsp;مرور بخش معلومات عمومی&nbsp;</h4>
+              </vs-col>
+            </vs-row>
+            <vs-row vs-w="12">
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    سریال نمبر:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.serial_no" vs-justify="right" vs-align="right"></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    انتخاب اعلان:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.proposal_id.text" vs-justify="right" vs-align="right"></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    تاریخ عقد قرارداد:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.contract_date" vs-justify="right" vs-align="right"></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-1">
+                  <strong class="mr-4">
+                    مرجع مربوطه :
+                  </strong>
+                  <small class="mb-5" v-text="pForm.client_id.text" vs-justify="right" vs-align="right"></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    عنوان قرارداد:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.title" vs-justify="right" vs-align="right"></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    نوعیت قرارداد:
+                  </strong>
+                  <small v-if="pForm.status== 2" class="mb-5" vs-justify="right" vs-align="right">معین</small>
+                  <small v-if="pForm.status== 1" class="mb-5" vs-justify="right" vs-align="right">چارچوبی</small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    شماره شناسایی قرارداد :
+                  </strong>
+                  <small class="mb-5" v-text="pForm.reference_no" vs-justify="right" vs-align="right"></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    تاریخ ختم قرارداد:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.contract_end_date" vs-justify="right" vs-align="right"></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    تضمین قرارداد:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.project_guarantee" vs-justify="right" vs-align="right"></small>
+                  <small style="color:#42b983;"><b>افغانی </b></small>
+                </h6>
+              </vs-col>
+            </vs-row>
+            <br>
+            <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+                <h4>&nbsp;مرور بخش اکمالات /اقلام&nbsp;</h4>
+              </vs-col>
+            </vs-row>
+            <vs-table :data="pForm.item">
+              <template slot="thead" style="background-color: #f3f5f7">
+                <vs-th>جنس / محصول</vs-th>
+                <vs-th>مقدار</vs-th>
+                <vs-th>واحد اندازه گیری</vs-th>
+                <vs-th>هزینه فی واحد</vs-th>
+                <vs-th>هزینه مجموعی</vs-th>
+              </template>
+              <template slot-scope="{data}">
+                <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                  <vs-td :data="data[indextr].item_id.text">
+                    {{data[indextr].item_id.text}}
+                  </vs-td>
+                  <vs-td :data="data[indextr].ammount">
+                    {{data[indextr].ammount}}
+                  </vs-td>
+                  <!-- <vs-td :data="data[indextr].unit_id.text">
+                    {{data[indextr].unit_id.text}}
+                  </vs-td> -->
+                  <vs-td :data="data[indextr].unit_id">
+                    {{data[indextr].unit_id}}
+                  </vs-td>
+                  <vs-td :data="data[indextr].unit_price">
+                    {{data[indextr].unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+                  </vs-td>
+                  <vs-td :data="data[indextr].total_price">
+                    {{data[indextr].total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+                  </vs-td>
+                </vs-tr>
+              </template>
+            </vs-table>
+            <br>
+            <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+                <h4>&nbsp;مرور بخش مصارف&nbsp;</h4>
+              </vs-col>
+            </vs-row>
+            <vs-row ws-w="12">
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    تامینات:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.deposit" vs-justify="right" vs-align="right"></small>
+                  <small style="color:#42b983;"><b>% </b></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    مالیات:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.tax" vs-justify="right" vs-align="right"></small>
+                  <small style="color:#42b983;"><b>% </b></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    متفرقه:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.others" vs-justify="right" vs-align="right"></small>
+                  <small style="color:#42b983;"><b>افغانی </b></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    ارزش قرارداد:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.pr_worth" vs-justify="right" vs-align="right"></small>
+                  <small style="color:#42b983;"><b>افغانی </b></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    انتقالات:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.transit" vs-justify="right" vs-align="right"></small>
+                  <small style="color:#42b983;"><b>افغانی </b></small>
+                </h6>
+              </vs-col>
+              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+                <h6 class="mb-5 mt-3 ml-2">
+                  <strong class="mr-4">
+                    نرخ دهی:
+                  </strong>
+                  <small class="mb-5" v-text="pForm.transit" vs-justify="right" vs-align="right"></small>
+                  <small style="color:#42b983;"><b>افغانی </b></small>
+                </h6>
+              </vs-col>
+            </vs-row>
+            <br>
+            <vs-row vs-w="12" class="pt-6 pb-6">
+              <vs-checkbox color="success" size="large" v-model="is_accepted">تایید مینمایم که معلومات فوق درست میباشد.</vs-checkbox>
+            </vs-row>
 
-            <!-- tab 3 content -->
-            <tab-content title="بررسی" class="mb-5">
-              <div class="vx-row">
-                <h2>لطفاً اطلاعات قرارداد را بازبینی کنید!</h2>
-              </div>
-            </tab-content>
-          </form-wizard>
-        </vx-card>
-      </div>
+          </tab-content>
+        </form-wizard>
+      </vx-card>
     </vs-tab>
     <vs-tab label=" لست قرار دادها">
       <div class="vx-row">
@@ -223,37 +429,55 @@ export default {
   },
   data() {
     return {
+      is_accepted: false,
+      currentSerialNo: 0,
       // init values
-      announces: [],
       org: [],
       mainSNumber: 0,
       // Project Form
       pForm: new Form({
-        s_number: '',
-        issue_date: '',
-        issue_address: '',
-        source_address: '',
+        serial_no: '1001',
+        proposal_id: '',
+        contract_date: '',
+        client_id: '',
         title: '',
-        img: '',
-        auth_number: '',
-        type: "1",
-        price: '',
-        duration: '',
-        offer_date: '',
-        close_date: '',
-        offer_price: '',
-        project_price: '',
-        announce_id: '',
-        organization_id: '',
-
+        status: "1",
+        reference_no: '',
+        contract_end_date: '',
+        project_guarantee: '',
         item: [{
-          product: '',
-          amount: '',
-          equal: '',
-          price: '',
+          item_id: '',
+          ammount: '',
+          unit_id: '',
+          unit_price: '',
+          total_price: ''
         }],
-      }),
+        deposit: '',
+        tax: '',
+        others: '',
+        pr_worth: '',
+        transit: '',
 
+      }),
+      clients: [],
+      items: [],
+      mesure_unit: [],
+      announces: [{
+        text: 'اعلان قرار داد تیل وزارت دفاع',
+        value: '1'
+      }, {
+        text: 'اعلان قرار داد تیل وزارت داخله',
+        value: '2'
+      }],
+      organs: [{
+          text: 'وزارت داخله',
+          value: '1'
+        },
+        {
+          text: 'وزارت دفاع ملی',
+          value: '2'
+        }
+      ],
       itemType: [{
           text: "تیل دیزل",
           value: "1",
@@ -290,9 +514,10 @@ export default {
     };
   },
   created() {
-    this.getAnnounces();
-    this.getOrganizations();
-    this.getLastProj();
+    // this.getNextSerianNo();
+    this.getAllClients();
+    this.getAllItems();
+    this.getAllUnites();
   },
   computed: {
     isFormValid() {
@@ -315,12 +540,64 @@ export default {
     this.$validator.validate();
   },
   methods: {
+    getNextSerianNo() {
+      this.$Progress.start()
+      this.axios.get('/api/getAddSerianID')
+        .then((response) => {
+          this.currentSerialNo = response.data;
+          this.pForm.serial_no = this.currentSerialNo;
+        })
+    },
+
+    // for Organs that implement the ad
+    getAllClients() {
+      this.$Progress.start()
+      this.axios.get('/api/clients')
+        .then((response) => {
+          this.clients = response.data;
+        })
+    },
+
+    // for items to be bought
+    getAllItems() {
+      this.$Progress.start()
+      this.axios.get('/api/items')
+        .then((response) => {
+          this.items = response.data;
+        })
+    },
+
+    // for getting measure unit of the item
+    getAllUnites() {
+      this.$Progress.start()
+      this.axios.get('/api/add-unites')
+        .then((response) => {
+          this.mesure_unit = response.data;
+        })
+    },
+
+    // set the id of Selected Organ
+    setClientId(arr) {
+      this.pForm.client_id = arr.text;
+    },
+
+    // set the id of Selected Goods/Product name
+    setItemId(arr) {
+      this.pForm.item.item_id = arr.id;
+    },
+
+    // set the id of Selected Measure Unite
+    setUnitId(arr) {
+      this.pForm.item.unit_id = arr.id;
+    },
+
     addNewRow() {
       this.pForm.item.push({
-        product: '',
-        amount: '',
-        equal: '',
-        price: '',
+        item_id: '',
+        ammount: '',
+        unit_id: '',
+        unit_price: '',
+        total_price: '',
       })
     },
     removeRow() {
@@ -328,37 +605,7 @@ export default {
         this.pForm.item.splice(this.pForm.item.length - 1, 1)
       }
     },
-    setAnnounceId(arr) {
-      //  trigger a mutation, or dispatch an action  
-      this.pForm.announce_id = arr.id;
-    },
-    setOrganizationId(arr) {
-      //  trigger a mutation, or dispatch an action  
-      this.pForm.organization_id = arr.id;
-    },
-    getAnnounces() {
-      // Start the Progress Bar
-      this.$Progress.start()
-      this.axios.get('/api/announcement')
-        .then((response) => {
-          this.announces = response.data;
-        })
-    },
-    getLastProj() {
-      this.axios.get('/api/project-last')
-        .then((response) => {
-          this.mainSNumber = response.data;
-          this.pForm.s_number = this.mainSNumber;
-        })
-    },
-    getOrganizations() {
-      this.axios.get('/api/organization')
-        .then((response) => {
-          this.org = response.data;
-          // Finish the Progress Bar
-          this.$Progress.set(100)
-        })
-    },
+
     submitForm() {
       // Start the Progress Bar
       this.$Progress.start()

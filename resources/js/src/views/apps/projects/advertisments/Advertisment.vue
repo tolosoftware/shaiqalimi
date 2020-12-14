@@ -130,7 +130,7 @@
             </vs-row>
             <br>
           </tab-content>
-          <tab-content title="اکمالات / اقلام" class="mb-5" icon="feather icon-briefcase">
+          <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase">
             <div v-for="(i , index) in aForm.item">
               <vs-row vs-w="12" class="pb-2 mb-2">
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="8" vs-xs="12">
@@ -201,7 +201,7 @@
             <vs-row vs-w="12">
               <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="4" vs-xs="12" class="pt-2 mb-2 ml-3 mr-3">
                 <vs-button type="border" @click="addNewRow" color="success" icon="add"></vs-button> &nbsp;&nbsp;
-                <vs-button type="border" @click="removeRow" color="danger" icon="delete" v-if="aForm.item.length !=1"></vs-button>
+                <vs-button type="border" @click="removeRow" color="danger" icon="delete"  :disabled="aForm.item.length <= 1"></vs-button>
               </vs-col>
             </vs-row>
             <vs-row vs-w="12">
@@ -394,7 +394,7 @@
             <br>
             <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
               <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
-                <h4>&nbsp;مرور بخش اجناس&nbsp;</h4>
+                <h4>&nbsp;مرور بخش اکمالات /اقلام&nbsp;</h4>
               </vs-col>
             </vs-row>
             <vs-table :data="aForm.item">
@@ -431,7 +431,7 @@
             <br>
             <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
               <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
-                <h4>&nbsp;مرور بخش اکمالات / اقلام&nbsp;</h4>
+                <h4>&nbsp;مرور بخش مصارف&nbsp;</h4>
               </vs-col>
             </vs-row>
             <vs-row ws-w="12">
