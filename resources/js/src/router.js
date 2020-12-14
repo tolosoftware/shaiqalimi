@@ -211,52 +211,52 @@ const router = new Router({
                     }
                 },
 
-              {
-                path: '/transactions',
-                name: 'transactions',
-                component: () => import('./views/apps/transactions/Transaction.vue'),
-                meta: {
-                  breadcrumb: [
-                    {
-                      title: 'Home',
-                      url: '/'
-                    },
-                    {
-                      title: 'معاملات',
-                      active: true
+                {
+                    path: '/transactions',
+                    name: 'transactions',
+                    component: () =>
+                        import ('./views/apps/transactions/Transaction.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'معاملات',
+                                active: true
+                            }
+                        ],
+                        rule: 'editor'
                     }
-                  ],
-                  rule: 'editor'
-                }
-              },
-              {
-                path: '/transaction/:id/edit',
-                name: 'edit_transaction',
-                component: () =>
-                  import('./views/apps/transactions/Transaction.vue'),
-                meta: {
-                  breadcrumb: [
-                    {
-                      title: 'Home',
-                      url: '/'
-                    },
-                    {
-                      title: 'ویرایش معاملات',
-                      active: true
-                    }
-                  ]
                 },
-                rule: 'editor'
-              },
-              {
-                path: '/transactions/:filter',
-                component: () => import('./views/apps/transactions/Transaction.vue'),
-                meta: {
-                  rule: 'editor',
-                  parent: 'email',
-                  no_scroll: true
-                }
-              },
+                {
+                    path: '/transaction/:id/edit',
+                    name: 'edit_transaction',
+                    component: () =>
+                        import ('./views/apps/transactions/Transaction.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'ویرایش معاملات',
+                                active: true
+                            }
+                        ]
+                    },
+                    rule: 'editor'
+                },
+                {
+                    path: '/transactions/:filter',
+                    component: () =>
+                        import ('./views/apps/transactions/Transaction.vue'),
+                    meta: {
+                        rule: 'editor',
+                        parent: 'email',
+                        no_scroll: true
+                    }
+                },
                 {
                     path: '/accounts',
                     name: 'accounts',
@@ -420,7 +420,12 @@ const router = new Router({
                     component: () =>
                         import ('./views/apps/settings/Setting.vue'),
                     meta: {
-                        rule: 'editor'
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: ' تنظیمات عمومی', active: true }
+                        ],
+                        rule: 'editor',
+                        no_scroll: false
                     }
                 },
                 // =============================================================================
@@ -444,12 +449,12 @@ const router = new Router({
                     path: '/user/edit/:user_id',
                     name: 'user-profile-edit',
                     component: () =>
-                        import('./views/apps/user/sub/UserEdit.vue'),
+                        import ('./views/apps/user/sub/UserEdit.vue'),
                     meta: {
                         breadcrumb: [
-                            {title: 'Home',url: '/'},
-                            {title: 'مدیریت کاربر',url: {name: 'user-management'}},
-                            {title: 'ویرایش کاربر', active: true}
+                            { title: 'Home', url: '/' },
+                            { title: 'مدیریت کاربر', url: { name: 'user-management' } },
+                            { title: 'ویرایش کاربر', active: true }
                         ],
                         rule: 'editor',
                         no_scroll: true
@@ -462,7 +467,8 @@ const router = new Router({
         // =============================================================================
         {
             path: '',
-            component: () => import('@/layouts/full-page/FullPage.vue'),
+            component: () =>
+                import ('@/layouts/full-page/FullPage.vue'),
             children: [
                 // =============================================================================
                 // PAGES
@@ -470,7 +476,8 @@ const router = new Router({
                 {
                     path: '/login',
                     name: 'login',
-                    component: () => import('@/views/pages/login/Login.vue'),
+                    component: () =>
+                        import ('@/views/pages/login/Login.vue'),
                     meta: {
                         rule: 'editor'
                     }
