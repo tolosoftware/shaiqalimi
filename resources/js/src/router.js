@@ -160,7 +160,7 @@ const router = new Router({
                             },
                             {
                                 dyTitle: true
-                            },
+                            }
                         ],
                         rule: 'editor',
                         parent: 'projects',
@@ -481,8 +481,7 @@ const router = new Router({
                     meta: {
                         rule: 'editor'
                     }
-                },
-
+                }
             ]
         },
         {

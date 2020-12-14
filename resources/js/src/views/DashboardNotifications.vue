@@ -1,75 +1,61 @@
 <template>
-  <div>
-    <vs-tabs>
-        <vs-tab :label="$t('Important')">
-          <div class="vx-row">
-            <!-- TITLE COLOR -->    
-            <div
-              v-for="item in ImportnatNotif"
-              :key="item.id"
-              class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
-                <vx-card
-                    :title="item.title"
-                    :title-color="item.titleColor"
-                    :subtitle="item.subtitle"
-                    :time="item.time"
-                    :content-color="item.contentColor"
-                    :subtitle-color="item.subtitleColor"
-                    :card-background="item.cardBackground"
-                  >
-                    <span class="item-time-ago" :style="'color:' + item.titleColor">{{item.time}} روز قبل</span>
-                    <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
-                </vx-card>
+<div>
+  <vs-tabs>
+    <vs-tab :label="$t('Important')">
+      <div class="vx-row">
+        <!-- TITLE COLOR -->
+        <div v-for="item in ImportnatNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
+          <vx-card :title="item.title" :title-color="item.titleColor" :subtitle="item.subtitle" :time="item.time" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
+            <span class="item-time-ago" :style="'color:' + item.titleColor">
+              <vs-icon size="1.8rem" color="lightblue" icon="star_outline"></vs-icon>&nbsp;
+              <vs-icon size="1.8rem" color="red" icon="delete_outline"></vs-icon>
+            </span>
+            <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
+            <div slot="footer">
+              <vs-row vs-justify="center">
+                <vs-button line-position="top" color="primary" line-origin="right" type="line" size="small" icon="info"> برای دیدن جزییات اینجا را کلیک کنید !</vs-button>
+              </vs-row>
             </div>
-          <!-- PAGINATION -->
-          <vs-pagination
-            :total="ImportnatNotif.length"
-            :max="7"
-            :value="1"
-            @input="(val) => { val }" />
+          </vx-card>
+        </div>
+        <!-- PAGINATION -->
+        <vs-pagination :total="ImportnatNotif.length" :max="7" :value="1" @input="(val) => { val }" />
 
-          </div>
-        </vs-tab>
-        <vs-tab :label="$t('All')">
-          <div class="vx-row">
-            <!-- TITLE COLOR -->    
-            <div
-              v-for="item in allNotif"
-              :key="item.id"
-              class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
-                <vx-card
-                    :title="item.title"
-                    :title-color="item.titleColor"
-                    :content-color="item.contentColor"
-                    :card-background="item.cardBackground"
-                    :subtitle="item.subtitle"
-                    :subtitle-color="item.subtitleColor"
-                    >
-                    <span class="item-time-ago" :style="'color:' + item.titleColor">{{item.time}} روز قبل</span>
-                    <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
-                </vx-card>
+      </div>
+    </vs-tab>
+    <vs-tab :label="$t('All')">
+      <div class="vx-row">
+        <!-- TITLE COLOR -->
+        <div v-for="item in allNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
+          <vx-card :title="item.title" :title-color="item.titleColor" :content-color="item.contentColor" :card-background="item.cardBackground" :subtitle="item.subtitle" :time="item.time">
+            <span class="item-time-ago" :style="'color:' + item.titleColor">
+              <vs-icon size="1.8rem" color="lightblue" icon="star_outline"></vs-icon>&nbsp;
+              <vs-icon size="1.8rem" color="red" icon="delete_outline"></vs-icon>
+              <!--<vs-icon size="2.1rem" icon="playlist_add"></vs-icon>-->
+            </span>
+            <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
+            <div slot="footer">
+              <vs-row vs-justify="center">
+                <vs-button line-position="top" color="primary" line-origin="right" type="line" size="small" icon="info"> برای دیدن جزییات اینجا را کلیک کنید !</vs-button>
+              </vs-row>
             </div>
-          </div>
-          <!-- PAGINATION -->
-          <vs-pagination
-            :total="allNotif.length"
-            :max="7"
-            :value="1"
-            @input="(val) => { val }" />
-        </vs-tab>
-
-      </vs-tabs>
-
-    <!-- <div class="demo-alignment mb-10">
+          </vx-card>
+        </div>
+      </div>
+      <!-- PAGINATION -->
+      <vs-pagination :total="allNotif.length" :max="7" :value="1" @input="(val) => { val }" />
+    </vs-tab>
+  </vs-tabs>
+  <!--<div class="demo-alignment mb-10">
       <vs-button color="warning" type="filled" icon-pack="feather" icon="icon-star">Important</vs-button>
       <vs-button color="primary" type="border" icon-pack="feather" icon="icon-check">All</vs-button>
-    </div> -->
-
-  </div>
+    </div>-->
+</div>
 </template>
+
 <script>
-export default{
-//   name: 'vx-procurment',
+export default {
+  //   name: 'vx-procurment',
   computed: {
     ImportnatNotif: function () {
       return this.cartItems.filter(i => i.priority == 1)
@@ -78,10 +64,9 @@ export default{
       return this.cartItems
     }
   },
-  data () {
+  data() {
     return {
-      cartItems : [
-        {
+      cartItems: [{
           id: 21,
           time: 21,
           title: 'یادآوری ۱',
@@ -186,10 +171,10 @@ export default{
           id: 4,
           time: 4,
           title: 'یادآوری ۴',
-          titleColor:"#fff",
-          contentColor:"#fff",
+          titleColor: "#fff",
+          contentColor: "#fff",
           subtitleColor: "#fff",
-          cardBackground:"linear-gradient(to right, #56ab2f, #a8e063)",
+          cardBackground: "linear-gradient(to right, #56ab2f, #a8e063)",
           priority: 2,
           subtitle: 'اعلانات پروژه جدید',
           desc: 'برای تغییر رنگ عنوان کارت می توانید استفاده کنید. این پایه از رنگهای و تم پشتیبانی می کند. شکلات دسر باربن شکلات شیرینی پودینگ پای سیب بستنی شکلاتی مافین. من عاشق پنجه خرس هستم',
@@ -225,10 +210,10 @@ export default{
           id: 14,
           time: 14,
           title: 'یادآوری ۴',
-          titleColor:"#fff",
-          contentColor:"#fff",
+          titleColor: "#fff",
+          contentColor: "#fff",
           subtitleColor: "#fff",
-          cardBackground:"linear-gradient(to right, #56ab2f, #a8e063)",
+          cardBackground: "linear-gradient(to right, #56ab2f, #a8e063)",
           priority: 1,
           subtitle: 'اعلانات پروژه جدید',
           desc: 'برای تغییر رنگ عنوان کارت می توانید استفاده کنید. این پایه از رنگهای و تم پشتیبانی می کند. شکلات دسر باربن شکلات شیرینی پودینگ پای سیب بستنی شکلاتی مافین. من عاشق پنجه خرس هستم',
