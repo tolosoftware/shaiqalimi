@@ -3,25 +3,27 @@
   <OrganizationAdd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
   <vs-tabs>
-    <vs-tab label=" ثبت قرارداد جدید">
-      <vx-card class="mb-1">
-        <vs-row vs-w="12">
-          <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="3" vs-sm="6" vs-xs="7">
-            <div class="">
-              <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
-                فارم ثبت پروژه قرار دادی
-              </h3>
-            </div>
-          </vs-col>
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="7" vs-sm="3" vs-xs="1"></vs-col>
-          <vs-col vs-type="flex" vs-justify="left" vs-align="left" vs-lg="2" vs-sm="3" vs-xs="4">
-            <div class="">
-              <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
-            </div>
-          </vs-col>
-        </vs-row>
-      </vx-card>
+    <vs-tab label=" ثبت قرارداد جدید" style="padding:2px 0px 0px 0px !important;">
       <vx-card class="height-vh-80">
+        <div class="header">
+          <vs-row vs-w="12">
+            <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="3" vs-sm="6" vs-xs="7">
+              <div class="">
+                <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
+                  فارم ثبت پروژه قرار دادی
+                </h3>
+              </div>
+            </vs-col>
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="7" vs-sm="3" vs-xs="1"></vs-col>
+            <vs-col vs-type="flex" vs-justify="left" vs-align="left" vs-lg="2" vs-sm="3" vs-xs="4">
+              <div class="w-full">
+                <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
+              </div>
+            </vs-col>
+          </vs-row>
+          <br>
+          <hr>
+        </div>
         <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="ثبت قرارداد" @on-complete="submitForm">
           <tab-content title="معلومات عمومی قرارداد" class="mb-5">
             <vs-row vs-w="12">
@@ -204,7 +206,6 @@
             </vs-row>
           </tab-content>
 
-          <!-- tab 3 content -->
           <tab-content title="بررسی" class="mb-5">
             <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
               <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
@@ -397,7 +398,8 @@
     </vs-tab>
     <vs-tab label=" لست قرار دادها">
       <div class="vx-row">
-        <project-list></project-list>
+        <!-- <project-list></project-list> -->
+        <Advertismentlist></Advertismentlist>
       </div>
     </vs-tab>
   </vs-tabs>
@@ -411,6 +413,7 @@ import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
 import Ekmalat from "./Ekmalat.vue";
+import Advertismentlist from './advertisments/Advertismentlist.vue'
 
 import {
   FormWizard,
@@ -426,6 +429,7 @@ export default {
     FormWizard,
     TabContent,
     Ekmalat,
+    Advertismentlist
   },
   data() {
     return {

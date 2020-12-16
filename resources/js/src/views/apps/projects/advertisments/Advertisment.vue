@@ -2,30 +2,37 @@
 <div>
   <Orgnizationregister :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
   <vs-tabs>
-    <vs-tab label="لیست اعلانات">
-      <div class="vx-row">
-        <Advertismentlist></Advertismentlist>
-      </div>
-    </vs-tab>
-    <vs-tab label="ثبت اعلان">
-      <vx-card class="mb-1">
-        <vs-row vs-w="12">
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="4" vs-xs="4">
-            <div class="">
-              <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
-                فارم ثبت اعلانات
-              </h3>
-            </div>
-          </vs-col>
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="4" vs-xs="1"></vs-col>
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="4" vs-xs="7">
-            <div class="w-full">
-              <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
-            </div>
-          </vs-col>
-        </vs-row>
-      </vx-card>
+    <vs-tab label="ثبت اعلان" style="padding:2px 0px 0px 0px !important;">
+      <!--
+    <vx-card
+      title="Title Color"
+      title-color="success"
+      subtitle="Brownie pastry chocolate pastry chocolate pudding.">
+      <p class="mb-3">You can use <code>title-color</code> prop to change color of title of card. This prop supports hex, rgba, rgb and theme colors.</p>
+      <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
+     </vx-card>
+     -->
       <vx-card class="height-vh-80">
+        <div class="header">
+          <vs-row vs-w="12">
+            <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="2" vs-sm="4" vs-xs="4">
+              <div class="">
+                <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
+                  فارم ثبت اعلانات
+                </h3>
+              </div>
+            </vs-col>
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="4" vs-xs="1"></vs-col>
+            <vs-col vs-type="flex" vs-justify="left" vs-align="left" vs-lg="2" vs-sm="4" vs-xs="7">
+              <div class="w-full">
+                <vs-button type="filled" @click="addNewData" icon="add">ثبت نهاد جدید </vs-button>
+              </div>
+            </vs-col>
+          </vs-row>
+          <br>
+          <hr>
+          <!--<vs-divider/> -->
+        </div>
         <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="ثبت معلومات" @on-complete="formSubmitted">
           <tab-content title="معلومات عمومی" class="mb-5" icon="feather icon-home">
             <vs-row vs-w="12">
@@ -201,7 +208,7 @@
             <vs-row vs-w="12">
               <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="4" vs-xs="12" class="pt-2 mb-2 ml-3 mr-3">
                 <vs-button type="border" @click="addNewRow" color="success" icon="add"></vs-button> &nbsp;&nbsp;
-                <vs-button type="border" @click="removeRow" color="danger" icon="delete"  :disabled="aForm.item.length <= 1"></vs-button>
+                <vs-button type="border" @click="removeRow" color="danger" icon="delete" :disabled="aForm.item.length <= 1"></vs-button>
               </vs-col>
             </vs-row>
             <vs-row vs-w="12">
@@ -499,6 +506,11 @@
         </vs-row>
       </vx-card>
     </vs-tab>
+    <vs-tab label="لیست اعلانات">
+      <div class="vx-row">
+        <Advertismentlist></Advertismentlist>
+      </div>
+    </vs-tab>
   </vs-tabs>
 </div>
 </template>
@@ -724,6 +736,7 @@ export default {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
     },
+
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
     }

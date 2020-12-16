@@ -8,7 +8,7 @@
 ========================================================================================== -->
 
 <template>
-<vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
+<vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal" click-not-close="isChecked">
   <div class="mt-6 flex items-center justify-between px-6">
     <h4>نهاد جدید اضافه کنید</h4>
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
@@ -81,6 +81,7 @@
 <script>
 export default {
   props: {
+    
     isSidebarActive: {
       type: Boolean,
       required: true
@@ -95,7 +96,7 @@ export default {
   },
   data() {
     return {
-
+      isChecked: true,
       dataId: null,
       dataName: '',
       dataCategory: null,
@@ -144,7 +145,9 @@ export default {
     scrollbarTag() { return this.$store.getters.scrollbarTag }
   },
   methods: {
+    isFormValid() {
 
+    },
     submitData() {
       this.$validator.validateAll().then(result => {
         if (result) {
