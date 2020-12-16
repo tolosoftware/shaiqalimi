@@ -19,8 +19,12 @@
 
     <!-- card title -->
     <div class="vx-card__title">
-      <h4 v-if="this.$props.title" :style="titleStyles" :class="titleClasses">{{ title }}</h4>
-      <h6 v-if="this.$props.subtitle" :style="subtitleStyles" :class="subtitleClasses">{{ subtitle }}<span v-if="this.$props.time">&nbsp;&nbsp;<vs-icon icon="alarm" size="15px" color="#562db7"></vs-icon><small style="color:#562db7;">&nbsp;{{time}} ساعت قبل</small></span></h6>
+      <h4 v-if="this.$props.title" :style="titleStyles" :class="titleClasses" class="mb-3">{{ title }}</h4>
+      <h6 :style="subtitleStyles" :class="subtitleClasses" class="mt-2">
+        <span v-if="this.$props.time">
+          <vs-icon icon="alarm" size="15px" color="#562db7"></vs-icon><small style="color:#562db7;">&nbsp;{{time}} ساعت قبل</small>
+        </span>
+      </h6>
     </div>
 
     <!-- card actions -->
@@ -75,7 +79,6 @@ export default {
   props: {
     title: String,
     time: Number,
-    subtitle: String,
 
     actionButtons: {
       type: Boolean,

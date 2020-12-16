@@ -7,8 +7,9 @@
         <div v-for="item in ImportnatNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
           <vx-card :title="item.title" :title-color="item.titleColor" :subtitle="item.subtitle" :time="item.time" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
             <span class="item-time-ago" :style="'color:' + item.titleColor">
-              <vs-icon size="1.8rem" color="lightblue" icon="star_outline"></vs-icon>&nbsp;
-              <vs-icon size="1.8rem" color="red" icon="delete_outline"></vs-icon>
+              <feather-icon icon="CornerRightUpIcon" size="1x" />
+              <feather-icon icon="XIcon" svgClasses="stroke-curren text-danger" />&nbsp;
+              <!-- <vs-icon size="1.8rem" color="red" icon="delete_outline"></vs-icon> -->
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
             <div slot="footer">
@@ -20,7 +21,6 @@
         </div>
         <!-- PAGINATION -->
         <vs-pagination :total="ImportnatNotif.length" :max="7" :value="1" @input="(val) => { val }" />
-
       </div>
     </vs-tab>
     <vs-tab :label="$t('All')">
@@ -29,8 +29,8 @@
         <div v-for="item in allNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
           <vx-card :title="item.title" :title-color="item.titleColor" :content-color="item.contentColor" :card-background="item.cardBackground" :subtitle="item.subtitle" :time="item.time">
             <span class="item-time-ago" :style="'color:' + item.titleColor">
-              <vs-icon size="1.8rem" color="lightblue" icon="star_outline"></vs-icon>&nbsp;
-              <vs-icon size="1.8rem" color="red" icon="delete_outline"></vs-icon>
+              <feather-icon icon="CornerRightUpIcon" size="1x" />&nbsp;
+              <feather-icon icon="XIcon" svgClasses="stroke-curren text-danger" />&nbsp;
               <!--<vs-icon size="2.1rem" icon="playlist_add"></vs-icon>-->
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { AirplayIcon } from 'vue-feather-icons'
 export default {
   //   name: 'vx-procurment',
   computed: {
@@ -68,17 +69,21 @@ export default {
     return {
       cartItems: [{
           id: 21,
-          time: 21,
-          title: 'یادآوری ۱',
+          time: 1,
+          title: 'اعلان جدید اضافه شد',
           titleColor: '#562db8',
           priority: 1,
+<<<<<<< HEAD
           subtitle: 'برداشت از تانک تیل',
           desc: 'برایابنشتساینباسشینمتبانشستیابنتاشسینتباشسنیبانت اولین بار سه نوع ماده ضدخوردگی جدید تزریق منقطع (درون چاهی) و دو نوع ماده ضدخوردگی جدید تزریق پیوسته در چاههای شرکت بهره بردای نفت و گاز شرق مورد استفاده و تأیید نهایی قرار گرفت.',
+=======
+          desc: 'برای اولین بار سه نوع ماده ضدخوردگی جدید تزریق منقطع (درون چاهی) و دو نوع ماده ضدخوردگی جدید تزریق پیوسته در چاههای شرکت بهره بردای نفت و گاز شرق مورد استفاده و تأیید نهایی قرار گرفت.',
+>>>>>>> 76f0eb730851515ddeeeed7195d5733a1f405da5
         },
         {
           id: 22,
-          time: 22,
-          title: 'یادآوری ۲',
+          time: 2,
+          title: 'قراداد تامین تیل ویرایش شد',
           titleColor: '#562db8',
           priority: 2,
           subtitle: 'قرارداد شرکت روشن',
@@ -87,8 +92,8 @@ export default {
 
         {
           id: 23,
-          time: 23,
-          title: 'یادآوری ۳',
+          time: 3,
+          title: 'فروش 20 کیلوگرام مبلایل',
           titleColor: '#562db8',
           priority: 2,
           subtitle: 'آخرین مهلت ارسال پروپوزال',
@@ -96,8 +101,8 @@ export default {
         },
         {
           id: 24,
-          time: 24,
-          title: 'یادآوری ۴',
+          time: 1.3,
+          title: 'خریداری یک تانکر تیل',
           titleColor: '#562db8',
           priority: 2,
           subtitle: 'اعلانات پروژه جدید',
@@ -105,8 +110,8 @@ export default {
         },
         {
           id: 211,
-          time: 211,
-          title: 'یادآوری ۱',
+          time: 1,
+          title: 'پرداخت 800 دالر برای انتقال تیل',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'برداشت از تانک تیل',
@@ -114,8 +119,8 @@ export default {
         },
         {
           id: 212,
-          time: 212,
-          title: 'یادآوری ۲',
+          time: 12,
+          title: 'عقد قرارداد تامین تیل',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'قرارداد شرکت روشن',
@@ -123,8 +128,8 @@ export default {
         },
         {
           id: 213,
-          time: 213,
-          title: 'یادآوری ۳',
+          time: 7,
+          title: 'فروش 30 کیلوگرام مبلایل',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'آخرین مهلت ارسال پروپوزال',
@@ -132,8 +137,8 @@ export default {
         },
         {
           id: 214,
-          time: 214,
-          title: 'یادآوری ۴',
+          time: 14,
+          title: '9000 دالر به حساب شرکت اضافه شد',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'اعلانات پروژه جدید',
@@ -142,7 +147,7 @@ export default {
         {
           id: 1,
           time: 1,
-          title: 'یادآوری ۱',
+          title: 'پرداخت 30000 AFN برای خرید تیل',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'برداشت از تانک تیل',
@@ -182,7 +187,7 @@ export default {
         {
           id: 11,
           time: 11,
-          title: 'یادآوری ۱',
+          title: 'دریاف 800 دالر از وزارت دفاع',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'برداشت از تانک تیل',
@@ -190,8 +195,8 @@ export default {
         },
         {
           id: 12,
-          time: 12,
-          title: 'یادآوری ۲',
+          time: 13,
+          title: 'قرارداد جدید ثبت شد',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'قرارداد شرکت روشن',
@@ -200,7 +205,7 @@ export default {
         {
           id: 13,
           time: 13,
-          title: 'یادآوری ۳',
+          title: 'اعلان شماره 8789 حذف شد',
           titleColor: '#562db8',
           priority: 1,
           subtitle: 'آخرین مهلت ارسال پروپوزال',
@@ -220,6 +225,9 @@ export default {
         },
       ]
     }
+  },
+  components: {
+    AirplayIcon
   }
 }
 </script>
