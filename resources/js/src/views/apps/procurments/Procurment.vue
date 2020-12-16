@@ -123,9 +123,10 @@
                             <div class="w-1/4 inline-flex">
                                 <!-- TITLE -->
                                
-                                        <vs-button type="filled" color="success" @click="addNewRow" class="mt-5 ml-4 mr-2 pull-right" icon="add_circle"></vs-button>
+                                        <vs-button type="border" color="success" @click="addNewRow" class="mt-5 ml-4 mr-2 pull-right" icon="add_circle"></vs-button>
                                 
-                                         <vs-button type="filled" color="success" @click="removeRow" class="mt-5 mr-2 ml-2 pull-left" icon="delete"></vs-button>
+                                         <vs-button type="border" color="primary" v-show="item.length > 1" @click="removeRow" class="mt-5 mr-2 ml-2 pull-left" icon="close"></vs-button>
+                                         <vs-button type="border" color="primary" v-show="item.length== 1" class="mt-5 mr-2 ml-2 pull-left" icon="close" disabled></vs-button>
                               
             
                                 <!-- /TITLE -->

@@ -30,84 +30,43 @@
                 </div>
 
                 <!-- currency -->
-                <div class="vx-col w-1/3 mt-4">
-                  <label for>واحد پولی</label>
-                  <div class="btn-group">
-                    <div class="vx-row pl-4 pr-4">
-                      <vs-button class="vx-col w-1/2 customstyle" color="success">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="curency"
-                          id="exampleRadios1"
-                          value="option1"
-                          checked
-                          style="height:15px; width: 15px;"
-                        />
-                        <label class="form-check-label" for="exampleRadios1">
-                          &nbsp;
-                          <b>افغانی</b>
-                        </label>
-                      </vs-button>
-                      <vs-button class="vx-col w-1/2 customstyle" color="success">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="curency"
-                          id="exampleRadios"
-                          value="option1"
-                          checked
-                          style="height:15px; width: 15px;"
-                        />
-                        <label class="form-check-label" for="exampleRadios">
-                          &nbsp;
-                          <b>دالر</b>
-                        </label>
-                      </vs-button>
-                    </div>
-                  </div>
-                </div>
+               
+                      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12" class="mt-4">
+                        <div class="w-full pt-2 ml-3 mr-3">
+                        <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
+                        <div class="radio-group w-full">
+                            <div class="w-1/2">
+                            <input type="radio"  value="1" id="struct" name="status" checked/>
+                            <label for="struct" class="w-full text-center">افغانی</label>
+                            </div>
+                            <div class="w-1/2">
+                            <input type="radio"  value="2" id="specific" name="status" />
+                            <label for="specific" class="w-full text-center">دالر</label>
+                            </div>
+                        </div>
+                        <has-error :form="aForm" field="status"></has-error>
+                        </div>
+                    </vs-col>
                 <!-- end currency -->
 
                 <!-- currency -->
-                <div class="vx-col w-1/3 mt-4">
-                  <label for>حالت معامله</label>
-
-                  <div class="btn-group">
-                    <div class="vx-row pl-4 pr-4">
-                      <vs-button class="vx-col w-1/2 customstyle" color="success">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="statustransaction"
-                          id="statusradio"
-                          value="option1"
-                          checked
-                          style="height:15px; width: 15px;"
-                        />
-                        <label class="form-check-label" for="statusradio">
-                          &nbsp;
-                          <b>عاید</b>
-                        </label>
-                      </vs-button>
-                      <vs-button class="vx-col w-1/2 customstyle" color="success">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="statustransaction"
-                          id="statusradio1"
-                          value="option1"
-                          checked
-                          style="height:15px; width: 15px;"
-                        />
-                        <label class="form-check-label" for="statusradio1">
-                          &nbsp;
-                          <b>ساده</b>
-                        </label>
-                      </vs-button>
-                    </div>
-                  </div>
-                </div>
+              
+                      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12" class="mt-4">
+                        <div class="w-full pt-2 ml-3 mr-3">
+                        <label for class="ml-4 mr-4 mb-2"> حالت معامله</label>
+                        <div class="radio-group w-full">
+                            <div class="w-1/2">
+                            <input type="radio"  value="1" id="benifate" name="transaction" checked/>
+                            <label for="benifate" class="w-full text-center">عاید</label>
+                            </div>
+                            <div class="w-1/2">
+                            <input type="radio"   value="2" id="basic" name="transaction" />
+                            <label for="basic" class="w-full text-center">ساده</label>
+                            </div>
+                        </div>
+                        <has-error :form="aForm" field="status"></has-error>
+                        </div>
+                    </vs-col>
 
                 <!-- Must only consist of numbers -->
                 <div class="vx-col w-1/3">
@@ -156,7 +115,7 @@
                   <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                 </div>
 
-                <div class="vx-col w-1/3 mt-4">
+                <div class="vx-col w-2/3 mt-4">
                   <vs-textarea placeholder="تفصیلات"></vs-textarea>
                 </div>
               </div>
