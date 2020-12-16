@@ -7,8 +7,8 @@
         <div v-for="item in ImportnatNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
           <vx-card :title="item.title" :title-color="item.titleColor" :subtitle="item.subtitle" :time="item.time" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
             <span class="item-time-ago" :style="'color:' + item.titleColor">
-              <feather-icon icon="CornerRightUpIcon" size="1x" />
-              <feather-icon icon="XIcon" svgClasses="stroke-curren text-danger" />&nbsp;
+              <feather-icon icon="CornerRightUpIcon" svgClasses="w-5 h-6 text-success" />&nbsp;&nbsp;
+              <feather-icon icon="XIcon" svgClasses="w-5 h-6 stroke-curren text-danger" />&nbsp;
               <!-- <vs-icon size="1.8rem" color="red" icon="delete_outline"></vs-icon> -->
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
@@ -29,8 +29,8 @@
         <div v-for="item in allNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
           <vx-card :title="item.title" :title-color="item.titleColor" :content-color="item.contentColor" :card-background="item.cardBackground" :subtitle="item.subtitle" :time="item.time">
             <span class="item-time-ago" :style="'color:' + item.titleColor">
-              <feather-icon icon="CornerRightUpIcon" size="1x" />&nbsp;
-              <feather-icon icon="XIcon" svgClasses="stroke-curren text-danger" />&nbsp;
+              <feather-icon icon="CornerRightUpIcon" svgClasses="w-5 h-6 text-success"></feather-icon>&nbsp;&nbsp;
+              <feather-icon icon="XIcon" svgClasses="w-5 h-6 stroke-curren text-danger" />&nbsp;
               <!--<vs-icon size="2.1rem" icon="playlist_add"></vs-icon>-->
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.desc}}</p>
@@ -73,6 +73,11 @@ export default {
           title: 'اعلان جدید اضافه شد',
           titleColor: '#562db8',
           priority: 1,
+          subtitle: 'برداشت از تانک تیل',
+          desc: 'برایابنشتساینباسشینمتبانشستیابنتاشسینتباشسنیبانت اولین بار سه نوع ماده ضدخوردگی جدید تزریق منقطع (درون چاهی) و دو نوع ماده ضدخوردگی جدید تزریق پیوسته در چاههای شرکت بهره بردای نفت و گاز شرق مورد استفاده و تأیید نهایی قرار گرفت.',
+        },
+        {
+          id: 22,
           time: 2,
           titleColor: '#562db8',
           priority: 2,

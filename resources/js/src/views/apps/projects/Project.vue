@@ -117,7 +117,7 @@
 </template>
 <script>
 import VueApexCharts from 'vue-apexcharts'
-import ProjectList from './ProjectList.vue'
+import ProjectList from './advertisments/Advertismentlist.vue'
 import FeaturedProjectInfo from './FeaturedProjectInfo.vue'
 
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
