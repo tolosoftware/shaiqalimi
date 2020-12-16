@@ -420,7 +420,12 @@ const router = new Router({
                     component: () =>
                         import ('./views/apps/settings/Setting.vue'),
                     meta: {
-                        rule: 'editor'
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: ' تنظیمات عمومی', active: true }
+                        ],
+                        rule: 'editor',
+                        no_scroll: false
                     }
                 },
                 // =============================================================================
