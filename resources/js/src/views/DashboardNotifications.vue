@@ -79,7 +79,6 @@ export default {
         {
           id: 22,
           time: 2,
-          title: 'قراداد تامین تیل ویرایش شد',
           titleColor: '#562db8',
           priority: 2,
           subtitle: 'قرارداد شرکت روشن',
