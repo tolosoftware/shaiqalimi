@@ -22,7 +22,8 @@
       <h4 v-if="this.$props.title" :style="titleStyles" :class="titleClasses" class="mb-3">{{ title }}</h4>
       <h6 :style="subtitleStyles" :class="subtitleClasses" class="mt-2">
         <span v-if="this.$props.time">
-          <vs-icon icon="alarm" size="15px" color="#562db7"></vs-icon><small style="color:#562db7;">&nbsp;{{time}} ساعت قبل</small>
+          <span style="color:#562db7;">&nbsp;<feather-icon icon="ClockIcon" svgClasses="w-4 h-5 text-gray" /> {{time}} ساعت قبل </span>
+          <!--<vs-button color="success" type="flat" icon="done">Done</vs-button> -->
         </span>
       </h6>
     </div>
