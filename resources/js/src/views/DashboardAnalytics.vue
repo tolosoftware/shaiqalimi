@@ -1,15 +1,27 @@
 <template>
 <div>
 
-    <!-- MIXED CHART -->
-    <div class="vx-col w-full mb-base">
-        <vx-card title="نرخ افزایش بهره وری" code-toggler>
-            <vue-apex-charts type="line" height="350" :options="apexChatData.mixedChart.chartOptions" :series="apexChatData.mixedChart.series"></vue-apex-charts>
-            <template slot="codeContainer">
-                {{ apexChatData.mixedChartCode }}
-            </template>
-        </vx-card>
+
+    <!-- ROW 4 -->
+    <div class="vx-row mb-base">
+     
+
+        <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
+            <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" icon-right statistic="32476 AFN" statisticTitle="مصارف" :chartData="ordersRecevied.series" />
+        </div>
+
+        <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
+            <statistics-card-line class="md:mb-0 mb-base" icon="UserCheckIcon" icon-right statistic="1034567 AFN" statisticTitle="عواید" :chartData="ordersRecevied.series" color="success" />
+        </div>
+
+        <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
+            <statistics-card-line icon="MailIcon" icon-right statistic="23453 AFN" statisticTitle="متفرقه" :chartData="ordersRecevied.series" color="warning" />
+        </div>
+     
     </div>
+
+
+ 
 
     <div class="vx-row">
         <div class="vx-col w-full md:w-2/3 lg:w-3/4">
@@ -56,40 +68,40 @@
                                         </defs>
                                         <line id="SvgjsLine21378" x1="-0.5" y1="0" x2="-0.5" y2="198.98003125" stroke="#b6b6b6" stroke-dasharray="3" class="apexcharts-xcrosshairs apexcharts-active" x="-0.5" y="0" width="1" height="198.98003125" fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line>
                                         <g id="SvgjsG21400" class="apexcharts-xaxis" transform="translate(0, 0)">
-                                            <g id="SvgjsG21401" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"><text id="SvgjsText21403" font-family="Helvetica, Arial, sans-serif" x="0" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
-                                                    <tspan id="SvgjsTspan21404">Jan</tspan>
+                                            <g id="SvgjsG21401" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"><text id="SvgjsText21403"  x="0" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
+                                                    <tspan id="SvgjsTspan21404" dir="rtl">Jan</tspan>
                                                     <title>Jan</title>
-                                                </text><text id="SvgjsText21406" font-family="Helvetica, Arial, sans-serif" x="71.09517045454547" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
-                                                    <tspan id="SvgjsTspan21407">Feb</tspan>
+                                                </text><text id="SvgjsText21406"  x="71.09517045454547" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
+                                                    <tspan id="SvgjsTspan21407" dir="rtl">Feb</tspan>
                                                     <title>Feb</title>
-                                                </text><text id="SvgjsText21409" font-family="Helvetica, Arial, sans-serif" x="142.1903409090909" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21409"  x="142.1903409090909" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21410">Mar</tspan>
                                                     <title>Mar</title>
-                                                </text><text id="SvgjsText21412" font-family="Helvetica, Arial, sans-serif" x="213.28551136363635" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21412"  x="213.28551136363635" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21413">Apr</tspan>
                                                     <title>Apr</title>
-                                                </text><text id="SvgjsText21415" font-family="Helvetica, Arial, sans-serif" x="284.38068181818176" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21415"  x="284.38068181818176" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21416">May</tspan>
                                                     <title>May</title>
-                                                </text><text id="SvgjsText21418" font-family="Helvetica, Arial, sans-serif" x="355.4758522727272" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21418"  x="355.4758522727272" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21419">Jun</tspan>
                                                     <title>Jun</title>
-                                                </text><text id="SvgjsText21421" font-family="Helvetica, Arial, sans-serif" x="426.57102272727263" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21421"  x="426.57102272727263" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21422">July</tspan>
                                                     <title>July</title>
-                                                </text><text id="SvgjsText21424" font-family="Helvetica, Arial, sans-serif" x="497.66619318181813" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21424"  x="497.66619318181813" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21425">Aug</tspan>
                                                     <title>Aug</title>
-                                                </text><text id="SvgjsText21427" font-family="Helvetica, Arial, sans-serif" x="568.7613636363636" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21427"  x="568.7613636363636" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21428">Sep</tspan>
                                                     <title>Sep</title>
-                                                </text><text id="SvgjsText21430" font-family="Helvetica, Arial, sans-serif" x="639.8565340909091" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21430"  x="639.8565340909091" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21431">Oct</tspan>
                                                     <title>Oct</title>
-                                                </text><text id="SvgjsText21433" font-family="Helvetica, Arial, sans-serif" x="710.9517045454546" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21433"  x="710.9517045454546" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21434">Nov</tspan>
                                                     <title>Nov</title>
-                                                </text><text id="SvgjsText21436" font-family="Helvetica, Arial, sans-serif" x="782.0468750000001" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                                </text><text id="SvgjsText21436"  x="782.0468750000001" y="227.98003125" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class=" text-grey fill-current" >
                                                     <tspan id="SvgjsTspan21437">Dec</tspan>
                                                     <title>Dec</title>
                                                 </text></g>
@@ -128,17 +140,17 @@
                                     </g>
                                     <rect id="SvgjsRect21377" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect>
                                     <g id="SvgjsG21438" class="apexcharts-yaxis" rel="0" transform="translate(15.9375, 0)">
-                                        <g id="SvgjsG21439" class="apexcharts-yaxis-texts-g"><text id="SvgjsText21440" font-family="Helvetica, Arial, sans-serif" x="20" y="31.5" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                        <g id="SvgjsG21439" class="apexcharts-yaxis-texts-g"><text id="SvgjsText21440"  x="20" y="31.5" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" >
                                                 <tspan id="SvgjsTspan21441">350</tspan>
-                                            </text><text id="SvgjsText21442" font-family="Helvetica, Arial, sans-serif" x="20" y="71.29600625" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                            </text><text id="SvgjsText21442"  x="20" y="71.29600625" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" >
                                                 <tspan id="SvgjsTspan21443">300</tspan>
-                                            </text><text id="SvgjsText21444" font-family="Helvetica, Arial, sans-serif" x="20" y="111.09201250000001" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                            </text><text id="SvgjsText21444"  x="20" y="111.09201250000001" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" >
                                                 <tspan id="SvgjsTspan21445">250</tspan>
-                                            </text><text id="SvgjsText21446" font-family="Helvetica, Arial, sans-serif" x="20" y="150.88801875000001" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                            </text><text id="SvgjsText21446"  x="20" y="150.88801875000001" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" >
                                                 <tspan id="SvgjsTspan21447">200</tspan>
-                                            </text><text id="SvgjsText21448" font-family="Helvetica, Arial, sans-serif" x="20" y="190.68402500000002" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                            </text><text id="SvgjsText21448"  x="20" y="190.68402500000002" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" >
                                                 <tspan id="SvgjsTspan21449">150</tspan>
-                                            </text><text id="SvgjsText21450" font-family="Helvetica, Arial, sans-serif" x="20" y="230.48003125000002" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" style="font-family: Helvetica, Arial, sans-serif;">
+                                            </text><text id="SvgjsText21450"  x="20" y="230.48003125000002" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label text-grey fill-current" >
                                                 <tspan id="SvgjsTspan21451">100</tspan>
                                             </text></g>
                                     </g>
@@ -184,18 +196,18 @@
                 <div class="vx-card__collapsible-content vs-con-loading__container">
                     <div class="p-8 clearfix">
                         <div>
-                            <h1><sup class="text-lg">$</sup> <span>22,597</span></h1> <small><span class="text-grey">Deposits: </span> <span>$</span> <span>20,065</span></small>
+                            <h1><sup class="text-lg">$</sup> <span>22,597</span></h1> 
                         </div>
-                        <p class="mt-2 mb-8 text-xl font-medium text-success"><span>+</span> <span>5.2%</span> <span class="ml-1">($956)</span></p> <button type="button" name="button" class="vs-component vs-button shadow-md w-full vs-button-primary vs-button-filled includeIcon"><span class="vs-button-backgroundx vs-button--background" style="opacity: 1; left: 137px; top: 16px; width: 0px; height: 0px; transition: width 0s ease 0s, height 0s ease 0s, opacity 0s ease 0s;"></span><i class="vs-icon notranslate icon-scale vs-button--icon  feather icon-chevrons-right null" style="order: 2; margin-left: 0px; margin-right: 5px;"></i><span class="vs-button-text vs-button--text">Add Funds</span><span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"></span></button>
+                        <p class="mt-2 mb-8 text-xl font-medium text-success"><span>+</span> <span>5.2%</span> <span class="ml-1">($956)</span></p> <button type="button" name="button" class="vs-component vs-button shadow-md w-full vs-button-primary vs-button-filled includeIcon"><span class="vs-button-backgroundx vs-button--background" style="opacity: 1; left: 137px; top: 16px; width: 0px; height: 0px; transition: width 0s ease 0s, height 0s ease 0s, opacity 0s ease 0s;"></span><i class="vs-icon notranslate icon-scale vs-button--icon  feather icon-chevrons-right null" style="order: 2; margin-left: 0px; margin-right: 5px;"></i><span class="vs-button-text vs-button--text">برسی فروشات</span><span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"></span></button>
                     </div>
                     <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
-                        <div class="mb-4"><small>Earned: $56156</small>
+                        <div class="mb-4"><small>عواید: $56156</small>
                             <div class="vs-progress--background vs-progress-success" style="height: 5px;">
                                 <div class="vs-progress--foreground" style="width: 50%;"></div>
                                 <!---->
                             </div>
                         </div>
-                        <div><small>Duration: 2 Year</small>
+                        <div><small>مدت زمان: 2 سال</small>
                             <div class="vs-progress--background vs-progress-warning" style="height: 5px;">
                                 <div class="vs-progress--foreground" style="width: 50%;"></div>
                                 <!---->
@@ -214,21 +226,21 @@
         </div>
     </div>
 
-    <!-- ROW 4 -->
-    <div class="vx-row">
 
-        <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-            <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" icon-right statistic="78.9k" statisticTitle="Site Traffic" :chartData="siteTraffic.series" />
-        </div>
+        <ProjectList></ProjectList>
 
-        <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-            <statistics-card-line class="md:mb-0 mb-base" icon="UserCheckIcon" icon-right statistic="659.8k" statisticTitle="Active Users" :chartData="activeUsers.series" color="success" />
-        </div>
 
-        <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-            <statistics-card-line icon="MailIcon" icon-right statistic="28.7k" statisticTitle="Newsletter" :chartData="newsletter.series" color="warning" />
-        </div>
+    <!-- MIXED CHART -->
+    <div class="vx-col w-full mb-base">
+        <vx-card title="احصائیه معاملات تجارتی دریک سال مالی" code-toggler>
+            <vue-apex-charts type="line" height="350" :options="apexChatData.mixedChart.chartOptions" :series="apexChatData.mixedChart.series"></vue-apex-charts>
+            <template slot="codeContainer">
+                {{ apexChatData.mixedChartCode }}
+            </template>
+        </vx-card>
     </div>
+
+ 
 
 </div>
 </template>
@@ -240,9 +252,15 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/chart/line'
 import theme from './theme.json'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
-
 import VueApexCharts from 'vue-apexcharts'
 import apexChatData from './apexChartData.js'
+
+ import ProjectList from './apps/projects/advertisments/Advertismentlist.vue'
+
+
+
+import analyticsData from './analyticsData.js'
+import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 
 ECharts.registerTheme('ovilia-green', theme)
 
@@ -251,24 +269,41 @@ export default {
         ECharts,
         VueApexCharts,
         theme,
-        StatisticsCardLine
+        StatisticsCardLine,
+        ProjectList
     },
     name: 'vx-dashboard',
     data() {
         return {
             apexChatData,
 
+                
+
+                analyticsData,
+
             // Line Charts
             siteTraffic: {},
+
             activeUsers: {
                 series: [{
                     name: 'Users',
-                    data: [60, 50, 100, 20, 15]
+                    data: [60, 15, 58, 15, 74, 42, 82]
                 }],
                 analyticsData: {
                     users: 97500
                 }
             },
+
+             ordersRecevied: {
+                series: [{
+                name: 'Orders',
+                data: [60, 15, 58, 15, 74, 42, 82]
+                }],
+                analyticsData: {
+                orders: 97500
+                }
+            },
+
             newsletter: {}
 
         }
@@ -276,6 +311,10 @@ export default {
     },
 
     created() {
+      // Support Tracker
+    this.$http.get('/api/card/card-analytics/support-tracker')
+      .then((response) => { this.supportTracker = response.data })
+      .catch((error) => { console.log(error) })
 
         // Active Users
         this.$http.get('/api/card/card-statistics/active-users')
