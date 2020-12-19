@@ -27,6 +27,7 @@ Route::post('users1','UserController@store');
 Route::resource('project','ProjectController');
 Route::resource('announcement','AnnouncementController');
 Route::resource('organization','OrganizationController');
+Route::resource('currency','CurrencyController');
 
 // Latest Records
 Route::get('announce-last','AnnouncementController@latest');
