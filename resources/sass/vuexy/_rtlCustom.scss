@@ -394,3 +394,6 @@ $borderWidth: 1px;
         border-color: $bg;
     }
 }
+.overflow-hidden-x .vs-table--tbody {
+    overflow-x: hidden !important;
+}

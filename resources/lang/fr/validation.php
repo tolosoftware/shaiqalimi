@@ -145,8 +145,9 @@ return [
         'submission_date' => 'تاریخ ختم پیشنهاد',
         'bidding_date' => 'تاریخ آفرگشایی',
         'bidding_address' => 'آدرس آفرگشایی',
-        'offer_quaratee' => 'تظمین قرار داد'
-
+        'offer_quaratee' => 'تظمین قرار داد',
+        'sign_en' => 'نشان انگلیسی',
+        'sign_fa' => 'نشان دری',
     ],
 
 ];
