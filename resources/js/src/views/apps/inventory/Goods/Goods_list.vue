@@ -13,7 +13,6 @@
               <b> اجناس </b>
             </h4>
           </div>
-
           <div class="vx-col w-1/2 float-left">
             <vs-button
               color="primary"
@@ -103,7 +102,6 @@ export default {
 
   components: {
     "v-select": vSelect,
-
     Goodadd,
     ListOfGoods,
   },
