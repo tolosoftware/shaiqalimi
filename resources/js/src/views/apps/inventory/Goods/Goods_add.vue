@@ -1,92 +1,49 @@
 <template>
-  <vs-sidebar
-    click-not-close
-    position-right
-    parent="body"
-    default-index="1"
-    color="primary"
-    class="add-new-data-sidebar items-no-padding"
-    spacer
-    v-model="isSidebarActiveLocal"
-  >
-    <div class="mt-6 flex items-center justify-between px-6">
-      <h4>جنس جدید را وارید کنید</h4>
-      <feather-icon
-        icon="XIcon"
-        @click.stop="isSidebarActiveLocal = false"
-        class="cursor-pointer"
-      ></feather-icon>
-    </div>
-    <vs-divider class="mb-0"></vs-divider>
+<vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
+  <div class="mt-6 flex items-center justify-between px-6">
+    <h4>جنس جدید را وارید کنید</h4>
+    <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+  </div>
+  <vs-divider class="mb-0"></vs-divider>
 
-    <component
-      :is="scrollbarTag"
-      class="scroll-area--data-list-add-new"
-      :settings="settings"
-      :key="$vs.rtl"
-    >
-      <div class="pt-6 pr-6 pl-6">
-        <!-- NAME -->
-        <vs-input
-          label=" نوعیت"
-          class="mt-5 w-full"
-          name="item-name"
-          v-validate="'required'"
-        />
-        <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
-
-        <!-- CATEGORY -->
-        <div class="vx-col mt-4">
-          <label for=""><small>کتگوری</small></label>
-          <v-select
-            label="text"
-            :options="itemType"
-            :dir="$vs.rtl ? 'rtl' : 'ltr'"
-          />
-        </div>
-
-        <!-- CATEGORY -->
-
-        <!-- NAME -->
-        <div class="vx-col mt-4">
-          <label for=""><small>واحد سنجش اصلی</small></label>
-          <v-select
-            label="text"
-            :options="itemType"
-            :dir="$vs.rtl ? 'rtl' : 'ltr'"
-          />
-        </div>
-
-        <!-- CATEGORY -->
-        <!-- NAME -->
-        <div class="vx-col mt-4">
-          <label for=""><small>واحد سنجش فرعی</small></label>
-          <v-select
-            label="text"
-            :options="itemType"
-            :dir="$vs.rtl ? 'rtl' : 'ltr'"
-          />
-        </div>
-        <!-- NAME -->
-        <div class="vx-col mt-4"></div>
-        <vs-textarea placeholder="تفصیلات" />
+  <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+    <div class="pt-6 pr-6 pl-6">
+      <!-- CATEGORY -->
+      <div class="vx-col mt-4">
+        <label for=""><small>کتگوری</small></label>
+        <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
       </div>
-    </component>
+      <!-- CATEGORY -->
 
-    <div class="flex flex-wrap items-center p-6" slot="footer">
-      <vs-button class="mr-6" @click="submitData">انجام</vs-button>
-      <vs-button
-        type="border"
-        color="danger"
-        @click="isSidebarActiveLocal = false"
-        >لغو</vs-button
-      >
+      <!-- NAME -->
+      <vs-input label=" نوعیت" class="mt-5 w-full" name="item-name" v-validate="'required'" />
+      <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
+      <!-- NAME -->
+      <div class="vx-col mt-4">
+        <label for=""><small>واحد سنجش اصلی</small></label>
+        <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+      </div>
+      <!-- CATEGORY -->
+
+      <!-- NAME -->
+      <div class="vx-col mt-4">
+        <label for=""><small>واحد سنجش فرعی</small></label>
+        <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+      </div>
+      <!-- NAME -->
+      <div class="vx-col mt-4"></div>
+      <vs-textarea placeholder="تفصیلات" />
     </div>
-  </vs-sidebar>
+  </component>
+
+  <div class="flex flex-wrap items-center p-6" slot="footer">
+    <vs-button class="mr-6" @click="submitData">انجام</vs-button>
+    <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
+  </div>
+</vs-sidebar>
 </template>
 
 <script>
-
 import vSelect from "vue-select";
 export default {
   props: {
@@ -105,8 +62,7 @@ export default {
   },
   data() {
     return {
-      itemType: [
-        {
+      itemType: [{
           text: "تیل دیزل",
           value: "1",
         },
