@@ -15,6 +15,15 @@ class CreateProposalsTable extends Migration
     {
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
+            $table->integer('serial_no')->unique();
+            $table->date('publish_date');
+            $table->string('publish_address');
+            $table->date('submission_date');
+            $table->date('bidding_date');
+            $table->string('bidding_address');
+            $table->integer('offer_guarantee');
+            $table->enum('status', ['income', 'normal']);
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

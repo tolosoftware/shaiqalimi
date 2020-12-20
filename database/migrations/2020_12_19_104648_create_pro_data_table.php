@@ -15,6 +15,18 @@ class CreateProDataTable extends Migration
     {
         Schema::create('pro_data', function (Blueprint $table) {
             $table->id();
+            $table->integer('proposal_id');
+            $table->integer('project_id');
+            $table->integer('client_id');
+            $table->string('title');
+            $table->string('reference_no');
+            $table->integer('pr_worth');
+            $table->integer('deposit');
+            $table->integer('tax');
+            $table->integer('transit');
+            $table->integer('others');
+            $table->integer('currency_id');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }

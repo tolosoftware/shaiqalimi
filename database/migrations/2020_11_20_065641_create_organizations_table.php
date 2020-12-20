@@ -15,11 +15,13 @@ class CreateOrganizationsTable extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
+            $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->string('phone');
             $table->string('website')->unique()->nullable();
             $table->string('address');
+            $table->string('logo');
+            $table->integer('account_id');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

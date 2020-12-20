@@ -15,6 +15,13 @@ class CreateProItemsTable extends Migration
     {
         Schema::create('pro_items', function (Blueprint $table) {
             $table->id();
+            $table->integer('project_id');
+            $table->integer('proposal_id');
+            $table->integer('item_id');
+            $table->iinteger('unit_id');
+            $table->integer('ammount');
+            $table->integer('unit_price');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }
