@@ -149,83 +149,130 @@
       </div>
     </div>
   </div>
-  <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
+  <div class="vx-col w-full md:w-2/3 mb-base">
     <div class="vx-card">
       <div class="vx-card__header">
         <div class="vx-card__title">
           <h4 class="">واحدهای پولی </h4>
           <!---->
         </div>
+        <!-- <vs-button class="shadow-md md:w-1/4 lg:mt-0 mt-4 mr-3 mb-2" @click="exRateForm = !exRateForm">{{ exRateForm ? 'افزودن واحد پولی' : 'ویرایش نرخ اسعار' }}</vs-button> -->
         <!---->
       </div>
       <vs-divider></vs-divider>
-      <div class="vx-card__collapsible-content vs-con-loading__container">
-        <div class="vx-card__body">
-          <div class="vx-col w-full mb-base">
-            <div class="vx-row mb-6">
-              <div class="vx-col sm:w-1/3 w-full">
-                <span>نشان انگلیسی</span>
-              </div>
-              <div class="vx-col sm:w-2/3 w-full">
-                <vs-input class="w-full" v-model="currencyForm.sign_en" />
-                <has-error :form="currencyForm" field="sign_en"></has-error>
-              </div>
-            </div>
-            <div class="vx-row mb-6">
-              <div class="vx-col sm:w-1/3 w-full">
-                <span>نشان دری</span>
-              </div>
-              <div class="vx-col sm:w-2/3 w-full">
-                <vs-input class="w-full" v-model="currencyForm.sign_fa" />
-                <has-error :form="currencyForm" field="sign_fa"></has-error>
-              </div>
-            </div>
-            <div class="vx-row mb-6">
-              <div class="vx-col sm:w-1/3 w-full">
-                <span>نرغ</span>
-              </div>
-              <div class="vx-col sm:w-2/3 w-full">
-                <vs-input class="w-full" v-model="currencyForm.rate" />
-                <has-error :form="currencyForm" field="rate"></has-error>
+      <!-- Add New Currency -->
+      <div v-if="!exRateForm">
+        <div class="vx-card__collapsible-content vs-con-loading__container">
+          <div class="vx-card__body">
+            <div class="vx-col w-full mb-base">
+              <div class="vx-row">
+                <div class="vx-col w-full md:w-1/2">
+                  <div class="vx-col sm:w-1/3 w-full">
+                    <span>نشان انگلیسی</span>
+                  </div>
+                  <div class="vx-col w-full">
+                    <vs-input class="w-full" v-model="currencyForm.sign_en" />
+                    <has-error :form="currencyForm" field="sign_en"></has-error>
+                  </div>
+                </div>
+                <div class="vx-col w-full md:w-1/2">
+
+                  <div class="vx-col sm:w-1/3 w-full">
+                    <span>نشان دری</span>
+                  </div>
+                  <div class="vx-col w-full">
+                    <vs-input class="w-full" v-model="currencyForm.sign_fa" />
+                    <has-error :form="currencyForm" field="sign_fa"></has-error>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="vx-row">
-              <div class="vx-col sm:w-2/3 w-full ml-auto">
-                <vs-button size="small" class="mr-3 mb-2" v-if="!currencyForm.id" @click="addNewCurrency">ثبت</vs-button>
-                <vs-button size="small" class="mr-3 mb-2" v-if="currencyForm.id" @click="updateCurrency(currencyForm)">آپدیت</vs-button>
-                <vs-button size="small" class="mr-3 mb-2" color="warning" v-if="currencyForm.id" @click="updateCancel">لغو</vs-button>
+              <div class="vx-col w-full md:w-1/2">
+                <div class="vx-col sm:w-1/3 w-full">
+                  <span>نرخ</span>
+                </div>
+                <div class="vx-col w-full">
+                  <vx-input-group class="">
+                    <template slot="prepend">
+                      <div class="prepend-text bg-primary">
+                        <span>AFN</span>
+                      </div>
+                    </template>
+                    <vs-input type="number" v-model="currencyForm.rate" class="number-rtl" />
+                  </vx-input-group>
+
+                  <has-error :form="currencyForm" field="rate"></has-error>
+                </div>
+              </div>
+              <div class="vx-col w-full md:w-1/2 mb-base mt-5">
+                <vs-button class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="addNewCurrency">ثبت</vs-button>
               </div>
             </div>
           </div>
-          <!-- Currency Table -->
-          <vs-table :data="currencies" class="overflow-hidden-x">
-
-            <template slot="thead">
-              <vs-th>نشان انگلیسی</vs-th>
-              <vs-th>نشان دری</vs-th>
-              <vs-th>عمله</vs-th>
-            </template>
-
-            <template slot-scope="{data}">
-              <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-
-                <vs-td :data="tr.sign_en">
-                  {{ tr.sign_en }}
-                </vs-td>
-                <vs-td :data="tr.sign_fa">
-                  {{ tr.sign_fa }}
-                </vs-td>
-                <vs-td>
-                  <vs-button @click="editCurrency(tr)" color="warning" type="flat" icon-pack="feather" icon="icon-edit"></vs-button>
-                </vs-td>
-              </vs-tr>
-            </template>
-
-          </vs-table>
-
-          <!-- end -->
         </div>
       </div>
+      <!-- End of Add Currency -->
+      <!-- Edit rates -->
+      <div v-if="exRateForm">
+        <div class="vx-card__collapsible-content vs-con-loading__container">
+          <div class="vx-card__body">
+            <div class="vx-col w-full mb-base">
+              <div v-for="(item, index) in rateEditForm.currencies" :key="item.id">
+                <div class="vx-row mb-6">
+                  <div class="vx-col sm:w-1/3 w-full">
+                    <span>{{ item.sign_fa }}</span>
+                  </div>
+                  <div class="vx-col sm:w-2/3 w-full">
+                    <vx-input-group class="">
+                      <template slot="prepend">
+                        <div class="prepend-text bg-primary">
+                          <span>AFN</span>
+                        </div>
+                      </template>
+                      <vs-input type="number" v-model="rateEditForm.currencies[index].last_rate.rate" class="number-rtl" />
+                    </vx-input-group>
+                  </div>
+                </div>
+              </div>
+              <div class="vx-col w-full md:w-1/2 mb-base mt-5 float-right">
+                <vs-button class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="editRates">آپدیت نرخ اسعار</vs-button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Currency Table -->
+      <vs-table :data="currencies" class="overflow-hidden-x">
+
+        <template slot="thead">
+          <vs-th>نشان انگلیسی</vs-th>
+          <vs-th>نشان دری</vs-th>
+          <vs-th>نرخ</vs-th>
+          <vs-th>تاریخ</vs-th>
+        </template>
+
+        <template slot-scope="{data}">
+          <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+
+            <vs-td :data="tr.sign_en">
+              {{ tr.sign_en }}
+            </vs-td>
+            <vs-td :data="tr.sign_fa">
+              {{ tr.sign_fa }}
+            </vs-td>
+            <vs-td :data="tr.last_rate">
+              {{ tr.last_rate.rate }}
+            </vs-td>
+            <vs-td :data="tr.last_rate">
+              {{ tr.last_rate.created_at  | moment("HH:MM:ss - YYYY/M/D") }}
+            </vs-td>
+          </vs-tr>
+        </template>
+
+      </vs-table>
+      <!-- end -->
     </div>
   </div>
 </div>
@@ -236,12 +283,16 @@ export default {
   name: 'vx-settings',
   data() {
     return {
+      exRateForm: true,
       currencies: [],
       currencyForm: new Form({
         sign_en: '',
         sign_fa: '',
         id: null,
         rate: '',
+      }),
+      rateEditForm: new Form({
+        currencies: null,
       }),
       users: [{
           id: 1,
@@ -271,6 +322,7 @@ export default {
       this.axios.get('/api/currency')
         .then((response) => {
           this.currencies = response.data;
+          this.rateEditForm.currencies = JSON.parse(JSON.stringify(response.data));
           this.$Progress.set(100)
         })
     },
@@ -314,17 +366,18 @@ export default {
           })
         });
     },
-    updateCurrency(data) {
-      // Start the Progress Bar
-      this.$Progress.start()
-      this.currencyForm.patch('/api/currency/' + data.id)
+    editRates() {
+      console.log(this.rateEditForm.currencies);
+      this.rateEditForm.post('/api/currency/rates')
         .then(({
           data
         }) => {
+          console.log(data);
           this.getAllCurrency();
+          this.currencyForm.reset();
           this.$vs.notify({
             title: 'موفقیت!',
-            text: 'معلومات موفقانه در سیستم آپدیت شد.',
+            text: 'معلومات موفقانه ثبت سیستم شد.',
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check',

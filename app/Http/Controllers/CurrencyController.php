@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\models\Currency;
+use App\models\User;
 use App\models\ExchangeRate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CurrencyController extends Controller
 {
@@ -15,7 +17,7 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        return Currency::all();
+        return Currency::with(['last_rate'])->get();
     }
 
     /**
@@ -40,12 +42,27 @@ class CurrencyController extends Controller
             'sign_en' => 'required|unique:currencies|min:2',
             'sign_fa' => 'required|unique:currencies|min:2',
         ]);
-        return $request->all();
-        if ($new = Currency::create($request->all())->id){
-            // $ex = new ExchangeRate::create($request->all());
-            return $new;
+        if($last = ExchangeRate::latest()->first()){
+            $lastCounter = $last->counter + 1;
         }else{
-            return 0;
+            $lastCounter = 1;
+        }
+
+        if ($new = Currency::create($request->all())){
+            $rate = [
+                'currency_id' => $new->id,
+                'user_id' => 1,
+                'rate' => $request->rate,
+                'counter' => $lastCounter
+            ];
+            if($ex = ExchangeRate::create($rate)){
+                return $ex;
+            }else{
+                Currency::find($new->id)->delete();
+                return $ex;
+            }
+        }else{
+            return $new;
         }
     }
 
@@ -101,4 +118,27 @@ class CurrencyController extends Controller
     {
         //
     }
+
+    public function rates(Request $request)
+    {
+        $new_counter = 1;
+        $rates = [];
+        if($request['currencies'][0]) {
+            $new_counter = $request['currencies'][0]['last_rate']['counter'] + 1;
+        }
+        foreach ($request['currencies'] as $key => $value) {
+            // return $value['id'];
+            $rate = [
+                'currency_id' => $value['id'],
+                'user_id' => 1,
+                'rate' => $value['last_rate']['rate'],
+                'counter' => $new_counter
+            ];
+            // return $rate;
+            $rates[] = ExchangeRate::create($rate);
+        }
+        return $rates;
+
+    }
+
 }

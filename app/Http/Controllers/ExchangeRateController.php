@@ -35,7 +35,7 @@ class ExchangeRateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
     }
 
     /**

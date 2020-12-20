@@ -15,4 +15,18 @@ class Currency extends Model
         'sign_en',
         'sign_fa',
     ];
+    /**
+     * Get the rate that owns the Currency.
+     */
+    public function rates()
+    {
+        return $this->hasMany(ExchangeRate::class, 'currency_id');
+    }
+    /**
+     * Get the last rate that owns the Currency.
+     */
+    public function last_rate()
+    {
+        return $this->hasOne(ExchangeRate::class, 'currency_id')->latest();
+    }
 }
