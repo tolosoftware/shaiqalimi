@@ -33,3 +33,4 @@ Route::resource('currency','CurrencyController');
 Route::get('announce-last','AnnouncementController@latest');
 Route::get('project-last','ProjectController@latest');
 Route::get('organization-last','OrganizationController@latest');
+Route::post('currency/rates','CurrencyController@rates');
