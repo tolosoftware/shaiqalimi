@@ -15,12 +15,15 @@ class CreateUserNotificationsTable extends Migration
     {
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('notification_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('notification_id')->nullable();
             $table->enum('status', ['A', 'B']);
             $table->boolean('pin');
             $table->boolean('done');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('notification_id')->references('id')->on('user_notifications');
         });
     }
 

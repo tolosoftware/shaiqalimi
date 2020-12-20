@@ -15,16 +15,20 @@ class CreateFinancialRecordsTable extends Migration
     {
         Schema::create('financial_records', function (Blueprint $table) {
             $table->id();
-            $table->id('type');
-            $table->id('type_id');
-            $table->id('account_id');
-            $table->id('description');
-            $table->id('currency_id');
-            $table->id('credit');
-            $table->id('debit');
-            $table->id('ex_rate_id');
-            $table->id('status');
+            $table->string('type');
+            $table->integer('type_id');
+            $table->unsignedBigInteger('account_id');
+            $table->text('description');
+            $table->unsignedBigInteger('currency_id');
+            $table->decimal('credit');
+            $table->decimal('debit');
+            $table->unsignedBigInteger('ex_rate_id');
+            $table->string('status');
             $table->timestamps();
+
+            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('currency_id')->references('id')->on('currencies');
+            $table->foreign('ex_rate_id')->references('id')->on('exchange_rates');
         });
     }
 

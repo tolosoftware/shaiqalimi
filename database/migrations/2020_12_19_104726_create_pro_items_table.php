@@ -15,14 +15,19 @@ class CreateProItemsTable extends Migration
     {
         Schema::create('pro_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('project_id');
-            $table->integer('proposal_id');
-            $table->integer('item_id');
-            $table->iinteger('unit_id');
+            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('proposal_id');
+            $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('unit_id');
             $table->integer('ammount');
             $table->integer('unit_price');
             $table->integer('total_price');
             $table->timestamps();
+
+            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('proposal_id')->references('id')->on('proposals');
+            $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('unit_id')->references('id')->on('measurment_units');
         });
     }
 
