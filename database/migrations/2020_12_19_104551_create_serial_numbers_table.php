@@ -15,6 +15,9 @@ class CreateSerialNumbersTable extends Migration
     {
         Schema::create('serial_numbers', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->string('prefix');
+            $table->integer('integer');
             $table->timestamps();
         });
     }

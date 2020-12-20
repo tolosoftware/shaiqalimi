@@ -15,6 +15,15 @@ class CreateFinancialRecordsTable extends Migration
     {
         Schema::create('financial_records', function (Blueprint $table) {
             $table->id();
+            $table->id('type');
+            $table->id('type_id');
+            $table->id('account_id');
+            $table->id('description');
+            $table->id('currency_id');
+            $table->id('credit');
+            $table->id('debit');
+            $table->id('ex_rate_id');
+            $table->id('status');
             $table->timestamps();
         });
     }

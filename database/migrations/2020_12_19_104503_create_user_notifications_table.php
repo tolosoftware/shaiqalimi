@@ -15,6 +15,11 @@ class CreateUserNotificationsTable extends Migration
     {
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('notification_id');
+            $table->enum('status', ['A', 'B']);
+            $table->boolean('pin');
+            $table->boolean('done');
             $table->timestamps();
         });
     }

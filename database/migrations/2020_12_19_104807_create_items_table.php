@@ -15,6 +15,12 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->integer('type_id');
+            $table->string('name');
+            $table->integer('min_uom_id');
+            $table->integer('sub_oum_id');
+            $table->integer('unit_equivalent');
+            $table->text('description');
             $table->timestamps();
         });
     }
