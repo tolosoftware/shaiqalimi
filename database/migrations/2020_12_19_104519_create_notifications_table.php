@@ -22,8 +22,10 @@ class CreateNotificationsTable extends Migration
             $table->date('exp_date');
             $table->string('action');
             $table->string('url');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

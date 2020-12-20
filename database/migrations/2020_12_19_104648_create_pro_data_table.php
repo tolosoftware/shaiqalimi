@@ -15,9 +15,9 @@ class CreateProDataTable extends Migration
     {
         Schema::create('pro_data', function (Blueprint $table) {
             $table->id();
-            $table->integer('proposal_id');
-            $table->integer('project_id');
-            $table->integer('client_id');
+            $table->unsignedBigInteger('proposal_id');
+            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('client_id');
             $table->string('title');
             $table->string('reference_no');
             $table->integer('pr_worth');
@@ -25,9 +25,14 @@ class CreateProDataTable extends Migration
             $table->integer('tax');
             $table->integer('transit');
             $table->integer('others');
-            $table->integer('currency_id');
+            $table->unsignedBigInteger('currency_id');
             $table->integer('total_price');
             $table->timestamps();
+
+            $table->foreign('proposal_id')->references('id')->on('proposals');
+            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('currency_id')->references('id')->on('currencies');
         });
     }
 

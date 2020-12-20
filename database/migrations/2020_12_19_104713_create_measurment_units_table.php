@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Currency extends Migration
+class CreateMeasurmentUnitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class Currency extends Migration
      */
     public function up()
     {
-        Schema::create('currency', function (Blueprint $table) {
+        Schema::create('measurment_units', function (Blueprint $table) {
             $table->id();
-            $table->string('sign_en');
-            $table->string('sign_fa');
-            $table->timestamp('deleted_at')->nullable();
+            $table->string('title');
+            $table->string('acronym');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class Currency extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('measurment_units');
     }
 }

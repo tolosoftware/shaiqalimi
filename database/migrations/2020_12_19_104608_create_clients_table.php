@@ -21,9 +21,11 @@ class CreateClientsTable extends Migration
             $table->string('website')->unique()->nullable();
             $table->string('address');
             $table->string('logo');
-            $table->integer('account_id');
+            $table->unsignedBigInteger('account_id');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 

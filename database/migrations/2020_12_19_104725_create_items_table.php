@@ -15,13 +15,17 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->integer('type_id');
+            $table->unsignedBigInteger('type_id');
             $table->string('name');
-            $table->integer('min_uom_id');
-            $table->integer('sub_oum_id');
+            $table->unsignedBigInteger('min_uom_id');
+            $table->unsignedBigInteger('sub_oum_id');
             $table->integer('unit_equivalent');
             $table->text('description');
             $table->timestamps();
+
+            $table->foreign('type_id')->references('id')->on('item_types');
+            $table->foreign('min_uom_id')->references('id')->on('measurment_units');
+            $table->foreign('sub_oum_id')->references('id')->on('proposals');
         });
     }
 

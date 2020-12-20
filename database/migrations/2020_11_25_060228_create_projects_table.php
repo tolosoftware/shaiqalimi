@@ -16,12 +16,18 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->integer('serial_no')->unique();
-            $table->integer('proposal_id');
+            $table->unsignedBigInteger('proposal_id')->nullable();
             $table->date('contract_date');
             $table->date('contract_end_date');
             $table->integer('project_guarantee');
             $table->enum('status', ['A', 'B']);
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->timestamp('deleted_at')->nullable();
+            $table->timestamps();
+
+            $table->foreign('proposal_id')->references('id')->on('proposals');
+            $table->foreign('user_id')->references('id')->on('users');
+
             // $table->string('type')->default(1);
             // $table->bigInteger('price')->default(0);
             // $table->bigInteger('duration')->nullable();
@@ -32,10 +38,7 @@ class CreateProjectsTable extends Migration
             // $table->unsignedBigInteger('announce_id')->nullable();
             // $table->unsignedBigInteger('organization_id')->nullable();
 
-            // $table->foreign('announce_id')->references('id')->on('announcements');
-            // $table->foreign('organization_id')->references('id')->on('organizations');
-            $table->timestamp('deleted_at')->nullable();
-            $table->timestamps();
+
         });
     }
 

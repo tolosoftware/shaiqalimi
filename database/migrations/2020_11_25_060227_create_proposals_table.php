@@ -23,8 +23,10 @@ class CreateProposalsTable extends Migration
             $table->string('bidding_address');
             $table->integer('offer_guarantee');
             $table->enum('status', ['income', 'normal']);
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
