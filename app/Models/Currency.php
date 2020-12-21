@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Model
 {
-        /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -28,5 +28,15 @@ class Currency extends Model
     public function last_rate()
     {
         return $this->hasOne(ExchangeRate::class, 'currency_id')->latest();
+    }
+
+    // added by Ahamdi
+    public function financial_records()
+    {
+        return $this->hasMany(FinancialRecord::class, 'currency_id');
+    }
+    public function pro_data()
+    {
+        return $this->hasMany(ProData::class, 'currency_id');
     }
 }
