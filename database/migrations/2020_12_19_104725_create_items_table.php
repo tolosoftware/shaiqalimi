@@ -17,15 +17,15 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('type_id');
             $table->string('name');
-            $table->unsignedBigInteger('min_uom_id');
-            $table->unsignedBigInteger('sub_oum_id');
-            $table->integer('unit_equivalent');
+            $table->unsignedBigInteger('uom_id');
+            $table->unsignedBigInteger('uom_equiv_id');
+            $table->integer('equivalent');
             $table->text('description');
             $table->timestamps();
 
             $table->foreign('type_id')->references('id')->on('item_types');
-            $table->foreign('min_uom_id')->references('id')->on('measurment_units');
-            $table->foreign('sub_oum_id')->references('id')->on('proposals');
+            $table->foreign('uom_id')->references('id')->on('measurment_units');
+            $table->foreign('uom_equiv_id')->references('id')->on('proposals');
         });
     }
 
