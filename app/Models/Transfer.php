@@ -1,17 +1,19 @@
 <?php
 
-namespace App\models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserNotification extends Model
+class Transfer extends Model
 {
+    //
     protected $fillable = [
-        'user_id',
-        'notification_id',
-        'status',
-        'pin',
-        'done',
+        'datetime',
+        'serial_no',
+        'title',
+        'supervisor',
+        'description',
+        'user_id'
     ];
 
     public function user()

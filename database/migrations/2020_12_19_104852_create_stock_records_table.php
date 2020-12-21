@@ -20,20 +20,20 @@ class CreateStockRecordsTable extends Migration
             $table->string('source');
             $table->unsignedBigInteger('source_id');
             $table->unsignedBigInteger('item_id');
-            $table->decimal('min_increment_uom');
-            $table->decimal('min_decrement_uom');
-            $table->integer('min_uom_id');
-            $table->decimal('increment_sub_uom');
-            $table->decimal('decrement_sub_uom');
-            $table->unsignedBigInteger('sub_uom_id');
+            $table->decimal('increment');
+            $table->decimal('decrement');
+            $table->integer('uom_id');
+            $table->decimal('increment_equiv');
+            $table->decimal('decrement_equiv');
+            $table->unsignedBigInteger('uom_equiv_id');
             $table->decimal('density');
             $table->unsignedBigInteger('operation_id');
             $table->string('remark');
             $table->timestamps();
 
-            $table->foreign('operation_id')->references('id')->on('proposals');
-            $table->foreign('item_id')->references('id')->on('proposals');
-            $table->foreign('sub_uom_id')->references('id')->on('measurment_units');
+            $table->foreign('operation_id')->references('id')->on('operations');
+            $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('uom_equiv_id')->references('id')->on('measurment_units');
         });
     }
 
