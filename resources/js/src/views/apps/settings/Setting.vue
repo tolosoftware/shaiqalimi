@@ -128,7 +128,7 @@
         <div class="vx-card__title">
           <h4 class="">تنظیمات عملیه های اساسی </h4>
         </div>
-        <vs-button @click="operationActiveForm = !operationActiveForm, operationForm.reset()">{{ operationActiveForm ? 'بستن فارم' : 'عملیه جدید' }}</vs-button>
+        <!-- <vs-button @click="operationActiveForm = !operationActiveForm, operationForm.reset()">{{ operationActiveForm ? 'بستن فارم' : 'عملیه جدید' }}</vs-button> -->
       </div>
       <vs-divider></vs-divider>
       <div class="vx-card__collapsible-content vs-con-loading__container">
@@ -197,7 +197,7 @@
                 <vs-td :data="tr.id">
                   <div class="inline-flex">
                     <vs-button @click="editOperation(tr)" color="warning" type="flat" icon-pack="feather" icon="icon-edit"></vs-button>
-                    <vs-button @click="deleteOperation(tr.id)" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
+                    <!-- <vs-button @click="deleteOperation(tr.id)" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button> -->
                   </div>
                 </vs-td>
               </vs-tr>
