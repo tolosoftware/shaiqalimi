@@ -3,6 +3,7 @@
 namespace App\models;
 
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
@@ -33,5 +34,9 @@ class Account extends Model
     public function financial_records()
     {
         return $this->hasMany(FinancialRecord::class, 'account_id');
+    }
+    public function vendors()
+    {
+        return $this->hasMany(Vendor::class, 'account_id');
     }
 }
