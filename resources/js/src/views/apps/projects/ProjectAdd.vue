@@ -412,7 +412,7 @@ import OrganizationAdd from "./OrganizationAdd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
-import Ekmalat from "./Ekmalat.vue";
+import Ekmalat from "../shared/Ekmalat";
 import Advertismentlist from './advertisments/Advertismentlist.vue'
 
 import {
@@ -454,7 +454,8 @@ export default {
           ammount: '',
           unit_id: '',
           unit_price: '',
-          total_price: ''
+          total_price: '',
+          density: '',
         }],
         deposit: '',
         tax: '',
