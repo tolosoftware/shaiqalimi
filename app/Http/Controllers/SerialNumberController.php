@@ -82,4 +82,14 @@ class SerialNumberController extends Controller
     {
         //
     }
+
+    public function latest(Request $request)
+    {
+        if($resp = SerialNumber::where('type', $request->type)->latest()->first()){
+            return $resp->integer + 1;
+        }
+        else {
+            return 101;
+        }
+    }
 }

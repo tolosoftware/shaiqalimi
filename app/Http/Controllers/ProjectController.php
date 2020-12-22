@@ -55,12 +55,6 @@ class ProjectController extends Controller
             'title' => 'required|min:3',
             'issue_address' => 'required|min:3',
             'source_address' => 'required|min:3',
-            // 'img' => '',
-            // 'auth_number' => '',
-            // 'duration' => '',
-            // 'status' => '',
-            // 'progress' => ''
-
         ]);
         // return Project::max('s_number') + 1; 
         $request['s_number'] = Project::withTrashed()->max('s_number') + 1;
