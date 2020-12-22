@@ -16,4 +16,8 @@ class Operation extends Model
     {
         return $this->hasMany(StockRecord::class, 'operation_id');
     }
+    public function pro_items()
+    {
+        return $this->hasMany(ProItem::class, 'operation_id');
+    }
 }
