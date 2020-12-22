@@ -3,15 +3,6 @@
   <Orgnizationregister :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
   <vs-tabs>
     <vs-tab label="ثبت اعلان" style="padding:2px 0px 0px 0px !important;">
-      <!--
-    <vx-card
-      title="Title Color"
-      title-color="success"
-      subtitle="Brownie pastry chocolate pastry chocolate pudding.">
-      <p class="mb-3">You can use <code>title-color</code> prop to change color of title of card. This prop supports hex, rgba, rgb and theme colors.</p>
-      <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
-     </vx-card>
-     -->
       <vx-card class="height-vh-80">
         <div class="header">
           <vs-row vs-w="12">

@@ -9,71 +9,77 @@
 
 <template>
 <vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
-  <div class="mt-6 flex items-center justify-between px-6">
-    <h4>نهاد جدید اضافه کنید</h4>
-    <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
-  </div>
-  <vs-divider class="mb-0"></vs-divider>
+  <div class="mb-5">
+    <vs-tabs>
+      <vs-tab label="اضافه کردن نهاد" icon="list" style="padding:2px 2px 2px 3px !important;" active>
+        <!--<div class="mt-6 flex items-center justify-between px-6">
+        <h4>نهاد جدید اضافه کنید</h4>
+        <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+      </div> 
+        <vs-divider class="mb-0"></vs-divider>-->
+        <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+          <div class="p-6">
 
-  <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+            <!-- Product Image -->
+            <template v-if="dataImg">
 
-    <div class="p-6">
+              <!-- Image Container -->
+              <div class="img-container w-64 mx-auto flex items-center justify-center">
+                <img :src="dataImg" alt="img" class="responsive">
+              </div>
 
-      <!-- Product Image -->
-      <template v-if="dataImg">
+              <!-- Image upload Buttons -->
+              <div class="modify-img flex justify-between mt-5">
+                <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*">
+                <vs-button class="mr-4" type="flat" @click="$refs.updateImgInput.click()">Update Image</vs-button>
+                <vs-button type="flat" color="#999" @click="dataImg = null">Remove Image</vs-button>
+              </div>
+            </template>
 
-        <!-- Image Container -->
-        <div class="img-container w-64 mx-auto flex items-center justify-center">
-          <img :src="dataImg" alt="img" class="responsive">
-        </div>
+            <!-- NAME -->
+            <vs-input label="نام نهاد" class="mt-5 w-full" name="item-name" v-validate="'required'" />
+            <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
 
-        <!-- Image upload Buttons -->
-        <div class="modify-img flex justify-between mt-5">
-          <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*">
-          <vs-button class="mr-4" type="flat" @click="$refs.updateImgInput.click()">Update Image</vs-button>
-          <vs-button type="flat" color="#999" @click="dataImg = null">Remove Image</vs-button>
-        </div>
-      </template>
+            <!-- CATEGORY -->
 
-      <!-- NAME -->
-      <vs-input label="نام نهاد" class="mt-5 w-full" name="item-name" v-validate="'required'" />
-      <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
+            <!-- NAME -->
+            <vs-input label="ایمل" type="email" class="mt-5 w-full" name="item-name" />
 
-      <!-- CATEGORY -->
+            <!-- CATEGORY -->
 
-      <!-- NAME -->
-      <vs-input label="ایمل" type="email" class="mt-5 w-full" name="item-name" />
+            <!-- NAME -->
+            <vs-input label="تماس" type="text" class="mt-5 w-full" name="item-name" />
 
-      <!-- CATEGORY -->
+            <!-- CATEGORY -->
 
-      <!-- NAME -->
-      <vs-input label="تماس" type="text" class="mt-5 w-full" name="item-name" />
+            <!-- NAME -->
+            <vs-input label="ویب سایت" type="text" class="mt-5 w-full" name="item-name" />
 
-      <!-- CATEGORY -->
+            <!-- CATEGORY -->
 
-      <!-- NAME -->
-      <vs-input label="ویب سایت" type="text" class="mt-5 w-full" name="item-name" />
+            <!-- NAME -->
+            <vs-input label=" آدرس" type="text" class="mt-5 w-full" name="item-name" />
 
-      <!-- CATEGORY -->
+            <!-- CATEGORY -->
 
-      <!-- NAME -->
-      <vs-input label=" آدرس" type="text" class="mt-5 w-full" name="item-name" />
+            <!-- Upload -->
+            <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
-      <!-- CATEGORY -->
+            <div class="upload-img mt-5" v-if="!dataImg">
+              <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+              <vs-button @click="$refs.uploadImgInput.click()">Upload Image</vs-button>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center p-6" slot="footer">
+            <vs-button class="mr-6" @click="submitData" :disabled="!isFormValid">Submit</vs-button>
+            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancel</vs-button>
+          </div>
+        </component>
 
-      <!-- Upload -->
-      <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
-
-      <div class="upload-img mt-5" v-if="!dataImg">
-        <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
-        <vs-button @click="$refs.uploadImgInput.click()">Upload Image</vs-button>
-      </div>
-    </div>
-  </component>
-
-  <div class="flex flex-wrap items-center p-6" slot="footer">
-    <vs-button class="mr-6" @click="submitData" :disabled="!isFormValid">Submit</vs-button>
-    <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancel</vs-button>
+      </vs-tab>
+      <vs-tab label="لست نهادها" icon="account_balance">
+      </vs-tab>
+    </vs-tabs>
   </div>
 </vs-sidebar>
 </template>
@@ -81,7 +87,7 @@
 <script>
 export default {
   props: {
-    
+
     isSidebarActive: {
       type: Boolean,
       required: true
