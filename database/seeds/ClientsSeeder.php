@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon as Carbon;
 
-class OrganizationSeeder extends Seeder
+class ClientsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,19 +14,21 @@ class OrganizationSeeder extends Seeder
     {
         $data = [
             [
-                'title'=>'Kabul UNI',
+                'name'=>'Kabul UNI',
                 'email'=>'fixed@gmail.com',
                 'phone'=>'+9854329235',
                 'website'=>'active.af',
                 'address' => 'Kabul-Afghanistan',
+                'logo' => 'asfddsf',
                 'created_at'        => Carbon::now(),
                 'updated_at'        => Carbon::now(),
 
             ],
             [
-                'title'=>'Kateb Uni',
+                'name'=>'Kateb Uni',
                 'email'=>'percent@gmail.com',
                 'phone'=>'+9854329857',
+                'logo' => 'asfddsf',
                 'website'=>'kabul.af',
                 'address' => 'Kabul-Afghanistan',
                 'created_at'        => Carbon::now(),
@@ -36,6 +38,6 @@ class OrganizationSeeder extends Seeder
         ];
 
         // Insert the data to this table
-        DB::table('organizations')->insert($data);
+        DB::table('clients')->insert($data);
     }
 }
