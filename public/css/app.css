@@ -5478,3 +5478,7 @@ text {
   overflow-y: scroll;
 }
 
+.alerttext {
+  font-size: 10px !important;
+}
+

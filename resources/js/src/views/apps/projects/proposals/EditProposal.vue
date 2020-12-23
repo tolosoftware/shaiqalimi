@@ -1,6 +1,6 @@
 <template>
 <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="ثبت معلومات" @on-complete="formSubmitted">
-  <tab-content title="معلومات عمومی" class="mb-5" icon="feather icon-home">
+  <tab-content :before-change="beforeTabSwitch" title="معلومات عمومی" class="mb-5" icon="feather icon-home">
     <vs-row vs-w="12">
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
@@ -460,6 +460,16 @@ export default {
     this.getProposal();
   },
   methods: {
+    beforeTabSwitch: function(){
+      // this.$validator.validateAll().then(result => {
+      //   if(result) {
+      //     // if form have no errors
+      //     alert("form submitted!");
+      //   }else{
+      //     // form have errors
+      //   }
+      // })
+   },
     getProposal() {
       let pro_id = this.$route.params.id;
       this.aForm.get('/api/proposal/' + pro_id)
