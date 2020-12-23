@@ -14,7 +14,7 @@ class ItemTypeController extends Controller
      */
     public function index()
     {
-        //
+        return ItemType::all();
     }
 
     /**

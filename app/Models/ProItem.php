@@ -11,9 +11,12 @@ class ProItem extends Model
         'proposal_id',
         'item_id',
         'unit_id',
+        'uom_equiv_id',
+        'operation_id',
         'ammount',
         'unit_price',
-        'total_price'
+        'total_price',
+        'equivalent'
     ];
 
     public function project()
@@ -32,4 +35,9 @@ class ProItem extends Model
     {
         return $this->belongsTo(MeasurmentUnit::class, 'unit_id');
     }
+    public function operation()
+    {
+        return $this->belongsTo(Operation::class, 'operation_id');
+    }
+
 }

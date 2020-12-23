@@ -12,7 +12,7 @@
               <!-- Avg Session -->
               <h2 class="mb-1 font-bold">اعلانات</h2>
             </div>
-            <router-link to="advertisment">
+            <router-link to="proposal">
               <vs-button
                 icon-pack="feather"
                 icon="icon-chevrons-left"
@@ -117,7 +117,7 @@
 </template>
 <script>
 import VueApexCharts from 'vue-apexcharts'
-import ProjectList from './advertisments/Advertismentlist.vue'
+import ProjectList from './proposals/ProposalList.vue'
 import FeaturedProjectInfo from './FeaturedProjectInfo.vue'
 
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'

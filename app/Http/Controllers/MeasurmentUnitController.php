@@ -14,7 +14,7 @@ class MeasurmentUnitController extends Controller
      */
     public function index()
     {
-        //
+        return MeasurmentUnit::all();
     }
 
     /**

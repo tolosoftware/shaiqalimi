@@ -25,7 +25,7 @@ class CreateItemsTable extends Migration
 
             $table->foreign('type_id')->references('id')->on('item_types');
             $table->foreign('uom_id')->references('id')->on('measurment_units');
-            $table->foreign('uom_equiv_id')->references('id')->on('proposals');
+            $table->foreign('uom_equiv_id')->references('id')->on('measurment_units');
         });
     }
 
