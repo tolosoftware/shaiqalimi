@@ -14,7 +14,7 @@ class OperationController extends Controller
      */
     public function index()
     {
-        //
+        return Operation::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class OperationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|min:2',
+            'formula' => 'required|min:2',
+        ]);
+        return Operation::create($request->all());
     }
 
     /**
@@ -69,7 +73,15 @@ class OperationController extends Controller
      */
     public function update(Request $request, Operation $operation)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|min:2',
+            'formula' => 'required|min:2',
+        ]);
+        if ($operation->update($request->all())) {
+            return $operation;
+        }else{
+            return 0;
+        }    
     }
 
     /**
@@ -80,6 +92,6 @@ class OperationController extends Controller
      */
     public function destroy(Operation $operation)
     {
-        //
+        return $operation->delete();
     }
 }

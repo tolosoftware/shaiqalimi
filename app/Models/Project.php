@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\models\ProData;
+use App\models\ProItem;
+use App\models\Proposal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,23 +20,29 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        's_number',
-        'issue_date',
-        'issue_address',
-        'source_address',
-        'title',
-        'auth_number',
-        'type',
-        'price',
-        'duration',
-        'offer_date',
-        'close_date',
-        'offer_price',
-        'project_price',
-        'announce_id',
-        'organization_id',
-        // 'status',
-        // 'progress',
-
+        'serial_no',
+        'proposal_id',
+        'contract_date',
+        'contract_end_date',
+        'project_guarantee',
+        'status',
+        'user_id',
     ];
+
+    public function pro_data()
+    {
+        return $this->hasOne(ProData::class, 'project_id');
+    }
+    public function pro_item()
+    {
+        return $this->hasMany(ProItem::class, 'project_id');
+    }
+    public function proposal()
+    {
+        return $this->belongsTo(Proposal::class, 'proposal_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

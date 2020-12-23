@@ -28,8 +28,10 @@ Route::resource('project','ProjectController');
 Route::resource('announcement','AnnouncementController');
 Route::resource('organization','OrganizationController');
 Route::resource('currency','CurrencyController');
+Route::resource('operation','OperationController');
 
 // Latest Records
 Route::get('announce-last','AnnouncementController@latest');
 Route::get('project-last','ProjectController@latest');
 Route::get('organization-last','OrganizationController@latest');
+Route::post('currency/rates','CurrencyController@rates');

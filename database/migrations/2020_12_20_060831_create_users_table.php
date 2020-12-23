@@ -21,11 +21,12 @@ class CreateUsersTable extends Migration
             $table->string('position');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->string('address');
+            $table->text('address');
             $table->string('password');
             $table->string('image');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

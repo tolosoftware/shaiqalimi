@@ -115,6 +115,7 @@ text {
 
 ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
 }
 
 
@@ -129,15 +130,17 @@ text {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(86 45 183);
+    background: #ea5455;
     border-radius: 10px;
+    transition: .3s;
 }
 
 
 /* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(86 45 183);
+    background: #bc4554;
+    cursor: pointer;
 }
 
 .height-vh-80 {
@@ -396,4 +399,8 @@ $borderWidth: 1px;
 }
 .overflow-hidden-x .vs-table--tbody {
     overflow-x: hidden !important;
+}
+.limit-max-height{
+    max-width: 10vh;
+    overflow-y: scroll;
 }

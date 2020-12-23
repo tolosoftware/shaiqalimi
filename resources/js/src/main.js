@@ -31,6 +31,8 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
     //end
 
+Vue.use(require('vue-moment'));
+
 import './http/requests'
 
 // start sweetalert
