@@ -521,31 +521,40 @@ export default {
         })
     },
     formSubmitted() {
-      this.$Progress.start()
-      this.aForm.patch('/api/proposal/' + this.$route.params.id)
-        .then(({
-          aForm
-        }) => {
-          // Finish the Progress Bar
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'موفقانه ثبت شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        }).catch((errors) => {
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+      if (!this.is_accepted) {
+        swal.fire({
+          title: 'نامکمل!',
+          text: 'لطفا معلومات را تایید کنید.',
+          icon: 'error',
+        })
+      } else {
+
+        this.$Progress.start()
+        this.aForm.patch('/api/proposal/' + this.$route.params.id)
+          .then(({
+            aForm
+          }) => {
+            // Finish the Progress Bar
+            this.$vs.notify({
+              title: 'موفقیت!',
+              text: 'موفقانه ثبت شد.',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+          }).catch((errors) => {
+            this.$Progress.set(100)
+            this.$vs.notify({
+              title: 'ناموفق!',
+              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-cross',
+              position: 'top-right'
+            })
+          });
+      }
     },
   },
   // End Of methods

@@ -495,33 +495,41 @@ export default {
         })
     },
     formSubmitted() {
-      this.$Progress.start()
-      this.aForm.post('/api/proposal')
-        .then(({
-          aForm
-        }) => {
-          // Finish the Progress Bar
-          this.aForm.reset();
-          this.reloadData();
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'موفقانه ثبت شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        }).catch((errors) => {
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+      if (!this.is_accepted) {
+        swal.fire({
+          title: 'نامکمل!',
+          text: 'لطفا معلومات را تایید کنید.',
+          icon: 'error',
+        })
+      } else {
+        this.$Progress.start()
+        this.aForm.post('/api/proposal')
+          .then(({
+            aForm
+          }) => {
+            // Finish the Progress Bar
+            this.aForm.reset();
+            this.reloadData();
+            this.$vs.notify({
+              title: 'موفقیت!',
+              text: 'موفقانه ثبت شد.',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+          }).catch((errors) => {
+            this.$Progress.set(100)
+            this.$vs.notify({
+              title: 'ناموفق!',
+              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-cross',
+              position: 'top-right'
+            })
+          });
+      }
     },
   },
   // End Of methods
@@ -535,7 +543,7 @@ export default {
       let total_items = 0;
       this.aForm.item.filter(function (item) {
         console.log(item);
-        if(item && item.total_price) {
+        if (item && item.total_price) {
           total_items += parseInt(item.total_price);
         }
       })

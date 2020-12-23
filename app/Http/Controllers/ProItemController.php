@@ -80,6 +80,6 @@ class ProItemController extends Controller
      */
     public function destroy(ProItem $proItem)
     {
-        //
+        return $proItem->delete();
     }
 }
