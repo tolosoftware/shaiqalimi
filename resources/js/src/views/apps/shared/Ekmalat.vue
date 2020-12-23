@@ -13,10 +13,10 @@
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for=""><small>عملیه</small></label>
-          <v-select label="title" @input="operationChange" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'"/>
+          <v-select label="title" @input="operationChange" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
       </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for>
             <small>مقدار</small>
@@ -32,14 +32,14 @@
           <has-error :form="form" field="ammount"></has-error>
         </div>
       </vs-col>
-      <vs-col vs-type="flex" v-if="i.operation_id && i.operation_id.id == 1" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+      <vs-col vs-type="flex" v-if="i.operation_id && i.operation_id.id == 1" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <vs-input v-validate="'required'" v-model="i.density" label="ثقلت" class="w-full" />
           <has-error :form="form" field="density"></has-error>
           <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
         </div>
       </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for>
             <small>معادل</small>
@@ -55,7 +55,7 @@
           <has-error :form="form" field="equivalent"></has-error>
         </div>
       </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for>
             <small>هزینه فی واحد</small>
@@ -71,7 +71,7 @@
           <has-error :form="form" field="unit_price"></has-error>
         </div>
       </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="4" vs-xs="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for>
             <small>هزینه مجموعی</small>
@@ -120,7 +120,7 @@ export default {
     this.getAllUnites();
   },
   methods: {
-    operationChange(){
+    operationChange() {
       // console.log(this.items[0]['operation_id']['id'] == 1);
     },
     getOperations() {
@@ -162,9 +162,31 @@ export default {
       });
     },
     removeRow() {
-      if (this.items.length > 1) {
-        this.items.splice(this.items.length - 1, 1);
-      }
+      swal.fire({
+        title: 'آیا متمعن هستید؟',
+        text: "جنس مورد نظر حذف خواهد شد",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله، حذف شود!</span>',
+        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let id = this.items[this.items.length - 1].id;
+          this.axios.delete('/api/pro-item/' + id).then((id) => {
+              swal.fire({
+                title: 'عملیه موفقانه انجام شد.',
+                text: "جنس مورد نظر از سیستم پاک شد!",
+                icon: 'success',
+              })
+              if (this.items.length > 1) {
+                this.items.splice(this.items.length - 1, 1);
+              }
+            })
+            .catch(() => {});
+        }
+      })
     },
   },
   components: {

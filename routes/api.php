@@ -33,6 +33,7 @@ Route::resource('clients','ClientController');
 Route::resource('item-type','ItemTypeController');
 Route::resource('items','ItemController');
 Route::resource('m-units','MeasurmentUnitController');
+Route::resource('pro-item','ProItemController');
 
 
 // Latest Records

@@ -399,7 +399,7 @@
     <vs-tab label=" لست قرار دادها">
       <div class="vx-row">
         <!-- <project-list></project-list> -->
-        <Advertismentlist></Advertismentlist>
+        <ProposalList></ProposalList>
       </div>
     </vs-tab>
   </vs-tabs>
@@ -413,7 +413,7 @@ import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
 import Ekmalat from "../shared/Ekmalat";
-import Advertismentlist from './advertisments/Advertismentlist.vue'
+import ProposalList from './proposals/ProposalList.vue'
 
 import {
   FormWizard,
@@ -429,7 +429,7 @@ export default {
     FormWizard,
     TabContent,
     Ekmalat,
-    Advertismentlist
+    ProposalList
   },
   data() {
     return {
