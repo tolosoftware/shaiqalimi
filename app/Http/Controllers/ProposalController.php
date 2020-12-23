@@ -42,6 +42,15 @@ class ProposalController extends Controller
     {
         $this->validate($request, [
             'client_id' => 'required',
+            'title' => 'required',
+            'reference_no' => 'required',
+            'pr_worth' => 'required',
+            'deposit' => 'required',
+            'tax' => 'required',
+            'transit' => 'required',
+            'others' => 'required',
+            'total_price' => 'required',
+
         ]);
         // Get The last serial number for the proposal.
         $serial_number = SerialNumber::where('type', 'prop')->latest()->first();
@@ -135,6 +144,14 @@ class ProposalController extends Controller
     {
         $this->validate($request, [
             'client_id' => 'required',
+            'title' => 'required',
+            'reference_no' => 'required',
+            'pr_worth' => 'required',
+            'deposit' => 'required',
+            'tax' => 'required',
+            'transit' => 'required',
+            'others' => 'required',
+            'total_price' => 'required',
         ]);
             // return $proposal;
         // $request['client_id'] = $request->client_id['id'];        
