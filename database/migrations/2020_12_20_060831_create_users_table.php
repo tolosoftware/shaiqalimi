@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->text('address');
             $table->string('password');
             $table->string('image');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
