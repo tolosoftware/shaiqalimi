@@ -150,6 +150,16 @@ return [
         'sign_fa' => 'نشان دری',
 
         'formula' => 'فرمول',
+
+        // ahmadi
+        'type_id' => 'آی دی',
+        'system' => 'سیستم',
+        // name: 'وزارت مالیه',
+        // email: 'info@mof.gov.af',
+        'phone' => 'شماره تماس',
+        'website' => 'ویب سایت',
+        'address' => 'آدرس',
+        'dataImg' => 'لوگو',
     ],
 
 ];

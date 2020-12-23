@@ -22,9 +22,8 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
     }
 
     /**
@@ -35,7 +34,15 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:2',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'website' => 'required',
+            'address' => 'required'
+
+        ]);
+        return Client::create($request->all());
     }
 
     /**

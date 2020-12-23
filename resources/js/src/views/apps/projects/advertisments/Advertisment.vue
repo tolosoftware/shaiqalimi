@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Orgnizationregister :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
+  <Clients :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
   <vs-tabs>
     <vs-tab label="ثبت اعلان" style="padding:2px 0px 0px 0px !important;">
       <vx-card class="height-vh-80">
@@ -509,7 +509,7 @@
 <script>
 import Advertismentlist from './Advertismentlist.vue'
 import vSelect from 'vue-select'
-import Orgnizationregister from './Orgnizationregister.vue'
+import Clients from './Clients.vue'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
@@ -517,7 +517,7 @@ export default {
   components: {
     Advertismentlist,
     'v-select': vSelect,
-    Orgnizationregister,
+    Clients,
     FormWizard,
     TabContent
 

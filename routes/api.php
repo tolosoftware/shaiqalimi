@@ -21,17 +21,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 Route::resource('users', 'UserController');
-Route::post('users1','UserController@store');
+Route::post('users1', 'UserController@store');
 
 // Product Review
-Route::resource('project','ProjectController');
-Route::resource('announcement','AnnouncementController');
-Route::resource('organization','OrganizationController');
-Route::resource('currency','CurrencyController');
-Route::resource('operation','OperationController');
+Route::resource('project', 'ProjectController');
+Route::resource('announcement', 'AnnouncementController');
+Route::resource('organization', 'OrganizationController');
+Route::resource('currency', 'CurrencyController');
+Route::resource('operation', 'OperationController');
 
 // Latest Records
-Route::get('announce-last','AnnouncementController@latest');
-Route::get('project-last','ProjectController@latest');
-Route::get('organization-last','OrganizationController@latest');
-Route::post('currency/rates','CurrencyController@rates');
+Route::get('announce-last', 'AnnouncementController@latest');
+Route::get('project-last', 'ProjectController@latest');
+Route::get('organization-last', 'OrganizationController@latest');
+Route::post('currency/rates', 'CurrencyController@rates');
+
+// account type :by ahmadi 
+Route::resource('acount_type', 'AccountTypeController');
+Route::resource('clients', 'ClientController');
