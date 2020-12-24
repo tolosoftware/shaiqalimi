@@ -236,7 +236,7 @@ export default {
     deleteData(id, title) {
       swal.fire({
         title: 'آیا متمعن هستید؟',
-        text: "پروژه " + title + " حذف خواهد شد",
+        text: "پروژه حذف خواهد شد",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: 'rgb(54 34 119)',
@@ -248,7 +248,7 @@ export default {
           this.pForm.delete('/api/project/' + id).then((id) => {
               swal.fire({
                 title: 'عملیه موفقانه انجام شد.',
-                text: "پروژه " + title + " از سیستم پاک شد!",
+                text: "پروژه از سیستم پاک شد!",
                 icon: 'success',
               })
               this.getProject();

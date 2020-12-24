@@ -630,6 +630,7 @@ export default {
           }) => {
             // Finish the Progress Bar
             this.aForm.reset();
+            // this.$refs.observer.reset();
             this.reloadData();
             this.$vs.notify({
               title: 'موفقیت!',
