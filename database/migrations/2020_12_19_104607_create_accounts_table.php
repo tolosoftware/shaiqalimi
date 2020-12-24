@@ -20,8 +20,8 @@ class CreateAccountsTable extends Migration
             $table->string('name');
             $table->string('ref_code');
             $table->boolean('status');
-            $table->text('description');
-            $table->boolean('system');
+            $table->text('description')->nullable();
+            $table->boolean('system')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
