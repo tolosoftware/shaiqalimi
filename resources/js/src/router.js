@@ -168,10 +168,10 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/projects/advertisment',
-                    name: 'advertisment',
+                    path: '/projects/proposal',
+                    name: 'proposal',
                     component: () =>
-                        import ('./views/apps/projects/advertisments/Advertisment.vue'),
+                        import ('./views/apps/projects/proposals/Proposal.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',
@@ -190,7 +190,29 @@ const router = new Router({
                         rule: 'editor'
                     }
                 },
+                {
+                    path: '/projects/proposal/:id/edit',
+                    name: 'proposal-edit',
+                    component: () =>
+                        import ('./views/apps/projects/proposals/ProposalDetail.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'اعلانات',
+                                url: '/projects/proposal'
+                            },
+                            {
+                                title: 'ویرایش اعلان',
+                                active: true
+                            }
+                        ],
 
+                        rule: 'editor'
+                    }
+                },
                 {
                     path: 'sales',
                     name: 'sales',

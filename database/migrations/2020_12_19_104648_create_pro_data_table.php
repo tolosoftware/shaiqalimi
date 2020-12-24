@@ -15,8 +15,8 @@ class CreateProDataTable extends Migration
     {
         Schema::create('pro_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('proposal_id');
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('proposal_id')->nullable();
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('client_id');
             $table->string('title');
             $table->string('reference_no');

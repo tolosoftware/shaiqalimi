@@ -255,7 +255,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import VueApexCharts from 'vue-apexcharts'
 import apexChatData from './apexChartData.js'
 
- import ProjectList from './apps/projects/advertisments/Advertismentlist.vue'
+ import ProjectList from './apps/projects/proposals/ProposalList.vue'
 
 
 

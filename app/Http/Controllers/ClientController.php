@@ -14,7 +14,10 @@ class ClientController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         //
+=======
+>>>>>>> 140a709790b5fe1ee4a473a85a82316112711836
         return Client::all();
     }
 

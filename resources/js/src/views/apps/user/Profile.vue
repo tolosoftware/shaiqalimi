@@ -1,8 +1,8 @@
 <template>
   <vs-tabs>
-      <vs-tab label="پروفایل">
+      <!-- <vs-tab label="پروفایل">
         <profile-details />
-      </vs-tab>
+      </vs-tab> -->
       <vs-tab label="لیست کاربران">
         <user-list />
       </vs-tab>

@@ -35,7 +35,20 @@ class ProDataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
+        // 'proposal_id',
+        // 'project_id',
+        // 'client_id',
+        // 'title',
+        // 'reference_no',
+        // 'pr_worth',
+        // 'deposit',
+        // 'tax',
+        // 'transit',
+        // 'others',
+        // 'currency_id',
+        // 'total_price'
+    
     }
 
     /**

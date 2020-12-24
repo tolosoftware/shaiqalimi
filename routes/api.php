@@ -25,17 +25,21 @@ Route::post('users1', 'UserController@store');
 
 // Product Review
 Route::resource('project', 'ProjectController');
-Route::resource('announcement', 'AnnouncementController');
+Route::resource('proposal', 'ProposalController');
 Route::resource('organization', 'OrganizationController');
 Route::resource('currency', 'CurrencyController');
 Route::resource('operation', 'OperationController');
+Route::resource('acount_type', 'AccountTypeController');
+Route::resource('clients', 'ClientController');
+Route::resource('item-type', 'ItemTypeController');
+Route::resource('items', 'ItemController');
+Route::resource('m-units', 'MeasurmentUnitController');
+Route::resource('pro-item', 'ProItemController');
+
 
 // Latest Records
-Route::get('announce-last', 'AnnouncementController@latest');
+// Route::get('announce-last','ProposalController@latest');
 Route::get('project-last', 'ProjectController@latest');
 Route::get('organization-last', 'OrganizationController@latest');
 Route::post('currency/rates', 'CurrencyController@rates');
-
-// account type :by ahmadi 
-Route::resource('acount_type', 'AccountTypeController');
-Route::resource('clients', 'ClientController');
+Route::get('serial-num', 'SerialNumberController@latest');
