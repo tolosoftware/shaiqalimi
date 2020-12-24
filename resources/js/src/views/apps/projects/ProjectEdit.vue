@@ -273,7 +273,6 @@ import OrganizationAdd from "./OrganizationAdd.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
-
 export default {
   components: {
     OrganizationAdd,
@@ -307,7 +306,6 @@ export default {
         organization_id: '',
       }),
       // End Project Form
-
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},
@@ -364,7 +362,6 @@ export default {
       // Start the Progress Bar
       this.$Progress.start()
       // this.$vs.loading({type: 'border',color: '#432e81'});
-
       this.axios.get('/api/announcement')
         .then((response) => {
           this.announces = response.data;
@@ -389,7 +386,6 @@ export default {
       this.axios.get('/api/project/' + this.$route.params.id)
         .then((response) => {
           this.setPFromValue(response.data);
-
           // Find and set default value for selections.
           Object.keys(this.announces).some(key => (this.announces[key].id == response.data.announce_id) ? this.selectedAnnounce = this.announces[key] : null)
           Object.keys(this.org).some(key => (this.org[key].id == response.data.organization_id) ? this.selectedOrg = this.org[key] : null)
@@ -406,7 +402,6 @@ export default {
       // Start the Progress Bar
       this.$Progress.start()
       // this.$vs.loading({type: 'border',color: '#432e81'});
-
       this.pForm.patch('/api/project/' + this.$route.params.id)
         .then(({data}) => {
           // Finish the Progress Bar
