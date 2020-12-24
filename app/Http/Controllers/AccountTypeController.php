@@ -14,7 +14,7 @@ class AccountTypeController extends Controller
      */
     public function index()
     {
-        //
+        return AccountType::all();
     }
 
     /**
@@ -35,7 +35,12 @@ class AccountTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|min:2',
+            'type_id' => 'required|numeric',
+            'system' => 'required'
+        ]);
+        return AccountType::create($request->all());
     }
 
     /**
@@ -67,9 +72,22 @@ class AccountTypeController extends Controller
      * @param  \App\models\AccountType  $accountType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AccountType $accountType)
+    public function update(Request $request, $accountTypeID)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|min:2',
+            'type_id' => 'required',
+        ]);
+        // // return $accountType->update($request->all());
+        // if ($accountType->update($request->all())) {
+        //     return $accountType;
+        // } else {
+        //     return 0;
+        // }
+
+        $acountType = AccountType::findOrFail($accountTypeID);
+        $acountType->update($request->all());
+        return "ok";
     }
 
     /**
@@ -78,8 +96,9 @@ class AccountTypeController extends Controller
      * @param  \App\models\AccountType  $accountType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AccountType $accountType)
+    public function destroy($accountTypeID)
     {
-        //
+        $acountType = AccountType::findOrFail($accountTypeID);
+        return $acountType->delete();
     }
 }

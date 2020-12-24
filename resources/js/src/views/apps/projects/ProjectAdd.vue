@@ -1,6 +1,6 @@
 <template>
 <div>
-  <OrganizationAdd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
+  <Clients :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
   <vs-tabs>
     <vs-tab label=" ثبت قرارداد جدید" style="padding:2px 0px 0px 0px !important;">
@@ -408,7 +408,7 @@
 
 <script>
 import vSelect from "vue-select";
-import OrganizationAdd from "./OrganizationAdd.vue";
+import Clients from "./proposals/Clients.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
@@ -423,7 +423,7 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 export default {
   components: {
-    OrganizationAdd,
+    Clients,
     ProjectList,
     "v-select": vSelect,
     FormWizard,

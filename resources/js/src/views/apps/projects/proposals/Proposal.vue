@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Orgnizationregister :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
+  <Clients :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
   <vs-tabs>
     <vs-tab label="ثبت اعلان" style="padding:2px 0px 0px 0px !important;">
       <vx-card class="height-vh-80">
@@ -44,13 +44,13 @@
 <script>
 import ProposalList from './ProposalList.vue'
 import AddProposal from './AddProposal.vue'
-import Orgnizationregister from './Orgnizationregister.vue'
+import Clients from './Clients.vue'
 
 export default {
   components: {
     ProposalList,
     AddProposal,
-    Orgnizationregister,
+    Clients,
   },
   data() {
     return {
