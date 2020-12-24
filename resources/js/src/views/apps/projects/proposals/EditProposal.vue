@@ -20,7 +20,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input v-validate="'required|min:6'" v-model="aForm.publish_address" label="آدرس نشراعلان" name="publish_address" class="w-full" />
+            <vs-input autocomplete="off" v-validate="'required|min:6'" v-model="aForm.publish_address" label="آدرس نشراعلان" name="publish_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.publish_address') }}</span>
             <!--<span class="text-danger text-sm" v-show="errors.has('publish_address')">{{ errors.first('publish_address') }}</span> -->
             <has-error :form="aForm" field="publish_address"></has-error>

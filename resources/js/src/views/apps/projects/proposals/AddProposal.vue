@@ -5,7 +5,7 @@
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input size="medium" v-validate="'required'" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
+            <vs-input autocomplete="off" size="medium" v-validate="'required'" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.serial_no') }}</span>
             <span class="text-danger text-sm" v-show="errors.has('serial_no')">{{ errors.first('serial_no') }}</span>
           </div>
@@ -20,7 +20,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input v-validate="'required|min:6'" v-model="aForm.publish_address" label="آدرس نشراعلان" name="publish_address" class="w-full" />
+            <vs-input autocomplete="off" v-validate="'required|min:6'" v-model="aForm.publish_address" label="آدرس نشراعلان" name="publish_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.publish_address') }}</span>
             <!--<span class="text-danger text-sm" v-show="errors.has('publish_address')">{{ errors.first('publish_address') }}</span> -->
             <has-error :form="aForm" field="publish_address"></has-error>
@@ -38,7 +38,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input size="medium" v-model="aForm.title" v-validate="'required|min:6'" label="عنوان قرارداد" name="title" class="w-full" />
+            <vs-input autocomplete="off" size="medium" v-model="aForm.title" v-validate="'required|min:6'" label="عنوان قرارداد" name="title" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.title') }}</span>
             <has-error :form="aForm" field="title"></has-error>
             <!-- <span class="text-danger text-sm" v-show="errors.has('title')">{{ errors.first('title') }}</span> -->
@@ -64,7 +64,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input v-validate="'required|min:6'" v-model="aForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
+            <vs-input autocomplete="off" v-validate="'required|min:6'" v-model="aForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.reference_no') }}</span>
             <has-error :form="aForm" field="reference_no"></has-error>
             <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
@@ -90,7 +90,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input size="medium" label="آدرس آفرگشایی" v-validate="'required'" v-model="aForm.bidding_address" name="bidding_address" class="w-full" />
+            <vs-input autocomplete="off" size="medium" label="آدرس آفرگشایی" v-validate="'required'" v-model="aForm.bidding_address" name="bidding_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.bidding_address') }}</span>
             <has-error :form="aForm" field="bidding_address"></has-error>
           </div>
@@ -105,7 +105,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" name="offer_guarantee" v-validate="'required'" v-model="aForm.offer_guarantee" />
+              <vs-input autocomplete="off" type="number" name="offer_guarantee" v-validate="'required'" v-model="aForm.offer_guarantee" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.offer_guarantee') }}</span>
             <has-error :form="aForm" field="offer_guarantee"></has-error>
@@ -129,7 +129,7 @@
                   <span>٪</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="aForm.deposit" v-validate="'required'" name="deposit" />
+              <vs-input autocomplete="off" type="number" v-model="aForm.deposit" v-validate="'required'" name="deposit" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
             <has-error :form="aForm" field="deposit"></has-error>
@@ -144,7 +144,7 @@
                   <span>٪</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="aForm.tax" v-validate="'required'" name="tax" />
+              <vs-input autocomplete="off" type="number" v-model="aForm.tax" v-validate="'required'" name="tax" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
             <has-error :form="aForm" field="tax"></has-error>
@@ -159,7 +159,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="aForm.others" v-validate="'required'" name="others" />
+              <vs-input autocomplete="off" type="number" v-model="aForm.others" v-validate="'required'" name="others" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
             <has-error :form="aForm" field="others"></has-error>
@@ -176,7 +176,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
+              <vs-input autocomplete="off" type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
             <has-error :form="aForm" field="pr_worth"></has-error>
@@ -191,7 +191,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="aForm.transit" v-validate="'required'" name="transit" />
+              <vs-input autocomplete="off" type="number" v-model="aForm.transit" v-validate="'required'" name="transit" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
             <has-error :form="aForm" field="transit"></has-error>
@@ -206,7 +206,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="aForm.total_price" :v-model="aForm.total_price = total_cost" />
+              <vs-input autocomplete="off" type="number" v-model="aForm.total_price" :v-model="aForm.total_price = total_cost" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
           </div>
