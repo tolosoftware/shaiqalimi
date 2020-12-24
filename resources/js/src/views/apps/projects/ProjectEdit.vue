@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OrganizationAdd
+    <Clients
       :isSidebarActive="addNewDataSidebar"
       @closeSidebar="toggleDataSidebar"
       :data="sidebarData"
@@ -269,13 +269,13 @@
 
 <script>
 import vSelect from "vue-select";
-import OrganizationAdd from "./OrganizationAdd.vue";
+import Clients from "./proposals/Clients.vue";
 import DataViewSidebar from "./DataViewSidebar.vue";
 import moduleDataList from "./data-list/moduleDataList.js";
 import ProjectList from "./ProjectList.vue";
 export default {
   components: {
-    OrganizationAdd,
+    Clients,
     ProjectList,
     "v-select": vSelect,
   },
