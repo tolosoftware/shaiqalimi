@@ -1,88 +1,102 @@
 <template>
 <vx-card>
-    <form class="p-4">
+    <form class="pl-4 pr-4 pb-2 pt-2">
 
         <div class="vx-row">
             <div class="vx-row w-2/3">
-                <div class="vx-col mb-6 w-1/2">
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
                         <vs-input class="w-full" label="نام" v-model="form.firstName" />
                     </div>
-                </div>
-                <div class="vx-col mb-6 w-1/2">
+                </vs-col>
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
                         <vs-input class="w-full" label="تخلص" v-model="form.lastName" />
                     </div>
-                </div>
+                </vs-col>
 
-                <div class="vx-col  w-1/2 mt-6">
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
-                        <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.userType" />
-                    </div>
-                </div>
 
-                 <div class="vx-col mb-6 w-1/2">
+                        <label for="text"><small>نوعیت کاربر</small> </label>
+                        <v-select label="text" :options="usertypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.user_type" />
+                    </div>
+
+                </vs-col>
+
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
                         <vs-input class="w-full" type="text" label="پوسیشن" v-model="form.position" />
                     </div>
-                </div>
+                </vs-col>
 
-                <div class="vx-col mb-6 w-1/2">
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
                         <vs-input class="w-full" type="email" label="ایمیل" v-model="form.email" />
                     </div>
-                </div>
-                <div class="vx-col mb-6 w-1/2">
+                </vs-col>
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
-                        <vs-input class="w-full number-rtl" label="شماره تماس" v-model="form.phone" />
+                        <vs-input class="w-full" label="شماره تماس" v-model="form.phone" />
                     </div>
-                </div>
-                <div class="vx-col mb-6 w-1/2">
+                </vs-col>
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
                         <vs-input class="w-full" label="آدرس" v-model="form.address" />
                     </div>
-                </div>
+                </vs-col>
 
-                <div class="vx-col mb-6 w-1/2">
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
                         <vs-input class="w-full" type="password" label="رمز عبور" v-model="form.password" />
                     </div>
-                </div>
+                </vs-col>
+
+                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
+                    <div class="w-full con-select-example">
+                        <!-- <vs-select placeholder="انتخاب مافوق" class="selectExample w-full" label="مافوق های کاربر را انتخاب نماید!" label-placeholder="Multiple" multiple v-model="form.select">
+                            <vs-select-item :value="item.value" :text="item.text" v-for="item in options1" :key="item.id" />
+                        </vs-select> -->
+
+                        <template>
+                            <v-select multiple :closeOnSelect="false" v-model="form.userleaders" :options="optionss" :dir="$vs.rtl ? 'rtl' : 'ltr'" /><br>
+                        </template>
+
+                    </div>
+                </vs-col>
 
             </div>
             <div class="vx-col w-1/3">
                 <!-- Product Image -->
-                <template v-if="form.userimg">
+                <template v-if="form.image">
                     <!-- Image Container -->
                     <div class="img-container w-64 mx-auto flex items-center justify-center mt-5">
-                        <img :src="form.userimg" width="50px" height="50px" alt="img" class="user_image responsive" />
+                        <img :src="form.image" width="50px" height="50px" alt="img" class="user_image responsive" />
                     </div>
 
                     <!-- Image upload Buttons -->
                     <div class="modify-img flex justify-between mt-5">
                         <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*" />
                         <vs-button class="mr-4" type="flat" @click="$refs.updateImgInput.click()">تغییر</vs-button>
-                        <vs-button type="flat" color="#999" @click="form.userimg = null">حذف</vs-button>
+                        <vs-button type="flat" color="#999" @click="form.image = null">حذف</vs-button>
                     </div>
                 </template>
                 <!-- Upload -->
 
-           
-
                 <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
-                <div class="upload-img mt-5 text-center" v-if="!form.userimg">
+                <div class="upload-img mt-5 text-center" v-if="!form.image">
                     <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*" />
                     <vs-button @click="$refs.uploadImgInput.click()">آپلود تصویر</vs-button>
                 </div>
 
-              <!-- Product Image -->
-                <template v-if="!form.userimg">
+                <!-- Product Image -->
+                <template v-if="!form.image">
                     <div class="mt-4">
-                    <!-- Image Container -->
-                    <div class="img-container w-64 mx-auto flex items-center justify-center">
-                        <img src="/images/user/user.jpg" width="50px" height="50px" alt="img" class="user_image responsive" />
-                    </div>
+                        <!-- Image Container -->
+                        <div class="img-container w-64 mx-auto flex items-center justify-center">
+                            <img src="/images/user/user.jpg" width="50px" height="50px" alt="img" class="user_image responsive" />
+                        </div>
 
                     </div>
                 </template>
@@ -105,60 +119,92 @@
 import vSelect from "vue-select";
 export default {
     components: {
+
         "v-select": vSelect,
+
     },
     data() {
         return {
+            users: [],
 
-            itemType: [{
-                    text: "آدمین",
-                    value: "1",
+            // options: ['foo', 'bar', 'baz'],
+
+            
+            optionss: [{
+                    text: 'آدمین',
+                    value: 0
                 },
                 {
-                    text: "منیجر",
-                    value: "2",
+                    text: 'منیجر ',
+                    value: 2
                 },
                 {
-                    text: "سوپروایزر",
-                    value: "3",
+                    text: 'سوپروایزر',
+                    value: 3
                 },
+
                 {
-                    text: "اجینت",
-                    value: "4",
+                    text: 'کابر عادی',
+                    value: 4
                 },
             ],
 
+            usertypes: [{
+                    text: 'آدمین',
+                    value: 0
+                },
+                {
+                    text: 'منیجر ',
+                    value: 2
+                },
+                {
+                    text: 'سوپروایزر',
+                    value: 3
+                },
+
+                {
+                    text: 'کابر عادی',
+                    value: 4
+                },
+            ],
             form: new Form({
                 id: '',
                 firstName: '',
                 lastName: '',
-                userType: '',
+                user_type: '',
                 position: '',
                 email: '',
                 phone: '',
                 address: '',
                 password: '',
-                userimg: '',
+                image: '',
+                userleaders: '',
             })
         }
     },
 
     methods: {
+        loadUsers() {
+            this.axios.get('/api/users').then(({
+                data
+            }) => (this.users = data));
+        },
         formreset() {
             this.form.reset();
         },
         submitData() {
 
-            this.form.post('/api/users1')
+            this.form.post('/api/users')
                 .then(() => {
                     this.$vs.notify({
-                        title: 'Icon mail',
-                        text: 'Lorem ipsum dolor sit amet, consectetur',
+                        title: ' کاربر جدید اضافه شد',
+                        text: 'عملیه موفغانه انجام شد',
                         color: 'success',
                         iconPack: 'feather',
                         icon: 'icon-check',
                         position: 'top-right'
                     })
+                    this.form.reset();
                 })
 
                 .catch(() => {
@@ -166,18 +212,14 @@ export default {
                 })
         },
 
-        mahdi() {
-            console.log("work");
-        },
-
         initValues() {
-            this.form.userimg = null
+            this.form.image = null
         },
         updateCurrImg(input) {
             if (input.target.files && input.target.files[0]) {
                 const reader = new FileReader()
                 reader.onload = e => {
-                    this.form.userimg = e.target.result
+                    this.form.image = e.target.result
 
                 }
                 reader.readAsDataURL(input.target.files[0])
@@ -186,7 +228,7 @@ export default {
     },
 
     created() {
-
+        this.loadUsers();
     },
 }
 </script>
