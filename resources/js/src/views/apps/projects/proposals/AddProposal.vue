@@ -328,21 +328,21 @@
         <vs-th>هزینه مجموعی</vs-th>
       </template>
       <template slot-scope="{data}">
-        <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-          <vs-td :data="data[indextr].item_id">
-            {{ findItem(data[indextr].item_id) }}
+        <vs-tr :key="i" v-for="(tr, i) in data">
+          <vs-td :data="tr.item_id">
+            {{ findItem(tr.item_id.id) }}
           </vs-td>
-          <vs-td :data="data[indextr].ammount">
-            {{data[indextr].ammount}}
+          <vs-td :data="tr.ammount">
+            {{tr.ammount}}
           </vs-td>
-          <vs-td :data="data[indextr].item_id.uom_id">
-            {{ findUom(data[indextr].item_id.uom_id) }}
+          <vs-td :data="tr.item_id.uom_id">
+            {{ findUom(tr.item_id.uom_id) }}
           </vs-td>
-          <vs-td :data="data[indextr].unit_price">
-            {{data[indextr].unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+          <vs-td :data="tr.unit_price">
+            {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
-          <vs-td :data="data[indextr].total_price">
-            {{data[indextr].total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+          <vs-td :data="tr.total_price">
+            {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
         </vs-tr>
       </template>
@@ -500,9 +500,6 @@ export default {
       currentSerialNo: 0,
       aForm: new Form({
         serial_no: '',
-        publish_date: '',
-        publish_address: '',
-        status: '1',
         client_id: '',
         total_price: 0,
         title: '',
@@ -510,6 +507,9 @@ export default {
         submission_date: '',
         bidding_date: '',
         bidding_address: '',
+        publish_date: '',
+        publish_address: '',
+        status: '1',
         offer_guarantee: '',
         item: [{
           item_id: "",

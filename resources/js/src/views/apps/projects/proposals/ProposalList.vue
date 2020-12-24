@@ -44,24 +44,25 @@
             {{ indextr + 1 }}
           </vs-td>
           <vs-td class="img-container">
-            <router-link v-if="tr.pro_datas" class="product-name font-medium truncate" :to="{
+            <router-link v-if="tr.pro_data" class="product-name font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
               <!-- <img :src="tr.img" class="product-img" /> -->
-              <p>{{tr.pro_datas.client_id}}</p>
+            <p>{{ findClient(tr.pro_data.client_id) }}</p>
+
             </router-link>
           </vs-td>
 
           <vs-td>
-            <div v-if="tr.pro_datas">
+            <div v-if="tr.pro_data">
               <router-link class="product-name font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
-                {{ tr.pro_datas.title }}</router-link>
+                {{ tr.pro_data.title }}</router-link>
             </div>
           </vs-td>
 
@@ -75,7 +76,7 @@
           </vs-td>
 
           <vs-td>
-            <p v-if="tr.pro_datas" class="product-price">{{ tr.pro_datas.total_price }} افغانی</p>
+            <p v-if="tr.pro_data" class="product-price">{{ tr.pro_data.total_price }} افغانی</p>
           </vs-td>
           <vs-td>
             <p class="bidding_address">{{ tr.bidding_address }}</p>
@@ -121,6 +122,7 @@ export default {
       isMounted: false,
       addNewDataSidebar: false,
       sidebarData: {},
+      clients: [],
     }
   },
   components: {
@@ -128,6 +130,7 @@ export default {
   },
   created() {
     this.getProposals();
+    this.getAllClients();
   },
   computed: {
     currentPage() {
@@ -141,6 +144,17 @@ export default {
     }
   },
   methods: {
+    getAllClients() {
+    this.axios.get('/api/clients')
+      .then((response) => {
+        this.clients = response.data;
+      })
+    },
+    findClient(id){
+      let name = '';
+      Object.keys(this.clients).some(key => (this.clients[key].id == id) ? name = this.clients[key].name : null);
+      return name;
+    },
     getProposals() {
       this.$Progress.start()
       this.axios.get('/api/proposal')
