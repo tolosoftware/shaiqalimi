@@ -187,8 +187,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        ProData::where('proposal_id', $proposal->id)->delete();
-        ProItem::where('proposal_id', $proposal->id)->delete();
+        ProData::where('project_id', $project->id)->delete();
+        ProItem::where('project_id', $project->id)->delete();
         return $project->delete();
     }
     
