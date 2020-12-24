@@ -30,7 +30,7 @@ class Proposal extends Model
     {
         return $this->hasMany(ProItem::class, 'proposal_id');
     }
-    public function pro_datas()
+    public function pro_data()
     {
         return $this->hasOne(ProData::class, 'proposal_id');
     }

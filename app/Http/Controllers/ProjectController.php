@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\Organization;
-use App\Models\Announcement;
+use App\Models\SerialNumber;
+use App\Models\Currency;
+use App\Models\ProData;
+use App\Models\ProItem;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
 
@@ -17,7 +20,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Project::all();
+        return Project::with(['pro_data', 'pro_items'])->latest()->get();;
     }
 
     /**
@@ -43,22 +46,99 @@ class ProjectController extends Controller
         // return Carbon::parse($request->issue_date);
         $this->validate($request, [
             // 's_number' => 'required|unique',
-            'issue_date' => 'required|date',
-            'type' => 'required',
-            'price' => 'required:max:20',
-            'offer_date' => 'required|date',
-            'close_date' => 'required|date',
-            'offer_price' => 'required|max:20',
-            'project_price' => 'required|max:20',
-            'announce_id' => 'required',
-            'organization_id' => 'required',
-            'title' => 'required|min:3',
-            'issue_address' => 'required|min:3',
-            'source_address' => 'required|min:3',
+            // 'issue_date' => 'required|date',
+            // 'type' => 'required',
+            // 'price' => 'required:max:20',
+            // 'offer_date' => 'required|date',
+            // 'close_date' => 'required|date',
+            // 'offer_price' => 'required|max:20',
+            // 'project_price' => 'required|max:20',
+            // 'announce_id' => 'required',
+            // 'organization_id' => 'required',
+            // 'title' => 'required|min:3',
+            // 'issue_address' => 'required|min:3',
+            // 'source_address' => 'required|min:3',
         ]);
-        // return Project::max('s_number') + 1; 
-        $request['s_number'] = Project::withTrashed()->max('s_number') + 1;
-        return Project::create($request->all());
+        $serial_number = SerialNumber::where('type', 'pro')->latest()->first();
+        if($serial_number) {
+            $request['serial_no'] = $serial_number->integer + 1;
+        }
+        else{
+            $request['serial_no'] = 101;
+        }
+        // return $request;
+        $serial_number = [
+            'type' => 'pro',
+            'prefix' => 'pro',
+            'integer' => $request['serial_no'],
+        ];
+        if(gettype($request->client_id) != 'integer') {
+            $request['client_id'] = $request->client_id['id'];
+        }
+        if(gettype($request->proposal_id) != 'integer') {
+            $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
+        }
+        SerialNumber::create($serial_number);
+        if ($resp = Project::create($request->all())){
+            if($request['proposal_id']) {
+                $proData = [
+                    'client_id' => $request->client_id,
+                    'title' => $request->title,
+                    'reference_no' => $request->reference_no,
+                    'pr_worth' => $request->pr_worth,
+                    'deposit' => $request->deposit,
+                    'tax' => $request->tax,
+                    'transit' => $request->transit,
+                    'others' => $request->others,
+                    'currency_id' => Currency::latest()->first()->id,
+                    'total_price' => 1000,
+                    'total_price' => $request->total_price,
+                    'proposal_id' => null,
+                    'project_id' => $resp->id, 
+                ];
+                ProData::where('proposal_id', $request['proposal_id'])->update($proData);    
+            }else{
+                $proData = [
+                    'project_id' => $resp->id,
+                    'client_id' => $request->client_id,
+                    'title' => $request->title,
+                    'reference_no' => $request->reference_no,
+                    'pr_worth' => $request->pr_worth,
+                    'deposit' => $request->deposit,
+                    'tax' => $request->tax,
+                    'transit' => $request->transit,
+                    'others' => $request->others,
+                    'currency_id' => Currency::latest()->first()->id,
+                    'total_price' => $request->total_price,
+                ];
+                ProData::create($proData);
+            }
+
+            // Create Pro Items Record for selected Items
+            foreach ($request->item as $key => $item) {
+                if(gettype($item['item_id']) != 'integer') {
+
+                    $item = [
+                        'unit_id' => $item['item_id']['uom_id'],
+                        'uom_equiv_id' => $item['item_id']['uom_equiv_id'],
+                        'item_id' => $item['item_id']['id'],
+                        'project_id' => $resp->id,
+                        'operation_id' => $item['operation_id']['id'],
+                        'ammount' => $item['ammount'],
+                        'unit_price' => $item['unit_price'],
+                        'equivalent' => $item['equivalent'],
+                        'total_price' => $item['total_price'],
+                    ];
+                    ProItem::create($item);
+                }
+                // return $item;
+            }
+            return response()->json([$resp], 200);
+        }
+        else{
+            return $resp;
+        }
+
     }
 
     /**
@@ -107,6 +187,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        ProData::where('proposal_id', $proposal->id)->delete();
+        ProItem::where('proposal_id', $proposal->id)->delete();
         return $project->delete();
     }
     
