@@ -36,6 +36,7 @@
                     </div>
                   </div>
                 </template>
+                <has-error :form="orgForm" field="logo"></has-error>
 
                 <vs-input label="نام نهاد" class="mt-5 w-full" v-model="orgForm.name" />
                 <has-error :form="orgForm" field="name"></has-error>
@@ -61,8 +62,8 @@
                 </div>
               </div>
               <div class="flex flex-wrap items-center p-6" slot="footer">
-                <vs-button class="mr-6" @click="submitData" :disabled="!isFormValid">ذخیره</vs-button>
-                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
+                <vs-button type="border" color="success" class="mr-6" @click="submitData" :disabled="!isFormValid" icon="save">ذخیره</vs-button>
+                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">بسته کردن</vs-button>
               </div>
             </form>
           </component>
@@ -76,47 +77,48 @@
                   <div class="vx-row">
                     <!-- Image Container -->
                     <div class="img-container w-32 mx-auto flex items-center justify-center ml-5">
-                      <img :src="'/images/img/'+orgForm.logo" alt="لوگو">
+                      <img v-if="oldImage" :src="'/images/img/'+orgFormEdit.logo" alt="لوگو" class="responsive">
+                      <img v-if="!oldImage" :src="logoToChange" alt="لوگو" class="responsive">
                     </div>
                     <!-- Image upload Buttons -->
                     <div class="modify-img flex justify-between mt-5 pt-5 ml-4">
                       <div class="mr-5 pr-5">
-                        <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*">
-                        <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput.click()">تبدیل لوگو</vs-button>
+                        <input type="file" class="hidden" ref="updateImgInput1" @change="updateCurrImg1" accept="image/*">
+                        <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput1.click()">تبدیل لوگو</vs-button>
                       </div>
                       <div class="mr-5 pr-5">
-                        <vs-button icon="delete" type="border" color="warning" @click="orgForm.logo = null">حذف این لوگو</vs-button>
+                        <vs-button v-if="!oldImage" icon="delete" type="border" color="warning" @click="deletOnChangeLogo()">حذف این لوگو</vs-button>
                       </div>
                     </div>
                   </div>
                 </template>
 
-                <vs-input label="نام نهاد" class="mt-5 w-full" v-model="orgForm.name" />
-                <has-error :form="orgForm" field="name"></has-error>
+                <vs-input label="نام نهاد" class="mt-5 w-full" v-model="orgFormEdit.name" />
+                <has-error :form="orgFormEdit" field="name"></has-error>
                 <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
 
-                <vs-input label="ایمیل" type="email" class="mt-5 w-full" v-model="orgForm.email" />
-                <has-error :form="orgForm" field="email"></has-error>
+                <vs-input label="ایمیل" type="email" class="mt-5 w-full" v-model="orgFormEdit.email" />
+                <has-error :form="orgFormEdit" field="email"></has-error>
                 <!-- NAME -->
-                <vs-input label=" شماره تماس " type="text" class="mt-5 w-full" v-model="orgForm.phone" />
-                <has-error :form="orgForm" field="phone"></has-error>
+                <vs-input label=" شماره تماس " type="text" class="mt-5 w-full" v-model="orgFormEdit.phone" />
+                <has-error :form="orgFormEdit" field="phone"></has-error>
                 <!-- NAME -->
-                <vs-input label="ویب سایت" type="text" class="mt-5 w-full" v-model="orgForm.website" />
-                <has-error :form="orgForm" field="website"></has-error>
+                <vs-input label="ویب سایت" type="text" class="mt-5 w-full" v-model="orgFormEdit.website" />
+                <has-error :form="orgFormEdit" field="website"></has-error>
                 <!-- NAME -->
-                <vs-input label=" آدرس" type="text" class="mt-5 w-full" v-model="orgForm.address" />
-                <has-error :form="orgForm" field="address"></has-error>
+                <vs-input label=" آدرس" type="text" class="mt-5 w-full" v-model="orgFormEdit.address" />
+                <has-error :form="orgFormEdit" field="address"></has-error>
                 <!-- Upload -->
                 <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
-                <div class="upload-img mt-5" v-if="!orgForm.logo">
-                  <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+                <div class="upload-img mt-5" v-if="!orgFormEdit.logo">
+                  <input type="file" class="hidden" ref="uploadImgInput1" @change="updateCurrImg1" accept="image/*">
                   <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود لوگو</vs-button>
                 </div>
               </div>
               <div class="flex flex-wrap items-center p-6" slot="footer">
-                <vs-button class="mr-6" @click="submitData" :disabled="!isFormValid">ذخیره</vs-button>
-                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
+                <vs-button type="border" icon="edit" color="success" class="mr-6" @click="updateData()" :disabled="!isFormValid">ویرایش</vs-button>
+                <vs-button type="border" icon="close" color="danger" @click="resetAllState()">بستن فورم ویرایش</vs-button>
               </div>
             </form>
           </div>
@@ -173,6 +175,9 @@
                 </tbody>
               </template>
             </vs-table>
+            <div class="flex flex-wrap items-center p-6" slot="footer">
+              <vs-button type="border" icon="close" color="danger" @click="isSidebarActiveLocal = false">بسته کردن</vs-button>
+            </div>
           </div>
         </vs-tab>
       </vs-tabs>
@@ -195,20 +200,11 @@ export default {
       default: () => {}
     }
   },
-  components: {
-    DataViewSidebar
-  },
-  created() {
-    if (!moduleDataList.isRegistered) {
-      this.$store.registerModule('dataList', moduleDataList)
-      moduleDataList.isRegistered = true
-    }
-    this.$store.dispatch('dataList/fetchDataListItems'),
-      this.getData();
-  },
   data() {
     return {
       orgActiveForm: false,
+      oldImage: true,
+      logoToChange: null,
       orgForm: new Form({
         name: '',
         email: '',
@@ -218,8 +214,16 @@ export default {
         logo: null,
         account_id: null
       }),
+      orgFormEdit: new Form({
+        name: '',
+        email: '',
+        phone: '',
+        website: '',
+        address: '',
+        logo: null,
+        account_id: null
+      }),
       // kk
-
       statusFa: {
         on_hold: 'درجریان',
         delivered: 'تکمیل',
@@ -243,6 +247,18 @@ export default {
       }
     }
   },
+  components: {
+    DataViewSidebar
+  },
+  created() {
+    if (!moduleDataList.isRegistered) {
+      this.$store.registerModule('dataList', moduleDataList)
+      moduleDataList.isRegistered = true
+    }
+    this.$store.dispatch('dataList/fetchDataListItems'),
+      this.getData();
+  },
+
   watch: {
     isSidebarActive(val) {
       if (!val) return
@@ -297,11 +313,49 @@ export default {
           this.$Progress.set(100)
         })
     },
+    resetAllState() {
+      this.oldImage == true;
+      this.orgActiveForm = false
+      this.orgFormEdit.reset();
+
+    },
+    deletOnChangeLogo() {
+      this.logoToChange = null
+      this.oldImage = true
+
+    },
+    updateData() {
+      // alert("OK");
+      // this.orgFormEdit.logo = this.logoToChange;
+      if (!(this.logoToChange == null)) {
+        this.orgFormEdit.logo = this.logoToChange;
+      }
+      console.log('Edit Form', this.logoToChange);
+      this.orgFormEdit.put('/api/clients/' + this.orgFormEdit.id)
+        .then(({
+          data
+        }) => {
+          // Finish the Progress Bar
+
+          this.getData();
+          // toast notification
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'آیتم موفقانه آپدیت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        });
+
+    },
     isFormValid() {
 
     },
     submitData() {
-      this.orgForm.post('/api/clients')
+      // console.log('Edit Form', this.orgForm.logo)
+        this.orgForm.post('/api/clients')
         .then(({
           data
         }) => {
@@ -352,14 +406,24 @@ export default {
       //   }
       // })
     },
-    orgFormReset() {
-      this.orgForm.reset();
-    },
     updateCurrImg(input) {
       if (input.target.files && input.target.files[0]) {
+        // this.oldImage = false
         const reader = new FileReader()
         reader.onload = e => {
           this.orgForm.logo = e.target.result
+          // this.logoToChange = e.target.result
+        }
+        reader.readAsDataURL(input.target.files[0])
+      }
+    },
+    updateCurrImg1(input) {
+      if (input.target.files && input.target.files[0]) {
+        this.oldImage = false
+        const reader = new FileReader()
+        reader.onload = e => {
+          // this.orgForm.logo = e.target.result
+          this.logoToChange = e.target.result
         }
         reader.readAsDataURL(input.target.files[0])
       }
@@ -408,12 +472,13 @@ export default {
       this.sidebarData = data
       this.toggleDataSidebar(true)
       this.orgActiveForm = true;
-      this.orgForm.name = data.name;
-      this.orgForm.email = data.email;
-      this.orgForm.phone = data.phone;
-      this.orgForm.website = data.website;
-      this.orgForm.address = data.address;
-      this.orgForm.id = data.id;
+      this.orgFormEdit.name = data.name;
+      this.orgFormEdit.email = data.email;
+      this.orgFormEdit.phone = data.phone;
+      this.orgFormEdit.website = data.website;
+      this.orgFormEdit.address = data.address;
+      this.orgFormEdit.logo = data.logo;
+      this.orgFormEdit.id = data.id;
 
     },
     getOrderStatusColor(status) {
