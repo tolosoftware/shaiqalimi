@@ -24,7 +24,7 @@
           <vx-input-group class="">
             <template slot="append">
               <div class="append-text bg-primary">
-                <span>UOM</span>
+                <span>{{ findUom(i.item_id, 'uom_equiv_id') }}</span>
               </div>
             </template>
             <vs-input type="number" min="0" v-model="i.ammount" />
@@ -47,7 +47,7 @@
           <vx-input-group class="">
             <template slot="append">
               <div class="append-text bg-primary">
-                <span>UOM</span>
+                <span>{{ findUom(i.item_id, 'uom_id') }}</span>
               </div>
             </template>
             <vs-input v-validate="'required|min:2'" type="number" v-model="i.equivalent" />
@@ -160,6 +160,13 @@ export default {
         total_price: "",
         density: null,
       });
+    },
+    findUom(id, field){
+      let unit = null;
+      Object.keys(this.goods).some(key => (this.goods[key].id == id) ? unit = this.goods[key][field] : '');
+      let resp = '';
+      Object.keys(this.mesure_unit).some(key => (this.mesure_unit[key].id == unit) ? resp = this.mesure_unit[key].acronym : '');
+      return resp;
     },
     removeRow() {
       swal.fire({

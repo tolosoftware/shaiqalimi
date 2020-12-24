@@ -115,99 +115,108 @@
     </form>
     <br>
   </tab-content>
-  <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase">
+  <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
     <ekmalat :items="aForm.item" :form="aForm"></ekmalat>
-    <vs-row vs-w="12">
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-        <div class="w-full pt-2 ml-3 mr-3">
-          <!-- TITLE -->
-          <label for=""><small>تامینات</small></label>
-          <vx-input-group class="">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>٪</span>
-              </div>
-            </template>
-            <vs-input type="number" v-model="aForm.deposit" />
-          </vx-input-group>
-          <has-error :form="aForm" field="deposit"></has-error>
-        </div>
-      </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-        <div class="w-full pt-2 ml-3 mr-3">
-          <label for=""><small>مالیات</small></label>
-          <vx-input-group class="">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>٪</span>
-              </div>
-            </template>
-            <vs-input type="number" v-model="aForm.tax" />
-          </vx-input-group>
-          <has-error :form="aForm" field="tax"></has-error>
-        </div>
-      </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-        <div class="w-full pt-2 ml-3 mr-3">
-          <label for=""><small>متفرقه</small></label>
-          <vx-input-group class="">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>AFN</span>
-              </div>
-            </template>
-            <vs-input type="number" v-model="aForm.others" />
-          </vx-input-group>
-          <has-error :form="aForm" field="others"></has-error>
-        </div>
-      </vs-col>
-    </vs-row>
-    <vs-row vs-w="12" class="mb-base">
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-        <div class="w-full pt-2 ml-3 mr-3">
-          <label for=""><small>ارزش قرارداد</small></label>
-          <vx-input-group class="">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>AFN</span>
-              </div>
-            </template>
-            <vs-input type="number" v-model="aForm.pr_worth" />
-          </vx-input-group>
-          <has-error :form="aForm" field="pr_worth"></has-error>
-        </div>
-      </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-        <div class="w-full pt-2 ml-3 mr-3">
-          <label for=""><small>انتقالات</small></label>
-          <vx-input-group class="">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>AFN</span>
-              </div>
-            </template>
-            <vs-input type="number" v-model="aForm.transit" />
-          </vx-input-group>
-          <has-error :form="aForm" field="transit"></has-error>
-        </div>
-      </vs-col>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-        <div class="w-full pt-2 ml-3 mr-3">
-          <label for=""><small>نرخ دهی</small></label>
-          <vx-input-group class="">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>AFN</span>
-              </div>
-            </template>
-            <vs-input type="number" v-model="aForm.total_price" :v-model="aForm.total_price = total_cost" />
-          </vx-input-group>
-        </div>
-      </vs-col>
-    </vs-row>
+    <form data-vv-scope="step-2">
+      <vs-row vs-w="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <!-- TITLE -->
+            <label for=""><small>تامینات</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>٪</span>
+                </div>
+              </template>
+              <vs-input type="number" v-model="aForm.deposit" v-validate="'required'" name="deposit" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
+            <has-error :form="aForm" field="deposit"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <label for=""><small>مالیات</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>٪</span>
+                </div>
+              </template>
+              <vs-input type="number" v-model="aForm.tax" v-validate="'required'" name="tax" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+            <has-error :form="aForm" field="tax"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <label for=""><small>متفرقه</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input type="number" v-model="aForm.others" v-validate="'required'" name="others" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
+            <has-error :form="aForm" field="others"></has-error>
+          </div>
+        </vs-col>
+      </vs-row>
+      <vs-row vs-w="12" class="mb-base">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <label for=""><small>ارزش قرارداد</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
+            <has-error :form="aForm" field="pr_worth"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <label for=""><small>انتقالات</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input type="number" v-model="aForm.transit" v-validate="'required'" name="transit" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
+            <has-error :form="aForm" field="transit"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <label for=""><small>نرخ دهی</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input type="number" v-model="aForm.total_price" :v-model="aForm.total_price = total_cost" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
+          </div>
+        </vs-col>
+      </vs-row>
+    </form>
+
   </tab-content>
   <tab-content title="بررسی و مرور" class="mb-5" icon="feather icon-eye">
-    <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
+    <vs-row vs-w="12" class="information-overview" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
       <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
         <h4>&nbsp;مرور بخش معلومات عمومی&nbsp;</h4>
       </vs-col>
@@ -320,17 +329,14 @@
       </template>
       <template slot-scope="{data}">
         <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-          <vs-td :data="data[indextr].item_id.name">
-            {{data[indextr].item_id.name}}
+          <vs-td :data="data[indextr].item_id">
+            {{ findItem(data[indextr].item_id) }}
           </vs-td>
           <vs-td :data="data[indextr].ammount">
             {{data[indextr].ammount}}
           </vs-td>
-          <!-- <vs-td :data="data[indextr].unit_id.text">
-                    {{data[indextr].unit_id.text}}
-                  </vs-td> -->
           <vs-td :data="data[indextr].item_id.uom_id">
-            {{data[indextr].item_id.uom_id}}
+            {{ findUom(data[indextr].item_id.uom_id) }}
           </vs-td>
           <vs-td :data="data[indextr].unit_price">
             {{data[indextr].unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
@@ -342,7 +348,7 @@
       </template>
     </vs-table>
     <br>
-    <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
+    <vs-row vs-w="12" class="expense-section">
       <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
         <h4>&nbsp;مرور بخش مصارف&nbsp;</h4>
       </vs-col>
@@ -457,6 +463,24 @@ const dict = {
     offer_guarantee: {
       required: 'تضمین آفر الزامی است'
     },
+    deposit: {
+      required: 'فیصدی تامینات را وارد کنید.',
+    },
+    tax: {
+      required: 'فیصدی مالیه را وارد کنید',
+    },
+    others: {
+      required: 'هزینه متفرقه بالای اعلان را وارد کنید.',
+    },
+    pr_worth: {
+      required: 'ارزش قرارداد الزامی است.',
+    },
+    transit: {
+      required: 'هزینه انتقالات را وارد کنید.',
+    },
+    total_price: {
+      required: '',
+    },
   }
 }
 // register custom messages
@@ -505,29 +529,57 @@ export default {
       }),
       clients: [],
       items: [],
+      mesure_unit: [],
     }
   },
   created() {
     this.getNextSerialNo();
     this.getAllClients();
     this.getAllItems();
+    this.getAllUnites();
   },
   methods: {
     validateStep1() {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
           if (result) {
-            console.log(result);
-            this.$refs.wizard.reset();
             resolve(true)
           } else {
-            console.log("correct all values");
             reject('correct all values')
           }
         })
       })
-
     },
+    validateStep2() {
+      return new Promise((resolve, reject) => {
+        this.$validator.validateAll('step-2').then(result => {
+          if (result) {
+            resolve(true)
+          } else {
+            reject('correct all values')
+          }
+        })
+      })
+    },
+    // for getting measure unit of the item
+    getAllUnites() {
+      this.axios.get('/api/m-units')
+        .then((response) => {
+          this.mesure_unit = response.data;
+        })
+    },
+
+    findItem(id) {
+      let item = '';
+      Object.keys(this.items).some(key => (this.items[key].id == id) ? item = this.items[key].name : null);
+      return item;
+    },
+    findUom(id) {
+      let name = '';
+      Object.keys(this.mesure_unit).some(key => (this.mesure_unit[key].id == id) ? name = this.mesure_unit[key].acronym : null);
+      return name;
+    },
+
     reloadData() {
       this.getNextSerialNo();
       this.getAllClients();
