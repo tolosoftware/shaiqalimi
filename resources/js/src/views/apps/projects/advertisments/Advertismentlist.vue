@@ -1,122 +1,91 @@
 <template>
-  <div id="data-list-thumb-view" class="w-full data-list-container">
-    <vs-table
-      class="w-full"
-      ref="table"
-      pagination
-      :max-items="itemsPerPage"
-      search
-      :data="products"
-    >
-      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-        <!-- ITEMS PER PAGE -->
-        <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
-          <div
-            class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium"
-          >
-            <!-- <span class="mr-2">۴ از ۱۰</span> -->
-            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span>
-            <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span> -->
-            <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-          </div>
-          <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
-          <vs-dropdown-menu>
-            <vs-dropdown-item @click="itemsPerPage=4">
-              <span>۴</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=10">
-              <span>۱۰</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=15">
-              <span>۱۵</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=20">
-              <span>۲۰</span>
-            </vs-dropdown-item>
-          </vs-dropdown-menu>
-        </vs-dropdown>
-      </div>
+<div id="data-list-thumb-view" class="w-full data-list-container">
+  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="products">
+    <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
+      <!-- ITEMS PER PAGE -->
+      <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
+        <div class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+          <!-- <span class="mr-2">۴ از ۱۰</span> -->
+          <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span>
+          <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} از {{ queriedItems }}</span> -->
+          <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
+        </div>
+        <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+        <vs-dropdown-menu>
+          <vs-dropdown-item @click="itemsPerPage=4">
+            <span>۴</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item @click="itemsPerPage=10">
+            <span>۱۰</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item @click="itemsPerPage=15">
+            <span>۱۵</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item @click="itemsPerPage=20">
+            <span>۲۰</span>
+          </vs-dropdown-item>
+        </vs-dropdown-menu>
+      </vs-dropdown>
+    </div>
 
-      <template slot="thead">
-        <vs-th>نهاد</vs-th>
-        <vs-th sort-key="name">پروژه</vs-th>
-        <vs-th sort-key="category">دسته</vs-th>
-        <vs-th sort-key="popularity">پیشرفت</vs-th>
-        <vs-th sort-key="order_status">وضعیت</vs-th>
-        <vs-th sort-key="price">قیمت</vs-th>
-        <vs-th>بررسی</vs-th>
-      </template>
+    <template slot="thead">
+      <vs-th>نهاد</vs-th>
+      <vs-th sort-key="name">پروژه</vs-th>
+      <vs-th sort-key="category">دسته</vs-th>
+      <vs-th sort-key="popularity">پیشرفت</vs-th>
+      <vs-th sort-key="order_status">وضعیت</vs-th>
+      <vs-th sort-key="price">قیمت</vs-th>
+      <vs-th>بررسی</vs-th>
+    </template>
 
-      <template slot-scope="{data}">
-        <tbody>
-          <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-            <vs-td class="img-container">
-              <router-link
-                class="product-name font-medium truncate"
-                :to="{
+    <template slot-scope="{data}">
+      <tbody>
+        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+          <vs-td class="img-container">
+            <router-link class="product-name font-medium truncate" :to="{
                     path: '/projects/project/${tr.id}',
                     name: 'project-view',
                     params: { id: tr.id, dyTitle: tr.name },
-                  }"
-              >
-                <img :src="tr.img" class="product-img" />
-              </router-link>
-            </vs-td>
+                  }">
+              <img :src="tr.img" class="product-img" />
+            </router-link>
+          </vs-td>
 
-            <vs-td>
-              <div @click="goTo(tr)">
-                <router-link
-                  class="product-name font-medium truncate"
-                  :to="{
+          <vs-td>
+            <div @click="goTo(tr)">
+              <router-link class="product-name font-medium truncate" :to="{
                       path: '/projects/project/${tr.id}',
                       name: 'project-view',
                       params: { id: tr.id, dyTitle: tr.name },
-                    }"
-                >{{ tr.name }}</router-link>
-              </div>
-            </vs-td>
+                    }">{{ tr.name }}</router-link>
+            </div>
+          </vs-td>
 
-            <vs-td>
-              <p class="product-category">{{ tr.category }}</p>
-            </vs-td>
+          <vs-td>
+            <p class="product-category">{{ tr.category }}</p>
+          </vs-td>
 
-            <vs-td>
-              <vs-progress
-                :percent="Number(tr.popularity)"
-                :color="getPopularityColor(Number(tr.popularity))"
-                class="shadow-md"
-              />
-            </vs-td>
+          <vs-td>
+            <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />
+          </vs-td>
 
-            <vs-td>
-              <vs-chip
-                :color="getOrderStatusColor(tr.order_status)"
-                class="product-order-status"
-              >{{ statusFa[tr.order_status] }}</vs-chip>
-            </vs-td>
+          <vs-td>
+            <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ statusFa[tr.order_status] }}</vs-chip>
+          </vs-td>
 
-            <vs-td>
-              <p class="product-price">{{ tr.price }} دالر</p>
-            </vs-td>
+          <vs-td>
+            <p class="product-price">{{ tr.price }} دالر</p>
+          </vs-td>
 
-            <vs-td class="whitespace-no-wrap notupfromall">
-              <feather-icon
-                icon="EditIcon"
-                svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                @click.stop="editData(tr)"
-              />
-              <feather-icon
-                icon="TrashIcon"
-                svgClasses="w-5 h-5 hover:text-danger stroke-current"
-                class="ml-2"
-                @click.stop="deleteData(tr.id)"
-              />
-            </vs-td>
-          </vs-tr>
-        </tbody>
-      </template>
-    </vs-table>
-  </div>
+          <vs-td class="whitespace-no-wrap notupfromall">
+            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+          </vs-td>
+        </vs-tr>
+      </tbody>
+    </template>
+  </vs-table>
+</div>
 </template>
 
 <script>
@@ -145,7 +114,7 @@ export default {
   },
   created() {
     if (!moduleDataList.isRegistered) {
-      this.$store.registerModule('dataList',moduleDataList)
+      this.$store.registerModule('dataList', moduleDataList)
       moduleDataList.isRegistered = true
     }
     this.$store.dispatch('dataList/fetchDataListItems')
@@ -170,7 +139,7 @@ export default {
       this.$router.push({
         path: '/projects/project/${data.id}',
         name: 'project-view',
-        params: {id: data.id,dyTitle: data.name},
+        params: { id: data.id, dyTitle: data.name },
       }).catch(() => {})
     },
     viewProject(id) {
@@ -183,7 +152,7 @@ export default {
       this.toggleDataSidebar(true)
     },
     deleteData(id) {
-      this.$store.dispatch('dataList/removeItem',id).catch(err => {console.error(err)})
+      this.$store.dispatch('dataList/removeItem', id).catch(err => { console.error(err) })
     },
     editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
@@ -212,6 +181,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 #data-list-thumb-view {
   .vs-con-table {
@@ -224,7 +194,8 @@ export default {
       flex-wrap: wrap-reverse;
       margin-left: 1.5rem;
       margin-right: 1.5rem;
-      > span {
+
+      >span {
         display: flex;
         flex-grow: 1;
       }
@@ -236,11 +207,11 @@ export default {
           padding: 0.9rem 2.5rem;
           font-size: 1rem;
 
-          & + i {
+          &+i {
             left: 1rem;
           }
 
-          &:focus + i {
+          &:focus+i {
             left: 1rem;
           }
         }
@@ -254,16 +225,20 @@ export default {
 
       tr {
         box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+
         td {
           padding: 10px;
+
           &:first-child {
             border-top-left-radius: 0.5rem;
             border-bottom-left-radius: 0.5rem;
           }
+
           &:last-child {
             border-top-right-radius: 0.5rem;
             border-bottom-right-radius: 0.5rem;
           }
+
           &.img-container {
             // width: 1rem;
             // background: #fff;
@@ -278,6 +253,7 @@ export default {
             }
           }
         }
+
         td.td-check {
           padding: 20px !important;
         }
@@ -294,9 +270,11 @@ export default {
           font-weight: 600;
         }
       }
+
       th.td-check {
         padding: 0 15px !important;
       }
+
       tr {
         background: none;
         box-shadow: none;

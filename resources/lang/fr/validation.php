@@ -154,8 +154,8 @@ return [
         // ahmadi
         'type_id' => 'آی دی',
         'system' => 'سیستم',
-        // name: 'وزارت مالیه',
-        // email: 'info@mof.gov.af',
+        'name' => 'نام',
+        'email' => 'ایمیل',
         'phone' => 'شماره تماس',
         'website' => 'ویب سایت',
         'address' => 'آدرس',

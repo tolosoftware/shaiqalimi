@@ -621,7 +621,7 @@ export default {
       this.acountTypeForm.type_id = data.type_id;
       this.acountTypeForm.system = data.system;
       this.acountTypeForm.id = data.id;
-      console.log('editaAccount_type', this.acountTypeForm)
+      // console.log('editaAccount_type', this.acountTypeForm)
     },
     // 4- update the info
     updateAccountType() {
