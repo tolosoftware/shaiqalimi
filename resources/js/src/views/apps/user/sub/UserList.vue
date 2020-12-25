@@ -63,9 +63,16 @@
                      </vs-td>
 
                     <vs-td class="whitespace-no-wrap notupfromall">
+                         <!-- <router-link :to="{name: 'newOrder', params: { id: fild }}">
+                            <button class="btn btn-primary" style="width:100px">
+                                <i class="fa fa-long-arrow-right"></i>
+                                &nbsp;
+                                بعدی
+                            </button>
+                        </router-link> -->
                         <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
-                  name: 'user-profile-edit', 
-                  params: {user_id: tr.id }}).catch(() => {})" />
+                           name: 'user-profile-edit', 
+                           params: {user_id: tr.id }}).catch(() => {})" />
                         <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
                     </vs-td>
                 </vs-tr>
@@ -89,8 +96,7 @@ export default {
             // products: [],
             itemsPerPage: 4,
             isMounted: false,
-            addNewDataSidebar: false,
-            sidebarData: {},
+            
         }
     },
  
@@ -123,52 +129,34 @@ export default {
                 data
             }) => (this.users = data));
         },
-        // Start Custom
-        goTo(data) {
-            this.$router.push({
-                path: '/projects/project/${data.id}',
-                name: 'project-view',
-                params: {
-                    id: data.id,
-                    dyTitle: data.name
-                },
-            }).catch(() => {})
-        },
-        viewProject(id) {
-            // Vue.$forceUpdate();
-            this.$router.push('/projects/project/' + id).catch(() => {})
-        },
-        // End Custom
-        addNewData() {
-            this.sidebarData = {}
-            this.toggleDataSidebar(true)
-        },
+       
+     
         deleteData(id) {
-            this.$store.dispatch('dataList/removeItem', id).catch(err => {
-                console.error(err)
+             swal.fire({
+                title: 'آیا شما مطمین هستید ؟',
+                text: "شما قادر به برگردادن این شخص پس از حذف نمی باشید !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بلی مطمین هستم',
+                cancelButtonText: 'نخیر'
+            }).then((result) => {
+                if (result.value) {
+                    this.axios.delete('/api/users/' + id).then(() => {
+                        swal.fire(
+                            'حذف شد !',
+                            'موفقانه عملیه حذف انجام شد',
+                            'success'
+                        )
+                         this.loadUsers();
+                    }).catch(() => {
+                        swal("Failed!", "سیستم قادر به حذف نیست دوباره تلاش نماید.", "warning");
+                    })
+                }
             })
         },
-        editData(data) {
-            // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-            this.sidebarData = data
-            this.toggleDataSidebar(true)
-        },
-        getOrderStatusColor(status) {
-            if (status === 'on_hold') return 'warning'
-            if (status === 'delivered') return 'success'
-            if (status === 'canceled') return 'danger'
-            return 'primary'
-        },
-        getPopularityColor(num) {
-            if (num > 90) return 'success'
-            if (num > 70) return 'primary'
-            if (num >= 50) return 'warning'
-            if (num < 50) return 'danger'
-            return 'primary'
-        },
-        toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
-        },
+       
     },
   
 }

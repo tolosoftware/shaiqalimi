@@ -21,6 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 Route::resource('users', 'UserController');
+Route::resource('itemtype', 'ItemTypeController');
+Route::resource('item', 'ItemController');
+Route::resource('uom', 'MeasurmentUnitController');
 Route::post('users1','UserController@store');
 
 // Product Review

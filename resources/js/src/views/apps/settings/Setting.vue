@@ -206,15 +206,35 @@
           </vs-table>
 
           <!-- end -->
+
+   
+
         </div>
       </div>
     </div>
   </div>
+
+
+  <div class="vx-col w-full sm:w-1/3 md:w-1/3 mb-base">
+      <Itemtype/>
+  </div>
+
+ <div class="vx-col w-full md:w-1/3 mb-base">
+     <Uom/>
+  </div>
+
 </div>
 </template>
 
 <script>
+
+import Itemtype from "./Itemtype.vue";
+import Uom from "./Uom.vue";
 export default {
+    components: {
+        Itemtype,
+        Uom
+    },
   name: 'vx-settings',
   data() {
     return {

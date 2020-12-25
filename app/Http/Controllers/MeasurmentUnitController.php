@@ -24,7 +24,7 @@ class MeasurmentUnitController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**
@@ -35,7 +35,10 @@ class MeasurmentUnitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return MeasurmentUnit::create([
+            'title' => $request['title'],
+            'acronym' => $request['acronym'],
+        ]);
     }
 
     /**
@@ -78,8 +81,10 @@ class MeasurmentUnitController extends Controller
      * @param  \App\models\MeasurmentUnit  $measurmentUnit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MeasurmentUnit $measurmentUnit)
+    public function destroy($id)
     {
-        //
+        $uom = MeasurmentUnit::findOrFail($id);
+        $uom->delete();
+        return ['message' => 'item type Deleted'];
     }
 }

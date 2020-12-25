@@ -37,12 +37,12 @@
                 </vs-col>
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
-                        <vs-input class="w-full" label="شماره تماس" v-model="form.phone" />
+                        <vs-input class="w-full" type="text" label="شماره تماس" v-model="form.phone" />
                     </div>
                 </vs-col>
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
-                        <vs-input class="w-full" label="آدرس" v-model="form.address" />
+                        <vs-input class="w-full" type="text" label="آدرس" v-model="form.address" autocomplete="off" />
                     </div>
                 </vs-col>
 
@@ -54,14 +54,13 @@
 
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full con-select-example">
-                        <!-- <vs-select placeholder="انتخاب مافوق" class="selectExample w-full" label="مافوق های کاربر را انتخاب نماید!" label-placeholder="Multiple" multiple v-model="form.select">
-                            <vs-select-item :value="item.value" :text="item.text" v-for="item in options1" :key="item.id" />
-                        </vs-select> -->
+                      
 
-                        <template>
-                            <v-select multiple :closeOnSelect="false" v-model="selected" :options="options" :dir="$vs.rtl ? 'rtl' : 'ltr'" /><br>
-                        </template>
-
+                        <label class="typo__label">مافوق برای کابر</label>
+                        <v-select  v-model="form.userleaders" :options="arrayofobject" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="مافوق کاربر را انتخاب کنید" label="name" track-by="name" :preselect-first="true">
+                            <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="form.userleaders.length &amp;&amp; !isOpen">{{ form.userleaders.length }} به این تعداد انتخاب شده</span></template>
+                        </v-select>
+                     
                     </div>
                 </vs-col>
 
@@ -70,9 +69,14 @@
                 <!-- Product Image -->
                 <template v-if="form.image">
                     <!-- Image Container -->
-                    <div class="img-container w-64 mx-auto flex items-center justify-center mt-5">
+                    <div v-if="!ifchangeimage" class="img-container w-64 mx-auto flex items-center justify-center mt-5">
+                        <img :src="'/img/user/'+form.image" width="50px" height="50px" alt="img" class="user_image responsive" />
+                    </div>
+                      <div v-if="ifchangeimage" class="img-container w-64 mx-auto flex items-center justify-center mt-5">
                         <img :src="form.image" width="50px" height="50px" alt="img" class="user_image responsive" />
                     </div>
+
+                    
 
                     <!-- Image upload Buttons -->
                     <div class="modify-img flex justify-between mt-5">
@@ -106,8 +110,8 @@
         <div class="vx-row">
             <div class="vx-col pt-5">
                 <div class="w-full">
-                    <vs-button class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
-                    <vs-button color="warning" type="border" class="mb-2" @click="formreset">پاک کردن</vs-button>
+                    <vs-button class="mr-3 mb-2" @click.prevent="updateUser">اصلاح</vs-button>
+                   
                 </div>
             </div>
         </div>
@@ -117,17 +121,31 @@
 
 <script>
 import vSelect from "vue-select";
+import Multiselect from 'vue-multiselect'
 export default {
     components: {
 
         "v-select": vSelect,
-
+        Multiselect
     },
     data() {
         return {
-
-             selected: ['foo', 'bar'],
-             options: ['foo', 'bar', 'baz'],
+            ifchangeimage:false,
+            users: [],
+            arrayofobject: [{
+                    name: 'Mahdi Naseri',
+                    language: '1'
+                },
+                {
+                    name: 'Naseri Karimi',
+                    language: '2'
+                },
+                {
+                    name: 'Jamal Ahmadi',
+                    language: '3'
+                },
+              
+            ],
 
             usertypes: [{
                     text: 'آدمین',
@@ -142,11 +160,11 @@ export default {
                     value: 3
                 },
 
-                  {
+                {
                     text: 'کابر عادی',
                     value: 4
                 },
-            ],  
+            ],
             form: new Form({
                 id: '',
                 firstName: '',
@@ -158,31 +176,42 @@ export default {
                 address: '',
                 password: '',
                 image: '',
-                select: [],
+                userleaders: '',
             })
         }
     },
 
     methods: {
-        formreset() {
-            this.form.reset();
+        loadSpacificUser() {
+            this.axios.get('/api/users/'+this.$route.params.user_id+'/edit').then(({
+                data
+            }) => ( this.form.fill(data)));
         },
-        submitData() {
-
-            this.form.post('/api/users')
+      
+         updateUser() {
+            this.$Progress.start()
+            this.form.put('/api/users/' + this.form.id)
                 .then(() => {
                     this.$vs.notify({
-                        title: ' کاربر جدید اضافه شد',
+                        title: 'معلومات کابر اصلاح شده',
                         text: 'عملیه موفغانه انجام شد',
                         color: 'success',
                         iconPack: 'feather',
                         icon: 'icon-check',
                         position: 'top-right'
                     })
+                    this.form.reset();
                 })
-
                 .catch(() => {
-
+                     this.$vs.notify({
+                        title: 'عملیه اصلاح نام بود دوباره تلاش کنید',
+                        text: 'عملیه  ناکام شد',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                  
                 })
         },
 
@@ -190,6 +219,7 @@ export default {
             this.form.image = null
         },
         updateCurrImg(input) {
+            this.ifchangeimage =true;
             if (input.target.files && input.target.files[0]) {
                 const reader = new FileReader()
                 reader.onload = e => {
@@ -202,7 +232,7 @@ export default {
     },
 
     created() {
-
+        this.loadSpacificUser();
     },
 }
 </script>

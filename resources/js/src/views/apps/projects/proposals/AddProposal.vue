@@ -479,9 +479,10 @@ export default {
     // for Organs that implement the ad
     getAllClients() {
       this.$Progress.start()
-      this.axios.get('/api/clients')
+      this.axios.get('/api/itemtype')
         .then((response) => {
           this.clients = response.data;
+          console.log("hhjjhjhjh" , this.clients);
         })
     },
 
