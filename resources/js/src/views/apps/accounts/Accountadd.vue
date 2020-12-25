@@ -27,7 +27,7 @@
       <vs-input label="نام" v-model="accForm.name" class="mt-5 w-full" name="name" v-validate="'required'" />
 
       <div class="vx-col mt-5">
-        <label for="" class="ml-4 mr-4 mb-2"> حالت</label>
+        <label for="" class="ml-4 mr-4 mb-2">حالت</label>
           <div class="radio-group w-full">
             <div class="w-1/2">
               <input type="radio" v-model="accForm.status" value="1" id="struct" name="status" />
