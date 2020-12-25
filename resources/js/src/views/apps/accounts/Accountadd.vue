@@ -26,7 +26,7 @@
       <!-- NAME -->
       <vs-input label="نام" v-model="accForm.name" class="mt-5 w-full" name="name" v-validate="'required'" />
 
-      <div class="vx-col w-1/3 mt-5">
+      <div class="vx-col mt-5">
         <label for="" class="ml-4 mr-4 mb-2"> حالت</label>
           <div class="radio-group w-full">
             <div class="w-1/2">
@@ -79,7 +79,7 @@
 
   <div class="flex flex-wrap items-center p-6" slot="footer">
     <vs-button class="mr-6" @click="submitData">انجام</vs-button>
-    <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
+    <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">بستن</vs-button>
   </div>
 </vs-sidebar>
 </template>
