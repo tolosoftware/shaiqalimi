@@ -18,7 +18,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        //
+        return Account::all();
     }
 
     /**
@@ -84,7 +84,7 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        //
+        return Account::with('financial_records')->find($account->id);
     }
 
     /**
@@ -107,7 +107,29 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        //
+        $this->validate($request, [
+            'type_id' => 'required',
+            'ref_code' => 'required',
+            'name' => 'required',
+        ]);
+        if(gettype($request->type_id) != 'integer') {
+            $request->type_id = $request['type_id']['id'];
+        }
+
+        $data = [
+            'user_id' => 1,
+            'type_id' => $request->type_id,
+            'name' => $request->name,
+            'ref_code' => $request->ref_code,
+            'status' => $request->status,
+            'description' => $request->description,
+            // 'system' => $request->system,    
+        ];
+        if($new = Account::find($account->id)->update($data)){
+            return $new;
+        }else{
+            return $new;
+        }
     }
 
     /**
@@ -118,6 +140,8 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        //
+        // \Schema::disableForeignKeyConstraints();
+        FinancialRecord::where('account_id', $account->id)->delete();
+        return $account->delete();
     }
 }

@@ -52,7 +52,7 @@
               </div>
             </template>
 
-            <vs-input type="number" v-model="accForm.credit"/>
+            <vs-input type="number" :disabled="accForm.id" v-model="accForm.credit"/>
           </vx-input-group>
           <!-- /TITLE -->
         </div>
@@ -67,7 +67,7 @@
               </div>
             </template>
 
-            <vs-input type="number" v-model="accForm.debit"/>
+            <vs-input type="number" :disabled="accForm.id" v-model="accForm.debit"/>
           </vx-input-group>
           <!-- /TITLE -->
         </div>
@@ -87,18 +87,10 @@
 <script>
 import vSelect from "vue-select";
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import SidebarDefaultVue from '../../components/vuesax/sidebar/SidebarDefault.vue';
 
 export default {
-  props: {
-    isSidebarActive: {
-      type: Boolean,
-      required: true,
-    },
-    data: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  props: ['isSidebarActive', 'data', 'accForm'],
   components: {
     VuePerfectScrollbar,
     "v-select": vSelect,
@@ -106,15 +98,6 @@ export default {
   data() {
     return {
       accountTypes: [],
-      accForm: new Form({
-        type_id: '',
-        name: '',
-        ref_code: '',
-        status: 1,
-        description: '',
-        credit: '',
-        debit: ''
-      }),
       settings: {
         // perfectscrollbar settings
         // maxScrollbarLength: 60,
@@ -125,7 +108,8 @@ export default {
   created(){
     this.getAllAccountTypes();
   },
-  watch: {},
+  watch: {
+  },
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -153,6 +137,32 @@ export default {
         })
     },
     submitData() {
+      if(this.accForm.id) {
+        this.accForm.patch('/api/account/' + this.accForm.id)
+          .then(({
+            accForm
+          }) => {
+            // Finish the Progress Bar
+            this.$vs.notify({
+              title: 'موفقیت!',
+              text: 'موفقانه ثبت شد.',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+          }).catch((errors) => {
+            this.$Progress.set(100)
+            this.$vs.notify({
+              title: 'ناموفق!',
+              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-cross',
+              position: 'top-right'
+            })
+          });
+      }else{
         this.accForm.post('/api/account')
           .then(({
             accForm
@@ -178,6 +188,7 @@ export default {
               position: 'top-right'
             })
           });
+      }
     },
   },
 };
