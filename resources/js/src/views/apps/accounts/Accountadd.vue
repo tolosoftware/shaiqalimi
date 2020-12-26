@@ -52,7 +52,7 @@
               </div>
             </template>
 
-            <vs-input type="number" :disabled="accForm.id" v-model="accForm.credit"/>
+            <vs-input type="number" :disabled="accForm.id || accForm.debit > 0" v-model="accForm.credit"/>
           </vx-input-group>
           <!-- /TITLE -->
         </div>
@@ -67,7 +67,7 @@
               </div>
             </template>
 
-            <vs-input type="number" :disabled="accForm.id" v-model="accForm.debit"/>
+            <vs-input type="number" :disabled="accForm.id || accForm.credit > 0" v-model="accForm.debit"/>
           </vx-input-group>
           <!-- /TITLE -->
         </div>
