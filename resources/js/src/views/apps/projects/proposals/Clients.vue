@@ -12,63 +12,12 @@
   <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
     <div class="mb-1"></div>
     <div class="mb-5">
+      <!-- <div class="mt-6 flex items-center justify-between px-6 float-right">
+      //   <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+      // </div> -->
       <vs-tabs>
-        <vs-tab label=" اضافه کردن نهاد جدید" icon="add">
-          <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
-            <form>
-              <div class="p-2">
-                <!-- Product Image -->
-                <template v-if="orgForm.logo">
-                  <div class="vx-row">
-                    <!-- Image Container -->
-                    <div class="img-container w-32 mx-auto flex items-center justify-center ml-5">
-                      <img :src="orgForm.logo" alt="لوگو" class="responsive">
-                    </div>
-                    <!-- Image upload Buttons -->
-                    <div class="modify-img flex justify-between mt-5 pt-5 ml-4">
-                      <div class="mr-5 pr-5">
-                        <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*">
-                        <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput.click()">تبدیل لوگو</vs-button>
-                      </div>
-                      <div class="mr-5 pr-5">
-                        <vs-button icon="delete" type="border" color="warning" @click="orgForm.logo = null">حذف این لوگو</vs-button>
-                      </div>
-                    </div>
-                  </div>
-                </template>
-
-                <vs-input label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
-                <has-error :form="orgForm" field="name"></has-error>
-
-                <vs-input label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
-                <has-error :form="orgForm" field="email"></has-error>
-
-                <vs-input label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
-                <has-error :form="orgForm" field="phone"></has-error>
-
-                <vs-input label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
-                <has-error :form="orgForm" field="website"></has-error>
-
-                <vs-input label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
-                <has-error :form="orgForm" field="address"></has-error>
-                <!-- Upload -->
-                <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
-
-                <div class="upload-img mt-3" v-if="!orgForm.logo">
-                  <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
-                  <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود لوگو</vs-button>
-                  <has-error :form="orgForm" field="logo"></has-error>
-                </div>
-              </div>
-              <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
-                <vs-button type="border" color="success" class="mr-6" @click="submitData" :disabled="!isFormValid" icon="save">ذخیره</vs-button>
-                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false" icon="close">بسته کردن</vs-button>
-              </div>
-            </form>
-          </component>
-        </vs-tab>
-        <vs-tab label="لست نهادها" icon="list">
-          <div :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
+        <vs-tab label="لست نهادها" icon="list" style="height: 80vh;overflow-y: scroll;">
+          <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
             <form>
               <div class="p-2">
                 <!-- Product Image -->
@@ -120,7 +69,7 @@
                 <vs-button type="border" icon="close" color="danger" @click="resetAllState()">بستن فورم ویرایش</vs-button>
               </div>
             </form>
-          </div>
+          </component>
           <div id="data-list-thumb-view" class="w-full data-list-container">
             <vs-table class="w-full" ref="table" pagination :max-items="4" :data="products">
               <template slot="thead">
@@ -179,6 +128,61 @@
             </div>
           </div>
         </vs-tab>
+        <vs-tab label=" اضافه کردن نهاد جدید" icon="add" style="height: 80vh;overflow-y: scroll;">
+          <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+            <form>
+              <div class="p-2">
+                <!-- Product Image -->
+                <template v-if="orgForm.logo">
+                  <div class="vx-row">
+                    <!-- Image Container -->
+                    <div class="img-container w-32 mx-auto flex items-center justify-center ml-5">
+                      <img :src="orgForm.logo" alt="لوگو" class="responsive">
+                    </div>
+                    <!-- Image upload Buttons -->
+                    <div class="modify-img flex justify-between mt-5 pt-5 ml-4">
+                      <div class="mr-5 pr-5">
+                        <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*">
+                        <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput.click()">تبدیل لوگو</vs-button>
+                      </div>
+                      <div class="mr-5 pr-5">
+                        <vs-button icon="delete" type="border" color="warning" @click="orgForm.logo = null">حذف این لوگو</vs-button>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+
+                <vs-input label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
+                <has-error :form="orgForm" field="name"></has-error>
+
+                <vs-input label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
+                <has-error :form="orgForm" field="email"></has-error>
+
+                <vs-input label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
+                <has-error :form="orgForm" field="phone"></has-error>
+
+                <vs-input label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
+                <has-error :form="orgForm" field="website"></has-error>
+
+                <vs-input label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
+                <has-error :form="orgForm" field="address"></has-error>
+                <!-- Upload -->
+                <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
+
+                <div class="upload-img mt-3" v-if="!orgForm.logo">
+                  <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+                  <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود لوگو</vs-button>
+                  <has-error :form="orgForm" field="logo"></has-error>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
+                <vs-button type="border" color="success" class="mr-6" @click="submitData" :disabled="!isFormValid" icon="save">ذخیره</vs-button>
+                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false" icon="close">بسته کردن</vs-button>
+              </div>
+            </form>
+            <br><br>
+          </component>
+        </vs-tab>
       </vs-tabs>
     </div>
   </vs-sidebar>
@@ -188,6 +192,7 @@
 <script>
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
+// import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 export default {
   props: {
     isSidebarActive: {
@@ -247,7 +252,8 @@ export default {
     }
   },
   components: {
-    DataViewSidebar
+    DataViewSidebar,
+    // VuePerfectScrollbar
   },
   created() {
     if (!moduleDataList.isRegistered) {
@@ -290,6 +296,8 @@ export default {
       }
     },
     scrollbarTag() { return this.$store.getters.scrollbarTag },
+    // scrollbarTag() { return this.$store.state.is_touch_device ? 'div' : 'VuePerfectScrollbar' },
+
     currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx
@@ -352,7 +360,7 @@ export default {
 
     },
     submitData() {
-      console.log('Edit Form', this.orgForm.logo)
+      // console.log('Edit Form', this.orgForm.logo)
       this.orgForm.post('/api/clients')
         .then(({
           data
@@ -461,6 +469,8 @@ export default {
                 icon: 'success',
               })
               this.getData();
+              this.resetAllState();
+              this.expanopen = false;
             })
             .catch(() => {});
         }
