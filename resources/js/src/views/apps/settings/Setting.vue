@@ -144,6 +144,7 @@
               <h4 class="">تنظیمات عملیه های اساسی </h4>
             </div>
             <!-- <vs-button @click="operationActiveForm = !operationActiveForm, operationForm.reset()">{{ operationActiveForm ? 'بستن فارم' : 'عملیه جدید' }}</vs-button> -->
+            <vs-button v-if="operationActiveForm" @click="operationActiveForm = !operationActiveForm, operationForm.reset()">بستن فارم </vs-button>
           </div>
           <vs-divider></vs-divider>
           <div class="vx-card__collapsible-content vs-con-loading__container">
