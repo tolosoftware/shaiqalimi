@@ -188,6 +188,8 @@
 <script>
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+
 export default {
   props: {
     isSidebarActive: {
@@ -247,7 +249,8 @@ export default {
     }
   },
   components: {
-    DataViewSidebar
+    DataViewSidebar,
+    VuePerfectScrollbar
   },
   created() {
     if (!moduleDataList.isRegistered) {

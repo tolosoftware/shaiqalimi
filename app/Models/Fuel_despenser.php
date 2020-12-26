@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fuel_despenser extends Model
 {
-
+    public $table = 'fuel_despensers';
     protected $fillable = [
         'station_id',
         'name'

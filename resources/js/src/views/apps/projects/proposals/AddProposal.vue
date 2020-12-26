@@ -5,9 +5,7 @@
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input autocomplete="off" size="medium" v-validate="'required'" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
-            <span class="absolute text-danger alerttext">{{ errors.first('step-1.serial_no') }}</span>
-            <span class="text-danger text-sm" v-show="errors.has('serial_no')">{{ errors.first('serial_no') }}</span>
+            <vs-input autocomplete="off" size="medium" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -600,10 +598,9 @@ export default {
     // for Organs that implement the ad
     getAllClients() {
       this.$Progress.start()
-      this.axios.get('/api/itemtype')
+      this.axios.get('/api/clients')
         .then((response) => {
           this.clients = response.data;
-          console.log("hhjjhjhjh" , this.clients);
         })
     },
 
