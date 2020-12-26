@@ -33,7 +33,7 @@ class Project extends Model
     {
         return $this->hasOne(ProData::class, 'project_id');
     }
-    public function pro_item()
+    public function pro_items()
     {
         return $this->hasMany(ProItem::class, 'project_id');
     }

@@ -1,5 +1,5 @@
 <template>
-<vs-row >
+<vs-row>
 
     <div class="vx-card">
         <div class="vx-card__header">
@@ -8,7 +8,7 @@
             </div>
         </div>
         <vs-divider></vs-divider>
-        <div >
+        <div>
             <form action="" class="p-2">
                 <vs-col vs-type="flex" vs-lg="8" vs-sm="12" vs-xs="12">
                     <div class="w-full">
@@ -25,7 +25,7 @@
             <vs-table :data="itemtype" vs-justify="center">
                 <template slot="thead" vs-justify="center">
                     <vs-th>
-                      شماره
+                        شماره
                     </vs-th>
                     <vs-th>
                         نام
@@ -46,11 +46,11 @@
                             {{data[indextr].type}}
                         </vs-td>
 
-                        <vs-td >
+                        <vs-td>
                             <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
                            name: 'user-profile-edit', 
                            params: {user_id: tr.id }}).catch(() => {})" />
-                        <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(data[indextr].id)" />
+                            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(data[indextr].id)" />
                         </vs-td>
 
                     </vs-tr>
@@ -77,7 +77,7 @@ export default {
         }
     },
     methods: {
-       submitdata() {
+        submitdata() {
             this.form.post('/api/itemtype')
                 .then(() => {
                     this.$vs.notify({
@@ -93,7 +93,7 @@ export default {
                 })
 
                 .catch(() => {
-                   this.$vs.notify({
+                    this.$vs.notify({
                         title: 'عملیه ناکام شد',
                         text: 'عملیه موفغانه انجام شد',
                         color: 'danger',
@@ -104,9 +104,8 @@ export default {
                 })
         },
 
-            
         deleteData(id) {
-             swal.fire({
+            swal.fire({
                 title: 'آیا شما مطمین هستید ؟',
                 text: "شما قادر به برگردادن این شخص پس از حذف نمی باشید !",
                 icon: 'warning',
@@ -123,7 +122,7 @@ export default {
                             'موفقانه عملیه حذف انجام شد',
                             'success'
                         )
-                         this.loadItemtype();
+                        this.loadItemtype();
                     }).catch(() => {
                         swal("Failed!", "سیستم قادر به حذف نیست دوباره تلاش نماید.", "warning");
                     })
@@ -132,15 +131,15 @@ export default {
         },
 
         loadItemtype() {
-          this.axios.get('/api/itemtype').then(({
-              data
-          }) => (this.itemtype = data));
-      },
-      
+            this.axios.get('/api/itemtype').then(({
+                data
+            }) => (this.itemtype = data));
+        },
+
     },
-  
+
     created() {
-       this.loadItemtype();   
+        this.loadItemtype();
     },
 }
 </script>

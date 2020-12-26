@@ -22,9 +22,8 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
     }
 
     /**
@@ -35,7 +34,30 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:2',
+            'email' => 'required|email|unique:clients',
+            'phone' => 'required',
+            'website' => 'required|unique:clients',
+            'address' => 'required',
+            'logo' => 'required'
+
+        ]);
+        $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
+        \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
+        $request->merge(['logo' => $photoname]);
+
+        return Client::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'phone' => $request['phone'],
+            'website' => $request['website'],
+            'address' => $request['address'],
+            'logo' => $photoname,
+            'account_id' => 1
+        ]);
+
+        return Client::create($request->all());
     }
 
     /**
@@ -69,7 +91,33 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:2',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'website' => 'required',
+            'address' => 'required',
+        ]);
+        // $client = Client::findOrFail($client->id);
+        // if ($client->logo != 0) {
+        //     if (file_exists(public_path('images/img/') . $client->logo)) {
+        //         unlink(public_path('images/img/') . $client->logo);
+        //     }
+        // }
+        // $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
+        // \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
+        // $request->merge(['logo' => $photoname]);
+
+
+        // $client->name = $request->name;
+        // $client->email = $request->email;
+        // $client->phone = $request->phone;
+        // $client->website = $request->website;
+        // $client->address = $request->address;
+        // $client->logo = $photoname;
+        // $client->account_id = 1;
+
+        // return $client->id;
     }
 
     /**
@@ -80,6 +128,12 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client = Client::findOrFail($client->id);
+        if ($client->logo != 0) {
+            if (file_exists(public_path('images/img/') . $client->logo)) {
+                unlink(public_path('images/img/') . $client->logo);
+            }
+        }
+        return $client->delete();
     }
 }

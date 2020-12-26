@@ -5497,3 +5497,24 @@ text {
   overflow-y: scroll;
 }
 
+.alerttext {
+  font-size: 10px !important;
+}
+
+[dir] .overview-header {
+  background-color: #f3f5f7;
+  border-color: #42b983;
+  padding: 1rem 0;
+  margin: 1rem 0;
+}
+
+[dir=ltr] .overview-header {
+  border-left-width: 0.6rem;
+  border-left-style: solid;
+}
+
+[dir=rtl] .overview-header {
+  border-right-width: 0.6rem;
+  border-right-style: solid;
+}
+

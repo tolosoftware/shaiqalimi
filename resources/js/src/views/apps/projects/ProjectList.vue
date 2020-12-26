@@ -1,161 +1,123 @@
 <template>
-  <div id="data-list-thumb-view" class="w-full data-list-container">
-    <vs-table
-      class="w-full"
-      ref="table"
-      pagination
-      :max-items="itemsPerPage"
-      search
-      :data="projects"
-    >
-      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-        <!-- ITEMS PER PAGE -->
-        <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
-          <div
-            class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium"
-          >
-            <!-- <span class="mr-2">۴ از ۱۰</span> -->
-            <span class="mr-2">
-              {{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
-              {{
+<div id="data-list-thumb-view" class="w-full data-list-container">
+  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="projects">
+    <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
+      <!-- ITEMS PER PAGE -->
+      <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
+        <div class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+          <!-- <span class="mr-2">۴ از ۱۰</span> -->
+          <span class="mr-2">
+            {{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
+            {{
               projects.length - currentPage * itemsPerPage > 0
               ? currentPage * itemsPerPage
               : projects.length
               }}
-              از {{ queriedItems }}
-            </span>
-            <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ projects.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : projects.length }} از {{ queriedItems }}</span> -->
-            <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-          </div>
-          <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
-          <vs-dropdown-menu>
-            <vs-dropdown-item @click="itemsPerPage = 4">
-              <span>۴</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage = 10">
-              <span>۱۰</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage = 15">
-              <span>۱۵</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage = 20">
-              <span>۲۰</span>
-            </vs-dropdown-item>
-          </vs-dropdown-menu>
-        </vs-dropdown>
-      </div>
+            از {{ queriedItems }}
+          </span>
+          <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ projects.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : projects.length }} از {{ queriedItems }}</span> -->
+          <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
+        </div>
+        <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+        <vs-dropdown-menu>
+          <vs-dropdown-item @click="itemsPerPage = 4">
+            <span>۴</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item @click="itemsPerPage = 10">
+            <span>۱۰</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item @click="itemsPerPage = 15">
+            <span>۱۵</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item @click="itemsPerPage = 20">
+            <span>۲۰</span>
+          </vs-dropdown-item>
+        </vs-dropdown-menu>
+      </vs-dropdown>
+    </div>
 
-      <template slot="thead">
-        <vs-th sort-key="img">نهاد</vs-th>
-        <!-- <vs-th>نهاد</vs-th> -->
-        <vs-th sort-key="title">عنوان</vs-th>
-        <vs-th sort-key="s_number">سریال نمبر</vs-th>
-        <vs-th sort-key="issue_date">نشر اعلان</vs-th>
-        <vs-th sort-key="issue_address">منبع اعلان</vs-th>
-        <vs-th sort-key="source_address">آدرس</vs-th>
-        <vs-th sort-key="auth_number">شماره شناسایی</vs-th>
-        <vs-th sort-key="type">نوعیت</vs-th>
-        <vs-th sort-key="price">قیمت</vs-th>
-        <vs-th>بررسی</vs-th>
-      </template>
+    <template slot="thead">
+      <vs-th>نمبر</vs-th>
+      <vs-th>نهاد</vs-th>
+      <vs-th sort-key="name">قرارداد</vs-th>
+      <vs-th sort-key="project_guarantee">تضمین قرارداد</vs-th>
+      <vs-th sort-key="pr_worth">ارزش قرارداد</vs-th>
+      <vs-th sort-key="total_price">قیمت</vs-th>
+      <vs-th sort-key="contract_end_date">تاریخ ختم</vs-th>
+      <vs-th sort-key="contract_date">تاریخ قرارداد</vs-th>
+      <vs-th>نمظیمات</vs-th>
+    </template>
 
-      <template slot-scope="{ data }">
-        <tbody>
-          <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-            <vs-td class="img-container">
-              <router-link
-                class="product-name font-medium truncate"
-                :to="{
+    <template slot-scope="{data}">
+      <tbody>
+        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+          <vs-td class="pl-2 text-center">
+            {{ indextr + 1 }}
+          </vs-td>
+          <vs-td class="img-container">
+            <router-link v-if="tr.pro_data" class="product-name font-medium truncate" :to="{
                   path: '/projects/project/${tr.id}',
-                  name: 'project-view',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }"
-              >
-                <img :src="tr.img" class="product-img" />
-              </router-link>
-            </vs-td>
-
-            <vs-td>
-              <div @click="goTo(tr)">
-                <router-link
-                  class="product-name font-medium truncate"
-                  :to="{
-                    path: '/projects/project/${tr.id}',
-                    name: 'project-view',
-                    params: { id: tr.id, dyTitle: tr.title, snumber: tr.s_number },
-                  }"
-                >{{ tr.title }}</router-link>
-              </div>
-            </vs-td>
-            <vs-td>
-              <p>{{ tr.s_number }}</p>
-            </vs-td>
-            <vs-td>
-              <p>{{ tr.issue_date }}</p>
-            </vs-td>
-            <vs-td>
-              <p>{{ statusFa[tr.issue_address] }}</p>
-            </vs-td>
-            <vs-td>
-              <p>{{ tr.source_address }}</p>
-            </vs-td>
-            <vs-td>
-              <p>{{ tr.auth_number }}</p>
-            </vs-td>
-            <vs-td>
-              <p class="product-category">{{ tr.type }}</p>
-            </vs-td>
-
-            <vs-td>
-              <p class="product-price">{{ tr.price }}</p>
-            </vs-td>
-
-            <!-- <vs-td>
-              <vs-progress
-                :percent="Number(tr.popularity)"
-                :color="getPopularityColor(Number(tr.popularity))"
-                class="shadow-md"
-              />
-            </vs-td>-->
-
-            <!-- <vs-td>
-              <vs-chip
-                :color="getOrderStatusColor(tr.order_status)"
-                class="product-order-status"
-              >{{ statusFa[tr.order_status] }}</vs-chip>
-            </vs-td>-->
-
-            <vs-td class="whitespace-no-wrap notupfromall">
-              <router-link
-                class="product-name font-medium truncate"
-                :to="{
-                  path: '/projects/project/${tr.id}/edit',
                   name: 'project-edit',
                   params: { id: tr.id, dyTitle: tr.title },
-                }"
-              >
-                <feather-icon
-                  icon="EditIcon"
-                  svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                />
-              </router-link>
-              <feather-icon
-                icon="TrashIcon"
-                svgClasses="w-5 h-5 hover:text-danger stroke-current"
-                class="ml-2"
-                @click.stop="deleteData(tr.id, tr.title)"
-              />
-            </vs-td>
-          </vs-tr>
-        </tbody>
-      </template>
-    </vs-table>
-  </div>
+                }">
+              <!-- <img :src="tr.img" class="product-img" /> -->
+              <p>{{ findClient(tr.pro_data.client_id) }}</p>
+            </router-link>
+          </vs-td>
+
+          <vs-td>
+            <div v-if="tr.pro_data">
+              <router-link class="product-name font-medium truncate" :to="{
+                  path: '/projects/project/${tr.id}',
+                  name: 'project-edit',
+                  params: { id: tr.id, dyTitle: tr.pro_data.title },
+                }">
+                {{ tr.pro_data.title }}</router-link>
+            </div>
+          </vs-td>
+
+          <vs-td>
+            <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
+            <p class="project_guarantee">{{ tr.project_guarantee }} افغانی</p>
+          </vs-td>
+
+          <vs-td>
+            <p v-if="tr.pro_data" class="contract_end_date">{{ tr.pro_data.pr_worth }}</p>
+          </vs-td>
+          <vs-td>
+            <p v-if="tr.pro_data" class="product-total_price">{{ tr.pro_data.total_total_price }} افغانی</p>
+          </vs-td>
+          <vs-td>
+            <p class="contract_end_date">{{ tr.contract_end_date }}</p>
+          </vs-td>
+          <vs-td>
+            <p class="contract_date">{{ tr.contract_date }}</p>
+          </vs-td>
+
+          <vs-td class="whitespace-no-wrap notupfromall">
+            <router-link class="product-name font-medium truncate" :to="{
+                  path: '/projects/project/${tr.id}',
+                  name: 'project-edit',
+                  params: { id: tr.id, dyTitle: tr.title },
+                }">
+              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
+            </router-link>
+            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+          </vs-td>
+        </vs-tr>
+      </tbody>
+    </template>
+  </vs-table>
+</div>
 </template>
 
 <script>
 import DataViewSidebar from "./DataViewSidebar.vue";
-import {Form,HasError,AlertError} from 'vform'
+import {
+  Form,
+  HasError,
+  AlertError
+} from 'vform'
 
 export default {
   name: "vx-project-list",
@@ -163,7 +125,7 @@ export default {
     return {
       // Project Form
       pForm: new Form({
-        s_number: '',
+        serial_no: '',
         issue_date: '',
         issue_address: '',
         source_address: '',
@@ -171,18 +133,18 @@ export default {
         img: '',
         auth_number: '',
         type: '',
-        price: '',
+        total_price: '',
         duration: '',
         offer_date: '',
         close_date: '',
-        offer_price: '',
-        project_price: '',
+        offer_total_price: '',
+        project_total_price: '',
         announce_id: '',
         organization_id: '',
       }),
       // End Project Form
 
-      statusFa: {
+      pr_worthFa: {
         on_hold: "درجریان",
         delivered: "تکمیل",
         canceled: "نا موفق",
@@ -193,6 +155,7 @@ export default {
       isMounted: false,
       addNewDataSidebar: false,
       sidebarData: {},
+      clients: [],
     };
   },
   components: {
@@ -200,6 +163,7 @@ export default {
   },
   created() {
     this.getProject();
+    this.getAllClients();
   },
   computed: {
     currentPage() {
@@ -209,21 +173,33 @@ export default {
       return 0;
     },
     queriedItems() {
-      return this.$refs.table
-        ? this.$refs.table.queriedResults.length
-        : this.projects.length;
+      return this.$refs.table ?
+        this.$refs.table.queriedResults.length :
+        this.projects.length;
     },
   },
   methods: {
+    findClient(id){
+      let name = '';
+      Object.keys(this.clients).some(key => (this.clients[key].id == id) ? name = this.clients[key].name : null);
+      return name;
+    },
+    // for Organs that implement the ad
+    getAllClients() {
+    this.axios.get('/api/clients')
+      .then((response) => {
+        this.clients = response.data;
+      })
+    },
     getProject() {
       // Start the Progress Bar
       this.$Progress.start()
 
       this.pForm.get('/api/project').then((data) => {
-        this.projects = data.data;
-        // Finish the Progress Bar
-        this.$Progress.set(100)
-      })
+          this.projects = data.data;
+          // Finish the Progress Bar
+          this.$Progress.set(100)
+        })
         .catch(() => {});
     },
 
@@ -233,7 +209,10 @@ export default {
         .push({
           path: "/projects/project/${data.id}",
           name: "project-view",
-          params: {id: data.id,dyTitle: data.title},
+          params: {
+            id: data.id,
+            dyTitle: data.title
+          },
         })
         .catch(() => {});
     },
@@ -242,7 +221,10 @@ export default {
         .push({
           path: "/projects/project/${data.id}/edit",
           name: "project-edit",
-          params: {id: data.id,dyTitle: data.title},
+          params: {
+            id: data.id,
+            dyTitle: data.title
+          },
         })
         .catch(() => {});
     },
@@ -251,10 +233,10 @@ export default {
       this.sidebarData = {};
       this.toggleDataSidebar(true);
     },
-    deleteData(id,title) {
+    deleteData(id, title) {
       swal.fire({
         title: 'آیا متمعن هستید؟',
-        text: "پروژه " + title + " حذف خواهد شد",
+        text: "پروژه حذف خواهد شد",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: 'rgb(54 34 119)',
@@ -264,13 +246,13 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.pForm.delete('/api/project/' + id).then((id) => {
-            swal.fire({
-              title: 'عملیه موفقانه انجام شد.',
-              text: "پروژه " + title + " از سیستم پاک شد!",
-              icon: 'success',
+              swal.fire({
+                title: 'عملیه موفقانه انجام شد.',
+                text: "پروژه از سیستم پاک شد!",
+                icon: 'success',
+              })
+              this.getProject();
             })
-            this.getProject();
-          })
             .catch(() => {});
         }
       })
@@ -280,10 +262,10 @@ export default {
       this.sidebarData = data;
       this.toggleDataSidebar(true);
     },
-    getOrderStatusColor(status) {
-      if (status === "on_hold") return "warning";
-      if (status === "delivered") return "success";
-      if (status === "canceled") return "danger";
+    getOrderStatusColor(pr_worth) {
+      if (pr_worth === "on_hold") return "warning";
+      if (pr_worth === "delivered") return "success";
+      if (pr_worth === "canceled") return "danger";
       return "primary";
     },
     getPopularityColor(num) {
@@ -302,6 +284,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 #data-list-thumb-view {
   .vs-con-table {
@@ -314,7 +297,8 @@ export default {
       flex-wrap: wrap-reverse;
       margin-left: 1.5rem;
       margin-right: 1.5rem;
-      > span {
+
+      >span {
         display: flex;
         flex-grow: 1;
       }
@@ -326,11 +310,11 @@ export default {
           padding: 0.9rem 2.5rem;
           font-size: 1rem;
 
-          & + i {
+          &+i {
             left: 1rem;
           }
 
-          &:focus + i {
+          &:focus+i {
             left: 1rem;
           }
         }
@@ -344,16 +328,20 @@ export default {
 
       tr {
         box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+
         td {
           padding: 10px;
+
           &:first-child {
             border-top-left-radius: 0.5rem;
             border-bottom-left-radius: 0.5rem;
           }
+
           &:last-child {
             border-top-right-radius: 0.5rem;
             border-bottom-right-radius: 0.5rem;
           }
+
           &.img-container {
             // width: 1rem;
             // background: #fff;
@@ -368,6 +356,7 @@ export default {
             }
           }
         }
+
         td.td-check {
           padding: 20px !important;
         }
@@ -384,9 +373,11 @@ export default {
           font-weight: 600;
         }
       }
+
       th.td-check {
         padding: 0 15px !important;
       }
+
       tr {
         background: none;
         box-shadow: none;
