@@ -14,7 +14,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        return Inventory::all();
     }
 
     /**
@@ -35,7 +35,21 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:2',
+            'address' => 'required|min:3',
+            'manager' => 'required|min:2',
+            'phone' => 'required',
+            'description' => 'required|min:5',
+        ]);
+
+        return Inventory::create([
+            'name' => $request['name'],
+            'address' => $request['address'],
+            'manager' => $request['manager'],
+            'phone' => $request['phone'],
+            'description' => $request['description']
+        ]);
     }
 
     /**

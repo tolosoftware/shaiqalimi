@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\models\Account;
+use App\models\AccountType;
 use App\models\Client;
 use Illuminate\Http\Request;
 
@@ -42,20 +44,55 @@ class ClientController extends Controller
             'address' => 'required',
             'logo' => 'required'
         ]);
-
-        $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
-        \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
-        $request->merge(['logo' => $photoname]);
-
-        return Client::create([
+        // $accountType = AccountType::create([
+        //     'title' => 'خریداران',
+        //     'type_id' => 0,
+        //     'system' => 0,
+        // ]);
+        // if ($accountType) {
+        // $lastAccountType = AccountType::latest()->first();
+        $account = Account::create([
+            'user_id' => 1,
+            'type_id' => 24,
             'name' => $request['name'],
-            'email' => $request['email'],
-            'phone' => $request['phone'],
-            'website' => $request['website'],
-            'address' => $request['address'],
-            'logo' => $photoname,
-            'account_id' => 1
+            'ref_code' => 1223,
+            'status' => 1,
+            'description' => $request['name'],
+            'system' => 1
         ]);
+
+        if ($account) {
+            // upload the logo
+            $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
+            \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
+            $request->merge(['logo' => $photoname]);
+            // find the last ID of account
+
+            $lastAccount = Account::latest()->first();
+            return Client::create([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'phone' => $request['phone'],
+                'website' => $request['website'],
+                'address' => $request['address'],
+                'logo' => $photoname,
+                'account_id' => $lastAccount->id
+            ]);
+            // }
+        } else {
+            return response("status", 'Not seet');
+        }
+
+
+        // return Client::create([
+        //     'name' => $request['name'],
+        //     'email' => $request['email'],
+        //     'phone' => $request['phone'],
+        //     'website' => $request['website'],
+        //     'address' => $request['address'],
+        //     'logo' => $photoname,
+        //     'account_id' => 1
+        // ]);
 
         // return Client::create($request->all());
     }
@@ -135,6 +172,8 @@ class ClientController extends Controller
                 unlink(public_path('images/img/') . $client->logo);
             }
         }
-        return $client->delete();
+        $client->delete();
+        $relatedAccount = Account::Where('id', $client->account_id)->first();
+        $relatedAccount->delete();
     }
 }
