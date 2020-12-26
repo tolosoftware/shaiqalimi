@@ -1,7 +1,7 @@
 <template>
 <div>
     <div>
-        <fuel-sidebar :isSidebarActive="fuelAddSidebar" @closeSidebar="toggleFuelSidebar" :data="sidebarDataFuel" :seletedStation="seletedStation"/>
+        <fuel-sidebar :isSidebarActive="fuelAddSidebar" @closeSidebar="toggleFuelSidebar" :data="sidebarDataFuel" />
 
         <despencer-sidebar :isSidebarActive="despencerSidebar" @closeSidebar="toggleDespencer" :data="dataDespencer" />
 
@@ -63,7 +63,7 @@ export default {
     data() {
         return {
              station: [],
-            seletedStation: [],
+            seletedStation: {},
             props: ["items", "form"],
             // Sidebar
             fuelAddSidebar: false,
@@ -76,9 +76,6 @@ export default {
             dataStoreFuel: {},
 
             // End Sidebar
-
-          
-           
         };
     },
     methods: {
@@ -99,7 +96,7 @@ export default {
         },
 
         openFuelStore() {
-            this.dataStoreFuel = {}
+            this.dataStoreFuel = this.seletedStation
             this.toggleFuelStore(true)
         },
         toggleFuelStore(val = false) {

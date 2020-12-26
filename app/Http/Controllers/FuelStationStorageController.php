@@ -14,7 +14,7 @@ class FuelStationStorageController extends Controller
      */
     public function index()
     {
-        //
+        return Fuel_station_storage::with('fuel_station')->with('measur_unit')->get();
     }
 
     /**
@@ -35,7 +35,15 @@ class FuelStationStorageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        return Fuel_station_storage::create([
+            'station_id' => $request['station_id']['id'],
+            'name' => $request['name'],
+            'supervisor' => $request['supervisor'],
+            'capacity' => $request['capacity'],
+            'oum_id' =>$request['oum_id']['id'],
+           
+        ]);
     }
 
     /**
@@ -78,8 +86,10 @@ class FuelStationStorageController extends Controller
      * @param  \App\Models\fuel_station_storage  $fuel_station_storage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(fuel_station_storage $fuel_station_storage)
+    public function destroy($id)
     {
-        //
+        $storage = Fuel_station_storage::findOrFail($id);
+        $storage->delete();
+        return ['message' => 'User Deleted'];
     }
 }
