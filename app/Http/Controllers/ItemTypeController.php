@@ -14,7 +14,7 @@ class ItemTypeController extends Controller
      */
     public function index()
     {
-        return ItemType::all();
+        return ItemType::get();
     }
 
     /**
@@ -35,7 +35,9 @@ class ItemTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return ItemType::create([
+            'type' => $request['type'],
+        ]);
     }
 
     /**
@@ -78,8 +80,10 @@ class ItemTypeController extends Controller
      * @param  \App\models\ItemType  $itemType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ItemType $itemType)
+    public function destroy($id)
     {
-        //
+        $user = ItemType::findOrFail($id);
+        $user->delete();
+        return ['message' => 'item type Deleted'];
     }
 }

@@ -14,7 +14,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        return Item::all();
+        return Item::with('measurment_unites_min')->with('measurment_unites_sub')->with('type')->get();
     }
 
     /**
@@ -35,7 +35,17 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+       
+        return Item::create([
+            'type_id' => $request['type_id']['id'],
+            'name' => $request['name'],
+            'uom_id' => $request['uom_id']['id'],
+            'uom_equiv_id' => $request['uom_equiv_id']['id'],
+            'equivalent' => $request['equivalent'],
+            'description' => $request['description'],
+        ]);
+
     }
 
     /**
@@ -78,8 +88,10 @@ class ItemController extends Controller
      * @param  \App\models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item)
+    public function destroy($id)
     {
-        //
+        $item = Item::findOrFail($id);
+        $item->delete();
+        return ['message' => 'item Deleted'];
     }
 }

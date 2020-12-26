@@ -1,6 +1,7 @@
 <template>
 <vx-card>
-    <form class="pl-4 pr-4 pb-2 pt-2">
+    <form class="pl-4 pr-4 pb-2 pt-2" autocomplete="off">
+        <input autocomplete="off" name="hidden" type="text" style="display:none;">
 
         <div class="vx-row">
             <div class="vx-row w-2/3">
@@ -37,12 +38,12 @@
                 </vs-col>
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
-                        <vs-input class="w-full" label="شماره تماس" v-model="form.phone" />
+                        <vs-input class="w-full" type="text" label="شماره تماس" v-model="form.phone" />
                     </div>
                 </vs-col>
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full">
-                        <vs-input class="w-full" label="آدرس" v-model="form.address" />
+                        <vs-input class="w-full" type="text" label="آدرس" v-model="form.address" autocomplete="off" autofill="off" />
                     </div>
                 </vs-col>
 
@@ -54,14 +55,13 @@
 
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
                     <div class="w-full con-select-example">
-                        <!-- <vs-select placeholder="انتخاب مافوق" class="selectExample w-full" label="مافوق های کاربر را انتخاب نماید!" label-placeholder="Multiple" multiple v-model="form.select">
-                            <vs-select-item :value="item.value" :text="item.text" v-for="item in options1" :key="item.id" />
-                        </vs-select> -->
+                      
 
-                        <template>
-                            <v-select multiple :closeOnSelect="false" v-model="form.userleaders" :options="optionss" :dir="$vs.rtl ? 'rtl' : 'ltr'" /><br>
-                        </template>
-
+                        <label class="typo__label">مافوق برای کابر</label>
+                        <v-select  v-model="form.userleaders" :options="arrayofobject" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="مافوق کاربر را انتخاب کنید" label="name" track-by="name" :preselect-first="true">
+                            <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="form.userleaders.length &amp;&amp; !isOpen">{{ form.userleaders.length }} به این تعداد انتخاب شده</span></template>
+                        </v-select>
+                     
                     </div>
                 </vs-col>
 
@@ -117,36 +117,30 @@
 
 <script>
 import vSelect from "vue-select";
+import Multiselect from 'vue-multiselect'
 export default {
     components: {
 
         "v-select": vSelect,
-
+        Multiselect
     },
     data() {
         return {
+
             users: [],
-
-            // options: ['foo', 'bar', 'baz'],
-
-            
-            optionss: [{
-                    text: 'آدمین',
-                    value: 0
+            arrayofobject: [{
+                    name: 'Mahdi Naseri',
+                    language: '1'
                 },
                 {
-                    text: 'منیجر ',
-                    value: 2
+                    name: 'Naseri Karimi',
+                    language: '2'
                 },
                 {
-                    text: 'سوپروایزر',
-                    value: 3
+                    name: 'Jamal Ahmadi',
+                    language: '3'
                 },
-
-                {
-                    text: 'کابر عادی',
-                    value: 4
-                },
+              
             ],
 
             usertypes: [{

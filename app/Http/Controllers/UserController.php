@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserAssignment;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -17,6 +18,8 @@ class UserController extends Controller
     public function index()
     {
         return User::all();
+  
+        //  return User::select('lastName','firstName')->get();
     }
 
     /**
@@ -83,7 +86,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return User::findOrFail($id);
     }
 
     /**
@@ -95,7 +98,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $photoname = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+        \Image::make($request->image)->save(public_path('img/user/').$photoname);
+        $request->merge(['photo' => $photoname]);
+
+        $user = User::findOrFail($id);
+        $request['password'] =  Hash::make($request['password']);
+        $request['image'] =  $photoname;
+        $user->update($request->all());
+        return ["message"=>"موفقانه معلومات اصلاح شد"];
     }
 
     /**
@@ -106,6 +117,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        return ['message' => 'User Deleted'];
     }
 }
