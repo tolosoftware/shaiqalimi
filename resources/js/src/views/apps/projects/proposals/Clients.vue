@@ -10,13 +10,13 @@
 <template>
 <div>
   <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
-    <div class="mb-2"></div>
+    <div class="mb-1"></div>
     <div class="mb-5">
       <vs-tabs>
         <vs-tab label=" اضافه کردن نهاد جدید" icon="add">
           <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
             <form>
-              <div class="p-6">
+              <div class="p-2">
                 <!-- Product Image -->
                 <template v-if="orgForm.logo">
                   <div class="vx-row">
@@ -36,34 +36,33 @@
                     </div>
                   </div>
                 </template>
-                <has-error :form="orgForm" field="logo"></has-error>
 
-                <vs-input label="نام نهاد" class="mt-5 w-full" v-model="orgForm.name" />
+                <vs-input label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
                 <has-error :form="orgForm" field="name"></has-error>
-                <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
 
-                <vs-input label="ایمیل" type="email" class="mt-5 w-full" v-model="orgForm.email" />
+                <vs-input label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
                 <has-error :form="orgForm" field="email"></has-error>
-                <!-- NAME -->
-                <vs-input label=" شماره تماس " type="text" class="mt-5 w-full" v-model="orgForm.phone" />
+
+                <vs-input label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
                 <has-error :form="orgForm" field="phone"></has-error>
-                <!-- NAME -->
-                <vs-input label="ویب سایت" type="text" class="mt-5 w-full" v-model="orgForm.website" />
+
+                <vs-input label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
                 <has-error :form="orgForm" field="website"></has-error>
-                <!-- NAME -->
-                <vs-input label=" آدرس" type="text" class="mt-5 w-full" v-model="orgForm.address" />
+
+                <vs-input label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
                 <has-error :form="orgForm" field="address"></has-error>
                 <!-- Upload -->
                 <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
-                <div class="upload-img mt-5" v-if="!orgForm.logo">
+                <div class="upload-img mt-3" v-if="!orgForm.logo">
                   <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
                   <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود لوگو</vs-button>
+                  <has-error :form="orgForm" field="logo"></has-error>
                 </div>
               </div>
-              <div class="flex flex-wrap items-center p-6" slot="footer">
+              <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
                 <vs-button type="border" color="success" class="mr-6" @click="submitData" :disabled="!isFormValid" icon="save">ذخیره</vs-button>
-                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">بسته کردن</vs-button>
+                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false" icon="close">بسته کردن</vs-button>
               </div>
             </form>
           </component>
@@ -71,7 +70,7 @@
         <vs-tab label="لست نهادها" icon="list">
           <div :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
             <form>
-              <div class="p-6">
+              <div class="p-2">
                 <!-- Product Image -->
                 <template>
                   <div class="vx-row">
@@ -93,30 +92,30 @@
                   </div>
                 </template>
 
-                <vs-input label="نام نهاد" class="mt-5 w-full" v-model="orgFormEdit.name" />
+                <vs-input label="نام نهاد" class="w-full" v-model="orgFormEdit.name" />
                 <has-error :form="orgFormEdit" field="name"></has-error>
                 <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
 
-                <vs-input label="ایمیل" type="email" class="mt-5 w-full" v-model="orgFormEdit.email" />
+                <vs-input label="ایمیل" type="email" class="mt-2 w-full" v-model="orgFormEdit.email" />
                 <has-error :form="orgFormEdit" field="email"></has-error>
                 <!-- NAME -->
-                <vs-input label=" شماره تماس " type="text" class="mt-5 w-full" v-model="orgFormEdit.phone" />
+                <vs-input label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgFormEdit.phone" />
                 <has-error :form="orgFormEdit" field="phone"></has-error>
                 <!-- NAME -->
-                <vs-input label="ویب سایت" type="text" class="mt-5 w-full" v-model="orgFormEdit.website" />
+                <vs-input label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgFormEdit.website" />
                 <has-error :form="orgFormEdit" field="website"></has-error>
                 <!-- NAME -->
-                <vs-input label=" آدرس" type="text" class="mt-5 w-full" v-model="orgFormEdit.address" />
+                <vs-input label=" آدرس" type="text" class="mt-2 w-full" v-model="orgFormEdit.address" />
                 <has-error :form="orgFormEdit" field="address"></has-error>
                 <!-- Upload -->
                 <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
-                <div class="upload-img mt-5" v-if="!orgFormEdit.logo">
+                <!--<div class="upload-img mt-5" v-if="!orgFormEdit.logo">
                   <input type="file" class="hidden" ref="uploadImgInput1" @change="updateCurrImg1" accept="image/*">
                   <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود لوگو</vs-button>
-                </div>
+                </div> -->
               </div>
-              <div class="flex flex-wrap items-center p-6" slot="footer">
+              <div class="flex flex-wrap items-center p-2" slot="footer">
                 <vs-button type="border" icon="edit" color="success" class="mr-6" @click="updateData()" :disabled="!isFormValid">ویرایش</vs-button>
                 <vs-button type="border" icon="close" color="danger" @click="resetAllState()">بستن فورم ویرایش</vs-button>
               </div>
@@ -336,26 +335,25 @@ export default {
           data
         }) => {
           // Finish the Progress Bar
-
           this.getData();
+          this.resetAllState();
           // toast notification
           this.$vs.notify({
             title: 'موفقیت!',
-            text: 'آیتم موفقانه آپدیت شد.',
+            text: 'موسسه مذکور موفقانه آپدیت شد.',
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check',
             position: 'top-right'
           })
         });
-
     },
     isFormValid() {
 
     },
     submitData() {
-      // console.log('Edit Form', this.orgForm.logo)
-        this.orgForm.post('/api/clients')
+      console.log('Edit Form', this.orgForm.logo)
+      this.orgForm.post('/api/clients')
         .then(({
           data
         }) => {
@@ -363,7 +361,7 @@ export default {
           this.orgForm.reset();
           this.$vs.notify({
             title: 'موفقیت!',
-            text: 'معلومات موفقانه ثبت سیستم شد.',
+            text: 'موسسه موفقانه ثبت سیستم شد.',
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check',
@@ -374,7 +372,7 @@ export default {
           this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+            text: 'لطفاً معلومات موسسه را چک کنید و دوباره امتحان کنید!',
             color: 'danger',
             iconPack: 'feather',
             icon: 'icon-cross',
@@ -418,6 +416,7 @@ export default {
       }
     },
     updateCurrImg1(input) {
+
       if (input.target.files && input.target.files[0]) {
         this.oldImage = false
         const reader = new FileReader()
