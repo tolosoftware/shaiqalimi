@@ -1,18 +1,18 @@
 <template>
 <div>
     <div>
-        <fuel-sidebar :isSidebarActive="fuelAddSidebar" @closeSidebar="toggleFuelSidebar" :data="sidebarDataFuel" />
+        <fuel-sidebar :isSidebarActive="fuelAddSidebar" @closeSidebar="toggleFuelSidebar" :data="sidebarDataFuel" :seletedStation="seletedStation"/>
 
         <despencer-sidebar :isSidebarActive="despencerSidebar" @closeSidebar="toggleDespencer" :data="dataDespencer" />
 
-        <fuel-store-sidebar :isSidebarActive="fuelStore" @closeSidebar="toggleFuelStore" :data="dataStoreFuel" />
+        <fuel-store-sidebar :isSidebarActive="fuelStore" @closeSidebar="toggleFuelStore" :data="dataStoreFuel"  />
     </div>
 
     <vx-card class="mb-5">
         <div class="vx-row justify-between pr-5 pl-5">
             <div class="w-1/3">
                 <label class="vs-input--label">تانک تیل</label>
-                <v-select label="name" :options="station" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                <v-select v-model="seletedStation" label="name" :options="station" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             </div>
             <div class="w-1/3">
                 <vs-button icon-pack="feather" icon="icon-plus" icon-after class="shadow-md float-right" @click="openFuel()">ثبت تانک تیل</vs-button>
@@ -34,7 +34,7 @@
 
                     <vs-button icon-pack="feather" icon="icon-plus" icon-after size="small" @click="openFuelStore()" class="mb-5 float-right">ثبت ذخیره</vs-button>
                 </div>
-                <FuelStoreList />
+                <FuelStoreList  />
             </div>
         </div>
     </vx-card>
@@ -62,9 +62,12 @@ export default {
     },
     data() {
         return {
+             station: [],
+            seletedStation: [],
+            props: ["items", "form"],
             // Sidebar
             fuelAddSidebar: false,
-            sidebarDataFuel: {},
+            sidebarDataFuel: {id:90},
 
             despencerSidebar: false,
             dataDespencer: {},
@@ -73,7 +76,9 @@ export default {
             dataStoreFuel: {},
 
             // End Sidebar
-            station: [],
+
+          
+           
         };
     },
     methods: {
@@ -110,6 +115,7 @@ export default {
 
     created(){
         this.loadfuelstation();
+        
     }
 }
 </script>
