@@ -41,8 +41,8 @@ class ClientController extends Controller
             'website' => 'required|unique:clients',
             'address' => 'required',
             'logo' => 'required'
-
         ]);
+
         $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
         \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
         $request->merge(['logo' => $photoname]);
@@ -57,7 +57,7 @@ class ClientController extends Controller
             'account_id' => 1
         ]);
 
-        return Client::create($request->all());
+        // return Client::create($request->all());
     }
 
     /**
@@ -98,24 +98,25 @@ class ClientController extends Controller
             'website' => 'required',
             'address' => 'required',
         ]);
-        // $client = Client::findOrFail($client->id);
-        // if ($client->logo != 0) {
-        //     if (file_exists(public_path('images/img/') . $client->logo)) {
-        //         unlink(public_path('images/img/') . $client->logo);
-        //     }
-        // }
-        // $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
-        // \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
-        // $request->merge(['logo' => $photoname]);
+        $client = Client::findOrFail($client->id);
+        if (!($client->logo == $request->logo)) {
+            if (file_exists(public_path('images/img/') . $client->logo)) {
+                unlink(public_path('images/img/') . $client->logo);
+            }
+            $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
+            \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
+            $request->merge(['logo' => $photoname]);
 
+            $client->logo = $photoname;
+        }
 
-        // $client->name = $request->name;
-        // $client->email = $request->email;
-        // $client->phone = $request->phone;
-        // $client->website = $request->website;
-        // $client->address = $request->address;
-        // $client->logo = $photoname;
-        // $client->account_id = 1;
+        $client->name = $request->name;
+        $client->email = $request->email;
+        $client->phone = $request->phone;
+        $client->website = $request->website;
+        $client->address = $request->address;
+        $client->account_id = 1;
+        $client->save();
 
         // return $client->id;
     }
