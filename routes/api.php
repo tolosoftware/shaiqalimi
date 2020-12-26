@@ -41,7 +41,7 @@ Route::resource('items', 'ItemController');
 Route::resource('m-units', 'MeasurmentUnitController');
 Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
-
+Route::resource('financial', 'FinancialRecordController');
 
 // Latest Records
 // Route::get('announce-last','ProposalController@latest');
@@ -49,3 +49,4 @@ Route::get('project-last', 'ProjectController@latest');
 Route::get('organization-last', 'OrganizationController@latest');
 Route::post('currency/rates', 'CurrencyController@rates');
 Route::get('serial-num', 'SerialNumberController@latest');
+Route::post('financial-account', 'FinancialRecordController@byaccount');

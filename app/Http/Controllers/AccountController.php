@@ -57,9 +57,12 @@ class AccountController extends Controller
             'description' => $request->description,
             // 'system' => $request->system,    
         ];
+        if($request->debit > 0) {
+            $request->credit = null;
+        }
         if($new = Account::create($data)){
             $data = [
-                'type' => $request->type_id,
+                'type' => 'account',
                 'type_id' => $request->type_id,
                 'account_id' => $new->id,
                 'description' => 'Dynamically Created From Account.',
@@ -67,7 +70,7 @@ class AccountController extends Controller
                 'credit' => $request->credit,
                 'debit' => $request->debit,
                 'ex_rate_id' => ExchangeRate::latest()->first()->id,
-                'status' => 1        
+                'status' => 'opn'    
             ];
             FinancialRecord::create($data);
             return $new;

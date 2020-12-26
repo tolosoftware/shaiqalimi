@@ -82,4 +82,10 @@ class FinancialRecordController extends Controller
     {
         //
     }
+
+    public function byaccount(Request $request, FinancialRecord $financialRecord)
+    {
+        return FinancialRecord::where('account_id', $request->id)->with(['currency', 'exchange_rate'])->get();
+    }
+
 }

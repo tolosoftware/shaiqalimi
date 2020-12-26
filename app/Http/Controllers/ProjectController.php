@@ -151,16 +151,18 @@ class ProjectController extends Controller
                 // 'system' => $request->system,    
             ];
             if($new = Account::create($data)){
+
+                // Create opening FR for the created Projet
                 $data = [
-                    'type' => 'pro',
-                    'type_id' => $typeId,
+                    'type' => 'project', // here the type of financial record is project
+                    'type_id' => $resp->id, //Project Id will be used here as type id
                     'account_id' => $new->id,
                     'description' => 'Dynamically Created For Project.' . $resp->id,
                     'currency_id' => Currency::latest()->first()->id,
                     'credit' => $request->pr_worth,
-                    'debit' => 0,
+                    'debit' => null,
                     'ex_rate_id' => ExchangeRate::latest()->first()->id,
-                    'status' => 1        
+                    'status' => 'opn'   
                 ];
                 FinancialRecord::create($data);
             }
