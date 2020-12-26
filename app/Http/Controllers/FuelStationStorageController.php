@@ -82,4 +82,9 @@ class FuelStationStorageController extends Controller
     {
         //
     }
+    public function bystation(Request $request, fuel_station_storage $fuel_station_storage)
+    {
+        return Fuel_station_storage::where('station_id', $request->id)->get();
+    }
+
 }
