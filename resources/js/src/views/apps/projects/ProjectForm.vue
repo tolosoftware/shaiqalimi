@@ -12,7 +12,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>انتخاب اعلان</small></label>
-            <v-select name="serial_no" :clearable="false" label="serial_no" @input="setProjectData" v-model="pForm.proposal_id" v-validate="'required'" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+            <v-select name="serial_no" :clearable="false" label="serial_no" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
               <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
             </v-select>
             <has-error :form="pForm" field="proposal_id"></has-error>
@@ -668,6 +668,7 @@ export default {
             // Finish the Progress Bar
             this.$refs.wizard.reset();
             this.pForm.reset();
+            this.errors.clear();
             this.$Progress.set(100)
             this.$vs.notify({
               title: 'موفقیت!',

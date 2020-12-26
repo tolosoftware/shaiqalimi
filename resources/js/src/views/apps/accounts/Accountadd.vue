@@ -20,30 +20,24 @@
       <!-- NAME -->
       <div class="vx-col mt-4">
         <label for=""><small>نوعیت</small></label>
-        <v-select label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <v-select label="title" v-model="accForm.type_id" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
       </div>
-      <vs-input label="ریفرینس کد" type="number" class="mt-5 w-full" name="item-name" />
+      <vs-input label="ریفرینس کد" v-model="accForm.ref_code" type="number" class="mt-5 w-full" name="ref_code" />
       <!-- NAME -->
-      <vs-input label=" نام" class="mt-5 w-full" name="item-name" v-validate="'required'" />
-      <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
+      <vs-input label="نام" v-model="accForm.name" class="mt-5 w-full" name="name" v-validate="'required'" />
 
-      <!-- CATEGORY -->
-
-      <!-- NAME -->
-
-      <!-- CATEGORY -->
-
-      <!-- CATEGORY -->
-
-      <div class="vx-col w-1/3 mt-5">
-        <label for="" class="ml-4 mr-4 mb-2"> حالت</label>
-        <ul class="leftx">
-          <li style="position: absolute">
-            <vs-radio vs-name="radios1" vs-value="luis" class="ml-4 mr-4"><small>فعال</small>
-            </vs-radio>
-            <vs-radio vs-name="radios1" vs-value="carols" class="ml-4 mr-4"><small>غیر فعال</small></vs-radio>
-          </li>
-        </ul>
+      <div class="vx-col mt-5">
+        <label for="" class="ml-4 mr-4 mb-2">حالت</label>
+          <div class="radio-group w-full">
+            <div class="w-1/2">
+              <input type="radio" v-model="accForm.status" value="1" id="struct" name="status" />
+              <label for="struct" class="w-full text-center">فعال</label>
+            </div>
+            <div class="w-1/2">
+              <input type="radio" v-model="accForm.status" value="2" id="specific" name="status" />
+              <label for="specific" class="w-full text-center">غیرفعال</label>
+            </div>
+          </div>
       </div>
 
       <!-- NAME -->
@@ -58,7 +52,7 @@
               </div>
             </template>
 
-            <vs-input type="number" />
+            <vs-input type="number" :disabled="accForm.id" v-model="accForm.credit"/>
           </vx-input-group>
           <!-- /TITLE -->
         </div>
@@ -73,60 +67,37 @@
               </div>
             </template>
 
-            <vs-input type="number" />
+            <vs-input type="number" :disabled="accForm.id" v-model="accForm.debit"/>
           </vx-input-group>
           <!-- /TITLE -->
         </div>
       </div>
 
-      <vs-textarea placeholder="تفصیلات" />
+      <vs-textarea placeholder="تفصیلات" v-model="accForm.description"/>
     </div>
   </component>
 
   <div class="flex flex-wrap items-center p-6" slot="footer">
     <vs-button class="mr-6" @click="submitData">انجام</vs-button>
-    <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
+    <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">بستن</vs-button>
   </div>
 </vs-sidebar>
 </template>
 
 <script>
 import vSelect from "vue-select";
-export default {
-  props: {
-    isSidebarActive: {
-      type: Boolean,
-      required: true,
-    },
-    data: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  components: {
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import SidebarDefaultVue from '../../components/vuesax/sidebar/SidebarDefault.vue';
 
+export default {
+  props: ['isSidebarActive', 'data', 'accForm'],
+  components: {
+    VuePerfectScrollbar,
     "v-select": vSelect,
   },
   data() {
     return {
-      itemType: [{
-          text: "تیل دیزل",
-          value: "1",
-        },
-        {
-          text: "تیل گاز",
-          value: "2",
-        },
-        {
-          text: "تیل پطرول",
-          value: "3",
-        },
-        {
-          text: "موبلین",
-          value: "4",
-        },
-      ],
-
+      accountTypes: [],
       settings: {
         // perfectscrollbar settings
         // maxScrollbarLength: 60,
@@ -134,7 +105,11 @@ export default {
       },
     };
   },
-  watch: {},
+  created(){
+    this.getAllAccountTypes();
+  },
+  watch: {
+  },
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -152,7 +127,69 @@ export default {
     },
   },
   methods: {
-    submitData() {},
+    // Get Account Types
+    getAllAccountTypes() {
+      this.$Progress.start()
+      this.axios.get('/api/acount_type')
+        .then((response) => {
+          this.accountTypes = response.data;
+          this.$Progress.set(100)
+        })
+    },
+    submitData() {
+      if(this.accForm.id) {
+        this.accForm.patch('/api/account/' + this.accForm.id)
+          .then(({
+            accForm
+          }) => {
+            // Finish the Progress Bar
+            this.$vs.notify({
+              title: 'موفقیت!',
+              text: 'موفقانه ثبت شد.',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+          }).catch((errors) => {
+            this.$Progress.set(100)
+            this.$vs.notify({
+              title: 'ناموفق!',
+              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-cross',
+              position: 'top-right'
+            })
+          });
+      }else{
+        this.accForm.post('/api/account')
+          .then(({
+            accForm
+          }) => {
+            // Finish the Progress Bar
+            this.accForm.reset();
+            this.$vs.notify({
+              title: 'موفقیت!',
+              text: 'موفقانه ثبت شد.',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+          }).catch((errors) => {
+            this.$Progress.set(100)
+            this.$vs.notify({
+              title: 'ناموفق!',
+              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-cross',
+              position: 'top-right'
+            })
+          });
+      }
+    },
   },
 };
 </script>

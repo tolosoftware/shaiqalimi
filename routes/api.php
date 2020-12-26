@@ -35,6 +35,7 @@ Route::resource('item-type', 'ItemTypeController');
 Route::resource('items', 'ItemController');
 Route::resource('m-units', 'MeasurmentUnitController');
 Route::resource('pro-item', 'ProItemController');
+Route::resource('account', 'AccountController');
 
 
 // Latest Records

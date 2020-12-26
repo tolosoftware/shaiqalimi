@@ -7,6 +7,11 @@ use App\Models\SerialNumber;
 use App\Models\Currency;
 use App\Models\ProData;
 use App\Models\ProItem;
+use App\models\Account;
+use App\models\AccountType;
+use App\models\FinancialRecord;
+use App\models\ExchangeRate;
+
 
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
@@ -132,6 +137,32 @@ class ProjectController extends Controller
                     ProItem::create($item);
                 }
                 // return $item;
+            }
+
+            // Create the Account beside the project
+            $typeId = AccountType::latest()->first()->id;
+            $data = [
+                'user_id' => 1,
+                'type_id' => $typeId,
+                'name' => $request->title,
+                'ref_code' => $resp->id,
+                'status' => 1,
+                'description' => $request->title,
+                // 'system' => $request->system,    
+            ];
+            if($new = Account::create($data)){
+                $data = [
+                    'type' => 'pro',
+                    'type_id' => $typeId,
+                    'account_id' => $new->id,
+                    'description' => 'Dynamically Created For Project.' . $resp->id,
+                    'currency_id' => Currency::latest()->first()->id,
+                    'credit' => $request->pr_worth,
+                    'debit' => 0,
+                    'ex_rate_id' => ExchangeRate::latest()->first()->id,
+                    'status' => 1        
+                ];
+                FinancialRecord::create($data);
             }
             return response()->json([$resp], 200);
         }

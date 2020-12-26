@@ -16,7 +16,6 @@ class Account extends Model
         'status',
         'description',
         'system',
-        ''
     ];
 
     public function user()
