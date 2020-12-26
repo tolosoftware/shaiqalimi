@@ -358,10 +358,14 @@
    </vs-col>
 
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
+        <div class="w-full pt-2 ml-3 mr-3">
      <ItemType></ItemType>
+        </div>
    </vs-col>
    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
+             <div class="w-full pt-2 ml-3 mr-3">
     <Uom></Uom>
+             </div>
    </vs-col>  
    
   </vs-row>

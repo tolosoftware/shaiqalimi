@@ -43,6 +43,7 @@ Route::resource('m-units', 'MeasurmentUnitController');
 Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
 Route::resource('financial', 'FinancialRecordController');
+Route::resource('despenser', 'FuelDespenserController');
 
 // Latest Records
 // Route::get('announce-last','ProposalController@latest');
@@ -51,3 +52,4 @@ Route::get('organization-last', 'OrganizationController@latest');
 Route::post('currency/rates', 'CurrencyController@rates');
 Route::get('serial-num', 'SerialNumberController@latest');
 Route::post('financial-account', 'FinancialRecordController@byaccount');
+Route::post('storage-station', 'FuelStationStorageController@bystation');

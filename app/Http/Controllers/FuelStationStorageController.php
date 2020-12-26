@@ -92,4 +92,9 @@ class FuelStationStorageController extends Controller
         $storage->delete();
         return ['message' => 'User Deleted'];
     }
+    public function bystation(Request $request, fuel_station_storage $fuel_station_storage)
+    {
+        return Fuel_station_storage::where('station_id', $request->id)->get();
+    }
+
 }

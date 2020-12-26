@@ -19,8 +19,8 @@ class CreateFuelDespStrsTable extends Migration
             $table->unsignedBigInteger('despencer_id');
 
             $table->timestamps();
-            $table->foreign('storage_id')->references('id')->on('fuel_despensers');
-            $table->foreign('despencer_id')->references('id')->on('fuel_station_storages');
+            $table->foreign('storage_id')->references('id')->on('fuel_station_storages');
+            $table->foreign('despencer_id')->references('id')->on('fuel_despensers');
         });
     }
 

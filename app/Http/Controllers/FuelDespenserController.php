@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fuel_despenser;
+use App\Models\Fuel_desp_str;
 use Illuminate\Http\Request;
 
 class FuelDespenserController extends Controller
@@ -12,9 +13,9 @@ class FuelDespenserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Fuel_despenser::with(['fuel_station'])->get();
     }
 
     /**
@@ -35,7 +36,11 @@ class FuelDespenserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $despenser = Fuel_despenser::create($request->all());
+        foreach ($request->storage_id as $key => $storage) {
+            Fuel_desp_str::create(['storage_id' => $storage['id'], 'despencer_id'=> $despenser->id]);
+        }
+        return $despenser;
     }
 
     /**
@@ -78,8 +83,11 @@ class FuelDespenserController extends Controller
      * @param  \App\Models\Fuel_despenser  $fuel_despenser
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Fuel_despenser $fuel_despenser)
+    public function destroy($id)
     {
-        //
+        \Schema::disableForeignKeyConstraints();
+        $fuel_despenser = Fuel_despenser::findOrFail($id);
+        return $fuel_despenser->delete();
+
     }
 }
