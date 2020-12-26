@@ -341,23 +341,48 @@
 
               </vs-table>
 
-              <!-- end -->
+
+          <!-- end -->
             </div>
-          </div>
+
+   
+
         </div>
       </div>
-    </vs-col>
-  </vs-row>
-  <vs-row vs-w="12">
+    </div>
+ 
+ 
+ 
+ 
+ 
+   </vs-col>
 
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
+     <ItemType></ItemType>
+   </vs-col>
+   <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
+    <Uom></Uom>
+   </vs-col>  
+   
   </vs-row>
+
+ 
+
 </div>
+
 </template>
 
 <script>
+
+import ItemType from './ItemType'
+import Uom from "./Uom"
 import vSelect from 'vue-select'
 export default {
-  name: 'vx-settings',
+    components: {
+        ItemType,
+        Uom,
+      'v-select': vSelect,
+    },
   data() {
     return {
       exRateForm: true,
@@ -393,9 +418,6 @@ export default {
       have_type: 0,
 
     };
-  },
-  components: {
-    'v-select': vSelect,
   },
   created() {
     this.getAllCurrency();

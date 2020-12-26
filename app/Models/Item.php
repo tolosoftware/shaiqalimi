@@ -9,9 +9,9 @@ class Item extends Model
     protected $fillable = [
         'type_id',
         'name',
-        'min_uom_id',
-        'sub_oum_id',
-        'unit_equivalent',
+        'uom_id',
+        'uom_equiv_id',
+        'equivalent',
         'description',
     ];
     public function stock_records()
@@ -24,10 +24,10 @@ class Item extends Model
     }
     public function measurment_unites_min()
     {
-        return $this->belongsTo(MeasurmentUnit::class, 'min_uom_id');
+        return $this->belongsTo(MeasurmentUnit::class, 'uom_id');
     }
     public function measurment_unites_sub()
     {
-        return $this->belongsTo(MeasurmentUnit::class, 'sub_oum_id');
+        return $this->belongsTo(MeasurmentUnit::class, 'uom_equiv_id');
     }
 }

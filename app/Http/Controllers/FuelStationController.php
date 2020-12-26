@@ -14,7 +14,7 @@ class FuelStationController extends Controller
      */
     public function index()
     {
-        //
+        return Fuel_station::all();
     }
 
     /**
@@ -35,7 +35,16 @@ class FuelStationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Fuel_station::create([
+          
+            'name' => $request['name'],
+            'manager' => $request['manager'],
+            'phone' => $request['phone'],
+            'address' => $request['address'],
+           
+           
+        ]);
+
     }
 
     /**
@@ -78,8 +87,10 @@ class FuelStationController extends Controller
      * @param  \App\Models\Fuel_station  $fuel_station
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Fuel_station $fuel_station)
+    public function destroy($id)
     {
-        //
+        $user = Fuel_station::findOrFail($id);
+        $user->delete();
+        return ['message' => 'station Deleted'];
     }
 }

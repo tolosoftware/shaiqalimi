@@ -28,17 +28,6 @@ class CreateProjectsTable extends Migration
             $table->foreign('proposal_id')->references('id')->on('proposals');
             $table->foreign('user_id')->references('id')->on('users');
 
-            // $table->string('type')->default(1);
-            // $table->bigInteger('price')->default(0);
-            // $table->bigInteger('duration')->nullable();
-            // $table->date('offer_date')->nullable();
-            // $table->date('close_date')->nullable();
-            // $table->bigInteger('offer_price')->nullable();
-            // $table->bigInteger('project_price')->nullable();
-            // $table->unsignedBigInteger('announce_id')->nullable();
-            // $table->unsignedBigInteger('organization_id')->nullable();
-
-
         });
     }
 
