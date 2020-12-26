@@ -43,6 +43,8 @@ Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
 Route::resource('godam', 'InventoryController');
 
+Route::resource('financial', 'FinancialRecordController');
+Route::resource('despenser', 'FuelDespenserController');
 
 // Latest Records
 // Route::get('announce-last','ProposalController@latest');
@@ -50,3 +52,5 @@ Route::get('project-last', 'ProjectController@latest');
 Route::get('organization-last', 'OrganizationController@latest');
 Route::post('currency/rates', 'CurrencyController@rates');
 Route::get('serial-num', 'SerialNumberController@latest');
+Route::post('financial-account', 'FinancialRecordController@byaccount');
+Route::post('storage-station', 'FuelStationStorageController@bystation');

@@ -187,5 +187,9 @@ export default {
     project_price: 'قیمت پروژه',
     announce_id: 'اعلان',
     organization_id: 'نهاد',
+    project: 'قرارداد',
+    inc: 'درآمدی',
+    exp: 'مخارج',
+    nor: 'نارمل',
   }
 }

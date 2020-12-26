@@ -13,65 +13,69 @@
         <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
         <!-- <vs-button @click="testTost">tost</vs-button> -->
 
-        <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Search account" class="mt-1 float-right" style="max-width:320px" />
+        <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Search account" class="mt-1 float-right" style="max-width:320px" /> -->
 
       </div>
     </div>
   </vs-card>
-  <vs-card v-for="fruit in fruits" :key="fruit">
-    <vs-table max-items="3" pagination :data="accounts">
+  <vs-card v-for="(type, i) in accountTypes" :key="i">
+    <vs-table max-items="3" pagination :data="type.accounts">
       <template slot="header">
         <h4 class="p-4">
           <b>
-            {{ fruit }}
+            {{ type.title }}
           </b>
         </h4>
       </template>
       <template slot="thead">
-        <vs-th> ریفرینس کد </vs-th>
         <vs-th> نام </vs-th>
+        <vs-th> ریفرینس کد </vs-th>
         <vs-th> تفصیلات </vs-th>
-        <vs-th> نوعیت </vs-th>
+        <vs-th> وضعیت </vs-th>
         <vs-th> تنظیمات </vs-th>
       </template>
 
       <template slot-scope="{ data }">
         <vs-tr :key="i" v-for="(tr, i) in data">
-          <vs-td :data="tr.ref_code">
-            {{ tr.ref_code }}
-          </vs-td>
-
           <vs-td :data="tr.name">
             {{ tr.name }}
+          </vs-td>
+          <vs-td :data="tr.ref_code">
+            {{ tr.ref_code }}
           </vs-td>
 
           <vs-td :data="tr.description">
             {{ tr.description }}
           </vs-td>
-          <vs-td :data="tr.type_id">
-            {{ findType(tr.type_id) }}
+          <vs-td :data="tr.status">
+            <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
           </vs-td>
           <vs-td class="whitespace-no-wrap notupfromall">
-            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="editAccount(tr.id)"/>
+            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="editAccount(tr.id)" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" />
           </vs-td>
 
         </vs-tr>
       </template>
     </vs-table>
+    <vs-popup class="holamundo financial-records-modal" title="اطلاعات معاملات تجاری" :active.sync="popupActive">
+      <financial-records :recordsData="financialRecordsData"></financial-records>
+    </vs-popup>
   </vs-card>
-
-  <vs-pagination :total="40" v-model="currentx"></vs-pagination>
 </div>
 </template>
 
 <script>
 import Accountadd from "./Accountadd.vue";
+import FinancialRecords from "../transactions/FinancialRecords"
 import vSelect from "vue-select";
+
 export default {
   components: {
     "v-select": vSelect,
     Accountadd,
+    FinancialRecords,
   },
   data: () => ({
     // Data Sidebar
@@ -88,13 +92,14 @@ export default {
       id: null
     }),
     currentx: 14,
-    fruits: ["قراداد ها", "بانکها", "دارایی ها", "مشتریان", "مصارف"],
-
     accounts: [],
     accountTypes: [],
+
+    // financialRecordsData Values
+    popupActive: false,
+    financialRecordsData: [],
   }),
   created() {
-    this.getAllAccounts();
     this.getAllAccountTypes();
   },
   methods: {
@@ -104,14 +109,13 @@ export default {
       return name;
     },
     editAccount(id) {
-      console.log(this.accForm);
       this.$Progress.start()
       this.axios.get('/api/account/' + id)
         .then((response) => {
-          for (let [key,value] of Object.entries(response.data)) {
+          for (let [key, value] of Object.entries(response.data)) {
             this.accForm[key] = value;
-          }      
-          if(response.data.financial_records[0]) {
+          }
+          if (response.data.financial_records[0]) {
             this.accForm.credit = response.data.financial_records[0].credit;
             this.accForm.debit = response.data.financial_records[0].debit;
           }
@@ -147,29 +151,31 @@ export default {
                 text: "حساب از سیستم پاک شد!",
                 icon: 'success',
               })
-              this.getAllAccounts();
+              this.getAllAccountTypes();
             })
             .catch(() => {});
         }
       })
 
     },
-    // Get Account Types
-    getAllAccounts() {
-      this.$Progress.start()
-      this.axios.get('/api/account')
-        .then((response) => {
-          this.accounts = response.data;
-          this.$Progress.set(100)
-        })
-    },
     addNewData() {
       this.editAccData = {};
       this.toggleDataSidebar(true);
     },
     toggleDataSidebar(val = false) {
-      this.getAllAccounts();
+      this.getAllAccountTypes();
       this.addNewDataSidebar = val;
+    },
+
+    // Financial Records Modal
+    openFinancialRecords(data) {
+      this.$Progress.start()
+      this.axios.post('/api/financial-account', data)
+        .then((response) => {
+          this.financialRecordsData = response.data;
+          this.$Progress.set(100)
+          this.popupActive = true;
+        })
     },
 
     // testTost() {
@@ -198,5 +204,9 @@ export default {
 <style lang="stylus">
 .vs-input--icon {
   top: 12px;
+}
+
+.financial-records-modal .vs-popup{
+  min-width: 80% !important;
 }
 </style>

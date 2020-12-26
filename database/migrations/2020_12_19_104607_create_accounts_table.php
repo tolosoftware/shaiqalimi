@@ -25,7 +25,7 @@ class CreateAccountsTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('NO ACTION');
-            $table->foreign('type_id')->references('id')->on('accounts')->onDelete('NO ACTION');
+            $table->foreign('type_id')->references('id')->on('account_types')->onDelete('NO ACTION');
         });
     }
 

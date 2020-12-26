@@ -79,7 +79,9 @@
 
 <script>
 export default {
-  name: 'ذخیره 23-project-list',
+  // name: 'project-list',
+
+    props: ["seletedStation"],
   data() {
     return {
       statusFa: {
@@ -98,7 +100,7 @@ export default {
   components: {
   },
   created() {
-
+    console.log(this.seletedStation);
   },
   computed: {
     currentPage() {

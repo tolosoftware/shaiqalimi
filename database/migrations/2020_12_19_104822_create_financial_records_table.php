@@ -20,8 +20,8 @@ class CreateFinancialRecordsTable extends Migration
             $table->unsignedBigInteger('account_id');
             $table->text('description');
             $table->unsignedBigInteger('currency_id');
-            $table->decimal('credit');
-            $table->decimal('debit');
+            $table->decimal('credit')->nullable();
+            $table->decimal('debit')->nullable();
             $table->unsignedBigInteger('ex_rate_id');
             $table->string('status');
             $table->timestamps();

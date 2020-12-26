@@ -14,7 +14,8 @@ class AccountTypeController extends Controller
      */
     public function index()
     {
-        return AccountType::all();
+        return AccountType::with('accounts')->get();
+        // return AccountType::all();
     }
 
     /**
