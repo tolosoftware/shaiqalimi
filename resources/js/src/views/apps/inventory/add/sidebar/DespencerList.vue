@@ -71,7 +71,7 @@
 
 <script>
 export default {
-  name: 'دسپنسر -project-list',
+  // name: 'project-list',
   data() {
     return {
       statusFa: {
