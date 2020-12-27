@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\SerialNumber;
+use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 
 class SerialNumberController extends Controller
@@ -41,7 +41,7 @@ class SerialNumberController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\SerialNumber  $serialNumber
+     * @param  \App\Models\SerialNumber  $serialNumber
      * @return \Illuminate\Http\Response
      */
     public function show(SerialNumber $serialNumber)
@@ -52,7 +52,7 @@ class SerialNumberController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\SerialNumber  $serialNumber
+     * @param  \App\Models\SerialNumber  $serialNumber
      * @return \Illuminate\Http\Response
      */
     public function edit(SerialNumber $serialNumber)
@@ -64,7 +64,7 @@ class SerialNumberController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\SerialNumber  $serialNumber
+     * @param  \App\Models\SerialNumber  $serialNumber
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, SerialNumber $serialNumber)
@@ -75,7 +75,7 @@ class SerialNumberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\SerialNumber  $serialNumber
+     * @param  \App\Models\SerialNumber  $serialNumber
      * @return \Illuminate\Http\Response
      */
     public function destroy(SerialNumber $serialNumber)
@@ -86,7 +86,7 @@ class SerialNumberController extends Controller
     public function latest(Request $request)
     {
         if($resp = SerialNumber::where('type', $request->type)->latest()->first()){
-            return $resp->integer + 1;
+            return $resp->value + 1;
         }
         else {
             return 101;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\StockRecord;
+use App\Models\StockRecord;
 use Illuminate\Http\Request;
 
 class StockRecordController extends Controller
@@ -41,7 +41,7 @@ class StockRecordController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\StockRecord  $stockRecord
+     * @param  \App\Models\StockRecord  $stockRecord
      * @return \Illuminate\Http\Response
      */
     public function show(StockRecord $stockRecord)
@@ -52,7 +52,7 @@ class StockRecordController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\StockRecord  $stockRecord
+     * @param  \App\Models\StockRecord  $stockRecord
      * @return \Illuminate\Http\Response
      */
     public function edit(StockRecord $stockRecord)
@@ -64,7 +64,7 @@ class StockRecordController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\StockRecord  $stockRecord
+     * @param  \App\Models\StockRecord  $stockRecord
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, StockRecord $stockRecord)
@@ -75,7 +75,7 @@ class StockRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\StockRecord  $stockRecord
+     * @param  \App\Models\StockRecord  $stockRecord
      * @return \Illuminate\Http\Response
      */
     public function destroy(StockRecord $stockRecord)

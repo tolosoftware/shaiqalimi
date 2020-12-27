@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\models\Account;
-use App\models\AccountType;
-use App\models\Client;
+use App\Models\Account;
+use App\Models\AccountType;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -52,8 +52,8 @@ class ClientController extends Controller
         // if ($accountType) {
         // $lastAccountType = AccountType::latest()->first();
         $account = Account::create([
-            'user_id' => 1,
-            'type_id' => 24,
+            'user_id' => 4,
+            'type_id' => 2,
             'name' => $request['name'],
             'ref_code' => 1223,
             'status' => 1,
@@ -100,7 +100,7 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\Client  $client
+     * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
     public function show(Client $client)
@@ -111,7 +111,7 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\Client  $client
+     * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
     public function edit(Client $client)
@@ -123,7 +123,7 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Client  $client
+     * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Client $client)
@@ -161,7 +161,7 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\Client  $client
+     * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
     public function destroy(Client $client)

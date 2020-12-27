@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\models\MeasurmentUnit;
+use App\Models\MeasurmentUnit;
 use Illuminate\Database\Eloquent\Model;
 
 class Storage extends Model

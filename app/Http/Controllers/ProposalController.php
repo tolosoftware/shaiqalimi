@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\models\Proposal;
-use App\models\SerialNumber;
-use App\models\ProItem;
-use App\models\ProData;
-use App\models\Currency;
+use App\Models\Proposal;
+use App\Models\SerialNumber;
+use App\Models\ProItem;
+use App\Models\ProData;
+use App\Models\Currency;
 
 use Illuminate\Http\Request;
 
@@ -58,7 +58,7 @@ class ProposalController extends Controller
         // Get The last serial number for the proposal.
         $serial_number = SerialNumber::where('type', 'prop')->latest()->first();
         if($serial_number) {
-            $request['serial_no'] = $serial_number->integer + 1;
+            $request['serial_no'] = $serial_number->value + 1;
         }
         else{
             $request['serial_no'] = 101;
@@ -67,7 +67,7 @@ class ProposalController extends Controller
         $serial_number = [
             'type' => 'prop',
             'prefix' => 'pro',
-            'integer' => $request['serial_no'],
+            'value' => $request['serial_no'],
         ];
         if(gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
@@ -120,7 +120,7 @@ class ProposalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\Proposal  $proposal
+     * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
     public function show(Proposal $proposal)
@@ -132,7 +132,7 @@ class ProposalController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\Proposal  $proposal
+     * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
     public function edit(Proposal $proposal)
@@ -144,7 +144,7 @@ class ProposalController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Proposal  $proposal
+     * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Proposal $proposal)
@@ -207,7 +207,7 @@ class ProposalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\Proposal  $proposal
+     * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
     public function destroy(Proposal $proposal)

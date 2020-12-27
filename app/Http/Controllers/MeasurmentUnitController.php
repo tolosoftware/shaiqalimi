@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\MeasurmentUnit;
+use App\Models\MeasurmentUnit;
 use Illuminate\Http\Request;
 
 class MeasurmentUnitController extends Controller
@@ -44,7 +44,7 @@ class MeasurmentUnitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\MeasurmentUnit  $measurmentUnit
+     * @param  \App\Models\MeasurmentUnit  $measurmentUnit
      * @return \Illuminate\Http\Response
      */
     public function show(MeasurmentUnit $measurmentUnit)
@@ -55,7 +55,7 @@ class MeasurmentUnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\MeasurmentUnit  $measurmentUnit
+     * @param  \App\Models\MeasurmentUnit  $measurmentUnit
      * @return \Illuminate\Http\Response
      */
     public function edit(MeasurmentUnit $measurmentUnit)
@@ -67,7 +67,7 @@ class MeasurmentUnitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\MeasurmentUnit  $measurmentUnit
+     * @param  \App\Models\MeasurmentUnit  $measurmentUnit
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, MeasurmentUnit $measurmentUnit)
@@ -78,7 +78,7 @@ class MeasurmentUnitController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\MeasurmentUnit  $measurmentUnit
+     * @param  \App\Models\MeasurmentUnit  $measurmentUnit
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

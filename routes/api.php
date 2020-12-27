@@ -26,6 +26,8 @@ Route::resource('item', 'ItemController');
 Route::resource('uom', 'MeasurmentUnitController');
 Route::resource('storage', 'StorageController');
 Route::resource('fuelstation', 'FuelStationController');
+Route::resource('fuelstorestation', 'FuelStationStorageController');
+Route::post('users1','UserController@store');
 Route::post('users1', 'UserController@store');
 
 // Product Review

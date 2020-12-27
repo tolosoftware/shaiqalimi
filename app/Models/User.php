@@ -3,11 +3,11 @@
 
 namespace App\Models;
 
-use App\models\Account;
-use App\models\ExchangeRate;
-use App\models\Proposal;
-use App\models\UserAssignment;
-use App\models\UserNotification;
+use App\Models\Account;
+use App\Models\ExchangeRate;
+use App\Models\Proposal;
+use App\Models\UserAssignment;
+use App\Models\UserNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

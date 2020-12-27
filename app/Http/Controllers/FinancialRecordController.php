@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\FinancialRecord;
+use App\Models\FinancialRecord;
 use Illuminate\Http\Request;
 
 class FinancialRecordController extends Controller
@@ -41,7 +41,7 @@ class FinancialRecordController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\FinancialRecord  $financialRecord
+     * @param  \App\Models\FinancialRecord  $financialRecord
      * @return \Illuminate\Http\Response
      */
     public function show(FinancialRecord $financialRecord)
@@ -52,7 +52,7 @@ class FinancialRecordController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\FinancialRecord  $financialRecord
+     * @param  \App\Models\FinancialRecord  $financialRecord
      * @return \Illuminate\Http\Response
      */
     public function edit(FinancialRecord $financialRecord)
@@ -64,7 +64,7 @@ class FinancialRecordController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\FinancialRecord  $financialRecord
+     * @param  \App\Models\FinancialRecord  $financialRecord
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, FinancialRecord $financialRecord)
@@ -75,7 +75,7 @@ class FinancialRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\FinancialRecord  $financialRecord
+     * @param  \App\Models\FinancialRecord  $financialRecord
      * @return \Illuminate\Http\Response
      */
     public function destroy(FinancialRecord $financialRecord)

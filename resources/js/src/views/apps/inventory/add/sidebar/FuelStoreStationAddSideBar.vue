@@ -6,19 +6,13 @@
         <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
     </div>
     <div class="p-6">
+     
+        <!-- <vs-input class="w-full" :value="data.id" v-model="form.station_id" hidden/> -->
+
 
         <div class="vx-row mb-6">
             <div class="vx-col w-full">
-                <label for class="vs-input--label">انتخاب تانگ تیل</label>
-                <v-select v-model="form.station_id" label="name" :options="fuelstation" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-                    <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
-                </v-select>
-            </div>
-        </div>
-
-        <div class="vx-row mb-6">
-            <div class="vx-col w-full">
-                <vs-input class="w-full" label="نام" v-model="form.name"/>
+                <vs-input class="w-full" label="نام" v-model="form.name" />
             </div>
         </div>
 
@@ -30,7 +24,7 @@
 
         <div class="vx-row mb-6">
             <div class="vx-col w-full">
-                <vs-input class="w-full" label="ظرفیت" v-model="form.capacity"/>
+                <vs-input class="w-full" label="ظرفیت" v-model="form.capacity" />
             </div>
         </div>
 
@@ -57,18 +51,18 @@
 import vSelect from 'vue-select'
 
 export default {
-    props: ['data', 'isSidebarActive', 'seletedStation'],
+    props: ['data', 'isSidebarActive'],
     components: {
         'v-select': vSelect,
     },
     data() {
         return {
-            fuelstation: [],
-            uom: [],
 
+            uom: [],
+            station:[],
             form: new Form({
                 id: '',
-                station_id: '',
+                station_id: null,
                 name: '',
                 supervisor: '',
                 capacity: '',
@@ -84,6 +78,7 @@ export default {
     },
 
     computed: {
+
         isSidebarActiveLocal: {
             get() {
                 return this.isSidebarActive
@@ -101,25 +96,44 @@ export default {
     },
 
     created() {
-        this.loadfuelstation();
         this.loaduom();
+        this.loadfuelstation();
     },
     methods: {
+    
         submitData() {
-            console.log(this.seletedStation);
+          this.form.station_id = this.data.id;
+            this.form.post('/api/fuelstorestation')
+                .then(() => {
+                    this.$vs.notify({
+                        title: ' ذخیره جدید اضافه شد',
+                        text: 'عملیه موفغانه انجام شد',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                    this.form.reset();
+                })
+
+                .catch(() => {
+
+                })
         },
 
-        loadfuelstation() {
-            this.axios.get('/api/fuelstation').then(({
-                data
-            }) => (this.fuelstation = data));
-        },
+     
 
         loaduom() {
             this.axios.get('/api/uom').then(({
                 data
             }) => (this.uom = data));
         },
+
+         loadfuelstation() {
+        this.axios.get('/api/fuelstation').then(({
+            data
+        }) => (this.station = data));
+      }
 
     }
 

@@ -4,7 +4,7 @@
     <div class="vx-card">
         <div class="vx-card__header">
             <div class="vx-card__title">
-                <h4 class="">نوعیت محصولات </h4>
+                <h4 class=""> ثبت واحدات اندازه گیری </h4>
             </div>
         </div>
         <vs-divider></vs-divider>

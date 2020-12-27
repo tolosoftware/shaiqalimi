@@ -7,10 +7,10 @@ use App\Models\SerialNumber;
 use App\Models\Currency;
 use App\Models\ProData;
 use App\Models\ProItem;
-use App\models\Account;
-use App\models\AccountType;
-use App\models\FinancialRecord;
-use App\models\ExchangeRate;
+use App\Models\Account;
+use App\Models\AccountType;
+use App\Models\FinancialRecord;
+use App\Models\ExchangeRate;
 
 
 use Illuminate\Http\Request;
@@ -66,7 +66,7 @@ class ProjectController extends Controller
         ]);
         $serial_number = SerialNumber::where('type', 'pro')->latest()->first();
         if($serial_number) {
-            $request['serial_no'] = $serial_number->integer + 1;
+            $request['serial_no'] = $serial_number->value + 1;
         }
         else{
             $request['serial_no'] = 101;
@@ -75,7 +75,7 @@ class ProjectController extends Controller
         $serial_number = [
             'type' => 'pro',
             'prefix' => 'pro',
-            'integer' => $request['serial_no'],
+            'value' => $request['serial_no'],
         ];
         if(gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
@@ -142,7 +142,7 @@ class ProjectController extends Controller
             // Create the Account beside the project
             $typeId = AccountType::latest()->first()->id;
             $data = [
-                'user_id' => 1,
+                'user_id' => 4,
                 'type_id' => $typeId,
                 'name' => $request->title,
                 'ref_code' => $resp->id,
@@ -160,7 +160,7 @@ class ProjectController extends Controller
                     'description' => 'Dynamically Created For Project.' . $resp->id,
                     'currency_id' => Currency::latest()->first()->id,
                     'credit' => $request->pr_worth,
-                    'debit' => null,
+                    'debit' => 0,
                     'ex_rate_id' => ExchangeRate::latest()->first()->id,
                     'status' => 'opn'   
                 ];

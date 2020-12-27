@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\UserNotification;
+use App\Models\UserNotification;
 use Illuminate\Http\Request;
 
 class UserNotificationController extends Controller
@@ -41,7 +41,7 @@ class UserNotificationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\UserNotification  $userNotification
+     * @param  \App\Models\UserNotification  $userNotification
      * @return \Illuminate\Http\Response
      */
     public function show(UserNotification $userNotification)
@@ -52,7 +52,7 @@ class UserNotificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\UserNotification  $userNotification
+     * @param  \App\Models\UserNotification  $userNotification
      * @return \Illuminate\Http\Response
      */
     public function edit(UserNotification $userNotification)
@@ -64,7 +64,7 @@ class UserNotificationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\UserNotification  $userNotification
+     * @param  \App\Models\UserNotification  $userNotification
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, UserNotification $userNotification)
@@ -75,7 +75,7 @@ class UserNotificationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\UserNotification  $userNotification
+     * @param  \App\Models\UserNotification  $userNotification
      * @return \Illuminate\Http\Response
      */
     public function destroy(UserNotification $userNotification)
