@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\models\Account;
+use App\Models\Account;
 use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model

@@ -160,6 +160,8 @@ return [
         'website' => 'ویب سایت',
         'address' => 'آدرس',
         'logo' => 'لوگو',
+        'manager' => 'مسول',
+        'description' => 'توضیحات'
     ],
 
 ];

@@ -35,9 +35,9 @@ class FuelStationStorageController extends Controller
      */
     public function store(Request $request)
     {
-       
+     
         return Fuel_station_storage::create([
-            'station_id' => $request['station_id']['id'],
+            'station_id' => $request['station_id'],
             'name' => $request['name'],
             'supervisor' => $request['supervisor'],
             'capacity' => $request['capacity'],

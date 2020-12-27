@@ -4,10 +4,10 @@
         <template slot="thead">
               <vs-th sort-key="name">شماره</vs-th>
             <vs-th sort-key="name">نام</vs-th>
-            <vs-th sort-key="popularity">تانگ استیشن</vs-th>
+            <vs-th sort-key="popularity">تانک استیشن</vs-th>
             <vs-th sort-key="popularity">مسول</vs-th>
             <vs-th sort-key="category">ظرقیت</vs-th>
-            <vs-th sort-key="order_status">واحد انداره گیری</vs-th>
+            <vs-th sort-key="order_status">واحد </vs-th>
             <vs-th>تنظیمات</vs-th>
 
         </template>
@@ -56,7 +56,7 @@
 <script>
 export default {
     // name: 'project-list',
-    props: ["seletedStation"],
+    props: ['fuelstorage'],
     data() {
         return {
 
@@ -76,131 +76,25 @@ export default {
     },
     components: {},
     created() {
-        console.log(this.seletedStation);
+     
     },
-    computed: {
-        currentPage() {
-            if (this.isMounted) {
-                return this.$refs.table.currentx
-            }
-            return 0
-        },
-        products() {
-            return [{
-                    id: 4,
-                    category: "9843",
-                    img: require("@assets/images/profile/user-uploads/user-01.jpg"),
-                    name: 'ذخیره 2',
-                    order_status: "delivered",
-                    popularity: 65,
-                    price: 199.99
-                },
 
-                {
-                    id: 5,
-                    category: "9843",
-                    img: require("@assets/images/profile/user-uploads/user-02.jpg"),
-                    name: 'ذخیره 3',
-                    order_status: "canceled",
-                    popularity: 87,
-                    price: 199.99
-                },
-                {
-                    id: 6,
-                    category: "23",
-                    img: require("@assets/images/profile/user-uploads/user-03.jpg"),
-                    name: 'ذخیره 233',
-                    order_status: "canceled",
-                    popularity: 55,
-                    price: 39.99
-                },
-                {
-                    id: 7,
-                    category: "23",
-                    img: require("@assets/images/profile/user-uploads/user-04.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "on_hold",
-                    popularity: 99,
-                    price: 39.99
-                },
-                {
-                    id: 8,
-                    category: "23",
-                    img: require("@assets/images/profile/user-uploads/user-05.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "canceled",
-                    popularity: 91,
-                    price: 39.99
-                },
-                {
-                    id: 10,
-                    category: "23",
-                    img: require("@assets/images/profile/user-uploads/user-06.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "canceled",
-                    popularity: 64,
-                    price: 39.99
-                },
-                {
-                    id: 1,
-                    category: "23 ال پی جی",
-                    img: require("@assets/images/profile/user-uploads/user-07.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "on_hold",
-                    popularity: 97,
-                    price: 69.99
-                },
-                {
-                    id: 2,
-                    category: "2",
-                    img: require("@assets/images/profile/user-uploads/user-08.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "delivered",
-                    popularity: 83,
-                    price: 69.99
-                },
-                {
-                    id: 3,
-                    category: "2",
-                    img: require("@assets/images/profile/user-uploads/user-09.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "canceled",
-                    popularity: 57,
-                    price: 199.99
-                },
-                {
-                    id: 9,
-                    category: "2",
-                    img: require("@assets/images/profile/user-uploads/user-07.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "delivered",
-                    popularity: 52,
-                    price: 39.99
-                },
-                {
-                    id: 19,
-                    category: "2",
-                    img: require("@assets/images/profile/user-uploads/user-03.jpg"),
-                    name: 'ذخیره 23',
-                    order_status: "delivered",
-                    popularity: 52,
-                    price: 39.99
-                }
-            ]
-        },
-        queriedItems() {
-            return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
-        }
+     computed: {
+    currentPage() {
+      if (this.isMounted) {
+        return this.$refs.table.currentx
+      }
+      return 0
     },
+    queriedItems() {
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.fuelstorage.length
+    }
+  },
     created() {
-        this.loadfullstorage();
+       
     },
     methods: {
-        loadfullstorage() {
-            this.axios.get('/api/fuelstorestation').then(({
-                data
-            }) => (this.fuelstorage = data));
-        },
+     
         // Start Custom
         goTo(data) {
             this.$router.push({
@@ -243,7 +137,14 @@ export default {
                         )
                          this.loadfullstorage();
                     }).catch(() => {
-                        swal("Failed!", "سیستم قادر به حذف نیست دوباره تلاش نماید.", "warning");
+                         this.$vs.notify({
+                            title: 'ناموفق!',
+                            text: ' سیستم قادر به حذف نمیباشد!',
+                            color: 'danger',
+                            iconPack: 'feather',
+                            icon: 'icon-cross',
+                            position: 'top-right'
+                            })
                     })
                 }
             })

@@ -28,6 +28,7 @@ Route::resource('storage', 'StorageController');
 Route::resource('fuelstation', 'FuelStationController');
 Route::resource('fuelstorestation', 'FuelStationStorageController');
 Route::post('users1','UserController@store');
+Route::post('users1', 'UserController@store');
 
 // Product Review
 Route::resource('project', 'ProjectController');
@@ -42,6 +43,8 @@ Route::resource('items', 'ItemController');
 Route::resource('m-units', 'MeasurmentUnitController');
 Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
+Route::resource('godam', 'InventoryController');
+
 Route::resource('financial', 'FinancialRecordController');
 Route::resource('despenser', 'FuelDespenserController');
 

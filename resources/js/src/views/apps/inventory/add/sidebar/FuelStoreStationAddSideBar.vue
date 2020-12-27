@@ -6,17 +6,9 @@
         <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
     </div>
     <div class="p-6">
-        {{ data.id }}
+     
         <!-- <vs-input class="w-full" :value="data.id" v-model="form.station_id" hidden/> -->
 
-        <div class="vx-row mb-6">
-            <div class="vx-col w-full">
-                <label for class="vs-input--label">انتخاب تانک تیل </label>
-                <v-select v-model="form.station_id" label="name" :options="station" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-                    <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
-                </v-select>
-            </div>
-        </div>
 
         <div class="vx-row mb-6">
             <div class="vx-col w-full">
@@ -70,7 +62,7 @@ export default {
             station:[],
             form: new Form({
                 id: '',
-                station_id:'',
+                station_id: null,
                 name: '',
                 supervisor: '',
                 capacity: '',
@@ -108,7 +100,9 @@ export default {
         this.loadfuelstation();
     },
     methods: {
+    
         submitData() {
+          this.form.station_id = this.data.id;
             this.form.post('/api/fuelstorestation')
                 .then(() => {
                     this.$vs.notify({
