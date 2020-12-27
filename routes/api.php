@@ -42,6 +42,7 @@ Route::resource('m-units', 'MeasurmentUnitController');
 Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
 Route::resource('godam', 'InventoryController');
+Route::post('godam_row', 'InventoryController@getRow');
 
 Route::resource('financial', 'FinancialRecordController');
 Route::resource('despenser', 'FuelDespenserController');

@@ -43,13 +43,14 @@ class InventoryController extends Controller
             'description' => 'required|min:5',
         ]);
 
-        return Inventory::create([
+        Inventory::create([
             'name' => $request['name'],
             'address' => $request['address'],
             'manager' => $request['manager'],
             'phone' => $request['phone'],
             'description' => $request['description']
         ]);
+        return response()->json(['status' => 'success']);
     }
 
     /**
@@ -92,8 +93,15 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy($id)
     {
-        //
+        $inventory = Inventory::findOrFail($id);
+        $inventory->delete();
+        return response()->json(['status' => 'success']);
+    }
+
+    public function getRow(Request $request)
+    {
+        return Inventory::where('id', $request->id)->get();
     }
 }
