@@ -98,7 +98,7 @@ class ProjectController extends Controller
                     'currency_id' => Currency::latest()->first()->id,
                     'total_price' => 1000,
                     'total_price' => $request->total_price,
-                    'proposal_id' => null,
+                    // 'proposal_id' => null,
                     'project_id' => $resp->id, 
                 ];
                 ProData::where('proposal_id', $request['proposal_id'])->update($proData);    
@@ -182,7 +182,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return $project;
+        return Project::with(['pro_data.client', 'pro_items', 'proposal_id.pro_data.client'])->latest()->find($project->id);
     }
 
     /**

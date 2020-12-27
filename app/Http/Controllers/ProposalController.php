@@ -20,7 +20,7 @@ class ProposalController extends Controller
     public function index()
     {
         
-        return Proposal::with(['pro_data', 'pro_items'])->whereHas('pro_data', function ($query) {
+        return Proposal::with(['pro_data.client', 'pro_items'])->whereHas('pro_data', function ($query) {
             return $query->where('proposal_id', '!=', null);
         })->latest()->get();
     }
@@ -126,7 +126,7 @@ class ProposalController extends Controller
     public function show(Proposal $proposal)
     {
         // return $proposal::with(['pro_data', 'pro_items']);
-        return Proposal::with(['pro_data', 'pro_items'])->latest()->find($proposal->id);
+        return Proposal::with(['pro_data.client_id', 'pro_items'])->latest()->find($proposal->id);
     }
 
     /**

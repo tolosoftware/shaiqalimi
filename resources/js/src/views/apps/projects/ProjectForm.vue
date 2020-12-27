@@ -12,7 +12,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>انتخاب اعلان</small></label>
-            <v-select name="serial_no" :clearable="false" label="serial_no" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+            <v-select name="serial_no" :clearable="false" :get-option-label="option => option.pro_data.title" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
               <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
             </v-select>
             <has-error :form="pForm" field="proposal_id"></has-error>
@@ -516,11 +516,15 @@ export default {
   },
   created() {
     this.$Progress.start()
-    this.getNextSerialNo();
     this.getAllClients();
     this.getAllItems();
     this.getAllUnites();
     this.getProposals();
+    if(this.$route.params.id) {
+      this.getProject();
+    }else{
+      this.getNextSerialNo(); 
+    }
   },
   computed: {
     isFormValid() {
@@ -530,12 +534,12 @@ export default {
   methods: {
     setProjectData(data) {
       if (data) {
-        console.log(data);
+
         if (data.pro_items) {
           this.pForm.item = data.pro_items;
         }
         if (data.pro_data) {
-          this.pForm.client_id = data.pro_data.client_id;
+          this.pForm.client_id = data.pro_data.client;
           this.pForm.deposit = data.pro_data.deposit;
           this.pForm.others = data.pro_data.others;
           this.pForm.pr_worth = data.pro_data.pr_worth;
@@ -545,6 +549,7 @@ export default {
           this.pForm.total_price = data.pro_data.total_price;
           this.pForm.transit = data.pro_data.transit;
           this.pForm.status = (data.status == 'normal') ? 1 : 2;
+          console.log(this.pForm);
         }
       }
     },
@@ -557,7 +562,6 @@ export default {
     },
 
     findItem(id) {
-      console.log();
       let item = '';
       Object.keys(this.items).some(key => (this.items[key].id == id) ? item = this.items[key].name : null);
       return item;
@@ -568,12 +572,7 @@ export default {
       return name;
     },
 
-    reloadData() {
-      this.getNextSerialNo();
-      this.getAllClients();
-      this.getAllItems();
-    },
-    // for getting the next serian number
+    // 'asdfdsfds', for getting the next serian number
     getNextSerialNo() {
       this.axios.get('/api/serial-num?type=pro')
         .then((response) => {
@@ -601,6 +600,8 @@ export default {
       this.axios.get('/api/proposal')
         .then((response) => {
           this.proposals = response.data;
+            // Object.keys(this.proposals).some(key => this.proposals[key]['title'] = this.proposals[key].pro_data.title);
+            // console.log(this.proposals);
           this.$Progress.set(100)
         })
     },
@@ -694,6 +695,35 @@ export default {
     formReset() {
       this.pForm.reset();
       this.pForm.s_number = this.mainSNumber;
+    },
+    getProject() {
+      this.axios.get('/api/project/' + this.$route.params.id)
+        .then((response) => {
+          this.setPFromValue(response.data);
+          this.$Progress.set(100)
+        })
+    },
+    setPFromValue(resp) {
+      // for (let [key,value] of Object.entries(resp)) {
+      //   this.pForm[key] = value;
+      // }
+      for (let [key, value] of Object.entries(resp.pro_data)) {
+        this.pForm[key] = value;
+      }
+      for (let [key, value] of Object.entries(resp)) {
+        if (key == 'status') {
+          this.pForm[key] = (value == 'income') ? 1 : 2;
+        } else {
+
+          this.pForm[key] = value;
+        }
+      }
+      if(resp.pro_items) {
+        this.pForm.item = resp.pro_items;
+      }
+      // console.log(resp.pro_items);
+
+      this.pForm.client_id = resp.pro_data.client;
     },
   },
   // End Of methods
