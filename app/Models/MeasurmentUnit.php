@@ -1,6 +1,6 @@
 <?php
 
-namespace App\models;
+namespace App\Models;
 
 use App\Models\Fuel_station_storage;
 use App\Models\Storage;

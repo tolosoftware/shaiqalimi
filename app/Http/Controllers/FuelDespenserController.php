@@ -85,7 +85,7 @@ class FuelDespenserController extends Controller
      */
     public function destroy($id)
     {
-        // \Schema::disableForeignKeyConstraints();
+        \Schema::disableForeignKeyConstraints();
         $fuel_despenser = Fuel_despenser::findOrFail($id);
         return $fuel_despenser->delete();
 

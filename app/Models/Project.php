@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\models\ProData;
-use App\models\ProItem;
-use App\models\Proposal;
+use App\Models\ProData;
+use App\Models\ProItem;
+use App\Models\Proposal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

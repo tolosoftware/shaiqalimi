@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\models\Account;
-use App\models\FinancialRecord;
-use App\models\Currency;
-use App\models\ExchangeRate;
+use App\Models\Account;
+use App\Models\FinancialRecord;
+use App\Models\Currency;
+use App\Models\ExchangeRate;
 
 use Illuminate\Http\Request;
 
@@ -49,7 +49,7 @@ class AccountController extends Controller
         }
 
         $data = [
-            'user_id' => 1,
+            'user_id' => 4,
             'type_id' => $request->type_id,
             'name' => $request->name,
             'ref_code' => $request->ref_code,
@@ -82,7 +82,7 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\Account  $account
+     * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
     public function show(Account $account)
@@ -93,7 +93,7 @@ class AccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\Account  $account
+     * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
     public function edit(Account $account)
@@ -105,7 +105,7 @@ class AccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Account  $account
+     * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Account $account)
@@ -120,7 +120,7 @@ class AccountController extends Controller
         }
 
         $data = [
-            'user_id' => 1,
+            'user_id' => 4,
             'type_id' => $request->type_id,
             'name' => $request->name,
             'ref_code' => $request->ref_code,
@@ -138,7 +138,7 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\Account  $account
+     * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
     public function destroy(Account $account)

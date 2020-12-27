@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\ExchangeRate;
+use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
 
 class ExchangeRateController extends Controller
@@ -41,7 +41,7 @@ class ExchangeRateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\ExchangeRate  $exchangeRate
+     * @param  \App\Models\ExchangeRate  $exchangeRate
      * @return \Illuminate\Http\Response
      */
     public function show(ExchangeRate $exchangeRate)
@@ -52,7 +52,7 @@ class ExchangeRateController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\ExchangeRate  $exchangeRate
+     * @param  \App\Models\ExchangeRate  $exchangeRate
      * @return \Illuminate\Http\Response
      */
     public function edit(ExchangeRate $exchangeRate)
@@ -64,7 +64,7 @@ class ExchangeRateController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\ExchangeRate  $exchangeRate
+     * @param  \App\Models\ExchangeRate  $exchangeRate
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ExchangeRate $exchangeRate)
@@ -75,7 +75,7 @@ class ExchangeRateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\ExchangeRate  $exchangeRate
+     * @param  \App\Models\ExchangeRate  $exchangeRate
      * @return \Illuminate\Http\Response
      */
     public function destroy(ExchangeRate $exchangeRate)

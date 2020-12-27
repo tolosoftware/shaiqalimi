@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\UserAssignment;
+use App\Models\UserAssignment;
 use Illuminate\Http\Request;
 
 class UserAssignmentController extends Controller
@@ -41,7 +41,7 @@ class UserAssignmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\UserAssignment  $userAssignment
+     * @param  \App\Models\UserAssignment  $userAssignment
      * @return \Illuminate\Http\Response
      */
     public function show(UserAssignment $userAssignment)
@@ -52,7 +52,7 @@ class UserAssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\UserAssignment  $userAssignment
+     * @param  \App\Models\UserAssignment  $userAssignment
      * @return \Illuminate\Http\Response
      */
     public function edit(UserAssignment $userAssignment)
@@ -64,7 +64,7 @@ class UserAssignmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\UserAssignment  $userAssignment
+     * @param  \App\Models\UserAssignment  $userAssignment
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, UserAssignment $userAssignment)
@@ -75,7 +75,7 @@ class UserAssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\UserAssignment  $userAssignment
+     * @param  \App\Models\UserAssignment  $userAssignment
      * @return \Illuminate\Http\Response
      */
     public function destroy(UserAssignment $userAssignment)

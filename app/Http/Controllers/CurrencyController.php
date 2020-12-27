@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\models\Currency;
-use App\models\User;
-use App\models\ExchangeRate;
+use App\Models\Currency;
+use App\Models\User;
+use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,7 +69,7 @@ class CurrencyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\Currency  $currency
+     * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
     public function show(Currency $currency)
@@ -80,7 +80,7 @@ class CurrencyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\Currency  $currency
+     * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
     public function edit(Currency $currency)
@@ -92,7 +92,7 @@ class CurrencyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Currency  $currency
+     * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Currency $currency)
@@ -111,7 +111,7 @@ class CurrencyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\Currency  $currency
+     * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
     public function destroy(Currency $currency)

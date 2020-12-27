@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\ProItem;
+use App\Models\ProItem;
 use Illuminate\Http\Request;
 
 class ProItemController extends Controller
@@ -41,7 +41,7 @@ class ProItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\ProItem  $proItem
+     * @param  \App\Models\ProItem  $proItem
      * @return \Illuminate\Http\Response
      */
     public function show(ProItem $proItem)
@@ -52,7 +52,7 @@ class ProItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\ProItem  $proItem
+     * @param  \App\Models\ProItem  $proItem
      * @return \Illuminate\Http\Response
      */
     public function edit(ProItem $proItem)
@@ -64,7 +64,7 @@ class ProItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\ProItem  $proItem
+     * @param  \App\Models\ProItem  $proItem
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ProItem $proItem)
@@ -75,7 +75,7 @@ class ProItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\ProItem  $proItem
+     * @param  \App\Models\ProItem  $proItem
      * @return \Illuminate\Http\Response
      */
     public function destroy(ProItem $proItem)

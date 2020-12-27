@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\ProData;
+use App\Models\ProData;
 use Illuminate\Http\Request;
 
 class ProDataController extends Controller
@@ -54,7 +54,7 @@ class ProDataController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\ProData  $proData
+     * @param  \App\Models\ProData  $proData
      * @return \Illuminate\Http\Response
      */
     public function show(ProData $proData)
@@ -65,7 +65,7 @@ class ProDataController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\ProData  $proData
+     * @param  \App\Models\ProData  $proData
      * @return \Illuminate\Http\Response
      */
     public function edit(ProData $proData)
@@ -77,7 +77,7 @@ class ProDataController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\ProData  $proData
+     * @param  \App\Models\ProData  $proData
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ProData $proData)
@@ -88,7 +88,7 @@ class ProDataController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\ProData  $proData
+     * @param  \App\Models\ProData  $proData
      * @return \Illuminate\Http\Response
      */
     public function destroy(ProData $proData)
