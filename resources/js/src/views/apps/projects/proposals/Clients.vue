@@ -12,12 +12,12 @@
   <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
     <div class="mb-1"></div>
     <div class="mb-5">
-      <!-- <div class="mt-6 flex items-center justify-between px-6 float-right">
-      //   <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
-      // </div> -->
+      <div class="mt-6 flex items-center justify-between px-6 float-right">
+        <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+      </div>
       <vs-tabs>
-        <vs-tab label="لست نهادها" icon="list" style="height: 80vh;overflow-y: scroll;">
-          <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
+        <vs-tab label="لست نهادها" icon="list" class="leftScrol">
+          <component class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
             <form>
               <div class="p-2">
                 <!-- Product Image -->
@@ -71,7 +71,7 @@
             </form>
           </component>
           <div id="data-list-thumb-view" class="w-full data-list-container">
-            <vs-table class="w-full" ref="table" pagination :max-items="4" :data="products">
+            <vs-table class="w-full" ref="table" pagination :max-items="4" :data="clients">
               <template slot="thead">
                 <vs-th>لوگو</vs-th>
                 <vs-th>نام نهاد</vs-th>
@@ -100,16 +100,16 @@
                       <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="mr-2" @click.stop="editData(tr)" />
                       <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
                     </vs-td>
-                    <template class="expand-user" slot="expand">
-                      <div class="con-expand-users w-full">
-                        <div class="con-btns-user flex items-center justify-between">
-                          <div class="con-userx flex items-center justify-start">
+                    <template class="expand-client" slot="expand">
+                      <div class="con-expand-clients w-full">
+                        <div class="con-btns-client flex items-center justify-between">
+                          <div class="con-clientx flex items-center justify-start">
                             <vs-avatar size="50px" :src="'/images/img/'+tr.logo" />
                             <span>{{ tr.name }}</span>
                           </div>
                           <div class="flex">
-                            <vs-button type="border" size="small" icon-pack="feather" icon="icon-edit" color="success" class="mr-2" @click.stop="editData(tr)"></vs-button>
-                            <vs-button type="border" size="small" icon-pack="feather" icon="icon-trash" color="danger" @click.stop="deleteData(tr.id)"></vs-button>
+                            <!--<vs-button type="border" size="small" icon-pack="feather" icon="icon-edit" color="success" class="mr-2" @click.stop="editData(tr)"></vs-button>
+                            <vs-button type="border" size="small" icon-pack="feather" icon="icon-trash" color="danger" @click.stop="deleteData(tr.id)"></vs-button> -->
                           </div>
                         </div>
                         <vs-list>
@@ -128,8 +128,8 @@
             </div>
           </div>
         </vs-tab>
-        <vs-tab label=" اضافه کردن نهاد جدید" icon="add" style="height: 80vh;overflow-y: scroll;">
-          <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+        <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
+          <component class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
             <form>
               <div class="p-2">
                 <!-- Product Image -->
@@ -207,6 +207,7 @@ export default {
   data() {
     return {
       orgActiveForm: false,
+      detailOk: true,
       oldImage: true,
       logoToChange: null,
       orgForm: new Form({
@@ -234,7 +235,7 @@ export default {
         canceled: 'نا موفق',
       },
       selected: [],
-      products: [],
+      clients: [],
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -295,7 +296,7 @@ export default {
         }
       }
     },
-    scrollbarTag() { return this.$store.getters.scrollbarTag },
+    // scrollbarTag() { return this.$store.getters.scrollbarTag },
     // scrollbarTag() { return this.$store.state.is_touch_device ? 'div' : 'VuePerfectScrollbar' },
 
     currentPage() {
@@ -304,11 +305,11 @@ export default {
       }
       return 0
     },
-    // products() {
-    //   return this.$store.state.dataList.products
+    // clients() {
+    //   return this.$store.state.dataList.clients
     // },
     queriedItems() {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.clients.length
     }
   },
   methods: {
@@ -316,7 +317,7 @@ export default {
       this.$Progress.start()
       this.axios.get('/api/clients')
         .then((response) => {
-          this.products = response.data;
+          this.clients = response.data;
           this.$Progress.set(100)
         })
     },
@@ -337,7 +338,6 @@ export default {
       if (!(this.logoToChange == null)) {
         this.orgFormEdit.logo = this.logoToChange;
       }
-      console.log('Edit Form', this.logoToChange);
       this.orgFormEdit.put('/api/clients/' + this.orgFormEdit.id)
         .then(({
           data
@@ -366,7 +366,6 @@ export default {
           data
         }) => {
           this.getData();
-          this.orgForm.reset();
           this.$vs.notify({
             title: 'موفقیت!',
             text: 'موسسه موفقانه ثبت سیستم شد.',
@@ -470,7 +469,7 @@ export default {
               })
               this.getData();
               this.resetAllState();
-              this.expanopen = false;
+              this.detailOk = false;
             })
             .catch(() => {});
         }
@@ -481,6 +480,7 @@ export default {
       this.sidebarData = data
       this.toggleDataSidebar(true)
       this.orgActiveForm = true;
+      this.detailOk = false;
       this.orgFormEdit.name = data.name;
       this.orgFormEdit.email = data.email;
       this.orgFormEdit.phone = data.phone;
@@ -510,7 +510,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
+.leftScrol {
+  height: 80vh;
+  overflow-y: scroll;
+}
+</style><style lang="scss" scoped>
 .add-new-data-sidebar {
   ::v-deep .vs-sidebar--background {
     z-index: 52010;
