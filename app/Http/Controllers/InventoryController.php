@@ -43,13 +43,14 @@ class InventoryController extends Controller
             'description' => 'required|min:5',
         ]);
 
-        return Inventory::create([
+        Inventory::create([
             'name' => $request['name'],
             'address' => $request['address'],
             'manager' => $request['manager'],
             'phone' => $request['phone'],
             'description' => $request['description']
         ]);
+        return response()->json(['status' => 'success']);
     }
 
     /**
@@ -58,9 +59,9 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function show(Inventory $inventory)
+    public function show($id)
     {
-        //
+        return Inventory::where('id', $id)->get();
     }
 
     /**
@@ -81,9 +82,18 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inventory $inventory)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:2',
+            'address' => 'required|min:2',
+            'manager' => 'required:2',
+            'phone' => 'required',
+            'description' => 'required|min:2'
+        ]);
+        $inventory = Inventory::findOrFail($id);
+        $inventory->update($request->all());
+        return response()->json(['status' => $inventory]);
     }
 
     /**
@@ -92,8 +102,14 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy($id)
     {
-        //
+        $inventory = Inventory::findOrFail($id);
+        $inventory->delete();
+        return response()->json(['status' => 'success']);
+    }
+
+    public function getRow(Request $request)
+    {
     }
 }

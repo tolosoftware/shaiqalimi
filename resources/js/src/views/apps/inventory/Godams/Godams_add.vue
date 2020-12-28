@@ -4,30 +4,58 @@
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
   </div>
   <vs-tabs>
-    <vs-tab label=" لیست گدام">
+    <vs-tab label=" لیست گدام" icon-pack="feather" icon="icon-list" class="leftScrol">
+      <div :key="$vs.rtl" v-if="godamActiveForm">
+        <form>
+          <vs-divider>
+            <h4>
+              ویرایش معلومات گدام
+            </h4>
+          </vs-divider>
+          <div class="pt-1 pr-6 pl-6">
+            <vs-input label="نام گدام" class="mt-3 w-full" v-model="gFormEdit.name" />
+            <has-error :form="gFormEdit" field="name"></has-error>
+            <vs-input label=" آدرس" class="mt-3 w-full" v-model="gFormEdit.address" />
+            <has-error :form="gFormEdit" field="address"></has-error>
+            <vs-input label=" مسول" class="mt-3 w-full" v-model="gFormEdit.manager" />
+            <has-error :form="gFormEdit" field="manager"></has-error>
+            <vs-input label=" تماس" class="mt-3 w-full" v-model="gFormEdit.phone" />
+            <has-error :form="gFormEdit" field="phone"></has-error>
+            <div class="vx-col mt-5">
+              <vs-textarea label="تفصیلات" v-model="gFormEdit.description" />
+              <has-error :form="gFormEdit" field="description"></has-error>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center p-6" slot="footer">
+            <vs-button type="border" color="success" icon="save" class="mr-6" @click="updateGodamData()"><strong>ویرایش گدام</strong></vs-button>
+            <vs-button type="border" icon="close" color="danger" @click="resetAllState()">بستن فورم ویرایش</vs-button>
+            <vs-divider>---</vs-divider>
+          </div>
+        </form>
+      </div>
       <div id="data-list-thumb-view" class="w-full data-list-container">
-        <vs-table :data="godams">
+        <vs-table pagination :max-items="4" :data="godams">
           <template slot="thead">
             <vs-th>نام گدام</vs-th>
             <vs-th>مسول</vs-th>
             <vs-th>تماس</vs-th>
-            <vs-th>تماس</vs-th>
+            <vs-th>جزییات</vs-th>
             <vs-th>بررسی</vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td :data="data[indextr].name">
-                {{ data[indextr].name }}
+              <vs-td>
+                <span v-text="tr.name"></span>
               </vs-td>
-              <vs-td :data="data[indextr].manager">
-                {{ data[indextr].manager }}
+              <vs-td>
+                <span v-text="tr.manager"></span>
               </vs-td>
-              <vs-td :data="data[indextr].phone">
-                {{ data[indextr].phone }}
+              <vs-td>
+                <span v-text="tr.phone"></span>
               </vs-td>
               <vs-td>
                 <span>
-                  <vs-icon icon="visibility" size="small" color="primary"></vs-icon>
+                  <vs-button type="border" icon="visibility" size="small" @click="showGodamData(tr.id)" color="primary"></vs-button>
                 </span>
               </vs-td>
               <vs-td class="whitespace-no-wrap notupfromall">
@@ -36,11 +64,30 @@
               </vs-td>
             </vs-tr>
           </template>
-
         </vs-table>
+        <vs-popup class="holamundo" title="جزییات معلومات گدام" :active.sync="popupActive">
+          <div :key="indextr" v-for="(tr, indextr) in godamSingleRowData">
+            <div class="con-expand-clients w-full">
+              <div class="con-btns-client flex items-center justify-between">
+                <div class="con-clientx flex items-center justify-start">
+                </div>
+                </vs-divider>
+                <div class="flex">
+                </div>
+              </div>
+              <vs-list>
+                <vs-list-item icon-pack="feather" icon="icon-home" :title="tr.name"></vs-list-item>
+                <vs-list-item icon-pack="feather" icon="icon-user" :title="tr.manager"></vs-list-item>
+                <vs-list-item icon-pack="feather" icon="icon-phone" :title="tr.phone"></vs-list-item>
+                <vs-list-item icon-pack="feather" icon="icon-map-pin" :title="tr.address"></vs-list-item>
+                <vs-list-item icon-pack="feather" icon="icon-clipboard" :title="tr.description"></vs-list-item>
+              </vs-list>
+            </div>
+          </div>
+        </vs-popup>
       </div>
     </vs-tab>
-    <vs-tab label="ثبت گدام">
+    <vs-tab label="ثبت گدام" icon-pack="feather" icon="icon-plus" class="leftScrol">
       <form>
         <div class="pt-1 pr-6 pl-6">
           <vs-input label="نام گدام" class="mt-3 w-full" v-model="gForm.name" />
@@ -52,18 +99,16 @@
           <vs-input label=" تماس" class="mt-3 w-full" v-model="gForm.phone" />
           <has-error :form="gForm" field="phone"></has-error>
           <div class="vx-col mt-5">
-            <vs-textarea placeholder="تفصیلات" v-model="gForm.description" />
+            <vs-textarea label="تفصیلات" v-model="gForm.description" />
             <has-error :form="gForm" field="description"></has-error>
           </div>
         </div>
         <div class="flex flex-wrap items-center p-6" slot="footer">
-          <vs-button type="border" color="success" icon="save" class="mr-6" @click="submitGFormData"><strong>ثبت گدام</strong></vs-button>
-          <vs-button type="border" color="danger" icon="close" @click="isSidebarActiveLocal = false">خارج شدن</vs-button>
+          <vs-button type="border" color="success" icon="save" class="mr-6" @click="submitGFormData()"><strong>ثبت گدام</strong></vs-button>
         </div>
       </form>
     </vs-tab>
   </vs-tabs>
-
 </vs-sidebar>
 </template>
 
@@ -85,6 +130,8 @@ export default {
   },
   data() {
     return {
+      godamActiveForm: false,
+      popupActive: false,
       gForm: new Form({
         name: '',
         address: '',
@@ -92,7 +139,15 @@ export default {
         phone: '',
         description: ''
       }),
-      godams: []
+      gFormEdit: new Form({
+        name: '',
+        address: '',
+        manager: '',
+        phone: '',
+        description: ''
+      }),
+      godams: [],
+      godamSingleRowData: [],
     };
   },
   watch: {},
@@ -107,10 +162,6 @@ export default {
         }
       },
     },
-
-    scrollbarTag() {
-      return this.$store.getters.scrollbarTag;
-    },
   },
   created() {
     this.getGodamList();
@@ -122,7 +173,6 @@ export default {
           data
         }) => {
           this.getGodamList();
-          this.gForm.reset();
           this.$vs.notify({
             title: 'موفقیت!',
             text: 'گدام موفقانه ثبت سیستم شد.',
@@ -131,7 +181,7 @@ export default {
             icon: 'icon-check',
             position: 'top-right'
           })
-          this.orgForm.reset();
+          this.gForm.reset();
         }).catch((errors) => {
           this.$Progress.set(100)
           this.$vs.notify({
@@ -153,10 +203,50 @@ export default {
           this.$Progress.set(100)
         })
     },
-    editGodamData() {
-
+    editGodamData(data) {
+      this.godamActiveForm = true;
+      this.gFormEdit.name = data.name;
+      this.gFormEdit.address = data.address;
+      this.gFormEdit.manager = data.manager;
+      this.gFormEdit.phone = data.phone;
+      this.gFormEdit.description = data.description;
+      this.gFormEdit.id = data.id;
+    },
+    showGodamData(id) {
+      this.godamActiveForm = false;
+      this.$Progress.start()
+      this.gForm.get('/api/godam/' + id)
+        .then((response) => {
+          this.godamSingleRowData = response.data;
+          this.$Progress.set(100)
+          this.popupActive = true;
+        })
+    },
+    resetAllState() {
+      this.godamActiveForm = false
+      this.gFormEdit.reset();
+    },
+    updateGodamData() {
+      this.gFormEdit.put('/api/godam/' + this.gFormEdit.id)
+        .then(({
+          data
+        }) => {
+          // Finish the Progress Bar
+          this.getGodamList();
+          this.resetAllState();
+          // toast notification
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'موسسه مذکور موفقانه آپدیت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        });
     },
     deleteGodamData(id) {
+      this.godamActiveForm = false;
       swal.fire({
         title: 'آیا متمعن هستید؟',
         icon: 'question',
@@ -167,12 +257,14 @@ export default {
         cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.orgForm.delete('/api/clients/' + id).then((id) => {
+          this.gForm.delete('/api/godam/' + id).then((id) => {
               swal.fire({
                 title: 'عملیه موفقانه انجام شد.',
+                text: "گدام از سیستم پاک شد!",
                 icon: 'success',
               })
-              this.getData();
+              this.getGodamList();
+              this.resetAllState();
             })
             .catch(() => {});
         }
@@ -183,7 +275,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
+.leftScrol {
+  height: 80vh;
+  overflow-y: scroll;
+}
+</style><style lang="scss" scoped>
 .add-new-data-sidebar {
   ::v-deep .vs-sidebar--background {
     z-index: 52010;

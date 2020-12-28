@@ -11,14 +11,19 @@
 <div>
   <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
     <div class="mb-1"></div>
-    <div class="mb-5">
-      <!-- <div class="mt-6 flex items-center justify-between px-6 float-right">
-      //   <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
-      // </div> -->
+    <div class="mb-2">
+      <div class="mt-1 flex items-center justify-between px-6 float-right">
+        <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+      </div>
       <vs-tabs>
-        <vs-tab label="لست نهادها" icon="list" style="height: 80vh;overflow-y: scroll;">
-          <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
+        <vs-tab label="لست نهادها" icon="list" class="leftScrol">
+          <div class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
             <form>
+              <vs-divider>
+                <h4>
+                  ویرایش معلومات نهاد
+                </h4>
+              </vs-divider>
               <div class="p-2">
                 <!-- Product Image -->
                 <template>
@@ -43,7 +48,6 @@
 
                 <vs-input label="نام نهاد" class="w-full" v-model="orgFormEdit.name" />
                 <has-error :form="orgFormEdit" field="name"></has-error>
-                <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
 
                 <vs-input label="ایمیل" type="email" class="mt-2 w-full" v-model="orgFormEdit.email" />
                 <has-error :form="orgFormEdit" field="email"></has-error>
@@ -65,13 +69,14 @@
                 </div> -->
               </div>
               <div class="flex flex-wrap items-center p-2" slot="footer">
-                <vs-button type="border" icon="edit" color="success" class="mr-6" @click="updateData()" :disabled="!isFormValid">ویرایش</vs-button>
+                <vs-button type="border" icon="edit" color="success" class="mr-6" @click="updateData()">ویرایش</vs-button>
                 <vs-button type="border" icon="close" color="danger" @click="resetAllState()">بستن فورم ویرایش</vs-button>
               </div>
+              <vs-divider>---</vs-divider>
             </form>
-          </component>
+          </div>
           <div id="data-list-thumb-view" class="w-full data-list-container">
-            <vs-table class="w-full" ref="table" pagination :max-items="4" :data="products">
+            <vs-table class="w-full" ref="table" pagination :max-items="4" :data="clients">
               <template slot="thead">
                 <vs-th>لوگو</vs-th>
                 <vs-th>نام نهاد</vs-th>
@@ -93,43 +98,41 @@
                     </vs-td>
                     <vs-td>
                       <span>
-                        <vs-icon icon="visibility" size="small" color="primary"></vs-icon>
+                        <vs-button type="border" icon="visibility" size="small" @click="showClientData(tr.id)" color="primary"></vs-button>
                       </span>
                     </vs-td>
                     <vs-td class="whitespace-no-wrap notupfromall">
                       <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="mr-2" @click.stop="editData(tr)" />
                       <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
                     </vs-td>
-                    <template class="expand-user" slot="expand">
-                      <div class="con-expand-users w-full">
-                        <div class="con-btns-user flex items-center justify-between">
-                          <div class="con-userx flex items-center justify-start">
-                            <vs-avatar size="50px" :src="'/images/img/'+tr.logo" />
-                            <span>{{ tr.name }}</span>
-                          </div>
-                          <div class="flex">
-                            <vs-button type="border" size="small" icon-pack="feather" icon="icon-edit" color="success" class="mr-2" @click.stop="editData(tr)"></vs-button>
-                            <vs-button type="border" size="small" icon-pack="feather" icon="icon-trash" color="danger" @click.stop="deleteData(tr.id)"></vs-button>
-                          </div>
-                        </div>
-                        <vs-list>
-                          <vs-list-item icon-pack="feather" icon="icon-mail" :title="tr.email"></vs-list-item>
-                          <vs-list-item icon-pack="feather" icon="icon-globe" :title="tr.website"></vs-list-item>
-                          <vs-list-item icon-pack="feather" icon="icon-home" :title="tr.address"></vs-list-item>
-                        </vs-list>
-                      </div>
-                    </template>
                   </vs-tr>
                 </tbody>
               </template>
             </vs-table>
-            <div class="flex flex-wrap items-center p-6" slot="footer">
-              <vs-button type="border" icon="close" color="danger" @click="isSidebarActiveLocal = false">بسته کردن</vs-button>
-            </div>
+            <vs-popup class="holamundo" title="جزییات معلومات نهاد" :active.sync="popupActive">
+              <div :key="indextr" v-for="(tr, indextr) in client">
+                <div class="con-expand-clients w-full">
+                  <div class="con-btns-client flex items-center justify-between">
+                    <div class="con-clientx flex items-center justify-start">
+                      <vs-avatar size="60px" :src="'/images/img/'+tr.logo" />
+                      <span><strong>{{ tr.name }}</strong></span>
+                    </div>
+                    </vs-divider>
+                    <div class="flex">
+                    </div>
+                  </div>
+                  <vs-list>
+                    <vs-list-item icon-pack="feather" icon="icon-mail" color="success" :title="tr.email"></vs-list-item>
+                    <vs-list-item icon-pack="feather" icon="icon-globe" :title="tr.website"></vs-list-item>
+                    <vs-list-item icon-pack="feather" icon="icon-map-pin" :title="tr.address"></vs-list-item>
+                  </vs-list>
+                </div>
+              </div>
+            </vs-popup>
           </div>
         </vs-tab>
-        <vs-tab label=" اضافه کردن نهاد جدید" icon="add" style="height: 80vh;overflow-y: scroll;">
-          <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+        <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
+          <component class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
             <form>
               <div class="p-2">
                 <!-- Product Image -->
@@ -176,8 +179,7 @@
                 </div>
               </div>
               <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
-                <vs-button type="border" color="success" class="mr-6" @click="submitData" :disabled="!isFormValid" icon="save">ذخیره</vs-button>
-                <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false" icon="close">بسته کردن</vs-button>
+                <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
               </div>
             </form>
             <br><br>
@@ -209,6 +211,7 @@ export default {
       orgActiveForm: false,
       oldImage: true,
       logoToChange: null,
+      popupActive: false,
       orgForm: new Form({
         name: '',
         email: '',
@@ -228,40 +231,40 @@ export default {
         account_id: null
       }),
       // kk
-      statusFa: {
-        on_hold: 'درجریان',
-        delivered: 'تکمیل',
-        canceled: 'نا موفق',
-      },
-      selected: [],
-      products: [],
+      // statusFa: {
+      //   on_hold: 'درجریان',
+      //   delivered: 'تکمیل',
+      //   canceled: 'نا موفق',
+      // },
+      clients: [],
+      client: [],
       itemsPerPage: 4,
-      isMounted: false,
-      addNewDataSidebar: false,
-      sidebarData: {},
+      // isMounted: false,
+      // addNewDataSidebar: false,
+      // sidebarData: {},
       // ll
-      dataId: null,
-      dataName: '',
-      dataCategory: null,
-      dataOrder_status: 'pending',
-      dataPrice: 0,
-      settings: { // perfectscrollbar settings
-        maxScrollbarLength: 60,
-        wheelSpeed: .60
-      }
+      // dataId: null,
+      // dataName: '',
+      // dataCategory: null,
+      // dataOrder_status: 'pending',
+      // dataPrice: 0,
+      // settings: { // perfectscrollbar settings
+      //   maxScrollbarLength: 60,
+      //   wheelSpeed: .60
+      // }
     }
   },
   components: {
-    DataViewSidebar,
+    // DataViewSidebar,
     // VuePerfectScrollbar
   },
   created() {
-    if (!moduleDataList.isRegistered) {
-      this.$store.registerModule('dataList', moduleDataList)
-      moduleDataList.isRegistered = true
-    }
-    this.$store.dispatch('dataList/fetchDataListItems'),
-      this.getData();
+    // if (!moduleDataList.isRegistered) {
+    //   this.$store.registerModule('dataList', moduleDataList)
+    //   moduleDataList.isRegistered = true
+    // }
+    // this.$store.dispatch('dataList/fetchDataListItems'),
+    this.getData();
   },
 
   watch: {
@@ -271,14 +274,14 @@ export default {
         this.initValues()
         this.$validator.reset()
       } else {
-        const { category, id, img, name, order_status, price } = JSON.parse(JSON.stringify(this.data))
-        this.dataId = id
-        this.dataCategory = category
-        this.orgForm.logo = img
-        this.dataName = name
-        this.dataOrder_status = order_status
-        this.dataPrice = price
-        this.initValues()
+        // const { category, id, img, name, order_status, price } = JSON.parse(JSON.stringify(this.data))
+        // this.dataId = id
+        // this.dataCategory = category
+        // this.orgForm.logo = img
+        // this.dataName = name
+        // this.dataOrder_status = order_status
+        // this.dataPrice = price
+        // this.initValues()
       }
       // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
     }
@@ -294,20 +297,20 @@ export default {
         }
       }
     },
-    scrollbarTag() { return this.$store.getters.scrollbarTag },
+    // scrollbarTag() { return this.$store.getters.scrollbarTag },
     // scrollbarTag() { return this.$store.state.is_touch_device ? 'div' : 'VuePerfectScrollbar' },
 
-    currentPage() {
-      if (this.isMounted) {
-        return this.$refs.table.currentx
-      }
-      return 0
-    },
-    // products() {
-    //   return this.$store.state.dataList.products
+    // currentPage() {
+    //   if (this.isMounted) {
+    //     return this.$refs.table.currentx
+    //   }
+    //   return 0
+    // },
+    // clients() {
+    //   return this.$store.state.dataList.clients
     // },
     queriedItems() {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.clients.length
     }
   },
   methods: {
@@ -315,7 +318,7 @@ export default {
       this.$Progress.start()
       this.axios.get('/api/clients')
         .then((response) => {
-          this.products = response.data;
+          this.clients = response.data;
           this.$Progress.set(100)
         })
     },
@@ -330,13 +333,20 @@ export default {
       this.oldImage = true
 
     },
+    showClientData(id) {
+      // console.log('ID', id);
+      this.orgActiveForm = false;
+      this.orgForm.get('/api/clients/' + id)
+        .then((response) => {
+          this.client = response.data
+          this.$Progress.set(100)
+          this.popupActive = true;
+        })
+    },
     updateData() {
-      // alert("OK");
-      // this.orgFormEdit.logo = this.logoToChange;
       if (!(this.logoToChange == null)) {
         this.orgFormEdit.logo = this.logoToChange;
       }
-      console.log('Edit Form', this.logoToChange);
       this.orgFormEdit.put('/api/clients/' + this.orgFormEdit.id)
         .then(({
           data
@@ -355,9 +365,9 @@ export default {
           })
         });
     },
-    isFormValid() {
+    // isFormValid() {
 
-    },
+    // },
     submitData() {
       // console.log('Edit Form', this.orgForm.logo)
       this.orgForm.post('/api/clients')
@@ -365,7 +375,6 @@ export default {
           data
         }) => {
           this.getData();
-          this.orgForm.reset();
           this.$vs.notify({
             title: 'موفقیت!',
             text: 'موسسه موفقانه ثبت سیستم شد.',
@@ -423,7 +432,6 @@ export default {
       }
     },
     updateCurrImg1(input) {
-
       if (input.target.files && input.target.files[0]) {
         this.oldImage = false
         const reader = new FileReader()
@@ -446,12 +454,13 @@ export default {
       this.$router.push('/projects/project/' + id).catch(() => {})
     },
     // End Custom
-    addNewData() {
-      this.sidebarData = {}
-      this.toggleDataSidebar(true)
-    },
+    // addNewData() {
+    //   this.sidebarData = {}
+    //   this.toggleDataSidebar(true)
+    // },
     deleteData(id) {
       // this.$store.dispatch('dataList/removeItem', id).catch(err => { console.error(err) })
+      this.orgActiveForm = false;
       swal.fire({
         title: 'آیا متمعن هستید؟',
         icon: 'question',
@@ -469,7 +478,7 @@ export default {
               })
               this.getData();
               this.resetAllState();
-              this.expanopen = false;
+              this.detailOk = false;
             })
             .catch(() => {});
         }
@@ -477,9 +486,10 @@ export default {
     },
     editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-      this.sidebarData = data
-      this.toggleDataSidebar(true)
+      // this.sidebarData = data
+      // this.toggleDataSidebar(true)
       this.orgActiveForm = true;
+      this.detailOk = false;
       this.orgFormEdit.name = data.name;
       this.orgFormEdit.email = data.email;
       this.orgFormEdit.phone = data.phone;
@@ -502,14 +512,19 @@ export default {
       if (num < 50) return 'danger'
       return 'primary'
     },
-    toggleDataSidebar(val = false) {
-      this.addNewDataSidebar = val
-    },
+    // toggleDataSidebar(val = false) {
+    //   this.addNewDataSidebar = val
+    // },
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
+.leftScrol {
+  height: 80vh;
+  overflow-y: scroll;
+}
+</style><style lang="scss" scoped>
 .add-new-data-sidebar {
   ::v-deep .vs-sidebar--background {
     z-index: 52010;
@@ -537,11 +552,11 @@ export default {
 
 .scroll-area--data-list-add-new {
   // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-  height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+  // height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
 
-  &:not(.ps) {
-    overflow-y: auto;
-  }
+  // &:not(.ps) {
+  //   overflow-y: auto;
+  // }
 }
 </style><style lang="scss">
 #data-list-thumb-view {
@@ -582,7 +597,7 @@ export default {
     .vs-table {
       border-collapse: separate;
       border-spacing: 0 1.3rem;
-      padding: 0 1rem;
+      padding: 0 0.6rem;
 
       tr {
         box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
@@ -610,7 +625,7 @@ export default {
             }
 
             .product-img {
-              height: 80px;
+              height: 60px;
             }
           }
         }
