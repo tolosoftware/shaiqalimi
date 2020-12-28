@@ -218,7 +218,6 @@
     </div>
   </div>
   <ProjectList></ProjectList>
-
   <div class="vx-col w-full mb-base">
     <vx-card title="احصائیه معاملات تجارتی دریک سال مالی" code-toggler>
       <vue-apex-charts type="line" height="350" :options="apexChatData.mixedChart.chartOptions" :series="apexChatData.mixedChart.series"></vue-apex-charts>
@@ -227,10 +226,8 @@
       </template>
     </vx-card>
   </div>
-
 </div>
 </template>
-
 <script>
 import ECharts from 'vue-echarts/components/ECharts'
 import 'echarts/lib/component/tooltip'

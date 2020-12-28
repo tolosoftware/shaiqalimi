@@ -41,7 +41,7 @@
             <vs-progress class="block mt-1" :percent="50" color="primary"></vs-progress>
           </div>
           <div class="vx-col w-1/2 mb-3">
-            <small>علانات موجود: ۷۳</small>
+            <small>اعلانات موجود: 73</small>
             <vs-progress class="block mt-1" :percent="90" color="success"></vs-progress>
           </div>
           <div class="vx-col w-1/2 mb-3">

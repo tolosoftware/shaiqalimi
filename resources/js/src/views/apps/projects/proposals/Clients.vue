@@ -15,7 +15,7 @@
     </div>
     <vs-tabs>
       <vs-tab label="لست نهادها" icon="list" class="leftScrol">
-        <div class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
+        <div class="scroll-area--data-list-add-new" :key="$vs.rtl" v-if="orgActiveForm">
           <form>
             <vs-divider>
               <h4>
@@ -130,7 +130,7 @@
         </div>
       </vs-tab>
       <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
-        <component class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+        <component class="scroll-area--data-list-add-new" :key="$vs.rtl">
           <form>
             <div class="p-2">
               <!-- Product Image -->
@@ -268,7 +268,7 @@ export default {
     isSidebarActive(val) {
       if (!val) return
       if (Object.entries(this.data).length === 0) {
-        this.initValues()
+        // this.initValues()
         this.$validator.reset()
       } else {
         // const { category, id, img, name, order_status, price } = JSON.parse(JSON.stringify(this.data))
@@ -491,6 +491,7 @@ export default {
       this.orgFormEdit.website = data.website;
       this.orgFormEdit.address = data.address;
       this.orgFormEdit.logo = data.logo;
+      this.orgFormEdit.account_id = data.account_id;
       this.orgFormEdit.id = data.id;
 
     },
