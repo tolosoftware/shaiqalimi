@@ -125,9 +125,20 @@ export default {
     methods: {
 
        loadUsers() {
-            this.axios.get('/api/users').then(({
-                data
-            }) => (this.users = data));
+            this.$vs.loading()
+            this.axios.get('/api/users').then(({data }) => (this.users = data,
+             this.$vs.loading.close()))
+            .catch(() => {
+               this.$vs.loading.close() 
+                this.$vs.notify({
+                    title: '  معلومات بارگیری نشد !',
+                    text: 'عملیه بارگیری معلومات نام شد',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    icon: 'icon-check',
+                    position: 'top-right'
+                })   
+            });
         },
        
      

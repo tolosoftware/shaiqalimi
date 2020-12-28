@@ -25,6 +25,14 @@ class MeasurmentUnit extends Model
     {
         return $this->hasMany(Item::class, 'uom_equiv_id');
     }
+    public function uom_id()
+    {
+        return $this->hasMany(Itme::class, 'uom_id');
+    }
+    public function uom_equiv_id()
+    {
+        return $this->hasMany(Item::class, 'uom_equiv_id');
+    }
     public function stock_records()
     {
         return $this->hasMany(StockRecord::class, 'item_id');

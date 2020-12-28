@@ -24,7 +24,7 @@
           <hr>
           <!--<vs-divider/> -->
         </div>
-        <add-proposal></add-proposal>
+        <add-proposal :clients="clients"></add-proposal>
       </vx-card>
     </vs-tab>
     <vs-tab label="لیست اعلانات">
@@ -58,6 +58,7 @@ export default {
       addNewDataSidebar: false,
       sidebarData: {},
       edit_id: 0,
+      clients: [],
     }
   },
   computed: {
@@ -69,8 +70,16 @@ export default {
     this.isMounted = false;
     this.$validator.validate();
   },
-  created() {},
+  created() {
+    this.getAllClients();
+  },
   methods: {
+    getAllClients() {
+      this.axios.get('/api/clients')
+        .then((response) => {
+          this.clients = response.data;
+        })
+    },
     addNewData() {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
@@ -78,6 +87,7 @@ export default {
 
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
+      this.getAllClients();
     }
 
   },

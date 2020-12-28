@@ -44,7 +44,7 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/',
-                    redirect: '/dashboard'
+                    redirect: '/login'
                 },
                 {
                     path: '/dashboard',
