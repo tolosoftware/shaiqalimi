@@ -462,7 +462,7 @@ export default {
     TabContent,
     Ekmalat,
   },
-  props: ['clients'],
+  props: ['clients', 'newClient'],
   data() {
     return {
       is_accepted: false,
@@ -598,7 +598,10 @@ export default {
       this.axios.get('/api/serial-num?type=pro')
         .then((response) => {
           this.pForm.serial_no = response.data;
-          this.pForm.client_id = this.clients;
+          if (this.newClient) {
+            this.pForm.client_id = this.clients.find(e => !!e);
+            // this.pForm.client_id = this.clients.find(e => !!e);
+          }
         })
     },
 

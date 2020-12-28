@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Clients :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
+  <Clients :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" @customEvent="getNewClient($event)" :data="sidebarData" />
 
   <vs-tabs>
     <vs-tab label=" ثبت قرارداد جدید" style="padding:2px 0px 0px 0px !important;">
@@ -24,7 +24,7 @@
           <br>
           <hr>
         </div>
-        <project-form :clients="clients"></project-form>
+        <project-form :clients="clients" :newClient="newClient"></project-form>
       </vx-card>
     </vs-tab>
     <vs-tab label=" لست قرار دادها">
@@ -65,6 +65,7 @@ export default {
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},
+      newClient: [],
       statusFa: {
         on_hold: "درجریان",
         delivered: "تکمیل",
@@ -144,6 +145,9 @@ export default {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data;
       this.toggleDataSidebar(true);
+    },
+    getNewClient(client) {
+      console.log(client);
     },
   },
 };
