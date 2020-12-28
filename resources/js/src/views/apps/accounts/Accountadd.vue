@@ -24,7 +24,7 @@
       </div>
       <vs-input label="ریفرینس کد" v-model="accForm.ref_code" type="number" class="mt-5 w-full" name="ref_code" />
       <!-- NAME -->
-      <vs-input label="نام" v-model="accForm.name" class="mt-5 w-full" name="name" v-validate="'required'" />
+      <vs-input label="عنوان" v-model="accForm.name" class="mt-5 w-full" name="name" v-validate="'required'" />
 
       <div class="vx-col mt-5">
         <label for="" class="ml-4 mr-4 mb-2">حالت</label>

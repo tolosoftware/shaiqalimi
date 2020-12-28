@@ -24,7 +24,7 @@
           <br>
           <hr>
         </div>
-        <project-form></project-form>
+        <project-form :clients="clients"></project-form>
       </vx-card>
     </vs-tab>
     <vs-tab label=" لست قرار دادها">
@@ -70,6 +70,7 @@ export default {
         delivered: "تکمیل",
         canceled: "نا موفق",
       },
+      clients: [],
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -77,6 +78,7 @@ export default {
     };
   },
   created() {
+    this.getAllClients();
   },
   computed: {
     currentPage() {
@@ -103,6 +105,14 @@ export default {
     },
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val;
+      this.getAllClients();
+    },
+    // for Organs that implement the ad
+    getAllClients() {
+      this.axios.get('/api/clients')
+        .then((response) => {
+          this.clients = response.data;
+        })
     },
     goTo(data) {
       this.$router
@@ -134,22 +144,6 @@ export default {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data;
       this.toggleDataSidebar(true);
-    },
-    getOrderStatusColor(status) {
-      if (status === "on_hold") return "warning";
-      if (status === "delivered") return "success";
-      if (status === "canceled") return "danger";
-      return "primary";
-    },
-    getPopularityColor(num) {
-      if (num > 90) return "success";
-      if (num > 70) return "primary";
-      if (num >= 50) return "warning";
-      if (num < 50) return "danger";
-      return "primary";
-    },
-    toggleDataSidebar(val = false) {
-      this.addNewDataSidebar = val;
     },
   },
 };

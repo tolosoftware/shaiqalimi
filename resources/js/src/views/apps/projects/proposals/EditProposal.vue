@@ -691,7 +691,7 @@ export default {
           }
         })
       }
-      return others + transit + pr_worth + total_items;
+      return others + transit + total_items;
     },
   },
 }
