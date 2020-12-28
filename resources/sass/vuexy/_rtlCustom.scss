@@ -8,6 +8,10 @@
     font-display: swap;
 }
 
+.vx-logo .vx-logo-text {
+    font-size: 18px !important;
+}
+
 html:not(.glyphicon),
 body:not(.glyphicon),
 div:not(.glyphicon),
@@ -397,23 +401,25 @@ $borderWidth: 1px;
         border-color: $bg;
     }
 }
+
 .overflow-hidden-x .vs-table--tbody {
     overflow-x: hidden !important;
 }
-.limit-max-height{
+
+.limit-max-height {
     max-width: 10vh;
     overflow-y: scroll;
 }
-.alerttext{
+
+.alerttext {
     font-size: 10px !important;
 }
-.overview-header{
+
+.overview-header {
     background-color: #f3f5f7;
     border-color: #42b983;
     padding: 1rem 0;
     border-left-width: 0.6rem;
     border-left-style: solid;
     margin: 1rem 0;
-
-    
 }

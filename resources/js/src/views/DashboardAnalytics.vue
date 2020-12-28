@@ -276,9 +276,6 @@ export default {
     data() {
         return {
             apexChatData,
-
-                
-
                 analyticsData,
 
             // Line Charts
@@ -287,7 +284,7 @@ export default {
             activeUsers: {
                 series: [{
                     name: 'Users',
-                    data: [60, 15, 58, 15, 74, 42, 82]
+                    data: [60, 15, 58, 15, 74, 42, 82,100]
                 }],
                 analyticsData: {
                     users: 97500
@@ -297,7 +294,7 @@ export default {
              ordersRecevied: {
                 series: [{
                 name: 'Orders',
-                data: [60, 15, 58, 15, 74, 42, 82]
+                data: [60, 15, 58, 15, 74, 42, 82,100]
                 }],
                 analyticsData: {
                 orders: 97500
@@ -342,7 +339,7 @@ export default {
         });
         setTimeout(() => {
             this.$vs.loading.close()
-            this.$Progress.set(95)
+            this.$Progress.set(100)
         }, 2000)
     },
 }

@@ -4989,6 +4989,10 @@ button:focus {
   font-display: swap;
 }
 
+.vx-logo .vx-logo-text {
+  font-size: 18px !important;
+}
+
 html:not(.glyphicon),
 body:not(.glyphicon),
 div:not(.glyphicon),

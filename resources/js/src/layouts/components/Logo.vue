@@ -1,5 +1,6 @@
 <template>
-  <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="35">
+<div>
+  <!-- <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="35">
       <defs>
           <linearGradient x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%" id="linearGradient-1">
               <stop stop-color="#000000" offset="0%"></stop>
@@ -10,6 +11,8 @@
               <stop stop-color="#FFFFFF" offset="100%"></stop>
           </linearGradient>
       </defs>
+
+
       <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g id="Artboard" transform="translate(-400.000000, -178.000000)">
               <g id="Group" transform="translate(400.000000, 178.000000)">
@@ -21,5 +24,10 @@
               </g>
           </g>
       </g>
-  </svg>
+        
+
+
+  </svg> -->
+  <img width="30" src="/img/default/navelogo.png" alt="login"  style="margin-righ:-50px !important;" >
+  </div>
 </template>
