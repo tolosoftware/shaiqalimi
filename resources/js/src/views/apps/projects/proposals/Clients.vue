@@ -268,7 +268,7 @@ export default {
     isSidebarActive(val) {
       if (!val) return
       if (Object.entries(this.data).length === 0) {
-        this.initValues()
+        // this.initValues()
         this.$validator.reset()
       } else {
         // const { category, id, img, name, order_status, price } = JSON.parse(JSON.stringify(this.data))
@@ -290,7 +290,8 @@ export default {
       },
       set(val) {
         if (!val) {
-          this.$emit('closeSidebar')
+          this.$emit('closeSidebar'),
+          this.$emit('customEvent', this.clients.find(e => !!e))
         }
       }
     },

@@ -18,7 +18,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return Account::all();
+        return Account::with('financial_records')->get();
     }
 
     /**

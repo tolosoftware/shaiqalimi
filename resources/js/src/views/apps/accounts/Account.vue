@@ -43,8 +43,8 @@
           <vs-td :data="tr.name">
             <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
           </vs-td>
-          <vs-td :data="tr.description">
-            <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.description }} </p>
+          <vs-td :data="tr">
+            <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ countTheBalance(tr) }} </p>
           </vs-td>
           <vs-td :data="tr.status">
             <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
@@ -131,7 +131,18 @@ export default {
           this.$Progress.set(100)
         })
     },
-
+    countTheBalance(data){
+      let x = 0;
+      for (let [key, data] of Object.entries(data.financial_records)) {
+        if(data.credit){
+          x = x + parseInt(data.credit);
+        }
+        if(data.debit){
+          x = x - parseInt(data.debit);
+        }
+      }
+      return x;
+    },
     deleteData(id) {
       swal.fire({
         title: 'آیا متمعن هستید؟',
