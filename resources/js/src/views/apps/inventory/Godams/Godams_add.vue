@@ -33,9 +33,8 @@
           </div>
         </form>
       </div>
-
       <div id="data-list-thumb-view" class="w-full data-list-container">
-        <vs-table :data="godams">
+        <vs-table pagination :max-items="4" :data="godams">
           <template slot="thead">
             <vs-th>نام گدام</vs-th>
             <vs-th>مسول</vs-th>
@@ -56,7 +55,7 @@
               </vs-td>
               <vs-td>
                 <span>
-                  <vs-button type="border" icon="visibility" size="small" @click.stop="showGodamData(tr)" color="primary"></vs-button>
+                  <vs-button type="border" icon="visibility" size="small" @click="showGodamData(tr.id)" color="primary"></vs-button>
                 </span>
               </vs-td>
               <vs-td class="whitespace-no-wrap notupfromall">
@@ -65,19 +64,15 @@
               </vs-td>
             </vs-tr>
           </template>
-
         </vs-table>
         <vs-popup class="holamundo" title="جزییات معلومات گدام" :active.sync="popupActive">
           <div :key="indextr" v-for="(tr, indextr) in godamSingleRowData">
             <div class="con-expand-clients w-full">
               <div class="con-btns-client flex items-center justify-between">
                 <div class="con-clientx flex items-center justify-start">
-
                 </div>
                 </vs-divider>
                 <div class="flex">
-                  <!--<vs-button type="border" size="small" icon-pack="feather" icon="icon-edit" color="success" class="mr-2" @click.stop="editData(tr)"></vs-button>
-                        clipboard    <vs-button type="border" size="small" icon-pack="feather" icon="icon-trash" color="danger" @click.stop="deleteData(tr.id)"></vs-button> -->
                 </div>
               </div>
               <vs-list>
@@ -110,7 +105,6 @@
         </div>
         <div class="flex flex-wrap items-center p-6" slot="footer">
           <vs-button type="border" color="success" icon="save" class="mr-6" @click="submitGFormData()"><strong>ثبت گدام</strong></vs-button>
-          <vs-button type="border" color="danger" icon="close" @click="isSidebarActiveLocal = false">خارج شدن</vs-button>
         </div>
       </form>
     </vs-tab>
@@ -168,10 +162,6 @@ export default {
         }
       },
     },
-
-    scrollbarTag() {
-      return this.$store.getters.scrollbarTag;
-    },
   },
   created() {
     this.getGodamList();
@@ -222,9 +212,10 @@ export default {
       this.gFormEdit.description = data.description;
       this.gFormEdit.id = data.id;
     },
-    showGodamData(data) {
+    showGodamData(id) {
+      this.godamActiveForm = false;
       this.$Progress.start()
-      this.axios.post('/api/godam_row', data)
+      this.gForm.get('/api/godam/' + id)
         .then((response) => {
           this.godamSingleRowData = response.data;
           this.$Progress.set(100)
@@ -255,6 +246,7 @@ export default {
         });
     },
     deleteGodamData(id) {
+      this.godamActiveForm = false;
       swal.fire({
         title: 'آیا متمعن هستید؟',
         icon: 'question',

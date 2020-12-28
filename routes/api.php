@@ -27,13 +27,12 @@ Route::resource('uom', 'MeasurmentUnitController');
 Route::resource('storage', 'StorageController');
 Route::resource('fuelstation', 'FuelStationController');
 Route::resource('fuelstorestation', 'FuelStationStorageController');
-Route::post('users1','UserController@store');
+Route::post('users1', 'UserController@store');
 Route::post('users1', 'UserController@store');
 
 // Product Review
 Route::resource('project', 'ProjectController');
 Route::resource('proposal', 'ProposalController');
-Route::resource('organization', 'OrganizationController');
 Route::resource('currency', 'CurrencyController');
 Route::resource('operation', 'OperationController');
 Route::resource('acount_type', 'AccountTypeController');
@@ -44,7 +43,6 @@ Route::resource('m-units', 'MeasurmentUnitController');
 Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
 Route::resource('godam', 'InventoryController');
-Route::post('godam_row', 'InventoryController@getRow');
 
 Route::resource('financial', 'FinancialRecordController');
 Route::resource('despenser', 'FuelDespenserController');
@@ -52,7 +50,6 @@ Route::resource('despenser', 'FuelDespenserController');
 // Latest Records
 // Route::get('announce-last','ProposalController@latest');
 Route::get('project-last', 'ProjectController@latest');
-Route::get('organization-last', 'OrganizationController@latest');
 Route::post('currency/rates', 'CurrencyController@rates');
 Route::get('serial-num', 'SerialNumberController@latest');
 Route::post('financial-account', 'FinancialRecordController@byaccount');
