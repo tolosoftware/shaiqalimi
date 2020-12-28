@@ -24,7 +24,7 @@
           <vx-input-group class="">
             <template slot="append">
               <div class="append-text bg-primary">
-                <span>{{ findUom(i.item_id, 'uom_equiv_id') }}</span>
+                <span>{{ (i.item_id.uom_equiv_id) ? i.item_id.uom_equiv_id.acronym : '' }}</span>
               </div>
             </template>
             <vs-input type="number" min="0" v-model="i.ammount" />
@@ -47,7 +47,7 @@
           <vx-input-group class="">
             <template slot="append">
               <div class="append-text bg-primary">
-                <span>{{ findUom(i.item_id, 'uom_id') }}</span>
+                <span>{{ (i.item_id.uom_id) ? i.item_id.uom_id.acronym : '' }}</span>
               </div>
             </template>
             <vs-input v-validate="'required|min:2'" type="number" v-model="i.equivalent" />
@@ -151,6 +151,7 @@ export default {
         })
     },
     addNewRow() {
+      console.log("this.items", this.items);
       this.items.push({
         item_id: "",
         operation_id: null,

@@ -31,11 +31,19 @@ class ProItem extends Model
     {
         return $this->belongsTo(Item::class, 'item_id');
     }
+    public function item_id()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
     public function m_unit()
     {
         return $this->belongsTo(MeasurmentUnit::class, 'unit_id');
     }
     public function operation()
+    {
+        return $this->belongsTo(Operation::class, 'operation_id');
+    }
+    public function operation_id()
     {
         return $this->belongsTo(Operation::class, 'operation_id');
     }

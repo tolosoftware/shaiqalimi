@@ -1,6 +1,6 @@
 <template>
 <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="ثبت معلومات" @on-complete="submitForm">
-  <tab-content title="معلومات عمومی قرارداد" class="mb-5" :before-change="validateStep1">
+  <tab-content title="معلومات عمومی قرارداد" class="mb-5" >
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -423,7 +423,7 @@ const dict = {
     bidding_address: {
       required: 'آدرس آفرگشایی الزامی است.'
     },
-    project_guarantee : {
+    project_guarantee: {
       required: 'تضمین قرارداد الزامی است'
     },
     deposit: {
@@ -520,10 +520,10 @@ export default {
     this.getAllItems();
     this.getAllUnites();
     this.getProposals();
-    if(this.$route.params.id) {
+    if (this.$route.params.id) {
       this.getProject();
-    }else{
-      this.getNextSerialNo(); 
+    } else {
+      this.getNextSerialNo();
     }
   },
   computed: {
@@ -534,9 +534,24 @@ export default {
   methods: {
     setProjectData(data) {
       if (data) {
+        if (data.pro_items.length) {
+          for (let [key, data] of Object.entries(data.pro_items)) {
+            this.pForm.item.push(data.item);
+            console.log(this.pForm.item);
+          }
 
-        if (data.pro_items) {
-          this.pForm.item = data.pro_items;
+        } else {
+          this.pForm.item = [{
+            item_id: "",
+            unit_id: "",
+            operation_id: null,
+            equivalent: "",
+            ammount: "",
+            unit_price: "",
+            total_price: "",
+            density: null,
+
+          }];
         }
         if (data.pro_data) {
           this.pForm.client_id = data.pro_data.client;
@@ -549,7 +564,7 @@ export default {
           this.pForm.total_price = data.pro_data.total_price;
           this.pForm.transit = data.pro_data.transit;
           this.pForm.status = (data.status == 'normal') ? 1 : 2;
-          console.log(this.pForm);
+          // console.log(this.pForm);
         }
       }
     },
@@ -600,8 +615,8 @@ export default {
       this.axios.get('/api/proposal')
         .then((response) => {
           this.proposals = response.data;
-            // Object.keys(this.proposals).some(key => this.proposals[key]['title'] = this.proposals[key].pro_data.title);
-            // console.log(this.proposals);
+          // Object.keys(this.proposals).some(key => this.proposals[key]['title'] = this.proposals[key].pro_data.title);
+          // console.log(this.proposals);
           this.$Progress.set(100)
         })
     },
@@ -623,11 +638,14 @@ export default {
 
     addNewRow() {
       this.pForm.item.push({
-        item_id: '',
-        ammount: '',
-        unit_id: '',
-        unit_price: '',
-        total_price: '',
+        item_id: "",
+        unit_id: "",
+        operation_id: null,
+        equivalent: "",
+        ammount: "",
+        unit_price: "",
+        total_price: "",
+        density: null,
       })
     },
     validateStep1() {
@@ -718,10 +736,10 @@ export default {
           this.pForm[key] = value;
         }
       }
-      if(resp.pro_items) {
+      if (resp.pro_items) {
         this.pForm.item = resp.pro_items;
       }
-      // console.log(resp.pro_items);
+      console.log(resp.pro_items);
 
       this.pForm.client_id = resp.pro_data.client;
     },

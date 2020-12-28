@@ -25,7 +25,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Project::with(['pro_data', 'pro_items'])->latest()->get();;
+        return Project::with(['pro_data',
+         'pro_items'])->latest()->get();;
     }
 
     /**
@@ -64,7 +65,8 @@ class ProjectController extends Controller
             // 'issue_address' => 'required|min:3',
             // 'source_address' => 'required|min:3',
         ]);
-        $serial_number = SerialNumber::where('type', 'pro')->latest()->first();
+        $serial_number = SerialNumber::where('type',
+         'pro')->latest()->first();
         if($serial_number) {
             $request['serial_no'] = $serial_number->value + 1;
         }
@@ -182,7 +184,12 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return Project::with(['pro_data.client', 'pro_items', 'proposal_id.pro_data.client'])->latest()->find($project->id);
+        return Project::with(['pro_data.client',
+         'pro_items.item_id',
+         'pro_items.operation_id',
+         'pro_items.item_id.uom_equiv_id',
+         'pro_items.item_id.uom_id',
+         'proposal_id.pro_data.client'])->latest()->find($project->id);
     }
 
     /**
