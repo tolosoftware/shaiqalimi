@@ -1,6 +1,6 @@
 <template>
 <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="ثبت معلومات" @on-complete="submitForm">
-  <tab-content title="معلومات عمومی قرارداد" class="mb-5" >
+  <tab-content title="معلومات عمومی قرارداد" class="mb-5" :before-change="validateStep1">
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -598,6 +598,7 @@ export default {
       this.axios.get('/api/serial-num?type=pro')
         .then((response) => {
           this.pForm.serial_no = response.data;
+          this.pForm.client_id = this.clients;
         })
     },
 

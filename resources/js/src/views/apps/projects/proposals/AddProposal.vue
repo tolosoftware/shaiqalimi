@@ -590,6 +590,7 @@ export default {
         .then((response) => {
           this.currentSerialNo = response.data;
           this.aForm.serial_no = this.currentSerialNo;
+          this.aForm.client_id = this.clients;
         })
     },
 
