@@ -18,7 +18,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input autocomplete="off" v-validate="'required|min:6'" v-model="aForm.publish_address" label="آدرس نشراعلان" name="publish_address" class="w-full" />
+            <vs-input autocomplete="off" v-model="aForm.publish_address" label="آدرس نشراعلان" name="publish_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.publish_address') }}</span>
             <!--<span class="text-danger text-sm" v-show="errors.has('publish_address')">{{ errors.first('publish_address') }}</span> -->
             <has-error :form="aForm" field="publish_address"></has-error>
@@ -62,7 +62,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input autocomplete="off" v-validate="'required|min:6'" v-model="aForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
+            <vs-input autocomplete="off" v-validate="'required|min:3'" v-model="aForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.reference_no') }}</span>
             <has-error :form="aForm" field="reference_no"></has-error>
             <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
@@ -88,7 +88,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input autocomplete="off" size="medium" label="آدرس آفرگشایی" v-validate="'required'" v-model="aForm.bidding_address" name="bidding_address" class="w-full" />
+            <vs-input autocomplete="off" size="medium" label="آدرس آفرگشایی" v-model="aForm.bidding_address" name="bidding_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.bidding_address') }}</span>
             <has-error :form="aForm" field="bidding_address"></has-error>
           </div>
@@ -103,7 +103,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" type="number" name="offer_guarantee" v-validate="'required'" v-model="aForm.offer_guarantee" />
+              <vs-input autocomplete="off" type="number" name="offer_guarantee" v-model="aForm.offer_guarantee" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.offer_guarantee') }}</span>
             <has-error :form="aForm" field="offer_guarantee"></has-error>
@@ -491,6 +491,7 @@ export default {
     Ekmalat
 
   },
+  props: ['clients'],
   data() {
     return {
       serial_no: '',
@@ -525,14 +526,12 @@ export default {
         pr_worth: '',
         transit: '',
       }),
-      clients: [],
       items: [],
       mesure_unit: [],
     }
   },
   created() {
     this.getNextSerialNo();
-    this.getAllClients();
     this.getAllItems();
     this.getAllUnites();
   },
@@ -580,7 +579,6 @@ export default {
 
     reloadData() {
       this.getNextSerialNo();
-      this.getAllClients();
       this.getAllItems();
       this.$refs.wizard.reset();
       this.$Progress.set(100)
@@ -592,15 +590,7 @@ export default {
         .then((response) => {
           this.currentSerialNo = response.data;
           this.aForm.serial_no = this.currentSerialNo;
-        })
-    },
-
-    // for Organs that implement the ad
-    getAllClients() {
-      this.$Progress.start()
-      this.axios.get('/api/clients')
-        .then((response) => {
-          this.clients = response.data;
+          this.aForm.client_id = this.clients;
         })
     },
 
@@ -667,7 +657,7 @@ export default {
           total_items += parseInt(item.total_price);
         }
       })
-      return others + transit + pr_worth + total_items;
+      return others + transit + total_items;
     },
   },
 }

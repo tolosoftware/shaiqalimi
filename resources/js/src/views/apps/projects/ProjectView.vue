@@ -141,26 +141,13 @@ export default {
         this.$Progress.set(100)
       }
     },
-    getOrganizations() {
-      console.log(this.project.organization_id);
-      if (this.project.organization_id) {
-        this.axios.get('/api/organization/' + this.project.organization_id)
-          .then((response) => {
-            this.org = response.data;
-            this.getAnnounces();
-          })
-
-      } else {
-        this.getAnnounces();
-      }
-    },
     getProject() {
       // Start the Progress Bar
       this.$Progress.start()
       this.axios.get('/api/project/' + this.$route.params.id)
         .then((response) => {
           this.project = response.data;
-          this.getOrganizations();
+          // this.getOrganizations();
         })
     },
   },

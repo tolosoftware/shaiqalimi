@@ -294,7 +294,6 @@ export default {
       set(val) {
         if (!val) {
           this.$emit('closeSidebar')
-
         }
       }
     },

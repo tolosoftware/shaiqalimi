@@ -30,4 +30,13 @@ class Item extends Model
     {
         return $this->belongsTo(MeasurmentUnit::class, 'uom_equiv_id');
     }
+    public function uom_id()
+    {
+        return $this->belongsTo(MeasurmentUnit::class, 'uom_id');
+    }
+    public function uom_equiv_id()
+    {
+        return $this->belongsTo(MeasurmentUnit::class, 'uom_equiv_id');
+    }
+
 }

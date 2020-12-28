@@ -16,7 +16,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Client::all();
+        return Client::with('pro_date')->get();
     }
 
     /**

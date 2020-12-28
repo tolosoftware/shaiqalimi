@@ -14,7 +14,13 @@ class ItemController extends Controller
      */
     public function index()
     {
-        return Item::with('measurment_unites_min')->with('measurment_unites_sub')->with('type')->get();
+        return Item::with([
+        'measurment_unites_min', 
+        'measurment_unites_sub', 
+        'type',
+        'uom_equiv_id',
+        'uom_id'
+        ])->get();
     }
 
     /**
