@@ -159,7 +159,7 @@ return [
         'phone' => 'شماره تماس',
         'website' => 'ویب سایت',
         'address' => 'آدرس',
-        'logo' => 'لوگو',
+        'logo' => 'نشان',
         'manager' => 'مسول',
         'description' => 'توضیحات'
     ],

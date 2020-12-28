@@ -9,7 +9,7 @@
             <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="2" vs-sm="4" vs-xs="4">
               <div class="">
                 <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
-                  فارم ثبت اعلانات
+                  فورم ثبت اعلانات
                 </h3>
               </div>
             </vs-col>
@@ -24,7 +24,7 @@
           <hr>
           <!--<vs-divider/> -->
         </div>
-        <add-proposal></add-proposal>
+        <add-proposal :clients="clients"></add-proposal>
       </vx-card>
     </vs-tab>
     <vs-tab label="لیست اعلانات">
@@ -58,6 +58,7 @@ export default {
       addNewDataSidebar: false,
       sidebarData: {},
       edit_id: 0,
+      clients: [],
     }
   },
   computed: {
@@ -69,8 +70,16 @@ export default {
     this.isMounted = false;
     this.$validator.validate();
   },
-  created() {},
+  created() {
+    this.getAllClients();
+  },
   methods: {
+    getAllClients() {
+      this.axios.get('/api/clients')
+        .then((response) => {
+          this.clients = response.data;
+        })
+    },
     addNewData() {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
@@ -78,6 +87,7 @@ export default {
 
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
+      this.getAllClients();
     }
 
   },

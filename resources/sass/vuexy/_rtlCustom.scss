@@ -423,3 +423,30 @@ $borderWidth: 1px;
     border-left-style: solid;
     margin: 1rem 0;
 }
+
+.vs-popup--header {
+    background: #000 !important;
+    background-image: linear-gradient(calc(360deg - 175deg), rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+    .vs-popup--title h3 {
+        color: white !important;
+    }
+}
+
+.vs-popup--close {
+    background: rgb(234 84 85) !important;
+    color: white !important;
+}
+
+.vs-popup--close {
+    transform: none !important;
+    transition: none !important;
+    padding: 12px !important;
+}
+
+.vs-popup--close:hover {
+    transition: none !important;
+}
+
+.vs-popup--close {
+    transform: none;
+}

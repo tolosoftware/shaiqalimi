@@ -12,7 +12,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>انتخاب اعلان</small></label>
-            <v-select name="serial_no" :clearable="false" label="serial_no" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+            <v-select name="serial_no" :clearable="false" :get-option-label="option => option.serial_no + ' - ' + option.pro_data.title" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
               <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
             </v-select>
             <has-error :form="pForm" field="proposal_id"></has-error>
@@ -62,7 +62,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input v-validate="'required|min:6'" v-model="pForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
+            <vs-input v-validate="'required|min:3'" v-model="pForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.reference_no') }}</span>
             <has-error :form="pForm" field="reference_no"></has-error>
           </div>
@@ -86,7 +86,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" name="project_guarantee" v-validate="'required'" v-model="pForm.project_guarantee" />
+              <vs-input type="number" name="project_guarantee" v-model="pForm.project_guarantee" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.project_guarantee') }}</span>
             <has-error :form="pForm" field="project_guarantee"></has-error>
@@ -98,56 +98,7 @@
 
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
 
-    <ekmalat :items="pForm.item" :form="pForm"></ekmalat>
     <form data-vv-scope="step-2">
-      <vs-row vs-w="12">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <!-- TITLE -->
-            <label for=""><small>تامینات</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>٪</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="pForm.deposit" v-validate="'required'" name="deposit" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
-            <has-error :form="pForm" field="deposit"></has-error>
-          </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <label for=""><small>مالیات</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>٪</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="pForm.tax" v-validate="'required'" name="tax" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
-            <has-error :form="pForm" field="tax"></has-error>
-          </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <label for=""><small>متفرقه</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="pForm.others" v-validate="'required'" name="others" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
-            <has-error :form="pForm" field="others"></has-error>
-          </div>
-        </vs-col>
-      </vs-row>
       <vs-row vs-w="12" class="mb-base">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
@@ -164,34 +115,89 @@
             <has-error :form="pForm" field="pr_worth"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <label for=""><small>انتقالات</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="pForm.transit" v-validate="'required'" name="transit" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
-            <has-error :form="pForm" field="transit"></has-error>
-          </div>
+      </vs-row>
+
+      <ekmalat :items="pForm.item" :form="pForm"></ekmalat>
+      <vs-row vs-w="12" class="mb-base">
+        <vs-col vs-type="flex" vs-w="3" class="mb-base">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <!-- TITLE -->
+              <label for=""><small>تامینات</small></label>
+              <vx-input-group class="">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>٪</span>
+                  </div>
+                </template>
+                <vs-input autocomplete="off" type="number" v-model="pForm.deposit" v-validate="'required'" name="deposit" />
+              </vx-input-group>
+              <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
+              <has-error :form="pForm" field="deposit"></has-error>
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for=""><small>مالیات</small></label>
+              <vx-input-group class="">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>٪</span>
+                  </div>
+                </template>
+                <vs-input autocomplete="off" type="number" v-model="pForm.tax" v-validate="'required'" name="tax" />
+              </vx-input-group>
+              <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+              <has-error :form="pForm" field="tax"></has-error>
+            </div>
+          </vs-col>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <label for=""><small>نرخ دهی</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="pForm.total_price" :v-model="pForm.total_price = total_cost" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
-          </div>
+        <vs-col vs-type="flex" vs-w="9" class="mb-base">
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for=""><small>مصارف متفرقه</small></label>
+              <vx-input-group class="">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>AFN</span>
+                  </div>
+                </template>
+                <vs-input autocomplete="off" type="number" v-model="pForm.others" v-validate="'required'" name="others" />
+              </vx-input-group>
+              <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
+              <has-error :form="pForm" field="others"></has-error>
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for=""><small>مصارف انتقالات</small></label>
+              <vx-input-group class="">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>AFN</span>
+                  </div>
+                </template>
+                <vs-input autocomplete="off" type="number" v-model="pForm.transit" v-validate="'required'" name="transit" />
+              </vx-input-group>
+              <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
+              <has-error :form="pForm" field="transit"></has-error>
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for=""><small>نرخ دهی</small></label>
+              <vx-input-group class="">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>AFN</span>
+                  </div>
+                </template>
+                <vs-input autocomplete="off" type="number" v-model="pForm.total_price" :v-model="pForm.total_price = total_cost" />
+              </vx-input-group>
+              <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
+            </div>
+          </vs-col>
         </vs-col>
       </vs-row>
     </form>
@@ -423,7 +429,7 @@ const dict = {
     bidding_address: {
       required: 'آدرس آفرگشایی الزامی است.'
     },
-    project_guarantee : {
+    project_guarantee: {
       required: 'تضمین قرارداد الزامی است'
     },
     deposit: {
@@ -456,6 +462,7 @@ export default {
     TabContent,
     Ekmalat,
   },
+  props: ['clients', 'newClient'],
   data() {
     return {
       is_accepted: false,
@@ -490,7 +497,6 @@ export default {
         total_price: 0,
 
       }),
-      clients: [],
       items: [],
       mesure_unit: [],
       proposals: [],
@@ -516,11 +522,15 @@ export default {
   },
   created() {
     this.$Progress.start()
-    this.getNextSerialNo();
-    this.getAllClients();
+    // this.getAllClients();
     this.getAllItems();
     this.getAllUnites();
     this.getProposals();
+    if (this.$route.params.id) {
+      this.getProject();
+    } else {
+      this.getNextSerialNo();
+    }
   },
   computed: {
     isFormValid() {
@@ -530,12 +540,27 @@ export default {
   methods: {
     setProjectData(data) {
       if (data) {
-        console.log(data);
-        if (data.pro_items) {
-          this.pForm.item = data.pro_items;
+        if (data.pro_items.length) {
+          for (let [key, data] of Object.entries(data.pro_items)) {
+            this.pForm.item.push(data.item);
+            console.log(this.pForm.item);
+          }
+
+        } else {
+          this.pForm.item = [{
+            item_id: "",
+            unit_id: "",
+            operation_id: null,
+            equivalent: "",
+            ammount: "",
+            unit_price: "",
+            total_price: "",
+            density: null,
+
+          }];
         }
         if (data.pro_data) {
-          this.pForm.client_id = data.pro_data.client_id;
+          this.pForm.client_id = data.pro_data.client;
           this.pForm.deposit = data.pro_data.deposit;
           this.pForm.others = data.pro_data.others;
           this.pForm.pr_worth = data.pro_data.pr_worth;
@@ -545,6 +570,7 @@ export default {
           this.pForm.total_price = data.pro_data.total_price;
           this.pForm.transit = data.pro_data.transit;
           this.pForm.status = (data.status == 'normal') ? 1 : 2;
+          // console.log(this.pForm);
         }
       }
     },
@@ -557,7 +583,6 @@ export default {
     },
 
     findItem(id) {
-      console.log();
       let item = '';
       Object.keys(this.items).some(key => (this.items[key].id == id) ? item = this.items[key].name : null);
       return item;
@@ -568,16 +593,15 @@ export default {
       return name;
     },
 
-    reloadData() {
-      this.getNextSerialNo();
-      this.getAllClients();
-      this.getAllItems();
-    },
-    // for getting the next serian number
+    // 'asdfdsfds', for getting the next serian number
     getNextSerialNo() {
       this.axios.get('/api/serial-num?type=pro')
         .then((response) => {
           this.pForm.serial_no = response.data;
+          if (this.newClient) {
+            this.pForm.client_id = this.clients.find(e => !!e);
+            // this.pForm.client_id = this.clients.find(e => !!e);
+          }
         })
     },
 
@@ -601,6 +625,8 @@ export default {
       this.axios.get('/api/proposal')
         .then((response) => {
           this.proposals = response.data;
+          // Object.keys(this.proposals).some(key => this.proposals[key]['title'] = this.proposals[key].pro_data.title);
+          // console.log(this.proposals);
           this.$Progress.set(100)
         })
     },
@@ -622,11 +648,14 @@ export default {
 
     addNewRow() {
       this.pForm.item.push({
-        item_id: '',
-        ammount: '',
-        unit_id: '',
-        unit_price: '',
-        total_price: '',
+        item_id: "",
+        unit_id: "",
+        operation_id: null,
+        equivalent: "",
+        ammount: "",
+        unit_price: "",
+        total_price: "",
+        density: null,
       })
     },
     validateStep1() {
@@ -695,6 +724,35 @@ export default {
       this.pForm.reset();
       this.pForm.s_number = this.mainSNumber;
     },
+    getProject() {
+      this.axios.get('/api/project/' + this.$route.params.id)
+        .then((response) => {
+          this.setPFromValue(response.data);
+          this.$Progress.set(100)
+        })
+    },
+    setPFromValue(resp) {
+      // for (let [key,value] of Object.entries(resp)) {
+      //   this.pForm[key] = value;
+      // }
+      for (let [key, value] of Object.entries(resp.pro_data)) {
+        this.pForm[key] = value;
+      }
+      for (let [key, value] of Object.entries(resp)) {
+        if (key == 'status') {
+          this.pForm[key] = (value == 'income') ? 1 : 2;
+        } else {
+
+          this.pForm[key] = value;
+        }
+      }
+      if (resp.pro_items) {
+        this.pForm.item = resp.pro_items;
+      }
+      console.log(resp.pro_items);
+
+      this.pForm.client_id = resp.pro_data.client;
+    },
   },
   // End Of methods
   computed: {
@@ -702,7 +760,7 @@ export default {
     total_cost: function () {
       let others = (this.pForm.others) ? parseInt(this.pForm.others) : 0;
       let transit = (this.pForm.transit) ? parseInt(this.pForm.transit) : 0;
-      let pr_worth = (this.pForm.pr_worth) ? parseInt(this.pForm.pr_worth) : 0;
+      // let pr_worth = (this.pForm.pr_worth) ? parseInt(this.pForm.pr_worth) : 0;
 
       let total_items = 0;
       this.pForm.item.filter(function (item) {
@@ -710,7 +768,7 @@ export default {
           total_items += parseInt(item.total_price);
         }
       })
-      return others + transit + pr_worth + total_items;
+      return others + transit + total_items;
     },
   },
 

@@ -16,7 +16,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Client::all();
+        return Client::with('pro_date')->get();
     }
 
     /**
@@ -64,7 +64,7 @@ class ClientController extends Controller
         if ($account) {
             // upload the logo
             $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
-            \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
+            \Image::make($request->logo)->save(public_path('images/img/clients/') . $photoname);
             $request->merge(['logo' => $photoname]);
             // find the last ID of account
 
@@ -137,11 +137,11 @@ class ClientController extends Controller
         ]);
         $client = Client::findOrFail($client->id);
         if (!($client->logo == $request->logo)) {
-            if (file_exists(public_path('images/img/') . $client->logo)) {
-                unlink(public_path('images/img/') . $client->logo);
+            if (file_exists(public_path('images/img/clients/') . $client->logo)) {
+                unlink(public_path('images/img/clients/') . $client->logo);
             }
             $photoname = time() . '.' . explode('/', explode(':', substr($request->logo, 0, strpos($request->logo, ';')))[1])[1];
-            \Image::make($request->logo)->save(public_path('images/img/') . $photoname);
+            \Image::make($request->logo)->save(public_path('images/img/clients/') . $photoname);
             $request->merge(['logo' => $photoname]);
 
             $client->logo = $photoname;
@@ -168,8 +168,8 @@ class ClientController extends Controller
     {
         $client = Client::findOrFail($client->id);
         if ($client->logo != 0) {
-            if (file_exists(public_path('images/img/') . $client->logo)) {
-                unlink(public_path('images/img/') . $client->logo);
+            if (file_exists(public_path('images/img/clients/') . $client->logo)) {
+                unlink(public_path('images/img/clients/') . $client->logo);
             }
         }
         $client->delete();

@@ -28,24 +28,23 @@
         </h4>
       </template>
       <template slot="thead">
-        <vs-th> نام </vs-th>
         <vs-th> ریفرینس کد </vs-th>
-        <vs-th> تفصیلات </vs-th>
-        <vs-th> وضعیت </vs-th>
+        <vs-th> عنوان </vs-th>
+        <vs-th> بالانس </vs-th>
+        <vs-th> حالت </vs-th>
         <vs-th> تنظیمات </vs-th>
       </template>
 
       <template slot-scope="{ data }">
         <vs-tr :key="i" v-for="(tr, i) in data">
-          <vs-td :data="tr.name">
-            {{ tr.name }}
-          </vs-td>
           <vs-td :data="tr.ref_code">
-            {{ tr.ref_code }}
+            <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.ref_code }} </p>
           </vs-td>
-
-          <vs-td :data="tr.description">
-            {{ tr.description }}
+          <vs-td :data="tr.name">
+            <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
+          </vs-td>
+          <vs-td :data="tr">
+            <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ countTheBalance(tr) }} </p>
           </vs-td>
           <vs-td :data="tr.status">
             <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
@@ -53,7 +52,7 @@
           <vs-td class="whitespace-no-wrap notupfromall">
             <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="editAccount(tr.id)" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
-            <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" />
+            <!-- <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" /> -->
           </vs-td>
 
         </vs-tr>
@@ -132,7 +131,18 @@ export default {
           this.$Progress.set(100)
         })
     },
-
+    countTheBalance(data){
+      let x = 0;
+      for (let [key, data] of Object.entries(data.financial_records)) {
+        if(data.credit){
+          x = x + parseInt(data.credit);
+        }
+        if(data.debit){
+          x = x - parseInt(data.debit);
+        }
+      }
+      return x;
+    },
     deleteData(id) {
       swal.fire({
         title: 'آیا متمعن هستید؟',

@@ -5503,3 +5503,37 @@ text {
   border-right-style: solid;
 }
 
+[dir] .vs-popup--header {
+  background: #000 !important;
+  background-image: linear-gradient(calc(360deg - 175deg), rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+}
+
+.vs-popup--header .vs-popup--title h3 {
+  color: white !important;
+}
+
+.vs-popup--close {
+  color: white !important;
+}
+
+[dir] .vs-popup--close {
+  background: #ea5455 !important;
+}
+
+.vs-popup--close {
+  transition: none !important;
+}
+
+[dir] .vs-popup--close {
+  transform: none !important;
+  padding: 12px !important;
+}
+
+.vs-popup--close:hover {
+  transition: none !important;
+}
+
+[dir] .vs-popup--close {
+  transform: none;
+}
+
