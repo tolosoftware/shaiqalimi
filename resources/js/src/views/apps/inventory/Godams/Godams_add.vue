@@ -36,6 +36,7 @@
       <div id="data-list-thumb-view" class="w-full data-list-container">
         <vs-table pagination :max-items="4" :data="godams">
           <template slot="thead">
+            <vs-th>#</vs-th>
             <vs-th>نام گدام</vs-th>
             <vs-th>مسول</vs-th>
             <vs-th>تماس</vs-th>
@@ -44,6 +45,9 @@
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+              <vs-td>
+                <span>{{++indextr}}</span>
+              </vs-td>
               <vs-td>
                 <span v-text="tr.name"></span>
               </vs-td>
@@ -248,7 +252,7 @@ export default {
     deleteGodamData(id) {
       this.godamActiveForm = false;
       swal.fire({
-        title: 'آیا متمعن هستید؟',
+        title: 'آیا مطمیٔن هستید؟',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: 'rgb(54 34 119)',
