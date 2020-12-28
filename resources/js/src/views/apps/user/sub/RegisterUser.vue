@@ -57,9 +57,10 @@
                     <div class="w-full con-select-example">
                       
 
-                        <label class="typo__label">مافوق برای کابر</label>
-                        <v-select  v-model="form.userleaders" :options="arrayofobject" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="مافوق کاربر را انتخاب کنید" label="name" track-by="name" :preselect-first="true">
-                            <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="form.userleaders.length &amp;&amp; !isOpen">{{ form.userleaders.length }} به این تعداد انتخاب شده</span></template>
+
+                         <label class="typo__label">مافوق برای کابر</label>
+                        <v-select label="firstName" multiple v-model="form.userleaders" :options="users" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+                        <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
                         </v-select>
                      
                     </div>
@@ -128,21 +129,7 @@ export default {
         return {
 
             users: [],
-            arrayofobject: [{
-                    name: 'Mahdi Naseri',
-                    language: '1'
-                },
-                {
-                    name: 'Naseri Karimi',
-                    language: '2'
-                },
-                {
-                    name: 'Jamal Ahmadi',
-                    language: '3'
-                },
-              
-            ],
-
+           
             usertypes: [{
                     text: 'آدمین',
                     value: 0
@@ -172,7 +159,7 @@ export default {
                 address: '',
                 password: '',
                 image: '',
-                userleaders: '',
+                userleaders: null,
             })
         }
     },
@@ -191,7 +178,7 @@ export default {
             this.form.post('/api/users')
                 .then(() => {
                     this.$vs.notify({
-                        title: ' کاربر جدید اضافه شد',
+                        title: 'عملیه ثبت موفق بود!',
                         text: 'عملیه موفغانه انجام شد',
                         color: 'success',
                         iconPack: 'feather',
@@ -202,7 +189,14 @@ export default {
                 })
 
                 .catch(() => {
-
+                    this.$vs.notify({
+                        title: 'عملیه ثبت ناموفق بود!',
+                        text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
                 })
         },
 

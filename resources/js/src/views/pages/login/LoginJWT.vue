@@ -1,104 +1,107 @@
 <template>
-  <div>
-    <vs-input
-        v-validate="'required|email|min:3'"
-        data-vv-validate-on="blur"
-        name="email"
-        icon-no-border
-        icon="icon icon-user"
-        icon-pack="feather"
-        label="ایمیل"
-        v-model="email"
-        class="w-full"/>
+<div>
+    <vs-input v-validate="'required|email|min:3'" data-vv-validate-on="blur" name="email" icon-no-border icon="icon icon-user" icon-pack="feather" label="ایمیل" v-model="form.username" class="w-full" />
     <span class="text-danger text-sm">{{ errors.first('email') }}</span>
 
-    <vs-input
-        data-vv-validate-on="blur"
-        v-validate="'required|min:6|max:10'"
-        type="password"
-        name="password"
-        icon-no-border
-        icon="icon icon-lock"
-        icon-pack="feather"
-        label="رمز ورود"
-        v-model="password"
-        class="w-full mt-6" />
+    <vs-input data-vv-validate-on="blur" v-validate="'required|min:6|max:10'" type="password" name="password" icon-no-border icon="icon icon-lock" icon-pack="feather" label="رمز ورود" v-model="form.password" class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
 
-    <div class="flex flex-wrap justify-between my-5">
-        <vs-checkbox v-model="checkbox_remember_me" class="mb-3">مرا به یاد داشته باش</vs-checkbox>
-        <!-- <router-link :to="{name: 'resetpassword'}">رمز خود را فراموش کرده‌اید؟</router-link> -->
+   
+    <div class=" w-full mt-3">
+        <vs-button :disabled="!validateForm" @click="loginJWT">ورود</vs-button>
     </div>
-    <div class="flex flex-wrap justify-between mb-3">
-      <vs-button :disabled="!validateForm" @click="loginJWT">ورود</vs-button>
-    </div>
-  </div>
+</div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      email: 'admin@admin.com',
-      password: 'adminadmin',
-      checkbox_remember_me: false
-    }
-  },
-  computed: {
-    validateForm () {
-      return !this.errors.any() && this.email !== '' && this.password !== ''
-    }
-  },
-  methods: {
-    checkLogin () {
-      // If user is already logged in notify
-      if (this.$store.state.auth.isUserLoggedIn()) {
-
-        // Close animation if passed as payload
-        // this.$vs.loading.close()
-
-        this.$vs.notify({
-          title: 'Login Attempt',
-          text: 'You are already logged in!',
-          iconPack: 'feather',
-          icon: 'icon-alert-circle',
-          color: 'warning'
-        })
-
-        return false
-      }
-      return true
-    },
-    loginJWT () {
-
-      if (!this.checkLogin()) return
-
-      // Loading
-      this.$vs.loading()
-
-      const payload = {
-        checkbox_remember_me: this.checkbox_remember_me,
-        userDetails: {
-          email: this.email,
-          password: this.password
+    data() {
+        return {
+             form: new Form({
+                username:'',
+                password: '',
+                grant_type: 'password',
+                client_id: 2,
+                client_secret: '3uqtjmiGhLD4NaPElH7FrDb6hB2C8fUTVfSHtTlt',
+                scope: '*'
+            })
+          
         }
-      }
-
-      this.$store.dispatch('auth/loginJWT', payload)
-        .then(() => { this.$vs.loading.close() })
-        .catch(error => {
-          this.$vs.loading.close()
-          this.$vs.notify({
-            title: 'Error',
-            text: error.message,
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger'
-          })
-        })
     },
-  }
+    computed: {
+        validateForm() {
+            return !this.errors.any() && this.email !== '' && this.password !== ''
+        }
+    },
+    methods: {
+        checkLogin() {
+            // If user is already logged in notify
+            if (this.$store.state.auth.isUserLoggedIn()) {
+
+                // Close animation if passed as payload
+                // this.$vs.loading.close()
+
+                this.$vs.notify({
+                    title: 'Login Attempt',
+                    text: 'You are already logged in!',
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'warning'
+                })
+
+                return false
+            }
+            return true
+        },
+
+        loginJWT() {
+            if (!this.checkLogin()) return
+            // Loading
+            this.$vs.loading()
+              this.form.post('/oauth/token')
+                .then(() => {
+                    this.$vs.notify({
+                        title: 'به سیستم خوش آمدید',
+                        text: 'عملیه ورود موفقانه بود',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                    this.form.reset();
+                    this.$vs.loading.close()
+                    this.$router.push('/dashboard');
+                })
+
+                .catch(() => {
+                     this.$vs.notify({
+                        title: 'عملیه ورود به سیستم ناموفق بود ',
+                        text: 'لطفا دوباره تلاش نماید',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                 
+                    this.$vs.loading.close()
+                })
+
+
+            // this.$store.dispatch('auth/loginJWT', payload)
+            //     .then(() => {
+            //         this.$vs.loading.close()
+            //     })
+            //     .catch(error => {
+            //         this.$vs.loading.close()
+            //         this.$vs.notify({
+            //             title: 'Error',
+            //             text: error.message,
+            //             iconPack: 'feather',
+            //             icon: 'icon-alert-circle',
+            //             color: 'danger'
+            //         })
+            //     })
+        },
+    }
 }
-
 </script>
-

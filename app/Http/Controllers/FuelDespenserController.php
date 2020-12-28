@@ -36,6 +36,7 @@ class FuelDespenserController extends Controller
      */
     public function store(Request $request)
     {
+     
         $despenser = Fuel_despenser::create($request->all());
         foreach ($request->storage_id as $key => $storage) {
             Fuel_desp_str::create(['storage_id' => $storage['id'], 'despencer_id'=> $despenser->id]);
