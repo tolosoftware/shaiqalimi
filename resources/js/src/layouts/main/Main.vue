@@ -32,7 +32,7 @@
       @updateRouterTransition="updateRouterTransition"
     />
 
-    <v-nav-menu :navMenuItems="navMenuItems" :title="$t('siteTitle')" parent=".layout--main" />
+    <v-nav-menu :navMenuItems="navMenuItems" :title="$t('siteTitle')" parent=".layout--main" style="margin-right:-19px; !important;"/>
 
     <div id="content-area" :class="[contentAreaClass, {'show-overlay': bodyOverlay}]">
       <div id="content-overlay" />

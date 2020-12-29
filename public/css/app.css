@@ -5008,6 +5008,10 @@ button:focus {
   font-display: swap;
 }
 
+.vx-logo .vx-logo-text {
+  font-size: 18px !important;
+}
+
 html:not(.glyphicon),
 body:not(.glyphicon),
 div:not(.glyphicon),
@@ -5536,11 +5540,12 @@ text {
 }
 
 .vs-popup--close {
+  -webkit-transform: none !important;
   transition: none !important;
 }
 
 [dir] .vs-popup--close {
-  transform: none !important;
+          transform: none !important;
   padding: 12px !important;
 }
 
@@ -5548,7 +5553,11 @@ text {
   transition: none !important;
 }
 
+.vs-popup--close {
+  -webkit-transform: none;
+}
+
 [dir] .vs-popup--close {
-  transform: none;
+          transform: none;
 }
 
