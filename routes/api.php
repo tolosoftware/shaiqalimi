@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
+Route::get('user','UserController@user')->middleware('auth:api');
 Route::resource('users', 'UserController');
 Route::resource('itemtype', 'ItemTypeController');
 Route::resource('item', 'ItemController');
