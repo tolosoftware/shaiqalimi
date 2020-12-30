@@ -12,7 +12,6 @@
 
           <form>
             <div class="vx-row">
-
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <vs-input size="medium" v-validate="'serialnumber'" label="سریال نمبر" name="serialnumber" class="mt-5 w-full" placeholder="101" disabled />
@@ -102,7 +101,7 @@
 
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3 mb-4">
-                  <vs-input size="medium" v-validate="'projecttitle'" v-model="aform.title-" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
+                  <vs-input size="medium" v-validate="'projecttitle'" v-model="tForm.title" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
                 </div>
               </vs-col>
 
@@ -124,6 +123,7 @@
               <div class="vx-col w-full mt-4">
                 <vs-textarea placeholder="تفصیلات"></vs-textarea>
               </div>
+
             </div>
             <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">ثبت</vs-button>
           </form>
@@ -149,10 +149,10 @@ export default {
   },
   data() {
     return {
-      tForm = new Form({
+      tForm: new Form({
         currency: 1,
-        title:''
-      })
+        title: ''
+      }),
       itemType: [{
           text: "تیل دیزل",
           value: "1",

@@ -8,8 +8,8 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>جنس / محصول</small></label>
-            <v-select v-validate="'required'" :name="`item_id_${index}`" @input="datacalled" :get-option-label="option => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-            <span class="absolute text-danger alerttext">{{ errors.first(`step-3.item_id_${index}`) }}</span>
+            <v-select v-validate="'required'" :class="['{{errors.first(`step-3.item_id_${index}`)}}' ? 'has-error' : '']" :name="`item_id_${index}`" @input="datacalled" :get-option-label="option => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.item_id_${index}`) }}</span> -->
             <has-error :form="form" field="item_id"></has-error>
           </div>
         </vs-col>
@@ -17,7 +17,7 @@
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>عملیه</small></label>
             <v-select v-validate="'required'" :name="`operation_id_${index}`" label="title" @input="operationChange" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-            <span class="absolute text-danger alerttext">{{ errors.first(`step-3.operation_id_${index}`) }}</span>
+            <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.operation_id_${index}`) }}</span> -->
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
@@ -26,18 +26,18 @@
               <small>مقدار</small>
             </label>
             <vx-input-group class="">
-              <template slot="append">
+              <template slot="append" v-if="i.item_id.uom_id">
                 <div class="append-text bg-primary">
-                  <span>{{ (i.item_id.uom_equiv_id) ? i.item_id.uom_equiv_id.acronym : i.item_id }}</span>
+                  <span>{{ (i.item_id.uom_id) ? i.item_id.uom_id.acronym : i.item_id }}</span>
                 </div>
               </template>
               <vs-input v-validate="'required'" :name="`ammount_${index}`" type="number" min="0" v-model="i.ammount" />
             </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first(`step-3.ammount_${index}`) }}</span>
+            <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.ammount_${index}`) }}</span> -->
             <has-error :form="form" field="ammount"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="i.operation_id != undefined && i.operation_id.id == 1" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="i.operation_id != undefined && i.operation_id.id == 1" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <vs-input v-model="i.density" label="ثقلت" class="w-full" />
             <has-error :form="form" field="density"></has-error>
@@ -50,9 +50,9 @@
               <small>معادل</small>
             </label>
             <vx-input-group class="">
-              <template slot="append">
+              <template slot="append" v-if="i.item_id.uom_equiv_id">
                 <div class="append-text bg-primary">
-                  <span>{{ (i.item_id.uom_id) ? i.item_id.uom_id.acronym : i.item_id }}</span>
+                  <span>{{ (i.item_id.uom_equiv_id) ? i.item_id.uom_equiv_id.acronym : i.item_id }}</span>
                 </div>
               </template>
               <vs-input v-validate="'required|min:2'" type="number" v-model="i.equivalent" />
@@ -60,21 +60,10 @@
             <has-error :form="form" field="equivalent"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="(i.operation_id != undefined && i.operation_id.id == 1) ? 1 : 2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <label for>
-              <small>هزینه فی واحد</small>
-            </label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input type="number" v-validate="'required'" :name="`unit_price_${index}`" v-model="i.unit_price" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first(`step-3.unit_price_${index}`) }}</span>
-            <has-error :form="form" field="unit_price"></has-error>
+            <vs-input type="number" v-validate="'required'" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه فی واحد" class="w-full" />
+            <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
@@ -265,7 +254,7 @@ export default {
           required: 'هزینه فی واحد الزامی است.'
         };
       }
-      console.log(this.listOfFields);
+      // console.log(this.listOfFields);
       Validator.localize('en', this.listOfFields);
 
     },

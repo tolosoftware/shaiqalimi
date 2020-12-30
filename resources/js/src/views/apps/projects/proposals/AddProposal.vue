@@ -427,62 +427,6 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
   Validator
 } from 'vee-validate'
-const dict = {
-  custom: {
-    serial_no: {
-      required: 'سریال نمبر الزامی میباشد.',
-      number: 'سریال نمبر باید نمبر باشد.'
-    },
-    publish_date: {
-      required: 'تاریخ نشر اعلان را انتخاب کنید.'
-    },
-    publish_address: {
-      required: 'آدرس نشر اعلان الزامی است.',
-      min: 'آدرس نشر اعلان باید بیشتر از 6 حرف باشد.',
-    },
-    client_id: {
-      required: 'نهاد را انتخاب کنید.'
-    },
-    title: {
-      required: 'عنوان اعلان الزامی است.'
-    },
-    reference_no: {
-      required: 'شماره شناسایی اعلان ضروری است.'
-    },
-    submission_date: {
-      required: 'تاریخ ختم پیشنهادات الزامی است.'
-    },
-    bidding_date: {
-      required: 'تاریخ آفرگشایی الزامی است.'
-    },
-    bidding_address: {
-      required: 'آدرس آفرگشایی الزامی است.'
-    },
-    offer_guarantee: {
-      required: 'تضمین آفر الزامی است'
-    },
-    deposit: {
-      required: 'فیصدی تامینات را وارد کنید.',
-    },
-    tax: {
-      required: 'فیصدی مالیه را وارد کنید',
-    },
-    others: {
-      required: 'هزینه متفرقه بالای اعلان را وارد کنید.',
-    },
-    pr_worth: {
-      required: 'ارزش قرارداد الزامی است.',
-    },
-    transit: {
-      required: 'هزینه انتقالات را وارد کنید.',
-    },
-    total_price: {
-      required: '',
-    },
-  }
-}
-// register custom messages
-Validator.localize('en', dict)
 
 export default {
   components: {
@@ -529,9 +473,68 @@ export default {
       }),
       items: [],
       mesure_unit: [],
+
+      // Form field translations
+      dict: {
+        custom: {
+          serial_no: {
+            required: 'سریال نمبر الزامی میباشد.',
+            number: 'سریال نمبر باید نمبر باشد.'
+          },
+          publish_date: {
+            required: 'تاریخ نشر اعلان را انتخاب کنید.'
+          },
+          publish_address: {
+            required: 'آدرس نشر اعلان الزامی است.',
+            min: 'آدرس نشر اعلان باید بیشتر از 6 حرف باشد.',
+          },
+          client_id: {
+            required: 'نهاد را انتخاب کنید.'
+          },
+          title: {
+            required: 'عنوان اعلان الزامی است.'
+          },
+          reference_no: {
+            required: 'شماره شناسایی اعلان ضروری است.'
+          },
+          submission_date: {
+            required: 'تاریخ ختم پیشنهادات الزامی است.'
+          },
+          bidding_date: {
+            required: 'تاریخ آفرگشایی الزامی است.'
+          },
+          bidding_address: {
+            required: 'آدرس آفرگشایی الزامی است.'
+          },
+          offer_guarantee: {
+            required: 'تضمین آفر الزامی است'
+          },
+          deposit: {
+            required: 'فیصدی تامینات را وارد کنید.',
+          },
+          tax: {
+            required: 'فیصدی مالیه را وارد کنید',
+          },
+          others: {
+            required: 'هزینه متفرقه بالای اعلان را وارد کنید.',
+          },
+          pr_worth: {
+            required: 'ارزش قرارداد الزامی است.',
+          },
+          transit: {
+            required: 'هزینه انتقالات را وارد کنید.',
+          },
+          total_price: {
+            required: '',
+          },
+        }
+      },
     }
   },
   created() {
+    // register custom messages
+    Validator.localize('en', this.dict)
+
     this.getNextSerialNo();
     this.getAllItems();
     this.getAllUnites();
@@ -632,7 +635,7 @@ export default {
             })
           }).catch((errors) => {
             this.$Progress.set(100)
-           this.$vs.notify({
+            this.$vs.notify({
               title: 'موفقیت!',
               text: 'موفقانه ثبت شد.',
               color: 'success',
