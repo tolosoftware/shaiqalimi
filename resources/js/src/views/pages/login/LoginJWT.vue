@@ -60,6 +60,7 @@ export default {
             this.$vs.loading()
               this.form.post('/oauth/token')
                 .then(() => {
+                    this.$router.push({ path: '/dashboard' });
                     this.$vs.notify({
                         title: 'به سیستم خوش آمدید',
                         text: 'عملیه ورود موفقانه بود',
@@ -70,7 +71,7 @@ export default {
                     })
                     this.form.reset();
                     this.$vs.loading.close()
-                    this.$router.push('/dashboard');
+                   
                 })
 
                 .catch(() => {

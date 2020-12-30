@@ -152,7 +152,7 @@ class ClientController extends Controller
         $client->phone = $request->phone;
         $client->website = $request->website;
         $client->address = $request->address;
-        $client->account_id = 1;
+        $client->account_id = $request->account_id;
         $client->save();
 
         // return $client->id;

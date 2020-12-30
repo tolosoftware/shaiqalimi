@@ -30,8 +30,8 @@
       <template slot="thead">
         <vs-th> ریفرینس کد </vs-th>
         <vs-th> عنوان </vs-th>
-        <vs-th> بالانس </vs-th>
         <vs-th> حالت </vs-th>
+        <vs-th> بالانس </vs-th>
         <vs-th> تنظیمات </vs-th>
       </template>
 
@@ -43,14 +43,16 @@
           <vs-td :data="tr.name">
             <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
           </vs-td>
-          <vs-td :data="tr">
-            <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ countTheBalance(tr) }} </p>
-          </vs-td>
           <vs-td :data="tr.status">
             <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
           </vs-td>
+          <vs-td :data="tr">
+            <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ countTheBalance(tr) }} </p>
+          </vs-td>
+
           <vs-td class="whitespace-no-wrap notupfromall">
-            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="editAccount(tr.id)" />
+            <!--<feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="editAccount(tr.id)" /> -->
+            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
             <!-- <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" /> -->
           </vs-td>
@@ -131,13 +133,13 @@ export default {
           this.$Progress.set(100)
         })
     },
-    countTheBalance(data){
+    countTheBalance(data) {
       let x = 0;
       for (let [key, data] of Object.entries(data.financial_records)) {
-        if(data.credit){
+        if (data.credit) {
           x = x + parseInt(data.credit);
         }
-        if(data.debit){
+        if (data.debit) {
           x = x - parseInt(data.debit);
         }
       }
@@ -216,7 +218,7 @@ export default {
   top: 12px;
 }
 
-.financial-records-modal .vs-popup{
+.financial-records-modal .vs-popup {
   min-width: 80% !important;
 }
 </style>

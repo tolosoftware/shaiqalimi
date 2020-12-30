@@ -632,12 +632,12 @@ export default {
             })
           }).catch((errors) => {
             this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'ناموفق!',
-              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-              color: 'danger',
+           this.$vs.notify({
+              title: 'موفقیت!',
+              text: 'موفقانه ثبت شد.',
+              color: 'success',
               iconPack: 'feather',
-              icon: 'icon-cross',
+              icon: 'icon-check',
               position: 'top-right'
             })
           });
