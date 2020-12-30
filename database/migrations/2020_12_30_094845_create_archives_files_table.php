@@ -15,6 +15,13 @@ class CreateArchivesFilesTable extends Migration
     {
         Schema::create('archives_files', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('archive_id');
+            $table->foreign('archive_id')->references('id')->on('archives');
+            $table->string('origname');
+            $table->string('path');
+            $table->string('newname');
+            $table->string('mime');
+            $table->string('caption');
             $table->timestamps();
         });
     }
