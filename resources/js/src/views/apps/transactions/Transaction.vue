@@ -15,8 +15,9 @@
 
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
-                  <vs-input size="medium" v-validate="'serialnumber'" label="سریال نمبر" name="serialnumber" class="mt-5 w-full" placeholder="101" disabled />
-                  <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
+                  <vs-input size="medium" v-validate="'required'" v-model="trForm.serial_no" label="سریال نمبر" name="serial_no" class="mt-5 w-full" placeholder="101" disabled />
+                  <!--<span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span> -->
+                  <has-error :form=" trForm" field="serial_no"></has-error>
                 </div>
               </vs-col>
 
@@ -27,15 +28,15 @@
                   <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
                   <div class="radio-group w-full">
                     <div class="w-1/2">
-                      <input type="radio" value="1" id="struct" name="curency" />
+                      <input type="radio" v-model="trForm.currency" value="1" id="struct" name="curency" />
                       <label for="struct" class="w-full text-center">افغانی</label>
                     </div>
                     <div class="w-1/2">
-                      <input type="radio" value="2" id="specific" name="curency" />
+                      <input type="radio" v-model="trForm.currency" value="2" id="specific" name="curency" />
                       <label for="specific" class="w-full text-center">دالر</label>
                     </div>
                   </div>
-                  <has-error :form="aForm" field="curency"></has-error>
+                  <has-error :form=" trForm" field="curency"></has-error>
                 </div>
               </vs-col>
               <!-- end currency -->
@@ -43,7 +44,7 @@
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <label for="date" class="mt-3"><small>تاریخ </small></label>
-                  <date-picker color="#e85454" :auto-submit="true" type="datetime" />
+                  <date-picker color="#e85454" :auto-submit="true" v-model="trForm.date" type="datetime" />
                 </div>
               </vs-col>
 
@@ -54,15 +55,15 @@
                   <label for class="ml-4 mr-4 mb-2"> حالت معامله</label>
                   <div class="radio-group w-full">
                     <div class="w-1/2">
-                      <input type="radio" value="1" id="benifate" name="transaction" checked />
+                      <input type="radio" v-model="trForm.status" value="1" id="benifate" name="transaction" />
                       <label for="benifate" class="w-full text-center">عاید</label>
                     </div>
                     <div class="w-1/2">
-                      <input type="radio" value="2" id="basic" name="transaction" />
+                      <input type="radio" v-model="trForm.status" value="2" id="basic" name="transaction" />
                       <label for="basic" class="w-full text-center">امانت/عادی</label>
                     </div>
                   </div>
-                  <has-error :form="aForm" field="status"></has-error>
+                  <has-error :form=" trForm" field="status"></has-error>
                 </div>
               </vs-col>
 
@@ -70,7 +71,7 @@
 
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
-                  <vs-input size="medium" v-model="tForm.title" v-validate="'projecttitle'" label="عنوان معامله" name="projecttitle" class="w-full" />
+                  <vs-input size="medium" v-model="trForm.title" @input="getTitle" label="عنوان معامله" class="w-full" />
                 </div>
               </vs-col>
 
@@ -86,7 +87,7 @@
                       </div>
                     </template>
 
-                    <vs-input type="number" />
+                    <vs-input type="number" v-model="trForm.ammount" />
                   </vx-input-group>
                 </div>
               </vs-col>
@@ -96,13 +97,13 @@
                   <label for>
                     <small>حساب کریدیت</small>
                   </label>
-                  <v-select size="large" label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                  <v-select size="large" label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                 </div>
               </vs-col>
 
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3 mb-4">
-                  <vs-input size="medium" v-validate="'projecttitle'" v-model="aform.title-" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
+                  <vs-input size="medium" label="تفصیلات " v-model="trForm.credit_desc" class="mt-5 w-full" />
                 </div>
               </vs-col>
 
@@ -111,18 +112,18 @@
                   <label for>
                     <small>حساب دبیت </small>
                   </label>
-                  <v-select size="large" label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                  <v-select size="large" label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                 </div>
               </vs-col>
 
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3 mb-4">
-                  <vs-input size="medium" v-validate="'projecttitle'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
+                  <vs-input size="medium" label="تفصیلات " v-model="trForm.debit_desc" class="mt-5 w-full" />
                 </div>
               </vs-col>
 
               <div class="vx-col w-full mt-4">
-                <vs-textarea placeholder="تفصیلات"></vs-textarea>
+                <vs-textarea label="تفصیلات کلی" v-model="trForm.description"></vs-textarea>
               </div>
             </div>
             <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">ثبت</vs-button>
@@ -149,30 +150,23 @@ export default {
   },
   data() {
     return {
-      tForm = new Form({
+      trForm: new Form({
+        serial_no: '',
         currency: 1,
-        title:''
-      })
-      itemType: [{
-          text: "تیل دیزل",
-          value: "1",
-        },
-        {
-          text: "تیل گاز",
-          value: "2",
-        },
-        {
-          text: "تیل پطرول",
-          value: "3",
-        },
-        {
-          text: "موبلین",
-          value: "4",
-        },
-      ],
+        date: '',
+        title: '',
+        status: 1,
+        ammount: '',
+        credit_desc: '',
+        debit_desc: '',
+        description: ''
+      }),
+      accounts: [],
     };
   },
-
+  created() {
+    this.getAccounts();
+  },
   methods: {
     submitForm() {
       this.$validator.validateAll().then((result) => {
@@ -184,6 +178,23 @@ export default {
         }
       });
     },
+    getTitle(event) {
+      // console.log('data', event);
+      this.setData(event)
+    },
+    setData(event) {
+      this.trForm.credit_desc = event;
+      this.trForm.debit_desc = event;
+    },
+    getAccounts() {
+      this.$Progress.start()
+      this.$vs.loading()
+      this.axios.get('/api/account')
+        .then((response) => {
+          this.accounts = response.data;
+          this.$vs.loading.close();
+        })
+    }
   },
 };
 </script>

@@ -51,7 +51,7 @@
                              </div>
                             <!-- Must only consist of numbers -->
                             <div class="vx-col w-2/3">
-                                <vs-input size="medium" v-validate="'projecttitle'" label="عنوان " name="projecttitle" class="mt-5 w-full" />
+                                <vs-input size="medium" v-validate="'required'" label="عنوان " name="projecttitle" class="mt-5 w-full" />
                             </div>
 
                             <div class="vx-col w-1/3 pt-4">
@@ -75,7 +75,7 @@
                             </div>
 
                                <div class="vx-col w-2/3">
-                                <vs-input size="medium" v-validate="'projecttitle'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
+                                <vs-input size="medium" v-validate="'required'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
                                </div>
 
                             <div class="vx-col w-1/3 mt-4">
@@ -84,7 +84,7 @@
                             </div>
 
                               <div class="vx-col w-2/3">
-                                <vs-input size="medium" v-validate="'projecttitle'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
+                                <vs-input size="medium" v-validate="'required'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
                                </div>
 
                             <div class="vx-col w-full mt-4">
