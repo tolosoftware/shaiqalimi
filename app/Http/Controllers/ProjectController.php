@@ -25,8 +25,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Project::with(['pro_data',
-         'pro_items'])->latest()->get();;
+        return Project::with([
+            'pro_data',
+            'pro_items'
+        ])->latest()->get();;
     }
 
     /**
@@ -65,12 +67,13 @@ class ProjectController extends Controller
             // 'issue_address' => 'required|min:3',
             // 'source_address' => 'required|min:3',
         ]);
-        $serial_number = SerialNumber::where('type',
-         'pro')->latest()->first();
-        if($serial_number) {
+        $serial_number = SerialNumber::where(
+            'type',
+            'pro'
+        )->latest()->first();
+        if ($serial_number) {
             $request['serial_no'] = $serial_number->value + 1;
-        }
-        else{
+        } else {
             $request['serial_no'] = 101;
         }
         // return $request;
@@ -79,15 +82,15 @@ class ProjectController extends Controller
             'prefix' => 'pro',
             'value' => $request['serial_no'],
         ];
-        if(gettype($request->client_id) != 'integer') {
+        if (gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
         }
-        if(gettype($request->proposal_id) != 'integer') {
+        if (gettype($request->proposal_id) != 'integer') {
             $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
         }
         SerialNumber::create($serial_number);
-        if ($resp = Project::create($request->all())){
-            if($request['proposal_id']) {
+        if ($resp = Project::create($request->all())) {
+            if ($request['proposal_id']) {
                 $proData = [
                     'client_id' => $request->client_id,
                     'title' => $request->title,
@@ -101,10 +104,10 @@ class ProjectController extends Controller
                     'total_price' => 1000,
                     'total_price' => $request->total_price,
                     // 'proposal_id' => null,
-                    'project_id' => $resp->id, 
+                    'project_id' => $resp->id,
                 ];
-                ProData::where('proposal_id', $request['proposal_id'])->update($proData);    
-            }else{
+                ProData::where('proposal_id', $request['proposal_id'])->update($proData);
+            } else {
                 $proData = [
                     'project_id' => $resp->id,
                     'client_id' => $request->client_id,
@@ -123,7 +126,7 @@ class ProjectController extends Controller
 
             // Create Pro Items Record for selected Items
             foreach ($request->item as $key => $item) {
-                if(gettype($item['item_id']) != 'integer') {
+                if (gettype($item['item_id']) != 'integer') {
 
                     $item = [
                         'unit_id' => $item['item_id']['uom_id'],
@@ -152,7 +155,7 @@ class ProjectController extends Controller
                 'description' => $request->title,
                 // 'system' => $request->system,    
             ];
-            if($new = Account::create($data)){
+            if ($new = Account::create($data)) {
 
                 // Create opening FR for the created Projet
                 $data = [
@@ -164,16 +167,14 @@ class ProjectController extends Controller
                     'credit' => $request->pr_worth,
                     'debit' => 0,
                     'ex_rate_id' => ExchangeRate::latest()->first()->id,
-                    'status' => 'opn'   
+                    'status' => 'opn'
                 ];
                 FinancialRecord::create($data);
             }
             return response()->json([$resp], 200);
-        }
-        else{
+        } else {
             return $resp;
         }
-
     }
 
     /**
@@ -184,12 +185,14 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return Project::with(['pro_data.client',
-         'pro_items.item_id',
-         'pro_items.operation_id',
-         'pro_items.item_id.uom_equiv_id',
-         'pro_items.item_id.uom_id',
-         'proposal_id.pro_data.client'])->latest()->find($project->id);
+        return Project::with([
+            'pro_data.client',
+            'pro_items.item_id',
+            'pro_items.operation_id',
+            'pro_items.item_id.uom_equiv_id',
+            'pro_items.item_id.uom_id',
+            'proposal_id.pro_data.client'
+        ])->latest()->find($project->id);
     }
 
     /**
@@ -214,7 +217,7 @@ class ProjectController extends Controller
     {
         if ($project->update($request->all())) {
             return $project;
-        }else{
+        } else {
             return 0;
         }
     }
@@ -231,8 +234,31 @@ class ProjectController extends Controller
         ProItem::where('project_id', $project->id)->delete();
         return $project->delete();
     }
-    
-    public function latest(){
+
+    public function latest()
+    {
         return Project::withTrashed()->max('s_number') + 1;
+    }
+    public function latestProject()
+    {
+        // return Project::latest()->limit(3)->get();
+        return Project::with([
+            'pro_data',
+            'pro_items'
+        ])->latest()->limit(3)->get();
+    }
+    public function activeProject()
+    {
+        // return Project::with([
+        //     'pro_data',
+        //     'pro_items'
+        // ])->where('active', 1)->limit(3)->get();
+        return Project::with([
+            'pro_data',
+            'pro_items'
+        ])->latest()->limit(3)->get();
+    }
+    public function getClient($id)
+    {
     }
 }

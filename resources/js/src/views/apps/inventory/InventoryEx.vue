@@ -109,12 +109,12 @@
                   <span>298</span>
                 </small>
               </div>
-              <p
+              <!-- <p
                 class="mt-2 mb-8 text-xl font-medium"
                 :class="283 >= 0 ? 'text-success' : 'text-danger'"
               >
                 <span class="ml-1">ارزش: 2398 دالر</span>
-              </p>
+              </p> -->
 
               <router-link class="product-name font-medium truncate" :to="{name: 'fuel-station'}">
                 <vs-button
@@ -155,12 +155,12 @@
                   <span>238</span>
                 </small>
               </div>
-              <p
+              <!--<p
                 class="mt-2 mb-8 text-xl font-medium"
                 :class="283 >= 0 ? 'text-success' : 'text-danger'"
               >
                 <span class="ml-1">ارزش: 2398 دالر</span>
-              </p>
+              </p> -->
 
               <router-link class="product-name font-medium truncate" :to="{name: 'goods'}">
                 <vs-button
@@ -201,12 +201,12 @@
                   <span>3248</span>
                 </small>
               </div>
-              <p
+              <!--<p
                 class="mt-2 mb-8 text-xl font-medium"
                 :class="283 >= 0 ? 'text-success' : 'text-danger'"
               >
                 <span class="ml-1">ارزش: 2398 دالر</span>
-              </p>
+              </p> -->
 
               <router-link class="product-name font-medium truncate" :to="{name: 'godams'}">
                 <vs-button
@@ -247,12 +247,12 @@
                   <span>3248</span>
                 </small>
               </div>
-              <p
+              <!--<p
                 class="mt-2 mb-8 text-xl font-medium"
                 :class="283 >= 0 ? 'text-success' : 'text-danger'"
               >
                 <span class="ml-1">ارزش: 2398 دالر</span>
-              </p>
+              </p> -->
 
               <vs-button
                 icon-pack="feather"
