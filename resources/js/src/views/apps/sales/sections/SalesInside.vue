@@ -1,6 +1,6 @@
 <template>
   <vx-card class="height-vh-80">
-    <h1 class="text-center">در حال توسعه ...</h1>
+    <h1 class="text-center">تاحال معلومات وارد نگردیده است</h1>
   </vx-card>
 </template>
 <script>

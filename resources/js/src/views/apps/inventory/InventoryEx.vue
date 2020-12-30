@@ -14,13 +14,11 @@
           :data="sidebarData"
         />
       </div>
-      <!-- LINE CHART -->
-      <div class="vx-col w-full md:w-2/3 mb-base">
-        <vx-card title="تغییرات در ذخایر">
-          <!-- <template slot="actions">
+      <!-- LINE CHART -->   <!-- <template slot="actions">
       <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
           </template>-->
-
+      <div class="vx-col w-full md:w-2/3 mb-base">
+        <vx-card title="تغییرات در ذخایر">
           <div slot="no-body" class="p-6 pb-0">
             <div class="flex" v-if="revenueComparisonLine.analyticsData">
               <div class="mr-6">
@@ -74,7 +72,7 @@
               class="w-1/2 border border-solid d-theme-border-grey-light border-r-0 border-b-0 border-l-0"
             >
               <p class="mt-4">تعداد ذخایر</p>
-              <p class="mb-4 text-3xl font-semibold">349879</p>
+              <p class="mb-4 text-3xl font-semibold">{{totalStorageStations}}</p>
             </div>
             <div
               class="w-1/2 justify-center border border-solid d-theme-border-grey-light border-r-0 border-b-0"
@@ -294,6 +292,7 @@ export default {
   name: 'vx-inventory-ex',
   data() {
     return {
+      totalStorageStations:'',
       // Sidebar
       addNewDataSidebar: false,
       transferSidebar: false,
@@ -402,7 +401,19 @@ export default {
     DataViewSidebar,
     TransferViewSidebar
   },
+  created() {
+    this.totalStorageStation();
+  },
   methods: {
+    totalStorageStation(){
+        this.axios.get('/api/totalstorage')
+        .then((response) => {
+          // this.totalStorageStations = response.data;
+          // console.log('all',this.totalStorageStations);
+          // this.$vs.loading.close();
+          this.totalStorageStations=response.data;
+        })
+    },
     ToggleTransfer() {
       this.sidebarData = {}
       this.toggleTSidebar(true)
@@ -418,7 +429,7 @@ export default {
       this.transferSidebar = val
     }
   },
-  created() {}
+  
 }
 </script>
 
