@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="vx-row">
-    <div class="vx-col w-full md:w-2/3 lg:w-3/4">
+    <!--<div class="vx-col w-full md:w-2/3 lg:w-3/4">
       <div class="vx-card mb-base">
         <div class="vx-card__header">
           <div class="vx-card__title">
@@ -172,8 +172,6 @@
               <div class="contract-trigger"></div>
             </div>
           </div>
-          <!---->
-          <!---->
         </div>
         <div class="vx-card__code-container collapsed" style="max-height: 0px; display: none;">
           <div class="code-content">
@@ -181,8 +179,28 @@
           </div>
         </div>
       </div>
+    </div> -->
+    <div class="vx-col w-full md:w-2/3 lg:w-3/4 xl:w-3/4 mb-base">
+      <vx-card title="گراف فروشات">
+        <template slot="actions">
+          <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
+        </template>
+        <div slot="no-body" class="p-6 pb-0">
+          <div class="flex" v-if="!revenueComparisonLine.analyticsData">
+            <div class="mr-6">
+              <p class="mb-1 font-semibold">فروشات امسال</p>
+              <p class="text-3xl text-success"><sup class="text-base mr-1">$</sup>{{ revenueComparisonLine.analyticsData.thisMonth.toLocaleString() }}</p>
+            </div>
+            <div>
+              <p class="mb-1 font-semibold">فروشات سال قبل</p>
+              <p class="text-3xl"><sup class="text-base mr-1">$</sup>{{ revenueComparisonLine.analyticsData.lastMonth.toLocaleString() }}</p>
+            </div>
+          </div>
+          <vue-apex-charts type="line" height="266" :options="analyticsData.revenueComparisonLine.chartOptions" :series="revenueComparisonLine.series" />
+        </div>
+      </vx-card>
     </div>
-    <div class="vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4">
+    <div class="vx-col w-full md:w-1/3 lg:w-1/4 xl:w-1/4 mb-base">
       <div class="vx-card">
         <!---->
         <div class="vx-card__collapsible-content vs-con-loading__container">
@@ -190,7 +208,16 @@
             <div>
               <h1><sup class="text-lg">$</sup> <span>22,597</span></h1>
             </div>
-            <p class="mt-2 mb-8 text-xl font-medium text-success"><span>+</span> <span>5.2%</span> <span class="ml-1">($956)</span></p> <button type="button" name="button" class="vs-component vs-button shadow-md w-full vs-button-primary vs-button-filled includeIcon"><span class="vs-button-backgroundx vs-button--background" style="opacity: 1; left: 137px; top: 16px; width: 0px; height: 0px; transition: width 0s ease 0s, height 0s ease 0s, opacity 0s ease 0s;"></span><i class="vs-icon notranslate icon-scale vs-button--icon  feather icon-chevrons-right null" style="order: 2; margin-left: 0px; margin-right: 5px;"></i><span class="vs-button-text vs-button--text">برسی فروشات</span><span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"></span></button>
+            <p class="mt-2 mb-8 text-xl font-medium text-success">
+              <span>+</span><span>5.2%</span><span class="ml-1">($956)</span>
+            </p>
+            <router-link to="/sales">
+              <button type="button" name="button" class="vs-component vs-button shadow-md w-full vs-button-primary vs-button-filled includeIcon">
+                <span class="vs-button-backgroundx vs-button--background" style="opacity: 1; left: 137px; top: 16px; width: 0px; height: 0px; transition: width 0s ease 0s, height 0s ease 0s, opacity 0s ease 0s;"></span><i class="vs-icon notranslate icon-scale vs-button--icon  feather icon-chevrons-right null" style="order: 2; margin-left: 0px; margin-right: 5px;"></i>
+                <span class="vs-button-text vs-button--text">بررسی فروشات</span>
+                <span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"></span>
+              </button>
+            </router-link>
           </div>
           <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4"><small>عواید: $56156</small>
@@ -217,7 +244,12 @@
       </div>
     </div>
   </div>
-  <ProjectList></ProjectList>
+  <div class="vx-row">
+    <LatestProjects></LatestProjects>
+  </div>
+  <br>
+  </vs-divider>
+  <!--<ProjectList></ProjectList>-->
   <div class="vx-col w-full mb-base">
     <vx-card title="احصائیه معاملات تجارتی دریک سال مالی" code-toggler>
       <vue-apex-charts type="line" height="350" :options="apexChatData.mixedChart.chartOptions" :series="apexChatData.mixedChart.series"></vue-apex-charts>
@@ -228,6 +260,7 @@
   </div>
 </div>
 </template>
+
 <script>
 import ECharts from 'vue-echarts/components/ECharts'
 import 'echarts/lib/component/tooltip'
@@ -238,9 +271,10 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import VueApexCharts from 'vue-apexcharts'
 import apexChatData from './apexChartData.js'
 
-import ProjectList from './apps/projects/proposals/ProposalList.vue'
-
-import analyticsData from './analyticsData.js'
+// import ProjectList from './apps/projects/proposals/ProposalList.vue' 
+import LatestProjects from './apps/projects/LatestProjects.vue'
+// import analyticsData from './analyticsData.js'
+import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 
 ECharts.registerTheme('ovilia-green', theme)
@@ -251,15 +285,100 @@ export default {
     VueApexCharts,
     theme,
     StatisticsCardLine,
-    ProjectList
+    // ProjectList
+    LatestProjects
   },
   name: 'vx-dashboard',
   data() {
     return {
       apexChatData,
-
       analyticsData,
-
+      revenueComparisonLine: {
+        series: [{
+            name: "ماه جاری",
+            data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600]
+          },
+          {
+            name: "ماه قبل",
+            data: [46000, 48000, 45500, 46600, 44500, 46500, 45000, 47000]
+          }
+        ],
+        chartOptions: {
+          chart: {
+            toolbar: { show: false },
+            dropShadow: {
+              enabled: true,
+              top: 5,
+              left: 0,
+              blur: 4,
+              opacity: 0.10
+            }
+          },
+          stroke: {
+            curve: 'smooth',
+            dashArray: [0, 8],
+            width: [4, 2]
+          },
+          grid: {
+            borderColor: '#e7e7e7'
+          },
+          legend: {
+            show: false
+          },
+          colors: ['#F97794', '#b8c2cc'],
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shade: 'dark',
+              inverseColors: false,
+              gradientToColors: ['#7367F0', '#b8c2cc'],
+              shadeIntensity: 1,
+              type: 'horizontal',
+              opacityFrom: 1,
+              opacityTo: 1,
+              stops: [0, 100, 100, 100]
+            }
+          },
+          markers: {
+            size: 0,
+            hover: {
+              size: 5
+            }
+          },
+          xaxis: {
+            labels: {
+              style: {
+                cssClass: 'text-grey fill-current'
+              }
+            },
+            axisTicks: {
+              show: false
+            },
+            categories: ['01', '05', '09', '13', '17', '21', '26', '31'],
+            axisBorder: {
+              show: false
+            }
+          },
+          yaxis: {
+            tickAmount: 5,
+            labels: {
+              style: {
+                cssClass: 'text-grey fill-current'
+              },
+              formatter(val) {
+                return val > 999 ? `${(val / 1000).toFixed(1)}k` : val
+              }
+            }
+          },
+          tooltip: {
+            x: { show: false }
+          }
+        },
+        analyticsData: {
+          thisMonth: '73683',
+          lastMonth: '86589'
+        }
+      },
       // Line Charts
       siteTraffic: {},
 
@@ -303,7 +422,6 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-
     // Site Traffic gained
     this.$http.get('/api/card/card-statistics/newsletter')
       .then((response) => {
@@ -326,3 +444,15 @@ export default {
   },
 }
 </script>
+
+<style>
+.projectListDashboard {
+  display: flex;
+  width: 100%;
+  background-color: rgb(243, 245, 247);
+  border-left-width: 0.6rem;
+  border-left-style: solid;
+  padding: 10px;
+  border-color: rgb(49, 47, 75) !important;
+}
+</style>

@@ -11,6 +11,7 @@
 <div>
   <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
     <div class="mt-6 flex items-center justify-between px-6 float-right">
+      <!-- <vs-button type="border" icon-pack="feather-icon" icon="close" color="warning" class="mr-6" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>-->
       <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
     </div>
     <vs-tabs>
@@ -28,17 +29,17 @@
                 <div class="vx-row">
                   <!-- Image Container -->
                   <div class="w-16 mx-auto flex items-center justify-center ml-5">
-                    <img v-if="oldImage" :src="'/images/img/clients/'+orgFormEdit.logo" alt="نشان" class="responsive">
-                    <img v-if="!oldImage" :src="logoToChange" alt="نشان" class="responsive">
+                    <img v-if="oldImage" :src="'/images/img/clients/'+orgFormEdit.logo" alt="نشان نهاد" class="responsive">
+                    <img v-if="!oldImage" :src="logoToChange" alt="نشان نهاد" class="responsive">
                   </div>
                   <!-- Image upload Buttons -->
                   <div class="modify-img flex justify-between mt-5 pt-5 ml-4">
                     <div class="mr-5 pr-5">
                       <input type="file" class="hidden" ref="updateImgInput1" @change="updateCurrImg1" accept="image/*">
-                      <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput1.click()">تبدیل نشان</vs-button>
+                      <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput1.click()">تبدیل نشان نهاد</vs-button>
                     </div>
                     <div class="mr-5 pr-5">
-                      <vs-button v-if="!oldImage" icon="delete" type="border" color="warning" @click="deletOnChangeLogo()">حذف این نشان</vs-button>
+                      <vs-button v-if="!oldImage" icon="delete" type="border" color="warning" @click="deletOnChangeLogo()">حذف این نشان نهاد</vs-button>
                     </div>
                   </div>
                 </div>
@@ -63,7 +64,7 @@
 
               <!--<div class="upload-img mt-5" v-if="!orgFormEdit.logo">
                   <input type="file" class="hidden" ref="uploadImgInput1" @change="updateCurrImg1" accept="image/*">
-                  <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان</vs-button>
+                  <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان نهاد</vs-button>
                 </div> -->
             </div>
             <div class="flex flex-wrap items-center p-2" slot="footer">
@@ -76,7 +77,7 @@
         <div id="data-list-thumb-view" class="w-full data-list-container">
           <vs-table class="w-full" ref="table" pagination :max-items="9" :data="clients">
             <template slot="thead">
-              <vs-th>نشان</vs-th>
+              <vs-th>نشان نهاد</vs-th>
               <vs-th>نام نهاد</vs-th>
               <!-- <vs-th>ایمیل</vs-th> -->
               <vs-th>جزییات</vs-th>
@@ -84,12 +85,15 @@
             </template>
             <template slot-scope="{data}">
               <tbody>
-                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+                <vs-tr v-if="notLoaded">
+                  <img src="/loading.gif" style="margin-right:40%;" />
+                </vs-tr>
+                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" v-if="!notLoaded">
                   <vs-td class="img-container">
-                    <img :src="'/images/img/clients/'+tr.logo" class="product-img" />
+                    <img :src="'/images/img/clients/'+tr.logo" class="product-img cursor-pointer" @click.stop="showClientData(tr.id)" />
                   </vs-td>
                   <vs-td>
-                    <span v-text="tr.name"></span>
+                    <span v-text="tr.name" class="cursor-pointer" @click.stop="showClientData(tr.id)"></span>
                   </vs-td>
                   <!--   <vs-td>
                       <span v-text="tr.email"></span>
@@ -138,16 +142,16 @@
                 <div class="vx-row">
                   <!-- Image Container -->
                   <div class="img-container w-32 mx-auto flex items-center justify-center ml-5">
-                    <img :src="orgForm.logo" alt="نشان" class="responsive">
+                    <img :src="orgForm.logo" alt="نشان نهاد" class="responsive">
                   </div>
                   <!-- Image upload Buttons -->
                   <div class="modify-img flex justify-between mt-5 pt-5 ml-4">
                     <div class="mr-5 pr-5">
                       <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*">
-                      <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput.click()">تبدیل نشان</vs-button>
+                      <vs-button class="" icon="edit" color="primary" type="border" @click="$refs.updateImgInput.click()">تبدیل نشان نهاد</vs-button>
                     </div>
                     <div class="mr-5 pr-5">
-                      <vs-button icon="delete" type="border" color="warning" @click="orgForm.logo = null">حذف این نشان</vs-button>
+                      <vs-button icon="delete" type="border" color="warning" @click="orgForm.logo = null">حذف این نشان نهاد</vs-button>
                     </div>
                   </div>
                 </div>
@@ -172,7 +176,7 @@
 
               <div class="upload-img mt-3" v-if="!orgForm.logo">
                 <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
-                <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان</vs-button>
+                <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان نهاد</vs-button>
                 <has-error :form="orgForm" field="logo"></has-error>
               </div>
             </div>
@@ -206,6 +210,7 @@ export default {
   data() {
     return {
       orgActiveForm: false,
+      notLoaded: true,
       oldImage: true,
       logoToChange: null,
       popupActive: false,
@@ -290,7 +295,8 @@ export default {
       },
       set(val) {
         if (!val) {
-          this.$emit('closeSidebar')
+          this.$emit('closeSidebar'),
+            this.$emit('customEvent', this.clients.find(e => !!e))
         }
       }
     },
@@ -313,10 +319,13 @@ export default {
   methods: {
     getData() {
       this.$Progress.start()
+      this.$vs.loading()
       this.axios.get('/api/clients')
         .then((response) => {
           this.clients = response.data;
-          this.$Progress.set(100)
+          this.$Progress.set(100);
+          this.notLoaded = false;
+          this.$vs.loading.close();
         })
     },
     resetAllState() {
@@ -332,11 +341,14 @@ export default {
     },
     showClientData(id) {
       // console.log('ID', id);
+      this.$Progress.start()
+      this.$vs.loading()
       this.orgActiveForm = false;
       this.orgForm.get('/api/clients/' + id)
         .then((response) => {
           this.client = response.data
           this.$Progress.set(100)
+          this.$vs.loading.close();
           this.popupActive = true;
         })
     },
