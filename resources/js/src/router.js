@@ -308,7 +308,7 @@ const router = new Router({
                             { title: 'Home', url: '/' },
                             { title: 'مخارج', active: true }
                         ],
-                        pageTitle: 'مصرف',
+                        pageTitle: '',
                         rule: 'editor'
                     }
                 },
