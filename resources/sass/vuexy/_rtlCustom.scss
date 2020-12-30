@@ -292,8 +292,7 @@ text {
     margin: unset !important;
 }
 
-.number-rtl input,
-.number-rtl {
+.number-rtl input {
     font-family: 'YekanWeb' !important;
     direction: rtl !important;
     text-align: right !important;
@@ -453,6 +452,23 @@ $borderWidth: 1px;
 #delete-btn.isActive .vs-button--icon{
     color: #e55355!important;
 }
-.has-error1 > .vs__dropdown-toggle,.has-error1 input{
+.has-error > .vs__dropdown-toggle,.has-error .vs-con-input input{
     border-color: #ea5455 !important;
+}
+.official-process .vs-collapse
+{
+    width: 100% !important;
+}
+// .official-process{
+//     .vs-collapse,
+//     .vs-collapse-item, 
+//     .vs-collapse-item--header, 
+//     .con-content--item{
+//         padding-left: 0px !important;
+//     }
+// }
+
+.official-process ul.demo-alignment{
+    display: flex !important;
+    justify-content: space-between !important;
 }

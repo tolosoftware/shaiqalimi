@@ -26,8 +26,8 @@ class ProjectController extends Controller
     public function index()
     {
         return Project::with([
-            'pro_data',
-            'pro_items'
+            'pro_data.client',
+            'pro_items',
         ])->latest()->get();;
     }
 

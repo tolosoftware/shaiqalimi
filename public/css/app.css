@@ -5329,17 +5329,16 @@ text {
   margin: unset !important;
 }
 
-.number-rtl input,
-.number-rtl {
+.number-rtl input {
   font-family: "YekanWeb" !important;
 }
 
-[dir=ltr] .number-rtl input, [dir=ltr] .number-rtl {
+[dir=ltr] .number-rtl input {
   direction: rtl !important;
   text-align: right !important;
 }
 
-[dir=rtl] .number-rtl input, [dir=rtl] .number-rtl {
+[dir=rtl] .number-rtl input {
   direction: ltr !important;
   text-align: left !important;
 }
@@ -5541,7 +5540,16 @@ text {
   color: #e55355 !important;
 }
 
-[dir] .has-error1 > .vs__dropdown-toggle, [dir] .has-error1 input {
+[dir] .has-error > .vs__dropdown-toggle, [dir] .has-error .vs-con-input input {
   border-color: #ea5455 !important;
+}
+
+.official-process .vs-collapse {
+  width: 100% !important;
+}
+
+.official-process ul.demo-alignment {
+  display: flex !important;
+  justify-content: space-between !important;
 }
 
