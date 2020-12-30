@@ -58,8 +58,11 @@ export default {
             if (!this.checkLogin()) return
             // Loading
             this.$vs.loading()
-              this.form.post('/oauth/token')
-                .then(() => {
+             this.form.post('/oauth/token')
+                .then((data) => {
+                    console.log(data);
+                    localStorage.setItem('token',data.data.access_token );
+
                     this.$router.push({ path: '/dashboard' });
                     this.$vs.notify({
                         title: 'به سیستم خوش آمدید',
@@ -87,21 +90,10 @@ export default {
                     this.$vs.loading.close()
                 })
 
+        //  console.log('hi token'+ this.response.access_token);
 
-            // this.$store.dispatch('auth/loginJWT', payload)
-            //     .then(() => {
-            //         this.$vs.loading.close()
-            //     })
-            //     .catch(error => {
-            //         this.$vs.loading.close()
-            //         this.$vs.notify({
-            //             title: 'Error',
-            //             text: error.message,
-            //             iconPack: 'feather',
-            //             icon: 'icon-alert-circle',
-            //             color: 'danger'
-            //         })
-            //     })
+
+          
         },
     }
 }

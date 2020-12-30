@@ -10,8 +10,8 @@
 
 
 <template>
-  <div id="app" :class="vueAppClasses">
-    <router-view @setAppClasses="setAppClasses" />
+  <div id="app" :class="vueAppClasses" >
+    <router-view  :currentuser="currentuserdata" @setAppClasses="setAppClasses" />
     <!-- <router-view :key="$route.fullPath" @setAppClasses="setAppClasses" /> -->
     <!-- set progressbar -->
     <vue-progress-bar></vue-progress-bar>
@@ -21,11 +21,13 @@
 <script>
 import themeConfig from '@/../themeConfig.js'
 import jwt         from '@/http/requests/auth/jwt/index.js'
+import axios from 'axios'
 
 export default {
   data () {
     return {
-      vueAppClasses: []
+      vueAppClasses: [],
+      currentuserdata: [],
     }
   },
   watch: {
@@ -37,6 +39,20 @@ export default {
     }
   },
   methods: {
+    loadcurrentuser(){
+       
+        this.axios.get('/api/user')
+            .then((response) => {
+                this.currentuserdata = response.data
+               
+               localStorage.setItem('name', this.currentuserdata.firstName)
+               localStorage.setItem('lastname', this.currentuserdata.lastName)
+               localStorage.setItem('image', this.currentuserdata.image)
+               localStorage.setItem('id', this.currentuserdata.id)
+              
+            });
+    },
+  
     toggleClassInBody (className) {
       if (className === 'dark') {
         if (document.body.className.match('theme-semi-dark')) document.body.classList.remove('theme-semi-dark')
@@ -71,16 +87,17 @@ export default {
     document.documentElement.style.setProperty('--vh', `${vh}px`)
   },
   async created () {
+         // console.log(localStorage.getItem('token'));
 
+       this.loadcurrentuser();
+
+        
     // jwt
     jwt.init()
-
     const dir = this.$vs.rtl ? 'rtl' : 'ltr'
     document.documentElement.setAttribute('dir', dir)
-
     window.addEventListener('resize', this.handleWindowResize)
     window.addEventListener('scroll', this.handleScroll)
-
     // Auth0
     try       { await this.$auth.renewTokens() } catch (e) { console.error(e) }
 
