@@ -25,6 +25,7 @@ Route::resource('itemtype', 'ItemTypeController');
 Route::resource('item', 'ItemController');
 Route::resource('uom', 'MeasurmentUnitController');
 Route::resource('storage', 'StorageController');
+Route::get('totalstorage', 'StorageController@totalstorage');
 Route::resource('fuelstation', 'FuelStationController');
 Route::get('latestfuelstation', 'FuelStationController@latest');
 Route::resource('fuelstorestation', 'FuelStationStorageController');
@@ -45,6 +46,7 @@ Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
 
 Route::resource('godam', 'InventoryController');
+Route::get('firstgodam', 'InventoryController@first');
 
 Route::resource('financial', 'FinancialRecordController');
 Route::resource('despenser', 'FuelDespenserController');

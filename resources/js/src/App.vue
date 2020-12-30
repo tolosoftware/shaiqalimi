@@ -47,6 +47,7 @@ export default {
                
                localStorage.setItem('name', this.currentuserdata.firstName)
                localStorage.setItem('lastname', this.currentuserdata.lastName)
+               localStorage.setItem('position', this.currentuserdata.position)
                localStorage.setItem('image', this.currentuserdata.image)
                localStorage.setItem('id', this.currentuserdata.id)
               

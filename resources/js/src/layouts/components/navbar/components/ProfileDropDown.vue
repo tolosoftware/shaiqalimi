@@ -1,69 +1,60 @@
 <template>
-  <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
+<div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
 
-    <div class="text-right leading-tight hidden sm:block">
-      <p class="font-semibold">مهدی ناصری</p>
-      <!-- <p class="font-semibold">{{ activeUserInfo.displayName }}</p> -->
-      <small>{{$t('Available')}}</small>
+  <div class="text-right leading-tight hidden sm:block">
+    <p class="font-semibold">{{firsname}} {{lastname}}</p>
+    <!-- <p class="font-semibold">{{ activeUserInfo.displayName }}</p> -->
+    <!--<small>{{$t('Available')}}</small> -->
+    <small>{{position}}</small>
+  </div>
+
+  <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
+
+    <div class="con-img ml-3">
+      <!-- <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="activeUserInfo.photoURL" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" /> -->
+      <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="'/img/user/'+image" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
     </div>
 
-    <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
+    <vs-dropdown-menu class="vx-navbar-dropdown">
+      <ul style="min-width: 9rem">
 
-      <div class="con-img ml-3">
-        <!-- <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="activeUserInfo.photoURL" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" /> -->
-         <img v-if="activeUserInfo.photoURL" key="onlineImg" src="./mahdi.jpg" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
-      </div>
-
-      <vs-dropdown-menu class="vx-navbar-dropdown">
-        <ul style="min-width: 9rem">
-
-          <!-- <li
+        <!-- <li
             class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
             @click="$router.push('/pages/profile').catch(() => {})">
             <feather-icon icon="UserIcon" svgClasses="w-4 h-4" />
             <span class="ml-2">Profile</span>
           </li> -->
 
-          <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="$router.push('/apps/email').catch(() => {})">
-            <feather-icon icon="MailIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">{{$t('Inbox')}}</span>
-          </li>
+        <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white" @click="$router.push('/apps/email').catch(() => {})">
+          <feather-icon icon="MailIcon" svgClasses="w-4 h-4" />
+          <span class="ml-2">{{$t('Inbox')}}</span>
+        </li>
 
-          <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="$router.push('/apps/todo').catch(() => {})">
-            <feather-icon icon="CheckSquareIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">{{$t('Tasks')}}</span>
-          </li>
+        <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white" @click="$router.push('/apps/todo').catch(() => {})">
+          <feather-icon icon="CheckSquareIcon" svgClasses="w-4 h-4" />
+          <span class="ml-2">{{$t('Tasks')}}</span>
+        </li>
 
-          <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="$router.push('/apps/chat').catch(() => {})">
-            <feather-icon icon="MessageSquareIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">{{$t('Chat')}}</span>
-          </li>
+        <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white" @click="$router.push('/apps/chat').catch(() => {})">
+          <feather-icon icon="MessageSquareIcon" svgClasses="w-4 h-4" />
+          <span class="ml-2">{{$t('Chat')}}</span>
+        </li>
 
-          <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="$router.push('/apps/eCommerce/wish-list').catch(() => {})">
-            <feather-icon icon="HeartIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">{{$t('WishList')}}</span>
-          </li>
+        <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white" @click="$router.push('/apps/eCommerce/wish-list').catch(() => {})">
+          <feather-icon icon="HeartIcon" svgClasses="w-4 h-4" />
+          <span class="ml-2">{{$t('WishList')}}</span>
+        </li>
 
-          <vs-divider class="m-1" />
+        <vs-divider class="m-1" />
 
-          <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="logout">
-            <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">{{$t('Logout')}}</span>
-          </li>
-        </ul>
-      </vs-dropdown-menu>
-    </vs-dropdown>
-  </div>
+        <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white" @click="logout">
+          <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
+          <span class="ml-2">{{$t('Logout')}}</span>
+        </li>
+      </ul>
+    </vs-dropdown-menu>
+  </vs-dropdown>
+</div>
 </template>
 
 <script>
@@ -71,20 +62,23 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 export default {
-  data () {
+  data() {
     return {
-
+      firsname: localStorage.getItem('name'),
+      lastname: localStorage.getItem('lastname'),
+      image: localStorage.getItem('image'),
+      position: localStorage.getItem('position'),
     }
   },
   computed: {
-    activeUserInfo () {
+    activeUserInfo() {
       console.log(this.$store.state.AppActiveUser);
-      
+
       return this.$store.state.AppActiveUser
     }
   },
   methods: {
-    logout () {
+    logout() {
 
       // if user is logged in via auth0
       if (this.$auth.profile) this.$auth.logOut()

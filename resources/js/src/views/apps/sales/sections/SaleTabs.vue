@@ -18,7 +18,7 @@
 import SalesFormAdd from './SalesFormAdd'
 import SalesFormAddMini from './SalesFormAddMini'
 import SalesList from './SalesList'
-import SalesInside from './SalesList'
+import SalesInside from './SalesInside'
 export default {
   name: 'vx-sale-tabes',
   components: {
