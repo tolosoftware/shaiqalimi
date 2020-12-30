@@ -16,7 +16,7 @@
     </div>
     <vs-divider class="mb-0"></vs-divider>
 
-    <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+    <component :is="scrollbarTag" class="scroll-area--data-list-add-new"  :key="$vs.rtl">
 
       <div class="p-6">
 

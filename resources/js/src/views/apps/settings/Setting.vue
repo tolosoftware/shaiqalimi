@@ -547,7 +547,7 @@ export default {
         },
         deleteOperation(id) {
             swal.fire({
-                title: 'آیا متمعن هستید؟',
+                title: 'آیا  متمئن هستید؟',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: 'rgb(54 34 119)',
@@ -658,13 +658,13 @@ export default {
         // 5- deleteAccountType
         deleteAccountType(id) {
             swal.fire({
-                title: 'آیا شما مطمین هستید ؟',
+                title: 'آیا شما مطمئن هستید ؟',
                 text: "شما قادر به برگردادن این شخص پس از حذف نمی باشید !",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'بلی مطمین هستم',
+                confirmButtonText: 'بلی مطمئن هستم',
                 cancelButtonText: 'نخیر'
             }).then((result) => {
                 if (result.value) {

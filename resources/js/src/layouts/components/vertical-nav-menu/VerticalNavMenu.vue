@@ -61,7 +61,7 @@
         <div class="shadow-bottom" v-show="showShadowBottom" />
 
         <!-- Menu Items -->
-        <component :is="scrollbarTag" ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2" :settings="settings" @ps-scroll-y="psSectionScroll" @scroll="psSectionScroll" :key="$vs.rtl">
+        <component :is="scrollbarTag" ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2"  @ps-scroll-y="psSectionScroll" @scroll="psSectionScroll" :key="$vs.rtl">
           <template v-for="(item, index) in menuItemsUpdated">
 
             <!-- Group Header -->

@@ -79,7 +79,7 @@ export default {
     },
     deleteData(id) {
       swal.fire({
-        title: 'آیا متمعن هستید؟',
+        title: 'آیا  متمئن هستید؟',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: 'rgb(54 34 119)',

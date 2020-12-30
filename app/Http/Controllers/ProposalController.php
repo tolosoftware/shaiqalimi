@@ -69,9 +69,16 @@ class ProposalController extends Controller
             'prefix' => 'pro',
             'value' => $request['serial_no'],
         ];
+
+        // foreach ($request->client_id as $key => $value) {
+        //     $request['client_id'] = $value['id'];
+        // }
+        $client_id = null;
         if(gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
+            // return $request;
         }
+        
         SerialNumber::create($serial_number);
         
         if ($resp = Proposal::create($request->all())){
@@ -96,8 +103,8 @@ class ProposalController extends Controller
             foreach ($request->item as $key => $item) {
                 if(gettype($item['item_id']) != 'integer') {
                     $item = [
-                        'unit_id' => $item['item_id']['uom_id'],
-                        'uom_equiv_id' => $item['item_id']['uom_equiv_id'],
+                        'unit_id' => $item['item_id']['uom_id']['id'],
+                        'uom_equiv_id' => $item['item_id']['uom_equiv_id']['id'],
                         'item_id' => $item['item_id']['id'],
                         'proposal_id' => $resp->id,
                         'operation_id' => $item['operation_id']['id'],
@@ -106,7 +113,7 @@ class ProposalController extends Controller
                         'equivalent' => $item['equivalent'],
                         'total_price' => $item['total_price'],
                     ];
-                    // return $item;
+
                     ProItem::create($item);
                 }
             }

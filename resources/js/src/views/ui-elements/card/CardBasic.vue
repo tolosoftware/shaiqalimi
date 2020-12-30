@@ -192,7 +192,7 @@
                 <vx-card title="Chat" class="overflow-hidden">
                     <template slot="no-body">
                         <div class="chat-card-log">
-                            <component :is="scrollbarTag" ref="chatLogPS" class="scroll-area pt-6 px-6" :settings="settings" :key="$vs.rtl">
+                            <component :is="scrollbarTag" ref="chatLogPS" class="scroll-area pt-6 px-6"  :key="$vs.rtl">
                                 <ul ref="chatLog">
                                         <li class="flex items-start" :class="{'flex-row-reverse': msg.isSent, 'mt-4': index}" v-for="(msg, index) in chatLog" :key="index">
                                             <vs-avatar size="40px" class="m-0 flex-shrink-0" :class="msg.isSent ? 'ml-3' : 'mr-3'" :src="msg.senderImg"></vs-avatar>
