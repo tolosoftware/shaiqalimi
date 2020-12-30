@@ -170,7 +170,7 @@ export default {
     },
     removeRow() {
       swal.fire({
-        title: 'آیا متمعن هستید؟',
+        title: 'آیا  متمئن هستید؟',
         text: "جنس مورد نظر حذف خواهد شد",
         icon: 'question',
         showCancelButton: true,

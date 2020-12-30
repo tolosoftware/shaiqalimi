@@ -450,3 +450,9 @@ $borderWidth: 1px;
 .vs-popup--close {
     transform: none;
 }
+#delete-btn.isActive .vs-button--icon{
+    color: #e55355!important;
+}
+.has-error1 > .vs__dropdown-toggle,.has-error1 input{
+    border-color: #ea5455 !important;
+}

@@ -1,6 +1,6 @@
 <template>
 <vx-card class="no-shadow">
-    <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+    <component :is="scrollbarTag" class="scroll-area--data-list-add-new"  :key="$vs.rtl">
         <form>
             <div class="vx-row">
 

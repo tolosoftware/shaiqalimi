@@ -10,7 +10,7 @@
         <p class="opacity-75">App Notifications</p>
       </div>
 
-      <component :is="scrollbarTag" ref="mainSidebarPs" class="scroll-area--nofications-dropdown p-0 mb-10" :settings="settings" :key="$vs.rtl">
+      <component :is="scrollbarTag" ref="mainSidebarPs" class="scroll-area--nofications-dropdown p-0 mb-10"  :key="$vs.rtl">
         <ul class="bordered-items">
           <li v-for="ntf in unreadNotifications" :key="ntf.index" class="flex justify-between px-4 py-4 notification cursor-pointer">
             <div class="flex items-start">

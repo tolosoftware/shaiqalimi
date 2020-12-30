@@ -161,7 +161,7 @@ export default {
     },
     // deleteData(id, title) {
     //   swal.fire({
-    //     title: 'آیا متمعن هستید؟',
+    //     title: 'آیا مطمئن هستید؟',
     //     text: "پروژه حذف خواهد شد",
     //     icon: 'question',
     //     showCancelButton: true,

@@ -12,7 +12,7 @@
               </div>
 
               <!-- CART ITEMS -->
-              <component :is="scrollbarTag" ref="mainSidebarPs" class="scroll-area--cart-items-dropdowm p-0 mb-10" :settings="settings" :key="$vs.rtl">
+              <component :is="scrollbarTag" ref="mainSidebarPs" class="scroll-area--cart-items-dropdowm p-0 mb-10"  :key="$vs.rtl">
               <ul class="bordered-items">
                   <li
                     v-for="item in cartItems"

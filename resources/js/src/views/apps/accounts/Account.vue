@@ -157,7 +157,7 @@ export default {
         },
         deleteData(id) {
             swal.fire({
-                title: 'آیا متمعن هستید؟',
+                title: 'آیا مطمئن هستید؟',
                 text: "حساب حذف خواهد شد",
                 icon: 'question',
                 showCancelButton: true,
