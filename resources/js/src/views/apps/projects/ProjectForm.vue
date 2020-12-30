@@ -117,7 +117,7 @@
         </vs-col>
       </vs-row>
 
-      <ekmalat :items="pForm.item" :form="pForm"></ekmalat>
+      <ekmalat :items="pForm.item" :form="pForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
       <vs-row vs-w="12" class="mb-base">
         <vs-col vs-type="flex" vs-w="3" class="mb-base">
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -670,6 +670,7 @@ export default {
       })
     },
     validateStep2() {
+      this.$refs.ekmalat.validateEkmalatForm();
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-2').then(result => {
           if (result) {

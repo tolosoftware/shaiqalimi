@@ -4,12 +4,12 @@
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <vs-input autocomplete="off" size="medium" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ نشر اعلان</small></label>
             <date-picker color="#e85454" name="publish_date" v-validate="'required'" v-model="aForm.publish_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.publish_date') }}</span>
@@ -17,7 +17,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <vs-input autocomplete="off" v-model="aForm.publish_address" label="آدرس نشراعلان" name="publish_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.publish_address') }}</span>
             <!--<span class="text-danger text-sm" v-show="errors.has('publish_address')">{{ errors.first('publish_address') }}</span> -->
@@ -27,7 +27,7 @@
       </vs-row>
       <vs-row vs-w="12" class="pt-2">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>نهاد تطبیق کننده</small></label>
             <v-select label="name" v-model="aForm.client_id" name="client_id" v-validate="'required'" :options="clients" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.client_id') }}</span>
@@ -35,7 +35,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <vs-input autocomplete="off" size="medium" v-model="aForm.title" v-validate="'required|min:6'" label="عنوان قرارداد" name="title" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.title') }}</span>
             <has-error :form="aForm" field="title"></has-error>
@@ -45,7 +45,7 @@
       </vs-row>
       <vs-row vs-w="12" class="pt-2">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for class="ml-4 mr-4 mb-2">نوعیت قرارداد</label>
             <div class="radio-group w-full">
               <div class="w-1/2">
@@ -61,7 +61,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <vs-input autocomplete="off" v-validate="'required|min:3'" v-model="aForm.reference_no" label="شماره شناسایی قرارداد" name="reference_no" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.reference_no') }}</span>
             <has-error :form="aForm" field="reference_no"></has-error>
@@ -69,7 +69,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ ختم پیشنهادات</small></label>
             <date-picker color="#e85454" name="submission_date" v-validate="'required'" v-model="aForm.submission_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.submission_date') }}</span>
@@ -79,7 +79,7 @@
       </vs-row>
       <vs-row vs-w="12" class="pt-2">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ آفرگشایی</small></label>
             <date-picker color="#e85454" v-validate="'required'" v-model="aForm.bidding_date" name="bidding_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" class="mt-5 w-full" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.bidding_date') }}</span>
@@ -87,14 +87,14 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <vs-input autocomplete="off" size="medium" label="آدرس آفرگشایی" v-model="aForm.bidding_address" name="bidding_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.bidding_address') }}</span>
             <has-error :form="aForm" field="bidding_address"></has-error>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <!-- TITLE -->
             <label for=""><small>تضمین آفر</small></label>
             <vx-input-group class="">
@@ -114,11 +114,11 @@
     <br>
   </tab-content>
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
-    <ekmalat :items="aForm.item" :form="aForm"></ekmalat>
+    <ekmalat :items="aForm.item" :form="aForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
     <form data-vv-scope="step-2">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <!-- TITLE -->
             <label for=""><small>تامینات</small></label>
             <vx-input-group class="">
@@ -134,7 +134,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>مالیات</small></label>
             <vx-input-group class="">
               <template slot="prepend">
@@ -149,7 +149,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>متفرقه</small></label>
             <vx-input-group class="">
               <template slot="prepend">
@@ -166,7 +166,7 @@
       </vs-row>
       <vs-row vs-w="12" class="mb-base">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>ارزش قرارداد</small></label>
             <vx-input-group class="">
               <template slot="prepend">
@@ -181,7 +181,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>انتقالات</small></label>
             <vx-input-group class="">
               <template slot="prepend">
@@ -196,7 +196,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>نرخ دهی</small></label>
             <vx-input-group class="">
               <template slot="prepend">
@@ -483,6 +483,7 @@ const dict = {
 }
 // register custom messages
 Validator.localize('en', dict)
+
 export default {
   components: {
     'v-select': vSelect,
@@ -548,6 +549,7 @@ export default {
       })
     },
     validateStep2() {
+      this.$refs.ekmalat.validateEkmalatForm();
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-2').then(result => {
           if (result) {
@@ -590,7 +592,7 @@ export default {
         .then((response) => {
           this.currentSerialNo = response.data;
           this.aForm.serial_no = this.currentSerialNo;
-          this.aForm.client_id = this.clients;
+          this.aForm.client_id = this.clients.find(e => !!e);
         })
     },
 
@@ -617,7 +619,7 @@ export default {
             aForm
           }) => {
             // Finish the Progress Bar
-            this.aForm.reset();
+            // this.aForm.reset();
             // this.$refs.observer.reset();
             this.reloadData();
             this.$vs.notify({

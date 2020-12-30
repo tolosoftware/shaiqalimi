@@ -15,7 +15,7 @@
     </div>
     <vs-tabs>
       <vs-tab label="لست نهادها" icon="list" class="leftScrol">
-        <div class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl" v-if="orgActiveForm">
+        <div class="scroll-area--data-list-add-new"  :key="$vs.rtl" v-if="orgActiveForm">
           <form>
             <vs-divider>
               <h4>
@@ -130,7 +130,7 @@
         </div>
       </vs-tab>
       <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
-        <component class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+        <component class="scroll-area--data-list-add-new"  :key="$vs.rtl">
           <form>
             <div class="p-2">
               <!-- Product Image -->

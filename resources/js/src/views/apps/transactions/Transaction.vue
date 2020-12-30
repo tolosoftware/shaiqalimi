@@ -70,7 +70,7 @@
 
                             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                                 <div class="w-full  ml-3 mr-3">
-                                    <vs-input size="medium" v-validate="'projecttitle'" label="عنوان معامله" name="projecttitle" class="w-full" />
+                                    <vs-input size="medium" v-validate="'required'" label="عنوان معامله" name="projecttitle" class="w-full" />
                                 </div>
                             </vs-col>
 
@@ -104,7 +104,7 @@
 
                                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                                 <div class="w-full  ml-3 mr-3 mb-4">
-                                    <vs-input size="medium" v-validate="'projecttitle'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
+                                    <vs-input size="medium" v-validate="'required'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
                                 </div>
                              </vs-col>
 
@@ -120,7 +120,7 @@
 
                                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                                 <div class="w-full  ml-3 mr-3 mb-4">
-                                    <vs-input size="medium" v-validate="'projecttitle'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
+                                    <vs-input size="medium" v-validate="'required'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" />
                                 </div>
                              </vs-col>
 

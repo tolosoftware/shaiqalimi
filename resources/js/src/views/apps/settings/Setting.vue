@@ -560,7 +560,7 @@ export default {
         },
         deleteOperation(id) {
             swal.fire({
-                title: 'آیا متمعن هستید؟',
+                title: 'آیا  متمئن هستید؟',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: 'rgb(54 34 119)',
@@ -661,7 +661,7 @@ export default {
         // 5- deleteAccountType
         deleteAccountType(id) {
             swal.fire({
-                title: 'آیا متمعن هستید؟',
+                title: 'آیا  متمئن هستید؟',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: 'rgb(54 34 119)',
