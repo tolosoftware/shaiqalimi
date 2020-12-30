@@ -129,10 +129,10 @@ class ProjectController extends Controller
                 if (gettype($item['item_id']) != 'integer') {
 
                     $item = [
-                        'unit_id' => $item['item_id']['uom_id'],
-                        'uom_equiv_id' => $item['item_id']['uom_equiv_id'],
+                        'unit_id' => $item['item_id']['uom_id']['id'],
+                        'uom_equiv_id' => $item['item_id']['uom_equiv_id']['id'],
                         'item_id' => $item['item_id']['id'],
-                        'project_id' => $resp->id,
+                        'proposal_id' => $resp->id,
                         'operation_id' => $item['operation_id']['id'],
                         'ammount' => $item['ammount'],
                         'unit_price' => $item['unit_price'],

@@ -39,7 +39,7 @@
 
         <vs-divider class="mb-0" />
 
-        <component :is="scrollbarTag" class="scroll-area--customizer pt-4 pb-6" :settings="settings" :key="$vs.rtl">
+        <component :is="scrollbarTag" class="scroll-area--customizer pt-4 pb-6"  :key="$vs.rtl">
 
           <div class="px-6">
 

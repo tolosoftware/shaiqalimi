@@ -1,6 +1,6 @@
 <template>
 <vx-card class="no-shadow">
-    <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :settings="settings" :key="$vs.rtl">
+    <component :is="scrollbarTag" class="scroll-area--data-list-add-new"  :key="$vs.rtl">
         <form>
             <div class="vx-row">
 
@@ -22,7 +22,7 @@
 
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
                     <div class="w-full  ml-3 mr-3">
-                        <vs-input size="medium" v-validate="'projecttitle'" label="عنوان انتقال" name="projecttitle" class="w-full" />
+                        <vs-input size="medium" v-validate="'required'" label="عنوان انتقال" name="projecttitle" class="w-full" />
                     </div>
                 </vs-col>
 
@@ -72,7 +72,7 @@
 
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="12" vs-xs="12">
                     <div class="w-full  ml-3 mr-3">
-                        <vs-input size="medium" v-validate="'projecttitle'" label=" ثقلت" name="projecttitle" class="w-full" />
+                        <vs-input size="medium" v-validate="'required'" label=" ثقلت" name="projecttitle" class="w-full" />
                     </div>
                 </vs-col>
 
@@ -112,7 +112,7 @@
 
                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="12" vs-xs="12">
                     <div class="w-full  ml-3 mr-3">
-                        <vs-input size="medium" v-validate="'projecttitle'" label="شخص مسول" name="projecttitle" class="w-full" />
+                        <vs-input size="medium" v-validate="'required'" label="شخص مسول" name="projecttitle" class="w-full" />
                     </div>
                 </vs-col>
 

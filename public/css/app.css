@@ -5561,3 +5561,11 @@ text {
           transform: none;
 }
 
+#delete-btn.isActive .vs-button--icon {
+  color: #e55355 !important;
+}
+
+[dir] .has-error1 > .vs__dropdown-toggle, [dir] .has-error1 input {
+  border-color: #ea5455 !important;
+}
+
