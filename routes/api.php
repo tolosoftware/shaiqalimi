@@ -60,3 +60,8 @@ Route::post('storage-station', 'FuelStationStorageController@bystation');
 Route::get('lastest-projects', 'ProjectController@latestProject');
 Route::get('active-project', 'ProjectController@activeProject');
 Route::get('client/{id}', 'ProjectController@getClient');
+
+//vendors
+Route::resource('vendors', 'VendorController');
+Route::resource('purches', 'PurchaseController');
+

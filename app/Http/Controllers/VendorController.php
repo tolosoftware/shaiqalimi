@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vendor;
+use App\Models\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
@@ -14,7 +16,7 @@ class VendorController extends Controller
      */
     public function index()
     {
-        //
+        return Vendor::all();
     }
 
     /**
@@ -35,8 +37,36 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+    DB::beginTransaction();
+    try {
+        Account::create([
+            'user_id' => $request['user_id'],
+            'type_id' => 9,
+            'name' =>$request['name'],
+            'ref_code' => 34232,
+            'status' =>1,
+            'description' =>$request['address'],
+            'system' => 0,
+        ]);
+
+        $account =  Account::latest()->first();
+
+         Vendor::create([
+            'name' => $request['name'],
+            'phone' => $request['phone'],
+            'address' => $request['address'],
+            'account_id'=> $account->id,
+          
+        ]);
+
+        DB::commit();
+        return ['msg' => 'vendor succesfully inserted'];
+    } catch (Exception $e) {
+        DB::rollback();
+
     }
+}
 
     /**
      * Display the specified resource.

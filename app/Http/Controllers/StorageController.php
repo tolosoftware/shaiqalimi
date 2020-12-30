@@ -14,7 +14,7 @@ class StorageController extends Controller
      */
     public function index()
     {
-        //
+        return Storage::all();
     }
 
     /**
