@@ -162,7 +162,7 @@ return [
         'logo' => 'نشان',
         'manager' => 'مسول',
         'description' => 'توضیحات',
-        'reference_no' => 'شماره شناسایی'
+        'reference_no' => 'شماره شناسایی',
     ],
 
 ];

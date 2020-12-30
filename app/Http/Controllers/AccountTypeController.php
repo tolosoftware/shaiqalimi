@@ -14,7 +14,12 @@ class AccountTypeController extends Controller
      */
     public function index()
     {
-        return AccountType::with('accounts.financial_records')->get();
+     
+
+        $accounts =  AccountType::with('accounts.financial_records')->get();
+       
+
+        return $accounts;
         // return AccountType::all();
     }
 
@@ -36,12 +41,21 @@ class AccountTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required|min:2',
-            'type_id' => 'required|numeric',
-            'system' => 'required'
+        // $this->validate($request, [
+        //     'title' => 'required|min:2',
+        //     'type_id' => 'required|numeric',
+        //     'system' => 'required'
+        // ]);
+        
+         AccountType::create([
+           
+            'title' => $request['title'],
+            'type_id' => $request['type_id']['id'],
+            'system' => 0,
         ]);
-        return AccountType::create($request->all());
+
+        return ['msg', 'succefully inserted'];
+        
     }
 
     /**
@@ -73,7 +87,7 @@ class AccountTypeController extends Controller
      * @param  \App\Models\AccountType  $accountType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $accountTypeID)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'title' => 'required|min:2',
@@ -86,7 +100,8 @@ class AccountTypeController extends Controller
         //     return 0;
         // }
 
-        $acountType = AccountType::findOrFail($accountTypeID);
+        $acountType = AccountType::findOrFail($id);
+        $request['type_id'] = $request['type_id']['id'];
         $acountType->update($request->all());
         return "ok";
     }
@@ -100,6 +115,7 @@ class AccountTypeController extends Controller
     public function destroy($accountTypeID)
     {
         $acountType = AccountType::findOrFail($accountTypeID);
+       
         return $acountType->delete();
     }
 }

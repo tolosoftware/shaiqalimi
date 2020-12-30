@@ -16,7 +16,10 @@ class FuelStationController extends Controller
     {
         return Fuel_station::all();
     }
-
+    public function latest()
+    {
+        return Fuel_station::first();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -36,15 +39,14 @@ class FuelStationController extends Controller
     public function store(Request $request)
     {
         return Fuel_station::create([
-          
+
             'name' => $request['name'],
             'manager' => $request['manager'],
             'phone' => $request['phone'],
             'address' => $request['address'],
-           
-           
-        ]);
 
+
+        ]);
     }
 
     /**

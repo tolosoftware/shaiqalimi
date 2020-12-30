@@ -231,6 +231,7 @@
             </div>
             <!--</div> -->
         </vs-col>
+
         <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3">
                 <div class="vx-card">
@@ -258,110 +259,96 @@
                                 </div>
                                 <div class="vx-col w-full pt-4 pb-5">
                                     <div class="vx-col w-full">
-                                        <vs-checkbox color="success" size="large" v-model="have_type">آیا نوعیت دارد؟</vs-checkbox>
-                                        <!--<vs-input class="w-full" v-model="acountTypeForm.system" />
-                    <has-error :form="acountTypeForm" field="system"></has-error>-->
+                                        <vs-checkbox color="success" size="large" v-model="have_type"> نوعیت دارد ! </vs-checkbox>
+
                                     </div>
                                 </div>
                                 <div class="vx-col w-full pt-2 pb-4" v-if="have_type">
-                                    <!--<div class="vx-col sm:w-1/3 w-full">
-                    <span>سیستم</span>
-                  </div> 
-                  <span v-text="acountTypeForm.system"></span>-->
-                                    <div class="vx-col sm:w-1/3 w-full">
-                                        <span>نوعیت</span>
-                                        &nbsp;
-                                        <!--<span v-text="acountTypeForm.type_id"></span> -->
-                                    </div>
-                                    <div class="vx-col w-full">
-                                        <!-- <v-select label="text" v-model="acountTypeForm.type_id" :options="accountTypes.title" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                   <vs-input class="w-full" v-model="acountTypeForm.type_id" />
-                    <has-error :form="acountTypeForm" field="type_id"></has-error>-->
-                                        <vs-select placeholder="یکی از بخش های عمده را انتخاب کنید" class="w-full" v-model="acountTypeForm.type_id">
-                                            <vs-select-item v-if="(item.system == 1)" :key="index" :value="item.id" :text="item.title" v-for="item,index in accountTypes" />
-                                        </vs-select>
-                                    </div>
-                                </div>
-                                <div class="vx-col w-full mb-base mt-5 float-right">
-                                    <vs-button v-if="!acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="storeAccountType">ثبت عملیه</vs-button>
-                                    <vs-button v-if="acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mb-2" @click="updateAccountType">آپدیت عملیه</vs-button>
-                                </div>
 
+                                    <label for="title"><small>نوعیت</small> </label>
+                                    <v-select label="title" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="acountTypeForm.type_id" />
+
+                                </div>
                             </div>
-                            <vs-table :data="accountTypes">
+                            <div class="vx-col w-full mb-base mt-5 float-right">
+                                <vs-button v-if="!acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="storeAccountType">ثبت عملیه</vs-button>
+                                <vs-button v-if="acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mb-2" @click="updateAccountType">آپدیت عملیه</vs-button>
+                            </div>
 
-                                <template slot="thead">
-                                    <vs-th>#</vs-th>
-                                    <vs-th>نام</vs-th>
-                                    <vs-th>نوعیت</vs-th>
-                                    <vs-th>سیستم</vs-th>
-                                    <vs-th>عملیه</vs-th>
-                                </template>
+                        </div>
+                        <vs-table :data="accountTypes" stripe >
 
-                                <template slot-scope="{data}">
-                                    <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-                                        <vs-td :data="tr.id">
-                                            {{ ++indextr }}
-                                        </vs-td>
-                                        <vs-td :data="tr.id">
-                                            {{ tr.title }}
-                                        </vs-td>
+                            <template slot="thead">
+                                <vs-th>#</vs-th>
+                                <vs-th>نام</vs-th>
+                                <vs-th>نوعیت</vs-th>
+                                <vs-th>سیستم</vs-th>
+                                <vs-th>عملیه</vs-th>
+                            </template>
 
-                                        <vs-td :data="tr.id">
-                                            <span v-if="!(tr.system == 1)">
-                                                <!--<vs-select v-model="tr.type_id" disabled>
+                            <template slot-scope="{data}">
+                                <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                                    <vs-td :data="tr.id">
+                                        {{ ++indextr }}
+                                    </vs-td>
+                                    <vs-td :data="tr.id">
+                                        {{ tr.title }}
+                                    </vs-td>
+
+                                    <vs-td :data="tr.id">
+                                        <span v-if="!(tr.system == 1)">
+                                            <!--<vs-select v-model="tr.type_id" disabled>
                           <vs-select-item :key="index" :value="item.id" :text="item.title" v-for="item,index in accountTypes" />
                         </vs-select> -->
-                                                <div v-for="item,index in accountTypes">
-                                                    <span v-if="(tr.type_id==item.id)">
-                                                        <span v-text="item.title"></span>
-                                                    </span>
-                                                </div>
-                                            </span>
-                                            <span v-if="(tr.system == 1)"> سیستم </span>
-                                        </vs-td>
-
-                                        <vs-td :data="tr.id">
-                                            <span v-if="(tr.system == 1)">است</span>
-                                            <span v-if="(tr.system == 0)">نیست</span>
-                                        </vs-td>
-                                        <vs-td :data="tr.id">
-                                            <div class="inline-flex">
-                                                <vs-button @click="editAccountType(tr)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-edit"></vs-button>
-                                                <span v-if="(tr.system ==1)">
-                                                    <vs-button disabled @click="deleteAccountType(tr.id)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
-                                                </span>
-                                                <span v-if="!(tr.system ==1)">
-                                                    <vs-button @click="deleteAccountType(tr.id)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
+                                            <div v-for="(item,index) in accountTypes" :key="index">
+                                                <span v-if="(tr.type_id==item.id)">
+                                                    <span v-text="item.title"></span>
                                                 </span>
                                             </div>
-                                        </vs-td>
-                                    </vs-tr>
-                                </template>
+                                        </span>
+                                        <span v-if="(tr.system == 1)"> سیستم </span>
+                                    </vs-td>
 
-                            </vs-table>
+                                    <vs-td :data="tr.id">
+                                        <span v-if="(tr.system == 1)">است</span>
+                                        <span v-if="(tr.system == 0)">نیست</span>
+                                    </vs-td>
+                                    <vs-td :data="tr.id">
+                                        <div class="inline-flex">
+                                            <vs-button @click="editAccountType(tr)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-edit"></vs-button>
+                                            <span v-if="(tr.system ==1)">
+                                                <vs-button disabled @click="deleteAccountType(tr.id)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
+                                            </span>
+                                            <span v-if="!(tr.system ==1)">
+                                                <vs-button @click="deleteAccountType(tr.id)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
+                                            </span>
+                                        </div>
+                                    </vs-td>
+                                </vs-tr>
+                            </template>
 
-                            <!-- end -->
-                        </div>
+                        </vs-table>
 
+                        <!-- end -->
                     </div>
+
                 </div>
             </div>
+        
+     </vs-col>
 
-        </vs-col>
+<vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
+    <div class="w-full pt-2 ml-3 mr-3">
+        <ItemType></ItemType>
+    </div>
+</vs-col>
+<vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
+    <div class="w-full pt-2 ml-3 mr-3">
+        <Uom></Uom>
+    </div>
+</vs-col>
 
-        <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
-            <div class="w-full pt-2 ml-3 mr-3">
-                <ItemType></ItemType>
-            </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="6" vs-sm="6" vs-xs="12">
-            <div class="w-full pt-2 ml-3 mr-3">
-                <Uom></Uom>
-            </div>
-        </vs-col>
-
-    </vs-row>
+</vs-row>
 
 </div>
 </template>
@@ -405,7 +392,7 @@ export default {
             acountTypeForm: new Form({
                 id: null,
                 title: '',
-                type_id: 0,
+                type_id: '',
                 system: 0,
             }),
             have_type: 0,
@@ -610,13 +597,23 @@ export default {
                         position: 'top-right'
                     })
                 }).catch((errors) => {
+                    
                     this.$Progress.set(100)
-                    this.$vs.notify({
-                        title: 'ناموفق!',
-                        text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-                        color: 'danger',
+                    // this.$vs.notify({
+                    //     title: 'ناموفق!',
+                    //     text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                    //     color: 'danger',
+                    //     iconPack: 'feather',
+                    //     icon: 'icon-cross',
+                    //     position: 'top-right'
+                    // })
+
+                     this.$vs.notify({
+                        title: 'موفقیت!',
+                        text: 'معلومات موفقانه ثبت سیستم شد.',
+                        color: 'success',
                         iconPack: 'feather',
-                        icon: 'icon-cross',
+                        icon: 'icon-check',
                         position: 'top-right'
                     })
                 });
@@ -661,26 +658,28 @@ export default {
         // 5- deleteAccountType
         deleteAccountType(id) {
             swal.fire({
-                title: 'آیا  متمئن هستید؟',
-                icon: 'question',
+                title: 'آیا شما مطمئن هستید ؟',
+                text: "شما قادر به برگردادن این شخص پس از حذف نمی باشید !",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: 'rgb(54 34 119)',
-                cancelButtonColor: 'rgb(229 83 85)',
-                confirmButtonText: '<span>بله، حذف شود!</span>',
-                cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بلی مطمئن هستم',
+                cancelButtonText: 'نخیر'
             }).then((result) => {
-                if (result.isConfirmed) {
-                    this.operationForm.delete('/api/acount_type/' + id).then((id) => {
-                            swal.fire({
-                                title: 'عملیه موفقانه انجام شد.',
-                                icon: 'success',
-                            })
-                            this.getAllAccountTypes();
-                        })
-                        .catch(() => {});
+                if (result.value) {
+                    this.axios.delete('/api/acount_type/' + id).then(() => {
+                        swal.fire(
+                            'حذف شد !',
+                            'موفقانه عملیه حذف انجام شد',
+                            'success'
+                        )
+                        this.loadUsers();
+                    }).catch(() => {
+                        swal.fire("Failed!", "سیستم قادر به حذف نیست دوباره تلاش نماید.", "warning");
+                    })
                 }
             })
-
         }
 
     },

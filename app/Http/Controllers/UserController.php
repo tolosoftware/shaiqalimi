@@ -115,9 +115,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $photoname = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
-        \Image::make($request->image)->save(public_path('img/user/').$photoname);
-        $request->merge(['photo' => $photoname]);
+      
+        if($request->image != null){
+            $photoname = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+            \Image::make($request->image)->save(public_path('img/user/').$photoname);
+            $request->merge(['photo' => $photoname]);
+        }
+       
 
         $user = User::findOrFail($id);
         $request['password'] =  Hash::make($request['password']);
