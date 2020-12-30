@@ -7,38 +7,27 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->
 
-
 <template>
-  <vs-sidebar
-    position-right
-    parent="body"
-    default-index="1"
-    color="primary"
-    class="add-new-data-sidebar items-no-padding"
-    spacer
-    v-model="isSidebarActiveLocal"
-  >
-    <div class="mt-6 flex items-center justify-between px-6 float-right">
-      <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
-    </div>
+<vs-sidebar click-not-close position-right parent="body" click-not default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
+  <div class="mt-6 flex items-center justify-between px-6 float-right">
+    <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+  </div>
 
-    <vs-tabs>
-      <vs-tab label="ذخایر">
-        <AllInventory></AllInventory>
-      </vs-tab>
-      <vs-tab label="ثبت ذخیره">
-        <AddNewInventory></AddNewInventory>
-      </vs-tab>
-    </vs-tabs>
-  </vs-sidebar>
+  <vs-tabs>
+    <vs-tab label="ذخایر">
+      <AllInventory></AllInventory>
+    </vs-tab>
+    <vs-tab label="ثبت ذخیره">
+      <AddNewInventory></AddNewInventory>
+    </vs-tab>
+  </vs-tabs>
+</vs-sidebar>
 </template>
 
 <script>
-
 import vSelect from 'vue-select'
 import AllInventory from './add/AllInventory';
 import AddNewInventory from './add/AddNewInventory';
-
 
 export default {
   props: {
@@ -59,8 +48,7 @@ export default {
   },
   data() {
     return {
-      itemType: [
-        {
+      itemType: [{
           text: 'تن',
           value: '1'
         },
@@ -86,17 +74,17 @@ export default {
       dataPrice: 0,
 
       category_choices: [
-        {text: 'Audio',value: 'audio'},
-        {text: 'Computers',value: 'computers'},
-        {text: 'Fitness',value: 'fitness'},
-        {text: 'Appliance',value: 'appliance'}
+        { text: 'Audio', value: 'audio' },
+        { text: 'Computers', value: 'computers' },
+        { text: 'Fitness', value: 'fitness' },
+        { text: 'Appliance', value: 'appliance' }
       ],
 
       order_status_choices: [
-        {text: 'Pending',value: 'pending'},
-        {text: 'Canceled',value: 'canceled'},
-        {text: 'Delivered',value: 'delivered'},
-        {text: 'On Hold',value: 'on_hold'}
+        { text: 'Pending', value: 'pending' },
+        { text: 'Canceled', value: 'canceled' },
+        { text: 'Delivered', value: 'delivered' },
+        { text: 'On Hold', value: 'on_hold' }
       ],
       settings: { // perfectscrollbar settings
         maxScrollbarLength: 60,
@@ -111,7 +99,7 @@ export default {
         this.initValues()
         this.$validator.reset()
       } else {
-        const {category,id,img,name,order_status,price} = JSON.parse(JSON.stringify(this.data))
+        const { category, id, img, name, order_status, price } = JSON.parse(JSON.stringify(this.data))
         this.dataId = id
         this.dataCategory = category
         this.dataImg = img
@@ -139,7 +127,7 @@ export default {
     isFormValid() {
       return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
     },
-    scrollbarTag() {return this.$store.getters.scrollbarTag}
+    scrollbarTag() { return this.$store.getters.scrollbarTag }
   },
   methods: {
     initValues() {
@@ -164,11 +152,11 @@ export default {
           }
 
           if (this.dataId !== null && this.dataId >= 0) {
-            this.$store.dispatch('dataList/updateItem',obj).catch(err => {console.error(err)})
+            this.$store.dispatch('dataList/updateItem', obj).catch(err => { console.error(err) })
           } else {
             delete obj.id
             obj.popularity = 0
-            this.$store.dispatch('dataList/addItem',obj).catch(err => {console.error(err)})
+            this.$store.dispatch('dataList/addItem', obj).catch(err => { console.error(err) })
           }
 
           this.$emit('closeSidebar')
@@ -197,7 +185,7 @@ export default {
 
   ::v-deep .vs-sidebar {
     z-index: 52010;
-    width: 400px;
+    width: 500px;
     max-width: 90vw;
 
     .img-upload {

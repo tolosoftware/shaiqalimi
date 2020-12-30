@@ -8,16 +8,16 @@
 ========================================================================================== -->
 
 <template>
-  <div id="data-list-list-view" class="data-list-container">
+<div id="data-list-list-view" class="data-list-container">
 
-    <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
+  <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
 
-    <vs-table ref="table"  pagination :max-items="itemsPerPage" search :data="products">
+  <vs-table v-if="isOk" ref="table" pagination :max-items="itemsPerPage" search :data="products">
 
-      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
+    <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
-        <div class="flex flex-wrap-reverse items-center data-list-btn-container">
-             <!-- ITEMS PER PAGE -->
+      <div class="flex flex-wrap-reverse items-center data-list-btn-container">
+        <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler float-right">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
             <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} of {{ queriedItems }}</span>
@@ -40,58 +40,65 @@
             </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>
-        </div>
-
-       
       </div>
 
-      <template slot="thead">
+    </div>
 
-        <vs-th sort-key="name">Name</vs-th>
-        <vs-th sort-key="category">Category</vs-th>
-        <vs-th sort-key="popularity">Popularity</vs-th>
-        <vs-th sort-key="order_status">Order Status</vs-th>
-        <vs-th sort-key="price">Price</vs-th>
-        <vs-th>Action</vs-th>
-        
-      </template>
+    <template slot="thead">
 
-        <template slot-scope="{data}">
-          <tbody>
-            
-            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+      <vs-th sort-key="name">Name</vs-th>
+      <vs-th sort-key="category">Category</vs-th>
+      <vs-th sort-key="popularity">Popularity</vs-th>
+      <vs-th sort-key="order_status">Order Status</vs-th>
+      <vs-th sort-key="price">Price</vs-th>
+      <vs-th>Action</vs-th>
 
-              <vs-td>
-                <p class="product-name font-medium truncate">{{ tr.name }}</p>
-              </vs-td>
+    </template>
 
-              <vs-td>
-                <p class="product-category">{{ tr.category | title }}</p>
-              </vs-td>
+    <template slot-scope="{data}">
+      <tbody>
 
-              <vs-td>
-                <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />
-              </vs-td>
+        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
-              <vs-td>
-                <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.order_status | title }}</vs-chip>
-              </vs-td>
+          <vs-td>
+            <p class="product-name font-medium truncate">{{ tr.name }}</p>
+          </vs-td>
 
-              <vs-td>
-                <p class="product-price">${{ tr.price }}</p>
-              </vs-td>
+          <vs-td>
+            <p class="product-category">{{ tr.category | title }}</p>
+          </vs-td>
 
-              <vs-td class="whitespace-no-wrap">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
-              </vs-td>
+          <vs-td>
+            <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />
+          </vs-td>
 
-            </vs-tr>
+          <vs-td>
+            <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.order_status | title }}</vs-chip>
+          </vs-td>
 
-          </tbody>
-        </template>
-    </vs-table>
-  </div>
+          <vs-td>
+            <p class="product-price">${{ tr.price }}</p>
+          </vs-td>
+
+          <vs-td class="whitespace-no-wrap">
+            <!--<vs-button radius color="danger" size="small" type="gradient" icon="favorite"></vs-button>-->
+            <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
+            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+          </vs-td>
+
+        </vs-tr>
+
+      </tbody>
+    </template>
+  </vs-table>
+  <vs-popup class="holamundo" title="Lorem ipsum dolor sit amet" :active.sync="popupActivo">
+    <p>
+      <h4>سلام خوبی ؟</h4>
+    </p>
+  </vs-popup>
+
+</div>
 </template>
 
 <script>
@@ -100,10 +107,12 @@ import moduleDataList from '@/store/data-list/moduleDataList.js'
 
 export default {
   components: {
-   // DataViewSidebar
+    // DataViewSidebar
   },
-  data () {
+  data() {
     return {
+      popupActive: false,
+      isOk: true,
       selected: [],
       // products: [],
       itemsPerPage: 10,
@@ -115,63 +124,67 @@ export default {
     }
   },
   computed: {
-    currentPage () {
+    currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx
       }
       return 0
     },
-    products () {
+    products() {
       return this.$store.state.dataList.products
     },
-    queriedItems () {
+    queriedItems() {
       return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
     }
   },
   methods: {
-    addNewData () {
+    addNewData() {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
     },
-    deleteData (id) {
+    deleteData(id) {
       this.$store.dispatch('dataList/removeItem', id).catch(err => { console.error(err) })
     },
-    editData (data) {
+    editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data
       this.toggleDataSidebar(true)
     },
-    getOrderStatusColor (status) {
-      if (status === 'on_hold')   return 'warning'
+    getOrderStatusColor(status) {
+      if (status === 'on_hold') return 'warning'
       if (status === 'delivered') return 'success'
-      if (status === 'canceled')  return 'danger'
+      if (status === 'canceled') return 'danger'
       return 'primary'
     },
-    getPopularityColor (num) {
-      if (num > 90)  return 'success'
-      if (num > 70)  return 'primary'
+    getPopularityColor(num) {
+      if (num > 90) return 'success'
+      if (num > 70) return 'primary'
       if (num >= 50) return 'warning'
-      if (num < 50)  return 'danger'
+      if (num < 50) return 'danger'
       return 'primary'
     },
-    toggleDataSidebar (val = false) {
+    toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
     }
   },
-  created () {
+  created() {
     if (!moduleDataList.isRegistered) {
       this.$store.registerModule('dataList', moduleDataList)
       moduleDataList.isRegistered = true
     }
     this.$store.dispatch('dataList/fetchDataListItems')
   },
-  mounted () {
+  mounted() {
     this.isMounted = true
   }
 }
 </script>
 
-<style lang="scss">
+<style>
+[dir] .vs-button.includeIcon {
+  float: right;
+}
+</style><style lang="scss">
 #data-list-list-view {
   .vs-con-table {
 
@@ -218,12 +231,13 @@ export default {
       flex-wrap: wrap;
       margin-left: 1.5rem;
       margin-right: 1.5rem;
-      > span {
+
+      >span {
         display: flex;
         flex-grow: 1;
       }
 
-      .vs-table--search{
+      .vs-table--search {
         padding-top: 0;
 
         .vs-table--search-input {
@@ -246,39 +260,45 @@ export default {
       border-spacing: 0 1.3rem;
       padding: 0 1rem;
 
-      tr{
-          box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
-          td{
-            padding: 20px;
-            &:first-child{
-              border-top-left-radius: .5rem;
-              border-bottom-left-radius: .5rem;
-            }
-            &:last-child{
-              border-top-right-radius: .5rem;
-              border-bottom-right-radius: .5rem;
-            }
+      tr {
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .05);
+
+        td {
+          padding: 20px;
+
+          &:first-child {
+            border-top-left-radius: .5rem;
+            border-bottom-left-radius: .5rem;
           }
-          td.td-check{
-            padding: 20px !important;
+
+          &:last-child {
+            border-top-right-radius: .5rem;
+            border-bottom-right-radius: .5rem;
           }
+        }
+
+        td.td-check {
+          padding: 20px !important;
+        }
       }
     }
 
-    .vs-table--thead{
+    .vs-table--thead {
       th {
         padding-top: 0;
         padding-bottom: 0;
 
-        .vs-table-text{
+        .vs-table-text {
           text-transform: uppercase;
           font-weight: 600;
         }
       }
-      th.td-check{
+
+      th.td-check {
         padding: 0 15px !important;
       }
-      tr{
+
+      tr {
         background: none;
         box-shadow: none;
       }
