@@ -9,7 +9,6 @@
               <h3>فارم ثبت مصارف</h3>
             </div>
           </div>
-
           <form>
             <div class="vx-row">
               <!-- required -->

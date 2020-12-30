@@ -16,7 +16,10 @@ class InventoryController extends Controller
     {
         return Inventory::all();
     }
-
+    public function first()
+    {
+        return Inventory::first();
+    }
     /**
      * Show the form for creating a new resource.
      *
