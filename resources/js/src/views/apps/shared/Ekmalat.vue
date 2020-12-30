@@ -16,7 +16,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="2" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>عملیه</small></label>
-            <v-select v-validate="'required'" :name="`operation_id_${index}`" label="title" @input="operationChange" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select v-validate="'required'" :class="['{{errors.first(`step-3.operation_id_${index}`)}}' ? 'has-error' : '']" :name="`operation_id_${index}`" label="title" @input="operationChange" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.operation_id_${index}`) }}</span> -->
           </div>
         </vs-col>
@@ -31,7 +31,7 @@
                   <span>{{ (i.item_id.uom_id) ? i.item_id.uom_id.acronym : i.item_id }}</span>
                 </div>
               </template>
-              <vs-input v-validate="'required'" :name="`ammount_${index}`" type="number" min="0" v-model="i.ammount" />
+              <vs-input v-validate="'required'" :class="['{{errors.first(`step-3.ammount_${index}`)}}' ? 'has-error' : '']" :name="`ammount_${index}`" type="number" min="0" v-model="i.ammount" />
             </vx-input-group>
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.ammount_${index}`) }}</span> -->
             <has-error :form="form" field="ammount"></has-error>
@@ -55,14 +55,14 @@
                   <span>{{ (i.item_id.uom_equiv_id) ? i.item_id.uom_equiv_id.acronym : i.item_id }}</span>
                 </div>
               </template>
-              <vs-input v-validate="'required|min:2'" type="number" v-model="i.equivalent" />
+              <vs-input v-validate="'required|min:2'" :class="['{{errors.first(`step-3.equivalent_${index}`)}}' ? 'has-error' : '']" type="number" v-model="i.equivalent" />
             </vx-input-group>
             <has-error :form="form" field="equivalent"></has-error>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="(i.operation_id != undefined && i.operation_id.id == 1) ? 1 : 2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input type="number" v-validate="'required'" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه فی واحد" class="w-full" />
+            <vs-input type="number" v-validate="'required'" :class="['{{errors.first(`step-3.unit_price_${index}`)}}' ? 'has-error' : '']" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه فی واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
@@ -247,7 +247,10 @@ export default {
         this.listOfFields[`item_id_${index}`] = {
           required: 'انتخاب نوع جنس الزامی است.'
         };
-        this.listOfFields[`ammount_${index}`] = {
+        this.listOfFields[`equivalent_${index}`] = {
+          required: 'مقدار الزامی است.'
+        };
+        this.listOfFields[`equivalent_${index}`] = {
           required: 'مقدار الزامی است.'
         };
         this.listOfFields[`unit_price_${index}`] = {

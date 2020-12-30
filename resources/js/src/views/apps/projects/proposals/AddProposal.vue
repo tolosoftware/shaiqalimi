@@ -114,56 +114,7 @@
     <br>
   </tab-content>
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
-    <ekmalat :items="aForm.item" :form="aForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
     <form data-vv-scope="step-2">
-      <vs-row vs-w="12">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <!-- TITLE -->
-            <label for=""><small>تامینات</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>٪</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.deposit" v-validate="'required'" name="deposit" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
-            <has-error :form="aForm" field="deposit"></has-error>
-          </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <label for=""><small>مالیات</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>٪</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.tax" v-validate="'required'" name="tax" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
-            <has-error :form="aForm" field="tax"></has-error>
-          </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <label for=""><small>متفرقه</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.others" v-validate="'required'" name="others" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
-            <has-error :form="aForm" field="others"></has-error>
-          </div>
-        </vs-col>
-      </vs-row>
       <vs-row vs-w="12" class="mb-base">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
@@ -180,7 +131,59 @@
             <has-error :form="aForm" field="pr_worth"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+      </vs-row>
+      <ekmalat :items="aForm.item" :form="aForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
+      <vs-row vs-w="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <!-- TITLE -->
+              <label for=""><small>تامینات</small></label>
+              <vx-input-group class="">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>٪</span>
+                  </div>
+                </template>
+                <vs-input autocomplete="off" type="number" v-model="aForm.deposit" v-validate="'required'" name="deposit" />
+              </vx-input-group>
+              <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
+              <has-error :form="aForm" field="deposit"></has-error>
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <label for=""><small>مالیات</small></label>
+              <vx-input-group class="">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>٪</span>
+                  </div>
+                </template>
+                <vs-input autocomplete="off" type="number" v-model="aForm.tax" v-validate="'required'" name="tax" />
+              </vx-input-group>
+              <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+              <has-error :form="aForm" field="tax"></has-error>
+            </div>
+          </vs-col>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+            <label for=""><small>متفرقه</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input autocomplete="off" type="number" v-model="aForm.others" v-validate="'required'" name="others" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
+            <has-error :form="aForm" field="others"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>انتقالات</small></label>
             <vx-input-group class="">
@@ -195,7 +198,7 @@
             <has-error :form="aForm" field="transit"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>نرخ دهی</small></label>
             <vx-input-group class="">
