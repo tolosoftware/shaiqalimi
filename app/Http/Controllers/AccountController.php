@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+
+  
     /**
      * Display a listing of the resource.
      *

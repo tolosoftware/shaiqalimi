@@ -1,5 +1,6 @@
 <template>
 <div>
+
   <div class="vx-row mb-base">
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
       <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" icon-right statistic="32476 AFN" statisticTitle="مصارف" :chartData="ordersRecevied.series" />
@@ -249,6 +250,7 @@ import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.
 ECharts.registerTheme('ovilia-green', theme)
 
 export default {
+   props: ["currentuser"],
   components: {
     ECharts,
     VueApexCharts,
@@ -262,7 +264,7 @@ export default {
       apexChatData,
 
       analyticsData,
-
+      name: localStorage.getItem('id'),
       // Line Charts
       siteTraffic: {},
 
@@ -293,6 +295,7 @@ export default {
   },
 
   created() {
+    console.log(this.$parent);
     // Support Tracker
     this.$http.get('/api/card/card-analytics/support-tracker')
       .then((response) => { this.supportTracker = response.data })
