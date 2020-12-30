@@ -161,7 +161,8 @@ return [
         'address' => 'آدرس',
         'logo' => 'نشان',
         'manager' => 'مسول',
-        'description' => 'توضیحات'
+        'description' => 'توضیحات',
+        'reference_no' => 'شماره شناسایی'
     ],
 
 ];

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
-Route::get('user','UserController@user')->middleware('auth:api');
+Route::get('user', 'UserController@user')->middleware('auth:api');
 Route::resource('users', 'UserController');
 Route::resource('itemtype', 'ItemTypeController');
 Route::resource('item', 'ItemController');
@@ -54,3 +54,7 @@ Route::post('currency/rates', 'CurrencyController@rates');
 Route::get('serial-num', 'SerialNumberController@latest');
 Route::post('financial-account', 'FinancialRecordController@byaccount');
 Route::post('storage-station', 'FuelStationStorageController@bystation');
+
+Route::get('lastest-projects', 'ProjectController@latestProject');
+Route::get('active-project', 'ProjectController@activeProject');
+Route::get('client/{id}', 'ProjectController@getClient');

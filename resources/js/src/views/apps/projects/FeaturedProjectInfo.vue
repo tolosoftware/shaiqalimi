@@ -19,7 +19,7 @@
     </div>
 
     <div class="vx-col w-full md:w-1/4 mb-base">
-      <vx-card title="تانگ تیل">
+      <vx-card title="قرارداد ها">
         <template slot="actions">
           <feather-icon icon="ServerIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
         </template>
@@ -43,7 +43,7 @@
       </vx-card>
     </div>
     <div class="vx-col w-full md:w-1/4 mb-base">
-      <vx-card title="انتقالات امروز">
+      <vx-card title="اعلانات">
         <template slot="actions">
           <feather-icon icon="TruckIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
         </template>
