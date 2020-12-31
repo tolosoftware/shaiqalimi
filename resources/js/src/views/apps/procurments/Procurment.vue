@@ -28,11 +28,11 @@
                                     <label for>واحد پولی</label>
                                     <div class="radio-group w-full">
                                         <div class="w-1/2">
-                                            <input type="radio" id="afn" name="currency" checked  v-model="prForm.currency"/>
+                                            <input type="radio" id="afn" name="currency" value="1"   v-model="prForm.currency"/>
                                             <label for="afn" class="w-full text-center">افغانی</label>
                                         </div>
                                         <div class="w-1/2">
-                                            <input type="radio" id="usd" name="currency" v-model="prForm.currency"/>
+                                            <input type="radio" id="usd" name="currency" value="2" v-model="prForm.currency"/>
                                             <label for="usd" class="w-full text-center">دالر</label>
                                         </div>
                                     </div>
@@ -70,9 +70,9 @@
                             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                                 <div class="w-full pt-2 ml-3 mr-3">
                                     <label for>
-                                        <small> تانگ تیل</small>
+                                        <small>ذخیره اصلی</small>
                                     </label>
-                                    <v-select label="name" :options="allGodam" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="prForm.godam" />
+                                    <v-select label="name" :options="storage" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="prForm.godam" />
                                 </div>
                             </vs-col>
                            
@@ -129,9 +129,10 @@ export default {
           
             prForm: new Form({
               serial_no: '1001',
-              currency:'',
+              currency: 1,
               datetime:'',
               vendor_id:'',
+              account_id:'',
               vendor_address:'',
               vendor_phone:'',
               godam:'',
@@ -152,7 +153,7 @@ export default {
             }),
 
             allvendors: [],
-            allGodam: [],
+            storage: [],
         };
     },
 
@@ -167,6 +168,8 @@ export default {
         this.prForm.vendor_id = data.id;
         this.prForm.vendor_address = data.address;
         this.prForm.vendor_phone = data.phone;
+        this.prForm.account_id = data.account_id;
+        
       },
        loadvendor(){
         this.axios.get('/api/vendors')
@@ -176,9 +179,9 @@ export default {
        },
 
        loadgodam(){
-          this.axios.get('/api/fuelstation')
+          this.axios.get('/api/storage')
         .then((resp) => {
-          this.allGodam = resp.data;
+          this.storage = resp.data;
         });
        },
         addNewData() {
@@ -206,7 +209,7 @@ export default {
                      this.$vs.notify({
                         title: 'عملیه ثبت موفق بود!',
                         text: 'عملیه موفغانه انجام شد',
-                        color: 'success',
+                        color: 'danger',
                         iconPack: 'feather',
                         icon: 'icon-check',
                         position: 'top-right'

@@ -119,10 +119,12 @@ export default {
         })
     },
     getActiveProjects() {
+      this.$vs.loading()
       this.$Progress.start();
       this.axios.get('/api/active-project').then((data) => {
           this.projects = data.data;
           this.$Progress.set(100)
+          this.$vs.loading.close();
         })
         .catch(() => {});
     },
