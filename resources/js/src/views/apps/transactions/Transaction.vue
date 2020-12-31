@@ -2,121 +2,122 @@
 <div>
   <vs-tabs>
     <vs-tab label="ثبت معاملات">
-      <div class="vx-row">
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
-          <div class="w-full  ml-3 mr-3">
-            <vs-input size="medium" v-validate="'required'" v-model="trForm.serial_no" label="سریال نمبر" name="serial_no" class="mt-5 w-full" placeholder="101" disabled />
-            <!--<span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span> -->
-            <has-error :form=" trForm" field="serial_no"></has-error>
-          </div>
-        </vs-col>
-
-        <!-- currency -->
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12" class="mt-3">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
-            <div class="radio-group w-full">
-              <div class="w-1/2">
-                <input type="radio" v-model="trForm.currency" value="1" id="struct" name="curency" />
-                <label for="struct" class="w-full text-center">افغانی</label>
-              </div>
-              <div class="w-1/2">
-                <input type="radio" v-model="trForm.currency" value="2" id="specific" name="curency" />
-                <label for="specific" class="w-full text-center">دالر</label>
-              </div>
+      <vs-card class="w-full">
+        <div class="vx-row">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <vs-input size="medium" v-validate="'required'" v-model="trForm.serial_no" label="سریال نمبر" name="serial_no" class="mt-5 w-full" placeholder="101" disabled />
+              <!--<span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span> -->
+              <has-error :form=" trForm" field="serial_no"></has-error>
             </div>
-            <has-error :form=" trForm" field="curency"></has-error>
-          </div>
-        </vs-col>
-        <!-- end currency -->
+          </vs-col>
 
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
-          <div class="w-full  ml-3 mr-3">
-            <label for="date" class="mt-3"><small>تاریخ </small></label>
-            <date-picker color="#e85454" :auto-submit="true" v-model="trForm.date" type="datetime" />
-          </div>
-        </vs-col>
+          <!-- currency -->
 
-        <!-- currency -->
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <label for class="ml-4 mr-4 mb-2"> حالت معامله</label>
-            <div class="radio-group w-full">
-              <div class="w-1/2">
-                <input type="radio" v-model="trForm.status" value="1" id="benifate" name="transaction" />
-                <label for="benifate" class="w-full text-center">عاید</label>
-              </div>
-              <div class="w-1/2">
-                <input type="radio" v-model="trForm.status" value="2" id="basic" name="transaction" />
-                <label for="basic" class="w-full text-center">امانت/عادی</label>
-              </div>
-            </div>
-            <has-error :form=" trForm" field="status"></has-error>
-          </div>
-        </vs-col>
-
-        <!-- Must only consist of numbers -->
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-          <div class="w-full  ml-3 mr-3">
-            <vs-input size="medium" v-model="trForm.title" @input="getTitle" label="عنوان معامله" class="w-full" />
-          </div>
-        </vs-col>
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="mt-5">
-          <div class="w-full  ml-3 mr-3 mt-2">
-            <label for>
-              <small>مقدار</small>
-            </label>
-            <vx-input-group class="mb-base">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12" class="mt-3">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
+              <div class="radio-group w-full">
+                <div class="w-1/2">
+                  <input type="radio" v-model="trForm.currency" value="1" id="struct" name="curency" />
+                  <label for="struct" class="w-full text-center">افغانی</label>
                 </div>
-              </template>
+                <div class="w-1/2">
+                  <input type="radio" v-model="trForm.currency" value="2" id="specific" name="curency" />
+                  <label for="specific" class="w-full text-center">دالر</label>
+                </div>
+              </div>
+              <has-error :form=" trForm" field="curency"></has-error>
+            </div>
+          </vs-col>
+          <!-- end currency -->
 
-              <vs-input type="number" v-model="trForm.ammount" />
-            </vx-input-group>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <label for="date" class="mt-3"><small>تاریخ </small></label>
+              <date-picker color="#e85454" :auto-submit="true" v-model="trForm.date" type="datetime" />
+            </div>
+          </vs-col>
+
+          <!-- currency -->
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for class="ml-4 mr-4 mb-2"> حالت معامله</label>
+              <div class="radio-group w-full">
+                <div class="w-1/2">
+                  <input type="radio" v-model="trForm.status" value="1" id="benifate" name="transaction" />
+                  <label for="benifate" class="w-full text-center">عاید</label>
+                </div>
+                <div class="w-1/2">
+                  <input type="radio" v-model="trForm.status" value="2" id="basic" name="transaction" />
+                  <label for="basic" class="w-full text-center">امانت/عادی</label>
+                </div>
+              </div>
+              <has-error :form=" trForm" field="status"></has-error>
+            </div>
+          </vs-col>
+
+          <!-- Must only consist of numbers -->
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <vs-input size="medium" v-model="trForm.title" @input="getTitle" label="عنوان معامله" class="w-full" />
+            </div>
+          </vs-col>
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="mt-5">
+            <div class="w-full  ml-3 mr-3 mt-2">
+              <label for>
+                <small>مقدار</small>
+              </label>
+              <vx-input-group class="mb-base">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>AFN</span>
+                  </div>
+                </template>
+
+                <vs-input type="number" v-model="trForm.ammount" />
+              </vx-input-group>
+            </div>
+          </vs-col>
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <label for>
+                <small>حساب کریدیت</small>
+              </label>
+              <v-select size="large" label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            </div>
+          </vs-col>
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3 mb-4">
+              <vs-input size="medium" label="تفصیلات " v-model="trForm.credit_desc" class="mt-5 w-full" />
+            </div>
+          </vs-col>
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <label for>
+                <small>حساب دبیت </small>
+              </label>
+              <v-select size="large" label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            </div>
+          </vs-col>
+
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3 mb-4">
+              <vs-input size="medium" label="تفصیلات " v-model="trForm.debit_desc" class="mt-5 w-full" />
+            </div>
+          </vs-col>
+
+          <div class="vx-col w-full mt-4">
+            <vs-textarea label="تفصیلات کلی" v-model="trForm.description"></vs-textarea>
           </div>
-        </vs-col>
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full  ml-3 mr-3">
-            <label for>
-              <small>حساب کریدیت</small>
-            </label>
-            <v-select size="large" label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-          </div>
-        </vs-col>
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
-          <div class="w-full  ml-3 mr-3 mb-4">
-            <vs-input size="medium" label="تفصیلات " v-model="trForm.credit_desc" class="mt-5 w-full" />
-          </div>
-        </vs-col>
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full  ml-3 mr-3">
-            <label for>
-              <small>حساب دبیت </small>
-            </label>
-            <v-select size="large" label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-          </div>
-        </vs-col>
-
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
-          <div class="w-full  ml-3 mr-3 mb-4">
-            <vs-input size="medium" label="تفصیلات " v-model="trForm.debit_desc" class="mt-5 w-full" />
-          </div>
-        </vs-col>
-
-        <div class="vx-col w-full mt-4">
-          <vs-textarea label="تفصیلات کلی" v-model="trForm.description"></vs-textarea>
         </div>
-      </div>
+      </vs-card>
     </vs-tab>
 
     <vs-tab label="لیست معاملات">
