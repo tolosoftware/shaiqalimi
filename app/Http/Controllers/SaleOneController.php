@@ -12,6 +12,7 @@ use App\Models\FinancialRecord;
 use App\Models\Currency;
 use App\Models\Project;
 use App\Models\Notification;
+use App\Models\StockRecord;
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
 
@@ -84,8 +85,26 @@ class SaleOneController extends Controller
             $newFR = FinancialRecord::create($FRData);
 
         }
-        else{
-            return $newAcc;
+        if($newAcc) {
+            $stocks = [];
+            foreach($request->item as $valueItem ){
+                $stocks[] = StockRecord::create([
+                  'type'=> "sale",
+                  'type_id'=> $newSale->id,
+                  'source' => $storage['name'],
+                  'source_id'=> $storage['id'],
+                  'item_id' => $valueItem['item_id']['id'],
+                  'increment'=> $valueItem['ammount'],
+                  'decrement'=> 0,
+                  'uom_id' => $valueItem['item_id']['measurment_unites_min']['id'],
+                  'increment_equiv'=>$valueItem['equivalent'],
+                  'decrement_equiv'=> 0,
+                  'uom_equiv_id'=> $valueItem['item_id']['measurment_unites_sub']['id'],
+                  'density'=> $valueItem['density'],
+                  'operation_id' => $valueItem['operation_id']['id'], 
+                  'remark' => $request['description'],
+                ]);
+            }
         }
 
         // Create the Notification
@@ -105,9 +124,7 @@ class SaleOneController extends Controller
             $newNotif = Notification::create($nofication);
 
         }
-    
-
-        return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif];
+        return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
     }
 
     /**
