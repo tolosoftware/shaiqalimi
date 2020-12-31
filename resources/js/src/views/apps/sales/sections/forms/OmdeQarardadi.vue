@@ -181,7 +181,7 @@
     </vs-col>
   </vs-row>
   <div class="vx-row">
-    <vs-textarea label="تفصیلات" class="mr-3" />
+    <vs-textarea v-model="sForm.description" label="تفصیلات" class="mr-3" />
   </div>
   <div class="vx-row official-process">
     <vs-collapse type="margin">
@@ -242,6 +242,7 @@ export default {
   },
   data() {
     return {
+      userid: localStorage.getItem('id'),
       checkBox: [{
           0: false,
         },
@@ -284,8 +285,8 @@ export default {
         type: "s1",
         source_id: "", // The Id of the Project.
         source_type: "project", // Type Project
-        // user_id: '', Get the current user id
-        currency_id: "",
+        user_id: localStorage.getItem('id'), //Get the current user id
+        currency_id: 1,
         datatime: "",
         // Item for the ekmalat section
         item: [{

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\SaleOne;
+use App\Models\Sale;
+use App\Models\ProItem;
 use Illuminate\Http\Request;
 
 class SaleOneController extends Controller
@@ -35,7 +37,13 @@ class SaleOneController extends Controller
      */
     public function store(Request $request)
     {
-        return 1;
+        // return 1;
+        foreach (['source_id', 'storage_id'] as $key) {
+            $request[$key] = $request[$key]['id'];
+        }
+        // return $request;
+        $newSale = Sale::create($request->all());
+        $request['sales_id'] = $newSale->id;
         return SaleOne::create($request->all());
     }
 
