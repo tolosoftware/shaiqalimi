@@ -406,12 +406,16 @@ export default {
   },
   methods: {
     totalStorageStation(){
+        this.$vs.loading()
+      this.$Progress.start();
         this.axios.get('/api/totalstorage')
         .then((response) => {
           // this.totalStorageStations = response.data;
           // console.log('all',this.totalStorageStations);
           // this.$vs.loading.close();
           this.totalStorageStations=response.data;
+          this.$Progress.set(100)
+          this.$vs.loading.close();
         })
     },
     ToggleTransfer() {

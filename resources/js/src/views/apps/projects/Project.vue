@@ -121,7 +121,6 @@ export default {
       },
       sessionDataTime: 'lastWeek',
       todoToday: {},
-
       analyticsData
     }
   },
@@ -134,12 +133,50 @@ export default {
     FeaturedProjectInfo
   },
   created() {
-    console.log(this.analyticsData);
+    // console.log(this.analyticsData);
   },
 }
 </script>
 
 <style lang="scss">
+.vs-table {
+  border-collapse: separate;
+  border-spacing: 0 1.3rem;
+  padding: 0 1rem;
+
+  tr {
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+
+    td {
+      padding: 20px;
+
+      &:first-child {
+        border-top-left-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+      }
+
+      &.img-container {
+        // width: 1rem;
+        // background: #fff;
+
+        span {
+          display: flex;
+          justify-content: flex-start;
+        }
+      }
+    }
+
+    td.td-check {
+      padding: 20px !important;
+    }
+  }
+}
+
 #demo-card-analytics {
   .tasks-today-container {
     .tasks-today__task {
@@ -158,6 +195,7 @@ export default {
       }
     }
   }
+
 }
 </style><style>
 .projectListDashboard {

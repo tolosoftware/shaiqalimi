@@ -57,6 +57,7 @@ export default {
   created() {
 
   },
+  watch: {},
   computed: {
     currentPage() {
       if (this.isMounted) {

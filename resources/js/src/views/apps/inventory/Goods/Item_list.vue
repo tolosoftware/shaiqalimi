@@ -122,9 +122,12 @@ export default {
   methods: {
 
     loaditem() {
+      this.$vs.loading()
+      this.$Progress.start();
       this.axios.get('/api/item').then(({
         data
-      }) => (this.item = data));
+      }) => (this.item = data, this.$Progress.set(100),
+        this.$vs.loading.close()));
     },
 
     deleteData(id) {
