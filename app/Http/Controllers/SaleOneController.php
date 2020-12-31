@@ -5,7 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\SaleOne;
 use App\Models\Sale;
 use App\Models\ProItem;
+use App\Models\AccountType;
+use App\Models\Account;
+use App\Models\ExchangeRate;
+use App\Models\FinancialRecord;
+use App\Models\Currency;
+use App\Models\Project;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use Carbon\Carbon as Carbon;
 
 class SaleOneController extends Controller
 {
@@ -37,14 +45,69 @@ class SaleOneController extends Controller
      */
     public function store(Request $request)
     {
-        // return 1;
+        $project = $request->source_id;
+
+        $storage = $request->storage_id;
         foreach (['source_id', 'storage_id'] as $key) {
             $request[$key] = $request[$key]['id'];
         }
         // return $request;
         $newSale = Sale::create($request->all());
         $request['sales_id'] = $newSale->id;
-        return SaleOne::create($request->all());
+        $newSaleOne = SaleOne::create($request->all());
+        
+        $typeId = AccountType::latest()->first()->id;
+        $accData = [
+            'user_id' => $request->user_id,
+            'type_id' => $typeId,
+            'name' => 'اکانت ساخته شده برای فروشات',
+            'ref_code' => 'فروشات - ' . $newSale->id,
+            'status' => 1,
+            'description' => 'اکانت ساخته شده برای فروشات',
+            'system' => 0,
+        ];
+        $newAcc = Account::create($accData);
+        if ($newAcc) {
+
+            // Create opening FR for the created Projet
+            $FRData = [
+                'type' => 'sale', // here the type of financial record is project
+                'type_id' => $newSale->id, //Project Id will be used here as type id
+                'account_id' => $newAcc->id,
+                'description' => 'عملیه مالی ثبت شده برای فروشات - ' . $newSale->id,
+                'currency_id' => Currency::latest()->first()->id,
+                'credit' => $request->total,
+                'debit' => 0,
+                'ex_rate_id' => ExchangeRate::latest()->first()->id,
+                'status' => 'opn'
+            ];
+            $newFR = FinancialRecord::create($FRData);
+
+        }
+        else{
+            return $newAcc;
+        }
+
+        // Create the Notification
+        if($newFR) {
+            $client_name = $project['pro_data']['client']['name'];
+            $item_name = $storage['name'];
+            $nofication = [
+                'title' => 'فروشات جدید',
+                'text' => 'یک فروش جدید از ' . $item_name . ' برای ' . $client_name . ' در سیستم ثبت گردید.',
+                'type' => 'normal',
+                'gen_date' => Carbon::now(),
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'view',
+                'url' => 'sales?list',
+                'user_id' => $request->user_id,
+            ];
+            $newNotif = Notification::create($nofication);
+
+        }
+    
+
+        return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif];
     }
 
     /**
