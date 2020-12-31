@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vs-tabs>
+  <vs-tabs :value="$route.query.tab">
     <vs-tab label="فورم">
       <SalesFormAdd></SalesFormAdd>
     </vs-tab>
@@ -26,6 +26,8 @@ export default {
     SalesFormAddMini,
     SalesList,
     SalesInside
-  }
+  },
+  created(){
+  },
 }
 </script>

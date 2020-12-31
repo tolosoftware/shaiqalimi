@@ -486,3 +486,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+.vs-tabs--li.activeChild{
+    border-bottom: solid #e85456 2px !important;
+    transition: .3s;
+}
+.vs-tabs-position-top > .con-ul-tabs > .line-vs-tabs{
+    display: none !important;
+}

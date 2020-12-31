@@ -393,7 +393,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-
+          console.log(errors.errors);
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',

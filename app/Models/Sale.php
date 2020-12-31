@@ -22,4 +22,12 @@ class Sale extends Model
         'datatime',
     ];
 
+    public function saleS1()
+    {
+        return $this->hasOne(SaleOne::class, 'sales_id');
+    }
+    public function source()
+    {
+        return $this->belongsTo(Project::class, 'source_id');
+    }
 }

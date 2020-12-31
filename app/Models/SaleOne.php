@@ -27,4 +27,9 @@ class SaleOne extends Model
         'description',
     ];
 
+    public function storage()
+    {
+        return $this->belongsTo(Storage::class, 'storage_id');
+    }
+
 }

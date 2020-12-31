@@ -25,7 +25,8 @@ class SaleOneController extends Controller
      */
     public function index()
     {
-        //
+        // return SaleOne::with('storage')->get();
+        return Sale::with(['saleS1.storage'])->has('saleS1.storage')->with('source')->has('source')->get();
     }
 
     /**
@@ -46,6 +47,28 @@ class SaleOneController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required|min:2',
+            'formula' => 'required|min:2',
+            'serial_no' => 'required',
+            'storage_id' => 'required',
+            'destination' => 'required',
+            'transport_cost' => 'required',
+            'service_cost' => 'required',
+            'tax' => 'required',
+            'deposit' => 'required',
+            'total' => 'required',
+            'steps' => 'required',
+            'description' => 'required',
+            'type' => 'required',
+            'source_id' => 'required',
+            'source_type' => 'required',
+            'user_id' => 'required',
+            'currency_id' => 'required',
+            'datatime' => 'required',
+            'item' => 'required',
+        ]);
+
         $project = $request->source_id;
 
         $storage = $request->storage_id;
