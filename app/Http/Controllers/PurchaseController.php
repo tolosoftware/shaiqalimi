@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -35,7 +36,25 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+
+        Purchase::create([
+            'serial_no' => $request['serial_no'],
+            'vendor_id' => $request['vendor_id'],
+            'date_time' =>$request['datetime'],
+            'user_id' =>$request['user_id'],
+            'description' =>$request['description'],
+          
+        ]);
+
+
+
+        DB::commit();
+        return 1;
+    } catch (Exception $e) {
+        DB::rollback();
+       }
     }
 
     /**
