@@ -36,8 +36,18 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
+        // foreach($request->item as $valueItem ){
+        //     echo "hi mahdi";
+        //     echo $valueItem['ammount'];
+        //   //  echo $valueItem['item_id'];
+        //   echo $valueItem['item_id'];
+        // }
+        // return $request;
         DB::beginTransaction();
         try {
+
+        
+       
 
         Purchase::create([
             'serial_no' => $request['serial_no'],
