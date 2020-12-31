@@ -189,6 +189,7 @@ export default {
     this.axios.get('/api/clients')
       .then((response) => {
         this.clients = response.data;
+        this.$Progress.set(100)
       })
     },
     getProject() {
@@ -198,7 +199,6 @@ export default {
       this.pForm.get('/api/project').then((data) => {
           this.projects = data.data;
           // Finish the Progress Bar
-          this.$Progress.set(100)
         })
         .catch(() => {});
     },

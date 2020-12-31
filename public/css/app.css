@@ -5553,3 +5553,24 @@ text {
   justify-content: space-between !important;
 }
 
+.vs-input--label {
+  white-space: nowrap !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+[dir] input::-webkit-outer-spin-button, [dir] input::-webkit-inner-spin-button {
+  margin: 0;
+}
+
+/* Firefox */
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
