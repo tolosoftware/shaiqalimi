@@ -10,9 +10,8 @@
               <span>S1</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" />
+          <vs-input v-model="sForm.serial_no" autocomplete="off" type="number" />
         </vx-input-group>
-
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
@@ -20,11 +19,11 @@
         <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
         <div class="radio-group w-full">
           <div class="w-1/2">
-            <input type="radio" v-model="sForm.currency" value="1" id="struct" name="curency" />
+            <input type="radio" v-model="sForm.currency_id" value="1" id="struct" name="curency" />
             <label for="struct" class="w-full text-center">افغانی</label>
           </div>
           <div class="w-1/2">
-            <input type="radio" v-model="sForm.currency" value="2" id="specific" name="curency" />
+            <input type="radio" v-model="sForm.currency_id" value="2" id="specific" name="curency" />
             <label for="specific" class="w-full text-center">دالر</label>
           </div>
         </div>
@@ -32,13 +31,15 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker color="#e85454" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker v-model="sForm.datatime" color="#e85454" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">انتخاب قراردادها</label>
-        <v-select :get-option-label="option => option.serial_no + ' - ' + option.pro_data.title" name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.selectedItem" @input="onChange">
-          <span slot="no-options">{{ $t('WhoopsNothinghere') }}</span>
+        <v-select v-model="sForm.source_id" :get-option-label="
+              (option) => option.serial_no + ' - ' + option.pro_data.title
+            " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChange">
+          <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>
       </div>
     </div>
@@ -46,22 +47,22 @@
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="client_name" class="w-full" v-bind:value="form.clientName" label="نام نهاد" />
+        <vs-input name="client_name" class="w-full" v-bind:value="field_data.clientName" label="نام نهاد" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="person_relation" class="w-full" v-bind:value="form.repativePerson" type="text" label="شخص ارتباطی" />
+        <vs-input name="person_relation" class="w-full" v-bind:value="field_data.repativePerson" type="text" label="شخص ارتباطی" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="phone_number" class="w-full number-rtl" v-bind:value="form.clientPhone" label="شماره تماس" />
+        <vs-input name="phone_number" class="w-full number-rtl" v-bind:value="field_data.clientPhone" label="شماره تماس" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="address" class="w-full" v-bind:value="form.clientAddress" label="آدرس" />
+        <vs-input name="address" class="w-full" v-bind:value="field_data.clientAddress" label="آدرس" />
       </div>
     </div>
   </div>
@@ -70,14 +71,14 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">منبع</label>
-        <v-select v-model="form.source" label="text" :options="source" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-          <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
+        <v-select v-model="sForm.storage_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+          <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input v-model="form.target" class="w-full" label="مقصد" />
+        <vs-input v-model="sForm.destination" class="w-full" label="مقصد" />
       </div>
     </div>
   </div>
@@ -96,9 +97,11 @@
                 <span>AFN</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" v-validate="'required'" name="others" />
+            <vs-input v-model="sForm.transport_cost" autocomplete="off" type="number" v-validate="'required'" name="others" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
+          <span class="absolute text-danger alerttext">{{
+              errors.first("step-2.others")
+            }}</span>
           <has-error :form="sForm" field="others"></has-error>
         </div>
       </vs-col>
@@ -111,9 +114,11 @@
                 <span>AFN</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" v-validate="'required'" name="transit" />
+            <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="transit" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
+          <span class="absolute text-danger alerttext">{{
+              errors.first("step-2.transit")
+            }}</span>
           <has-error :form="sForm" field="transit"></has-error>
         </div>
       </vs-col>
@@ -128,9 +133,11 @@
                 <span>٪</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" v-validate="'required'" name="tax" />
+            <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+          <span class="absolute text-danger alerttext">{{
+              errors.first("step-2.tax")
+            }}</span>
           <has-error :form="sForm" field="tax"></has-error>
         </div>
       </vs-col>
@@ -144,9 +151,11 @@
                 <span>٪</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" v-validate="'required'" name="deposit" />
+            <vs-input v-model="sForm.deposit" autocomplete="off" type="number" v-validate="'required'" name="deposit" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
+          <span class="absolute text-danger alerttext">{{
+              errors.first("step-2.deposit")
+            }}</span>
           <has-error :form="sForm" field="deposit"></has-error>
         </div>
       </vs-col>
@@ -162,9 +171,11 @@
                 <span>AFN</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" />
+            <vs-input v-model="sForm.total" autocomplete="off" type="number" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
+          <span class="absolute text-danger alerttext">{{
+              errors.first("step-2.total_price")
+            }}</span>
         </div>
       </vs-col>
     </vs-col>
@@ -175,9 +186,7 @@
   <div class="vx-row official-process">
     <vs-collapse type="margin">
       <vs-collapse-item>
-        <div slot="header">
-          طی مراحل اداری
-        </div>
+        <div slot="header">طی مراحل اداری</div>
         <ul class="demo-alignment">
           <li>
             <vs-checkbox color="success" @input="setCheck(0)" v-model="checkBox[0]">تنظیم اطلاعات</vs-checkbox>
@@ -217,59 +226,68 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
-import Ekmalat from "../../../shared/Ekmalat"
+import vSelect from "vue-select";
+import Ekmalat from "../../../shared/Ekmalat";
 
 export default {
   props: {
     data: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   components: {
-    'v-select': vSelect,
-    Ekmalat
-
+    "v-select": vSelect,
+    Ekmalat,
   },
   data() {
     return {
       checkBox: [{
-          0: false
+          0: false,
         },
         {
-          1: false
+          1: false,
         },
         {
-          2: false
+          2: false,
         },
         {
-          3: false
+          3: false,
         },
         {
-          4: false
+          4: false,
         },
         {
-          5: false
+          5: false,
         },
         {
-          6: false
+          6: false,
         },
         {
-          7: false
+          7: false,
         },
       ],
       sForm: new Form({
-        currency: 1,
-        serial_no: '',
-        proposal_id: '',
-        client_id: '',
-        title: '',
-        reference_no: '',
-        status: "1",
-        contract_date: '',
-        contract_end_date: '',
-        project_guarantee: '',
+        // sales_id: '', // Get the created sales id.
+        serial_no: "",
+        storage_id: "",
+        destination: "",
+        transport_cost: "",
+        service_cost: "",
+        tax: "",
+        deposit: "",
+        total: "",
+        steps: "",
+        description: "",
+
+        // shared fields with other sales
+        type: "s1",
+        source_id: "", // The Id of the Project.
+        source_type: "project", // Type Project
+        // user_id: '', Get the current user id
+        currency_id: "",
+        datatime: "",
+        // Item for the ekmalat section
         item: [{
           item_id: "",
           unit_id: "",
@@ -279,108 +297,19 @@ export default {
           unit_price: "",
           total_price: "",
           density: null,
-        }],
-        deposit: '',
-        tax: '',
-        others: '',
-        pr_worth: '',
-        transit: '',
-        total_price: 0,
-
+        }, ],
       }),
       items: [],
-      form: {
-        selectedItem: null,
-        clientName: null,
-        repativePerson: null,
-        clientPhone: null,
-        clientAddress: null,
-        product: null,
-        responsible: null,
-        source: null,
-        target: null,
-        quantity: null,
-        serial_number: null,
-        money_unit: {
-          text: 'افغانی',
-          unit: 'AFN',
-          value: '1'
-        },
-        cost: null,
-        total_cost: null,
-        fi_unit: null,
-        unit: null,
-        equal: null,
-      },
-      itemType: [{
-          text: 'تن',
-          value: '1'
-        },
-        {
-          text: 'متر مکعب',
-          value: '2'
-        },
-        {
-          text: 'لیتر',
-          value: '3'
-        },
-        {
-          text: 'کیلوگرام',
-          value: '4'
-        },
-      ],
-      itemMoney: [{
-          text: 'افغانی',
-          unit: 'AFN',
-          value: '1'
-        },
-        {
-          text: 'دالر',
-          unit: 'USD',
-          value: '2'
-        },
-      ],
-      source: [{
-          text: 'یاران',
-          value: '1'
-        },
-        {
-          text: 'مکروریان',
-          value: '2'
-        },
-        {
-          text: 'کابل',
-          value: '3'
-        },
-        {
-          text: 'هرات',
-          value: '4'
-        },
-      ],
-      products: [{
-          text: 'تیل گاز',
-          value: '1'
-        },
-        {
-          text: 'تیل دیزل',
-          value: '2'
-        },
-        {
-          text: 'تیل پطرول',
-          value: '3'
-        },
-        {
-          text: 'موبلین',
-          value: '4'
-        },
-      ],
       contracts: [],
+      field_data: [],
+      storages: [],
       // End of sidebar items
-    }
+    };
   },
   created() {
     this.getProject();
     this.setCheck(0);
+    this.getStorages();
   },
   computed: {
     // isFormValid() {
@@ -389,22 +318,37 @@ export default {
   },
   methods: {
     setCheck(index) {
-
+      this.sForm.steps = index;
       for (let i = 1; i < this.checkBox.length; i++) {
         this.checkBox[i] = false;
         if (i <= index) {
           this.checkBox[i] = true;
-        } 
+        }
       }
     },
     getProject() {
       // Start the Progress Bar
-      this.$Progress.start()
+      this.$Progress.start();
 
-      this.axios.get('/api/project').then((data) => {
+      this.axios
+        .get("/api/project")
+        .then((data) => {
           this.contracts = data.data;
           // Finish the Progress Bar
-          this.$Progress.set(100)
+          this.$Progress.set(100);
+        })
+        .catch(() => {});
+    },
+    getStorages() {
+      // Start the Progress Bar
+      this.$Progress.start();
+
+      this.axios
+        .get("/api/storage")
+        .then((data) => {
+          this.storages = data.data;
+          // Finish the Progress Bar
+          this.$Progress.set(100);
         })
         .catch(() => {});
     },
@@ -412,37 +356,55 @@ export default {
     // Old methods
     onChange(contract) {
       if (contract != null) {
-        this.form.clientName = contract.pro_data.client.name;
-        // this.form.repativePerson = contract.pro_data.client.phone;
-        this.form.clientPhone = contract.pro_data.client.phone;
-        this.form.clientAddress = contract.pro_data.client.address;
+        this.field_data.clientName = contract.pro_data.client.name;
+        // this.field_data.repativePerson = contract.pro_data.client.phone;
+        this.field_data.clientPhone = contract.pro_data.client.phone;
+        this.field_data.clientAddress = contract.pro_data.client.address;
       } else {
-        this.form.clientName = null;
-        this.form.repativePerson = null;
-        this.form.clientPhone = null;
-        this.form.clientAddress = null;
+        this.field_data.clientName = null;
+        // this.field_data.repativePerson = null;
+        this.field_data.clientPhone = null;
+        this.field_data.clientAddress = null;
       }
     },
-    resetForm(submitEvent) {
+    resetForm() {
       const f = this.form;
       for (var key in f) {
         this.form[key] = null;
       }
     },
-    submitForm(submitEvent) {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          console.log(this.form);
+    submitForm() {
+      this.$Progress.start()
+      this.sForm.post('/api/sale-om-q')
+        .then(({
+          data
+        }) => {
+          // Finish the Progress Bar
+          // this.sForm.reset();
+          // this.errors.clear();
+          this.$Progress.set(100)
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'قرارداد موفقانه ثبت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        }).catch((errors) => {
 
-          // if form have no errors
-          alert("form submitted!");
-        } else {
-          // form have errors
-        }
-      })
+          this.$vs.notify({
+            title: 'ناموفق!',
+            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-cross',
+            position: 'top-right'
+          })
+        });
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

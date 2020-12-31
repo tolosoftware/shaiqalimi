@@ -80,9 +80,11 @@ export default {
   },
   methods: {
     defalutStation() {
+      this.$vs.loading()
+      this.$Progress.start();
       this.axios.get('/api/latestfuelstation').then(({
         data
-      }) => (this.seletedStation = data));
+      }) => (this.seletedStation = data, this.$Progress.set(100), this.$vs.loading.close()));
     },
     stationChanged(data) {
       this.getAllDepencers();
