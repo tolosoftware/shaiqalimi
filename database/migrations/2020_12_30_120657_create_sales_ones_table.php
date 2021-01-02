@@ -18,8 +18,8 @@ class CreateSalesOnesTable extends Migration
             $table->unsignedBigInteger('sales_id');
             $table->foreign('sales_id')->references('id')->on('sales');
             $table->integer('serial_no');
-            $table->unsignedBigInteger('storage_id');
-            $table->foreign('storage_id')->references('id')->on('storages')->onDelete('cascade');
+            $table->unsignedBigInteger('project_id');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->string('destination');
             $table->decimal('transport_cost');
             $table->decimal('service_cost');

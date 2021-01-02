@@ -70,10 +70,10 @@
         <vs-tr :data="tr" :key="i" v-for="(tr, i) in data">
 
           <vs-td>
-            <p>{{ tr.source_type }}</p>
+            <p>{{ $t(tr.source_type) }}</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.datatime }}</p>
+            <p class="right-ltr">{{ tr.datatime }}</p>
           </vs-td>
           <vs-td>
             <p>{{ tr.sale_s1.total }}</p>
@@ -146,7 +146,7 @@ export default {
   methods: {
     getAllSales() {
       this.axios
-        .get("/api/sale-om-q")
+        .get("/api/sale1")
         .then((data) => {
           this.$Progress.set(100);
           this.sales = data.data;

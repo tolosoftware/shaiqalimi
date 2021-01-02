@@ -191,5 +191,6 @@ export default {
         inc: 'درآمدی',
         exp: 'مخارج',
         nor: 'نارمل',
+        project: 'پروژه',
     }
 }
