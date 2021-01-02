@@ -72,7 +72,6 @@ export default {
       // Set --vh property
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
     },
-
     handleScroll() {
       this.$store.commit('UPDATE_WINDOW_SCROLL_Y', window.scrollY)
     }
@@ -87,7 +86,9 @@ export default {
   },
   async created() {
     // console.log(localStorage.getItem('token'));
+
     this.loadcurrentuser();
+
     // jwt
     jwt.init()
     const dir = this.$vs.rtl ? 'rtl' : 'ltr'

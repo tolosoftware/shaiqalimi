@@ -2,7 +2,16 @@
 <div id="data-list-thumb-view" class="w-full data-list-container">
   <vs-table class="w-full mb-6 pb-6" ref="table" :data="projects">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-      <h4 class="projectListDashboard">لست پروژه های فعال</h4>
+      <h4 class="projectListDashboard vx-row">
+        <vs-col vs-type="flex" vs-justify="left" vs-align="left" vs-lg="4" vs-sm="4" vs-xs="4">
+          <span>لست پروژه های فعال</span>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="left" vs-align="left" vs-lg="8" vs-sm="8" vs-xs="8">
+          <span>
+            <vs-button size="small" type="gradient" icon="print" id="printBTN" @click.stop="printProject">چاپ</vs-button>
+          </span>
+        </vs-col>
+      </h4>
     </div>
     <template slot="thead">
       <vs-th>نمبر</vs-th>

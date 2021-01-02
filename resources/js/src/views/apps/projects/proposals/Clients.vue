@@ -16,6 +16,7 @@
     </div>
     <vs-tabs>
       <vs-tab label="لست نهادها" icon="list" class="leftScrol">
+        <vs-button type="gradient" size="small" icon="print" id="printBTN" @click="printClients">چاپ</vs-button>
         <div class="scroll-area--data-list-add-new" :key="$vs.rtl" v-if="orgActiveForm">
           <form>
             <vs-divider>
@@ -75,12 +76,12 @@
           </form>
         </div>
         <div id="data-list-thumb-view" class="w-full data-list-container">
-          <vs-table class="w-full" ref="table" pagination :max-items="9" :data="clients">
+          <vs-table class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="clients">
             <template slot="thead">
               <vs-th>نشان نهاد</vs-th>
               <vs-th>نام نهاد</vs-th>
-              <!-- <vs-th>ایمیل</vs-th> -->
-              <vs-th>جزییات</vs-th>
+              <!-- <vs-th>ایمیل</vs-th> 
+              <vs-th>جزییات</vs-th>-->
               <vs-th>بررسی</vs-th>
             </template>
             <template slot-scope="{data}">
@@ -97,15 +98,16 @@
                   </vs-td>
                   <!--   <vs-td>
                       <span v-text="tr.email"></span>
-                    </vs-td> -->
+                    </vs-td>
                   <vs-td>
                     <span>
-                      <vs-button type="border" icon="visibility" size="small" @click="showClientData(tr.id)" color="primary"></vs-button>
+                      <vs-button type="border" icon="visibility" size="small" @click="(tr.id)" color="primary"></vs-button>
                     </span>
-                  </vs-td>
+                  </vs-td> -->
                   <vs-td class="whitespace-no-wrap notupfromall">
-                    <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="mr-2" @click.stop="editData(tr)" />
-                    <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+                    <feather-icon icon="MoreVerticalIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2" @click.stop="showClientData(tr.id)" />
+                    <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2" @click.stop="editData(tr)" />
+                    <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
                   </vs-td>
                 </vs-tr>
               </tbody>
@@ -317,6 +319,9 @@ export default {
     }
   },
   methods: {
+    printClients() {
+      window.print();
+    },
     getData() {
       this.$Progress.start()
       this.$vs.loading()
@@ -528,6 +533,11 @@ export default {
 </script>
 
 <style>
+#printBTN {
+  float: right !important;
+  margin: 10px;
+}
+
 .leftScrol {
   height: 80vh;
   overflow-y: scroll;
