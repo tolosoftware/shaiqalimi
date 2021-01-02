@@ -5586,3 +5586,22 @@ input[type=number] {
   display: none !important;
 }
 
+[dir=ltr] .right-ltr {
+  direction: rtl;
+  text-align: left;
+}
+
+[dir=rtl] .right-ltr {
+  direction: ltr;
+  text-align: right;
+}
+
+.vs-input--input:disabled,
+.vs-input--input:disabled + .vs-input--placeholder {
+  opacity: 1 !important;
+}
+
+[dir] .vs-input--input:disabled, [dir] .vs-input--input:disabled + .vs-input--placeholder {
+  background: inherit !important;
+}
+
