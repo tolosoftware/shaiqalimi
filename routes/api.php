@@ -74,5 +74,4 @@ Route::get('client/{id}', 'ProjectController@getClient');
 Route::resource('vendors', 'VendorController');
 Route::resource('purches', 'PurchaseController');
 Route::get('purchSerialNO', 'PurchaseController@serial');
-
-
+Route::get('sources', 'StorageController@allTypeSource');
