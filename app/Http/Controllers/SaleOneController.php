@@ -206,4 +206,10 @@ class SaleOneController extends Controller
     {
         //
     }
+    public function allSales()
+    {
+        $sales1= SaleOne::all();
+        // $sales2= Sale::with(['saleS2.storage', 'source'])->get();
+        return [$sales1];
+    }
 }
