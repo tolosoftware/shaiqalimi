@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SaleOne;
+use App\Models\SaleTwo;
 use App\Models\Sale;
 use App\Models\ProItem;
 use App\Models\AccountType;
@@ -13,10 +13,11 @@ use App\Models\Currency;
 use App\Models\Project;
 use App\Models\Notification;
 use App\Models\StockRecord;
+use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
 
-class SaleOneController extends Controller
+class SaleTwoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,8 +26,8 @@ class SaleOneController extends Controller
      */
     public function index()
     {
-        // return SaleOne::with('storage')->get();
-        return Sale::with(['saleS1.storage'])->has('saleS1.storage')->with('source')->has('source')->get();
+        // return SaleTwo::with('storage')->get();
+        return Sale::with(['saleS2.storage'])->has('saleS2.storage')->with('source')->has('source')->get();
     }
 
     /**
@@ -46,41 +47,41 @@ class SaleOneController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $serial_no = getSerialNo('sale1', 'sale');
+    {   
+        $serial_no = getSerialNo('sale2', 'sale');
         $this->validate($request, [
             // 'title' => 'required|min:2',
             // 'formula' => 'required|min:2',
-            // 'serial_no' => 'required',
-            'project_id' => 'required',
+            'serial_no' => 'required',
+            // 'storage_id' => 'required',
             'destination' => 'required',
             'transport_cost' => 'required',
             'service_cost' => 'required',
             'tax' => 'required',
-            'deposit' => 'required',
+            // 'deposit' => 'required',
             'total' => 'required',
             'steps' => 'required',
             'description' => 'required',
             'type' => 'required',
             'source_id' => 'required',
-            // 'source_type' => 'required',
+            'source_type' => 'required',
             'user_id' => 'required',
             'currency_id' => 'required',
             'datatime' => 'required',
             'item' => 'required',
         ]);
 
-        $project = $request->project_id;
-        $storage = $request->source_id;
-        $request['serial_no'] = $serial_no->value;
-        foreach (['source_id', 'project_id'] as $key) {
+        $source = $request->source_id;
+
+        $client = $request->client_id;
+        foreach (['source_id', 'client_id'] as $key) {
             $request[$key] = $request[$key]['id'];
         }
-        // return $request;
+        $request['serial_no'] = $serial_no->value;
         $newSale = Sale::create($request->all());
+
         $request['sales_id'] = $newSale->id;
-        // return $request;
-        $newSaleOne = SaleOne::create($request->all());
+        $newSaleTwo = SaleTwo::create($request->all());
         
         $typeId = AccountType::latest()->first()->id;
         $accData = [
@@ -116,8 +117,8 @@ class SaleOneController extends Controller
                 $stocks[] = StockRecord::create([
                   'type'=> "sale",
                   'type_id'=> $newSale->id,
-                  'source' => $storage['name'],
-                  'source_id'=> $storage['id'],
+                  'source' => $source['name'],
+                  'source_id'=> $source['id'],
                   'item_id' => $valueItem['item_id']['id'],
                   'increment'=> $valueItem['ammount'],
                   'decrement'=> 0,
@@ -134,8 +135,8 @@ class SaleOneController extends Controller
 
         // Create the Notification
         if($newFR) {
-            $client_name = $project['pro_data']['client']['name'];
-            $item_name = $storage['name'];
+            $client_name = $client['name'];
+            $item_name = $source['name'];
             $nofication = [
                 'title' => 'فروشات جدید',
                 'text' => 'یک فروش جدید از ' . $item_name . ' برای ' . $client_name . ' در سیستم ثبت گردید.',
@@ -149,16 +150,16 @@ class SaleOneController extends Controller
             $newNotif = Notification::create($nofication);
 
         }
-        return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
+        return [$newSale, $newSaleTwo, $newAcc, $newFR, $newNotif, $stocks];
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleTwo  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function show(SaleOne $saleOne)
+    public function show(SaleTwo $saleOne)
     {
         //
     }
@@ -166,10 +167,10 @@ class SaleOneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleTwo  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function edit(SaleOne $saleOne)
+    public function edit(SaleTwo $saleOne)
     {
         //
     }
@@ -178,10 +179,10 @@ class SaleOneController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleTwo  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SaleOne $saleOne)
+    public function update(Request $request, SaleTwo $saleOne)
     {
         //
     }
@@ -189,10 +190,10 @@ class SaleOneController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleTwo  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SaleOne $saleOne)
+    public function destroy(SaleTwo $saleOne)
     {
         //
     }

@@ -67,29 +67,14 @@ class ProjectController extends Controller
             // 'issue_address' => 'required|min:3',
             // 'source_address' => 'required|min:3',
         ]);
-        $serial_number = SerialNumber::where(
-            'type',
-            'pro'
-        )->latest()->first();
-        if ($serial_number) {
-            $request['serial_no'] = $serial_number->value + 1;
-        } else {
-            $request['serial_no'] = 101;
-        }
-        // return $request;
-        $serial_number = [
-            'type' => 'pro',
-            'prefix' => 'pro',
-            'value' => $request['serial_no'],
-        ];
-        
         if (gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
         }
         if (gettype($request->proposal_id) != 'integer') {
             $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
         }
-        SerialNumber::create($serial_number);
+        $serial_no = getSerialNo('type', 'pro');
+        $request['serial_no'] = $serial_no->value;
         if ($resp = Project::create($request->all())) {
             if ($request['proposal_id']) {
                 $proData = [

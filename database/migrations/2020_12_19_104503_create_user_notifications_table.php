@@ -17,7 +17,7 @@ class CreateUserNotificationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('notification_id')->nullable();
-            $table->enum('status', ['A', 'B']);
+            $table->string('status');
             $table->boolean('pin');
             $table->boolean('done');
             $table->timestamps();

@@ -486,3 +486,19 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+.vs-tabs--li.activeChild{
+    border-bottom: solid #e85456 2px !important;
+    transition: .3s;
+}
+.vs-tabs-position-top > .con-ul-tabs > .line-vs-tabs{
+    display: none !important;
+}
+.right-ltr{
+    direction: rtl;
+    text-align: left;
+}
+.vs-input--input:disabled, .vs-input--input:disabled+.vs-input--placeholder{
+    opacity: 1 !important;
+    background: inherit !important;
+    // color: #000 !important;
+}
