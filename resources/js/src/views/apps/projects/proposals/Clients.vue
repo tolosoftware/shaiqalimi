@@ -16,7 +16,7 @@
     </div>
     <vs-tabs>
       <vs-tab label="لست نهادها" icon="list" class="leftScrol">
-        <vs-button type="gradient" size="small" icon="print" id="printBTN" @click="printClients">چاپ</vs-button>
+        <!--<vs-button type="gradient" size="small" icon="print" id="printBTN" @click="printClients">چاپ</vs-button>-->
         <div class="scroll-area--data-list-add-new" :key="$vs.rtl" v-if="orgActiveForm">
           <form>
             <vs-divider>

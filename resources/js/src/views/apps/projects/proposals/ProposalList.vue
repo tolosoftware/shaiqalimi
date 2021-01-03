@@ -33,7 +33,7 @@
       <vs-th sort-key="price">قیمت</vs-th>
       <vs-th sort-key="bidding_address">آدرس</vs-th>
       <vs-th sort-key="bidding_date">تاریخ پیشنهاد</vs-th>
-      <vs-th>نمظیمات</vs-th>
+      <vs-th>تنظیمات</vs-th>
     </template>
     <template slot-scope="{data}">
       <tbody>
@@ -84,94 +84,82 @@
           </vs-td>
 
           <vs-td class="whitespace-no-wrap notupfromall">
+            <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
             <router-link class="product-name font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
-                }">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
-            </router-link>
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+                }">&nbsp;&nbsp;
+              <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
+            </router-link>&nbsp;&nbsp;
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
-
-  <vs-collapse accordion>
-    <vs-collapse-item>
-      <div slot="header">
-        نمایش حالت چاپ
-      </div>
-      <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="printProposal">چاپ</vs-button>
-      <vue-easy-print tableShow ref="easyPrint">
-        <vs-table class="w-full" ref="table" :data="proposals">
-          <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between" id="proposalTable">
-          </div>
-          <template slot="thead">
-            <vs-th>نمبر</vs-th>
-            <vs-th>نهاد</vs-th>
-            <vs-th>پروژه</vs-th>
-            <vs-th>تضمین آفر</vs-th>
-            <vs-th>وضعیت</vs-th>
-            <vs-th>قیمت</vs-th>
-            <vs-th>آدرس</vs-th>
-            <vs-th>تاریخ پیشنهاد</vs-th>
-          </template>
-          <template slot-scope="{data}">
-            <tbody>
-              <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-                <vs-td class="pl-2 text-center">
-                  {{ indextr + 1 }}
-                </vs-td>
-                <vs-td class="img-container">
-                  <router-link v-if="tr.pro_data" class="product-name font-medium truncate" :to="{
+  <vs-popup fullscreen title="fullscreen" :active.sync="popupActive">
+    <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="printProposal">چاپ</vs-button>
+    <vue-easy-print tableShow ref="easyPrint">
+      <vs-table :data="proposals">
+        <template slot="thead">
+          <vs-th>نمبر</vs-th>
+          <vs-th>نهاد</vs-th>
+          <vs-th>پروژه</vs-th>
+          <vs-th>تضمین آفر</vs-th>
+          <vs-th>وضعیت</vs-th>
+          <vs-th>قیمت</vs-th>
+          <vs-th>آدرس</vs-th>
+          <vs-th>تاریخ پیشنهاد</vs-th>
+        </template>
+        <template slot-scope="{data}">
+          <tbody>
+            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+              <vs-td class="pl-2 text-center">
+                {{ indextr + 1 }}
+              </vs-td>
+              <vs-td>
+                <router-link v-if="tr.pro_data" class="font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
-                    <!-- <img :src="tr.img" class="product-img" /> -->
-                    <p>{{ findClient(tr.pro_data.client_id) }}</p>
+                  <!-- <img :src="tr.img" class="product-img" /> -->
+                  <p>{{ findClient(tr.pro_data.client_id) }}</p>
 
-                  </router-link>
-                </vs-td>
-
-                <vs-td>
-                  <div v-if="tr.pro_data">
-                    <router-link class="product-name font-medium truncate" :to="{
+                </router-link>
+              </vs-td>
+              <vs-td>
+                <div v-if="tr.pro_data">
+                  <router-link class="font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
-                      {{ tr.pro_data.title }}</router-link>
-                  </div>
-                </vs-td>
-
-                <vs-td>
-                  <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
-                  <p>{{ tr.offer_guarantee }} افغانی</p>
-                </vs-td>
-
-                <vs-td>
-                  <vs-chip :color="getOrderStatusColor(tr.status)">{{ statusFa[tr.status] }}</vs-chip>
-                </vs-td>
-
-                <vs-td>
-                  <p v-if="tr.pro_data">{{ tr.pro_data.total_price }} افغانی</p>
-                </vs-td>
-                <vs-td>
-                  <p>{{ tr.bidding_address }}</p>
-                </vs-td>
-                <vs-td>
-                  <p>{{ tr.bidding_date }}</p>
-                </vs-td>
-              </vs-tr>
-            </tbody>
-          </template>
-        </vs-table>
-      </vue-easy-print>
-    </vs-collapse-item>
-  </vs-collapse>
+                    {{ tr.pro_data.title }}</router-link>
+                </div>
+              </vs-td>
+              <vs-td>
+                <p>{{ tr.offer_guarantee }} افغانی</p>
+              </vs-td>
+              <vs-td>
+                <vs-chip :color="getOrderStatusColor(tr.status)">{{ statusFa[tr.status] }}</vs-chip>
+              </vs-td>
+              <vs-td>
+                <p v-if="tr.pro_data">{{ tr.pro_data.total_price }} افغانی</p>
+              </vs-td>
+              <vs-td>
+                <p>{{ tr.bidding_address }}</p>
+              </vs-td>
+              <vs-td>
+                <p>{{ tr.bidding_date }}</p>
+              </vs-td>
+            </vs-tr>
+          </tbody>
+        </template>
+      </vs-table>
+    </vue-easy-print>
+  </vs-popup>
 </div>
 </template>
 
@@ -184,6 +172,7 @@ export default {
   name: 'vx-project-list',
   data() {
     return {
+      popupActive: false,
       statusFa: {
         normal: 'درجریان',
         delivered: 'تکمیل',
@@ -219,6 +208,9 @@ export default {
     }
   },
   methods: {
+    showPrintData(id) {
+      this.popupActive = true;
+    },
     getAllClients() {
       this.axios.get('/api/clients')
         .then((response) => {
@@ -235,6 +227,7 @@ export default {
       this.axios.get('/api/proposal')
         .then((response) => {
           this.proposals = response.data;
+          console.log('proposalData', this.proposals);
           this.$Progress.set(100)
         })
     },

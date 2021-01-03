@@ -40,31 +40,26 @@
             <vs-th>نام گدام</vs-th>
             <vs-th>مسول</vs-th>
             <vs-th>تماس</vs-th>
-            <vs-th>جزییات</vs-th>
             <vs-th>بررسی</vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td>
-                <span>{{++indextr}}</span>
+                <span class="cursor-pointer" @click.stop="showGodamData(tr.id)">{{++indextr}}</span>
               </vs-td>
               <vs-td>
-                <span v-text="tr.name"></span>
+                <span v-text="tr.name" class="cursor-pointer" @click.stop="showGodamData(tr.id)"></span>
               </vs-td>
               <vs-td>
-                <span v-text="tr.manager"></span>
+                <span v-text="tr.manager" class="cursor-pointer" @click.stop="showGodamData(tr.id)"></span>
               </vs-td>
               <vs-td>
-                <span v-text="tr.phone"></span>
-              </vs-td>
-              <vs-td>
-                <span>
-                  <vs-button type="border" icon="visibility" size="small" @click="showGodamData(tr.id)" color="primary"></vs-button>
-                </span>
+                <span v-text="tr.phone" class="cursor-pointer" @click.stop="showGodamData(tr.id)"></span>
               </vs-td>
               <vs-td class="whitespace-no-wrap notupfromall">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="mr-2" @click.stop="editGodamData(tr)" />
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteGodamData(tr.id)" />
+                <feather-icon icon="MoreVerticalIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2 cursor-pointer" @click.stop="showGodamData(tr.id)" />
+                <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2 cursor-pointer" @click.stop="editGodamData(tr)" />
+                <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteGodamData(tr.id)" />
               </vs-td>
             </vs-tr>
           </template>

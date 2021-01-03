@@ -34,7 +34,7 @@
           </vs-dropdown-item>
         </vs-dropdown-menu>
       </vs-dropdown>
-      <vs-button size="small" type="gradient" icon="print" id="printBTN" @click.stop="printProject">چاپ</vs-button>
+      <!--<vs-button size="small" type="gradient" icon="print" id="printBTN" @click.stop="printProject">چاپ</vs-button> -->
     </div>
 
     <template slot="thead">
@@ -96,14 +96,15 @@
           </vs-td>
 
           <vs-td class="whitespace-no-wrap notupfromall">
+            <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
             <router-link class="product-name font-medium truncate" :to="{
                   path: '/projects/project/${tr.id}',
                   name: 'project-edit',
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
+              <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
             </router-link>
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>
       </tbody>
@@ -180,6 +181,9 @@ export default {
     },
   },
   methods: {
+    showPrintData(id) {
+      this.popupActive = true;
+    },
     findClient(id) {
       let name = '';
       Object.keys(this.clients).some(key => (this.clients[key].id == id) ? name = this.clients[key].name : null);
