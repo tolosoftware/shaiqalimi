@@ -10,7 +10,7 @@
               <span>S4</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" />
+          <vs-input :value="sForm.serial_no" autocomplete="off" type="number" />
         </vx-input-group>
 
       </div>
@@ -20,11 +20,11 @@
         <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
         <div class="radio-group w-full">
           <div class="w-1/2">
-            <input type="radio" v-model="sForm.currency" value="1" id="struct" name="curency" />
+            <input type="radio" v-model="sForm.currency_id" value="1" id="struct" name="curency" />
             <label for="struct" class="w-full text-center">افغانی</label>
           </div>
           <div class="w-1/2">
-            <input type="radio" v-model="sForm.currency" value="2" id="specific" name="curency" />
+            <input type="radio" v-model="sForm.currency_id" value="2" id="specific" name="curency" />
             <label for="specific" class="w-full text-center">دالر</label>
           </div>
         </div>
@@ -32,11 +32,11 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker color="#e85454" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="client_name" class="w-full" v-bind:value="form.clientName" label="نام" />
+        <vs-input name="client_name" v-model="sForm.client_name" class="w-full" label="نام" />
       </div>
     </div>
   </div>
@@ -45,14 +45,14 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">منبع</label>
-        <v-select v-model="form.source" label="text" :options="source" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-          <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
+        <v-select v-model="sForm.source_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+          <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input v-model="form.target" class="w-full" label="مقصد" />
+        <vs-input v-model="sForm.destination" class="w-full" label="مقصد" />
       </div>
     </div>
   </div>
@@ -70,10 +70,10 @@
               <span>AFN</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" v-validate="'required'" name="transit" />
+          <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
-        <has-error :form="sForm" field="transit"></has-error>
+        <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
+        <has-error :form="sForm" field="service_cost"></has-error>
       </div>
     </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
@@ -85,10 +85,10 @@
               <span>AFN</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" v-validate="'required'" name="transit" />
+          <vs-input autocomplete="off" v-model="sForm.additional_cost" type="number" v-validate="'required'" name="additional_cost" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
-        <has-error :form="sForm" field="transit"></has-error>
+        <span class="absolute text-danger alerttext">{{ errors.first('step-2.additional_cost') }}</span>
+        <has-error :form="sForm" field="additional_cost"></has-error>
       </div>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
@@ -100,7 +100,7 @@
               <span>٪</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" v-validate="'required'" name="tax" />
+          <vs-input autocomplete="off" v-model="sForm.tax" type="number" v-validate="'required'" name="tax" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
         <has-error :form="sForm" field="tax"></has-error>
@@ -115,15 +115,15 @@
               <span>AFN</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" />
+          <vs-input v-model="sForm.total" autocomplete="off" type="number" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
     </vs-col>
     </vs-col>
   </vs-row>
   <div class="vx-row">
-    <vs-textarea label="تفصیلات" class="mr-3" />
+    <vs-textarea v-model="sForm.description" label="تفصیلات" class="mr-3" />
   </div>
   <div class="mt-10">
     <div class="vx-col w-full">
@@ -152,42 +152,24 @@ export default {
   },
   data() {
     return {
-      checkBox: [{
-          0: false
-        },
-        {
-          1: false
-        },
-        {
-          2: false
-        },
-        {
-          3: false
-        },
-        {
-          4: false
-        },
-        {
-          5: false
-        },
-        {
-          6: false
-        },
-        {
-          7: false
-        },
-      ],
+      userid: localStorage.getItem('id'),
       sForm: new Form({
-        currency: 1,
+        // sales_id: '', // Get the created sales id.
         serial_no: '',
-        proposal_id: '',
-        client_id: '',
-        title: '',
-        reference_no: '',
-        status: "1",
-        contract_date: '',
-        contract_end_date: '',
-        project_guarantee: '',
+        service_cost: '',
+        additional_cost: '',
+        total: '',
+        steps: '',
+        description: '',
+        // shared fields with other sales
+        type: "s4",
+        // client_id: "", // The Id of the Client.
+        source_type: "client", // Type Client
+        user_id: localStorage.getItem('id'), //Get the current user id
+        currency_id: 1,
+        datatime: "",
+        // relative_person: "",
+        // Item for the ekmalat section
         item: [{
           item_id: "",
           unit_id: "",
@@ -197,108 +179,18 @@ export default {
           unit_price: "",
           total_price: "",
           density: null,
-        }],
-        deposit: '',
-        tax: '',
-        others: '',
-        pr_worth: '',
-        transit: '',
-        total_price: 0,
-
+        }, ],
       }),
       items: [],
-      form: {
-        selectedItem: null,
-        clientName: null,
-        repativePerson: null,
-        clientPhone: null,
-        clientAddress: null,
-        product: null,
-        responsible: null,
-        source: null,
-        target: null,
-        quantity: null,
-        serial_number: null,
-        money_unit: {
-          text: 'افغانی',
-          unit: 'AFN',
-          value: '1'
-        },
-        cost: null,
-        total_cost: null,
-        fi_unit: null,
-        unit: null,
-        equal: null,
-      },
-      itemType: [{
-          text: 'تن',
-          value: '1'
-        },
-        {
-          text: 'متر مکعب',
-          value: '2'
-        },
-        {
-          text: 'لیتر',
-          value: '3'
-        },
-        {
-          text: 'کیلوگرام',
-          value: '4'
-        },
-      ],
-      itemMoney: [{
-          text: 'افغانی',
-          unit: 'AFN',
-          value: '1'
-        },
-        {
-          text: 'دالر',
-          unit: 'USD',
-          value: '2'
-        },
-      ],
-      source: [{
-          text: 'یاران',
-          value: '1'
-        },
-        {
-          text: 'مکروریان',
-          value: '2'
-        },
-        {
-          text: 'کابل',
-          value: '3'
-        },
-        {
-          text: 'هرات',
-          value: '4'
-        },
-      ],
-      products: [{
-          text: 'تیل گاز',
-          value: '1'
-        },
-        {
-          text: 'تیل دیزل',
-          value: '2'
-        },
-        {
-          text: 'تیل پطرول',
-          value: '3'
-        },
-        {
-          text: 'موبلین',
-          value: '4'
-        },
-      ],
-      contracts: [],
+      // clients: [],
+      // field_data: [],
+      storages: [],
       // End of sidebar items
-    }
+    };
   },
   created() {
-    this.getProject();
-    this.setCheck(0);
+    this.getNextSerialNo()
+    this.getStorages();
   },
   computed: {
     // isFormValid() {
@@ -306,61 +198,61 @@ export default {
     // },
   },
   methods: {
-    setCheck(index) {
-
-      for (let i = 1; i < this.checkBox.length; i++) {
-        this.checkBox[i] = false;
-        if (i <= index) {
-          this.checkBox[i] = true;
-        }
-      }
-    },
-    getProject() {
+    getStorages() {
       // Start the Progress Bar
-      this.$Progress.start()
+      this.$Progress.start();
 
-      this.axios.get('/api/project').then((data) => {
-          this.contracts = data.data;
+      this.axios
+        .get("/api/storage")
+        .then((data) => {
+          this.storages = data.data;
           // Finish the Progress Bar
-          this.$Progress.set(100)
+          this.$Progress.set(100);
         })
         .catch(() => {});
     },
     // End of Methods
     // Old methods
-    onChange(contract) {
-      if (contract != null) {
-        this.form.clientName = contract.pro_data.client.name;
-        // this.form.repativePerson = contract.pro_data.client.phone;
-        this.form.clientPhone = contract.pro_data.client.phone;
-        this.form.clientAddress = contract.pro_data.client.address;
-      } else {
-        this.form.clientName = null;
-        this.form.repativePerson = null;
-        this.form.clientPhone = null;
-        this.form.clientAddress = null;
-      }
+    submitForm() {
+      this.$Progress.start()
+      this.sForm.post('/api/sale4')
+        .then(({
+          data
+        }) => {
+          // Finish the Progress Bar
+          // this.sForm.reset();
+          // this.errors.clear();
+          this.$Progress.set(100)
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'قرارداد موفقانه ثبت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        }).catch((errors) => {
+          console.log(errors.errors);
+          this.$vs.notify({
+            title: 'ناموفق!',
+            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-cross',
+            position: 'top-right'
+          })
+        });
     },
-    resetForm(submitEvent) {
-      const f = this.form;
-      for (var key in f) {
-        this.form[key] = null;
-      }
+    // for getting the next serian number
+    getNextSerialNo() {
+      this.$Progress.start()
+      this.axios.get('/api/serial-num?type=sale4')
+        .then((response) => {
+          this.sForm.serial_no = response.data;
+        })
     },
-    submitForm(submitEvent) {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          console.log(this.form);
-
-          // if form have no errors
-          alert("form submitted!");
-        } else {
-          // form have errors
-        }
-      })
-    },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
