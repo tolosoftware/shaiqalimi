@@ -1,17 +1,15 @@
 <template>
 <div>
-    <Procurmentadd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
+   
     <vs-tabs>
-        <vs-tab label="ثبت خریداری">
+        <vs-tab label="ویرایش خریداری">
             <div class="vx-row">
                 <vx-card class="height-vh-80">
                     <div class="vx-row">
                         <div class="vx-col w-1/2">
-                            <h3>فارم ثبت خریداری</h3>
+                            <h3>فارم ویرایش خریداری</h3>
                         </div>
-                        <div class="vx-col w-1/2">
-                            <vs-button type="filled" @click="addNewData" class="mt-5 float-right">ثبت فروشنده جدید</vs-button>
-                        </div>
+                      
                     </div>
 
                     <form>
@@ -52,18 +50,18 @@
                                     <label for>
                                         <small> نام فروشنده</small>
                                     </label>
-                                    <v-select label="name" :options="allvendors" :dir="$vs.rtl ? 'rtl' : 'ltr'"  @input="setVendordata"/>
+                                    <v-select label="name" :options="allvendors" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="prForm.vendor_id"  @input="setVendordata"/>
                                 </div>
                             </vs-col>
                             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                                 <div class="w-full pt-2 ml-3 mr-3">
-                                    <vs-input size="medium" v-validate="'serialnumber'" label="شماره تماس" name="serialnumber" class="w-full" v-model="prForm.vendor_phone"/>
+                                    <vs-input size="medium" v-validate="'serialnumber'" label="شماره تماس"  class="w-full" v-model="prForm.phone"/>
                                     <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
                                 </div>
                             </vs-col>
                             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                                 <div class="w-full pt-2 ml-3 mr-3">
-                                    <vs-input size="medium" v-validate="'serialnumber'" label="آدرس" name="serialnumber" class="w-full" v-model="prForm.vendor_address"/>
+                                    <vs-input size="medium" v-validate="'serialnumber'" label="آدرس"  class="w-full" v-model="prForm.address"/>
                                     <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
                                 </div>
                             </vs-col>
@@ -72,14 +70,14 @@
                                     <label for>
                                         <small>ذخیره اصلی</small>
                                     </label>
-                                    <v-select label="name" :options="storage" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="prForm.source_id" />
+                                    <v-select label="source" :options="storage" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="prForm.source_id" />
                                 </div>
                             </vs-col>
                            
                         </vs-row>
                         <br>
                         <vs-divider />
-                        <!-- end currency_id -->
+                        <!-- end currency -->
                         <!-- eteration -->
 
                         <EkmalatStock :items="prForm.item" :form="prForm" :listOfFields="[]" ref="ekmalat"></EkmalatStock>
@@ -99,23 +97,17 @@
             </div>
         </vs-tab>
 
-        <vs-tab label="لیست خریداری">
-            <Procurmentlist></Procurmentlist>
-        </vs-tab>
+      
     </vs-tabs>
 </div>
 </template>
 
 <script>
 import EkmalatStock from "../shared/EkmalatStock"
-import Procurmentlist from './Procurmentlist.vue'
-import Procurmentadd from './Procurmentadd.vue'
 import vSelect from 'vue-select'
 
 export default {
     components: {
-        Procurmentlist,
-        Procurmentadd,
         "v-select": vSelect,
         EkmalatStock
     },
@@ -129,22 +121,22 @@ export default {
           
             prForm: new Form({
               serial_no: '',
-              currency_id: 1,
+              currency_id: '',
               date_time:'',
               vendor_id:'',
               account_id:'',
-              vendor_address:'',
-              vendor_phone:'',
+              address:'',
+              phone:'',
               vendor_name:'',
               source_id:'',
               user_id: localStorage.getItem('id'),
               description:'',
               item: [{
-                  item_id: "",
+                  item_id: null,
                   unit_id: "",
                   operation_id: null,
-                  increment_equiv: "",
-                  increment: "",
+                  equivalent: "",
+                  ammount: "",
                   unit_price: "",
                   total_price: "",
                   density: null,
@@ -159,19 +151,28 @@ export default {
     },
 
       created(){
+          this.loadspcificpurchase();
           this.loadvendor();
-          this.loadgodam();
+          this.loadsource_id();
           this.getPurchaseSerialNumber();
       },
     methods: {
 
+            loadspcificpurchase() {
+            this.axios.get('/api/purches/'+this.$route.params.procurment_id+'/edit').then(({data}) => (
+                 this.prForm.fill(data),
+                console.log("hiiii"+data.vendor_id)
+                //  this.setVendordata(data.vendor_id)
+                 ));
+        },
+
       setVendordata(data){
-        console.log(data);
+  
         this.prForm.vendor_id = data.id;
         this.prForm.vendor_address = data.address;
         this.prForm.vendor_phone = data.phone;
         this.prForm.account_id = data.account_id;
-        this.prForm.vendor_name = data.name;
+        // this.prForm.vendor_name = data.name;
         
       },
        loadvendor(){
@@ -181,7 +182,7 @@ export default {
         });
        },
 
-       loadgodam(){
+       loadsource_id(){
           this.axios.get('/api/storage')
         .then((resp) => {
           this.storage = resp.data;

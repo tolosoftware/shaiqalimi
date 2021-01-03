@@ -416,6 +416,7 @@ export default {
       this.currencyForm.sign_fa = data.sign_fa;
       this.currencyForm.id = data.id;
     },
+<<<<<<< HEAD
     addNewCurrency() {
       // Start the Progress Bar
       this.$Progress.start()
@@ -485,6 +486,169 @@ export default {
       this.operationForm.description = data.description;
       this.operationForm.id = data.id;
       // console.log('operation',this.operationForm);
+=======
+    methods: {
+        // for items to be bought
+        getAllCurrency() {
+            this.$Progress.start()
+            this.axios.get('/api/currency')
+                .then((response) => {
+                    this.currencies = response.data;
+                    this.rateEditForm.currencies = JSON.parse(JSON.stringify(response.data));
+                    this.$Progress.set(100)
+                })
+        },
+        updateCancel() {
+            this.currencyForm.reset();
+        },
+        editCurrency(data) {
+            this.currencyForm.sign_en = data.sign_en;
+            this.currencyForm.sign_fa = data.sign_fa;
+            this.currencyForm.id = data.id;
+        },
+        addNewCurrency() {
+            // Start the Progress Bar
+            this.$Progress.start()
+            this.currencyForm.post('/api/currency')
+                .then(({
+                    data
+                }) => {
+                    console.log(data);
+                    this.currencyForm.currency_id = data.id;
+                    this.getAllCurrency();
+                    this.currencyForm.reset();
+                    this.$vs.notify({
+                        title: 'موفقیت!',
+                        text: 'معلومات موفقانه ثبت سیستم شد.',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                }).catch((errors) => {
+                    console.log(errors);
+                    this.$Progress.set(100)
+                    this.$vs.notify({
+                        title: 'ناموفق!',
+                        text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        icon: 'icon-cross',
+                        position: 'top-right'
+                    })
+                });
+        },
+        editRates() {
+            console.log(this.rateEditForm.currencies);
+            this.rateEditForm.post('/api/currency/rates')
+                .then(({
+                    data
+                }) => {
+                    console.log(data);
+                    this.getAllCurrency();
+                    this.currencyForm.reset();
+                    this.$vs.notify({
+                        title: 'موفقیت!',
+                        text: 'معلومات موفقانه ثبت سیستم شد.',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                }).catch((errors) => {
+                    console.log(errors);
+                    this.$Progress.set(100)
+                    this.$vs.notify({
+                        title: 'ناموفق!',
+                        text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        icon: 'icon-cross',
+                        position: 'top-right'
+                    })
+                });
+        },
+        editOperation(data) {
+            this.operationActiveForm = true;
+            this.operationForm.title = data.title;
+            this.operationForm.formula = data.formula;
+            this.operationForm.description = data.description;
+            this.operationForm.id = data.id;
+            // console.log('operation',this.operationForm);
+
+        },
+
+        storeOperation() {
+            // Start the Progress Bar
+            this.operationForm.post('/api/operation')
+                .then(({
+                    data
+                }) => {
+                    console.log(data);
+                    this.getAllOperation();
+                    this.operationForm.reset();
+                    this.$vs.notify({
+                        title: 'موفقیت!',
+                        text: 'معلومات موفقانه ثبت سیستم شد.',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                }).catch((errors) => {
+                    console.log(errors);
+                    this.$Progress.set(100)
+                    this.$vs.notify({
+                        title: 'ناموفق!',
+                        text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        icon: 'icon-cross',
+                        position: 'top-right'
+                    })
+                });
+        },
+
+        updateOperation() {
+            this.operationForm.patch('/api/operation/' + this.operationForm.id)
+                .then(({
+                    data
+                }) => {
+                    // Finish the Progress Bar
+                    this.getAllOperation();
+                    // toast notification
+                    this.$vs.notify({
+                        title: 'موفقیت!',
+                        text: 'آیتم موفقانه آپدیت شد.',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check',
+                        position: 'top-right'
+                    })
+                });
+        },
+        deleteOperation(id) {
+            swal.fire({
+                title: 'آیا  مطمئن هستید؟',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: 'rgb(54 34 119)',
+                cancelButtonColor: 'rgb(229 83 85)',
+                confirmButtonText: '<span>بله، حذف شود!</span>',
+                cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.operationForm.delete('/api/operation/' + id).then((id) => {
+                            swal.fire({
+                                title: 'عملیه موفقانه انجام شد.',
+                                icon: 'success',
+                            })
+                            this.getAllOperation();
+                        })
+                        .catch(() => {});
+                }
+            })
+>>>>>>> 78d83e997abf0e8f9ae21f77f86c1fd2acf31972
 
     },
 

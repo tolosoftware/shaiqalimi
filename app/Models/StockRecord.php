@@ -20,6 +20,8 @@ class StockRecord extends Model
         'uom_equiv_id',
         'density',
         'operation_id',
+        'unit_price',
+        'total_price',
         'remark'
     ];
     public function operation()
@@ -30,8 +32,22 @@ class StockRecord extends Model
     {
         return $this->belongsTo(Item::class, 'item_id');
     }
+    public function item_id()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
+    public function operation_id()
+    {
+        return $this->belongsTo(Operation::class, 'operation_id');
+    }
     public function measur_unit()
     {
         return $this->belongsTo(MeasurmentUnit::class, 'uom_equiv_id');
     }
+    public function source_id()
+    {
+        return $this->belongsTo(Storage::class, 'source_id');
+    }
+
+  
 }

@@ -405,9 +405,36 @@ const router = new Router({
                     component: () =>
                         import ('./views/apps/procurments/Procurment.vue'),
                     meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'خریداری',
+                                active: true
+                            }
+                            // { title: 'Export Selected', active: true }
+                        ],
                         rule: 'editor'
                     }
                 },
+
+                {
+                    path: '/procurment/edit/:procurment_id',
+                    name: 'procurment-edit',
+                    component: () =>
+                        import ('./views/apps/procurments/Procurmentedit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'مدیریت کاربر', url: { name: 'user-management' } },
+                            { title: 'ویرایش کاربر', active: true }
+                        ],
+                        rule: 'editor',
+                        no_scroll: true
+                    }
+                },
+
                 {
                     path: '/archive',
                     name: 'archive',

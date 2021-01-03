@@ -398,7 +398,7 @@ export default {
     removeRow() {
       swal
         .fire({
-          title: "آیا  متمئن هستید؟",
+          title: "آیا  مطمئن هستید؟",
           text: "جنس مورد نظر حذف خواهد شد",
           icon: "question",
           showCancelButton: true,
