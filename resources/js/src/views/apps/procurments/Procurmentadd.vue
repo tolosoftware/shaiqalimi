@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import Ekmalat from "../shared/Ekmalat"
+
 import vSelect from 'vue-select'
 export default {
   props: {

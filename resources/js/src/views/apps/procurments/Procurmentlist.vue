@@ -12,7 +12,7 @@
 
     <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
 
-    <vs-table ref="table"  pagination :max-items="itemsPerPage" search :data="products">
+    <vs-table ref="table"  pagination :max-items="itemsPerPage" search :data="allpurchase">
 
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
@@ -47,12 +47,13 @@
 
       <template slot="thead">
 
-        <vs-th sort-key="name">Name</vs-th>
-        <vs-th sort-key="category">Category</vs-th>
-        <vs-th sort-key="popularity">Popularity</vs-th>
-        <vs-th sort-key="order_status">Order Status</vs-th>
-        <vs-th sort-key="price">Price</vs-th>
-        <vs-th>Action</vs-th>
+        <vs-th sort-key="name">شماره</vs-th>
+        <vs-th sort-key="category">سریال نمبر</vs-th>
+        <vs-th sort-key="popularity">نام فروشند</vs-th>
+        <vs-th sort-key="popularity">کار بر ثبت کننده</vs-th>
+        <vs-th sort-key="order_status">تاریخ و ساعت</vs-th>
+        <vs-th sort-key="price">توضیحات</vs-th>
+        <vs-th>تنظیمات</vs-th>
         
       </template>
 
@@ -62,27 +63,35 @@
             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
               <vs-td>
-                <p class="product-name font-medium truncate">{{ tr.name }}</p>
+                <p class="product-name font-medium truncate">{{ indextr +1 }}</p>
               </vs-td>
 
               <vs-td>
-                <p class="product-category">{{ tr.category | title }}</p>
+                <p class="product-category">{{ tr.serial_no }}</p>
+              </vs-td>
+
+              
+              <vs-td>
+                <p class="product-category">{{ tr.vendor.name }}</p>
               </vs-td>
 
               <vs-td>
-                <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />
+                <vs-chip :color="getOrderStatusColor(tr.user.firstName + ' ' + tr.user.lastName)" class="product-order-status">{{ tr.user.firstName + ' '+ tr.user.lastName }}</vs-chip>
               </vs-td>
 
               <vs-td>
-                <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.order_status | title }}</vs-chip>
+                <p class="product-price">{{ tr.date_time }}</p>
               </vs-td>
 
-              <vs-td>
-                <p class="product-price">${{ tr.price }}</p>
+               <vs-td>
+                <p class="product-price">{{ tr.description }}</p>
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
+                           name: 'procurment-edit', 
+                           params: {procurment_id: tr.id }}).catch(() => {})" />
+                           
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
               </vs-td>
 
@@ -104,6 +113,8 @@ export default {
   },
   data () {
     return {
+
+      allpurchase:[],
       selected: [],
       // products: [],
       itemsPerPage: 10,
@@ -129,12 +140,51 @@ export default {
     }
   },
   methods: {
+    loadpurchase(){
+      this.$vs.loading()
+      this.axios.get('/api/purches').then(({ data }) => (this.allpurchase = data,
+          this.$vs.loading.close()))
+        .catch(() => {
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: '  معلومات بارگیری نشد !',
+            text: 'عملیه بارگیری معلومات نام شد',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        });
+    },
+
     addNewData () {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
     },
     deleteData (id) {
-      this.$store.dispatch('dataList/removeItem', id).catch(err => { console.error(err) })
+      swal.fire({
+        title: 'آیا شما مطمئن هستید ؟',
+        text: "شما قادر به برگردادن این شخص پس از حذف نمی باشید !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'بلی مطمئن هستم',
+        cancelButtonText: 'نخیر'
+      }).then((result) => {
+        if (result.value) {
+          this.axios.delete('/api/purches/' + id).then(() => {
+            swal.fire(
+              'حذف شد !',
+              'موفقانه عملیه حذف انجام شد',
+              'success'
+            )
+            this.loadpurchase();
+          }).catch(() => {
+            swal("Failed!", "سیستم قادر به حذف نیست دوباره تلاش نماید.", "warning");
+          })
+        }
+      })
     },
     editData (data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
@@ -142,9 +192,9 @@ export default {
       this.toggleDataSidebar(true)
     },
     getOrderStatusColor (status) {
-      if (status === 'on_hold')   return 'warning'
+      if (status === 'on_hold')   return 'success'
       if (status === 'delivered') return 'success'
-      if (status === 'canceled')  return 'danger'
+      if (status === 'canceled')  return 'success'
       return 'primary'
     },
     getPopularityColor (num) {
@@ -159,6 +209,7 @@ export default {
     }
   },
   created () {
+    this.loadpurchase();
     if (!moduleDataList.isRegistered) {
       this.$store.registerModule('dataList', moduleDataList)
       moduleDataList.isRegistered = true
