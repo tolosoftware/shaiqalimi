@@ -33,6 +33,8 @@ Route::post('users1', 'UserController@store');
 Route::post('users1', 'UserController@store');
 Route::resource('sale1', 'SaleOneController');
 Route::resource('sale2', 'SaleTwoController');
+Route::resource('sale3', 'SaleThreeController');
+Route::resource('sale4', 'SaleFourController');
 
 // Product Review
 Route::resource('project', 'ProjectController');
