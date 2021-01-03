@@ -101,4 +101,9 @@ class StorageController extends Controller
         $storage->delete();
         return response()->json(['status' => 'success']);
     }
+    public function allTypeSource()
+    {
+        return Storage::all();
+
+    }
 }

@@ -69,12 +69,7 @@
   <!-- 3td Row -->
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
-      <div class="vx-col w-full">
-        <label for class="vs-input--label">منبع</label>
-        <v-select v-model="sForm.source_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-          <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
-        </v-select>
-      </div>
+    <source-select :sForm="sForm"></source-select>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -215,6 +210,7 @@
 <script>
 import vSelect from "vue-select";
 import Ekmalat from "../../../shared/Ekmalat";
+import SourceSelect from "../../../shared/SourceSelect";
 
 export default {
   props: {
@@ -226,6 +222,7 @@ export default {
   components: {
     "v-select": vSelect,
     Ekmalat,
+    SourceSelect,
   },
   data() {
     return {

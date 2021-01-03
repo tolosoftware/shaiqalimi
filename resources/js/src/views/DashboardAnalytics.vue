@@ -293,7 +293,7 @@ export default {
   name: 'vx-dashboard',
   data() {
     return {
-      // userid: localStorage.getItem('id'),
+      userid: localStorage.getItem('id'),
       apexChatData,
       analyticsData,
       revenueComparisonLine: {
