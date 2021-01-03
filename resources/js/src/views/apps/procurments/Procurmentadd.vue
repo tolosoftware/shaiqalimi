@@ -9,34 +9,102 @@
 
 <template>
 <vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
-    <div class="mt-6 flex items-center justify-between px-6">
-        <h4>ثبت فروشنده </h4>
-        <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
-    </div>
-    <vs-divider class="mb-0"></vs-divider>
-
-    <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :key="$vs.rtl">
-
+  <div class="mt-6 flex items-center justify-between px-6 float-right">
+    <!-- <vs-button type="border" icon-pack="feather-icon" icon="close" color="warning" class="mr-6" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>-->
+    <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+  </div>
+  <vs-tabs>
+    <vs-tab label="لست فروشنده گاه" icon="list" class="leftScrol">
+      <div class="scroll-area--data-list-add-new" :key="$vs.rtl" v-if="sellerActiveForm">
+        <form>
+          <vs-divider>
+            <h4>
+              ویرایش معلومات فروشنده
+            </h4>
+          </vs-divider>
+          <div class="pt-6 pr-6 pl-6">
+            <form>
+              <vs-input label="نام فروشنده" class="mt-5 w-full" name="item-name" v-validate="'required'" v-model="formEdit.name" />
+              <has-error :form="formEdit" field="name"></has-error>
+              <vs-input label="شماره تماس" class="mt-5 w-full" name="item-phone" v-model="formEdit.phone" />
+              <has-error :form="formEdit" field="phone"></has-error>
+              <vs-input label="آدرس" class="mt-5 w-full" name="item-address" v-model="formEdit.address" />
+              <has-error :form="formEdit" field="address"></has-error>
+              <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
+                <vs-button type="border" icon="edit" color="success" class="mr-6" @click="updateData()">ویرایش</vs-button>
+                <vs-button type="border" icon="close" color="danger" @click="resetAllState()">بستن فورم ویرایش</vs-button>
+              </div>
+            </form>
+          </div>
+          <vs-divider>---</vs-divider>
+        </form>
+      </div>
+      <div id="data-list-thumb-view" class="w-full data-list-container">
+        <vs-table class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="sellers">
+          <template slot="thead">
+            <vs-th>نام فروشنده</vs-th>
+            <vs-th>شماره تماس</vs-th>
+            <vs-th>آدرس</vs-th>
+            <vs-th>بررسی</vs-th>
+          </template>
+          <template slot-scope="{data}">
+            <tbody>
+              <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+                <vs-td>
+                  <span v-text="tr.name" class="cursor-pointer" @click.stop="showSellerData(tr.id)"></span>
+                </vs-td>
+                <vs-td>
+                  <span v-text="tr.phone" class="cursor-pointer" @click.stop="showSellerData(tr.id)"></span>
+                </vs-td>
+                <vs-td>
+                  <span v-text="tr.address" class="cursor-pointer" @click.stop="showSellerData(tr.id)"></span>
+                </vs-td>
+                <vs-td class="whitespace-no-wrap notupfromall">
+                  <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="mr-2" @click.stop="editData(tr)" />
+                  <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+                </vs-td>
+              </vs-tr>
+            </tbody>
+          </template>
+        </vs-table>
+        <vs-popup class="holamundo" title="جزییات معلومات نهاد" :active.sync="popupActive">
+          <div :key="indextr" v-for="(tr, indextr) in seller">
+            <div class="con-expand-clients w-full">
+              <div class="con-btns-client flex items-center justify-between">
+                <div class="con-clientx flex items-center justify-start">
+                  <span><strong>{{ tr.name }}</strong></span>
+                </div>
+                </vs-divider>
+                <div class="flex">
+                </div>
+              </div>
+              <vs-list>
+                <vs-list-item icon-pack="feather" icon="icon-phone" :title="tr.phone"></vs-list-item>
+                <vs-list-item icon-pack="feather" icon="icon-map-pin" :title="tr.address"></vs-list-item>
+              </vs-list>
+            </div>
+          </div>
+        </vs-popup>
+      </div>
+    </vs-tab>
+    <vs-tab label="ثبت فروشنده" icon="add" class="leftScrol">
+      <div class="scroll-area--data-list-add-new" :key="$vs.rtl">
         <div class="pt-6 pr-6 pl-6">
-
-            <!-- NAME -->
-            <vs-input label=" نام" class="mt-5 w-full" name="item-name" v-validate="'required'" v-model="form.name" />
-            <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
-
-            <!-- CATEGORY -->
-
-            <!-- NAME -->
-            <vs-input label="شماره تماس" class="mt-5 w-full" name="item-name" v-model="form.phone" />
-
-            <vs-input label="آدرس" class="mt-5 w-full" name="item-name" v-model="form.address" />
-
+          <form>
+            <vs-input label="نام فروشنده" class="mt-5 w-full" name="item-name" v-validate="'required'" v-model="form.name" />
+            <has-error :form="form" field="name"></has-error>
+            <vs-input label="شماره تماس" class="mt-5 w-full" name="item-phone" v-model="form.phone" />
+            <has-error :form="form" field="phone"></has-error>
+            <vs-input label="آدرس" class="mt-5 w-full" name="item-address" v-model="form.address" />
+            <has-error :form="form" field="address"></has-error>
+            <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
+              <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
+            </div>
+          </form>
         </div>
-    </component>
-
-    <div class="flex flex-wrap items-center p-6" slot="footer">
-        <vs-button class="mr-6" @click="submitData">انجام</vs-button>
-        <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
-    </div>
+      </div>
+    </vs-tab>
+  </vs-tabs>
 </vs-sidebar>
 </template>
 
@@ -44,113 +112,302 @@
 import Ekmalat from "../shared/Ekmalat"
 import vSelect from 'vue-select'
 export default {
-    props: {
-        isSidebarActive: {
-            type: Boolean,
-            required: true
-        },
-        data: {
-            type: Object,
-            default: () => {}
-        }
+  props: {
+    isSidebarActive: {
+      type: Boolean,
+      required: true
     },
-
-    data() {
-        return {
-
-            form: new Form({
-                id: '',
-                name: '',
-                phone: '',
-                address: '',
-              user_id: localStorage.getItem('id'),
-            }),
-            settings: { // perfectscrollbar settings
-                maxScrollbarLength: 60,
-                wheelSpeed: .60
-            }
-        }
-    },
-
-    computed: {
-        isSidebarActiveLocal: {
-            get() {
-                return this.isSidebarActive
-            },
-            set(val) {
-                if (!val) {
-                    this.$emit('closeSidebar')
-
-                }
-            }
-        },
-
-        scrollbarTag() {
-            return this.$store.getters.scrollbarTag
-        }
-    },
-    methods: {
-        submitData() {
-             this.form.post('/api/vendors')
-                .then(() => {
-                    this.$vs.notify({
-                        title: 'عملیه ثبت موفق بود!',
-                        text: 'عملیه موفغانه انجام شد',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check',
-                        position: 'top-right'
-                    })
-                    this.form.reset();
-                })
-
-                .catch(() => {
-                    this.$vs.notify({
-                        title: 'عملیه ثبت ناموفق بود!',
-                        text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        icon: 'icon-check',
-                        position: 'top-right'
-                    })
-                })
-        }
+    data: {
+      type: Object,
+      default: () => {}
     }
+  },
+  data() {
+    return {
+      sellerActiveForm: false,
+      popupActive: false,
+      form: new Form({
+        id: '',
+        name: '',
+        phone: '',
+        address: '',
+        user_id: localStorage.getItem('id'),
+      }),
+      formEdit: new Form({
+        id: '',
+        name: '',
+        phone: '',
+        address: '',
+        account_id: null,
+      }),
+      sellers: [],
+      seller: {}
+    }
+  },
+  created() {
+    this.getAllSellers();
+  },
+  computed: {
+    isSidebarActiveLocal: {
+      get() {
+        return this.isSidebarActive
+      },
+      set(val) {
+        if (!val) {
+          this.$emit('closeSidebar')
+
+        }
+      }
+    },
+  },
+  methods: {
+    getAllSellers() {
+      this.$Progress.start()
+      this.$vs.loading()
+      this.axios.get('/api/vendors')
+        .then((response) => {
+          this.sellers = response.data;
+          this.$Progress.set(100);
+          this.$vs.loading.close();
+        })
+    },
+    submitData() {
+      this.form.post('/api/vendors')
+        .then(() => {
+          this.$vs.notify({
+            title: 'عملیه ثبت موفق بود!',
+            text: 'عملیه موفغانه انجام شد',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+          this.form.reset();
+        })
+        .catch(() => {
+          this.$vs.notify({
+            title: 'عملیه ثبت نام فروشندهوفق بود!',
+            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        })
+    },
+    editData(data) {
+      this.sellerActiveForm = true;
+      this.formEdit.name = data.name;
+      this.formEdit.phone = data.phone;
+      this.formEdit.address = data.address;
+      this.formEdit.account_id = data.account_id;
+      this.formEdit.id = data.id;
+    },
+    resetAllState() {
+      this.sellerActiveForm = false
+      this.formEdit.reset();
+    },
+    showSellerData(id) {
+      this.$Progress.start()
+      this.$vs.loading()
+      this.sellerActiveForm = false;
+      this.form.get('/api/vendors/' + id)
+        .then((response) => {
+          this.seller = response.data
+          this.$Progress.set(100)
+          this.$vs.loading.close();
+          this.popupActive = true;
+        })
+    },
+    updateData() {
+      this.formEdit.put('/api/vendors/' + this.formEdit.id)
+        .then(({
+          data
+        }) => {
+          // Finish the Progress Bar
+          this.getAllSellers();
+          this.resetAllState();
+          // toast notification
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'فروشنده مذکور موفقانه آپدیت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        });
+    },
+    deleteData(id) {
+      this.sellerActiveForm = false;
+      swal.fire({
+        title: 'آیا مطمیٔن هستید؟',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله، حذف شود!</span>',
+        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.form.delete('/api/vendors/' + id).then((id) => {
+              swal.fire({
+                title: 'عملیه حذف موفقانه انجام شد.',
+                icon: 'success',
+              })
+              this.getAllSellers();
+              this.resetAllState();
+            })
+            .catch(() => {});
+        }
+      })
+    },
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
+.leftScrol {
+  height: 80vh;
+  overflow-y: scroll;
+}
+</style><style lang="scss" scoped>
 .add-new-data-sidebar {
-    ::v-deep .vs-sidebar--background {
-        z-index: 52010;
+  ::v-deep .vs-sidebar--background {
+    z-index: 52010;
+  }
+
+  ::v-deep .vs-sidebar {
+    z-index: 52010;
+    width: 500px;
+    max-width: 90vw;
+
+    .img-upload {
+      margin-top: 2rem;
+
+      .con-img-upload {
+        padding: 0;
+      }
+
+      .con-input-upload {
+        width: 100%;
+        margin: 0;
+      }
     }
-
-    ::v-deep .vs-sidebar {
-        z-index: 52010;
-        width: 400px;
-        max-width: 90vw;
-
-        .img-upload {
-            margin-top: 2rem;
-
-            .con-img-upload {
-                padding: 0;
-            }
-
-            .con-input-upload {
-                width: 100%;
-                margin: 0;
-            }
-        }
-    }
+  }
 }
 
 .scroll-area--data-list-add-new {
-    // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+  // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
+  height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
 
-    &:not(.ps) {
-        overflow-y: auto;
+  &:not(.ps) {
+    overflow-y: auto;
+  }
+}
+</style><style lang="scss">
+#data-list-thumb-view {
+  .vs-con-table {
+    // .product-name {
+    //   max-width: 23rem;
+    // }
+
+    .vs-table--header {
+      display: flex;
+      flex-wrap: wrap-reverse;
+      margin-left: 1.5rem;
+      margin-right: 1.5rem;
+
+      >span {
+        display: flex;
+        flex-grow: 1;
+      }
+
+      .vs-table--search {
+        padding-top: 0;
+
+        .vs-table--search-input {
+          padding: 0.9rem 2.5rem;
+          font-size: 1rem;
+
+          &+i {
+            left: 1rem;
+          }
+
+          &:focus+i {
+            left: 1rem;
+          }
+        }
+      }
     }
+
+    .vs-table {
+      border-collapse: separate;
+      border-spacing: 0 1.3rem;
+      padding: 0 0.6rem;
+
+      tr {
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+
+        td {
+          padding: 10px !important;
+
+          &:first-child {
+            border-top-left-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+          }
+
+          &:last-child {
+            border-top-right-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+          }
+
+          &.img-container {
+            // width: 1rem;
+            // background: #fff;
+
+            span {
+              display: flex;
+              justify-content: flex-start;
+            }
+
+            .product-img {
+              height: 70px;
+              padding-left: 10px;
+            }
+          }
+        }
+
+        td.td-check {
+          padding: 10px !important;
+        }
+      }
+    }
+
+    .vs-table--thead {
+      th {
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .vs-table-text {
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+      }
+
+      th.td-check {
+        padding: 0 15px !important;
+      }
+
+      tr {
+        background: none;
+        box-shadow: none;
+      }
+    }
+
+    .vs-table--pagination {
+      justify-content: center;
+    }
+  }
 }
 </style>

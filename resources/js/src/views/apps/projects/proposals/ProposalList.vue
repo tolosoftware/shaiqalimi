@@ -1,7 +1,7 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
   <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="proposals">
-    <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
+    <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between" id="proposalTable">
       <!-- ITEMS PER PAGE -->
       <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
         <div class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
@@ -24,7 +24,6 @@
         </vs-dropdown-menu>
       </vs-dropdown>
     </div>
-
     <template slot="thead">
       <vs-th>نمبر</vs-th>
       <vs-th>نهاد</vs-th>
@@ -36,7 +35,6 @@
       <vs-th sort-key="bidding_date">تاریخ پیشنهاد</vs-th>
       <vs-th>نمظیمات</vs-th>
     </template>
-
     <template slot-scope="{data}">
       <tbody>
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
@@ -50,7 +48,7 @@
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
               <!-- <img :src="tr.img" class="product-img" /> -->
-            <p>{{ findClient(tr.pro_data.client_id) }}</p>
+              <p>{{ findClient(tr.pro_data.client_id) }}</p>
 
             </router-link>
           </vs-td>
@@ -99,12 +97,88 @@
       </tbody>
     </template>
   </vs-table>
+
+  <vs-collapse accordion>
+    <vs-collapse-item>
+      <div slot="header">
+        نمایش حالت چاپ
+      </div>
+      <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="printProposal">چاپ</vs-button>
+      <vue-easy-print tableShow ref="easyPrint">
+        <vs-table class="w-full" ref="table" :data="proposals">
+          <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between" id="proposalTable">
+          </div>
+          <template slot="thead">
+            <vs-th>نمبر</vs-th>
+            <vs-th>نهاد</vs-th>
+            <vs-th>پروژه</vs-th>
+            <vs-th>تضمین آفر</vs-th>
+            <vs-th>وضعیت</vs-th>
+            <vs-th>قیمت</vs-th>
+            <vs-th>آدرس</vs-th>
+            <vs-th>تاریخ پیشنهاد</vs-th>
+          </template>
+          <template slot-scope="{data}">
+            <tbody>
+              <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+                <vs-td class="pl-2 text-center">
+                  {{ indextr + 1 }}
+                </vs-td>
+                <vs-td class="img-container">
+                  <router-link v-if="tr.pro_data" class="product-name font-medium truncate" :to="{
+                  path: '/projects/proposal/${tr.id}',
+                  name: 'proposal-edit',
+                  params: { id: tr.id, dyTitle: tr.title },
+                }">
+                    <!-- <img :src="tr.img" class="product-img" /> -->
+                    <p>{{ findClient(tr.pro_data.client_id) }}</p>
+
+                  </router-link>
+                </vs-td>
+
+                <vs-td>
+                  <div v-if="tr.pro_data">
+                    <router-link class="product-name font-medium truncate" :to="{
+                  path: '/projects/proposal/${tr.id}',
+                  name: 'proposal-edit',
+                  params: { id: tr.id, dyTitle: tr.title },
+                }">
+                      {{ tr.pro_data.title }}</router-link>
+                  </div>
+                </vs-td>
+
+                <vs-td>
+                  <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
+                  <p>{{ tr.offer_guarantee }} افغانی</p>
+                </vs-td>
+
+                <vs-td>
+                  <vs-chip :color="getOrderStatusColor(tr.status)">{{ statusFa[tr.status] }}</vs-chip>
+                </vs-td>
+
+                <vs-td>
+                  <p v-if="tr.pro_data">{{ tr.pro_data.total_price }} افغانی</p>
+                </vs-td>
+                <vs-td>
+                  <p>{{ tr.bidding_address }}</p>
+                </vs-td>
+                <vs-td>
+                  <p>{{ tr.bidding_date }}</p>
+                </vs-td>
+              </vs-tr>
+            </tbody>
+          </template>
+        </vs-table>
+      </vue-easy-print>
+    </vs-collapse-item>
+  </vs-collapse>
 </div>
 </template>
 
 <script>
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
+import vueEasyPrint from "vue-easy-print";
 
 export default {
   name: 'vx-project-list',
@@ -126,7 +200,8 @@ export default {
     }
   },
   components: {
-    DataViewSidebar
+    DataViewSidebar,
+    vueEasyPrint
   },
   created() {
     this.getProposals();
@@ -145,12 +220,12 @@ export default {
   },
   methods: {
     getAllClients() {
-    this.axios.get('/api/clients')
-      .then((response) => {
-        this.clients = response.data;
-      })
+      this.axios.get('/api/clients')
+        .then((response) => {
+          this.clients = response.data;
+        })
     },
-    findClient(id){
+    findClient(id) {
       let name = '';
       Object.keys(this.clients).some(key => (this.clients[key].id == id) ? name = this.clients[key].name : null);
       return name;
@@ -224,6 +299,10 @@ export default {
     },
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
+    },
+    printProposal() {
+      // this.$htmlToPaper('proposalTable');
+      this.$refs.easyPrint.print()
     },
   },
   mounted() {

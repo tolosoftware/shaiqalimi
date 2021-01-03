@@ -29,7 +29,7 @@
     </vs-tab>
     <vs-tab label="لیست اعلانات">
       <div class="vx-row">
-        <ProposalList :editId="edit_id" ></ProposalList>
+        <ProposalList :editId="edit_id"></ProposalList>
       </div>
     </vs-tab>
     <vs-tab v-if="edit_id" label="ویرایش اعلانات">
@@ -74,6 +74,7 @@ export default {
     this.getAllClients();
   },
   methods: {
+  
     getAllClients() {
       this.axios.get('/api/clients')
         .then((response) => {
