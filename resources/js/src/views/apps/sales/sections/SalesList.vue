@@ -55,11 +55,12 @@
 
     <template slot="thead">
 
-      <vs-th sort-key="name">نوعیت</vs-th>
-      <vs-th sort-key="popularity">زمان/تاریخ</vs-th>
-      <vs-th sort-key="category">هزینه کلی</vs-th>
-      <vs-th sort-key="category">منبع</vs-th>
-      <vs-th sort-key="category">مقصد</vs-th>
+      <vs-th>#</vs-th>
+      <vs-th>سریال نمبر</vs-th>
+      <vs-th>هزینه کلی</vs-th>
+      <vs-th>هزینه خدمات</vs-th>
+      <vs-th>نوع فروش</vs-th>
+      <vs-th>منبع</vs-th>
       <vs-th>تنظیمات</vs-th>
 
     </template>
@@ -68,31 +69,30 @@
       <tbody>
 
         <vs-tr :data="tr" :key="i" v-for="(tr, i) in data">
-
           <vs-td>
-            <p>{{ $t(tr.source_type) }}</p>
+            <p>{{ (itemsPerPage * (currentPage - 1)) + i + 1 }}</p>
           </vs-td>
           <vs-td>
-            <p class="right-ltr">{{ tr.datatime }}</p>
+            <p>{{ tr.type +" - "+ tr.serial_no }}</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.sale_s1.total }}</p>
+            <p>{{ tr.total }} افغانی</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.sale_s1.storage.name }}</p>
+            <p>{{ tr.service_cost }} افغانی</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.sale_s1.destination }}</p>
+            <p>{{ $t(tr.type) }}</p>
           </vs-td>
-          <vs-td class="whitespace-no-wrap notupfromall">
-            <router-link class="product-name font-medium truncate" :to="{
-                  path: '/sales/sale/${tr.id}',
-                  name: 'sale-edit',
-                  params: { id: tr.id, dyTitle: tr.source_type },
-                }">
+          <vs-td>
+            <p>{{ tr.source_type }}</p>
+          </vs-td>
+          <vs-td>
+            <router-link class="product-name font-medium truncate" >
               <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
             </router-link>
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.sales_id)" />
+
           </vs-td>
         </vs-tr>
 

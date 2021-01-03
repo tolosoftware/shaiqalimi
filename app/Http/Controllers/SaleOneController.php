@@ -208,8 +208,21 @@ class SaleOneController extends Controller
     }
     public function allSales()
     {
-        $sales1= SaleOne::all();
-        // $sales2= Sale::with(['saleS2.storage', 'source'])->get();
-        return [$sales1];
+        // $sales1 = SaleOne::all();
+        $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
+            ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");
+            
+        $sales2 = Sale::join('sales_twos AS s', 'sales.id', '=', 's.sales_id')
+            ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");
+            
+        $sales3 = Sale::join('sales_threes AS s', 'sales.id', '=', 's.sales_id')
+            ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");
+            
+        $sales4 = Sale::join('sales_fours AS s', 'sales.id', '=', 's.sales_id')
+            ->selectRaw("s.sales_id, s.serial_no, s.total, s.additional_cost as service_cost, sales.type, sales.source_type, sales.source_id");
+            
+        $all = $sales1->union($sales2)->union($sales3)->union($sales4)->get();
+
+        return $all;
     }
 }
