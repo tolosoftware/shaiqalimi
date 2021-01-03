@@ -5598,3 +5598,34 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.vs-tabs--li.activeChild {
+  transition: 0.3s;
+}
+
+[dir] .vs-tabs--li.activeChild {
+  border-bottom: solid #e85456 2px !important;
+}
+
+.vs-tabs-position-top > .con-ul-tabs > .line-vs-tabs {
+  display: none !important;
+}
+
+[dir=ltr] .right-ltr {
+  direction: rtl;
+  text-align: left;
+}
+
+[dir=rtl] .right-ltr {
+  direction: ltr;
+  text-align: right;
+}
+
+.vs-input--input:disabled,
+.vs-input--input:disabled + .vs-input--placeholder {
+  opacity: 1 !important;
+}
+
+[dir] .vs-input--input:disabled, [dir] .vs-input--input:disabled + .vs-input--placeholder {
+  background: inherit !important;
+}
+

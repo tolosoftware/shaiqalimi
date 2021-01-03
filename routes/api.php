@@ -31,7 +31,8 @@ Route::get('latestfuelstation', 'FuelStationController@latest');
 Route::resource('fuelstorestation', 'FuelStationStorageController');
 Route::post('users1', 'UserController@store');
 Route::post('users1', 'UserController@store');
-Route::resource('sale-om-q', 'SaleOneController');
+Route::resource('sale1', 'SaleOneController');
+Route::resource('sale2', 'SaleTwoController');
 
 // Product Review
 Route::resource('project', 'ProjectController');

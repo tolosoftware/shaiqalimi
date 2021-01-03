@@ -12,7 +12,7 @@
 
   <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
 
-  <vs-table v-if="isOk" ref="table" pagination :max-items="itemsPerPage" search :data="products">
+  <vs-table v-if="isOk" ref="table" pagination :max-items="itemsPerPage" search :data="sales">
 
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
@@ -20,13 +20,13 @@
         <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler float-right">
           <div class="p-2 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-            <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} of {{ queriedItems }}</span> -->
+            <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ sales.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : sales.length }} of {{ queriedItems }}</span> -->
             <span class="mr-2">
               {{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
               {{
-              products.length - currentPage * itemsPerPage > 0
+              sales.length - currentPage * itemsPerPage > 0
               ? currentPage * itemsPerPage
-              : products.length
+              : sales.length
               }}
               از {{ queriedItems }}
             </span>
@@ -55,57 +55,55 @@
 
     <template slot="thead">
 
-      <vs-th sort-key="name">Name</vs-th>
-      <vs-th sort-key="category">Category</vs-th>
-      <vs-th sort-key="popularity">Popularity</vs-th>
-      <vs-th sort-key="order_status">Order Status</vs-th>
-      <vs-th sort-key="price">Price</vs-th>
-      <vs-th>Action</vs-th>
+      <vs-th sort-key="name">نوعیت</vs-th>
+      <vs-th sort-key="popularity">زمان/تاریخ</vs-th>
+      <vs-th sort-key="category">هزینه کلی</vs-th>
+      <vs-th sort-key="category">منبع</vs-th>
+      <vs-th sort-key="category">مقصد</vs-th>
+      <vs-th>تنظیمات</vs-th>
 
     </template>
 
     <template slot-scope="{data}">
       <tbody>
 
-        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+        <vs-tr :data="tr" :key="i" v-for="(tr, i) in data">
 
           <vs-td>
-            <p class="product-name font-medium truncate">{{ tr.name }}</p>
+            <p>{{ $t(tr.source_type) }}</p>
           </vs-td>
-
           <vs-td>
-            <p class="product-category">{{ tr.category | title }}</p>
+            <p class="right-ltr">{{ tr.datatime }}</p>
           </vs-td>
-
           <vs-td>
-            <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />
+            <p>{{ tr.sale_s1.total }}</p>
           </vs-td>
-
           <vs-td>
-            <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.order_status | title }}</vs-chip>
+            <p>{{ tr.sale_s1.storage.name }}</p>
           </vs-td>
-
           <vs-td>
-            <p class="product-price">${{ tr.price }}</p>
+            <p>{{ tr.sale_s1.destination }}</p>
           </vs-td>
-
-          <vs-td class="whitespace-no-wrap">
-            <!--<vs-button radius color="danger" size="small" type="gradient" icon="favorite"></vs-button>-->
-            <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
-            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+          <vs-td class="whitespace-no-wrap notupfromall">
+            <router-link class="product-name font-medium truncate" :to="{
+                  path: '/sales/sale/${tr.id}',
+                  name: 'sale-edit',
+                  params: { id: tr.id, dyTitle: tr.source_type },
+                }">
+              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
+            </router-link>
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
-
         </vs-tr>
 
       </tbody>
     </template>
   </vs-table>
-  <vs-popup class="holamundo" title="Lorem ipsum dolor sit amet" :active.sync="popupActivo">
+  <!-- <vs-popup class="holamundo" title="Lorem ipsum dolor sit amet">
     <p>
       <h4>سلام خوبی ؟</h4>
     </p>
-  </vs-popup>
+  </vs-popup> -->
 
 </div>
 </template>
@@ -120,10 +118,12 @@ export default {
   },
   data() {
     return {
+      sales: [],
+
+      // Demo data
       popupActive: false,
       isOk: true,
       selected: [],
-      // products: [],
       itemsPerPage: 10,
       isMounted: false,
 
@@ -139,49 +139,60 @@ export default {
       }
       return 0
     },
-    products() {
-      return this.$store.state.dataList.products
-    },
     queriedItems() {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.sales.length
     }
   },
   methods: {
+    getAllSales() {
+      this.axios
+        .get("/api/sale1")
+        .then((data) => {
+          this.$Progress.set(100);
+          this.sales = data.data;
+        })
+        .catch(() => {});
+    },
+    deleteData(id, title) {
+      swal.fire({
+        title: 'آیا  متمئن هستید؟',
+        text: "پروژه حذف خواهد شد",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله، حذف شود!</span>',
+        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // this.pForm.delete('/api/project/' + id).then((id) => {
+          //     swal.fire({
+          //       title: 'عملیه موفقانه انجام شد.',
+          //       text: "پروژه از سیستم پاک شد!",
+          //       icon: 'success',
+          //     })
+          //     this.getProject();
+          //   })
+          //   .catch(() => {});
+        }
+      })
+    },
+    // Demo codes
     addNewData() {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
-    },
-    deleteData(id) {
-      this.$store.dispatch('dataList/removeItem', id).catch(err => { console.error(err) })
     },
     editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data
       this.toggleDataSidebar(true)
     },
-    getOrderStatusColor(status) {
-      if (status === 'on_hold') return 'warning'
-      if (status === 'delivered') return 'success'
-      if (status === 'canceled') return 'danger'
-      return 'primary'
-    },
-    getPopularityColor(num) {
-      if (num > 90) return 'success'
-      if (num > 70) return 'primary'
-      if (num >= 50) return 'warning'
-      if (num < 50) return 'danger'
-      return 'primary'
-    },
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
     }
   },
   created() {
-    if (!moduleDataList.isRegistered) {
-      this.$store.registerModule('dataList', moduleDataList)
-      moduleDataList.isRegistered = true
-    }
-    this.$store.dispatch('dataList/fetchDataListItems')
+    this.getAllSales();
   },
   mounted() {
     this.isMounted = true

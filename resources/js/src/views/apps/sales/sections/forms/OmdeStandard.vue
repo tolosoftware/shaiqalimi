@@ -10,7 +10,7 @@
               <span>S2</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" />
+          <vs-input disabled :value="sForm.serial_no" autocomplete="off" type="number" />
         </vx-input-group>
 
       </div>
@@ -20,11 +20,11 @@
         <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
         <div class="radio-group w-full">
           <div class="w-1/2">
-            <input type="radio" v-model="sForm.currency" value="1" id="struct" name="curency" />
+            <input type="radio" v-model="sForm.currency_id" value="1" id="struct" name="curency" />
             <label for="struct" class="w-full text-center">افغانی</label>
           </div>
           <div class="w-1/2">
-            <input type="radio" v-model="sForm.currency" value="2" id="specific" name="curency" />
+            <input type="radio" v-model="sForm.currency_id" value="2" id="specific" name="curency" />
             <label for="specific" class="w-full text-center">دالر</label>
           </div>
         </div>
@@ -32,12 +32,12 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker color="#e85454" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">انتخاب نهاد</label>
-        <v-select :get-option-label="option => option.serial_no + ' - ' + option.pro_data.title" name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.selectedItem" @input="onChange">
+        <v-select :get-option-label="option => option.name" name="contract" :options="clients" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="sForm.client_id" @input="onChange">
           <span slot="no-options">{{ $t('WhoopsNothinghere') }}</span>
         </v-select>
       </div>
@@ -46,22 +46,22 @@
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="person_relation" class="w-full" v-bind:value="form.repativePerson" type="text" label="شخص ارتباطی" />
+        <vs-input name="person_relation" class="w-full" v-model="sForm.repativePerson" type="text" label="شخص ارتباطی" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="phone_number" class="w-full number-rtl" v-bind:value="form.clientPhone" label="شماره تماس" />
+        <vs-input name="phone_number" class="w-full number-rtl" v-bind:value="field_data.clientPhone" label="شماره تماس" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input type="email" name="email" class="w-full number-rtl" v-bind:value="form.clientPhone" label="ایمیل آدرس" />
+        <vs-input type="email" name="email" class="w-full number-rtl" v-bind:value="field_data.clientEmail" label="ایمیل آدرس" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="address" class="w-full" v-bind:value="form.clientAddress" label="آدرس" />
+        <vs-input name="address" class="w-full" v-bind:value="field_data.clientAddress" label="آدرس" />
       </div>
     </div>
   </div>
@@ -70,14 +70,14 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">منبع</label>
-        <v-select v-model="form.source" label="text" :options="source" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+        <v-select v-model="sForm.source_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
           <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
         </v-select>
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input v-model="form.target" class="w-full" label="مقصد" />
+        <vs-input v-model="sForm.destination" class="w-full" label="مقصد" />
       </div>
     </div>
   </div>
@@ -96,7 +96,7 @@
                 <span>AFN</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" v-validate="'required'" name="others" />
+            <vs-input v-model="sForm.transport_cost" autocomplete="off" type="number" v-validate="'required'" name="others" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
           <has-error :form="sForm" field="others"></has-error>
@@ -111,10 +111,10 @@
                 <span>AFN</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" v-validate="'required'" name="transit" />
+            <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
-          <has-error :form="sForm" field="transit"></has-error>
+          <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
+          <has-error :form="sForm" field="service_cost"></has-error>
         </div>
       </vs-col>
     </vs-col>
@@ -127,7 +127,7 @@
               <span>٪</span>
             </div>
           </template>
-          <vs-input autocomplete="off" type="number" v-validate="'required'" name="tax" />
+          <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
         <has-error :form="sForm" field="tax"></has-error>
@@ -144,15 +144,15 @@
                 <span>AFN</span>
               </div>
             </template>
-            <vs-input autocomplete="off" type="number" />
+            <vs-input v-model="sForm.total" autocomplete="off" type="number" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
         </div>
       </vs-col>
     </vs-col>
   </vs-row>
   <div class="vx-row">
-    <vs-textarea label="تفصیلات" class="mr-3" />
+    <vs-textarea v-model="sForm.description" label="تفصیلات" class="mr-3" />
   </div>
   <div class="vx-row official-process">
     <vs-collapse type="margin">
@@ -161,23 +161,16 @@
           طی مراحل اداری
         </div>
         <ul class="demo-alignment">
-          <li>
-            <vs-checkbox color="success" @input="setCheck(0)" v-model="checkBox[0]">نرخ دهی</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(1)" v-model="checkBox[1]">ارسال بل</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(2)" v-model="checkBox[2]">دریافت پیشکی</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(3)" v-model="checkBox[3]">اکمالات</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(4)" v-model="checkBox[4]">دریافت کامل پول</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(5)" v-model="checkBox[5]">تاییدی</vs-checkbox>
+          <li v-for="(n, index) in checked" :key="index">
+            <div class="vs-component con-vs-checkbox vs-checkbox-success vs-checkbox-default">
+              <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="printState(index)" value="">
+              <span class="checkbox_x vs-checkbox" style="border: 2px solid rgb(180, 180, 180);">
+                <span class="vs-checkbox--check">
+                  <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
+                </span>
+              </span>
+              <span class="con-slot-label">{{n.label}}</span>
+            </div>
           </li>
         </ul>
       </vs-collapse-item>
@@ -186,7 +179,7 @@
   <div class="mt-10">
     <div class="vx-col w-full">
       <vs-button @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
-      <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
+      <vs-button color="warning" type="border" class="mb-2 ml-2" @click.prevent="sForm.reset()">پاک کردن فرم</vs-button>
     </div>
   </div>
 </form>
@@ -210,42 +203,57 @@ export default {
   },
   data() {
     return {
-      checkBox: [{
-          0: false
+      checked: [
+        {
+          state: false,
+          label: 'نرخ دهی'
         },
         {
-          1: false
+          state: false,
+          label: 'ارسال بل'
         },
         {
-          2: false
+          state: false,
+          label: 'دریافت پیشکی'
         },
         {
-          3: false
+          state: false,
+          label: 'اکمالات'
         },
         {
-          4: false
+          state: false,
+          label: 'دریافت کامل پول'
         },
         {
-          5: false
-        },
-        {
-          6: false
-        },
-        {
-          7: false
+          state: false,
+          label: 'تاییدی'
         },
       ],
+
+      userid: localStorage.getItem('id'),
       sForm: new Form({
-        currency: 1,
-        serial_no: '',
-        proposal_id: '',
-        client_id: '',
-        title: '',
-        reference_no: '',
-        status: "1",
-        contract_date: '',
-        contract_end_date: '',
-        project_guarantee: '',
+        // sales_id: '', // Get the created sales id.
+        serial_no: "",
+        source_id: "",
+        destination: "",
+        transport_cost: "",
+        service_cost: "",
+        tax: "",
+        // deposit: "",
+        total: "",
+        steps: "",
+        description: "",
+        client: "",
+
+        // shared fields with other sales
+        type: "s2",
+        client_id: "", // The Id of the Client.
+        source_type: "client", // Type Client
+        user_id: localStorage.getItem('id'), //Get the current user id
+        currency_id: 1,
+        datatime: "",
+        relative_person: "",
+        // Item for the ekmalat section
         item: [{
           item_id: "",
           unit_id: "",
@@ -255,108 +263,19 @@ export default {
           unit_price: "",
           total_price: "",
           density: null,
-        }],
-        deposit: '',
-        tax: '',
-        others: '',
-        pr_worth: '',
-        transit: '',
-        total_price: 0,
-
+        }, ],
       }),
       items: [],
-      form: {
-        selectedItem: null,
-        clientName: null,
-        repativePerson: null,
-        clientPhone: null,
-        clientAddress: null,
-        product: null,
-        responsible: null,
-        source: null,
-        target: null,
-        quantity: null,
-        serial_number: null,
-        money_unit: {
-          text: 'افغانی',
-          unit: 'AFN',
-          value: '1'
-        },
-        cost: null,
-        total_cost: null,
-        fi_unit: null,
-        unit: null,
-        equal: null,
-      },
-      itemType: [{
-          text: 'تن',
-          value: '1'
-        },
-        {
-          text: 'متر مکعب',
-          value: '2'
-        },
-        {
-          text: 'لیتر',
-          value: '3'
-        },
-        {
-          text: 'کیلوگرام',
-          value: '4'
-        },
-      ],
-      itemMoney: [{
-          text: 'افغانی',
-          unit: 'AFN',
-          value: '1'
-        },
-        {
-          text: 'دالر',
-          unit: 'USD',
-          value: '2'
-        },
-      ],
-      source: [{
-          text: 'یاران',
-          value: '1'
-        },
-        {
-          text: 'مکروریان',
-          value: '2'
-        },
-        {
-          text: 'کابل',
-          value: '3'
-        },
-        {
-          text: 'هرات',
-          value: '4'
-        },
-      ],
-      products: [{
-          text: 'تیل گاز',
-          value: '1'
-        },
-        {
-          text: 'تیل دیزل',
-          value: '2'
-        },
-        {
-          text: 'تیل پطرول',
-          value: '3'
-        },
-        {
-          text: 'موبلین',
-          value: '4'
-        },
-      ],
-      contracts: [],
+      clients: [],
+      field_data: [],
+      storages: [],
       // End of sidebar items
-    }
+    };
   },
   created() {
+    this.getNextSerialNo()
     this.getProject();
-    this.setCheck(0);
+    this.getStorages();
   },
   computed: {
     // isFormValid() {
@@ -364,61 +283,100 @@ export default {
     // },
   },
   methods: {
-    setCheck(index) {
-
-      for (let i = 1; i < this.checkBox.length; i++) {
-        this.checkBox[i] = false;
-        if (i <= index) {
-          this.checkBox[i] = true;
-        }
-      }
-    },
     getProject() {
       // Start the Progress Bar
-      this.$Progress.start()
+      this.$Progress.start();
 
-      this.axios.get('/api/project').then((data) => {
-          this.contracts = data.data;
+      this.axios
+        .get("/api/clients")
+        .then((data) => {
+          this.clients = data.data;
           // Finish the Progress Bar
-          this.$Progress.set(100)
+          this.$Progress.set(100);
+        })
+        .catch(() => {});
+    },
+    getStorages() {
+      // Start the Progress Bar
+      this.$Progress.start();
+
+      this.axios
+        .get("/api/storage")
+        .then((data) => {
+          this.storages = data.data;
+          // Finish the Progress Bar
+          this.$Progress.set(100);
         })
         .catch(() => {});
     },
     // End of Methods
     // Old methods
-    onChange(contract) {
-      if (contract != null) {
-        this.form.clientName = contract.pro_data.client.name;
-        // this.form.repativePerson = contract.pro_data.client.phone;
-        this.form.clientPhone = contract.pro_data.client.phone;
-        this.form.clientAddress = contract.pro_data.client.address;
+    onChange(client) {
+      if (client != null) {
+        // this.field_data.clientName = client.name;
+        this.field_data.clientEmail = client.email;
+        this.field_data.clientPhone = client.phone;
+        this.field_data.clientAddress = client.address;
       } else {
-        this.form.clientName = null;
-        this.form.repativePerson = null;
-        this.form.clientPhone = null;
-        this.form.clientAddress = null;
+        // this.field_data.clientName = null;
+        this.field_data.clientEmail = null;
+        this.field_data.clientPhone = null;
+        this.field_data.clientAddress = null;
       }
     },
-    resetForm(submitEvent) {
+    resetForm() {
       const f = this.form;
       for (var key in f) {
         this.form[key] = null;
       }
     },
-    submitForm(submitEvent) {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          console.log(this.form);
-
-          // if form have no errors
-          alert("form submitted!");
-        } else {
-          // form have errors
-        }
-      })
+    submitForm() {
+      this.$Progress.start()
+      this.sForm.post('/api/sale2')
+        .then(({
+          data
+        }) => {
+          // Finish the Progress Bar
+          // this.sForm.reset();
+          // this.errors.clear();
+          this.$Progress.set(100)
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'قرارداد موفقانه ثبت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        }).catch((errors) => {
+          console.log(errors.errors);
+          this.$vs.notify({
+            title: 'ناموفق!',
+            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-cross',
+            position: 'top-right'
+          })
+        });
     },
-  }
-}
+    // for getting the next serian number
+    getNextSerialNo() {
+      this.$Progress.start()
+      this.axios.get('/api/serial-num?type=sale2')
+        .then((response) => {
+          this.sForm.serial_no = response.data;
+        })
+    },
+    printState(x) {
+      this.sForm.steps = x;
+      for (let i = 0; i < this.checked.length; i++) {
+        this.checked[i].state = i <= x ? true : false;
+      }
+    },
+
+  },
+};
 </script>
 
 <style lang="scss" scoped>

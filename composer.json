@@ -48,8 +48,11 @@
         "classmap": [
             "database/seeds",
             "database/factories"
-        ]
-    },
+        ],
+        "files": [
+            "app/http/Helpers.php"
+
+        ]    },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

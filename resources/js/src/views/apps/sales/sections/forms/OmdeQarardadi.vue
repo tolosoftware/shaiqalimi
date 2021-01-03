@@ -10,7 +10,7 @@
               <span>S1</span>
             </div>
           </template>
-          <vs-input v-model="sForm.serial_no" autocomplete="off" type="number" />
+          <vs-input :value="sForm.serial_no" disabled autocomplete="off" type="number" />
         </vx-input-group>
       </div>
     </div>
@@ -36,7 +36,7 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">انتخاب قراردادها</label>
-        <v-select v-model="sForm.source_id" :get-option-label="
+        <v-select v-model="sForm.project_id" :get-option-label="
               (option) => option.serial_no + ' - ' + option.pro_data.title
             " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChange">
           <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
@@ -71,7 +71,7 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">منبع</label>
-        <v-select v-model="sForm.storage_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+        <v-select v-model="sForm.source_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
           <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>
       </div>
@@ -181,36 +181,23 @@
     </vs-col>
   </vs-row>
   <div class="vx-row">
-    <vs-textarea label="تفصیلات" class="mr-3" />
+    <vs-textarea v-model="sForm.description" label="تفصیلات" class="mr-3" />
   </div>
   <div class="vx-row official-process">
     <vs-collapse type="margin">
       <vs-collapse-item>
         <div slot="header">طی مراحل اداری</div>
         <ul class="demo-alignment">
-          <li>
-            <vs-checkbox color="success" @input="setCheck(0)" v-model="checkBox[0]">تنظیم اطلاعات</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(1)" v-model="checkBox[1]">تحویل اجناس</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(2)" v-model="checkBox[2]">ارسال بل</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(3)" v-model="checkBox[3]">فورم م-16 (m-16)</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(4)" v-model="checkBox[4]">وزارت مالیه</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(5)" v-model="checkBox[5]">دافغانستان بانک</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(6)" v-model="checkBox[6]">دریافت پول</vs-checkbox>
-          </li>
-          <li>
-            <vs-checkbox color="success" @input="setCheck(7)" v-model="checkBox[7]">تایید</vs-checkbox>
+          <li v-for="(n, index) in checked" :key="index">
+            <div class="vs-component con-vs-checkbox vs-checkbox-success vs-checkbox-default">
+              <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="printState(index)" value="">
+              <span class="checkbox_x vs-checkbox" style="border: 2px solid rgb(180, 180, 180);">
+                <span class="vs-checkbox--check">
+                <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
+                </span>
+              </span>
+              <span class="con-slot-label">{{n.label}}</span>
+            </div>
           </li>
         </ul>
       </vs-collapse-item>
@@ -242,35 +229,44 @@ export default {
   },
   data() {
     return {
-      checkBox: [{
-          0: false,
+      checked: [{
+          state: false,
+          label: 'تنظیم اطلاعات'
         },
         {
-          1: false,
+          state: false,
+          label: 'تحویل اجناس'
         },
         {
-          2: false,
+          state: false,
+          label: 'ارسال بل'
         },
         {
-          3: false,
+          state: false,
+          label: 'فورم م-16 (m-16)'
         },
         {
-          4: false,
+          state: false,
+          label: 'وزارت مالیه'
         },
         {
-          5: false,
+          state: false,
+          label: 'دافغانستان بانک'
         },
         {
-          6: false,
+          state: false,
+          label: 'دریافت پول'
         },
         {
-          7: false,
+          state: false,
+          label: 'تایید'
         },
       ],
+      userid: localStorage.getItem('id'),
       sForm: new Form({
         // sales_id: '', // Get the created sales id.
         serial_no: "",
-        storage_id: "",
+        project_id: "",
         destination: "",
         transport_cost: "",
         service_cost: "",
@@ -283,9 +279,9 @@ export default {
         // shared fields with other sales
         type: "s1",
         source_id: "", // The Id of the Project.
-        source_type: "project", // Type Project
-        // user_id: '', Get the current user id
-        currency_id: "",
+        source_type: "str", // Type Project
+        user_id: localStorage.getItem('id'), //Get the current user id
+        currency_id: 1,
         datatime: "",
         // Item for the ekmalat section
         item: [{
@@ -308,7 +304,6 @@ export default {
   },
   created() {
     this.getProject();
-    this.setCheck(0);
     this.getStorages();
   },
   computed: {
@@ -317,15 +312,6 @@ export default {
     // },
   },
   methods: {
-    setCheck(index) {
-      this.sForm.steps = index;
-      for (let i = 1; i < this.checkBox.length; i++) {
-        this.checkBox[i] = false;
-        if (i <= index) {
-          this.checkBox[i] = true;
-        }
-      }
-    },
     getProject() {
       // Start the Progress Bar
       this.$Progress.start();
@@ -348,6 +334,7 @@ export default {
         .then((data) => {
           this.storages = data.data;
           // Finish the Progress Bar
+          this.getNextSerialNo();
           this.$Progress.set(100);
         })
         .catch(() => {});
@@ -375,7 +362,7 @@ export default {
     },
     submitForm() {
       this.$Progress.start()
-      this.sForm.post('/api/sale-om-q')
+      this.sForm.post('/api/sale1')
         .then(({
           data
         }) => {
@@ -392,7 +379,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-
+          console.log(errors.errors);
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -402,6 +389,20 @@ export default {
             position: 'top-right'
           })
         });
+    },
+    printState(x) {
+      this.sForm.steps = x;
+      for (let i = 0; i < this.checked.length; i++) {
+        this.checked[i].state = i <= x ? true : false;
+      }
+    },
+    // for getting the next serian number
+    getNextSerialNo() {
+      this.$Progress.start()
+      this.axios.get('/api/serial-num?type=sale1')
+        .then((response) => {
+          this.sForm.serial_no = response.data;
+        })
     },
   },
 };
