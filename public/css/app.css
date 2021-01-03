@@ -5629,3 +5629,22 @@ input[type=number] {
   background: inherit !important;
 }
 
+.v-select:not(.vs--single) .vs__selected {
+  color: white !important;
+  /* font-size: 0.9rem; */
+}
+
+[dir] .v-select:not(.vs--single) .vs__selected {
+  background: #312f4b !important;
+  background-image: linear-gradient(calc(360deg - 168deg), rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+}
+
+.v-select:not(.vs--single) .vs__selected svg {
+  stroke: #ffffff !important;
+  opacity: 1 !important;
+}
+
+[dir] .vs-tabs-position-top .vs-tabs-primary .con-ul-tabs .vs-tabs--li.activeChild {
+  border-bottom: solid #352378 2px !important;
+}
+

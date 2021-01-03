@@ -4,21 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SaleOne extends Model
+class SaleThree extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'sales_ones';
+    protected $table = 'sales_threes';
 
     protected $fillable = [
         'sales_id',
         'serial_no',
         'project_id',
-        'destination',
-        'transport_cost',
+        'driver_name',
+        'plate_no',
+        'driver_phone',
         'service_cost',
         'tax',
         'deposit',
@@ -27,9 +28,14 @@ class SaleOne extends Model
         'description',
     ];
 
-    public function project()
+    public function client()
     {
-        return $this->belongsTo(Project::class, 'project_id');
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
+    public function storage()
+    {
+        return $this->belongsTo(Storage::class, 'storage_id');
     }
 
 }

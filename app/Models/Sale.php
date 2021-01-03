@@ -30,8 +30,16 @@ class Sale extends Model
     {
         return $this->hasOne(SaleTwo::class, 'sales_id');
     }
+    public function saleS3()
+    {
+        return $this->hasOne(SaleThree::class, 'sales_id');
+    }
+    public function saleS4()
+    {
+        return $this->hasOne(SaleFour::class, 'sales_id');
+    }
     public function source()
     {
-        return $this->belongsTo(Project::class, 'source_id');
+        return $this->belongsTo(Storage::class, 'source_id');
     }
 }

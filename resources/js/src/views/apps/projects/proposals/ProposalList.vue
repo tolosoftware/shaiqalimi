@@ -256,7 +256,7 @@ export default {
     },
     deleteData(id) {
       swal.fire({
-        title: 'آیا  متمئن هستید؟',
+        title: 'آیا  مطمئن هستید؟',
         text: "پیشنهاد حذف خواهد شد",
         icon: 'question',
         showCancelButton: true,

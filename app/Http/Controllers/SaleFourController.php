@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SaleOne;
+use App\Models\SaleFour;
 use App\Models\Sale;
 use App\Models\ProItem;
 use App\Models\AccountType;
@@ -13,10 +13,11 @@ use App\Models\Currency;
 use App\Models\Project;
 use App\Models\Notification;
 use App\Models\StockRecord;
+use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
 
-class SaleOneController extends Controller
+class SaleFourController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,18 +26,8 @@ class SaleOneController extends Controller
      */
     public function index()
     {
-        $sales = [];
-        $sales1= Sale::with(['saleS1.project', 'source'])->get();
-        $sales2= Sale::with(['saleS2.storage', 'source'])->get();
-
-        // //both arrays will be merged including duplicates
-        // $result = array_merge( $sales1, $sales2 );
-        // //duplicate objects will be removed
-        // $result = array_map("unserialize", array_unique(array_map("serialize", $result)));
-        // //array is sorted on the bases of id
-        // sort( $result );
-
-        return [$sales1 , $sales2];
+        // return SaleFour::with('storage')->get();
+        return Sale::with(['saleS4.storage'])->has('saleS4.storage')->with('source')->has('source')->get();
     }
 
     /**
@@ -56,41 +47,28 @@ class SaleOneController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $serial_no = getSerialNo('sale1', 'sale');
+    {   
+        $serial_no = getSerialNo('sale4', 'sale');
         $this->validate($request, [
-            // 'title' => 'required|min:2',
-            // 'formula' => 'required|min:2',
-            // 'serial_no' => 'required',
-            'project_id' => 'required',
-            'destination' => 'required',
-            'transport_cost' => 'required',
+            'serial_no' => 'required',
             'service_cost' => 'required',
-            'tax' => 'required',
-            'deposit' => 'required',
+            'additional_cost' => 'required',
             'total' => 'required',
-            'steps' => 'required',
             'description' => 'required',
-            'type' => 'required',
-            'source_id' => 'required',
-            // 'source_type' => 'required',
-            'user_id' => 'required',
-            'currency_id' => 'required',
-            'datatime' => 'required',
             'item' => 'required',
         ]);
 
-        $project = $request->project_id;
-        $storage = $request->source_id;
-        $request['serial_no'] = $serial_no->value;
-        foreach (['source_id', 'project_id'] as $key) {
+        $source = $request->source_id;
+
+        // $project = $request->project_id;
+        foreach (['source_id'] as $key) {
             $request[$key] = $request[$key]['id'];
         }
-        // return $request;
+        $request['serial_no'] = $serial_no->value;
         $newSale = Sale::create($request->all());
+
         $request['sales_id'] = $newSale->id;
-        // return $request;
-        $newSaleOne = SaleOne::create($request->all());
+        $newSaleFour = SaleFour::create($request->all());
         
         $typeId = AccountType::latest()->first()->id;
         $accData = [
@@ -126,8 +104,8 @@ class SaleOneController extends Controller
                 $stocks[] = StockRecord::create([
                   'type'=> "sale",
                   'type_id'=> $newSale->id,
-                  'source' => $storage['name'],
-                  'source_id'=> $storage['id'],
+                  'source' => $source['name'],
+                  'source_id'=> $source['id'],
                   'item_id' => $valueItem['item_id']['id'],
                   'increment'=> $valueItem['ammount'],
                   'decrement'=> 0,
@@ -144,8 +122,8 @@ class SaleOneController extends Controller
 
         // Create the Notification
         if($newFR) {
-            $client_name = $project['pro_data']['client']['name'];
-            $item_name = $storage['name'];
+            $client_name = $request['client_name'];
+            $item_name = $source['name'];
             $nofication = [
                 'title' => 'فروشات جدید',
                 'text' => 'یک فروش جدید از ' . $item_name . ' برای ' . $client_name . ' در سیستم ثبت گردید.',
@@ -159,16 +137,16 @@ class SaleOneController extends Controller
             $newNotif = Notification::create($nofication);
 
         }
-        return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
+        return [$newSale, $newSaleFour, $newAcc, $newFR, $newNotif, $stocks];
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleFour  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function show(SaleOne $saleOne)
+    public function show(SaleFour $saleOne)
     {
         //
     }
@@ -176,10 +154,10 @@ class SaleOneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleFour  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function edit(SaleOne $saleOne)
+    public function edit(SaleFour $saleOne)
     {
         //
     }
@@ -188,10 +166,10 @@ class SaleOneController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleFour  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SaleOne $saleOne)
+    public function update(Request $request, SaleFour $saleOne)
     {
         //
     }
@@ -199,17 +177,11 @@ class SaleOneController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\SaleOne  $saleOne
+     * @param  \App\SaleFour  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SaleOne $saleOne)
+    public function destroy(SaleFour $saleOne)
     {
         //
-    }
-    public function allSales()
-    {
-        $sales1= SaleOne::all();
-        // $sales2= Sale::with(['saleS2.storage', 'source'])->get();
-        return [$sales1];
     }
 }

@@ -547,7 +547,7 @@ export default {
         },
         deleteOperation(id) {
             swal.fire({
-                title: 'آیا  متمئن هستید؟',
+                title: 'آیا  مطمئن هستید؟',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: 'rgb(54 34 119)',

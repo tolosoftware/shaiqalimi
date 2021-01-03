@@ -146,7 +146,7 @@ export default {
   methods: {
     getAllSales() {
       this.axios
-        .get("/api/sale1")
+        .get("/api/sales")
         .then((data) => {
           this.$Progress.set(100);
           this.sales = data.data;
@@ -155,7 +155,7 @@ export default {
     },
     deleteData(id, title) {
       swal.fire({
-        title: 'آیا  متمئن هستید؟',
+        title: 'آیا  مطمئن هستید؟',
         text: "پروژه حذف خواهد شد",
         icon: 'question',
         showCancelButton: true,
