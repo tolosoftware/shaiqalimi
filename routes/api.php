@@ -70,4 +70,6 @@ Route::resource('vendors', 'VendorController');
 Route::resource('purches', 'PurchaseController');
 Route::get('purchSerialNO', 'PurchaseController@serial');
 
+//Archive
+Route::get('accoutload', 'AccountController@getaccount');
 
