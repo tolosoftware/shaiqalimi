@@ -123,8 +123,11 @@ class PurchaseController extends Controller
             'debit' => $totalmony,
             'ex_rate_id' => $request['currency_id'],
             'status' => 'Exp'
+            
             ];
             FinancialRecord::create($data);
+
+            ///change needed
 
         //create nofifications
        

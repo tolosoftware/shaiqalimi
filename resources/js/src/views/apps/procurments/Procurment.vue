@@ -42,7 +42,8 @@
                              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                                 <div class="w-full  ml-3 mr-3">
                                   <label for="date" class="mt-3"><small>تاریخ </small></label>
-                                  <date-picker color="#e85454" :auto-submit="true"  type="datetime" v-model="prForm.date_time" />
+                                 
+                                  <date-picker color="#e85454"  input-format="DD/MM/YYYY HH:mm" format="jDD/jMM/jYYYY HH:mm" type="datetime" v-model="prForm.date_time"/>
                                 </div>
                               </vs-col>
 
@@ -107,6 +108,7 @@
 </template>
 
 <script>
+import moment from 'moment-jalaali'
 import EkmalatStock from "../shared/EkmalatStock"
 import Procurmentlist from './Procurmentlist.vue'
 import Procurmentadd from './Procurmentadd.vue'
@@ -117,7 +119,8 @@ export default {
         Procurmentlist,
         Procurmentadd,
         "v-select": vSelect,
-        EkmalatStock
+        EkmalatStock,
+        moment
     },
 
     data() {
@@ -130,7 +133,7 @@ export default {
             prForm: new Form({
               serial_no: '',
               currency_id: 1,
-              date_time:'',
+              date_time: new Date().getTime(),
               vendor_id:'',
               account_id:'',
               vendor_address:'',
