@@ -28,6 +28,8 @@ class CreateStockRecordsTable extends Migration
             $table->unsignedBigInteger('uom_equiv_id');
             $table->decimal('density');
             $table->unsignedBigInteger('operation_id');
+            $table->decimal('item_cost');
+            $table->decimal('total_cost');
             $table->string('remark');
             $table->timestamps();
 

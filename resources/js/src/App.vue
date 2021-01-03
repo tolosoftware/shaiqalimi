@@ -100,7 +100,10 @@ export default {
   },
   async created() {
     // console.log(localStorage.getItem('token'));
-    this.loadcurrentuser();
+    if(localStorage.getItem('id') == null){
+        this.loadcurrentuser();
+    }
+  
     // jwt
     jwt.init()
     const dir = this.$vs.rtl ? 'rtl' : 'ltr'

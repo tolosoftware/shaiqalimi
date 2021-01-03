@@ -12,7 +12,8 @@ class Purchase extends Model
         'vendor_id',
         'date_time',
         'description',
-        'user_id'
+        'user_id',
+        'currency_id',
     ];
     public function user()
     {
@@ -22,4 +23,24 @@ class Purchase extends Model
     {
         return $this->belongsTo(Vendor::class, 'vendor_id');
     }
+
+  
+
+    public function vendor_id()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
+
+  
+
+
+    public function item()
+    {
+        return $this->hasMany(StockRecord::class, 'type_id');
+    }
+
+  
+
+  
+
 }

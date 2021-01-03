@@ -17,8 +17,10 @@ class Storage extends Model
         'capacity',
         'oum_id'
     ];
+
     public function measur_unit()
     {
         return $this->belongsTo(MeasurmentUnit::class, 'oum_id');
     }
+
 }

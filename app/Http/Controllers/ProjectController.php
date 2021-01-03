@@ -82,6 +82,7 @@ class ProjectController extends Controller
             'prefix' => 'pro',
             'value' => $request['serial_no'],
         ];
+        
         if (gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
         }
