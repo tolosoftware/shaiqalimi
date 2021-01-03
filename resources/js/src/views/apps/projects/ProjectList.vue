@@ -34,6 +34,7 @@
           </vs-dropdown-item>
         </vs-dropdown-menu>
       </vs-dropdown>
+      <vs-button size="small" type="gradient" icon="print" id="printBTN" @click.stop="printProject">چاپ</vs-button>
     </div>
 
     <template slot="thead">
@@ -179,18 +180,18 @@ export default {
     },
   },
   methods: {
-    findClient(id){
+    findClient(id) {
       let name = '';
       Object.keys(this.clients).some(key => (this.clients[key].id == id) ? name = this.clients[key].name : null);
       return name;
     },
     // for Organs that implement the ad
     getAllClients() {
-    this.axios.get('/api/clients')
-      .then((response) => {
-        this.clients = response.data;
-        this.$Progress.set(100)
-      })
+      this.axios.get('/api/clients')
+        .then((response) => {
+          this.clients = response.data;
+          this.$Progress.set(100)
+        })
     },
     getProject() {
       // Start the Progress Bar
@@ -278,6 +279,9 @@ export default {
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val;
     },
+    printProject() {
+      window.print();
+    }
   },
   mounted() {
     this.isMounted = false;

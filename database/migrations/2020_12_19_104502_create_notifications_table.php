@@ -17,7 +17,7 @@ class CreateNotificationsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('text');
-            $table->enum('type', ['A', 'B', 'normal']);
+            $table->string('type');
             $table->date('gen_date');
             $table->date('exp_date');
             $table->string('action');

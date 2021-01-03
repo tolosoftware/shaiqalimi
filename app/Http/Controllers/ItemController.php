@@ -15,11 +15,11 @@ class ItemController extends Controller
     public function index()
     {
         return Item::with([
-        'measurment_unites_min', 
-        'measurment_unites_sub', 
-        'type',
-        'uom_equiv_id',
-        'uom_id'
+            'measurment_unites_min',
+            'measurment_unites_sub',
+            'type',
+            'uom_equiv_id',
+            'uom_id'
         ])->get();
     }
 
@@ -42,7 +42,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
 
-       
+
         return Item::create([
             'type_id' => $request['type_id']['id'],
             'name' => $request['name'],
@@ -51,7 +51,6 @@ class ItemController extends Controller
             'equivalent' => $request['equivalent'],
             'description' => $request['description'],
         ]);
-
     }
 
     /**
