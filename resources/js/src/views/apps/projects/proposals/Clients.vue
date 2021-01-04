@@ -13,6 +13,7 @@
     <div class="mt-6 flex items-center justify-between px-6 float-right">
       <!-- <vs-button type="border" icon-pack="feather-icon" icon="close" color="warning" class="mr-6" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>-->
       <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+      <!--<vs-button color="success" @click="globalHelper">Click Me</vs-button>-->
     </div>
     <vs-tabs>
       <vs-tab label="لست نهادها" icon="list" class="leftScrol">
