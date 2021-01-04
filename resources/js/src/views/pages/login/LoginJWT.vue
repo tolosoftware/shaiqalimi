@@ -33,36 +33,32 @@ export default {
             return !this.errors.any() && this.form.username !== '' && this.form.password !== ''
         }
     },
+
+    created(){
+        this.checkLogin();
+    },
     methods: {
         checkLogin() {
-            // If user is already logged in notify
-            if (this.$store.state.auth.isUserLoggedIn()) {
-
-                // Close animation if passed as payload
-                // this.$vs.loading.close()
-
+           if(localStorage.getItem('token')){
+                 this.$router.push({ path: '/dashboard' });
                 this.$vs.notify({
-                    title: 'Login Attempt',
-                    text: 'You are already logged in!',
+                    title: 'شما به سیستم از قبل دست رسی دارید',
+                    text: 'برای وارد شدن از حساب جدید اول از سیستم خارج شوید',
+                    color: 'success',
                     iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'warning'
+                    icon: 'icon-check',
+                    position: 'top-right'
                 })
-
-                return false
-            }
-            return true
+           }
         },
 
         loginJWT() {
-            if (!this.checkLogin()) return
-            // Loading
+         
             this.$vs.loading()
              this.form.post('/oauth/token')
                 .then((data) => {
                     console.log(data);
                     localStorage.setItem('token',data.data.access_token );
-
                     this.$router.push({ path: '/dashboard' });
                     this.$vs.notify({
                         title: 'به سیستم خوش آمدید',
@@ -76,7 +72,6 @@ export default {
                     this.$vs.loading.close()
                    
                 })
-
                 .catch(() => {
                      this.$vs.notify({
                         title: 'عملیه ورود به سیستم ناموفق بود ',
@@ -89,11 +84,6 @@ export default {
                  
                     this.$vs.loading.close()
                 })
-
-        //  console.log('hi token'+ this.response.access_token);
-
-
-          
         },
     }
 }

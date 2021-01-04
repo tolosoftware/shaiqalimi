@@ -2,6 +2,26 @@
 
 return [
 
+    // accounts type id configuration
+    'cash_in_hand' => 10,
+    'liabilities'=> 5,
+    'assets' => 4,
+    'contracts'=> 2,
+    'current_liabilities'=> 6,
+    'creditors'=> 7,
+    'suppliers'=> 9,
+    'current_assets'=> 10,
+    'cash_in_hand'=> 11,
+    'cash_in_bank'=> 12,
+    'debtors'=> 13,
+    'stock'=> 14,
+    'expenses'=>15,
+    'administrative_expense'=>16,
+    'non_administrative_expense'=>17,
+
+     // accounts id configuration
+     'cash_in_hand_usd'=>17,
+     'cash_in_hand_afn'=>22,
     /*
     |--------------------------------------------------------------------------
     | Application Name
