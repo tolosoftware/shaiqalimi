@@ -272,7 +272,7 @@ export default {
         tax: "",
         deposit: "",
         total: "",
-        steps: "",
+        steps: null,
         description: "",
 
         // shared fields with other sales
@@ -375,10 +375,16 @@ export default {
         });
     },
     printState(x) {
-      this.sForm.steps = x;
+      if(this.sForm.steps && this.sForm.steps >= x){
+        this.sForm.steps = (x - 1);
+      }
+      else{
+        this.sForm.steps = x;
+      }
       for (let i = 0; i < this.checked.length; i++) {
         this.checked[i].state = i <= x ? true : false;
       }
+      console.log(this.sForm.steps);
     },
     // for getting the next serian number
     getNextSerialNo() {
