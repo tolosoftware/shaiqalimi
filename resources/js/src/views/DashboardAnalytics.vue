@@ -1,6 +1,6 @@
 <template>
 <div>
-{{userid}} 
+  {{userid}}
   <div class="vx-row mb-base">
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
       <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" icon-right statistic="32476 AFN" statisticTitle="مصارف" :chartData="ordersRecevied.series" />
@@ -212,13 +212,9 @@
             <p class="mt-2 mb-8 text-xl font-medium text-success">
               <span>+</span><span>5.2%</span><span class="ml-1">($956)</span>
             </p>
-            <router-link to="/sales">
-              <button type="button" name="button" class="vs-component vs-button shadow-md w-full vs-button-primary vs-button-filled includeIcon">
-                <span class="vs-button-backgroundx vs-button--background" style="opacity: 1; left: 137px; top: 16px; width: 0px; height: 0px; transition: width 0s ease 0s, height 0s ease 0s, opacity 0s ease 0s;"></span><i class="vs-icon notranslate icon-scale vs-button--icon  feather icon-chevrons-right null" style="order: 2; margin-left: 0px; margin-right: 5px;"></i>
-                <span class="vs-button-text vs-button--text">بررسی فروشات</span>
-                <span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"></span>
-              </button>
-            </router-link>
+            <router-link to="/sales?tab=2">
+            <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
+          </router-link>
           </div>
           <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4"><small>عواید: $56156</small>
@@ -281,7 +277,7 @@ import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.
 ECharts.registerTheme('ovilia-green', theme)
 
 export default {
-   props: ["currentuser"],
+  props: ["currentuser"],
   components: {
     ECharts,
     VueApexCharts,
@@ -308,7 +304,9 @@ export default {
         ],
         chartOptions: {
           chart: {
-            toolbar: { show: false },
+            toolbar: {
+              show: false
+            },
             dropShadow: {
               enabled: true,
               top: 5,
@@ -374,7 +372,9 @@ export default {
             }
           },
           tooltip: {
-            x: { show: false }
+            x: {
+              show: false
+            }
           }
         },
         analyticsData: {
@@ -415,8 +415,12 @@ export default {
     console.log(this.$parent);
     // Support Tracker
     this.$http.get('/api/card/card-analytics/support-tracker')
-      .then((response) => { this.supportTracker = response.data })
-      .catch((error) => { console.log(error) })
+      .then((response) => {
+        this.supportTracker = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
     // Active Users
     this.$http.get('/api/card/card-statistics/active-users')
