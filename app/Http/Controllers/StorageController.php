@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Storage;
+use App\Models\Fuel_station;
+use App\Models\Inventory;
+use App\Models\Fuel_despenser;
+use App\Models\Fuel_station_storage;
 use Illuminate\Http\Request;
 
 class StorageController extends Controller
@@ -103,7 +107,14 @@ class StorageController extends Controller
     }
     public function allTypeSource()
     {
-        return Storage::all();
 
+        // Get Storages, Fuil station with decpincer and mini storages and inventory for source component.
+        $source1 = Storage::selectRaw("id, name")->get();
+        $source2 = Fuel_station::with(['fuel_despencers', 'fuel_station_storages'])->selectRaw("id, name")->get();
+        $source3 = Inventory::selectRaw("id, name")->get();
+            
+        $all = ['str' => $source1, 'fuel' => $source2, 'inv' => $source3];
+    
+        return $all;
     }
 }
