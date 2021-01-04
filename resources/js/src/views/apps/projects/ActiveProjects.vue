@@ -8,7 +8,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="left" vs-align="left" vs-lg="8" vs-sm="8" vs-xs="8">
           <span>
-            <vs-button size="small" type="gradient" icon="print" id="printBTN" @click.stop="printProject">چاپ</vs-button>
+            <!--<vs-button size="small" type="gradient" icon="print" id="printBTN" @click.stop="printProject">چاپ</vs-button>-->
           </span>
         </vs-col>
       </h4>

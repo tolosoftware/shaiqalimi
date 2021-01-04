@@ -16,7 +16,7 @@
     </div>
     <vs-tabs>
       <vs-tab label="لست نهادها" icon="list" class="leftScrol">
-        <vs-button type="gradient" size="small" icon="print" id="printBTN" @click="printClients">چاپ</vs-button>
+        <!--<vs-button type="gradient" size="small" icon="print" id="printBTN" @click="printClients">چاپ</vs-button>-->
         <div class="scroll-area--data-list-add-new" :key="$vs.rtl" v-if="orgActiveForm">
           <form>
             <vs-divider>
@@ -87,7 +87,7 @@
             <template slot-scope="{data}">
               <tbody>
                 <vs-tr v-if="notLoaded">
-                  <img src="/loading.gif" style="margin-right:40%;" />
+                  <!--<img src="/loading.gif" style="margin-right:40%;" /> -->
                 </vs-tr>
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" v-if="!notLoaded">
                   <vs-td class="img-container">
@@ -550,7 +550,7 @@ export default {
 
   ::v-deep .vs-sidebar {
     z-index: 52010;
-    width: 600px;
+    width: 500px;
     max-width: 90vw;
 
     .img-upload {
