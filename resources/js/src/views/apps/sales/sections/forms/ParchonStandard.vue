@@ -186,7 +186,6 @@ export default {
   },
   created() {
     this.getNextSerialNo()
-    this.getStorages();
   },
   computed: {
     // isFormValid() {

@@ -302,6 +302,7 @@ export default {
   },
   created() {
     this.getProject();
+    this.getNextSerialNo();
   },
   computed: {
     // isFormValid() {
