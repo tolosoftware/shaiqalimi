@@ -88,12 +88,9 @@
   <!-- 3td Row -->
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
-      <div class="vx-col w-full">
-        <label for class="vs-input--label">منبع</label>
-        <v-select v-model="sForm.source_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-          <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
-        </v-select>
-      </div>
+      <!-- This conpoment need the form source id and form source type field -->
+      <label for=""><small>منبع</small></label>
+      <source-select :parentForm="sForm"></source-select>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -203,6 +200,7 @@
 <script>
 import vSelect from 'vue-select'
 import Ekmalat from "../../../shared/Ekmalat"
+import SourceSelect from "../../../shared/SourceSelect";
 
 export default {
   props: {
@@ -213,7 +211,8 @@ export default {
   },
   components: {
     'v-select': vSelect,
-    Ekmalat
+    Ekmalat,
+    SourceSelect
 
   },
   data() {
@@ -271,14 +270,12 @@ export default {
       items: [],
       contracts: [],
       contract: [],
-      storages: [],
       // End of sidebar items
     };
   },
   created() {
     this.getNextSerialNo()
     this.getProject();
-    this.getStorages();
   },
   computed: {
     // isFormValid() {
@@ -294,19 +291,6 @@ export default {
         .get("/api/project")
         .then((data) => {
           this.contracts = data.data;
-          // Finish the Progress Bar
-          this.$Progress.set(100);
-        })
-        .catch(() => {});
-    },
-    getStorages() {
-      // Start the Progress Bar
-      this.$Progress.start();
-
-      this.axios
-        .get("/api/storage")
-        .then((data) => {
-          this.storages = data.data;
           // Finish the Progress Bar
           this.$Progress.set(100);
         })

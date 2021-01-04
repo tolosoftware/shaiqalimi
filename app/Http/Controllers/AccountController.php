@@ -17,6 +17,11 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getaccount(){
+        return Account::all();
+    }
+    
     public function index()
     {
         return Account::with('financial_records')->get();

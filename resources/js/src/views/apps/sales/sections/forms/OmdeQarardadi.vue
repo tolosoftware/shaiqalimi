@@ -69,12 +69,9 @@
   <!-- 3td Row -->
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
-      <div class="vx-col w-full">
-        <label for class="vs-input--label">منبع</label>
-        <v-select v-model="sForm.source_id" label="name" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-          <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
-        </v-select>
-      </div>
+      <!-- This conpoment need the form source id and form source type field -->
+      <label for=""><small>منبع</small></label>
+      <source-select :parentForm="sForm"></source-select>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -215,6 +212,7 @@
 <script>
 import vSelect from "vue-select";
 import Ekmalat from "../../../shared/Ekmalat";
+import SourceSelect from "../../../shared/SourceSelect";
 
 export default {
   props: {
@@ -226,6 +224,7 @@ export default {
   components: {
     "v-select": vSelect,
     Ekmalat,
+    SourceSelect,
   },
   data() {
     return {
@@ -279,7 +278,7 @@ export default {
         // shared fields with other sales
         type: "s1",
         source_id: "", // The Id of the Project.
-        source_type: "str", // Type Project
+        source_type: "", // Type Project
         user_id: localStorage.getItem('id'), //Get the current user id
         currency_id: 1,
         datatime: "",
@@ -298,13 +297,11 @@ export default {
       items: [],
       contracts: [],
       field_data: [],
-      storages: [],
       // End of sidebar items
     };
   },
   created() {
     this.getProject();
-    this.getStorages();
   },
   computed: {
     // isFormValid() {
@@ -325,23 +322,9 @@ export default {
         })
         .catch(() => {});
     },
-    getStorages() {
-      // Start the Progress Bar
-      this.$Progress.start();
-
-      this.axios
-        .get("/api/storage")
-        .then((data) => {
-          this.storages = data.data;
-          // Finish the Progress Bar
-          this.getNextSerialNo();
-          this.$Progress.set(100);
-        })
-        .catch(() => {});
-    },
-    // End of Methods
     // Old methods
     onChange(contract) {
+      console.log(this.sForm);
       if (contract != null) {
         this.field_data.clientName = contract.pro_data.client.name;
         // this.field_data.repativePerson = contract.pro_data.client.phone;
