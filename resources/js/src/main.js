@@ -138,12 +138,22 @@ Vue.component('date-picker', VuePersianDatetimePicker)
 
 // define a mixin object
 const Mixin = {
-    methods: {
-        Alerta() {
-            alert('WORK!')
+        methods: {
+            Alerta() {
+                alert('WORK!')
+            }
         }
     }
+    //ahmadi
+const MyPlugin = {
+    install(Vue, options) {
+        Vue.prototype.globalHelper = () => {
+            alert("Hello world")
+        }
+    },
 }
+Vue.use(MyPlugin)
+
 
 new Vue({
     mixins: [Mixin],

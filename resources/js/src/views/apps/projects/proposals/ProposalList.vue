@@ -1,6 +1,11 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="proposals">
+  <vx-card v-if="!isdata" title="">
+    <p style="height:40px;margin:20px;" id="success-load">
+      <!-- <img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
+    </p>
+  </vx-card>
+  <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="proposals">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between" id="proposalTable">
       <!-- ITEMS PER PAGE -->
       <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
@@ -33,7 +38,7 @@
       <vs-th sort-key="price">قیمت</vs-th>
       <vs-th sort-key="bidding_address">آدرس</vs-th>
       <vs-th sort-key="bidding_date">تاریخ پیشنهاد</vs-th>
-      <vs-th>نمظیمات</vs-th>
+      <vs-th>تنظیمات</vs-th>
     </template>
     <template slot-scope="{data}">
       <tbody>
@@ -84,94 +89,177 @@
           </vs-td>
 
           <vs-td class="whitespace-no-wrap notupfromall">
+            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.id)" />&nbsp;&nbsp;
+            <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
             <router-link class="product-name font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
-                }">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
-            </router-link>
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+                }">&nbsp;&nbsp;
+              <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
+            </router-link>&nbsp;&nbsp;
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
-
-  <vs-collapse accordion>
-    <vs-collapse-item>
-      <div slot="header">
-        نمایش حالت چاپ
-      </div>
-      <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="printProposal">چاپ</vs-button>
-      <vue-easy-print tableShow ref="easyPrint">
-        <vs-table class="w-full" ref="table" :data="proposals">
-          <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between" id="proposalTable">
+  <vs-popup  class="holamundo" title="پیشرفت آفر/ اعلان" :active.sync="popupModalActive">
+    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
+      <tab-content title="ثبت اعلان" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>بررسی بخش ثبت اعلان</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
           </div>
-          <template slot="thead">
-            <vs-th>نمبر</vs-th>
-            <vs-th>نهاد</vs-th>
-            <vs-th>پروژه</vs-th>
-            <vs-th>تضمین آفر</vs-th>
-            <vs-th>وضعیت</vs-th>
-            <vs-th>قیمت</vs-th>
-            <vs-th>آدرس</vs-th>
-            <vs-th>تاریخ پیشنهاد</vs-th>
-          </template>
-          <template slot-scope="{data}">
-            <tbody>
-              <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-                <vs-td class="pl-2 text-center">
-                  {{ indextr + 1 }}
-                </vs-td>
-                <vs-td class="img-container">
-                  <router-link v-if="tr.pro_data" class="product-name font-medium truncate" :to="{
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="ارسال درخواستی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>بررسی بخش ارسال درخواستی</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="دریافت شرطنامه/آفر" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>بررسی بخش دریافت شرطنامه </vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2"> ثبت آفر</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="ارایه قیمت" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>بررسی بخش ارایه قیمت</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="مرحله داوطلبی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>بررسی بخش داوطلبی</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="نتیجه قرارداد" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>بررسی بخش نتیجه قرارداد</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+    </form-wizard>
+  </vs-popup>
+  <vs-popup fullscreen title="fullscreen" :active.sync="popupActive">
+    <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="printProposal">چاپ</vs-button>
+    <vue-easy-print tableShow ref="easyPrint">
+      <vs-table :data="proposals">
+        <template slot="thead">
+          <vs-th>نمبر</vs-th>
+          <vs-th>نهاد</vs-th>
+          <vs-th>پروژه</vs-th>
+          <vs-th>تضمین آفر</vs-th>
+          <vs-th>وضعیت</vs-th>
+          <vs-th>قیمت</vs-th>
+          <vs-th>آدرس</vs-th>
+          <vs-th>تاریخ پیشنهاد</vs-th>
+        </template>
+        <template slot-scope="{data}">
+          <tbody>
+            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+              <vs-td class="pl-2 text-center">
+                {{ indextr + 1 }}
+              </vs-td>
+              <vs-td>
+                <router-link v-if="tr.pro_data" class="font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
-                    <!-- <img :src="tr.img" class="product-img" /> -->
-                    <p>{{ findClient(tr.pro_data.client_id) }}</p>
+                  <!-- <img :src="tr.img" class="product-img" /> -->
+                  <p>{{ findClient(tr.pro_data.client_id) }}</p>
 
-                  </router-link>
-                </vs-td>
-
-                <vs-td>
-                  <div v-if="tr.pro_data">
-                    <router-link class="product-name font-medium truncate" :to="{
+                </router-link>
+              </vs-td>
+              <vs-td>
+                <div v-if="tr.pro_data">
+                  <router-link class="font-medium truncate" :to="{
                   path: '/projects/proposal/${tr.id}',
                   name: 'proposal-edit',
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
-                      {{ tr.pro_data.title }}</router-link>
-                  </div>
-                </vs-td>
-
-                <vs-td>
-                  <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
-                  <p>{{ tr.offer_guarantee }} افغانی</p>
-                </vs-td>
-
-                <vs-td>
-                  <vs-chip :color="getOrderStatusColor(tr.status)">{{ statusFa[tr.status] }}</vs-chip>
-                </vs-td>
-
-                <vs-td>
-                  <p v-if="tr.pro_data">{{ tr.pro_data.total_price }} افغانی</p>
-                </vs-td>
-                <vs-td>
-                  <p>{{ tr.bidding_address }}</p>
-                </vs-td>
-                <vs-td>
-                  <p>{{ tr.bidding_date }}</p>
-                </vs-td>
-              </vs-tr>
-            </tbody>
-          </template>
-        </vs-table>
-      </vue-easy-print>
-    </vs-collapse-item>
-  </vs-collapse>
+                    {{ tr.pro_data.title }}</router-link>
+                </div>
+              </vs-td>
+              <vs-td>
+                <p>{{ tr.offer_guarantee }} افغانی</p>
+              </vs-td>
+              <vs-td>
+                <vs-chip :color="getOrderStatusColor(tr.status)">{{ statusFa[tr.status] }}</vs-chip>
+              </vs-td>
+              <vs-td>
+                <p v-if="tr.pro_data">{{ tr.pro_data.total_price }} افغانی</p>
+              </vs-td>
+              <vs-td>
+                <p>{{ tr.bidding_address }}</p>
+              </vs-td>
+              <vs-td>
+                <p>{{ tr.bidding_date }}</p>
+              </vs-td>
+            </vs-tr>
+          </tbody>
+        </template>
+      </vs-table>
+    </vue-easy-print>
+  </vs-popup>
 </div>
 </template>
 
@@ -179,11 +267,17 @@
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
 import vueEasyPrint from "vue-easy-print";
-
+import {
+  FormWizard,
+  TabContent
+} from 'vue-form-wizard'
 export default {
   name: 'vx-project-list',
   data() {
     return {
+      isdata: false,
+      popupModalActive: false,
+      popupActive: false,
       statusFa: {
         normal: 'درجریان',
         delivered: 'تکمیل',
@@ -201,7 +295,9 @@ export default {
   },
   components: {
     DataViewSidebar,
-    vueEasyPrint
+    vueEasyPrint,
+    FormWizard,
+    TabContent,
   },
   created() {
     this.getProposals();
@@ -219,6 +315,17 @@ export default {
     }
   },
   methods: {
+    formSubmitted() {
+      alert("تنظیمات بسته شد")
+      this.popupModalActive = false;
+
+    },
+    showCheckModal() {
+      this.popupModalActive = true;
+    },
+    showPrintData(id) {
+      this.popupActive = true;
+    },
     getAllClients() {
       this.axios.get('/api/clients')
         .then((response) => {
@@ -232,10 +339,14 @@ export default {
     },
     getProposals() {
       this.$Progress.start()
+      // this.$vs.loading()
       this.axios.get('/api/proposal')
         .then((response) => {
           this.proposals = response.data;
+          this.isdata = true;
+          // console.log('proposalData', this.proposals);
           this.$Progress.set(100)
+          // this.$vs.loading.close();
         })
     },
     // Start Custom
@@ -306,7 +417,12 @@ export default {
     },
   },
   mounted() {
-    this.isMounted = false
+    this.isMounted = false,
+      this.$vs.loading({
+        container: '#success-load',
+        type: 'sound',
+        text: "درحال بارگیری...."
+      })
   }
 }
 </script>
@@ -414,5 +530,18 @@ export default {
       justify-content: center;
     }
   }
+}
+</style><style>
+.con-vs-popup .vs-popup {
+  width: 800px;
+}
+
+.vue-form-wizard .navbar .navbar-nav>li>a.wizard-btn,
+.vue-form-wizard .wizard-btn {
+  min-width: 40px !important;
+}
+
+[dir] .vue-form-wizard .wizard-tab-content {
+  padding: 30px 20px 2px 10px !important;
 }
 </style>

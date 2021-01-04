@@ -202,7 +202,7 @@ export default {
   display: flex;
   width: 100%;
   background-color: rgb(243, 245, 247);
-  border-left-width: 0.6rem;
+  border-left-width: 0.4rem;
   border-left-style: solid;
   padding: 10px;
   border-color: rgb(49, 47, 75) !important;
