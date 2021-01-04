@@ -116,11 +116,11 @@
       </tbody>
     </template>
   </vs-table>
-  <vs-popup class="holamundo" title="تنظیمات مربط پروژه" :active.sync="popupModalActive">
+  <vs-popup fullscreen class="holamundo" title="تنظیمات مربط پروژه" :active.sync="popupModalActive">
     <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
-      <tab-content title="ثبت پروژه" class="mb-5">
+      <tab-content title="تنظیم اعلانات" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش ثبت اعلان</vs-divider>
+          <vs-divider>تنظیم اعلانات</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -133,9 +133,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="ارسال درخواستی" class="mb-5">
+      <tab-content title="تحویلی اجناس" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش ارسال درخواستی</vs-divider>
+          <vs-divider>تحویلی اجناس</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -148,9 +148,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="دریافت شرطنامه/آفر" class="mb-5">
+      <tab-content title="ارسال بیل" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش دریافت شرطنامه </vs-divider>
+          <vs-divider>ارسال بیل</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -163,9 +163,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="ارایه قیمت" class="mb-5">
+      <tab-content title="فورم(م-7)/ فورم (م-16)" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش ارایه قیمت</vs-divider>
+          <vs-divider>فورم(م-7)/ فورم (م-16)</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -178,9 +178,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="مرحله داوطلبی" class="mb-5">
+      <tab-content title="وزارت مالیه" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش داوطلبی</vs-divider>
+          <vs-divider>وزارت مالیه</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -193,9 +193,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="نتیجه قرارداد" class="mb-5">
+      <tab-content title="بانک" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش نتیجه قرارداد</vs-divider>
+          <vs-divider>بانک</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -208,9 +208,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="نتیجه قرارداد" class="mb-5">
+      <tab-content title="دریافت پول" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش نتیجه قرارداد</vs-divider>
+          <vs-divider>دریافت پول</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -223,9 +223,54 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="نتیجه قرارداد" class="mb-5">
+      <tab-content title="مالیه تحویل شد" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بررسی بخش نتیجه قرارداد</vs-divider>
+          <vs-divider>مالیه تحویل شد</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="جریمه تادیه شده" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>جریمه تادیه شده</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="تاییدی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>تاییدی</vs-divider>
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation .</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+          </div>
+          <!--<vs-divider></vs-divider> -->
+        </vs-row>
+      </tab-content>
+      <tab-content title="تامینات باقی مانده" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-divider>تامینات باقی مانده</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
