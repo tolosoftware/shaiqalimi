@@ -34,6 +34,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
+        // return config('app.cash_in_hand');
         return Purchase::with('user','vendor')->get();
     }
 
@@ -114,13 +115,13 @@ class PurchaseController extends Controller
 
          // Create opening FR for the created Projet
          $data = [
-            'type' => 'purchase', // here the type of financial record is project
-            'type_id' => $purchase->id, //Project Id will be used here as type id
+            'type' => 'purchase', 
+            'type_id' => $purchase->id, 
             'account_id' => $request['account_id'],
             'description' => $request['description'],
             'currency_id' => $request['currency_id'],
-            'credit' => 0,
-            'debit' => $totalmony,
+            'credit' => $totalmony,
+            'debit' => 0,
             'ex_rate_id' => $request['currency_id'],
             'status' => 'Exp'
             
