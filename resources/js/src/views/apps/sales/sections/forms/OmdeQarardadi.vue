@@ -31,7 +31,7 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker v-model="sForm.datatime" color="#e85454" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker v-model="sForm.datatime" color="#e85454" type="datetime" v-validate="'required'" :title="errors.first(`contract_date`)" v-bind:class="errors.first(`contract_date`) ? 'has-error' : ''" name="contract_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -75,7 +75,7 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input v-model="sForm.destination" class="w-full" label="مقصد" />
+        <vs-input v-model="sForm.destination" v-validate="'required'" :title="errors.first(`destination`)" v-bind:class="errors.first(`destination`) ? 'has-error' : ''" name="destination" class="w-full" label="مقصد" />
       </div>
     </div>
   </div>
@@ -187,7 +187,7 @@
         <ul class="demo-alignment">
           <li v-for="(n, index) in checked" :key="index">
             <div class="vs-component con-vs-checkbox vs-checkbox-success vs-checkbox-default">
-              <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="printState(index)" value="">
+              <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="appCheckBoxes(index)" value="">
               <span class="checkbox_x vs-checkbox" style="border: 2px solid rgb(180, 180, 180);">
                 <span class="vs-checkbox--check">
                 <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
@@ -272,7 +272,7 @@ export default {
         tax: "",
         deposit: "",
         total: "",
-        steps: "",
+        steps: null,
         description: "",
 
         // shared fields with other sales
@@ -345,6 +345,15 @@ export default {
       }
     },
     submitForm() {
+      // this.$validator.validateAll().then(result => {
+      //   if(result) {
+      //     // if form have no errors
+      //     alert("form submitted!");
+      //   }else{
+      //     console.log("Form have erors");
+      //     // form have errors
+      //   }
+      // })
       this.$Progress.start()
       this.sForm.post('/api/sale1')
         .then(({
@@ -374,8 +383,13 @@ export default {
           })
         });
     },
-    printState(x) {
-      this.sForm.steps = x;
+    appCheckBoxes(x) {
+      if(this.sForm.steps && this.sForm.steps >= x){
+        this.sForm.steps = (x - 1);
+      }
+      else{
+        this.sForm.steps = x;
+      }
       for (let i = 0; i < this.checked.length; i++) {
         this.checked[i].state = i <= x ? true : false;
       }
