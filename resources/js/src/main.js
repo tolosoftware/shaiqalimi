@@ -147,13 +147,10 @@ const Mixin = {
     //ahmadi
 const MyPlugin = {
     install(Vue, options) {
-        Vue.prototype.globalHelper = () => {
-            alert("Hello world")
-        }
-    },
+        Vue.prototype.startProcesAndLoad = () => {}
+    }
 }
 Vue.use(MyPlugin)
-
 
 new Vue({
     mixins: [Mixin],

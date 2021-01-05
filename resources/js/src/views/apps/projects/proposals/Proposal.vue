@@ -74,7 +74,6 @@ export default {
     this.getAllClients();
   },
   methods: {
-  
     getAllClients() {
       this.axios.get('/api/clients')
         .then((response) => {
