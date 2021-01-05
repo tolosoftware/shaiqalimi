@@ -17,6 +17,7 @@
 export default {
     data() {
         return {
+            
              form: new Form({
                 username:'',
                 password: '',
@@ -40,7 +41,8 @@ export default {
     methods: {
         checkLogin() {
            if(localStorage.getItem('token')){
-                 this.$router.push({ path: '/dashboard' });
+                //  this.$router.push({ path: '/dashboard' });
+                 $router.go('/dashboard');
                 this.$vs.notify({
                     title: 'شما به سیستم از قبل دست رسی دارید',
                     text: 'برای وارد شدن از حساب جدید اول از سیستم خارج شوید',
@@ -57,8 +59,9 @@ export default {
             this.$vs.loading()
              this.form.post('/oauth/token')
                 .then((data) => {
-                    console.log(data);
+                  
                     localStorage.setItem('token',data.data.access_token );
+                    
                     this.$router.push({ path: '/dashboard' });
                     this.$vs.notify({
                         title: 'به سیستم خوش آمدید',
@@ -85,6 +88,8 @@ export default {
                     this.$vs.loading.close()
                 })
         },
+
+         
     }
 }
 </script>

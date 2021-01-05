@@ -79,30 +79,25 @@ export default {
   },
   methods: {
     logout() {
+          localStorage.removeItem('token');
+          localStorage.removeItem('name');
+          localStorage.removeItem('lastname');
+          localStorage.removeItem('position');
+          localStorage.removeItem('image');
+          localStorage.removeItem('id');
 
-      // if user is logged in via auth0
-      if (this.$auth.profile) this.$auth.logOut()
+          this.$router.push({ path: '/login' });
 
-      // if user is logged in via firebase
-      const firebaseCurrentUser = firebase.auth().currentUser
+             this.$vs.notify({
+                title: 'عملیه خروج موفق بود!',
+                text: 'عملیه موفغانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+            })
 
-      if (firebaseCurrentUser) {
-        firebase.auth().signOut().then(() => {
-          this.$router.push('/pages/login').catch(() => {})
-        })
-      }
-      // If JWT login
-      if (localStorage.getItem('accessToken')) {
-        localStorage.removeItem('accessToken')
-        this.$router.push('/pages/login').catch(() => {})
-      }
 
-      // Change role on logout. Same value as initialRole of acj.js
-      this.$acl.change('admin')
-      localStorage.removeItem('userInfo')
-
-      // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/pages/login').catch(() => {})
     }
   }
 }

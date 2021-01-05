@@ -79,6 +79,7 @@ class PurchaseController extends Controller
             }
            
       
+
         Purchase::create([
             'serial_no' => $request['serial_no'],
             'vendor_id' => $request['vendor_id'],
@@ -93,7 +94,7 @@ class PurchaseController extends Controller
           StockRecord::create([
             'type'=> "purchase",
             'type_id'=> $purchase->id,
-            'source' => $request['source_id']['name'],
+            'source' => $request['source_type'],
             'source_id'=> $request['source_id']['id'],
             'item_id' => $valueItem['item_id']['id'],
             'increment'=> $valueItem['increment'],
@@ -128,7 +129,7 @@ class PurchaseController extends Controller
             ];
             FinancialRecord::create($data);
 
-            ///change needed
+            //change needed
 
         //create nofifications
        
