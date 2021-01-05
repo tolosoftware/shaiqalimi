@@ -16,11 +16,11 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="2" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>عملیه</small></label>
-            <v-select v-validate="'required'" :title="errors.first(`step-3.operation_id_${index}`)" :class="errors.first(`step-3.operation_id_${index}`) ? 'has-error' : ''" :name="`operation_id_${index}`" label="title" @input="operationChange" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select v-validate="'required'" :clearable="false" v-show="true" :title="errors.first(`step-3.operation_id_${index}`)" :class="errors.first(`step-3.operation_id_${index}`) ? 'has-error' : ''" :name="`operation_id_${index}`" label="title" @input="operationChange(i.operation_id, index)" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.operation_id_${index}`) }}</span> -->
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>مقدار</small>
@@ -33,20 +33,13 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input v-validate="'required'" :title="errors.first(`step-3.increment_${index}`)" :class="errors.first(`step-3.increment_${index}`) ? 'has-error' : ''" :name="`increment_${index}`" type="number" min="0" v-model="i.increment" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_${index}`)" :class="errors.first(`step-3.increment_${index}`) ? 'has-error' : ''" :name="`increment_${index}`" type="number" min="0" v-model="i.increment" />
             </vx-input-group>
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.increment_${index}`) }}</span> -->
             <has-error :form="form" field="increment"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="i.operation_id != undefined && i.operation_id.id == 1" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full" />
-            <has-error :form="form" field="density"></has-error>
-            <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
-          </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>معادل</small>
@@ -59,12 +52,57 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input v-validate="'required|min:2'" :title="errors.first(`step-3.increment_equiv_${index}`)" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
             </vx-input-group>
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="i.operation_id != undefined && i.operation_id.id == 1 ? 1 : 2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full" />
+            <has-error :form="form" field="density"></has-error>
+            <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <label for>
+              <small>معادل</small>
+            </label>
+            <vx-input-group class="">
+              <template slot="append" v-if="i.item_id && i.item_id.uom_equiv_id">
+                <div class="append-text bg-primary">
+                  <span>{{
+                      i.item_id.uom_equiv_id ? i.item_id.uom_equiv_id.acronym : i.item_id
+                    }}</span>
+                </div>
+              </template>
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
+            </vx-input-group>
+            <has-error :form="form" field="increment_equiv"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" v-if="is_active[index].uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3">
+            <label for>
+              <small>مقدار</small>
+            </label>
+            <vx-input-group class="">
+              <template slot="append" v-if="i.item_id && i.item_id.uom_id">
+                <div class="append-text bg-primary">
+                  <span>{{
+                      i.item_id.uom_id ? i.item_id.uom_id.acronym : i.item_id
+                    }}</span>
+                </div>
+              </template>
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_${index}`)" :class="errors.first(`step-3.increment_${index}`) ? 'has-error' : ''" :name="`increment_${index}`" type="number" min="0" v-model="i.increment" />
+            </vx-input-group>
+            <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.increment_${index}`) }}</span> -->
+            <has-error :form="form" field="increment"></has-error>
+          </div>
+        </vs-col>
+
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].density ? 1 : 2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
@@ -116,24 +154,64 @@ export default {
       mesure_unit: [],
       goods: [],
       dictOfErr: [],
+      is_active: [{
+        density: false,
+        uom: true,
+        eqv_uom: true,
+        reverse: false,
+      }]
     };
   },
   created() {
     this.getOperations();
-    this.getAllItems();
-    this.getAllUnites();
   },
   methods: {
     datacalled(data) {
       // console.log(data.uom_equiv_id);
     },
-    operationChange() {
-      // console.log(this.items[0]['operation_id']['id'] == 1);
+    operationChange(data, index) {
+      console.log(index);
+      if (data.id == 5 || data.id == 6) {
+        this.is_active[index].density = true;
+        this.is_active[index].uom = true;
+        this.is_active[index].eqv_uom = true;
+        if (data.id == 6) {
+          this.is_active[index].reverse = true;
+        } else {
+          this.is_active[index].reverse = false;
+        }
+      } else if (data.id == 1) {
+        this.is_active[index].density = false;
+        this.is_active[index].uom = true;
+        this.is_active[index].eqv_uom = false;
+        this.is_active[index].reverse = false;
+      } else if (data.id == 2) {
+        this.is_active[index].density = false;
+        this.is_active[index].uom = false;
+        this.is_active[index].eqv_uom = true;
+        this.is_active[index].reverse = false;
+      } else if (data.id == 3) {
+        this.is_active[index].density = false;
+        this.is_active[index].uom = true;
+        this.is_active[index].eqv_uom = true;
+        this.is_active[index].reverse = false;
+      } else if (data.id == 4) {
+        this.is_active[index].density = false;
+        this.is_active[index].uom = true;
+        this.is_active[index].eqv_uom = true;
+        this.is_active[index].reverse = true;
+      } else {
+        this.is_active[index].density = false;
+        this.is_active[index].uom = true;
+        this.is_active[index].eqv_uom = true;
+        this.is_active[index].reverse = false;
+      };
     },
     getOperations() {
       this.$Progress.start();
       this.axios.get("/api/operation").then((response) => {
         this.operations = response.data;
+        this.getAllItems();
       });
     },
     getItemTypes() {
@@ -144,20 +222,29 @@ export default {
     },
     // for items to be bought
     getAllItems() {
-      this.$Progress.start();
       this.axios.get("/api/items").then((response) => {
         this.goods = response.data;
+        this.getAllUnites();
       });
     },
     // for getting measure unit of the item
     getAllUnites() {
       this.axios.get("/api/m-units").then((response) => {
         this.mesure_unit = response.data;
+        for (let index = 0; index < this.items.length; index++) {
+          this.is_active.push({
+            density: false,
+            uom: true,
+            eqv_uom: true,
+            reverse: false,
+          });
+        }
       });
     },
     addNewRow() {
+      console.log('add new');
       this.initFormError();
-      new Promise((resolve, reject) => {
+      let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
           if (result) {
             console.log(this.items);
@@ -171,11 +258,20 @@ export default {
               total_price: "",
               density: null,
             });
+            this.is_active.push({
+              density: false,
+              uom: true,
+              eqv_uom: true,
+              reverse: false,
+            });
+
           } else {
             // reject('correct all values')
+
           }
         });
       });
+      console.log(this.errors);
     },
     validateEkmalatForm() {
       this.initFormError();
@@ -279,7 +375,7 @@ export default {
     removeRow() {
       swal
         .fire({
-          title: "آیا  متمئن هستید؟",
+          title: "آیا  مطمئن هستید؟",
           text: "جنس مورد نظر حذف خواهد شد",
           icon: "question",
           showCancelButton: true,
@@ -305,6 +401,7 @@ export default {
                     });
                     if (this.items.length > 1) {
                       this.items.splice(this.items.length - 1, 1);
+                      this.is_active.splice(this.items.length - 1, 1);
                     }
                   })
                   .catch(() => {});
