@@ -10,7 +10,7 @@
               <span>S4</span>
             </div>
           </template>
-          <vs-input :value="sForm.serial_no" autocomplete="off" type="number" />
+          <vs-input disabled :value="sForm.serial_no" autocomplete="off" type="number" />
         </vx-input-group>
 
       </div>

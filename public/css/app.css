@@ -5378,7 +5378,7 @@ text {
 }
 
 [dir] .ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y {
-  background-color: #562db8 !important;
+  background-color: #e85454 !important;
 }
 
 [dir=ltr] body .ps__scrollbar-y-rail {
@@ -5540,7 +5540,7 @@ text {
   color: #e55355 !important;
 }
 
-[dir] .has-error > .vs__dropdown-toggle, [dir] .has-error .vs-con-input input {
+[dir] .has-error > .vs__dropdown-toggle, [dir] .has-error .vs-con-input input, [dir] .has-error .vpd-input-group input {
   border-color: #ea5455 !important;
 }
 

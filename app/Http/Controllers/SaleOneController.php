@@ -104,41 +104,12 @@ class SaleOneController extends Controller
         ];
         $newAcc = Account::create($accData);
         if ($newAcc) {
-
-            // Create opening FR for the created Projet
-            $FRData = [
-                'type' => 'sale', // here the type of financial record is project
-                'type_id' => $newSale->id, //Project Id will be used here as type id
-                'account_id' => $newAcc->id,
-                'description' => 'عملیه مالی ثبت شده برای فروشات - ' . $newSale->id,
-                'currency_id' => Currency::latest()->first()->id,
-                'credit' => $request->total,
-                'debit' => 0,
-                'ex_rate_id' => ExchangeRate::latest()->first()->id,
-                'status' => 'opn'
-            ];
-            $newFR = FinancialRecord::create($FRData);
+            $newFR = createDoubleFR($newSale, $newAcc, $request);
         }
         if ($newAcc) {
             $stocks = [];
-            foreach ($request->item as $valueItem) {
-                $stocks[] = StockRecord::create([
-                    'type' => "sale",
-                    'type_id' => $newSale->id,
-                    'source' => $storage['name'],
-                    'source_id' => $storage['id'],
-                    'item_id' => $valueItem['item_id']['id'],
-                    'increment' => ($valueItem['ammount']) ? $valueItem['ammount'] : $valueItem['equivalent'],
-                    'decrement' => 0,
-                    'uom_id' => $valueItem['item_id']['measurment_unites_min']['id'],
-                    'increment_equiv' => $valueItem['equivalent'],
-                    'decrement_equiv' => 0,
-                    'uom_equiv_id' => $valueItem['item_id']['measurment_unites_sub']['id'],
-                    'density' => $valueItem['density'],
-                    'operation_id' => $valueItem['operation_id']['id'],
-                    'remark' => $request['description'],
-                ]);
-            }
+            $totalmoney = 0;
+            $stocks = salesCreateStockRecords($request->item, $newSale, $storage, $request, $totalmoney, $storage['name'], $storage['id']);
         }
 
         // Create the Notification
@@ -156,6 +127,9 @@ class SaleOneController extends Controller
                 'user_id' => $request->user_id,
             ];
             $newNotif = Notification::create($nofication);
+            if ($newNotif) {
+                createUserAssign($newNotif->id, "nor");
+            }
         }
         return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
     }
@@ -221,7 +195,7 @@ class SaleOneController extends Controller
         $sales4 = Sale::join('sales_fours AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.additional_cost as service_cost, sales.type, sales.source_type, sales.source_id");
 
-        $all = $sales1->union($sales2)->union($sales3)->union($sales4)->get();
+        $all = $sales1->union($sales2)->union($sales3)->union($sales4)->orderBy('sales_id', 'desc')->get();
 
         return $all;
     }
