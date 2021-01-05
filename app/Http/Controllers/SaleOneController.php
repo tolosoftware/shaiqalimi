@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helper\Helper;
 
 use App\Models\SaleOne;
 use App\Models\Sale;
@@ -25,7 +26,7 @@ class SaleOneController extends Controller
      */
     public function index()
     {
-        $sales = [];
+        
         $sales1 = Sale::with(['saleS1.project', 'source'])->get();
         $sales2 = Sale::with(['saleS2.storage', 'source'])->get();
 
@@ -57,7 +58,7 @@ class SaleOneController extends Controller
      */
     public function store(Request $request)
     {
-        $serial_no = getSerialNo('sale1', 'sale');
+        $serial_no = Helper::getSerialNo('sale1', 'sale');
         $this->validate($request, [
             // 'title' => 'required|min:2',
             // 'formula' => 'required|min:2',
@@ -104,12 +105,12 @@ class SaleOneController extends Controller
         ];
         $newAcc = Account::create($accData);
         if ($newAcc) {
-            $newFR = createDoubleFR($newSale, $newAcc, $request);
+            $newFR = Helper::createDoubleFR($newSale, $newAcc, $request);
         }
         if ($newAcc) {
             $stocks = [];
             $totalmoney = 0;
-            $stocks = salesCreateStockRecords($request->item, $newSale, $storage, $request, $totalmoney, $storage['name'], $storage['id']);
+            $stocks = Helper::salesCreateStockRecords($request->item, $newSale, $storage, $request, $totalmoney, $storage['name'], $storage['id']);
         }
 
         // Create the Notification
@@ -128,7 +129,7 @@ class SaleOneController extends Controller
             ];
             $newNotif = Notification::create($nofication);
             if ($newNotif) {
-                createUserAssign($newNotif->id, "nor");
+                Helper::createUserAssign($newNotif->id, "nor");
             }
         }
         return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
@@ -182,6 +183,7 @@ class SaleOneController extends Controller
     }
     public function allSales()
     {
+        return $return;
         // $sales1 = SaleOne::all();
         $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");

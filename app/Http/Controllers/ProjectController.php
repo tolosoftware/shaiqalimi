@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helper\Helper;
 
 use App\Models\Project;
 use App\Models\SerialNumber;
@@ -73,7 +74,7 @@ class ProjectController extends Controller
         if (gettype($request->proposal_id) != 'integer') {
             $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
         }
-        $serial_no = getSerialNo('type', 'pro');
+        $serial_no = Helper::getSerialNo('type', 'pro');
         $request['serial_no'] = $serial_no->value;
         if ($resp = Project::create($request->all())) {
             if ($request['proposal_id']) {

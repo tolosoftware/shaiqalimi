@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helper\Helper;
 use App\Models\Purchase;
 use App\Models\StockRecord;
 use App\Models\FinancialRecord;
