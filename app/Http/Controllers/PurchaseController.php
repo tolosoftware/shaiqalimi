@@ -153,7 +153,7 @@ class PurchaseController extends Controller
        
             $nofication = [
                 'title' => 'خریداری جدید',
-                'text' => 'یک خریداری جدید از ' . $request['vendor_name'] . ' به منبع ' . $request['godam']['name'] . ' در سیستم ثبت گردید.',
+                'text' => 'یک خریداری جدید از ' . $request['vendor_name'] . ' به منبع ' . $request['source_id']['name'] . ' در سیستم ثبت گردید.',
                 'type' => 'success',
                 'gen_date' => Carbon::now(),
                 'exp_date' => Carbon::now()->endOfDay(),
