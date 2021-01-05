@@ -78,7 +78,6 @@ class PurchaseController extends Controller
                 ]);
             }
            
-      
         Purchase::create([
             'serial_no' => $request['serial_no'],
             'vendor_id' => $request['vendor_id'],
@@ -93,7 +92,7 @@ class PurchaseController extends Controller
           StockRecord::create([
             'type'=> "purchase",
             'type_id'=> $purchase->id,
-            'source' => $request['source_id']['name'],
+            'source' => $request['source_type'],
             'source_id'=> $request['source_id']['id'],
             'item_id' => $valueItem['item_id']['id'],
             'increment'=> $valueItem['increment'],
@@ -123,12 +122,32 @@ class PurchaseController extends Controller
             'credit' => $totalmony,
             'debit' => 0,
             'ex_rate_id' => $request['currency_id'],
-            'status' => 'Exp'
+            'status' => 'INC'
             
             ];
             FinancialRecord::create($data);
 
-            ///change needed
+            $account_id = 1;
+            if($request['currency_id'] == 2){
+                $account_id = config('app.cash_in_hand_usd');
+            }else{
+                $account_id = config('app.cash_in_hand_afn');
+            }
+            $datacasinhand = [
+                'type' => 'purchase', 
+                'type_id' => $purchase->id, 
+                'account_id' => $account_id,
+                'description' => $request['description'],
+                'currency_id' => $request['currency_id'],
+                'credit' => 0,
+                'debit' => $totalmony,
+                'ex_rate_id' => $request['currency_id'],
+                'status' => 'EXP'
+                
+                ];
+                FinancialRecord::create($datacasinhand);
+
+            //change needed
 
         //create nofifications
        
@@ -145,7 +164,6 @@ class PurchaseController extends Controller
             $newNotif = Notification::create($nofication);
             $notification = Notification::latest()->first();
             $user = User::all();
-
             foreach($user as $value){
                 if($value->user_type == 1 || $value->user_type == 2){
                     UserNotification::create([
