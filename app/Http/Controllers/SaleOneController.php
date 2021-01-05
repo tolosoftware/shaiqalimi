@@ -26,8 +26,8 @@ class SaleOneController extends Controller
     public function index()
     {
         $sales = [];
-        $sales1= Sale::with(['saleS1.project', 'source'])->get();
-        $sales2= Sale::with(['saleS2.storage', 'source'])->get();
+        $sales1 = Sale::with(['saleS1.project', 'source'])->get();
+        $sales2 = Sale::with(['saleS2.storage', 'source'])->get();
 
         // //both arrays will be merged including duplicates
         // $result = array_merge( $sales1, $sales2 );
@@ -36,7 +36,7 @@ class SaleOneController extends Controller
         // //array is sorted on the bases of id
         // sort( $result );
 
-        return [$sales1 , $sales2];
+        return [$sales1, $sales2];
     }
 
     /**
@@ -91,7 +91,7 @@ class SaleOneController extends Controller
         $request['sales_id'] = $newSale->id;
         // return $request;
         $newSaleOne = SaleOne::create($request->all());
-        
+
         $typeId = AccountType::latest()->first()->id;
         $accData = [
             'user_id' => $request->user_id,
@@ -118,32 +118,31 @@ class SaleOneController extends Controller
                 'status' => 'opn'
             ];
             $newFR = FinancialRecord::create($FRData);
-
         }
-        if($newAcc) {
+        if ($newAcc) {
             $stocks = [];
-            foreach($request->item as $valueItem ){
+            foreach ($request->item as $valueItem) {
                 $stocks[] = StockRecord::create([
-                  'type'=> "sale",
-                  'type_id'=> $newSale->id,
-                  'source' => $storage['name'],
-                  'source_id'=> $storage['id'],
-                  'item_id' => $valueItem['item_id']['id'],
-                  'increment'=> ($valueItem['ammount']) ? $valueItem['ammount'] : $valueItem['equivalent'],
-                  'decrement'=> 0,
-                  'uom_id' => $valueItem['item_id']['measurment_unites_min']['id'],
-                  'increment_equiv'=> $valueItem['equivalent'],
-                  'decrement_equiv'=> 0,
-                  'uom_equiv_id'=> $valueItem['item_id']['measurment_unites_sub']['id'],
-                  'density'=> $valueItem['density'],
-                  'operation_id' => $valueItem['operation_id']['id'], 
-                  'remark' => $request['description'],
+                    'type' => "sale",
+                    'type_id' => $newSale->id,
+                    'source' => $storage['name'],
+                    'source_id' => $storage['id'],
+                    'item_id' => $valueItem['item_id']['id'],
+                    'increment' => ($valueItem['ammount']) ? $valueItem['ammount'] : $valueItem['equivalent'],
+                    'decrement' => 0,
+                    'uom_id' => $valueItem['item_id']['measurment_unites_min']['id'],
+                    'increment_equiv' => $valueItem['equivalent'],
+                    'decrement_equiv' => 0,
+                    'uom_equiv_id' => $valueItem['item_id']['measurment_unites_sub']['id'],
+                    'density' => $valueItem['density'],
+                    'operation_id' => $valueItem['operation_id']['id'],
+                    'remark' => $request['description'],
                 ]);
             }
         }
 
         // Create the Notification
-        if($newFR) {
+        if ($newFR) {
             $client_name = $project['pro_data']['client']['name'];
             $item_name = $storage['name'];
             $nofication = [
@@ -157,7 +156,6 @@ class SaleOneController extends Controller
                 'user_id' => $request->user_id,
             ];
             $newNotif = Notification::create($nofication);
-
         }
         return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
     }
@@ -168,9 +166,11 @@ class SaleOneController extends Controller
      * @param  \App\SaleOne  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function show(SaleOne $saleOne)
+    public function show($id)
     {
-        //
+        $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
+            ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id")->where('s.serial_no', $id)->get();
+        return $sales1;
     }
 
     /**
@@ -211,16 +211,16 @@ class SaleOneController extends Controller
         // $sales1 = SaleOne::all();
         $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");
-            
+
         $sales2 = Sale::join('sales_twos AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");
-            
+
         $sales3 = Sale::join('sales_threes AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");
-            
+
         $sales4 = Sale::join('sales_fours AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.additional_cost as service_cost, sales.type, sales.source_type, sales.source_id");
-            
+
         $all = $sales1->union($sales2)->union($sales3)->union($sales4)->get();
 
         return $all;

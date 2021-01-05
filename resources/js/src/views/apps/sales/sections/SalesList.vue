@@ -9,13 +9,13 @@
 
 <template>
 <div id="data-list-list-view" class="data-list-container">
+  <vx-card v-if="!isloaded" title="">
+    <p style="height:40px;margin:20px;" id="success-load">
 
-  <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
-
-  <vs-table v-if="isOk" ref="table" pagination :max-items="itemsPerPage" search :data="sales">
-
+    </p>
+  </vx-card>
+  <vs-table v-if="isloaded" ref="table" pagination :max-items="itemsPerPage" search :data="sales">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-
       <div class="flex flex-wrap-reverse items-center data-list-btn-container">
         <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler float-right">
@@ -34,7 +34,6 @@
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
           <vs-dropdown-menu>
-
             <vs-dropdown-item @click="itemsPerPage=4">
               <span>4</span>
             </vs-dropdown-item>
@@ -50,11 +49,8 @@
           </vs-dropdown-menu>
         </vs-dropdown>
       </div>
-
     </div>
-
     <template slot="thead">
-
       <vs-th>#</vs-th>
       <vs-th>سریال نمبر</vs-th>
       <vs-th>هزینه کلی</vs-th>
@@ -62,12 +58,9 @@
       <vs-th>نوع فروش</vs-th>
       <vs-th>منبع</vs-th>
       <vs-th>تنظیمات</vs-th>
-
     </template>
-
     <template slot-scope="{data}">
       <tbody>
-
         <vs-tr :data="tr" :key="i" v-for="(tr, i) in data">
           <vs-td>
             <p>{{ (itemsPerPage * (currentPage - 1)) + i + 1 }}</p>
@@ -88,22 +81,28 @@
             <p>{{ tr.source_type }}</p>
           </vs-td>
           <vs-td>
-            <router-link class="product-name font-medium truncate" >
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
+            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.serial_no)" />&nbsp;&nbsp;
+            <router-link class="product-name font-medium truncate" :to="{
+              path: '/projects/project/${tr.id}',
+                  name: 'project-edit',
+                  params: { id: tr.id, dyTitle: tr.title },
+            }">
+              <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
             </router-link>
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.sales_id)" />
-
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.sales_id)" />
           </vs-td>
         </vs-tr>
-
       </tbody>
     </template>
   </vs-table>
-  <!-- <vs-popup class="holamundo" title="Lorem ipsum dolor sit amet">
-    <p>
-      <h4>سلام خوبی ؟</h4>
-    </p>
-  </vs-popup> -->
+  <vs-popup class="holamundo" title="تنظیمات مربط به فروشات" :active.sync="popupModalActive">
+    <vx-card v-if="!isloadedrow" title="">
+      <p style="height:40px;margin:20px;" id="success-load1"></p>
+    </vx-card>
+    <div v-if="isloadedrow" v-for="(s,i) in sale">
+      <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+    </div>
+  </vs-popup>
 
 </div>
 </template>
@@ -118,11 +117,13 @@ export default {
   },
   data() {
     return {
+      popupModalActive: false,
       sales: [],
-
+      sale: [],
       // Demo data
       popupActive: false,
-      isOk: true,
+      isloaded: false,
+      isloadedrow: false,
       selected: [],
       itemsPerPage: 10,
       isMounted: false,
@@ -144,12 +145,28 @@ export default {
     }
   },
   methods: {
+    showCheckModal(id) {
+      this.popupModalActive = true;
+      this.axios
+        .get("/api/sales/" + id)
+        .then((data) => {
+          this.sale = data.data;
+          this.isloadedrow = true;
+          console.log('sale', this.sale);
+          this.$Progress.set(100);
+
+        })
+        .catch(() => {});
+    },
     getAllSales() {
+      this.$Progress.start()
       this.axios
         .get("/api/sales")
         .then((data) => {
-          this.$Progress.set(100);
           this.sales = data.data;
+          this.isloaded = true;
+          this.$Progress.set(100);
+
         })
         .catch(() => {});
     },
@@ -195,7 +212,17 @@ export default {
     this.getAllSales();
   },
   mounted() {
-    this.isMounted = true
+    this.isMounted = false
+    this.$vs.loading({
+      container: '#success-load',
+      type: 'point',
+      text: "درحال بارگیری...."
+    })
+    this.$vs.loading({
+      container: '#success-load1',
+      type: 'point',
+      text: "درحال بارگیری...."
+    })
   }
 }
 </script>
@@ -328,5 +355,18 @@ export default {
       justify-content: center;
     }
   }
+}
+</style><style>
+.con-vs-popup .vs-popup {
+  width: 800px;
+}
+
+.vue-form-wizard .navbar .navbar-nav>li>a.wizard-btn,
+.vue-form-wizard .wizard-btn {
+  min-width: 40px !important;
+}
+
+[dir] .vue-form-wizard .wizard-tab-content {
+  padding: 30px 20px 2px 10px !important;
 }
 </style>
