@@ -5693,3 +5693,8 @@ li.fuel-station > h3 {
   width: 100% !important;
 }
 
+[dir] .source-select .marginIcon .vs-dropdown--item {
+  border-right: solid 1px #c2c6dc !important;
+  border-radius: 0 !important;
+}
+

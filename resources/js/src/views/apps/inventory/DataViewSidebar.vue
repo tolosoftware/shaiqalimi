@@ -12,7 +12,10 @@
   <div class="mt-6 flex items-center justify-between px-6 float-right">
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
   </div>
-
+  <div class="mt-6 flex items-center justify-between px-6 float-left mb-4">
+    <h4>ذخایر اصلی</h4>
+  </div>
+  </vs-divider>
   <vs-tabs>
     <vs-tab label="ذخایر">
       <AllInventory></AllInventory>

@@ -34,32 +34,27 @@
         <vs-th>کود</vs-th>
         <vs-th>نام ذخیره</vs-th>
         <vs-th>مسول</vs-th>
-        <!--<vs-th>تماس</vs-th> -->
-        <vs-th>جزییات</vs-th>
         <vs-th>بررسی</vs-th>
       </template>
       <template slot-scope="{data}">
         <vs-tr :key="indextr" v-for="(tr, indextr) in data">
           <vs-td>
-            <span>{{++indextr}}</span>
+            <span class="cursor-pointer" @click.stop="showStorageData(tr.id)">{{++indextr}}</span>
           </vs-td>
           <vs-td>
-            <span v-text="tr.name"></span>
+            <span v-text="tr.name" class="cursor-pointer" @click.stop="showStorageData(tr.id)"></span>
           </vs-td>
           <vs-td>
-            <span v-text="tr.manager"></span>
+            <span v-text="tr.manager" class="cursor-pointer" @click.stop="showStorageData(tr.id)"></span>
           </vs-td>
           <!--<vs-td>
             <span v-text="tr.phone"></span>
           </vs-td>-->
-          <vs-td>
-            <span>
-              <vs-button type="border" icon="visibility" size="small" @click="showStorageData(tr.id)" color="primary"></vs-button>
-            </span>
-          </vs-td>
+
           <vs-td class="whitespace-no-wrap notupfromall">
-            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="mr-2" @click.stop="editStorageData(tr)" />
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteStorageData(tr.id)" />
+            <feather-icon icon="MoreVerticalIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2 cursor-pointer" @click.stop="showStorageData(tr.id)" />
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2 cursor-pointer" @click.stop="editStorageData(tr)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteStorageData(tr.id)" />
           </vs-td>
         </vs-tr>
       </template>
@@ -359,5 +354,110 @@ export default {
 #all-inventory .con-tab.vs-tabs--content {
   max-height: 90vh !important;
   overflow-y: scroll !important;
+}
+</style><style lang="scss">
+#data-list-thumb-view {
+  .vs-con-table {
+    // .product-name {
+    //   max-width: 23rem;
+    // }
+
+    .vs-table--header {
+      display: flex;
+      flex-wrap: wrap-reverse;
+      margin-left: 1.5rem;
+      margin-right: 1.5rem;
+
+      >span {
+        display: flex;
+        flex-grow: 1;
+      }
+
+      .vs-table--search {
+        padding-top: 0;
+
+        .vs-table--search-input {
+          padding: 0.9rem 2.5rem;
+          font-size: 1rem;
+
+          &+i {
+            left: 1rem;
+          }
+
+          &:focus+i {
+            left: 1rem;
+          }
+        }
+      }
+    }
+
+    .vs-table {
+      border-collapse: separate;
+      border-spacing: 0 1.3rem;
+      padding: 0 0.6rem;
+
+      tr {
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+
+        td {
+          padding: 10px !important;
+
+          &:first-child {
+            border-top-left-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+          }
+
+          &:last-child {
+            border-top-right-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+          }
+
+          &.img-container {
+            // width: 1rem;
+            // background: #fff;
+
+            span {
+              display: flex;
+              justify-content: flex-start;
+            }
+
+            .product-img {
+              height: 70px;
+              padding-left: 10px;
+            }
+          }
+        }
+
+        td.td-check {
+          padding: 10px !important;
+        }
+      }
+    }
+
+    .vs-table--thead {
+      th {
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .vs-table-text {
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+      }
+
+      th.td-check {
+        padding: 0 15px !important;
+      }
+
+      tr {
+        background: none;
+        box-shadow: none;
+      }
+    }
+
+    .vs-table--pagination {
+      justify-content: center;
+    }
+  }
 }
 </style>
