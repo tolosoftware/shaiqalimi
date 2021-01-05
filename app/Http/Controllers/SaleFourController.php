@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helper\Helper;
 
 use App\Models\SaleFour;
 use App\Models\Sale;
@@ -48,7 +49,7 @@ class SaleFourController extends Controller
      */
     public function store(Request $request)
     {   
-        $serial_no = getSerialNo('sale4', 'sale');
+        $serial_no = Helper::getSerialNo('sale4', 'sale');
         $this->validate($request, [
             'serial_no' => 'required',
             'service_cost' => 'required',
@@ -83,13 +84,13 @@ class SaleFourController extends Controller
         $newAcc = Account::create($accData);
         if ($newAcc) {
 
-            $newFR = createDoubleFR($newSale, $newAcc, $request);
+            $newFR = Helper::createDoubleFR($newSale, $newAcc, $request);
 
         }
         if($newAcc) {
             $stocks = [];
             $totalmoney = 0;
-            $stocks = salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
+            $stocks = Helper::salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
 
         }
 

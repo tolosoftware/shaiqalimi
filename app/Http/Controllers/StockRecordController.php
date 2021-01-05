@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helper\Helper;
 
 use App\Models\StockRecord;
 use Illuminate\Http\Request;

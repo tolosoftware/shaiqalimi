@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helper\Helper;
 
 use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
