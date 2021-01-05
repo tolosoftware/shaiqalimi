@@ -160,7 +160,7 @@
         <ul class="demo-alignment">
           <li v-for="(n, index) in checked" :key="index">
             <div class="vs-component con-vs-checkbox vs-checkbox-success vs-checkbox-default">
-              <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="printState(index)" value="">
+              <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="appCheckBoxes(index)" value="">
               <span class="checkbox_x vs-checkbox" style="border: 2px solid rgb(180, 180, 180);">
                 <span class="vs-checkbox--check">
                   <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
@@ -350,8 +350,13 @@ export default {
           this.sForm.serial_no = response.data;
         })
     },
-    printState(x) {
-      this.sForm.steps = x;
+    appCheckBoxes(x) {
+      if(this.sForm.steps && this.sForm.steps >= x){
+        this.sForm.steps = (x - 1);
+      }
+      else{
+        this.sForm.steps = x;
+      }
       for (let i = 0; i < this.checked.length; i++) {
         this.checked[i].state = i <= x ? true : false;
       }
