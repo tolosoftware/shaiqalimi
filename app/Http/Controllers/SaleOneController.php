@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\SaleOne;
 use App\Models\Sale;
-use App\Models\ProItem;
-use App\Models\AccountType;
 use App\Models\Account;
+use App\Models\ProItem;
+use App\Models\SerialNumber;
+use App\Models\AccountType;
 use App\Models\ExchangeRate;
 use App\Models\FinancialRecord;
 use App\Models\Currency;
@@ -142,8 +143,21 @@ class SaleOneController extends Controller
      */
     public function show($id)
     {
-        $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
-            ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id")->where('s.serial_no', $id)->get();
+        $sale = Sale::findOrFail($id);
+        if ($sale->type == "s1") {
+            $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
+                ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id")->where('s.sales_id', $id)->get();
+        } else if ($sale->type == "s2") {
+            $sales1 = Sale::join('sales_twos AS s1', 'sales.id', '=', 's1.sales_id')
+                ->selectRaw("s1.sales_id, s1.serial_no, s1.total, s1.service_cost, sales.type, sales.source_type, sales.source_id")->where('s1.sales_id', $id)->get();
+        } else if ($sale->type == "s3") {
+            $sales1 = Sale::join('sales_threes AS s', 'sales.id', '=', 's.sales_id')
+                ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id")->where('s.sales_id', $id)->get();
+        } else if ($sale->type == "s4") {
+            $sales1 = Sale::join('sales_fours AS s', 'sales.id', '=', 's.sales_id')
+                ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id")->where('s.sales_id', $id)->get();
+        }
+
         return $sales1;
     }
 
@@ -176,9 +190,13 @@ class SaleOneController extends Controller
      * @param  \App\SaleOne  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SaleOne $saleOne)
+    public function destroy($id)
     {
-        //
+        $sale = Sale::findOrFail($id);
+        $helperDele = deleteSales($sale->id, $sale->type);
+        if ($helperDele) {
+            $sale->delete();
+        }
     }
     public function allSales()
     {

@@ -47,20 +47,20 @@ class SaleThreeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $serial_no = getSerialNo('sale3', 'sale');
         $this->validate($request, [
-            'serial_no' => 'required' ,
-            'project_id' => 'required' ,
-            'driver_name' => 'required' ,
-            'plate_no' => 'required' ,
-            'driver_phone' => 'required' ,
-            'service_cost' => 'required' ,
-            'tax' => 'required' ,
-            'deposit' => 'required' ,
-            'total' => 'required' ,
-            'steps' => 'required' ,
-            'description' => 'required' ,
+            'serial_no' => 'required',
+            'project_id' => 'required',
+            'driver_name' => 'required',
+            'plate_no' => 'required',
+            'driver_phone' => 'required',
+            'service_cost' => 'required',
+            'tax' => 'required',
+            'deposit' => 'required',
+            'total' => 'required',
+            'steps' => 'required',
+            'description' => 'required',
             'item' => 'required',
         ]);
 
@@ -75,7 +75,7 @@ class SaleThreeController extends Controller
 
         $request['sales_id'] = $newSale->id;
         $newSaleThree = SaleThree::create($request->all());
-        
+
         $typeId = AccountType::latest()->first()->id;
         $accData = [
             'user_id' => $request->user_id,
@@ -90,17 +90,15 @@ class SaleThreeController extends Controller
         if ($newAcc) {
 
             $newFR = createDoubleFR($newSale, $newAcc, $request);
-
         }
-        if($newAcc) {
+        if ($newAcc) {
             $stocks = [];
             $totalmoney = 0;
             $stocks = salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
-
         }
 
         // Create the Notification
-        if($newFR) {
+        if ($newFR) {
             $client_name = $project['pro_data']['client']['name'];
             $item_name = $source['name'];
             $nofication = [
@@ -114,7 +112,6 @@ class SaleThreeController extends Controller
                 'user_id' => $request->user_id,
             ];
             $newNotif = Notification::create($nofication);
-
         }
         return [$newSale, $newSaleThree, $newAcc, $newFR, $newNotif, $stocks];
     }
@@ -159,8 +156,8 @@ class SaleThreeController extends Controller
      * @param  \App\SaleThree  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SaleThree $saleOne)
+    public function destroy($id)
     {
-        //
+        return $id;
     }
 }

@@ -39,6 +39,7 @@ Route::resource('sale3', 'SaleThreeController');
 Route::resource('sale4', 'SaleFourController');
 Route::get('sales', 'SaleOneController@allSales');
 Route::get('sales/{id}', 'SaleOneController@show');
+Route::delete('sales/{sale}', 'SaleOneController@deleting');
 
 // Product Review
 Route::resource('project', 'ProjectController');

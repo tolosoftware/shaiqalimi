@@ -487,7 +487,7 @@ export default {
     this.isMounted = false,
       this.$vs.loading({
         container: '#success-load',
-        type: 'sound',
+        type: 'border',
         text: "درحال بارگیری...."
       })
   },

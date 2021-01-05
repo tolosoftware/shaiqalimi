@@ -47,7 +47,7 @@ class SaleFourController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $serial_no = getSerialNo('sale4', 'sale');
         $this->validate($request, [
             'serial_no' => 'required',
@@ -69,7 +69,7 @@ class SaleFourController extends Controller
 
         $request['sales_id'] = $newSale->id;
         $newSaleFour = SaleFour::create($request->all());
-        
+
         $typeId = AccountType::latest()->first()->id;
         $accData = [
             'user_id' => $request->user_id,
@@ -84,17 +84,15 @@ class SaleFourController extends Controller
         if ($newAcc) {
 
             $newFR = createDoubleFR($newSale, $newAcc, $request);
-
         }
-        if($newAcc) {
+        if ($newAcc) {
             $stocks = [];
             $totalmoney = 0;
             $stocks = salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
-
         }
 
         // Create the Notification
-        if($newFR) {
+        if ($newFR) {
             $client_name = $request['client_name'];
             $item_name = $source['name'];
             $nofication = [
@@ -108,7 +106,6 @@ class SaleFourController extends Controller
                 'user_id' => $request->user_id,
             ];
             $newNotif = Notification::create($nofication);
-
         }
         return [$newSale, $newSaleFour, $newAcc, $newFR, $newNotif, $stocks];
     }
@@ -153,8 +150,8 @@ class SaleFourController extends Controller
      * @param  \App\SaleFour  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SaleFour $saleOne)
+    public function destroy($id)
     {
-        //
+        return $id;
     }
 }
