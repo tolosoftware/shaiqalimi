@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helper\Helper;
 
 use App\Models\SaleTwo;
 use App\Models\Sale;
@@ -48,7 +49,7 @@ class SaleTwoController extends Controller
      */
     public function store(Request $request)
     {   
-        $serial_no = getSerialNo('sale2', 'sale');
+        $serial_no = Helper::getSerialNo('sale2', 'sale');
         $this->validate($request, [
             // 'title' => 'required|min:2',
             // 'formula' => 'required|min:2',
@@ -96,13 +97,13 @@ class SaleTwoController extends Controller
         $newAcc = Account::create($accData);
         if ($newAcc) {
 
-            $newFR = createDoubleFR($newSale, $newAcc, $request);
+            $newFR = Helper::createDoubleFR($newSale, $newAcc, $request);
 
         }
         if($newAcc) {
             $stocks = [];
             $totalmoney = 0;
-            $stocks = salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
+            $stocks = Helper::salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
         }
 
         // Create the Notification

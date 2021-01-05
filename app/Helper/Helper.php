@@ -1,4 +1,6 @@
 <?php
+
+namespace App\Helper;
 use App\Models;
 use App\Models\SerialNumber;
 use App\Models\User;
@@ -6,9 +8,14 @@ use App\Models\UserNotification;
 use App\Models\ExchangeRate;
 use App\Models\FinancialRecord;
 use App\Models\StockRecord;
-// use Auth;
 
-    function getSerialNo($type, $prefix)
+class Helper
+{
+  public static function getInformation()
+  {
+    return "getInformation()";
+  }
+  public static function getSerialNo($type, $prefix)
     {
         $serial_no = SerialNumber::where('type', $type)->first();
         if(!empty($serial_no)) {
@@ -19,7 +26,7 @@ use App\Models\StockRecord;
         }
         return $serial_no;
     } 
-    function createUserAssign($notif_id, $status = "nor"){
+    public static function createUserAssign($notif_id, $status = "nor"){
         $user = User::all();
         foreach($user as $value){
             if($value->user_type == 1 || $value->user_type == 2){
@@ -33,7 +40,7 @@ use App\Models\StockRecord;
             }
         }
     }
-    function createDoubleFR($newSale, $newAcc, $request){
+    public static function createDoubleFR($newSale, $newAcc, $request){
         // Create opening FR for the created Sales
         $FRData = [
             'type' => 'sale', // here the type of financial record is project
@@ -65,7 +72,7 @@ use App\Models\StockRecord;
         return [$newFR, $newFRCashInHand];
     }
 
-    function salesCreateStockRecords($items, $newSale, $storage, $request, &$totalmoney, $source, $source_id) {
+    public static function salesCreateStockRecords($items, $newSale, $storage, $request, &$totalmoney, $source, $source_id) {
         foreach($items as $valueItem ){
             $stocks[] = StockRecord::create([
               'type'=> "sale",
@@ -89,7 +96,7 @@ use App\Models\StockRecord;
         }
         return $stocks;
     }
-    function deleteSales(){
+    public static function deleteSales(){
         return 1;   
     }
-?>
+}
