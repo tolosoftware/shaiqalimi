@@ -38,6 +38,7 @@ Route::resource('sale2', 'SaleTwoController');
 Route::resource('sale3', 'SaleThreeController');
 Route::resource('sale4', 'SaleFourController');
 Route::get('sales', 'SaleOneController@allSales');
+Route::get('sales/{id}', 'SaleOneController@show');
 
 // Product Review
 Route::resource('project', 'ProjectController');
@@ -78,4 +79,3 @@ Route::get('sources', 'StorageController@allTypeSource');
 
 //Archive
 Route::get('accoutload', 'AccountController@getaccount');
-
