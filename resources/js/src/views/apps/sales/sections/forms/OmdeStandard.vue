@@ -79,8 +79,8 @@
     </div>
   </div>
 
-  <!-- Ekmalat -->
-  <ekmalat :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat>
+  <!-- EkmalatStock -->
+  <ekmalat-stock :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-w="6" class="mb-base">
@@ -184,7 +184,7 @@
 
 <script>
 import vSelect from 'vue-select'
-import Ekmalat from "../../../shared/Ekmalat"
+import EkmalatStock from "../../../shared/EkmalatStock"
 import SourceSelect from "../../../shared/SourceSelect";
 
 export default {
@@ -196,7 +196,7 @@ export default {
   },
   components: {
     'v-select': vSelect,
-    Ekmalat,
+    EkmalatStock,
     SourceSelect
 
   },
@@ -256,12 +256,12 @@ export default {
           item_id: "",
           unit_id: "",
           operation_id: null,
-          equivalent: "",
-          ammount: "",
+          increment_equiv: "",
+          increment: "",
           unit_price: "",
           total_price: "",
           density: null,
-        }, ],
+        }],
       }),
       items: [],
       clients: [],
