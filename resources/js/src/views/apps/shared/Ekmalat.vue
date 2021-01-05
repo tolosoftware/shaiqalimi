@@ -129,7 +129,7 @@
   </form>
   <vs-row vs-w="12">
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="4" vs-xs="12" class="pt-2 mb-2 ml-3 mr-3">
-      <vs-button type="border" @click.stop="addNewRow" color="success" icon="add"></vs-button>
+      <vs-button type="border" @click.stop="addRow" color="success" icon="add"></vs-button>
       &nbsp;&nbsp;
       <vs-button type="border" id="delete-btn" @click.stop="removeRow" color="danger" icon="delete" :disabled="this.items.length <= 1"></vs-button>
     </vs-col>
@@ -247,23 +247,7 @@ export default {
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
           if (result) {
-            console.log(this.items);
-            this.items.push({
-              item_id: "",
-              operation_id: null,
-              equivalent: "",
-              ammount: "",
-              unit_price: "",
-              total_price: "",
-              density: null,
-            });
-            this.is_active.push({
-              density: false,
-              uom: true,
-              eqv_uom: true,
-              reverse: false,
-            });
-
+            this.addrow();
           } else {
             // reject('correct all values')
 
@@ -273,15 +257,33 @@ export default {
       console.log(this.errors);
     },
     validateEkmalatForm() {
-      this.initFormError();
-      return new Promise((resolve, reject) => {
-        this.$validator.validateAll("step-3").then((result) => {
-          if (result) {
-            return true;
-          } else {
-            return false;
-          }
-        });
+      // this.initFormError();
+      // return new Promise((resolve, reject) => {
+      //   this.$validator.validateAll("step-3").then((result) => {
+      //     if (result) {
+      //       return true;
+      //     } else {
+      //       return false;
+      //     }
+      //   });
+      // });
+    },
+
+    addRow() {
+      this.items.push({
+        item_id: "",
+        operation_id: null,
+        equivalent: "",
+        ammount: "",
+        unit_price: "",
+        total_price: "",
+        density: null,
+      });
+      this.is_active.push({
+        density: false,
+        uom: true,
+        eqv_uom: true,
+        reverse: false,
       });
     },
     initFormError() {

@@ -23,7 +23,7 @@
         <vs-col vs-type="flex" v-if="is_active[index].uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
-              <small>مقدار</small>
+              <small>مقدار (واحد اصلی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_id">
@@ -42,7 +42,7 @@
         <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
-              <small>معادل</small>
+              <small>مقدار (واحد فرعی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_equiv_id">
@@ -67,7 +67,7 @@
         <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
-              <small>معادل</small>
+              <small>مقدار (واحد فرعی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_equiv_id">
@@ -85,7 +85,7 @@
         <vs-col vs-type="flex" v-if="is_active[index].uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
-              <small>مقدار</small>
+              <small>مقدار (واحد اصلی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_id">
@@ -102,13 +102,13 @@
           </div>
         </vs-col>
 
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].density ? 1 : 2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>هزینه مجموعی</small>
@@ -242,7 +242,6 @@ export default {
       });
     },
     addNewRow() {
-      console.log('add new');
       this.initFormError();
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
@@ -267,7 +266,6 @@ export default {
 
           } else {
             // reject('correct all values')
-
           }
         });
       });

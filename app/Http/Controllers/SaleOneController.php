@@ -183,8 +183,6 @@ class SaleOneController extends Controller
     }
     public function allSales()
     {
-        return $return;
-        // $sales1 = SaleOne::all();
         $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.service_cost, sales.type, sales.source_type, sales.source_id");
 
