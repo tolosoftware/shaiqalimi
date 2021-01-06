@@ -81,7 +81,7 @@
             <p>{{ tr.source_type }}</p>
           </vs-td>
           <vs-td>
-            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.serial_no)" />&nbsp;&nbsp;
+            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.sales_id)" />&nbsp;&nbsp;
             <router-link class="product-name font-medium truncate" :to="{
               path: '/projects/project/${tr.id}',
                   name: 'project-edit',
@@ -147,6 +147,7 @@ export default {
   methods: {
     showCheckModal(id) {
       this.popupModalActive = true;
+      this.$Progress.start()
       this.axios
         .get("/api/sales/" + id)
         .then((data) => {
@@ -164,16 +165,26 @@ export default {
         .get("/api/sales")
         .then((data) => {
           this.sales = data.data;
+          console.log('sales', this.sales);
           this.isloaded = true;
           this.$Progress.set(100);
 
         })
         .catch(() => {});
     },
-    deleteData(id, title) {
+    deleteData(id) {
+      // if (type == "s1") {
+      //   path = 'sale1'
+      // } else if (type == "s2") {
+      //   path = 'sale2'
+      // } else if (type == "s3") {
+      //   path = 'sale3'
+      // } else if (type == "s4") {
+      //   path = 'sale4'
+      // }
       swal.fire({
         title: 'آیا  مطمئن هستید؟',
-        text: "پروژه حذف خواهد شد",
+        text: "ریکارد فروش حذف خواهد شد",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: 'rgb(54 34 119)',
@@ -182,15 +193,16 @@ export default {
         cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
-          // this.pForm.delete('/api/project/' + id).then((id) => {
-          //     swal.fire({
-          //       title: 'عملیه موفقانه انجام شد.',
-          //       text: "پروژه از سیستم پاک شد!",
-          //       icon: 'success',
-          //     })
-          //     this.getProject();
-          //   })
-          //   .catch(() => {});
+          this.axios.delete('/api/sale1/' + id).then((id) => {
+              console.log('id', id.data)
+              swal.fire({
+                title: 'عملیه موفقانه انجام شد.',
+                text: "مورد فروش از سیستم پاک شد!",
+                icon: 'success',
+              })
+              this.getAllSales();
+            })
+            .catch(() => {});
         }
       })
     },

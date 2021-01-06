@@ -20,7 +20,7 @@ class ProposalController extends Controller
      */
     public function index()
     {
-        
+
         return Proposal::with(['pro_data.client', 'pro_items'])->whereHas('pro_data', function ($query) {
             return $query->where('proposal_id', '!=', null);
         })->latest()->get();
@@ -58,10 +58,9 @@ class ProposalController extends Controller
         ]);
         // Get The last serial number for the proposal.
         $serial_number = SerialNumber::where('type', 'prop')->latest()->first();
-        if($serial_number) {
+        if ($serial_number) {
             $request['serial_no'] = $serial_number->value + 1;
-        }
-        else{
+        } else {
             $request['serial_no'] = 101;
         }
         // return $request;
@@ -75,14 +74,14 @@ class ProposalController extends Controller
         //     $request['client_id'] = $value['id'];
         // }
         $client_id = null;
-        if(gettype($request->client_id) != 'integer') {
+        if (gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
             // return $request;
         }
-        
+
         SerialNumber::create($serial_number);
-        
-        if ($resp = Proposal::create($request->all())){
+
+        if ($resp = Proposal::create($request->all())) {
             $proData = [
                 'proposal_id' => $resp->id,
                 'client_id' => $request->client_id,
@@ -98,11 +97,11 @@ class ProposalController extends Controller
                 'total_price' => $request->total_price,
             ];
             ProData::create($proData);
-    
+
 
             // Create Pro Items Record for selected Items
             foreach ($request->item as $key => $item) {
-                if(gettype($item['item_id']) != 'integer') {
+                if (gettype($item['item_id']) != 'integer') {
                     $item = [
                         'unit_id' => $item['item_id']['uom_id']['id'],
                         'uom_equiv_id' => $item['item_id']['uom_equiv_id']['id'],
@@ -119,8 +118,7 @@ class ProposalController extends Controller
                 }
             }
             return $resp;
-        }
-        else{
+        } else {
             return $resp;
         }
     }
@@ -131,10 +129,12 @@ class ProposalController extends Controller
      * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
-    public function show(Proposal $proposal)
+    public function show($id)
     {
         // return $proposal::with(['pro_data', 'pro_items']);
-        return Proposal::with(['pro_data.client_id', 'pro_items'])->latest()->find($proposal->id);
+        // return Proposal::with(['pro_data.client_id', 'pro_items'])->latest()->find($id);
+        return ProData::join('clients AS c', 'pro_data.client_id', '=', 'c.id')
+            ->selectRaw("c.name, pro_data.title")->where('pro_data.proposal_id', $id)->get();
     }
 
     /**
@@ -169,10 +169,10 @@ class ProposalController extends Controller
             'total_price' => 'required',
         ]);
         // return $proposal;
-        if(gettype($request->client_id) != 'integer') {
+        if (gettype($request->client_id) != 'integer') {
             $request['client_id'] = $request->client_id['id'];
         }
-        if ($resp = Proposal::find($proposal->id)->update($request->all())){
+        if ($resp = Proposal::find($proposal->id)->update($request->all())) {
             $proData = [
                 'client_id' => $request->client_id,
                 'title' => $request->title,
@@ -206,8 +206,7 @@ class ProposalController extends Controller
                 ProItem::find($item['id'])->update($item);
             }
             return $resp;
-        }
-        else{
+        } else {
             return $resp;
         }
     }
