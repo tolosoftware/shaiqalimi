@@ -19,7 +19,7 @@ class TransferController extends Controller
      */
     public function index()
     {
-        return Transfer::all();
+        return Transfer::latest()->get();
     }
 
     /**
