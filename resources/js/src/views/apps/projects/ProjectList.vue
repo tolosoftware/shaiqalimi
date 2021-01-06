@@ -41,7 +41,6 @@
       </vs-dropdown>
       <!--<vs-button size="small" type="gradient" icon="print" id="printBTN" @click.stop="printProject">چاپ</vs-button> -->
     </div>
-
     <template slot="thead">
       <vs-th>نمبر</vs-th>
       <vs-th>نهاد</vs-th>
@@ -53,7 +52,6 @@
       <vs-th sort-key="contract_date">تاریخ قرارداد</vs-th>
       <vs-th>نمظیمات</vs-th>
     </template>
-
     <template slot-scope="{data}">
       <tbody>
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
@@ -70,7 +68,6 @@
               <p>{{ findClient(tr.pro_data.client_id) }}</p>
             </router-link>
           </vs-td>
-
           <vs-td>
             <div v-if="tr.pro_data">
               <router-link class="product-name font-medium truncate" :to="{
@@ -81,12 +78,10 @@
                 {{ tr.pro_data.title }}</router-link>
             </div>
           </vs-td>
-
           <vs-td>
             <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
             <p class="project_guarantee">{{ tr.project_guarantee }} افغانی</p>
           </vs-td>
-
           <vs-td>
             <p v-if="tr.pro_data" class="contract_end_date">{{ tr.pro_data.pr_worth }}</p>
           </vs-td>
@@ -99,17 +94,12 @@
           <vs-td>
             <p class="contract_date">{{ tr.contract_date }}</p>
           </vs-td>
-
           <vs-td class="whitespace-no-wrap notupfromall">
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.id)" />&nbsp;&nbsp;
             <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
-            <router-link class="product-name font-medium truncate" :to="{
-                  path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">
-              <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
-            </router-link>
+            <!--<router-link class="product-name font-medium truncate"> -->
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
+            <!--</router-link> -->
             <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>
@@ -122,9 +112,10 @@
         <vs-row vs-w="12" class="mb-1">
           <vs-divider>تنظیم اعلانات</vs-divider>
           <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
+            <div v-for="(row, indextr) in project">
+              <p>{{row.name}}</p>
+              <p>{{row.title}}</p>
+            </div>
             <br>
             <div class="flex justify-between float-right">
               <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
@@ -336,6 +327,7 @@ export default {
       },
       selected: [],
       projects: [],
+      project: [],
       itemsPerPage: 5,
       isMounted: false,
       addNewDataSidebar: false,
@@ -371,8 +363,20 @@ export default {
       this.popupModalActive = false;
 
     },
-    showCheckModal() {
+    showCheckModal(id) {
       this.popupModalActive = true;
+      this.$Progress.start()
+      this.axios
+        .get("/api/project/" + id + "/edit")
+        .then((data) => {
+          this.project = data.data;
+          // this.isloadedrow = true;
+          console.log('project', this.project);
+          this.$Progress.set(100);
+
+        })
+        .catch(() => {});
+
     },
     showPrintData(id) {
       this.popupActive = true;
@@ -487,7 +491,7 @@ export default {
     this.isMounted = false,
       this.$vs.loading({
         container: '#success-load',
-        type: 'sound',
+        type: 'border',
         text: "درحال بارگیری...."
       })
   },

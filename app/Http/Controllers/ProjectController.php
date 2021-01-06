@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Project;
@@ -188,9 +189,10 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($id)
     {
-        //
+        return ProData::join('clients AS c', 'pro_data.client_id', '=', 'c.id')
+            ->selectRaw("c.name, pro_data.title")->where('pro_data.project_id', $id)->get();
     }
 
     /**
