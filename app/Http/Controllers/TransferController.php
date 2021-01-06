@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 use App\Helper\Helper;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon as Carbon;
 
 use App\Models\Transfer;
+use App\Models\Account;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
@@ -16,7 +19,7 @@ class TransferController extends Controller
      */
     public function index()
     {
-        //
+        return Transfer::all();
     }
 
     /**
@@ -41,7 +44,33 @@ class TransferController extends Controller
         try {
             $serial_no = Helper::getSerialNo('transfer', 'transfer');
             $request['serial_no'] = $serial_no->value;
+
+            // Default AFN currency ID.
+            $request['currency_id'] = 1;
+            $request['ammount'] = $request->total;
+            $source = $request->source_id;
+
             $t = Transfer::create($request->all());
+            $account = Account::find(config('app.base_transfer_account'));
+
+            Helper::createDoubleFR('TRS', $t, $account, $request);
+            
+            $totalmoney = 0;
+            $stocks = Helper::salesCreateStockRecords('TRS', $request->item, $t, $source, $request, $totalmoney, $source['name'], $source['id']);
+
+            $target = $request->destination;
+            $source = $source['name'];
+            $nofication = [
+                'title' => 'انتقال جدید',
+                'text' => 'یک انتقال جدید از ' . $source . ' به ' . $target . ' در سیستم ثبت گردید.',
+                'type' => 'normal',
+                'gen_date' => Carbon::now(),
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'view',
+                'url' => 'sales?list',
+                'user_id' => $request->user_id,
+            ];
+            $newNotif = Notification::create($nofication);
             DB::commit();
             return $t;
         } catch (Exception $e) {
