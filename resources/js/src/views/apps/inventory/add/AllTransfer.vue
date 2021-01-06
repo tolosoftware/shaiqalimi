@@ -1,131 +1,91 @@
 <template>
+<component :is="scrollbarTag" class="scroll-area--data-list-add-new" :key="$vs.rtl">
+  <vx-card v-if="!isloaded" title="">
+    <p style="height:40px;margin:20px;" id="success-load">
+    </p>
+  </vx-card>
+  <div id="data-list-thumb-view" class="w-full data-list-container">
+    <vs-table v-if="isloaded" ref="table" pagination :max-items="itemsPerPage" :data="transfers">
+      <template slot="thead">
+        <vs-th>شماره سریال</vs-th>
+        <vs-th>عنوان</vs-th>
+        <vs-th>هزینه مجموعی</vs-th>
+        <vs-th>مسول</vs-th>
+      </template>
 
-    <component :is="scrollbarTag" class="scroll-area--data-list-add-new"  :key="$vs.rtl">
-        <vs-table :data="users">
+      <template slot-scope="{data}">
+        <vs-tr :key="i" v-for="(tr, i) in data">
 
-            <template slot="thead">
-                <vs-th>Email</vs-th>
-                <vs-th>Name</vs-th>
-                <vs-th>Website</vs-th>
-                <vs-th>Nro</vs-th>
-            </template>
+          <vs-td :data="data[i].serial_no">
+            {{ data[i].serial_no }}
+          </vs-td>
 
-            <template slot-scope="{data}">
-                <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+          <vs-td :data="data[i].title" >
+            <p>{{ data[i].title }}</p>
+          </vs-td>
 
-                    <vs-td :data="data[indextr].email">
-                        {{ data[indextr].email }}
-                    </vs-td>
+          <vs-td :data="data[i].total">
+            {{ data[i].total }} افغانی
+          </vs-td>
 
-                    <vs-td :data="data[indextr].username">
-                        {{ data[indextr].name }}
-                    </vs-td>
+          <vs-td :data="data[i].supervisor" class="just-one-line">
+            <p>{{ data[i].supervisor }}</p>
+          </vs-td>
 
-                    <vs-td :data="data[indextr].id">
-                        {{ data[indextr].website }}
-                    </vs-td>
-
-                    <vs-td :data="data[indextr].id">
-                        {{ data[indextr].id }}
-                    </vs-td>
-
-                </vs-tr>
-            </template>
-
-        </vs-table>
-
-    </component>
-
+        </vs-tr>
+        </tbody>
+      </template>
+    </vs-table>
+  </div>
+</component>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            users: [{
-                    "id": 1,
-                    "name": "Leanne Graham",
-                    "username": "Bret",
-                    "email": "Sincere@april.biz",
-                    "website": "hildegard.org",
-                },
-                {
-                    "id": 2,
-                    "name": "Ervin Howell",
-                    "username": "Antonette",
-                    "email": "Shanna@melissa.tv",
-                    "website": "anastasia.net",
-                },
-                {
-                    "id": 3,
-                    "name": "Clementine Bauch",
-                    "username": "Samantha",
-                    "email": "Nathan@yesenia.net",
-                    "website": "ramiro.info",
-                },
-                {
-                    "id": 4,
-                    "name": "Patricia Lebsack",
-                    "username": "Karianne",
-                    "email": "Julianne.OConner@kory.org",
-                    "website": "kale.biz",
-                },
-                {
-                    "id": 5,
-                    "name": "Chelsey Dietrich",
-                    "username": "Kamren",
-                    "email": "Lucio_Hettinger@annie.ca",
-                    "website": "demarco.info",
-                },
-                {
-                    "id": 6,
-                    "name": "Mrs. Dennis Schulist",
-                    "username": "Leopoldo_Corkery",
-                    "email": "Karley_Dach@jasper.info",
-                    "website": "ola.org",
-                },
-                {
-                    "id": 7,
-                    "name": "Kurtis Weissnat",
-                    "username": "Elwyn.Skiles",
-                    "email": "Telly.Hoeger@billy.biz",
-                    "website": "elvis.io",
-                },
-                {
-                    "id": 8,
-                    "name": "Nicholas Runolfsdottir V",
-                    "username": "Maxime_Nienow",
-                    "email": "Sherwood@rosamond.me",
-                    "website": "jacynthe.com",
-                },
-                {
-                    "id": 9,
-                    "name": "Glenna Reichert",
-                    "username": "Delphine",
-                    "email": "Chaim_McDermott@dana.io",
-                    "website": "conrad.com",
-                },
-                {
-                    "id": 10,
-                    "name": "Clementina DuBuque",
-                    "username": "Moriah.Stanton",
-                    "email": "Rey.Padberg@karina.biz",
-                    "website": "ambrose.net",
-                },
-            ],
+  components: {},
+  data() {
+    return {
+      transfers: [],
+      itemsPerPage: 5,
+      isloaded: false,
+      isloadedrow: false,
 
-              settings: { // perfectscrollbar settings
-                maxScrollbarLength: 60,
-                wheelSpeed: .60
-            }
-        }
+      settings: { // perfectscrollbar settings
+        maxScrollbarLength: 60,
+        wheelSpeed: .60
+      }
+    }
+  },
+  created() {
+    this.getTransfers();
+  },
+  methods: {
+    getTransfers() {
+      this.axios
+        .get("/api/transfer")
+        .then((data) => {
+          this.transfers = data.data;
+          // Finish the Progress Bar
+            this.isloaded = true;
+          this.$Progress.set(100);
+        })
+        .catch(() => {});
+    }
+  },
+  computed: {
+    scrollbarTag() {
+      return this.$store.getters.scrollbarTag
     },
+    currentPage() {
+      if (this.isMounted) {
+        return this.$refs.table.currentx
+      }
+      return 0
+    },
+    queriedItems() {
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.transfers.length
+    }
 
-      computed: {
-      
-        scrollbarTag() {
-            return this.$store.getters.scrollbarTag
-        }
-    },
+  },
 }
 </script>

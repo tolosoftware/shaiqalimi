@@ -7,7 +7,7 @@
         <vx-card class="height-vh-80">
           <div class="vx-row">
             <div class="vx-col w-1/2">
-              <h3>فورم ثبت خریداری</h3>
+              <h3>فارم ثبت خریداری</h3>
             </div>
             <div class="vx-col w-1/2">
               <vs-button type="filled" @click="addNewData" class="mt-5 float-right">ثبت فروشنده جدید</vs-button>
@@ -217,14 +217,14 @@ export default {
             icon: 'icon-check',
             position: 'top-right'
           })
-          this.form.reset();
+          this.prForm.reset();
         })
 
         .catch(() => {
           this.$vs.notify({
-            title: 'عملیه ثبت موفق بود!',
-            text: 'عملیه موفغانه انجام شد',
-            color: 'success',
+            title: 'ثبت عملیه  ناموفق بود!',
+            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+            color: 'danger',
             iconPack: 'feather',
             icon: 'icon-check',
             position: 'top-right'
