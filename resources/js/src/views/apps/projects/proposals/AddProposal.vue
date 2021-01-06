@@ -78,7 +78,7 @@
         </vs-col>
       </vs-row>
       <vs-row vs-w="12" class="pt-2">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ آفرگشایی</small></label>
             <date-picker color="#e85454" v-validate="'required'" v-model="aForm.bidding_date" name="bidding_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" class="mt-5 w-full" :auto-submit="true" size="large"></date-picker>
@@ -93,14 +93,27 @@
             <has-error :form="aForm" field="bidding_address"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="5" vs-sm="6" vs-xs="12">
+          <div class="w-full mt-4 pt-2 ml-3 mr-3 mb-3">
             <!-- TITLE -->
             <label for=""><small>تضمین آفر</small></label>
             <vx-input-group class="">
               <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
+                <div id="offer" class="prepend-text bg-">
+                  <!--<span>AFN</span>
+                  <v-select label="text" v-model="offerSource" :options="optionoffer" :dir="$vs.rtl ? 'rtl' : 'ltr'" />-->
+                  <div class="w-full mb-4">
+                    <div class="radio-group w-full">
+                      <div class="w-1/2">
+                        <input type="radio" v-model="offerSource" value="1" id="struct1" name="offerSource" />
+                        <label for="struct1" class="w-full text-center">تظمین بانکی</label>
+                      </div>
+                      <div class="w-1/2">
+                        <input type="radio" v-model="offerSource" value="2" id="specific1" name="offerSource" />
+                        <label for="specific1" id="cache" class="w-full text-center">پول نقد</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </template>
               <vs-input autocomplete="off" type="number" name="offer_guarantee" v-model="aForm.offer_guarantee" />
@@ -325,8 +338,8 @@
         <vs-th>جنس / محصول</vs-th>
         <vs-th>مقدار</vs-th>
         <vs-th>واحد اندازه گیری</vs-th>
-        <vs-th>هزینه فی واحد</vs-th>
-        <vs-th>هزینه مجموعی</vs-th>
+        <vs-th>قیمت فی واحد</vs-th>
+        <vs-th>قیمت مجموعی</vs-th>
       </template>
       <template slot-scope="{data}">
         <vs-tr :key="i" v-for="(tr, i) in data">
@@ -442,6 +455,7 @@ export default {
   props: ['clients'],
   data() {
     return {
+      offerSource: 1,
       serial_no: '',
       is_accepted: false,
       currentSerialNo: 0,
@@ -519,13 +533,13 @@ export default {
             required: 'فیصدی مالیه را وارد کنید',
           },
           others: {
-            required: 'هزینه متفرقه بالای اعلان را وارد کنید.',
+            required: 'قیمت متفرقه بالای اعلان را وارد کنید.',
           },
           pr_worth: {
             required: 'ارزش قرارداد الزامی است.',
           },
           transit: {
-            required: 'هزینه انتقالات را وارد کنید.',
+            required: 'قیمت انتقالات را وارد کنید.',
           },
           total_price: {
             required: '',
@@ -676,5 +690,28 @@ export default {
   color: inherit;
   text-align: center;
   font-size: 2rem;
+}
+
+#offer {
+  padding-right: 0rem;
+  padding-left: 0rem;
+  width: 190px;
+}
+
+#cache {
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+.radio-group input[type="radio"]+label {
+  color: gray;
+}
+
+.radio-group input[type=radio]:checked+label {
+  color: white;
+}
+
+body {
+  color: #626262 !important;
 }
 </style>

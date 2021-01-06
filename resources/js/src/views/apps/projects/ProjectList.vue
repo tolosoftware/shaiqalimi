@@ -106,27 +106,28 @@
       </tbody>
     </template>
   </vs-table>
-  <vs-popup fullscreen class="holamundo" title="تنظیمات مربط پروژه" :active.sync="popupModalActive">
+  <vs-popup class="holamundo" title="تنظیمات مربط پروژه" :active.sync="popupModalActive">
     <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
-      <tab-content title="تنظیم اعلانات" class="mb-5">
+      <tab-content title="دریافت قرار داد" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>تنظیم اعلانات</vs-divider>
-          <div>
-            <div v-for="(row, indextr) in project">
-              <p>{{row.name}}</p>
+          <vs-divider>دریافت قرار داد</vs-divider>
+          <div v-for="(row, indextr) in project">
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
               <p>{{row.title}}</p>
-            </div>
-            <br>
-            <div class="flex justify-between float-right">
-              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-            </div>
+            </vs-col>
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+              <p>{{row.name}}</p>
+            </vs-col>
+          </div>
+          <div class="flex justify-between float-right">
+            <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
           </div>
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="تحویلی اجناس" class="mb-5">
+      <tab-content title=" مرحله اکمالات وتوضیعات" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>تحویلی اجناس</vs-divider>
+          <vs-divider> مرحله اکمالات وتوضیعات</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -139,9 +140,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="ارسال بیل" class="mb-5">
+      <tab-content title="تصفیه حسابات" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>ارسال بیل</vs-divider>
+          <vs-divider>تصفیه حسابات</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -154,9 +155,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="فورم(م-7)/ فورم (م-16)" class="mb-5">
+      <tab-content title="مراحل ختم پروژه" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>فورم(م-7)/ فورم (م-16)</vs-divider>
+          <vs-divider>مراحل ختم پروژه</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -169,99 +170,9 @@
           <!--<vs-divider></vs-divider> -->
         </vs-row>
       </tab-content>
-      <tab-content title="وزارت مالیه" class="mb-5">
+      <tab-content title="تکمیل پروژه" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
-          <vs-divider>وزارت مالیه</vs-divider>
-          <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
-            <br>
-            <div class="flex justify-between float-right">
-              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-            </div>
-          </div>
-          <!--<vs-divider></vs-divider> -->
-        </vs-row>
-      </tab-content>
-      <tab-content title="بانک" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-divider>بانک</vs-divider>
-          <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
-            <br>
-            <div class="flex justify-between float-right">
-              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-            </div>
-          </div>
-          <!--<vs-divider></vs-divider> -->
-        </vs-row>
-      </tab-content>
-      <tab-content title="دریافت پول" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-divider>دریافت پول</vs-divider>
-          <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
-            <br>
-            <div class="flex justify-between float-right">
-              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-            </div>
-          </div>
-          <!--<vs-divider></vs-divider> -->
-        </vs-row>
-      </tab-content>
-      <tab-content title="مالیه تحویل شد" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-divider>مالیه تحویل شد</vs-divider>
-          <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
-            <br>
-            <div class="flex justify-between float-right">
-              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-            </div>
-          </div>
-          <!--<vs-divider></vs-divider> -->
-        </vs-row>
-      </tab-content>
-      <tab-content title="جریمه تادیه شده" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-divider>جریمه تادیه شده</vs-divider>
-          <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
-            <br>
-            <div class="flex justify-between float-right">
-              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-            </div>
-          </div>
-          <!--<vs-divider></vs-divider> -->
-        </vs-row>
-      </tab-content>
-      <tab-content title="تاییدی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-divider>تاییدی</vs-divider>
-          <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
-            <br>
-            <div class="flex justify-between float-right">
-              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-            </div>
-          </div>
-          <!--<vs-divider></vs-divider> -->
-        </vs-row>
-      </tab-content>
-      <tab-content title="تامینات باقی مانده" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-divider>تامینات باقی مانده</vs-divider>
+          <vs-divider>تکمیل پروژه</vs-divider>
           <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -276,7 +187,6 @@
       </tab-content>
     </form-wizard>
   </vs-popup>
-
 </div>
 </template>
 
@@ -491,7 +401,7 @@ export default {
     this.isMounted = false,
       this.$vs.loading({
         container: '#success-load',
-        type: 'border',
+        type: 'sound',
         text: "درحال بارگیری...."
       })
   },
@@ -604,7 +514,7 @@ export default {
 }
 </style><style>
 .con-vs-popup .vs-popup {
-  width: 800px;
+  width: 900px;
 }
 
 .vue-form-wizard .navbar .navbar-nav>li>a.wizard-btn,

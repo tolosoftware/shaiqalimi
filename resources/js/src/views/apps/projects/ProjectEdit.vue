@@ -9,7 +9,7 @@
       <vx-card>
         <div class="vx-row">
           <div class="vx-col w-1/2">
-            <h3>فارم ویرایش پروژه قرار دادی</h3>
+            <h3>فورم ویرایش پروژه قرار دادی</h3>
           </div>
         </div>
         <project-form></project-form>

@@ -10,7 +10,7 @@
             <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="3" vs-sm="6" vs-xs="7">
               <div class="">
                 <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
-                  فارم ثبت پروژه قرار دادی
+                  فورم ثبت پروژه قرار دادی
                 </h3>
               </div>
             </vs-col>

@@ -104,19 +104,20 @@
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه‌فی‌واحد" class="w-full" />
+            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="قیمت‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
-              <small>هزینه مجموعی</small>
+              <small>قیمت مجموعی</small>
             </label>
             <vx-input-group class="">
               <template slot="prepend">
                 <div class="prepend-text bg-primary">
-                  <span>AFN</span>
+                  <span v-if="currencyID==1">AFN</span>
+                  <span v-if="currencyID==2">USD</span>
                 </div>
               </template>
               <vs-input type="number" v-model="i.total_price" />
@@ -145,7 +146,7 @@ import {
 
 export default {
   name: "vx-ekmalat",
-  props: ["items", "form", "listOfFields"],
+  props: ["items", "form", "listOfFields", "currencyID"],
   data() {
     return {
       operations: [],
@@ -324,13 +325,13 @@ export default {
           required: "فیصدی مالیه را وارد کنید",
         },
         others: {
-          required: "هزینه متفرقه بالای اعلان را وارد کنید.",
+          required: "قیمت متفرقه بالای اعلان را وارد کنید.",
         },
         pr_worth: {
           required: "ارزش قرارداد الزامی است.",
         },
         transit: {
-          required: "هزینه انتقالات را وارد کنید.",
+          required: "قیمت انتقالات را وارد کنید.",
         },
         total_price: {
           required: "",
@@ -350,7 +351,7 @@ export default {
           required: "مقدار الزامی است.",
         };
         this.listOfFields.custom[`unit_price_${index}`] = {
-          required: "هزینه فی واحد الزامی است.",
+          required: "قیمت فی واحد الزامی است.",
         };
         this.listOfFields.custom[`density_${index}`] = {
           required: "ثقلت الزامی است.",

@@ -324,8 +324,8 @@
         <vs-th>جنس / محصول</vs-th>
         <vs-th>مقدار</vs-th>
         <vs-th>واحد اندازه گیری</vs-th>
-        <vs-th>هزینه فی واحد</vs-th>
-        <vs-th>هزینه مجموعی</vs-th>
+        <vs-th>قیمت فی واحد</vs-th>
+        <vs-th>قیمت مجموعی</vs-th>
       </template>
       <template slot-scope="{data}">
         <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -469,13 +469,13 @@ const dict = {
       required: 'فیصدی مالیه را وارد کنید',
     },
     others: {
-      required: 'هزینه متفرقه بالای اعلان را وارد کنید.',
+      required: 'قیمت متفرقه بالای اعلان را وارد کنید.',
     },
     pr_worth: {
       required: 'ارزش قرارداد الزامی است.',
     },
     transit: {
-      required: 'هزینه انتقالات را وارد کنید.',
+      required: 'قیمت انتقالات را وارد کنید.',
     },
     total_price: {
       required: '',

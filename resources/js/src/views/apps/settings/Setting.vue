@@ -8,7 +8,7 @@
             <div class="vx-card__title">
               <h4 class="">نوعیت حساب ها</h4>
             </div>
-            <vs-button type="border" @click="acountActiveForm = !acountActiveForm, acountTypeForm.reset()">{{ acountActiveForm ? 'بستن فارم' : 'افزودن نوع حساب جدید' }}</vs-button>
+            <vs-button type="border" @click="acountActiveForm = !acountActiveForm, acountTypeForm.reset()">{{ acountActiveForm ? 'بستن فورم' : 'افزودن نوع حساب جدید' }}</vs-button>
           </div>
           <vs-divider></vs-divider>
           <div class="vx-card__collapsible-content vs-con-loading__container">
@@ -117,7 +117,7 @@
             <div class="vx-card__title">
               <h4 class="">واحدهای پولی </h4>
             </div>
-            <vs-button type="border" @click="currencyActiveChange = !currencyActiveChange, operationForm.reset()">{{ currencyActiveChange ? 'بستن فارم' : 'اپدیت نرخ اسعار' }}</vs-button>
+            <vs-button type="border" @click="currencyActiveChange = !currencyActiveChange, operationForm.reset()">{{ currencyActiveChange ? 'بستن فورم' : 'اپدیت نرخ اسعار' }}</vs-button>
           </div>
           <br>
           <!-- Add New Currency -->
@@ -249,8 +249,8 @@
             <div class="vx-card__title">
               <h4 class="">تنظیمات عملیه های اساسی </h4>
             </div>
-            <!-- <vs-button @click="operationActiveForm = !operationActiveForm, operationForm.reset()">{{ operationActiveForm ? 'بستن فارم' : 'عملیه جدید' }}</vs-button> -->
-            <vs-button v-if="operationActiveForm" @click="operationActiveForm = !operationActiveForm, operationForm.reset()">بستن فارم </vs-button>
+            <!-- <vs-button @click="operationActiveForm = !operationActiveForm, operationForm.reset()">{{ operationActiveForm ? 'بستن فورم' : 'عملیه جدید' }}</vs-button> -->
+            <vs-button v-if="operationActiveForm" @click="operationActiveForm = !operationActiveForm, operationForm.reset()">بستن فورم </vs-button>
           </div>
           <vs-divider></vs-divider>
           <div class="vx-card__collapsible-content vs-con-loading__container">
