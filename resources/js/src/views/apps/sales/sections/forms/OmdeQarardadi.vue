@@ -80,8 +80,8 @@
     </div>
   </div>
 
-  <!-- Ekmalat -->
-  <ekmalat :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat>
+  <!-- EkmalatStock -->
+  <ekmalat-stock :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-w="6" class="mb-base">
@@ -190,7 +190,7 @@
               <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="appCheckBoxes(index)" value="">
               <span class="checkbox_x vs-checkbox" style="border: 2px solid rgb(180, 180, 180);">
                 <span class="vs-checkbox--check">
-                <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
+                  <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
                 </span>
               </span>
               <span class="con-slot-label">{{n.label}}</span>
@@ -211,7 +211,7 @@
 
 <script>
 import vSelect from "vue-select";
-import Ekmalat from "../../../shared/Ekmalat";
+import EkmalatStock from "../../../shared/EkmalatStock";
 import SourceSelect from "../../../shared/SourceSelect";
 
 export default {
@@ -223,7 +223,7 @@ export default {
   },
   components: {
     "v-select": vSelect,
-    Ekmalat,
+    EkmalatStock,
     SourceSelect,
   },
   data() {
@@ -287,12 +287,12 @@ export default {
           item_id: "",
           unit_id: "",
           operation_id: null,
-          equivalent: "",
-          ammount: "",
+          increment_equiv: "",
+          increment: "",
           unit_price: "",
           total_price: "",
           density: null,
-        }, ],
+        }],
       }),
       items: [],
       contracts: [],
@@ -384,10 +384,9 @@ export default {
         });
     },
     appCheckBoxes(x) {
-      if(this.sForm.steps && this.sForm.steps >= x){
+      if (this.sForm.steps && this.sForm.steps >= x) {
         this.sForm.steps = (x - 1);
-      }
-      else{
+      } else {
         this.sForm.steps = x;
       }
       for (let i = 0; i < this.checked.length; i++) {

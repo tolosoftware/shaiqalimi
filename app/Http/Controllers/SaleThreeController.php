@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
+
 use App\Models\SaleThree;
 use App\Models\Sale;
 use App\Models\ProItem;
@@ -48,7 +50,7 @@ class SaleThreeController extends Controller
      */
     public function store(Request $request)
     {
-        $serial_no = getSerialNo('sale3', 'sale');
+        $serial_no = Helper::getSerialNo('sale3', 'sale');
         $this->validate($request, [
             'serial_no' => 'required',
             'project_id' => 'required',
@@ -89,12 +91,12 @@ class SaleThreeController extends Controller
         $newAcc = Account::create($accData);
         if ($newAcc) {
 
-            $newFR = createDoubleFR($newSale, $newAcc, $request);
+            $newFR = Helper::createDoubleFR($newSale, $newAcc, $request);
         }
         if ($newAcc) {
             $stocks = [];
             $totalmoney = 0;
-            $stocks = salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
+            $stocks = Helper::salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
         }
 
         // Create the Notification

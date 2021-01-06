@@ -287,6 +287,7 @@ export default {
       },
       selected: [],
       proposals: [],
+      proposal: [],
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,

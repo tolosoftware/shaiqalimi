@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
+
 use App\Models\Project;
 use App\Models\SerialNumber;
 use App\Models\Currency;
@@ -73,7 +75,7 @@ class ProjectController extends Controller
         if (gettype($request->proposal_id) != 'integer') {
             $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
         }
-        $serial_no = getSerialNo('type', 'pro');
+        $serial_no = Helper::getSerialNo('type', 'pro');
         $request['serial_no'] = $serial_no->value;
         if ($resp = Project::create($request->all())) {
             if ($request['proposal_id']) {
@@ -187,9 +189,10 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($id)
     {
-        //
+        return ProData::join('clients AS c', 'pro_data.client_id', '=', 'c.id')
+            ->selectRaw("c.name, pro_data.title")->where('pro_data.project_id', $id)->get();
     }
 
     /**
