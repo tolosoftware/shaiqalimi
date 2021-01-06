@@ -131,11 +131,11 @@ export default {
         siteTitle: 'Shayeq Alimi'
     },
     fa: {
-        salesManagment: 'مدیریت فروشات و پروژه‌ها',
+        salesManagment: 'مدیریت فروشات و قرار دادها',
         siteTitle: 'شرکت شایق علیمی',
         Dashboard: 'صفحه عمومی',
         Notifications: 'یادآوری‌ها',
-        Projects: 'پروژه‌ها',
+        Projects: 'قرار دادها',
         Sales: 'فروشات',
         Transactions: 'معاملات تجارتی',
         Inventory: 'ذخایر و تانک‌ تیل',
@@ -195,6 +195,6 @@ export default {
         s1: 'عمده قراردادی',
         s2: 'عمده عادی',
         s3: 'پرچون قراردادی',
-        s4: 'پرچون عادی',
+        s4: 'پرچون عادی'
     }
 }

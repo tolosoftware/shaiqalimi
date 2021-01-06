@@ -434,7 +434,7 @@ export default {
     this.isMounted = false,
       this.$vs.loading({
         container: '#success-load',
-        type: 'border',
+        type: 'sound',
         text: "درحال بارگیری...."
       })
   }
@@ -547,7 +547,7 @@ export default {
 }
 </style><style>
 .con-vs-popup .vs-popup {
-  width: 800px;
+  width: 900px;
 }
 
 .vue-form-wizard .navbar .navbar-nav>li>a.wizard-btn,

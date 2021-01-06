@@ -6,7 +6,7 @@
         <vx-card class="height-vh-80">
           <div class="vx-row">
             <div class="vx-col w-1/2">
-              <h3>فارم ثبت مصارف</h3>
+              <h3>فورم ثبت مصارف</h3>
             </div>
           </div>
           <form>

@@ -53,8 +53,8 @@
     <template slot="thead">
       <vs-th>#</vs-th>
       <vs-th>سریال نمبر</vs-th>
-      <vs-th>هزینه کلی</vs-th>
-      <vs-th>هزینه خدمات</vs-th>
+      <vs-th>قیمت کلی</vs-th>
+      <vs-th>قیمت خدمات</vs-th>
       <vs-th>نوع فروش</vs-th>
       <vs-th>منبع</vs-th>
       <vs-th>تنظیمات</vs-th>
@@ -82,6 +82,7 @@
           </vs-td>
           <vs-td>
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.sales_id)" />&nbsp;&nbsp;
+            <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
             <router-link class="product-name font-medium truncate" :to="{
               path: '/projects/project/${tr.id}',
                   name: 'project-edit',
@@ -96,10 +97,11 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title="تنظیمات مربط به فروشات" :active.sync="popupModalActive">
-    <vx-card v-if="!isloadedrow" title="">
-      <p style="height:40px;margin:20px;" id="success-load1"></p>
-    </vx-card>
-    <div v-if="isloadedrow" v-for="(s,i) in sale">
+    <div v-for="(s,i) in sale">
+       <vs-row vs-w="12"></vs-row>
+       <vs-row vs-w="12"></vs-row>
+       <vs-row vs-w="12"></vs-row>
+       <vs-row vs-w="12"></vs-row>
       <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
     </div>
   </vs-popup>
@@ -123,7 +125,6 @@ export default {
       // Demo data
       popupActive: false,
       isloaded: false,
-      isloadedrow: false,
       selected: [],
       itemsPerPage: 10,
       isMounted: false,
@@ -146,15 +147,13 @@ export default {
   },
   methods: {
     showCheckModal(id) {
-      this.popupModalActive = true;
       this.$Progress.start()
       this.axios
         .get("/api/sales/" + id)
         .then((data) => {
           this.sale = data.data;
-          this.isloadedrow = true;
-          console.log('sale', this.sale);
           this.$Progress.set(100);
+          this.popupModalActive = true;
 
         })
         .catch(() => {});
@@ -227,12 +226,7 @@ export default {
     this.isMounted = false
     this.$vs.loading({
       container: '#success-load',
-      type: 'point',
-      text: "درحال بارگیری...."
-    })
-    this.$vs.loading({
-      container: '#success-load1',
-      type: 'point',
+      type: 'sound',
       text: "درحال بارگیری...."
     })
   }

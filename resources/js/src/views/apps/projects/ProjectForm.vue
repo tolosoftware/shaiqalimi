@@ -171,7 +171,7 @@
           </vs-col>
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3">
-              <label for=""><small>مصارف انتقالات</small></label>
+              <label for=""><small>مصارف توضیعات / انتقالات</small></label>
               <vx-input-group class="">
                 <template slot="prepend">
                   <div class="prepend-text bg-primary">
@@ -297,8 +297,8 @@
         <vs-th>جنس / محصول</vs-th>
         <vs-th>مقدار</vs-th>
         <vs-th>واحد اندازه گیری</vs-th>
-        <vs-th>هزینه فی واحد</vs-th>
-        <vs-th>هزینه مجموعی</vs-th>
+        <vs-th>قیمت فی واحد</vs-th>
+        <vs-th>قیمت مجموعی</vs-th>
       </template>
       <template slot-scope="{data}">
         <vs-tr :key="i" v-for="(tr, i) in data">
@@ -469,55 +469,55 @@ export default {
 
       // From Valisation Custom Massage
       dict: {
-  custom: {
-    serial_no: {
-      required: 'سریال نمبر الزامی میباشد.',
-      number: 'سریال نمبر باید نمبر باشد.'
-    },
-    contract_date: {
-      required: 'تاریخ عقد قرارداد را انتخاب کنید.'
-    },
-    client_id: {
-      required: 'نهاد را انتخاب کنید.'
-    },
-    title: {
-      required: 'عنوان قرراداد الزامی است.'
-    },
-    reference_no: {
-      required: 'شماره شناسایی قرارداد ضروری است.'
-    },
-    contract_end_date: {
-      required: 'تاریخ ختم قرارداد الزامی است.'
-    },
-    bidding_date: {
-      required: 'تاریخ آفرگشایی الزامی است.'
-    },
-    bidding_address: {
-      required: 'آدرس آفرگشایی الزامی است.'
-    },
-    project_guarantee: {
-      required: 'تضمین قرارداد الزامی است'
-    },
-    deposit: {
-      required: 'فیصدی تامینات را وارد کنید.',
-    },
-    tax: {
-      required: 'فیصدی مالیه را وارد کنید',
-    },
-    others: {
-      required: 'هزینه متفرقه بالای قرارداد را وارد کنید.',
-    },
-    pr_worth: {
-      required: 'ارزش قرارداد الزامی است.',
-    },
-    transit: {
-      required: 'هزینه انتقالات را وارد کنید.',
-    },
-    total_price: {
-      required: '',
-    },
-  }
-},
+        custom: {
+          serial_no: {
+            required: 'سریال نمبر الزامی میباشد.',
+            number: 'سریال نمبر باید نمبر باشد.'
+          },
+          contract_date: {
+            required: 'تاریخ عقد قرارداد را انتخاب کنید.'
+          },
+          client_id: {
+            required: 'نهاد را انتخاب کنید.'
+          },
+          title: {
+            required: 'عنوان قرراداد الزامی است.'
+          },
+          reference_no: {
+            required: 'شماره شناسایی قرارداد ضروری است.'
+          },
+          contract_end_date: {
+            required: 'تاریخ ختم قرارداد الزامی است.'
+          },
+          bidding_date: {
+            required: 'تاریخ آفرگشایی الزامی است.'
+          },
+          bidding_address: {
+            required: 'آدرس آفرگشایی الزامی است.'
+          },
+          project_guarantee: {
+            required: 'تضمین قرارداد الزامی است'
+          },
+          deposit: {
+            required: 'فیصدی تامینات را وارد کنید.',
+          },
+          tax: {
+            required: 'فیصدی مالیه را وارد کنید',
+          },
+          others: {
+            required: 'قیمت متفرقه بالای قرارداد را وارد کنید.',
+          },
+          pr_worth: {
+            required: 'ارزش قرارداد الزامی است.',
+          },
+          transit: {
+            required: 'قیمت انتقالات را وارد کنید.',
+          },
+          total_price: {
+            required: '',
+          },
+        }
+      },
     };
   },
   created() {

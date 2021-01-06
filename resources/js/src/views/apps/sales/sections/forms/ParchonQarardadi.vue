@@ -100,7 +100,7 @@
   </div>
 
   <!-- EkmalatStock -->
-  <ekmalat-stock :disabledFields="[]"  :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
+  <ekmalat-stock :items="sForm.item" :currencyID="sForm.currency_id" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
@@ -109,7 +109,8 @@
         <vx-input-group class="">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
-              <span>AFN</span>
+              <span v-if="sForm.currency_id==1">AFN</span>
+              <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
           <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
@@ -151,11 +152,12 @@
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
       <div class="w-full pt-2 ml-3 mr-3">
-        <label for=""><small>هزینه نهایی</small></label>
+        <label for=""><small>قیمت نهایی</small></label>
         <vx-input-group class="">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
-              <span>AFN</span>
+              <span v-if="sForm.currency_id==1">AFN</span>
+              <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
           <vs-input v-model="sForm.total" autocomplete="off" type="number" />
@@ -178,7 +180,7 @@
               <input type="checkbox" class="vs-checkbox--input" v-model="n.state" @click="appCheckBoxes(index)" value="">
               <span class="checkbox_x vs-checkbox" style="border: 2px solid rgb(180, 180, 180);">
                 <span class="vs-checkbox--check">
-                <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
+                  <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
                 </span>
               </span>
               <span class="con-slot-label">{{n.label}}</span>
@@ -217,8 +219,7 @@ export default {
   },
   data() {
     return {
-      checked: [
-        {
+      checked: [{
           state: false,
           label: 'دریافت اسناد'
         },
@@ -357,10 +358,9 @@ export default {
         })
     },
     appCheckBoxes(x) {
-      if(this.sForm.steps && this.sForm.steps >= x){
+      if (this.sForm.steps && this.sForm.steps >= x) {
         this.sForm.steps = (x - 1);
-      }
-      else{
+      } else {
         this.sForm.steps = x;
       }
       for (let i = 0; i < this.checked.length; i++) {

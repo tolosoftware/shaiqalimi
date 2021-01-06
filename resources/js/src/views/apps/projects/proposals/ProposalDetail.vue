@@ -9,7 +9,7 @@
             <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="2" vs-sm="4" vs-xs="4">
               <div class="">
                 <h3 class="pt-1 pr-5 mr-5 ml-4 w-full">
-                  فارم ویرایش اعلانات
+                  فورم ویرایش اعلانات
                 </h3>
               </div>
             </vs-col>
