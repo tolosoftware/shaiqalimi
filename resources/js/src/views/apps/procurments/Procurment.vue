@@ -82,7 +82,7 @@
                         <!-- end currency_id -->
                         <!-- eteration -->
 
-                        <EkmalatStock :items="prForm.item" :form="prForm" :listOfFields="[]" ref="ekmalat"></EkmalatStock>
+                        <<EkmalatStock :disabledFields="[]"  :items="prForm.item" :form="prForm" :listOfFields="[]" ref="ekmalat"></EkmalatStock>
 
                         <!-- end eteration -->
                         <vs-row vs-w="12">

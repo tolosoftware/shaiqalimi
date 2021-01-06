@@ -13,7 +13,13 @@ class Transfer extends Model
         'title',
         'supervisor',
         'description',
-        'user_id'
+        'user_id',
+        
+        'destination',
+        'transit',
+        'scale',
+        'others',
+        'total',
     ];
 
     public function user()

@@ -136,6 +136,9 @@ Vue.filter('NumToPer', function(input) {
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 Vue.component('date-picker', VuePersianDatetimePicker)
 
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+Vue.component('VuePerfectScrollbar', VuePerfectScrollbar)
+
 // define a mixin object
 const Mixin = {
         methods: {

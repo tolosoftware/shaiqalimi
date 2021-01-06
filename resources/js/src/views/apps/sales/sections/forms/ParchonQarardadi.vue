@@ -100,7 +100,7 @@
   </div>
 
   <!-- EkmalatStock -->
-  <ekmalat-stock :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
+  <ekmalat-stock :disabledFields="[]"  :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">

@@ -1,348 +1,289 @@
 <template>
-<vx-card class="no-shadow">
-    <component :is="scrollbarTag" class="scroll-area--data-list-add-new"  :key="$vs.rtl">
-        <form>
-            <div class="vx-row">
+<component :is="scrollbarTag" class="scroll-area--data-list-add-new">
+  <vx-card class="no-shadow">
+    <form>
+      <div class="vx-row">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3">
+            <label for=""><small>سریال نمبر</small></label>
+            <vs-input class="w-full" disabled :value="tForm.serial_no" autocomplete="off" type="number" />
+          </div>
+        </vs-col>
 
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <vs-input size="medium" v-validate="'serialnumber'" label="سریال نمبر" name="serialnumber" placeholder="101" disabled />
-                        <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
-                    </div>
-                </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3">
+            <label for="date" class="mt-3"><small>تاریخ </small></label>
+            <date-picker color="#e85454" :auto-submit="true" v-model="tForm.datetime" type="datetime" />
+          </div>
+        </vs-col>
 
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <label for="date" class="mt-3"><small>تاریخ </small></label>
-                        <date-picker color="#e85454" :auto-submit="true" type="datetime" />
-                    </div>
-                </vs-col>
+        <!-- Must only consist of numbers -->
 
-                <!-- Must only consist of numbers -->
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
+          <div class="w-full pb-2 ml-3 mr-3">
+            <vs-input size="medium" v-validate="'required'" v-model="tForm.title" label="عنوان انتقال" name="title" class="w-full" />
+          </div>
+        </vs-col>
 
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <vs-input size="medium" v-validate="'required'" label="عنوان انتقال" name="projecttitle" class="w-full" />
-                    </div>
-                </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3">
+            <label for=""><small>منبع</small></label>
+            <source-select :parentForm="tForm"></source-select>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3">
+            <vs-input size="medium" v-validate="'required'" v-model="tForm.destination" label="مقصد" name="title" class="w-full" />
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
+          <!-- EkmalatStock -->
+          <div class="mr-3 pb-2 ml-3">
+            <ekmalat-stock :disabledFields="['total_price', 'unit_price']" :items="tForm.item" :form="tForm" :grid="[6, 6, 12]" ref="ekmalat"></ekmalat-stock>
+          </div>
+        </vs-col>
 
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="12" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <label for>
-                            <small> منبع</small>
-                        </label>
-                        <v-select size="large" label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                    </div>
-                </vs-col>
-
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="12" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <label for>
-                            <small> مقصد </small>
-                        </label>
-                        <v-select size="large" label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                    </div>
-                </vs-col>
-
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="12" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <label for>
-                            <small> عملیه </small>
-                        </label>
-                        <v-select size="large" label="text" :options="itemType" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                    </div>
-                </vs-col>
-
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3 ">
-                        <label for>
-                            <small>مقدار</small>
-                        </label>
-                        <vx-input-group>
-                            <template slot="prepend">
-                                <div class="prepend-text bg-primary">
-                                    <span>UOM</span>
-                                </div>
-                            </template>
-
-                            <vs-input type="number" />
-                        </vx-input-group>
-                    </div>
-                </vs-col>
-
-                <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="12" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <vs-input size="medium" v-validate="'required'" label=" ثقلت" name="projecttitle" class="w-full" />
-                    </div>
-                </vs-col>
-
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3 ">
-                        <label for>
-                            <small>معادل</small>
-                        </label>
-                        <vx-input-group>
-                            <template slot="prepend">
-                                <div class="prepend-text bg-primary">
-                                    <span>UOM</span>
-                                </div>
-                            </template>
-
-                            <vs-input type="number" />
-                        </vx-input-group>
-                    </div>
-                </vs-col>
-
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3 ">
-                        <label for>
-                            <small>مصارف انتقال</small>
-                        </label>
-                        <vx-input-group>
-                            <template slot="prepend">
-                                <div class="prepend-text bg-primary">
-                                    <span>AFN</span>
-                                </div>
-                            </template>
-
-                            <vs-input type="number" />
-                        </vx-input-group>
-                    </div>
-                </vs-col>
-
-                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="12" vs-xs="12">
-                    <div class="w-full  ml-3 mr-3">
-                        <vs-input size="medium" v-validate="'required'" label="شخص مسول" name="projecttitle" class="w-full" />
-                    </div>
-                </vs-col>
-
-                <div class="vx-col w-full mt-4">
-                    <vs-textarea placeholder="تفصیلات"></vs-textarea>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3 ">
+            <label for>
+              <small>مصارف انتقال</small>
+            </label>
+            <vx-input-group>
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
                 </div>
-            </div>
-            <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">ثبت</vs-button>
-        </form>
-    </component>
+              </template>
 
-</vx-card>
+              <vs-input v-model="tForm.transit" type="number" />
+            </vx-input-group>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3 ">
+            <label for>
+              <small>مصارف ترازو</small>
+            </label>
+            <vx-input-group>
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+
+              <vs-input v-model="tForm.scale" type="number" />
+            </vx-input-group>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3 ">
+            <label for>
+              <small>مصارف متفرقه</small>
+            </label>
+            <vx-input-group>
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+
+              <vs-input v-model="tForm.others" type="number" />
+            </vx-input-group>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3 ">
+            <label for>
+              <small>مصارف مجموعی</small>
+            </label>
+            <vx-input-group>
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+
+              <vs-input :v-model="tForm.total = total_cost" type="number" />
+            </vx-input-group>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+          <div class="w-full pb-2 ml-3 mr-3">
+            <vs-input size="medium" v-model="tForm.supervisor" v-validate="'required'" label="شخص مسول" name="projecttitle" class="w-full" />
+          </div>
+        </vs-col>
+
+        <div class="w-full mt-4 mr-3 ml-3">
+          <vs-textarea v-model="tForm.description" placeholder="تفصیلات"></vs-textarea>
+        </div>
+      </div>
+      <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">ثبت</vs-button>
+    </form>
+  </vx-card>
+</component>
 </template>
 
 <script>
-import vSelect from 'vue-select'
+import vSelect from "vue-select";
+import EkmalatStock from "../../shared/EkmalatStock";
+import SourceSelect from "../../shared/SourceSelect";
 
 export default {
-    props: {
-        isSidebarActive: {
-            type: Boolean,
-            required: true
-        },
-        data: {
-            type: Object,
-            default: () => {}
-        }
-    },
-    components: {
-        'v-select': vSelect,
+  components: {
+    'v-select': vSelect,
+    EkmalatStock,
+    SourceSelect,
+  },
+  data() {
+    return {
+      // Main INIT
+      tForm: new Form({
+        serial_no: '',
+        source_id: "", // The Id of the Source.
+        source_type: "", // Type Source
+        datetime: '',
+        title: '',
+        supervisor: '',
+        description: '',
+        destination: '',
 
-    },
-    data() {
-        return {
-            itemType: [{
-                    text: 'تن',
-                    value: '1'
-                },
-                {
-                    text: 'متر مکعب',
-                    value: '2'
-                },
-                {
-                    text: 'لیتر',
-                    value: '3'
-                },
-                {
-                    text: 'کیلوگرام',
-                    value: '4'
-                },
-            ],
-            // End of sidebar items
-            dataId: null,
-            dataName: '',
-            dataCategory: null,
-            dataImg: null,
-            dataOrder_status: 'pending',
-            dataPrice: 0,
+        // Costs ....
+        transit: '',
+        scale: '',
+        others: '',
+        total: '',
 
-            category_choices: [{
-                    text: 'Audio',
-                    value: 'audio'
-                },
-                {
-                    text: 'Computers',
-                    value: 'computers'
-                },
-                {
-                    text: 'Fitness',
-                    value: 'fitness'
-                },
-                {
-                    text: 'Appliance',
-                    value: 'appliance'
-                }
-            ],
+        user_id: localStorage.getItem('id'),
+        // Item for the ekmalat section
+        item: [{
+          item_id: "",
+          unit_id: "",
+          operation_id: null,
+          increment_equiv: "",
+          increment: "",
+          unit_price: "",
+          total_price: "",
+          density: null,
+        }],
 
-            order_status_choices: [{
-                    text: 'Pending',
-                    value: 'pending'
-                },
-                {
-                    text: 'Canceled',
-                    value: 'canceled'
-                },
-                {
-                    text: 'Delivered',
-                    value: 'delivered'
-                },
-                {
-                    text: 'On Hold',
-                    value: 'on_hold'
-                }
-            ],
-            settings: { // perfectscrollbar settings
-                maxScrollbarLength: 60,
-                wheelSpeed: .60
-            }
-        }
-    },
-    watch: {
-        isSidebarActive(val) {
-            if (!val) return
-            if (Object.entries(this.data).length === 0) {
-                this.initValues()
-                this.$validator.reset()
-            } else {
-                const {
-                    category,
-                    id,
-                    img,
-                    name,
-                    order_status,
-                    price
-                } = JSON.parse(JSON.stringify(this.data))
-                this.dataId = id
-                this.dataCategory = category
-                this.dataImg = img
-                this.dataName = name
-                this.dataOrder_status = order_status
-                this.dataPrice = price
-                this.initValues()
-            }
-            // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
-        }
-    },
-    computed: {
-        isSidebarActiveLocal: {
-            get() {
-                return this.isSidebarActive
-            },
-            set(val) {
-                if (!val) {
-                    this.$emit('closeSidebar')
-                    // this.$validator.reset()
-                    // this.initValues()
-                }
-            }
-        },
-        isFormValid() {
-            return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
-        },
-        scrollbarTag() {
-            return this.$store.getters.scrollbarTag
-        }
-    },
-    methods: {
-        initValues() {
-            if (this.data.id) return
-            this.dataId = null
-            this.dataName = ''
-            this.dataCategory = null
-            this.dataOrder_status = 'pending'
-            this.dataPrice = 0
-            this.dataImg = null
-        },
-        submitData() {
-            this.$validator.validateAll().then(result => {
-                if (result) {
-                    const obj = {
-                        id: this.dataId,
-                        name: this.dataName,
-                        img: this.dataImg,
-                        category: this.dataCategory,
-                        order_status: this.dataOrder_status,
-                        price: this.dataPrice
-                    }
-
-                    if (this.dataId !== null && this.dataId >= 0) {
-                        this.$store.dispatch('dataList/updateItem', obj).catch(err => {
-                            console.error(err)
-                        })
-                    } else {
-                        delete obj.id
-                        obj.popularity = 0
-                        this.$store.dispatch('dataList/addItem', obj).catch(err => {
-                            console.error(err)
-                        })
-                    }
-
-                    this.$emit('closeSidebar')
-                    this.initValues()
-                }
-            })
-        },
-        updateCurrImg(input) {
-            if (input.target.files && input.target.files[0]) {
-                const reader = new FileReader()
-                reader.onload = e => {
-                    this.dataImg = e.target.result
-                }
-                reader.readAsDataURL(input.target.files[0])
-            }
-        }
+      }),
+      items: [],
+      // End Main
+      settings: { // perfectscrollbar settings
+        maxScrollbarLength: 70,
+        wheelSpeed: .60
+      }
     }
+  },
+  watch: {},
+  computed: {
+    itFormValid() {
+      //   return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
+    },
+    scrollbarTag() {
+      return this.$store.getters.scrollbarTag
+    },
+    // To calculate the total price for :the proposal
+    total_cost: function () {
+      let others = (this.tForm.others) ? parseInt(this.tForm.others) : 0;
+      let transit = (this.tForm.transit) ? parseInt(this.tForm.transit) : 0;
+      let scale = (this.tForm.scale) ? parseInt(this.tForm.scale) : 0;
+
+      let total_items = 0;
+      this.tForm.item.filter(function (item) {
+        if (item && item.total_price) {
+          total_items += parseInt(item.total_price);
+        }
+      })
+      return others + scale + transit + total_items;
+    },
+
+  },
+  created() {
+    this.getNextSerialNo();
+  },
+  methods: {
+    // for getting the next serian number
+    getNextSerialNo() {
+      this.$Progress.start()
+      this.axios.get('/api/serial-num?type=transfer')
+        .then((response) => {
+          this.tForm.serial_no = response.data;
+        })
+    },
+    submitForm() {
+      // Start the Progress Bar
+      this.$Progress.start()
+      this.tForm.post('/api/transfer')
+        .then(({
+          data
+        }) => {
+          // Finish the Progress Bar
+          // this.$refs.wizard.reset();
+          // this.tForm.reset();
+          // this.errors.clear();
+          this.$Progress.set(100)
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: 'انتقال موفقانه ثبت شد.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        }).catch((errors) => {
+
+          this.$vs.notify({
+            title: 'ناموفق!',
+            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-cross',
+            position: 'top-right'
+          })
+        });
+    },
+    submitData2() {
+      this.$validator.validateAll().then(result => {
+        if (result) {}
+      })
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .add-new-data-sidebar {
-    ::v-deep .vs-sidebar--background {
-        z-index: 52010;
+  ::v-deep .vs-sidebar--background {
+    z-index: 52010;
+  }
+
+  ::v-deep .vs-sidebar {
+    z-index: 52010;
+    width: 400px;
+    max-width: 90vw;
+
+    .img-upload {
+      margin-top: 2rem;
+
+      .con-img-upload {
+        padding: 0;
+      }
+
+      .con-input-upload {
+        width: 100%;
+        margin: 0;
+      }
     }
-
-    ::v-deep .vs-sidebar {
-        z-index: 52010;
-        width: 400px;
-        max-width: 90vw;
-
-        .img-upload {
-            margin-top: 2rem;
-
-            .con-img-upload {
-                padding: 0;
-            }
-
-            .con-input-upload {
-                width: 100%;
-                margin: 0;
-            }
-        }
-    }
+  }
 }
 
 .scroll-area--data-list-add-new {
-    // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+  // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
+  height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
 
-    &:not(.ps) {
-        overflow-y: auto;
-    }
+  &:not(.ps) {
+    overflow-y: auto;
+  }
 }
 </style>
