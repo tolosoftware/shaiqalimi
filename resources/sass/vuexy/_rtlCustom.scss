@@ -555,3 +555,7 @@ li.fuel-station > h3{
     position: fixed;
     top: 0;
 }
+
+[dir] .just-one-line {
+    -webkit-line-clamp: 1 !important;
+}

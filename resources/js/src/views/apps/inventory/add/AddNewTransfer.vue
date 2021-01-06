@@ -103,7 +103,7 @@
                 </div>
               </template>
 
-              <vs-input :v-model="tForm.total = total_cost" type="number" />
+              <vs-input :value="tForm.total = total_cost" v-model="tForm.total" type="number" />
             </vx-input-group>
           </div>
         </vs-col>
@@ -146,7 +146,7 @@ export default {
         supervisor: '',
         description: '',
         destination: '',
-
+        currency_id: 1,
         // Costs ....
         transit: '',
         scale: '',
@@ -161,8 +161,8 @@ export default {
           operation_id: null,
           increment_equiv: "",
           increment: "",
-          unit_price: "",
-          total_price: "",
+          unit_price: 0,
+          total_price: 0,
           density: null,
         }],
 
@@ -209,6 +209,18 @@ export default {
       this.axios.get('/api/serial-num?type=transfer')
         .then((response) => {
           this.tForm.serial_no = response.data;
+          this.tForm.user_id = localStorage.getItem('id');
+            // Item for the ekmalat section
+            this.tForm.item = [{
+              item_id: "",
+              unit_id: "",
+              operation_id: null,
+              increment_equiv: "",
+              increment: "",
+              unit_price: "",
+              total_price: "",
+              density: null,
+            }];
         })
     },
     submitForm() {
@@ -218,10 +230,8 @@ export default {
         .then(({
           data
         }) => {
-          // Finish the Progress Bar
-          // this.$refs.wizard.reset();
-          // this.tForm.reset();
-          // this.errors.clear();
+          this.tForm.reset();
+          this.getNextSerialNo();
           this.$Progress.set(100)
           this.$vs.notify({
             title: 'موفقیت!',

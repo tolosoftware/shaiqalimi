@@ -91,12 +91,12 @@ class SaleThreeController extends Controller
         $newAcc = Account::create($accData);
         if ($newAcc) {
 
-            $newFR = Helper::createDoubleFR($newSale, $newAcc, $request);
+            $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);
         }
         if ($newAcc) {
             $stocks = [];
             $totalmoney = 0;
-            $stocks = Helper::salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
+            $stocks = Helper::salesCreateStockRecords('sale', $request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
         }
 
         // Create the Notification

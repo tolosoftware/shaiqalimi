@@ -22,6 +22,7 @@ return [
      // accounts id configuration
      'cash_in_hand_usd'=>17,
      'cash_in_hand_afn'=>22,
+     'base_transfer_account'=>37,
     /*
     |--------------------------------------------------------------------------
     | Application Name
