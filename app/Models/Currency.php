@@ -39,4 +39,14 @@ class Currency extends Model
     {
         return $this->hasMany(ProData::class, 'currency_id');
     }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'currency_id');
+    }
+
+    public function expense()
+    {
+        return $this->hasMany(Expense::class, 'currency_id');
+    }
 }

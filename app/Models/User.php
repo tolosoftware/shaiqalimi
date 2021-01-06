@@ -82,4 +82,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transfer::class, 'user_id');
     }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'user_id');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'user_id');
+    }
 }

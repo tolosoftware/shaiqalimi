@@ -179,7 +179,7 @@ class PurchaseController extends Controller
 
             
         DB::commit();
-        return 1;
+        return ['msg' => 'purchase successfully inserted'];
     } catch (Exception $e) {
         DB::rollback();
        }

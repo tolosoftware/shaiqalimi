@@ -207,8 +207,8 @@ export default {
             this.addNewDataSidebar = val
         },
         submitData() {
-            this.prForm.post('/api/purches')
-                .then(() => {
+                 this.prForm.post('/api/purches')
+                  .then(() => {
                     this.$vs.notify({
                         title: 'عملیه ثبت موفق بود!',
                         text: 'عملیه موفغانه انجام شد',
@@ -217,14 +217,14 @@ export default {
                         icon: 'icon-check',
                         position: 'top-right'
                     })
-                    this.form.reset();
+                    this.prForm.reset();
                 })
 
                 .catch(() => {
                     this.$vs.notify({
-                        title: 'عملیه ثبت موفق بود!',
-                        text: 'عملیه موفغانه انجام شد',
-                        color: 'success',
+                        title: 'ثبت عملیه  ناموفق بود!',
+                        text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                        color: 'danger',
                         iconPack: 'feather',
                         icon: 'icon-check',
                         position: 'top-right'
