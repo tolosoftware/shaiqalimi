@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Helper\Helper;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Transfer;
 use Illuminate\Http\Request;
@@ -36,7 +37,16 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $serial_no = Helper::getSerialNo('transfer', 'transfer');
+            $request['serial_no'] = $serial_no->value;
+            $t = Transfer::create($request->all());
+            DB::commit();
+            return $t;
+        } catch (Exception $e) {
+            DB::rollback();
+       }
     }
 
     /**

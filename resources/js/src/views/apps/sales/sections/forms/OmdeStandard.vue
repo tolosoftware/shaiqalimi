@@ -80,7 +80,7 @@
   </div>
 
   <!-- EkmalatStock -->
-  <ekmalat-stock :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
+  <ekmalat-stock :disabledFields="[]"  :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-w="6" class="mb-base">

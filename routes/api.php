@@ -52,6 +52,7 @@ Route::resource('items', 'ItemController');
 Route::resource('m-units', 'MeasurmentUnitController');
 Route::resource('pro-item', 'ProItemController');
 Route::resource('account', 'AccountController');
+Route::resource('transfer', 'TransferController');
 
 Route::resource('godam', 'InventoryController');
 Route::get('firstgodam', 'InventoryController@first');
