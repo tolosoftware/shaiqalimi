@@ -16,7 +16,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 1" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-1 mr-1">
             <label for=""><small>عملیه</small></label>
-            <v-select v-validate="'required'" :clearable="false" v-show="true" :title="errors.first(`step-3.operation_id_${index}`)" :class="errors.first(`step-3.operation_id_${index}`) ? 'has-error' : ''" :name="`operation_id_${index}`" label="title" @input="operationChange(i.operation_id, index)" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select v-validate="'required'" :searchable="false" :clearable="false" v-show="true" :title="errors.first(`step-3.operation_id_${index}`)" :class="errors.first(`step-3.operation_id_${index}`) ? 'has-error' : ''" :name="`operation_id_${index}`" label="title" @input="operationChange(i.operation_id, index)" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.operation_id_${index}`) }}</span> -->
           </div>
         </vs-col>
@@ -25,7 +25,7 @@
             <label for>
               <small>مقدار (واحد اصلی)</small>
             </label>
-            <vx-input-group class="">
+            <vx-input-group class="number-rtl">
               <template slot="append" v-if="i.item_id && i.item_id.uom_id">
                 <div class="append-text bg-primary">
                   <span>{{
@@ -44,7 +44,7 @@
             <label for>
               <small>مقدار (واحد فرعی)</small>
             </label>
-            <vx-input-group class="">
+            <vx-input-group class="number-rtl">
               <template slot="append" v-if="i.item_id && i.item_id.uom_equiv_id">
                 <div class="append-text bg-primary">
                   <span>{{
@@ -58,7 +58,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 1" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-1 mr-1">
+          <div class="w-full pt-2 ml-1 mr-1 number-rtl">
             <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full" />
             <has-error :form="form" field="density"></has-error>
             <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
@@ -69,7 +69,7 @@
             <label for>
               <small>مقدار (واحد فرعی)</small>
             </label>
-            <vx-input-group class="">
+            <vx-input-group class="number-rtl">
               <template slot="append" v-if="i.item_id && i.item_id.uom_equiv_id">
                 <div class="append-text bg-primary">
                   <span>{{
@@ -87,7 +87,7 @@
             <label for>
               <small>مقدار (واحد اصلی)</small>
             </label>
-            <vx-input-group class="">
+            <vx-input-group class="number-rtl">
               <template slot="append" v-if="i.item_id && i.item_id.uom_id">
                 <div class="append-text bg-primary">
                   <span>{{
@@ -103,7 +103,7 @@
         </vs-col>
 
         <vs-col v-if="!disabledFields.includes('unit_price')" vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-1 mr-1">
+          <div class="w-full pt-2 ml-1 mr-1 number-rtl">
             <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
@@ -113,16 +113,17 @@
             <label for>
               <small>قیمت مجموعی</small>
             </label>
-            <vx-input-group class="">
+            <vx-input-group class="number-rtl">
               <template slot="prepend">
                 <div class="prepend-text bg-primary">
                   <span v-if="currencyID==1">AFN</span>
                   <span v-if="currencyID==2">USD</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="i.total_price" />
+              <vs-input type="number" title="مقدار و هزینه فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="i.total_price" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
+            
           </div>
         </vs-col>
       </vs-row>
@@ -412,8 +413,48 @@ export default {
     },
   },
   // End Of methods
-  watch: {
-    // console.log(this.items);
+  computed: {
+    itemsTotalPrice: function () {
+
+      for (const key of Object.keys(this.items)) {
+        let item_equivalent = this.items[key].item_id.equivalent;
+        let opr = this.items[key].operation_id;
+
+        let unit_price = this.items[key].unit_price;
+        let density = this.items[key].density;
+
+        if (opr && opr.id == 1) {
+          this.items[key].total_price = this.items[key].increment * unit_price;
+          this.items[key].increment_equiv = 0;
+        } else if (opr && opr.id == 2) {
+          this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+          this.items[key].increment = 0;
+        } else if (opr && opr.id == 3) {
+          if (item_equivalent !== 0) {
+            this.items[key].increment_equiv = this.items[key].increment * item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+        } else if (opr && opr.id == 4) {
+          if (item_equivalent !== 0) {
+            this.items[key].increment = this.items[key].increment_equiv / item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].increment * unit_price;
+        } else if (opr && opr.id == 5) {
+          if (item_equivalent !== 0) {
+            this.items[key].increment_equiv = (this.items[key].increment * density) * item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+        } else if (opr && opr.id == 6) {
+          if (item_equivalent !== 0) {
+            this.items[key].increment = (this.items[key].increment_equiv * density) / item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].increment * unit_price;
+        }
+
+      }
+
+    }
+
   },
   components: {
     "v-select": vSelect,
