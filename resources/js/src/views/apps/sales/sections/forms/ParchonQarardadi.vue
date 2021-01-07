@@ -119,40 +119,9 @@
         <has-error :form="sForm" field="service_cost"></has-error>
       </div>
     </vs-col>
-    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
-      <div class="w-full pt-2 ml-3 mr-3">
-        <label for=""><small>مالیات</small></label>
-        <vx-input-group class="number-rtl">
-          <template slot="prepend">
-            <div class="prepend-text bg-primary">
-              <span>٪</span>
-            </div>
-          </template>
-          <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
-        </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
-        <has-error :form="sForm" field="tax"></has-error>
-      </div>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
-      <div class="w-full pt-2 mr-3">
-        <!-- TITLE -->
-        <label for=""><small>تامینات</small></label>
-        <vx-input-group class="number-rtl">
-          <template slot="prepend">
-            <div class="prepend-text bg-primary">
-              <span>٪</span>
-            </div>
-          </template>
-          <vs-input v-model="sForm.deposit" autocomplete="off" type="number" v-validate="'required'" name="deposit" />
-        </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
-        <has-error :form="sForm" field="deposit"></has-error>
-      </div>
-    </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
       <div class="w-full pt-2 ml-3 mr-3">
-        <label for=""><small>قیمت نهایی</small></label>
+        <label for=""><small>قیمت مجموعی</small></label>
         <vx-input-group class="number-rtl">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
@@ -165,6 +134,56 @@
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
     </vs-col>
+
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+
+        <div class="w-full pt-2 ml-3 mr-3">
+          <label for=""><small>مالیات</small></label>
+          <vx-input-group class="number-rtl">
+            <template slot="prepend">
+              <div class="prepend-text bg-primary">
+                <span>٪</span>
+              </div>
+            </template>
+            <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
+          </vx-input-group>
+          <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+          <has-error :form="sForm" field="tax"></has-error>
+        </div>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+
+        <div class="w-full pt-2 mr-3">
+          <!-- TITLE -->
+          <label for=""><small>تامینات</small></label>
+          <vx-input-group class="number-rtl">
+            <template slot="prepend">
+              <div class="prepend-text bg-primary">
+                <span>٪</span>
+              </div>
+            </template>
+            <vs-input v-model="sForm.deposit" autocomplete="off" type="number" v-validate="'required'" name="deposit" />
+          </vx-input-group>
+          <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
+          <has-error :form="sForm" field="deposit"></has-error>
+        </div>
+      </vs-col>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+      <div class="w-full pt-2 ml-3 mr-3">
+        <label for=""><small>قیمت نهایی</small></label>
+        <vx-input-group class="number-rtl">
+          <template slot="prepend">
+            <div class="prepend-text bg-primary">
+              <span v-if="sForm.currency_id==1">AFN</span>
+              <span v-if="sForm.currency_id==2">USD</span>
+            </div>
+          </template>
+          <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" />
+        </vx-input-group>
+        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+      </div>
     </vs-col>
   </vs-row>
   <div class="vx-row">
@@ -279,13 +298,17 @@ export default {
     this.getProject();
   },
   computed: {
+    saleTotalCostFinal: function () {
+      var x = parseFloat(this.sForm.total) - (this.sForm.total * ((this.sForm.deposit / 100)) + (this.sForm.total * (this.sForm.tax / 100)));
+      return x.toFixed(2);
+    },
     saleTotalCost: function () {
       var i_total = 0;
       this.sForm.item.forEach(item => {
-          i_total += item.total_price;
+        i_total += item.total_price;
       });
 
-      this.sForm.total = parseInt(this.sForm.service_cost) + parseInt(i_total);
+      this.sForm.total = parseFloat(this.sForm.service_cost) + parseFloat(i_total);
       return this.sForm.total;
     }
     // isFormValid() {
