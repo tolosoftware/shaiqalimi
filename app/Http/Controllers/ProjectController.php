@@ -13,6 +13,7 @@ use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\FinancialRecord;
 use App\Models\ExchangeRate;
+use Illuminate\Support\Facades\DB;
 
 
 use Illuminate\Http\Request;
@@ -52,32 +53,36 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
 
-        // return $request;
-        // return Carbon::parse($request->issue_date);
-        $this->validate($request, [
-            // 's_number' => 'required|unique',
-            // 'issue_date' => 'required|date',
-            // 'type' => 'required',
-            // 'price' => 'required:max:20',
-            // 'offer_date' => 'required|date',
-            // 'close_date' => 'required|date',
-            // 'offer_price' => 'required|max:20',
-            // 'project_price' => 'required|max:20',
-            // 'announce_id' => 'required',
-            // 'organization_id' => 'required',
-            // 'title' => 'required|min:3',
-            // 'issue_address' => 'required|min:3',
-            // 'source_address' => 'required|min:3',
-        ]);
-        if (gettype($request->client_id) != 'integer') {
-            $request['client_id'] = $request->client_id['id'];
-        }
-        if (gettype($request->proposal_id) != 'integer') {
-            $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
-        }
-        $serial_no = Helper::getSerialNo('type', 'pro');
-        $request['serial_no'] = $serial_no->value;
-        if ($resp = Project::create($request->all())) {
+        DB::beginTransaction();
+        try {
+
+            // return $request;
+            // return Carbon::parse($request->issue_date);
+            $this->validate($request, [
+                // 's_number' => 'required|unique',
+                // 'issue_date' => 'required|date',
+                // 'type' => 'required',
+                // 'price' => 'required:max:20',
+                // 'offer_date' => 'required|date',
+                // 'close_date' => 'required|date',
+                // 'offer_price' => 'required|max:20',
+                // 'project_price' => 'required|max:20',
+                // 'announce_id' => 'required',
+                // 'organization_id' => 'required',
+                // 'title' => 'required|min:3',
+                // 'issue_address' => 'required|min:3',
+                // 'source_address' => 'required|min:3',
+            ]);
+            if (gettype($request->client_id) != 'integer') {
+                $request['client_id'] = $request->client_id['id'];
+            }
+            if (gettype($request->proposal_id) != 'integer') {
+                $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
+            }
+            $serial_no = Helper::getSerialNo('type', 'pro');
+            $request['serial_no'] = $serial_no->value;
+            $resp = Project::create($request->all());
+            
             if ($request['proposal_id']) {
                 $proData = [
                     'client_id' => $request->client_id,
@@ -160,8 +165,10 @@ class ProjectController extends Controller
                 FinancialRecord::create($data);
             }
             return response()->json([$resp], 200);
-        } else {
+            DB::commit();
             return $resp;
+        } catch (Exception $e) {
+            DB::rollback();
         }
     }
 
