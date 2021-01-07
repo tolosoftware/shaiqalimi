@@ -83,7 +83,7 @@
   <ekmalat-stock :items="sForm.item" :form="sForm" :currencyID="sForm.currency_id" :listOfFields="[]" :disabledFields="[]" :grid="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
-    <vs-col vs-type="flex" vs-w="6" class="mb-base">
+    <vs-col vs-type="flex" vs-w="4" class="mb-base">
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 mr-3">
           <label for=""><small>مصارف انتقالات</small></label>
@@ -117,6 +117,23 @@
         </div>
       </vs-col>
     </vs-col>
+    <vs-col vs-type="flex" vs-w="3" class="mb-base">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="6" vs-xs="12">
+        <div class="w-full pt-2 ml-3 mr-3">
+          <label for=""><small>قیمت مجموعی</small></label>
+          <vx-input-group class="number-rtl">
+            <template slot="prepend">
+              <div class="prepend-text bg-primary">
+                <span v-if="sForm.currency_id==1">AFN</span>
+                <span v-if="sForm.currency_id==2">USD</span>
+              </div>
+            </template>
+            <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
+          </vx-input-group>
+          <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+        </div>
+      </vs-col>
+    </vs-col>
     <vs-col vs-type="flex" vs-w="2" class="mb-base">
       <div class="w-full pt-2 ml-3 mr-3">
         <label for=""><small>مالیات</small></label>
@@ -133,7 +150,7 @@
       </div>
     </vs-col>
 
-    <vs-col vs-type="flex" vs-w="4" class="mb-base">
+    <vs-col vs-type="flex" vs-w="3" class="mb-base">
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for=""><small>قیمت نهایی</small></label>
@@ -144,7 +161,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
+            <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
         </div>
@@ -277,13 +294,17 @@ export default {
     this.getProject();
   },
   computed: {
+    saleTotalCostFinal: function () {
+      var x = parseFloat(this.sForm.total) - (this.sForm.total * (this.sForm.tax / 100));
+      return x.toFixed(2);
+    },
     saleTotalCost: function () {
       var i_total = 0;
       this.sForm.item.forEach(item => {
-          i_total += item.total_price;
+        i_total += item.total_price;
       });
 
-      this.sForm.total = parseInt(this.sForm.transport_cost) + parseInt(this.sForm.service_cost) + parseInt(i_total);
+      this.sForm.total = parseFloat(this.sForm.transport_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total);
       return this.sForm.total;
     }
     // isFormValid() {
