@@ -81,3 +81,11 @@ Route::get('sources', 'StorageController@allTypeSource');
 
 //Archive
 Route::get('accoutload', 'AccountController@getaccount');
+//transactions
+Route::resource('transaction', 'TransactionController');
+Route::get('transactionSerialnum', 'TransactionController@serial');
+
+//Expenses
+Route::resource('expenses', 'ExpensesController');
+Route::get('exserialno', 'ExpensesController@serial');
+

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CurrencyController extends Controller
 {
@@ -122,23 +123,28 @@ class CurrencyController extends Controller
 
     public function rates(Request $request)
     {
-        $new_counter = 1;
-        $rates = [];
-        if($request['currencies'][0]) {
-            $new_counter = $request['currencies'][0]['last_rate']['counter'] + 1;
-        }
+        DB::beginTransaction();
+        try {
+
+        $getcounter = ExchangeRate::latest()->first();
+        $newcounter = $getcounter->counter +1;
         foreach ($request['currencies'] as $key => $value) {
             // return $value['id'];
             $rate = [
                 'currency_id' => $value['id'],
-                'user_id' => 1,
+                'user_id' => 4,
                 'rate' => $value['last_rate']['rate'],
-                'counter' => $new_counter
+                'counter' => $newcounter,
             ];
             // return $rate;
-            $rates[] = ExchangeRate::create($rate);
+             ExchangeRate::create($rate);
         }
-        return $rates;
+
+        DB::commit();
+        return 1;
+    } catch (Exception $e) {
+        DB::rollback();
+       }
 
     }
 
