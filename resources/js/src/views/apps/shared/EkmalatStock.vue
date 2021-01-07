@@ -104,7 +104,7 @@
 
         <vs-col v-if="!disabledFields.includes('unit_price')" vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-1 mr-1 number-rtl">
-            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه‌فی‌واحد" class="w-full" />
+            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="قیمت ‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
@@ -120,7 +120,7 @@
                   <span v-if="currencyID==2">USD</span>
                 </div>
               </template>
-              <vs-input type="number" title="مقدار و هزینه فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="i.total_price" />
+              <vs-input type="number" title="مقدار و قیمت فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="i.total_price" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
             

@@ -27,7 +27,7 @@
         <add-proposal :clients="clients"></add-proposal>
       </vx-card>
     </vs-tab>
-    <vs-tab label="لیست اعلانات">
+    <vs-tab label="آفرها">
       <div class="vx-row">
         <ProposalList :editId="edit_id"></ProposalList>
       </div>
