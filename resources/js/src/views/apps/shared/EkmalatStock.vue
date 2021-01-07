@@ -5,25 +5,25 @@
   <form data-vv-scope="step-3">
     <div v-for="(i, index) in items" :key="i.id">
       <vs-row vs-w="12" class="pb-2 mb-2">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 mr-3">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 3" :vs-sm="grid && grid[1] ? grid[1] : 6" vs-xs="12">
+          <div class="w-full pt-2 mr-1">
             <label for=""><small>جنس / محصول</small></label>
             <v-select v-validate="'required'" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="datacalled" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.item_id_${index}`) }}</span> -->
             <has-error :form="form" field="item_id"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="2" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 1" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <label for=""><small>عملیه</small></label>
             <v-select v-validate="'required'" :clearable="false" v-show="true" :title="errors.first(`step-3.operation_id_${index}`)" :class="errors.first(`step-3.operation_id_${index}`) ? 'has-error' : ''" :name="`operation_id_${index}`" label="title" @input="operationChange(i.operation_id, index)" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.operation_id_${index}`) }}</span> -->
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col vs-type="flex" v-if="is_active[index].uom && !is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <label for>
-              <small>مقدار</small>
+              <small>مقدار (واحد اصلی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_id">
@@ -39,10 +39,10 @@
             <has-error :form="form" field="increment"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <label for>
-              <small>معادل</small>
+              <small>مقدار (واحد فرعی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_equiv_id">
@@ -57,17 +57,17 @@
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 1" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full" />
             <has-error :form="form" field="density"></has-error>
             <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && !is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <label for>
-              <small>معادل</small>
+              <small>مقدار (واحد فرعی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_equiv_id">
@@ -82,10 +82,10 @@
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col vs-type="flex" v-if="is_active[index].uom && is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <label for>
-              <small>مقدار</small>
+              <small>مقدار (واحد اصلی)</small>
             </label>
             <vx-input-group class="">
               <template slot="append" v-if="i.item_id && i.item_id.uom_id">
@@ -102,21 +102,22 @@
           </div>
         </vs-col>
 
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].density ? 1 : 2" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col v-if="!disabledFields.includes('unit_price')" vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="هزینه‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3">
+        <vs-col v-if="!disabledFields.includes('total_price')" vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-1 mr-1">
             <label for>
-              <small>هزینه مجموعی</small>
+              <small>قیمت مجموعی</small>
             </label>
             <vx-input-group class="">
               <template slot="prepend">
                 <div class="prepend-text bg-primary">
-                  <span>AFN</span>
+                  <span v-if="currencyID==1">AFN</span>
+                  <span v-if="currencyID==2">USD</span>
                 </div>
               </template>
               <vs-input type="number" v-model="i.total_price" />
@@ -128,8 +129,8 @@
     </div>
   </form>
   <vs-row vs-w="12">
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="4" vs-xs="12" class="pt-2 mb-2 ml-3 mr-3">
-      <vs-button type="border" @click.stop="addNewRow" color="success" icon="add"></vs-button>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="4" vs-xs="12" class="pt-2 mb-2 ml-1 mr-1">
+      <vs-button type="border" @click.stop="justAddRow" color="success" icon="add"></vs-button>
       &nbsp;&nbsp;
       <vs-button type="border" id="delete-btn" @click.stop="removeRow" color="danger" icon="delete" :disabled="this.items.length <= 1"></vs-button>
     </vs-col>
@@ -145,7 +146,7 @@ import {
 
 export default {
   name: "vx-ekmalat",
-  props: ["items", "form", "listOfFields"],
+  props: ["items", "form", "listOfFields", "currencyID"],
   data() {
     return {
       operations: [],
@@ -242,36 +243,35 @@ export default {
       });
     },
     addNewRow() {
-      console.log('add new');
       this.initFormError();
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
           if (result) {
-            console.log(this.items);
-            this.items.push({
-              item_id: "",
-              unit_id: "",
-              operation_id: null,
-              increment_equiv: "",
-              increment: "",
-              unit_price: "",
-              total_price: "",
-              density: null,
-            });
-            this.is_active.push({
-              density: false,
-              uom: true,
-              eqv_uom: true,
-              reverse: false,
-            });
-
+            this.justAddRow()
           } else {
             // reject('correct all values')
-
           }
         });
       });
       console.log(this.errors);
+    },
+    justAddRow() {
+      this.items.push({
+        item_id: "",
+        unit_id: "",
+        operation_id: null,
+        increment_equiv: "",
+        increment: "",
+        unit_price: "",
+        total_price: "",
+        density: null,
+      });
+      this.is_active.push({
+        density: false,
+        uom: true,
+        eqv_uom: true,
+        reverse: false,
+      });
     },
     validateEkmalatForm() {
       this.initFormError();
@@ -326,13 +326,13 @@ export default {
           required: "فیصدی مالیه را وارد کنید",
         },
         others: {
-          required: "هزینه متفرقه بالای اعلان را وارد کنید.",
+          required: "قیمت متفرقه بالای اعلان را وارد کنید.",
         },
         pr_worth: {
           required: "ارزش قرارداد الزامی است.",
         },
         transit: {
-          required: "هزینه انتقالات را وارد کنید.",
+          required: "قیمت انتقالات را وارد کنید.",
         },
         total_price: {
           required: "",
@@ -352,7 +352,7 @@ export default {
           required: "مقدار الزامی است.",
         };
         this.listOfFields.custom[`unit_price_${index}`] = {
-          required: "هزینه فی واحد الزامی است.",
+          required: "قیمت فی واحد الزامی است.",
         };
         this.listOfFields.custom[`density_${index}`] = {
           required: "ثقلت الزامی است.",

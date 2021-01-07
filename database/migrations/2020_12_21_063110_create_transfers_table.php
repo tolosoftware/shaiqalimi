@@ -19,7 +19,12 @@ class CreateTransfersTable extends Migration
             $table->integer('serial_no');
             $table->string('title');
             $table->string('supervisor');
-            $table->text('description');
+            $table->string('destination');
+            $table->decimal('transit');
+            $table->decimal('scale');
+            $table->decimal('others');
+            $table->decimal('total');
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

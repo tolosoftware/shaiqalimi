@@ -7,7 +7,7 @@
                 <vx-card class="height-vh-80">
                     <div class="vx-row">
                         <div class="vx-col w-1/2">
-                            <h3>فارم ویرایش خریداری</h3>
+                            <h3>فورم ویرایش خریداری</h3>
                         </div>
                       
                     </div>
@@ -80,7 +80,7 @@
                         <!-- end currency -->
                         <!-- eteration -->
 
-                        <EkmalatStock :items="prForm.item" :form="prForm" :listOfFields="[]" ref="ekmalat"></EkmalatStock>
+                        <<EkmalatStock :disabledFields="[]"  :items="prForm.item" :form="prForm" :listOfFields="[]" ref="ekmalat"></EkmalatStock>
 
                         <!-- end eteration -->
                         <vs-row vs-w="12">

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\SaleTwo;
@@ -48,7 +49,7 @@ class SaleTwoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $serial_no = Helper::getSerialNo('sale2', 'sale');
         $this->validate($request, [
             // 'title' => 'required|min:2',
@@ -83,7 +84,7 @@ class SaleTwoController extends Controller
 
         $request['sales_id'] = $newSale->id;
         $newSaleTwo = SaleTwo::create($request->all());
-        
+
         $typeId = AccountType::latest()->first()->id;
         $accData = [
             'user_id' => $request->user_id,
@@ -97,17 +98,16 @@ class SaleTwoController extends Controller
         $newAcc = Account::create($accData);
         if ($newAcc) {
 
-            $newFR = Helper::createDoubleFR($newSale, $newAcc, $request);
-
+            $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);
         }
-        if($newAcc) {
+        if ($newAcc) {
             $stocks = [];
             $totalmoney = 0;
-            $stocks = Helper::salesCreateStockRecords($request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
+            $stocks = Helper::salesCreateStockRecords('sale', $request->item, $newSale, $source, $request, $totalmoney, $source['name'], $source['id']);
         }
 
         // Create the Notification
-        if($newFR) {
+        if ($newFR) {
             $client_name = $client['name'];
             $item_name = $source['name'];
             $nofication = [
@@ -121,7 +121,6 @@ class SaleTwoController extends Controller
                 'user_id' => $request->user_id,
             ];
             $newNotif = Notification::create($nofication);
-
         }
         return [$newSale, $newSaleTwo, $newAcc, $newFR, $newNotif, $stocks];
     }
@@ -166,8 +165,8 @@ class SaleTwoController extends Controller
      * @param  \App\SaleTwo  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SaleTwo $saleOne)
+    public function destroy($id)
     {
-        //
+        return $id;
     }
 }

@@ -104,15 +104,16 @@
       </tbody>
     </template>
   </vs-table>
-  <vs-popup  class="holamundo" title="پیشرفت آفر/ اعلان" :active.sync="popupModalActive">
+  <vs-popup class="holamundo" title="پیشرفت آفر/ اعلان" :active.sync="popupModalActive">
     <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
       <tab-content title="ثبت اعلان" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
           <vs-divider>بررسی بخش ثبت اعلان</vs-divider>
           <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation .</p>
+            <div v-for="(row, indextr) in proposal">
+              <p>{{row.name}}</p>
+              <p>{{row.title}}</p>
+            </div>
             <br>
             <div class="flex justify-between float-right">
               <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
@@ -286,6 +287,7 @@ export default {
       },
       selected: [],
       proposals: [],
+      proposal: [],
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -320,8 +322,20 @@ export default {
       this.popupModalActive = false;
 
     },
-    showCheckModal() {
+    showCheckModal(id) {
       this.popupModalActive = true;
+      this.$Progress.start()
+      this.axios
+        .get("/api/proposal/" + id)
+        .then((data) => {
+          this.proposal = data.data;
+          // this.isloadedrow = true;
+          console.log('proposal', this.proposal);
+          this.$Progress.set(100);
+
+        })
+        .catch(() => {});
+
     },
     showPrintData(id) {
       this.popupActive = true;
@@ -533,7 +547,7 @@ export default {
 }
 </style><style>
 .con-vs-popup .vs-popup {
-  width: 800px;
+  width: 900px;
 }
 
 .vue-form-wizard .navbar .navbar-nav>li>a.wizard-btn,

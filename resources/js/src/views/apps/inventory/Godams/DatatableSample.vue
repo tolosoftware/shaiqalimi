@@ -6,20 +6,12 @@
       :data="sidebarData"
     /> -->
 
-    <vs-table
-      ref="table"
-      pagination
-      :max-items="itemsPerPage"
-      search
-      :data="products"
-    >
+    <vs-table ref="table" pagination :max-items="itemsPerPage" search :data="products">
       <div
         slot="header"
         class="flex flex-wrap-reverse items-center flex-grow justify-between"
       >
-        <div
-          class="flex flex-wrap-reverse items-center data-list-btn-container"
-        >
+        <div class="flex flex-wrap-reverse items-center data-list-btn-container">
           <!-- ITEMS PER PAGE -->
           <vs-dropdown
             vs-trigger-click

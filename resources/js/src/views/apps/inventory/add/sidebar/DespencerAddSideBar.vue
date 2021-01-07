@@ -21,7 +21,7 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <vs-button class="mr-3 mb-2 " @click.stop="submitData">ثبت</vs-button>
-        <vs-button color="warning" type="border" class="mb-2" @click.stop="isSidebarActiveLocal = false">بستن فارم</vs-button>
+        <vs-button color="warning" type="border" class="mb-2" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>
       </div>
     </div>
   </div>

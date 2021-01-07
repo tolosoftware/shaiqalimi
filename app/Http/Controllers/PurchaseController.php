@@ -60,7 +60,7 @@ class PurchaseController extends Controller
         DB::beginTransaction();
         try {
 
-            $serial_number = SerialNumber::where( 'type',   'pur')->latest()->first();
+            $serial_number = SerialNumber::where( 'type', 'pur')->latest()->first();
             if($serial_number){
                 if($serial_number->value > $request['serial_no']){
                     $request['serial_no'] = $serial_number->value +1;

@@ -356,7 +356,7 @@ body .ps__scrollbar-y-rail {
     right: 0px !important;
 }
 
-.ps>.ps__scrollbar-y-rail>.ps__scrollbar-y {
+div.vs-content-sidebar.v-nav-menu .ps>.ps__scrollbar-y-rail>.ps__scrollbar-y {
     width: 100% !important;
     right: 0px !important;
 }
@@ -546,4 +546,16 @@ li.fuel-station > h3{
 [dir] .source-select .marginIcon .vs-dropdown--item {
     border-right: solid 1px #c2c6dc !important;
     border-radius: 0 !important;
+}
+.vuesax-app-is-rtl .con-vs-dropdown--menu{
+    z-index: 99999;
+}
+
+.transfer-sidebar .vs-sidebar{
+    position: fixed;
+    top: 0;
+}
+
+[dir] .just-one-line {
+    -webkit-line-clamp: 1 !important;
 }

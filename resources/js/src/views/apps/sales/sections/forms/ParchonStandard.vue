@@ -54,8 +54,8 @@
     </div>
   </div>
 
-  <!-- Ekmalat -->
-  <ekmalat :items="sForm.item" :form="sForm" :listOfFields="[]" ref="ekmalat"></ekmalat>
+  <!-- EkmalatStock -->
+  <ekmalat-stock :items="sForm.item" :form="sForm" :currencyID="sForm.currency_id" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
@@ -64,7 +64,8 @@
         <vx-input-group class="">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
-              <span>AFN</span>
+              <span v-if="sForm.currency_id==1">AFN</span>
+              <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
           <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
@@ -73,13 +74,14 @@
         <has-error :form="sForm" field="service_cost"></has-error>
       </div>
     </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
       <div class="w-full pt-2 ml-3 mr-3">
         <label for=""><small>مصارف متفرقه</small></label>
         <vx-input-group class="">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
-              <span>AFN</span>
+              <span v-if="sForm.currency_id==1">AFN</span>
+              <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
           <vs-input autocomplete="off" v-model="sForm.additional_cost" type="number" v-validate="'required'" name="additional_cost" />
@@ -105,11 +107,12 @@
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
       <div class="w-full pt-2 ml-3 mr-3">
-        <label for=""><small>هزینه نهایی</small></label>
+        <label for=""><small>قیمت نهایی</small></label>
         <vx-input-group class="">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
-              <span>AFN</span>
+              <span v-if="sForm.currency_id==1">AFN</span>
+              <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
           <vs-input v-model="sForm.total" autocomplete="off" type="number" />
@@ -133,7 +136,7 @@
 
 <script>
 import vSelect from 'vue-select'
-import Ekmalat from "../../../shared/Ekmalat"
+import EkmalatStock from "../../../shared/EkmalatStock"
 import SourceSelect from "../../../shared/SourceSelect";
 
 export default {
@@ -145,7 +148,7 @@ export default {
   },
   components: {
     'v-select': vSelect,
-    Ekmalat,
+    EkmalatStock,
     SourceSelect
 
   },
@@ -173,12 +176,12 @@ export default {
           item_id: "",
           unit_id: "",
           operation_id: null,
-          equivalent: "",
-          ammount: "",
+          increment_equiv: "",
+          increment: "",
           unit_price: "",
           total_price: "",
           density: null,
-        }, ],
+        }],
       }),
       items: [],
       // End of sidebar items

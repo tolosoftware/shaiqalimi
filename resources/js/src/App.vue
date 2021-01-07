@@ -38,29 +38,29 @@ export default {
     }
   },
   methods: {
-    loadcurrentuser(){
-       
-        this.axios.get('/api/user')
-            .then((response) => {
-                this.currentuserdata = response.data
-               
-               localStorage.setItem('name', this.currentuserdata.firstName)
-               localStorage.setItem('lastname', this.currentuserdata.lastName)
-               localStorage.setItem('position', this.currentuserdata.position)
-               localStorage.setItem('image', this.currentuserdata.image)
-               localStorage.setItem('id', this.currentuserdata.id)
-              
-            }) .catch(() => {
-                    this.$router.push({ path: '/login' });
-                    this.$vs.notify({
-                        title: ' شما به سیستم دسترسی ندارید!',
-                        text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        icon: 'icon-check',
-                        position: 'top-right'
-                    })
-                })
+    loadcurrentuser() {
+
+      this.axios.get('/api/user')
+        .then((response) => {
+          this.currentuserdata = response.data
+
+          localStorage.setItem('name', this.currentuserdata.firstName)
+          localStorage.setItem('lastname', this.currentuserdata.lastName)
+          localStorage.setItem('position', this.currentuserdata.position)
+          localStorage.setItem('image', this.currentuserdata.image)
+          localStorage.setItem('id', this.currentuserdata.id)
+
+        }).catch(() => {
+          this.$router.push({ path: '/login' });
+          this.$vs.notify({
+            title: ' شما به سیستم دسترسی ندارید!',
+            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        })
     },
 
     toggleClassInBody(className) {
@@ -99,10 +99,10 @@ export default {
   },
   async created() {
     // console.log(localStorage.getItem('token'));
-    if(localStorage.getItem('id') == null){
-        this.loadcurrentuser();
+    if (localStorage.getItem('id') == null) {
+      this.loadcurrentuser();
     }
-  
+
     // jwt
     jwt.init()
     const dir = this.$vs.rtl ? 'rtl' : 'ltr'

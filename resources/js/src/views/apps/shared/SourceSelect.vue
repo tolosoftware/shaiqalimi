@@ -1,7 +1,7 @@
 <template>
 <div class="source-select-wrapper">
   <vs-dropdown>
-    <vs-input :value="selection" disabled autocomplete="off" class="w-full" />
+    <vs-input :value="parentForm.source_id ? selection : ''" disabled autocomplete="off" class="w-full" />
     <vs-dropdown-menu class="source-select">
       <vs-dropdown-group vs-label="ذخایر عمومی">
         <vs-dropdown-item v-for="(item, i) in sources.str" :key="'str' + i" @click="ddSelected(item, 'STRG')"> {{ item.name }} </vs-dropdown-item>
@@ -43,13 +43,13 @@ export default {
   },
   methods: {
     ddSelected(data, type, parent = null) {
-      if(parent) {
-        this.selection = parent.name + ' - ' + data.name;
-      }else{
-        this.selection = data.name;
-      }
       this.parentForm.source_id = data;
       this.parentForm.source_type = type;
+      if(parent) {
+        this.selection = parent.name + ' - ' + this.parentForm.source_id.name;
+      }else{
+        this.selection = this.parentForm.source_id.name;
+      }
     },
     getStorages() {
       // Start the Progress Bar

@@ -58,7 +58,7 @@
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for>
-            <small>هزینه فی واحد</small>
+            <small>قیمت فی واحد</small>
           </label>
           <vx-input-group class="">
             <template slot="prepend">
@@ -74,7 +74,7 @@
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for>
-            <small>هزینه مجموعی</small>
+            <small>قیمت مجموعی</small>
           </label>
           <vx-input-group class="">
             <template slot="prepend">
