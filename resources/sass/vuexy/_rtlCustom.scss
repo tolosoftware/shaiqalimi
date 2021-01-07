@@ -292,10 +292,10 @@ text {
     margin: unset !important;
 }
 
-.number-rtl input {
+[dir] .number-rtl input {
     font-family: 'YekanWeb' !important;
-    direction: rtl !important;
-    text-align: right !important;
+    direction: ltr !important;
+    text-align: left !important;
 }
 
 .vs-input--input.normal,

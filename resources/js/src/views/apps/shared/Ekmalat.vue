@@ -119,7 +119,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="i.total_price" />
+              <vs-input type="number" v-model="i.total_price" :data="itemsTotalPrice"/>
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
           </div>
@@ -413,8 +413,47 @@ export default {
     },
   },
   // End Of methods
-  watch: {
-    // console.log(this.items);
+  computed: {
+    itemsTotalPrice: function () {
+      for (const key of Object.keys(this.items)) {
+        let item_equivalent = this.items[key].item_id.equivalent;
+        let opr = this.items[key].operation_id;
+
+        let unit_price = this.items[key].unit_price;
+        let density = this.items[key].density;
+
+        if (opr && opr.id == 1) {
+          this.items[key].total_price = this.items[key].ammount * unit_price;
+          this.items[key].equivalent = 0;
+        } else if (opr && opr.id == 2) {
+          this.items[key].total_price = this.items[key].equivalent * unit_price;
+          this.items[key].ammount = 0;
+        } else if (opr && opr.id == 3) {
+          if (item_equivalent !== 0) {
+            this.items[key].equivalent = this.items[key].ammount * item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].equivalent * unit_price;
+        } else if (opr && opr.id == 4) {
+          if (item_equivalent !== 0) {
+            this.items[key].ammount = this.items[key].equivalent / item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].ammount * unit_price;
+        } else if (opr && opr.id == 5) {
+          if (item_equivalent !== 0) {
+            this.items[key].equivalent = (this.items[key].ammount * density) * item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].equivalent * unit_price;
+        } else if (opr && opr.id == 6) {
+          if (item_equivalent !== 0) {
+            this.items[key].ammount = (this.items[key].equivalent * density) / item_equivalent;
+          }
+          this.items[key].total_price = this.items[key].ammount * unit_price;
+        }
+
+      }
+
+    }
+
   },
   components: {
     "v-select": vSelect,

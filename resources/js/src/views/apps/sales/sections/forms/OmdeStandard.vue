@@ -4,7 +4,7 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for=""><small>سریال نمبر</small></label>
-        <vx-input-group class="">
+        <vx-input-group class="number-rtl">
           <template slot="append">
             <div class="append-text bg-primary">
               <span>S2</span>
@@ -87,7 +87,7 @@
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 mr-3">
           <label for=""><small>مصارف انتقالات</small></label>
-          <vx-input-group class="">
+          <vx-input-group class="number-rtl">
             <template slot="prepend">
               <div class="prepend-text bg-primary">
                 <span v-if="sForm.currency_id==1">AFN</span>
@@ -103,7 +103,7 @@
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for=""><small>مصارف خدمات</small></label>
-          <vx-input-group class="">
+          <vx-input-group class="number-rtl">
             <template slot="prepend">
               <div class="prepend-text bg-primary">
                 <span v-if="sForm.currency_id==1">AFN</span>
@@ -120,7 +120,7 @@
     <vs-col vs-type="flex" vs-w="2" class="mb-base">
       <div class="w-full pt-2 ml-3 mr-3">
         <label for=""><small>مالیات</small></label>
-        <vx-input-group class="">
+        <vx-input-group class="number-rtl">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
               <span>٪</span>
@@ -137,14 +137,14 @@
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="6" vs-xs="12">
         <div class="w-full pt-2 ml-3 mr-3">
           <label for=""><small>قیمت نهایی</small></label>
-          <vx-input-group class="">
+          <vx-input-group class="number-rtl">
             <template slot="prepend">
               <div class="prepend-text bg-primary">
                 <span v-if="sForm.currency_id==1">AFN</span>
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input v-model="sForm.total" autocomplete="off" type="number" />
+            <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
         </div>
@@ -277,6 +277,15 @@ export default {
     this.getProject();
   },
   computed: {
+    saleTotalCost: function () {
+      var i_total = 0;
+      this.sForm.item.forEach(item => {
+          i_total += item.total_price;
+      });
+
+      this.sForm.total = parseInt(this.sForm.transport_cost) + parseInt(this.sForm.service_cost) + parseInt(i_total);
+      return this.sForm.total;
+    }
     // isFormValid() {
     //   // return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
     // },
