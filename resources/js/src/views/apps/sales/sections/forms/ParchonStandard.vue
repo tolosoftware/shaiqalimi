@@ -58,9 +58,44 @@
   <ekmalat-stock :items="sForm.item" :form="sForm" :currencyID="sForm.currency_id" :disabledFields="[]" :grid="[]" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
 
   <vs-row vs-w="12" class="mb-base">
-    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="3" vs-xs="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+
+        <div class="w-full pt-2 ml-3 mr-3">
+          <label for=""><small>مصارف خدمات</small></label>
+          <vx-input-group class="number-rtl">
+            <template slot="prepend">
+              <div class="prepend-text bg-primary">
+                <span v-if="sForm.currency_id==1">AFN</span>
+                <span v-if="sForm.currency_id==2">USD</span>
+              </div>
+            </template>
+            <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
+          </vx-input-group>
+          <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
+          <has-error :form="sForm" field="service_cost"></has-error>
+        </div>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+        <div class="w-full pt-2 ml-3 mr-3">
+          <label for=""><small>مصارف متفرقه</small></label>
+          <vx-input-group class="number-rtl">
+            <template slot="prepend">
+              <div class="prepend-text bg-primary">
+                <span v-if="sForm.currency_id==1">AFN</span>
+                <span v-if="sForm.currency_id==2">USD</span>
+              </div>
+            </template>
+            <vs-input autocomplete="off" v-model="sForm.additional_cost" type="number" v-validate="'required'" name="additional_cost" />
+          </vx-input-group>
+          <span class="absolute text-danger alerttext">{{ errors.first('step-2.additional_cost') }}</span>
+          <has-error :form="sForm" field="additional_cost"></has-error>
+        </div>
+      </vs-col>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
       <div class="w-full pt-2 ml-3 mr-3">
-        <label for=""><small>مصارف خدمات</small></label>
+        <label for=""><small>قیمت مجموعی</small></label>
         <vx-input-group class="number-rtl">
           <template slot="prepend">
             <div class="prepend-text bg-primary">
@@ -68,29 +103,13 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
+          <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
-        <has-error :form="sForm" field="service_cost"></has-error>
+        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
     </vs-col>
-    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
-      <div class="w-full pt-2 ml-3 mr-3">
-        <label for=""><small>مصارف متفرقه</small></label>
-        <vx-input-group class="number-rtl">
-          <template slot="prepend">
-            <div class="prepend-text bg-primary">
-              <span v-if="sForm.currency_id==1">AFN</span>
-              <span v-if="sForm.currency_id==2">USD</span>
-            </div>
-          </template>
-          <vs-input autocomplete="off" v-model="sForm.additional_cost" type="number" v-validate="'required'" name="additional_cost" />
-        </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.additional_cost') }}</span>
-        <has-error :form="sForm" field="additional_cost"></has-error>
-      </div>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
+
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="3" vs-xs="12">
       <div class="w-full pt-2 ml-3 mr-3">
         <label for=""><small>مالیات</small></label>
         <vx-input-group class="number-rtl">
@@ -115,11 +134,10 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
+          <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
-    </vs-col>
     </vs-col>
   </vs-row>
   <div class="vx-row">
@@ -128,7 +146,7 @@
   <div class="mt-10">
     <div class="vx-col w-full">
       <vs-button @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
-      <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
+      <vs-button color="warning" type="border" class="mb-2 ml-2" @click="sForm.reset()">پاک کردن فرم</vs-button>
     </div>
   </div>
 </form>
@@ -194,15 +212,15 @@ export default {
     saleTotalCost: function () {
       var i_total = 0;
       this.sForm.item.forEach(item => {
-          i_total += item.total_price;
+        i_total += item.total_price;
       });
-
-      this.sForm.total = parseInt(this.sForm.additional_cost) + parseInt(this.sForm.service_cost) + parseInt(i_total);
+      this.sForm.total = parseFloat(this.sForm.additional_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total);
       return this.sForm.total;
-    }
-    // isFormValid() {
-    //   // return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
-    // },
+    },
+    saleTotalCostFinal: function () {
+      var x = parseFloat(this.sForm.total) - (this.sForm.total * (this.sForm.tax / 100));
+      return x.toFixed(2);
+    },
   },
   methods: {
     // Old methods

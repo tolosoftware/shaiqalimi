@@ -120,7 +120,7 @@
                   <span v-if="currencyID==2">USD</span>
                 </div>
               </template>
-              <vs-input type="number" title="مقدار و قیمت فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="i.total_price" />
+              <vs-input type="number" title="مقدار و هزینه فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="(i.total_price) ? i.total_price.toFixed(2) : ''" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
             
@@ -432,25 +432,28 @@ export default {
         } else if (opr && opr.id == 3) {
           if (item_equivalent !== 0) {
             this.items[key].increment_equiv = this.items[key].increment * item_equivalent;
+            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(2);
           }
           this.items[key].total_price = this.items[key].increment_equiv * unit_price;
         } else if (opr && opr.id == 4) {
           if (item_equivalent !== 0) {
             this.items[key].increment = this.items[key].increment_equiv / item_equivalent;
+            this.items[key].increment = this.items[key].increment.toFixed(2);
           }
           this.items[key].total_price = this.items[key].increment * unit_price;
         } else if (opr && opr.id == 5) {
           if (item_equivalent !== 0) {
             this.items[key].increment_equiv = (this.items[key].increment * density) * item_equivalent;
+            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(2);
           }
           this.items[key].total_price = this.items[key].increment_equiv * unit_price;
         } else if (opr && opr.id == 6) {
           if (item_equivalent !== 0) {
             this.items[key].increment = (this.items[key].increment_equiv * density) / item_equivalent;
+            this.items[key].increment = this.items[key].increment.toFixed(2);
           }
           this.items[key].total_price = this.items[key].increment * unit_price;
         }
-
       }
 
     }
