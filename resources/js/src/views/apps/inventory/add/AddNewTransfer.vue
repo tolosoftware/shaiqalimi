@@ -197,7 +197,6 @@ export default {
       })
       return others + scale + transit + total_items;
     },
-
   },
   created() {
     this.getNextSerialNo();
