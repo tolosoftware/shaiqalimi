@@ -14,7 +14,7 @@
       </h4>
     </div>
     <template slot="thead">
-      <vs-th>نمبر</vs-th>
+      <vs-th>#</vs-th>
       <vs-th>نهاد</vs-th>
       <vs-th>قرارداد</vs-th>
       <vs-th>تضمین قرارداد</vs-th>

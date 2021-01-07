@@ -15,6 +15,7 @@ use App\Models\SaleFour;
 use App\Models\SaleThree;
 use App\Models\SaleTwo;
 use App\Models\StockRecord;
+use App\Models\Transfer;
 
 class Helper
 {
@@ -88,10 +89,10 @@ class Helper
                 'source' => $source,
                 'source_id' => $source_id,
                 'item_id' => $valueItem['item_id']['id'],
-                'increment' => (array_key_exists("ammount",$valueItem) && $valueItem['ammount']) ? $valueItem['ammount'] : $valueItem['increment'],
+                'increment' => (array_key_exists("ammount", $valueItem) && $valueItem['ammount']) ? $valueItem['ammount'] : $valueItem['increment'],
                 'decrement' => 0,
                 'uom_id' => $valueItem['item_id']['measurment_unites_min']['id'],
-                'increment_equiv' => (array_key_exists("equivalent",$valueItem) && $valueItem['equivalent']) ? $valueItem['equivalent'] : $valueItem['increment_equiv'],
+                'increment_equiv' => (array_key_exists("equivalent", $valueItem) && $valueItem['equivalent']) ? $valueItem['equivalent'] : $valueItem['increment_equiv'],
                 'decrement_equiv' => 0,
                 'uom_equiv_id' => $valueItem['item_id']['measurment_unites_sub']['id'],
                 'density' => $valueItem['density'],
@@ -122,5 +123,15 @@ class Helper
         // $Account = Account::where(['ref_code' => 'فروشات - ' + $sale->id]);
         $FinancialRecord = FinancialRecord::where(['type' => 'sale', 'type_id' => $id]);
         $StockRecord = StockRecord::where(['type' => 'sale', 'type_id' => $id]);
+    }
+    public static function deleteTransfer($id)
+    {
+        $trans = Transfer::findOrFail($id);
+        $TRSStockRecord = StockRecord::where(['type' => 'TRS', 'type_id' => $id]);
+        $TRSFinancialRecord = FinancialRecord::where(['type' => 'TRS', 'type_id' => $id]);
+
+        $trans->delete();
+        $TRSFinancialRecord->delete();
+        $TRSStockRecord->delete();
     }
 }

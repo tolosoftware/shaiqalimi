@@ -14,7 +14,6 @@ class Transfer extends Model
         'supervisor',
         'description',
         'user_id',
-        
         'destination',
         'transit',
         'scale',
