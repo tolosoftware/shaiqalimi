@@ -128,25 +128,9 @@
   </tab-content>
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
     <form data-vv-scope="step-2">
-      <vs-row vs-w="12" class="mb-base">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <label for=""><small>ارزش قرارداد</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
-            <has-error :form="aForm" field="pr_worth"></has-error>
-          </div>
-        </vs-col>
-      </vs-row>
+
       <ekmalat :items="aForm.item" :form="aForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
-      <vs-row vs-w="12">
+      <vs-row vs-w="12" class="mb-base">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
 
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -223,6 +207,23 @@
               <vs-input autocomplete="off" type="number" v-model="aForm.total_price" :v-model="aForm.total_price = total_cost" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
+          </div>
+        </vs-col>
+      </vs-row>
+      <vs-row vs-w="12" class="mb-base">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+            <label for=""><small>ارزش قرارداد</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input autocomplete="off" type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
+            <has-error :form="aForm" field="pr_worth"></has-error>
           </div>
         </vs-col>
       </vs-row>
