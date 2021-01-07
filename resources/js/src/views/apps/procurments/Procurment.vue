@@ -82,7 +82,7 @@
             <!-- end currency_id -->
             <!-- eteration -->
 
-            <EkmalatStock :items="prForm.item" :form="prForm" :currencyID="prForm.currency_id" :listOfFields="[]" ref="ekmalat"></EkmalatStock>
+            <EkmalatStock :items="prForm.item" :form="prForm" :currencyID="prForm.currency_id" :listOfFields="[]" :disabledFields="[]" :grid="[]" ref="ekmalat"></EkmalatStock>
 
             <!-- end eteration -->
             <vs-row vs-w="12">
@@ -168,7 +168,6 @@ export default {
     this.getPurchaseSerialNumber();
   },
   methods: {
-
     setVendordata(data) {
       console.log(data);
       this.prForm.vendor_id = data.id;
@@ -184,21 +183,18 @@ export default {
           this.allvendors = resp.data;
         });
     },
-
     loadgodam() {
       this.axios.get('/api/storage')
         .then((resp) => {
           this.storage = resp.data;
         });
     },
-
     getPurchaseSerialNumber() {
       this.axios.get('/api/purchSerialNO')
         .then((resp) => {
           this.prForm.serial_no = resp.data;
         });
     },
-
     addNewData() {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
@@ -206,72 +202,33 @@ export default {
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
     },
-    methods: {
+    submitData() {
+      this.prForm.post('/api/purches')
+        .then(() => {
+          this.$vs.notify({
+            title: 'عملیه ثبت موفق بود!',
+            text: 'عملیه موفغانه انجام شد',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+          this.prForm.reset();
+        })
 
-        setVendordata(data) {
-            console.log(data);
-            this.prForm.vendor_id = data.id;
-            this.prForm.vendor_address = data.address;
-            this.prForm.vendor_phone = data.phone;
-            this.prForm.account_id = data.account_id;
-            this.prForm.vendor_name = data.name;
-
-        },
-        loadvendor() {
-            this.axios.get('/api/vendors')
-                .then((resp) => {
-                    this.allvendors = resp.data;
-                });
-        },
-
-        loadgodam() {
-            this.axios.get('/api/storage')
-                .then((resp) => {
-                    this.storage = resp.data;
-                });
-        },
-
-        getPurchaseSerialNumber() {
-            this.axios.get('/api/purchSerialNO')
-                .then((resp) => {
-                    this.prForm.serial_no = resp.data;
-                });
-        },
-
-        addNewData() {
-            this.sidebarData = {}
-            this.toggleDataSidebar(true)
-        },
-        toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
-        },
-        submitData() {
-                 this.prForm.post('/api/purches')
-                  .then(() => {
-                    this.$vs.notify({
-                        title: 'عملیه ثبت موفق بود!',
-                        text: 'عملیه موفغانه انجام شد',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check',
-                        position: 'top-right'
-                    })
-                    this.prForm.reset();
-                })
-
-                .catch(() => {
-                    this.$vs.notify({
-                        title: 'ثبت عملیه  ناموفق بود!',
-                        text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        icon: 'icon-check',
-                        position: 'top-right'
-                    })
-                })
-        },
+        .catch(() => {
+          this.$vs.notify({
+            title: 'ثبت عملیه  ناموفق بود!',
+            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+            color: 'danger',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        })
     },
   },
+
 };
 </script>
 

@@ -23,23 +23,15 @@
             {{ indextr + 1 }}
           </vs-td>
           <vs-td>
-            <router-link v-if="tr.pro_data" class="font-medium truncate" :to="{
-                  path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">
+            <div v-if="tr.pro_data" class="font-medium truncate">
               <!-- <img :src="tr.img" class="product-img" /> -->
               <p>{{ findClient(tr.pro_data.client_id) }}</p>
-            </router-link>
+            </div>
           </vs-td>
           <vs-td>
-            <div v-if="tr.pro_data">
-              <router-link class="font-medium truncate" :to="{
-                  path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.pro_data.title },
-                }">
-                {{ tr.pro_data.title }}</router-link>
+            <div v-if="tr.pro_data" class="font-medium truncate">
+              <p> {{ tr.pro_data.title }}</p>
+
             </div>
           </vs-td>
           <vs-td>

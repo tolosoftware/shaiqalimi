@@ -78,7 +78,7 @@
         </vs-col>
       </vs-row>
       <vs-row vs-w="12" class="pt-2">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ آفرگشایی</small></label>
             <date-picker color="#e85454" v-validate="'required'" v-model="aForm.bidding_date" name="bidding_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" class="mt-5 w-full" :auto-submit="true" size="large"></date-picker>
@@ -93,28 +93,29 @@
             <has-error :form="aForm" field="bidding_address"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="5" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full mt-4 pt-2 ml-3 mr-3 mb-3">
             <!-- TITLE -->
             <label for=""><small>تضمین آفر</small></label>
             <vx-input-group class="">
               <template slot="prepend">
-                <div id="offer" class="prepend-text bg-">
-                  <!--<span>AFN</span>
+                <div id="offer" class="prepend-text">
+                  <!--<span class="bg-primary">AFN</span>
                   <v-select label="text" v-model="offerSource" :options="optionoffer" :dir="$vs.rtl ? 'rtl' : 'ltr'" />-->
                   <div class="w-full mb-4">
                     <div class="radio-group w-full">
                       <div class="w-1/2">
                         <input type="radio" v-model="offerSource" value="1" id="struct1" name="offerSource" />
-                        <label for="struct1" class="w-full text-center">تظمین بانکی</label>
+                        <label for="struct1" class="w-full text-center">بانکی</label>
                       </div>
                       <div class="w-1/2">
                         <input type="radio" v-model="offerSource" value="2" id="specific1" name="offerSource" />
-                        <label for="specific1" id="cache" class="w-full text-center">پول نقد</label>
+                        <label for="specific1" id="cache" class="w-full text-center">نقده</label>
                       </div>
                     </div>
                   </div>
                 </div>
+                <span class="bg-primary" style="height:39px; padding:10px;color:white;">AFN</span>
               </template>
               <vs-input autocomplete="off" type="number" name="offer_guarantee" v-model="aForm.offer_guarantee" />
             </vx-input-group>
@@ -128,30 +129,11 @@
   </tab-content>
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
     <form data-vv-scope="step-2">
-      <vs-row vs-w="12" class="mb-base">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <label for=""><small>ارزش قرارداد</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
-            <has-error :form="aForm" field="pr_worth"></has-error>
-          </div>
-        </vs-col>
-      </vs-row>
       <ekmalat :items="aForm.item" :form="aForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
-      <vs-row vs-w="12">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
-
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
+      <vs-row vs-w="12" class="mb-base">
+        <!-- <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3 mb-3">
-              <!-- TITLE -->
               <label for=""><small>تامینات</small></label>
               <vx-input-group class="">
                 <template slot="prepend">
@@ -180,6 +162,21 @@
               <has-error :form="aForm" field="tax"></has-error>
             </div>
           </vs-col>
+        </vs-col> -->
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+            <label for=""><small>انتقالات</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input autocomplete="off" type="number" v-model="aForm.transit" v-validate="'required'" name="transit" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
+            <has-error :form="aForm" field="transit"></has-error>
+          </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
@@ -198,21 +195,6 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <label for=""><small>انتقالات</small></label>
-            <vx-input-group class="">
-              <template slot="prepend">
-                <div class="prepend-text bg-primary">
-                  <span>AFN</span>
-                </div>
-              </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.transit" v-validate="'required'" name="transit" />
-            </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
-            <has-error :form="aForm" field="transit"></has-error>
-          </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>نرخ دهی</small></label>
             <vx-input-group class="">
               <template slot="prepend">
@@ -223,6 +205,49 @@
               <vs-input autocomplete="off" type="number" v-model="aForm.total_price" :v-model="aForm.total_price = total_cost" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+            <label for=""><small>تخفیف</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>%</span>
+                </div>
+              </template>
+              <vs-input autocomplete="off" type="number" v-model="aForm.discount" :v-model="aForm.discount = discount" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.discount') }}</span>
+          </div>
+        </vs-col>
+      </vs-row>
+      <vs-row vs-w="12" class="mb-base">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+            <label for=""><small>ارزش قرارداد</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input autocomplete="off" type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
+            <has-error :form="aForm" field="pr_worth"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-5 ml-3 mr-3 mb-3">
+            <div class="w-full mt-5">
+              <vs-checkbox color="primary" size="large" v-model="aForm.recet">رسانده اداره</vs-checkbox>
+            </div>
+          </div>
+          <div class="w-full pt-5 ml-3 mr-3 mb-3">
+            <div class="w-full mt-5">
+              <vs-checkbox color="primary" size="large" v-model="aForm.bank_dict">توضیع بانکی</vs-checkbox>
+            </div>
           </div>
         </vs-col>
       </vs-row>
@@ -463,6 +488,9 @@ export default {
         serial_no: '',
         client_id: '',
         total_price: 0,
+        discount: 0,
+        recet: 1,
+        bank_dict: 1,
         title: '',
         reference_no: '',
         submission_date: '',
@@ -695,7 +723,7 @@ export default {
 #offer {
   padding-right: 0rem;
   padding-left: 0rem;
-  width: 190px;
+
 }
 
 #cache {
