@@ -8,6 +8,7 @@ use App\Models\SerialNumber;
 use App\Models\ProItem;
 use App\Models\ProData;
 use App\Models\Currency;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -44,44 +45,47 @@ class ProposalController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'client_id' => 'required',
-            'title' => 'required',
-            'reference_no' => 'required',
-            'pr_worth' => 'required',
-            'deposit' => 'required',
-            'tax' => 'required',
-            'transit' => 'required',
-            'others' => 'required',
-            'total_price' => 'required',
+        DB::beginTransaction();
+        try {
 
-        ]);
-        // Get The last serial number for the proposal.
-        $serial_number = SerialNumber::where('type', 'prop')->latest()->first();
-        if ($serial_number) {
-            $request['serial_no'] = $serial_number->value + 1;
-        } else {
-            $request['serial_no'] = 101;
-        }
-        // return $request;
-        $serial_number = [
-            'type' => 'prop',
-            'prefix' => 'pro',
-            'value' => $request['serial_no'],
-        ];
+            $this->validate($request, [
+                'client_id' => 'required',
+                'title' => 'required',
+                'reference_no' => 'required',
+                'pr_worth' => 'required',
+                'deposit' => 'required',
+                'tax' => 'required',
+                'transit' => 'required',
+                'others' => 'required',
+                'total_price' => 'required',
 
-        // foreach ($request->client_id as $key => $value) {
-        //     $request['client_id'] = $value['id'];
-        // }
-        $client_id = null;
-        if (gettype($request->client_id) != 'integer') {
-            $request['client_id'] = $request->client_id['id'];
+            ]);
+            // Get The last serial number for the proposal.
+            $serial_number = SerialNumber::where('type', 'prop')->latest()->first();
+            if ($serial_number) {
+                $request['serial_no'] = $serial_number->value + 1;
+            } else {
+                $request['serial_no'] = 101;
+            }
             // return $request;
-        }
+            $serial_number = [
+                'type' => 'prop',
+                'prefix' => 'pro',
+                'value' => $request['serial_no'],
+            ];
 
-        SerialNumber::create($serial_number);
+            // foreach ($request->client_id as $key => $value) {
+            //     $request['client_id'] = $value['id'];
+            // }
+            $client_id = null;
+            if (gettype($request->client_id) != 'integer') {
+                $request['client_id'] = $request->client_id['id'];
+                // return $request;
+            }
 
-        if ($resp = Proposal::create($request->all())) {
+            SerialNumber::create($serial_number);
+
+            $resp = Proposal::create($request->all());
             $proData = [
                 'proposal_id' => $resp->id,
                 'client_id' => $request->client_id,
@@ -117,9 +121,10 @@ class ProposalController extends Controller
                     ProItem::create($item);
                 }
             }
+            DB::commit();
             return $resp;
-        } else {
-            return $resp;
+        } catch (Exception $e) {
+            DB::rollback();
         }
     }
 

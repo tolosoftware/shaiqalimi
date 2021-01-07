@@ -16,6 +16,7 @@ use App\Models\Project;
 use App\Models\Notification;
 use App\Models\StockRecord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
 
 class SaleOneController extends Controller
@@ -59,81 +60,88 @@ class SaleOneController extends Controller
      */
     public function store(Request $request)
     {
-        $serial_no = Helper::getSerialNo('sale1', 'sale');
-        $this->validate($request, [
-            // 'title' => 'required|min:2',
-            // 'formula' => 'required|min:2',
-            // 'serial_no' => 'required',
-            'project_id' => 'required',
-            'destination' => 'required',
-            'transport_cost' => 'required',
-            'service_cost' => 'required',
-            'tax' => 'required',
-            'deposit' => 'required',
-            'total' => 'required',
-            'steps' => 'required',
-            'description' => 'required',
-            'type' => 'required',
-            'source_id' => 'required',
-            // 'source_type' => 'required',
-            'user_id' => 'required',
-            'currency_id' => 'required',
-            'datatime' => 'required',
-            'item' => 'required',
-        ]);
+        DB::beginTransaction();
+        try {
 
-        $project = $request->project_id;
-        $storage = $request->source_id;
-        $request['serial_no'] = $serial_no->value;
-        foreach (['source_id', 'project_id'] as $key) {
-            $request[$key] = $request[$key]['id'];
-        }
-        // return $request;
-        $newSale = Sale::create($request->all());
-        $request['sales_id'] = $newSale->id;
-        // return $request;
-        $newSaleOne = SaleOne::create($request->all());
+            $serial_no = Helper::getSerialNo('sale1', 'sale');
+            $this->validate($request, [
+                // 'title' => 'required|min:2',
+                // 'formula' => 'required|min:2',
+                // 'serial_no' => 'required',
+                'project_id' => 'required',
+                'destination' => 'required',
+                'transport_cost' => 'required',
+                'service_cost' => 'required',
+                'tax' => 'required',
+                'deposit' => 'required',
+                'total' => 'required',
+                'steps' => 'required',
+                'description' => 'required',
+                'type' => 'required',
+                'source_id' => 'required',
+                // 'source_type' => 'required',
+                'user_id' => 'required',
+                'currency_id' => 'required',
+                'datatime' => 'required',
+                'item' => 'required',
+            ]);
 
-        $typeId = AccountType::latest()->first()->id;
-        $accData = [
-            'user_id' => $request->user_id,
-            'type_id' => $typeId,
-            'name' => 'اکانت ساخته شده برای فروشات',
-            'ref_code' => 'فروشات - ' . $newSale->id,
-            'status' => 1,
-            'description' => 'اکانت ساخته شده برای فروشات',
-            'system' => 0,
-        ];
-        $newAcc = Account::create($accData);
-        if ($newAcc) {
-            $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);
-        }
-        if ($newAcc) {
-            $stocks = [];
-            $totalmoney = 0;
-            $stocks = Helper::salesCreateStockRecords('sale', $request->item, $newSale, $storage, $request, $totalmoney, $storage['name'], $storage['id']);
-        }
-
-        // Create the Notification
-        if ($newFR) {
-            $client_name = $project['pro_data']['client']['name'];
-            $item_name = $storage['name'];
-            $nofication = [
-                'title' => 'فروشات جدید',
-                'text' => 'یک فروش جدید از ' . $item_name . ' برای ' . $client_name . ' در سیستم ثبت گردید.',
-                'type' => 'normal',
-                'gen_date' => Carbon::now(),
-                'exp_date' => Carbon::now()->endOfDay(),
-                'action' => 'view',
-                'url' => 'sales?list',
-                'user_id' => $request->user_id,
-            ];
-            $newNotif = Notification::create($nofication);
-            if ($newNotif) {
-                Helper::createUserAssign($newNotif->id, "nor");
+            $project = $request->project_id;
+            $storage = $request->source_id;
+            $request['serial_no'] = $serial_no->value;
+            foreach (['source_id', 'project_id'] as $key) {
+                $request[$key] = $request[$key]['id'];
             }
+            // return $request;
+            $newSale = Sale::create($request->all());
+            $request['sales_id'] = $newSale->id;
+            // return $request;
+            $newSaleOne = SaleOne::create($request->all());
+
+            $typeId = AccountType::latest()->first()->id;
+            $accData = [
+                'user_id' => $request->user_id,
+                'type_id' => $typeId,
+                'name' => 'اکانت ساخته شده برای فروشات',
+                'ref_code' => 'فروشات - ' . $newSale->id,
+                'status' => 1,
+                'description' => 'اکانت ساخته شده برای فروشات',
+                'system' => 0,
+            ];
+            $newAcc = Account::create($accData);
+            if ($newAcc) {
+                $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);
+            }
+            if ($newAcc) {
+                $stocks = [];
+                $totalmoney = 0;
+                $stocks = Helper::salesCreateStockRecords('sale', $request->item, $newSale, $storage, $request, $totalmoney, $storage['name'], $storage['id']);
+            }
+
+            // Create the Notification
+            if ($newFR) {
+                $client_name = $project['pro_data']['client']['name'];
+                $item_name = $storage['name'];
+                $nofication = [
+                    'title' => 'فروشات جدید',
+                    'text' => 'یک فروش جدید از ' . $item_name . ' برای ' . $client_name . ' در سیستم ثبت گردید.',
+                    'type' => 'normal',
+                    'gen_date' => Carbon::now(),
+                    'exp_date' => Carbon::now()->endOfDay(),
+                    'action' => 'view',
+                    'url' => 'sales?list',
+                    'user_id' => $request->user_id,
+                ];
+                $newNotif = Notification::create($nofication);
+                if ($newNotif) {
+                    Helper::createUserAssign($newNotif->id, "nor");
+                }
+            }
+            DB::commit();
+            return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
+        } catch (Exception $e) {
+            DB::rollback();
         }
-        return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
     }
 
     /**
