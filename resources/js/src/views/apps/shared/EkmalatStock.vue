@@ -146,7 +146,7 @@ import {
 
 export default {
   name: "vx-ekmalat",
-  props: ["items", "form", "listOfFields", "currencyID"],
+  props: ["items", "form", "listOfFields", "currencyID", "grid", "disabledFields"],
   data() {
     return {
       operations: [],
