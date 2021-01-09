@@ -367,6 +367,14 @@ export default {
         // this.field_data.repativePerson = contract.pro_data.client.phone;
         this.field_data.clientPhone = contract.pro_data.client.phone;
         this.field_data.clientAddress = contract.pro_data.client.address;
+        this.sForm.item = contract.pro_items;
+        for (const [index, item] of Object.values(this.sForm.item).entries()) {
+          this.sForm.item[index].increment = this.sForm.item[index].ammount;
+          this.sForm.item[index].increment_equiv = this.sForm.item[index].equivalent;
+          this.$refs.ekmalat.operationChange(this.sForm.item[index].operation_id, index);
+
+          this.$refs.ekmalat.itemSelected('', this.sForm.item[index].item_id.id, index, this.sForm.item[index].item_id.uom_id.acronym);
+        }
       } else {
         this.field_data.clientName = null;
         // this.field_data.repativePerson = null;

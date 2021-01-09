@@ -30,7 +30,11 @@ class ProjectController extends Controller
     {
         return Project::with([
             'pro_data.client',
-            'pro_items',
+            'pro_items.operation_id',
+            'pro_items.item_id.type',
+            'pro_items.item_id.uom_id',
+            'pro_items.unit_id',
+            'pro_items.uom_equiv_id',
         ])->latest()->get();;
     }
 

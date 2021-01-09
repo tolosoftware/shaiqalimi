@@ -559,3 +559,10 @@ li.fuel-station > h3{
 [dir] .just-one-line {
     -webkit-line-clamp: 1 !important;
 }
+[dir] .item-remain-balance{
+    color: #e85454;
+    float: left;
+    position: relative;
+    font-size: 9px;
+    bottom: -9px;
+}

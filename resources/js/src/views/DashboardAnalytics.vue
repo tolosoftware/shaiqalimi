@@ -1,6 +1,6 @@
 <template>
 <div>
-  {{userid}}
+  <!-- {{userid}} -->
   <div class="vx-row mb-base">
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
       <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" icon-right statistic="32476 AFN" statisticTitle="مصارف" :chartData="ordersRecevied.series" />
