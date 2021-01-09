@@ -338,6 +338,13 @@ export default {
         this.contract.clientEmail = contract.pro_data.client.email;
         this.contract.clientPhone = contract.pro_data.client.phone;
         this.contract.clientAddress = contract.pro_data.client.address;
+        this.sForm.item = contract.pro_items;
+        for (const [index, item] of Object.values(this.sForm.item).entries()) {
+          this.sForm.item[index].increment = this.sForm.item[index].ammount;
+          this.sForm.item[index].increment_equiv = this.sForm.item[index].equivalent;
+          this.$refs.ekmalat.operationChange(this.sForm.item[index].operation_id, index);
+          this.$refs.ekmalat.itemSelected('', this.sForm.item[index].item_id.id, index, this.sForm.item[index].item_id.uom_id.acronym);
+        }
       } else {
         this.contract.clientName = null;
         this.contract.clientEmail = null;
