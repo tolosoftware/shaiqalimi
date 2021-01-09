@@ -8,16 +8,20 @@
 ========================================================================================== -->
 
 <template>
-  <div id="data-list-list-view" class="data-list-container">
+<div id="data-list-list-view" class="data-list-container">
+  <vx-card v-if="!isdata" title="">
+    <p style="height:40px;margin:20px;" id="success-load">
+      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
+    </p>
+  </vx-card>
+  <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
 
-    <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
+  <vs-table v-if="isdata" ref="table" pagination :max-items="itemsPerPage" search :data="allpurchase">
 
-    <vs-table ref="table"  pagination :max-items="itemsPerPage" search :data="allpurchase">
+    <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
-      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-
-        <div class="flex flex-wrap-reverse items-center data-list-btn-container">
-             <!-- ITEMS PER PAGE -->
+      <div class="flex flex-wrap-reverse items-center data-list-btn-container">
+        <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler float-right">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
             <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} of {{ queriedItems }}</span>
@@ -40,67 +44,65 @@
             </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>
-        </div>
-
-       
       </div>
 
-      <template slot="thead">
+    </div>
 
-        <vs-th sort-key="name">شماره</vs-th>
-        <vs-th sort-key="category">سریال نمبر</vs-th>
-        <vs-th sort-key="popularity">نام فروشند</vs-th>
-        <vs-th sort-key="popularity">کار بر ثبت کننده</vs-th>
-        <vs-th sort-key="order_status">تاریخ و ساعت</vs-th>
-        <vs-th sort-key="price">توضیحات</vs-th>
-        <vs-th>تنظیمات</vs-th>
-        
-      </template>
+    <template slot="thead">
 
-        <template slot-scope="{data}">
-          <tbody>
-            
-            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+      <vs-th sort-key="name">شماره</vs-th>
+      <vs-th sort-key="category">سریال نمبر</vs-th>
+      <vs-th sort-key="popularity">نام فروشند</vs-th>
+      <vs-th sort-key="popularity">کار بر ثبت کننده</vs-th>
+      <vs-th sort-key="order_status">تاریخ و ساعت</vs-th>
+      <vs-th sort-key="price">توضیحات</vs-th>
+      <vs-th>تنظیمات</vs-th>
 
-              <vs-td>
-                <p class="product-name font-medium truncate">{{ indextr +1 }}</p>
-              </vs-td>
+    </template>
 
-              <vs-td>
-                <p class="product-category">{{ tr.serial_no }}</p>
-              </vs-td>
+    <template slot-scope="{data}">
+      <tbody>
 
-              
-              <vs-td>
-                <p class="product-category">{{ tr.vendor.name }}</p>
-              </vs-td>
+        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
-              <vs-td>
-                <vs-chip :color="getOrderStatusColor(tr.user.firstName + ' ' + tr.user.lastName)" class="product-order-status">{{ tr.user.firstName + ' '+ tr.user.lastName }}</vs-chip>
-              </vs-td>
+          <vs-td>
+            <p class="product-name font-medium truncate">{{ indextr +1 }}</p>
+          </vs-td>
 
-              <vs-td>
-                <p class="product-price">{{ tr.date_time }}</p>
-              </vs-td>
+          <vs-td>
+            <p class="product-category">{{ tr.serial_no }}</p>
+          </vs-td>
 
-               <vs-td>
-                <p class="product-price">{{ tr.description }}</p>
-              </vs-td>
+          <vs-td>
+            <p class="product-category">{{ tr.vendor.name }}</p>
+          </vs-td>
 
-              <vs-td class="whitespace-no-wrap">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
+          <vs-td>
+            <vs-chip :color="getOrderStatusColor(tr.user.firstName + ' ' + tr.user.lastName)" class="product-order-status">{{ tr.user.firstName + ' '+ tr.user.lastName }}</vs-chip>
+          </vs-td>
+
+          <vs-td>
+            <p class="product-price">{{ tr.date_time }}</p>
+          </vs-td>
+
+          <vs-td>
+            <p class="product-price">{{ tr.description }}</p>
+          </vs-td>
+
+          <vs-td class="whitespace-no-wrap">
+            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
                            name: 'procurment-edit', 
                            params: {procurment_id: tr.id }}).catch(() => {})" />
-                           
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
-              </vs-td>
 
-            </vs-tr>
+            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+          </vs-td>
 
-          </tbody>
-        </template>
-    </vs-table>
-  </div>
+        </vs-tr>
+
+      </tbody>
+    </template>
+  </vs-table>
+</div>
 </template>
 
 <script>
@@ -109,12 +111,12 @@ import moduleDataList from '@/store/data-list/moduleDataList.js'
 
 export default {
   components: {
-   // DataViewSidebar
+    // DataViewSidebar
   },
-  data () {
+  data() {
     return {
-
-      allpurchase:[],
+      isdata: false,
+      allpurchase: [],
       selected: [],
       // products: [],
       itemsPerPage: 10,
@@ -126,26 +128,28 @@ export default {
     }
   },
   computed: {
-    currentPage () {
+    currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx
       }
       return 0
     },
-    products () {
+    products() {
       return this.$store.state.dataList.products
     },
-    queriedItems () {
+    queriedItems() {
       return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
     }
   },
   methods: {
-    loadpurchase(){
-      this.$vs.loading()
+    loadpurchase() {
+      // this.$vs.loading()
       this.axios.get('/api/purches').then(({ data }) => (this.allpurchase = data,
-          this.$vs.loading.close()))
+          this.isdata = true
+          // this.$vs.loading.close()
+        ))
         .catch(() => {
-          this.$vs.loading.close()
+          // this.$vs.loading.close()
           this.$vs.notify({
             title: '  معلومات بارگیری نشد !',
             text: 'عملیه بارگیری معلومات نام شد',
@@ -157,11 +161,11 @@ export default {
         });
     },
 
-    addNewData () {
+    addNewData() {
       this.sidebarData = {}
       this.toggleDataSidebar(true)
     },
-    deleteData (id) {
+    deleteData(id) {
       swal.fire({
         title: 'آیا شما مطمئن هستید ؟',
         text: "شما قادر به برگردادن این شخص پس از حذف نمی باشید !",
@@ -186,29 +190,29 @@ export default {
         }
       })
     },
-    editData (data) {
+    editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data
       this.toggleDataSidebar(true)
     },
-    getOrderStatusColor (status) {
-      if (status === 'on_hold')   return 'success'
+    getOrderStatusColor(status) {
+      if (status === 'on_hold') return 'success'
       if (status === 'delivered') return 'success'
-      if (status === 'canceled')  return 'success'
+      if (status === 'canceled') return 'success'
       return 'primary'
     },
-    getPopularityColor (num) {
-      if (num > 90)  return 'success'
-      if (num > 70)  return 'primary'
+    getPopularityColor(num) {
+      if (num > 90) return 'success'
+      if (num > 70) return 'primary'
       if (num >= 50) return 'warning'
-      if (num < 50)  return 'danger'
+      if (num < 50) return 'danger'
       return 'primary'
     },
-    toggleDataSidebar (val = false) {
+    toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
     }
   },
-  created () {
+  created() {
     this.loadpurchase();
     if (!moduleDataList.isRegistered) {
       this.$store.registerModule('dataList', moduleDataList)
@@ -216,8 +220,13 @@ export default {
     }
     this.$store.dispatch('dataList/fetchDataListItems')
   },
-  mounted () {
-    this.isMounted = true
+  mounted() {
+    this.isMounted = false,
+      this.$vs.loading({
+        container: '#success-load',
+        type: 'sound',
+        text: "درحال بارگیری...."
+      })
   }
 }
 </script>
@@ -269,12 +278,13 @@ export default {
       flex-wrap: wrap;
       margin-left: 1.5rem;
       margin-right: 1.5rem;
-      > span {
+
+      >span {
         display: flex;
         flex-grow: 1;
       }
 
-      .vs-table--search{
+      .vs-table--search {
         padding-top: 0;
 
         .vs-table--search-input {
@@ -297,39 +307,45 @@ export default {
       border-spacing: 0 1.3rem;
       padding: 0 1rem;
 
-      tr{
-          box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
-          td{
-            padding: 20px;
-            &:first-child{
-              border-top-left-radius: .5rem;
-              border-bottom-left-radius: .5rem;
-            }
-            &:last-child{
-              border-top-right-radius: .5rem;
-              border-bottom-right-radius: .5rem;
-            }
+      tr {
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .05);
+
+        td {
+          padding: 20px;
+
+          &:first-child {
+            border-top-left-radius: .5rem;
+            border-bottom-left-radius: .5rem;
           }
-          td.td-check{
-            padding: 20px !important;
+
+          &:last-child {
+            border-top-right-radius: .5rem;
+            border-bottom-right-radius: .5rem;
           }
+        }
+
+        td.td-check {
+          padding: 20px !important;
+        }
       }
     }
 
-    .vs-table--thead{
+    .vs-table--thead {
       th {
         padding-top: 0;
         padding-bottom: 0;
 
-        .vs-table-text{
+        .vs-table-text {
           text-transform: uppercase;
           font-weight: 600;
         }
       }
-      th.td-check{
+
+      th.td-check {
         padding: 0 15px !important;
       }
-      tr{
+
+      tr {
         background: none;
         box-shadow: none;
       }

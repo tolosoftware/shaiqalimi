@@ -87,10 +87,7 @@ export default {
 
   data() {
     return {
-
       item: [],
-
-      selected: [],
       // products: [],
       itemsPerPage: 4,
       isMounted: false,

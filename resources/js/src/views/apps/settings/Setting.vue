@@ -392,20 +392,21 @@ export default {
     };
   },
   created() {
+    this.$vs.loading();
+    this.$Progress.start();
     this.getAllCurrency();
     this.getAllOperation();
     // get all Account_types: by ahmadi
     this.getAllAccountTypes();
+
   },
   methods: {
     // for items to be bought
     getAllCurrency() {
-      this.$Progress.start()
       this.axios.get('/api/currency')
         .then((response) => {
           this.currencies = response.data;
           this.rateEditForm.currencies = JSON.parse(JSON.stringify(response.data));
-          this.$Progress.set(100)
         })
     },
     updateCancel() {
@@ -419,12 +420,10 @@ export default {
 
     // for items to be bought
     getAllCurrency() {
-      this.$Progress.start()
       this.axios.get('/api/currency')
         .then((response) => {
           this.currencies = response.data;
           this.rateEditForm.currencies = JSON.parse(JSON.stringify(response.data));
-          this.$Progress.set(100)
         })
     },
     updateCancel() {
@@ -437,7 +436,6 @@ export default {
     },
     addNewCurrency() {
       // Start the Progress Bar
-      this.$Progress.start()
       this.currencyForm.post('/api/currency')
         .then(({
           data
@@ -456,7 +454,6 @@ export default {
           })
         }).catch((errors) => {
           console.log(errors);
-          this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -486,7 +483,6 @@ export default {
           })
         }).catch((errors) => {
           console.log(errors);
-          this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -506,7 +502,6 @@ export default {
       // console.log('operation',this.operationForm);
 
     },
-
     storeOperation() {
       // Start the Progress Bar
       this.operationForm.post('/api/operation')
@@ -526,7 +521,6 @@ export default {
           })
         }).catch((errors) => {
           console.log(errors);
-          this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -599,7 +593,6 @@ export default {
           })
         }).catch((errors) => {
           console.log(errors);
-          this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -653,11 +646,9 @@ export default {
 
     },
     getAllOperation() {
-      this.$Progress.start()
       this.axios.get('/api/operation')
         .then((response) => {
           this.operations = response.data;
-          this.$Progress.set(100)
         })
 
     },
@@ -681,8 +672,6 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-
-          this.$Progress.set(100)
           // this.$vs.notify({
           //     title: 'ناموفق!',
           //     text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -704,11 +693,9 @@ export default {
     },
     // 2- Account Types
     getAllAccountTypes() {
-      this.$Progress.start()
       this.axios.get('/api/acount_type')
         .then((response) => {
           this.accountTypes = response.data;
-          this.$Progress.set(100)
         })
     },
     // 3- show edit operation

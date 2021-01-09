@@ -213,8 +213,8 @@
               <span>+</span><span>5.2%</span><span class="ml-1">($956)</span>
             </p>
             <router-link to="/sales?tab=2">
-            <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
-          </router-link>
+              <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
+            </router-link>
           </div>
           <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4"><small>عواید: $56156</small>
@@ -248,11 +248,11 @@
   </vs-divider>
   <!--<ProjectList></ProjectList>-->
   <div class="vx-col w-full mb-base">
-    <vx-card title="احصائیه معاملات تجارتی دریک سال مالی" code-toggler>
+    <vx-card title="احصائیه معاملات تجارتی دریک سال مالی">
       <vue-apex-charts type="line" height="350" :options="apexChatData.mixedChart.chartOptions" :series="apexChatData.mixedChart.series"></vue-apex-charts>
-      <template slot="codeContainer">
+      <!--<template slot="codeContainer">
         {{ apexChatData.mixedChartCode }}
-      </template>
+      </template>-->
     </vx-card>
   </div>
 </div>
