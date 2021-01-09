@@ -1,8 +1,8 @@
 <template>
-<div class="source-select-wrapper">
+<div class="source-select-wrapper" id="source-select-wrapper">
   <vs-dropdown>
     <vs-input :value="parentForm.source_id ? selection : ''" disabled autocomplete="off" class="w-full" />
-    <vs-dropdown-menu class="source-select">
+    <vs-dropdown-menu class="source-select" id="source-select" :style="getBannerStyle">
       <vs-dropdown-group vs-label="ذخایر عمومی">
         <vs-dropdown-item v-for="(item, i) in sources.str" :key="'str' + i" @click="ddSelected(item, 'STRG')"> {{ item.name }} </vs-dropdown-item>
       </vs-dropdown-group>
@@ -34,6 +34,7 @@ export default {
   },
   data() {
     return {
+      offsetWidth: 100,
       sources: [],
       selection: ""
     }
@@ -45,9 +46,9 @@ export default {
     ddSelected(data, type, parent = null) {
       this.parentForm.source_id = data;
       this.parentForm.source_type = type;
-      if(parent) {
+      if (parent) {
         this.selection = parent.name + ' - ' + this.parentForm.source_id.name;
-      }else{
+      } else {
         this.selection = this.parentForm.source_id.name;
       }
     },
@@ -64,6 +65,14 @@ export default {
         .catch(() => {});
     },
   },
+  mounted() {
+    this.offsetWidth = document.getElementById('source-select-wrapper').offsetWidth
+  },
+  computed: {
+    getBannerStyle() {
+      return `width: ${this.offsetWidth}px;`
+    }
+  }
 }
 </script>
 

@@ -556,13 +556,18 @@ li.fuel-station > h3{
     top: 0;
 }
 
-[dir] .just-one-line {
-    -webkit-line-clamp: 1 !important;
-}
-[dir] .item-remain-balance{
-    color: #e85454;
-    float: left;
-    position: relative;
-    font-size: 9px;
-    bottom: -9px;
-}
+[dir] {
+    .just-one-line {
+        -webkit-line-clamp: 1 !important;
+    }
+    .item-remain-balance{
+        color: #e85454;
+        float: left;
+        position: relative;
+        font-size: 9px;
+        bottom: -9px;
+    }
+    .source-select{
+        padding-left: 2px;
+    }
+} 
