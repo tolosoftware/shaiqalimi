@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
@@ -54,7 +55,7 @@ class TransferController extends Controller
             $account = Account::find(config('app.base_transfer_account'));
 
             Helper::createDoubleFR('TRS', $t, $account, $request);
-            
+
             $totalmoney = 0;
             $stocks = Helper::salesCreateStockRecords('TRS', $request->item, $t, $source, $request, $totalmoney, $source['name'], $source['id']);
 
@@ -75,7 +76,7 @@ class TransferController extends Controller
             return $t;
         } catch (Exception $e) {
             DB::rollback();
-       }
+        }
     }
 
     /**
@@ -118,8 +119,15 @@ class TransferController extends Controller
      * @param  \App\Models\transfer  $transfer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(transfer $transfer)
+    public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            Helper::deleteTransfer($id);
+            DB::commit();
+            return $id;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 }
