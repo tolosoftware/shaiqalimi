@@ -5686,3 +5686,7 @@ li.fuel-station > h3 {
   bottom: -9px;
 }
 
+[dir] .source-select {
+  padding-left: 2px;
+}
+
