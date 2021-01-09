@@ -88,4 +88,5 @@ Route::get('transactionSerialnum', 'TransactionController@serial');
 //Expenses
 Route::resource('expenses', 'ExpensesController');
 Route::get('exserialno', 'ExpensesController@serial');
+Route::get('item-records/{item_id}', 'StockRecordController@itemRecords');
 

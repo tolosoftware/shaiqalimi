@@ -39,6 +39,14 @@ class ProItem extends Model
     {
         return $this->belongsTo(MeasurmentUnit::class, 'unit_id');
     }
+    public function unit_id()
+    {
+        return $this->belongsTo(MeasurmentUnit::class, 'unit_id');
+    }
+    public function uom_equiv_id()
+    {
+        return $this->belongsTo(MeasurmentUnit::class, 'uom_equiv_id');
+    }
     public function operation()
     {
         return $this->belongsTo(Operation::class, 'operation_id');

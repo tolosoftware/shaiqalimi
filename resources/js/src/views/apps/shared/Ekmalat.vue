@@ -7,8 +7,8 @@
       <vs-row vs-w="12" class="pb-2 mb-2">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 mr-3">
-            <label for=""><small>جنس / محصول</small></label>
-            <v-select v-validate="'required'" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="datacalled" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <label for=""><small>جنس / محصول</small><small v-if="remaining_items[index] >= 0" class="item-remain-balance" :data="remaining_items[index]">موجودی {{ remaining_items[index] }} {{ i.item_id.uom_id ? i.item_id.uom_id.acronym : '' }}</small></label>
+            <v-select v-validate="'required'" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`"  @input="itemSelected($event, index)" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.item_id_${index}`) }}</span> -->
             <has-error :form="form" field="item_id"></has-error>
           </div>
@@ -159,18 +159,24 @@ export default {
         uom: true,
         eqv_uom: true,
         reverse: false,
-      }]
+      }],
+      remaining_items: [],
     };
   },
   created() {
     this.getOperations();
   },
   methods: {
-    datacalled(data) {
-      // console.log(data.uom_equiv_id);
+    itemSelected(e, index) {
+      this.$Progress.start();
+      this.axios.get(`/api/item-records/${this.items[index].item_id.id}`).then((response) => {
+        this.remaining_items[index] = response.data;
+        this.remaining_items = Object.assign({}, this.remaining_items)
+        this.$Progress.set(100);
+      });
+
     },
     operationChange(data, index) {
-      console.log(index);
       if (data.id == 5 || data.id == 6) {
         this.is_active[index].density = true;
         this.is_active[index].uom = true;
@@ -242,7 +248,6 @@ export default {
       });
     },
     addNewRow() {
-      console.log('add new');
       this.initFormError();
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
@@ -254,7 +259,6 @@ export default {
           }
         });
       });
-      console.log(this.errors);
     },
     validateEkmalatForm() {
       // this.initFormError();

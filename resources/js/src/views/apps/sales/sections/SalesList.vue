@@ -63,7 +63,7 @@
       <tbody>
         <vs-tr :data="tr" :key="i" v-for="(tr, i) in data">
           <vs-td>
-            <p>{{ (itemsPerPage * (currentPage - 1)) + i + 1 }}</p>
+            <p>{{i + 1 }}</p>
           </vs-td>
           <vs-td>
             <p>{{ tr.type +" - "+ tr.serial_no }}</p>
@@ -220,8 +220,6 @@
 </template>
 
 <script>
-//import DataViewSidebar from '../../../DataViewSidebar.vue'
-import moduleDataList from '@/store/data-list/moduleDataList.js'
 import {
   FormWizard,
   TabContent

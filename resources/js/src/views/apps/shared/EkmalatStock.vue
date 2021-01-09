@@ -7,8 +7,8 @@
       <vs-row vs-w="12" class="pb-2 mb-2">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 3" :vs-sm="grid && grid[1] ? grid[1] : 6" vs-xs="12">
           <div class="w-full pt-2 mr-1">
-            <label for=""><small>جنس / محصول</small></label>
-            <v-select v-validate="'required'" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="datacalled" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <label for=""><small>جنس / محصول</small><small v-if="remaining_items[index] != undefined" class="item-remain-balance" :data="remaining_items[index]">موجودی {{ remaining_items[index][0] }} {{ remaining_items[index][1] }}</small></label>
+            <v-select v-validate="'required'" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="itemSelected($event, i.item_id.id, index, i.item_id.uom_id.acronym)" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.item_id_${index}`) }}</span> -->
             <has-error :form="form" field="item_id"></has-error>
           </div>
@@ -123,7 +123,7 @@
               <vs-input type="number" title="مقدار و قیمت فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="(i.total_price) ? i.total_price.toFixed(2) : ''" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
-            
+
           </div>
         </vs-col>
       </vs-row>
@@ -161,18 +161,26 @@ export default {
         uom: true,
         eqv_uom: true,
         reverse: false,
-      }]
+      }],
+      remaining_items: [],
     };
   },
   created() {
     this.getOperations();
   },
   methods: {
-    datacalled(data) {
-      // console.log(data.uom_equiv_id);
+    itemSelected(e, id, index, acronym) {
+
+      this.$Progress.start();
+      this.axios.get(`/api/item-records/${id}`).then((response) => {
+        this.remaining_items[index] = [response.data, acronym];
+        this.remaining_items = Object.assign({}, this.remaining_items)
+        console.log(this.remaining_items);
+        this.$Progress.set(100);
+      });
     },
     operationChange(data, index) {
-      console.log(index);
+      // console.log(data, index);
       if (data.id == 5 || data.id == 6) {
         this.is_active[index].density = true;
         this.is_active[index].uom = true;
