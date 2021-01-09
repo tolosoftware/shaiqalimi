@@ -18,7 +18,6 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-
 export default [{
         url: '/dashboard',
         name: 'Dashboard',
@@ -46,13 +45,20 @@ export default [{
                 i18n: 'Projects'
             },
             {
+                // url: null,
+                url: '/projects/proposal',
+                name: 'Proposals',
+                slug: 'Proposals',
+                icon: 'PackageIcon',
+                i18n: 'Proposals'
+            },
+            {
                 url: '/sales',
                 name: 'Sales',
                 slug: 'sales',
                 icon: 'TrendingUpIcon',
                 i18n: 'Sales'
             }
-
         ]
     },
     {
@@ -138,12 +144,10 @@ export default [{
                 url: { name: 'user-management' },
                 name: 'user-management',
                 icon: 'UserIcon',
-                i18n: 'Profile',
-            },
-
+                i18n: 'Profile'
+            }
         ]
-    },
-
+    }
 
     // {
     //   url: null,
