@@ -187,7 +187,15 @@
     </vs-col>
   </vs-row>
   <div class="vx-row">
-    <vs-textarea v-model="sForm.description" label="تفصیلات" class="mr-3" />
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="12">
+      <bank-account-select :form="sForm"></bank-account-select>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="9" vs-sm="9" vs-xs="12">
+      <div class="w-full pt-2 ml-3 mr-3">
+        <label for=""><small>تفصیلات</small></label>
+        <vs-input v-model="sForm.description" class="mr-3 mb-1 w-full" />
+      </div>
+    </vs-col>
   </div>
   <div class="vx-row official-process">
     <vs-collapse type="margin">
@@ -222,6 +230,7 @@
 import vSelect from 'vue-select'
 import EkmalatStock from "../../../shared/EkmalatStock"
 import SourceSelect from "../../../shared/SourceSelect";
+import BankAccountSelect from "../../../shared/BankAccountSelect"
 
 export default {
   props: {
@@ -233,7 +242,8 @@ export default {
   components: {
     'v-select': vSelect,
     EkmalatStock,
-    SourceSelect
+    SourceSelect,
+    BankAccountSelect
 
   },
   data() {
@@ -268,6 +278,7 @@ export default {
         description: '',
 
         // shared fields with other sales
+        bank_account: null,
         type: "s3",
         source_id: "", // The Id of the storage.
         source_type: "str", // Type storage

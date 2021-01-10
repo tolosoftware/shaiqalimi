@@ -154,4 +154,8 @@ class AccountController extends Controller
         FinancialRecord::where('account_id', $account->id)->delete();
         return $account->delete();
     }
+    public function bankAccounts()
+    {
+        return Account::with('type')->whereIn('type_id', config('app.pro_bank_accounts'))->get();
+    }
 }

@@ -23,6 +23,8 @@ return [
      'cash_in_hand_usd'=>17,
      'cash_in_hand_afn'=>22,
      'base_transfer_account'=>37,
+
+     'pro_bank_accounts' => [11, 12], // Cash in Hand, حساب بانکی
     /*
     |--------------------------------------------------------------------------
     | Application Name
