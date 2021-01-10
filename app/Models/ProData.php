@@ -10,6 +10,7 @@ class ProData extends Model
   protected $fillable = [
     'proposal_id',
     'project_id',
+    'company_id',
     'client_id',
     'title',
     'reference_no',
