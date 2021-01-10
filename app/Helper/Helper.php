@@ -65,10 +65,15 @@ class Helper
         $newFR = FinancialRecord::create($FRData);
 
         // Create opening FR for the created Sales
-        $FRDataCashInHand = [
+        if($request->bank_account) {
+            $bA_id = $request->bank_account;
+        }else{
+            $bA_id = ($request->currency_id == 1) ? config('app.cash_in_hand_afn') : config('app.cash_in_hand_usd');            
+        }
+        $FRdestinationAccount = [
             'type' => $type, // here the type of financial record is project
             'type_id' => $newEntity->id, //Project Id will be used here as type id
-            'account_id' => ($request->currency_id == 1) ? config('app.cash_in_hand_afn') : config('app.cash_in_hand_usd'),
+            'account_id' => $bA_id,
             'description' => 'عملیه مالی ثبت شده برای - ' . $newEntity->id,
             'currency_id' => $request->currency_id,
             'credit' => $request->total,
@@ -76,13 +81,14 @@ class Helper
             'ex_rate_id' => ExchangeRate::latest()->first()->id,
             'status' => 'INC'
         ];
-        $newFRCashInHand = FinancialRecord::create($FRDataCashInHand);
+        $newFRCashInHand = FinancialRecord::create($FRdestinationAccount);
         return [$newFR, $newFRCashInHand];
     }
 
     public static function salesCreateStockRecords($type, $items, $newSale, $storage, $request, &$totalmoney, $source, $source_id)
     {
         foreach ($items as $valueItem) {
+
             $stocks[] = StockRecord::create([
                 'type' => $type,
                 'type_id' => $newSale->id,
@@ -91,11 +97,11 @@ class Helper
                 'item_id' => $valueItem['item_id']['id'],
                 'increment' => (array_key_exists("ammount", $valueItem) && $valueItem['ammount']) ? $valueItem['ammount'] : $valueItem['increment'],
                 'decrement' => 0,
-                'uom_id' => $valueItem['item_id']['measurment_unites_min']['id'],
+                'uom_id' => (array_key_exists('measurment_unites_min', $valueItem['item_id'])) ? $valueItem['item_id']['measurment_unites_min']['id'] : $valueItem['item_id']['uom_id']['id'],
                 'increment_equiv' => (array_key_exists("equivalent", $valueItem) && $valueItem['equivalent']) ? $valueItem['equivalent'] : $valueItem['increment_equiv'],
                 'decrement_equiv' => 0,
-                'uom_equiv_id' => $valueItem['item_id']['measurment_unites_sub']['id'],
-                'density' => $valueItem['density'],
+                'uom_equiv_id' => array_key_exists('measurment_unites_sub', $valueItem['item_id']) ? $valueItem['item_id']['measurment_unites_sub']['id'] : (gettype($valueItem['item_id']['uom_equiv_id']) != 'object' ? $valueItem['item_id']['uom_equiv_id'] : $valueItem['item_id']['uom_equiv_id']['id']),
+                'density' => array_key_exists('density', $valueItem) ? $valueItem['density'] : null,
                 'operation_id' => $valueItem['operation_id']['id'],
                 'unit_price' => (array_key_exists("unit_price", $valueItem) && $valueItem['unit_price'] != null) ? $valueItem['unit_price'] : 0,
                 'total_price' => (array_key_exists("total_price", $valueItem) && $valueItem['total_price'] != null) ? $valueItem['total_price'] : 0,
