@@ -8,7 +8,7 @@
             <vs-dropdown class="w-full">
               <vs-input autocomplete="off" size="medium" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
               <vs-dropdown-menu>
-                <vs-dropdown-item v-for="(item, i) in companies" :key="'fs' + i"> {{ item.label }} - {{ item.sign }} </vs-dropdown-item>
+                <vs-dropdown-item v-for="(item, i) in companies" :key="'fs' + i" > {{ item.label }} - {{ item.sign }} </vs-dropdown-item>
               </vs-dropdown-menu>
             </vs-dropdown>
           </div>
@@ -779,7 +779,7 @@ export default {
 
       let total_items = 0;
       this.aForm.item.filter(function (item) {
-      // console.log(item);
+        // console.log(item);
         if (item && item.total_price) {
           total_items += parseInt(item.total_price);
         }

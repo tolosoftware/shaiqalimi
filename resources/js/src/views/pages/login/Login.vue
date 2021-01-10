@@ -38,17 +38,6 @@ export default {
   components: {
     LoginJwt,
   },
-  created(){
-    // this.checkLogin();
-  },
-  methods:{
-    checkLogin(){
-    // console.log(localStorage.getItem('id'));
-      if(localStorage.getItem('id')) {
-        this.$router.push({ path: '/dashboard' });
-      }
-    }
-  }
 }
 </script>
 
