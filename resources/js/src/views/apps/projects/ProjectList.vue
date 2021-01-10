@@ -281,7 +281,7 @@ export default {
         .then((data) => {
           this.project = data.data;
           // this.isloadedrow = true;
-          console.log('project', this.project);
+        // console.log('project', this.project);
           this.$Progress.set(100);
 
         })

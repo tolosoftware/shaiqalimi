@@ -440,7 +440,7 @@ export default {
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.currencyForm.currency_id = data.id;
           this.getAllCurrency();
           this.currencyForm.reset();
@@ -465,12 +465,12 @@ export default {
         });
     },
     editRates() {
-      console.log(this.rateEditForm.currencies);
+    // console.log(this.rateEditForm.currencies);
       this.rateEditForm.post('/api/currency/rates')
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.getAllCurrency();
           this.currencyForm.reset();
           this.$vs.notify({
@@ -482,12 +482,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors);
           this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
             icon: 'icon-cross',
             position: 'top-right'
           })
@@ -508,7 +503,7 @@ export default {
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.getAllOperation();
           this.operationForm.reset();
           this.$vs.notify({
@@ -580,7 +575,7 @@ export default {
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.getAllOperation();
           this.operationForm.reset();
           this.$vs.notify({

@@ -25,9 +25,9 @@ class AuthService extends EventEmitter {
 
     // Starts the user login flow
     login (customState) {
-      webAuth.authorize({
-        appState: customState
-      })
+      // webAuth.authorize({
+      //   appState: customState
+      // })
     }
 
     // Handles the callback request from Auth0

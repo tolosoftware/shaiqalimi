@@ -64,6 +64,7 @@ Route::resource('despenser', 'FuelDespenserController');
 // Latest Records
 // Route::get('announce-last','ProposalController@latest');
 Route::get('project-last', 'ProjectController@latest');
+Route::get('companies', 'ProjectController@Company');
 Route::post('currency/rates', 'CurrencyController@rates');
 Route::get('serial-num', 'SerialNumberController@latest');
 Route::post('financial-account', 'FinancialRecordController@byaccount');

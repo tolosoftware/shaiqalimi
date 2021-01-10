@@ -114,7 +114,7 @@ export default {
       this.$Progress.start()
       this.axios.get('/api/lastest-projects').then((response) => {
           this.projects = response.data;
-          console.log('data', this.projects);
+        // console.log('data', this.projects);
           // Finish the Progress Bar
           this.$Progress.set(100)
         })

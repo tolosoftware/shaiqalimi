@@ -330,7 +330,7 @@ export default {
         .then((data) => {
           this.proposal = data.data;
           // this.isloadedrow = true;
-          console.log('proposal', this.proposal);
+        // console.log('proposal', this.proposal);
           this.$Progress.set(100);
 
         })
@@ -404,7 +404,7 @@ export default {
       })
     },
     editData(data) {
-      console.log(data);
+    // console.log(data);
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       // this.sidebarData = data
       // this.toggleDataSidebar(true)

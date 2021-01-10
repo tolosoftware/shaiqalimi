@@ -39,7 +39,6 @@ export default {
   created() {
     this.$on('updateselection', function (value) {
       this.$refs.godamslist.loaditem();
-      console.log('again', 'loaded')
     });
   },
   components: {

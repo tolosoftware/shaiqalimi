@@ -3,9 +3,14 @@
   <tab-content title="معلومات عمومی" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <vs-input autocomplete="off" size="medium" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
+            <vs-dropdown class="w-full">
+              <vs-input autocomplete="off" size="medium" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
+              <vs-dropdown-menu>
+                <vs-dropdown-item v-for="(item, i) in companies" :key="'fs' + i"> {{ item.label }} - {{ item.sign }} </vs-dropdown-item>
+              </vs-dropdown-menu>
+            </vs-dropdown>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -545,6 +550,7 @@ export default {
       aForm: new Form({
         serial_no: '',
         client_id: '',
+        company_id: null,
         total_price: 0,
         discount: 0,
         recet: 1,
@@ -579,7 +585,7 @@ export default {
       }),
       items: [],
       mesure_unit: [],
-
+      companies: [],
       // Form field translations
       dict: {
         custom: {
@@ -674,6 +680,7 @@ export default {
       this.axios.get('/api/m-units')
         .then((response) => {
           this.mesure_unit = response.data;
+          this.getCompanies();
         })
     },
 
@@ -711,6 +718,15 @@ export default {
       this.axios.get('/api/items')
         .then((response) => {
           this.items = response.data;
+          this.$Progress.set(100)
+        })
+    },
+    // for items to be bought
+    getCompanies() {
+      this.$Progress.start()
+      this.axios.get('/api/companies')
+        .then((response) => {
+          this.companies = response.data;
           this.$Progress.set(100)
         })
     },
@@ -763,7 +779,7 @@ export default {
 
       let total_items = 0;
       this.aForm.item.filter(function (item) {
-        console.log(item);
+      // console.log(item);
         if (item && item.total_price) {
           total_items += parseInt(item.total_price);
         }

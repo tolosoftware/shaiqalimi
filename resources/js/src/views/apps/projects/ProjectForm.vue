@@ -546,7 +546,7 @@ export default {
         if (data.pro_items.length) {
           for (let [key, data] of Object.entries(data.pro_items)) {
             this.pForm.item.push(data.item);
-            console.log(this.pForm.item);
+          // console.log(this.pForm.item);
           }
 
         } else {
@@ -753,7 +753,7 @@ export default {
       if (resp.pro_items) {
         this.pForm.item = resp.pro_items;
       }
-      console.log(resp.pro_items);
+    // console.log(resp.pro_items);
 
       this.pForm.client_id = resp.pro_data.client;
     },
