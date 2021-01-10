@@ -44,7 +44,7 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/',
-                    redirect: '/login'
+                    redirect: '/' + (localStorage.getItem('token')) ? "dashboard" : "login"
                 },
                 {
                     path: '/dashboard',
@@ -524,6 +524,7 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/login',
+                    redirect: (localStorage.getItem('token')) ? "/dashboard" : null,
                     name: 'login',
                     component: () =>
                         import ('@/views/pages/login/Login.vue'),
