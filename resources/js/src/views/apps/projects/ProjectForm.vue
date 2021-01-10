@@ -550,7 +550,9 @@ export default {
       if (data) {
         if (data.pro_items.length) {
           for (let [key, data] of Object.entries(data.pro_items)) {
-            this.pForm.item.push(data.item);
+            // console.log(data.pro_items);
+            // console.log(data);
+            // this.pForm.item.push(data);
             // console.log(this.pForm.item);
           }
 
