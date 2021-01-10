@@ -15,7 +15,7 @@
       </div>
       <hr />
       <br />
-      <Itemlist></Itemlist>
+      <Itemlist ref="godamslist"></Itemlist>
     </vs-card>
   </div>
   <!-- <vs-card>
@@ -29,66 +29,18 @@ import Goodadd from "./Goods_add.vue";
 import Itemlist from "./Item_list.vue";
 import vSelect from "vue-select";
 export default {
-  name: "vx-archive",
+  name: "vx-godams",
   data: () => ({
     // Data Sidebar
     addNewDataSidebar: false,
     sidebarData: {},
     currentx: 14,
-    fruits: ["لست اجناس"],
-
-    users: [{
-        id: 1,
-        name: "Leanne Graham",
-        username: "Bret",
-        email: "Sincere@april.biz",
-        website: "hildegard.org",
-      },
-      {
-        id: 2,
-        name: "Ervin Howell",
-        username: "Antonette",
-        email: "Shanna@melissa.tv",
-        website: "anastasia.net",
-      },
-      {
-        id: 3,
-        name: "Clementine Bauch",
-        username: "Samantha",
-        email: "Nathan@yesenia.net",
-        website: "ramiro.info",
-      },
-      {
-        id: 4,
-        name: "Patricia Lebsack",
-        username: "Karianne",
-        email: "Julianne.OConner@kory.org",
-        website: "kale.biz",
-      },
-      {
-        id: 5,
-        name: "Chelsey Dietrich",
-        username: "Kamren",
-        email: "Lucio_Hettinger@annie.ca",
-        website: "demarco.info",
-      },
-      {
-        id: 6,
-        name: "Mrs. Dennis Schulist",
-        username: "Leopoldo_Corkery",
-        email: "Karley_Dach@jasper.info",
-        website: "ola.org",
-      },
-      {
-        id: 7,
-        name: "Kurtis Weissnat",
-        username: "Elwyn.Skiles",
-        email: "Telly.Hoeger@billy.biz",
-        website: "elvis.io",
-      },
-    ],
   }),
-
+  created() {
+    this.$on('updateselection', function (value) {
+      this.$refs.godamslist.loaditem();
+    });
+  },
   components: {
     "v-select": vSelect,
     Goodadd,

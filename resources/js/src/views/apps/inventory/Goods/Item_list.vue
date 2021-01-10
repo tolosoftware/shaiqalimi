@@ -1,6 +1,11 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="item">
+  <vx-card v-if="!isdata" title="">
+    <p style="height:40px;margin:20px;" id="success-load">
+      <!-- <img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
+    </p>
+  </vx-card>
+  <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="item">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <!-- ITEMS PER PAGE -->
       <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
@@ -44,19 +49,15 @@
           <vs-td class="img-container">
             {{ indextr+1 }}
           </vs-td>
-
           <vs-td>
             <p class="product-category">{{ tr.name }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-category">{{ tr.type.type }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-category">{{ tr.measurment_unites_min.title }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-category">{{ tr.measurment_unites_sub.title }}</p>
           </vs-td>
@@ -87,10 +88,8 @@ export default {
 
   data() {
     return {
-
+      isdata: false,
       item: [],
-
-      selected: [],
       // products: [],
       itemsPerPage: 4,
       isMounted: false,
@@ -122,12 +121,11 @@ export default {
   methods: {
 
     loaditem() {
-      this.$vs.loading()
-      this.$Progress.start();
+      // this.$vs.loading()
+      // this.$Progress.start();
       this.axios.get('/api/item').then(({
         data
-      }) => (this.item = data, this.$Progress.set(100),
-        this.$vs.loading.close()));
+      }) => (this.item = data, this.isdata = true));
     },
 
     deleteData(id) {
@@ -157,6 +155,14 @@ export default {
     },
 
   },
+  mounted() {
+    this.isMounted = false,
+      this.$vs.loading({
+        container: '#success-load',
+        type: 'sound',
+        text: "درحال بارگیری...."
+      })
+  }
 
 }
 </script>

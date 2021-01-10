@@ -1,6 +1,11 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="users">
+  <vx-card v-if="!isdata" title="">
+    <p style="height:40px;margin:20px;" id="success-load">
+      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
+    </p>
+  </vx-card>
+  <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="users">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <!-- ITEMS PER PAGE -->
       <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4">
@@ -87,10 +92,8 @@ export default {
 
   data() {
     return {
-
+      isdata: false,
       users: [],
-
-      selected: [],
       // products: [],
       itemsPerPage: 4,
       isMounted: false,
@@ -121,11 +124,10 @@ export default {
 
   methods: {
     loadUsers() {
-      this.$vs.loading()
-      this.axios.get('/api/users').then(({ data }) => (this.users = data,
-          this.$vs.loading.close()))
+      // this.$vs.loading()
+      this.axios.get('/api/users').then(({ data }) => (this.users = data, this.isdata = true))
         .catch(() => {
-          this.$vs.loading.close()
+
           this.$vs.notify({
             title: '  معلومات بارگیری نشد !',
             text: 'عملیه بارگیری معلومات نام شد',
@@ -164,7 +166,14 @@ export default {
     },
 
   },
-
+  mounted() {
+    this.isMounted = false,
+      this.$vs.loading({
+        container: '#success-load',
+        type: 'sound',
+        text: "درحال بارگیری...."
+      })
+  },
 }
 </script>
 
