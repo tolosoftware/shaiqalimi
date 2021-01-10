@@ -127,7 +127,7 @@
             <has-error :form="aForm" field="offer_guarantee"></has-error>
           </div>
           <div class="mt-3 mr-4">
-            <span class="bg-primary" id="AFGLabel">AFN</span>
+            <span class="bg-primary AFGLabel">AFN</span>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -176,13 +176,16 @@
                   </div>
                 </div>
               </template>
-              <vs-input v-if="(financialPower==1)" autocomplete="off" type="number" name="financial_power" v-model="aForm.financial_power" />
+              <vs-input v-if="!(financialPower ==1)" disabled style="background-color:#EBECF0" autocomplete="off" type="number" name="financial_power" v-model="aForm.financial_power" />
+              <vs-input v-if="(financialPower ==1)" autocomplete="off" type="number" name="financial_power" v-model="aForm.financial_power" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.financial_power') }}</span>
             <has-error :form="aForm" field="financial_power"></has-error>
           </div>
-          <div class="mt-3 mr-4" v-if="(financialPower ==1)">
-            <span class="bg-primary" id="AFGLabel">AFN</span>
+          <div class="mt-3 mr-4">
+            <span v-if="(financialPower ==1)" class="bg-primary AFGLabel">AFN</span>
+            <span v-if="!(financialPower ==1)" class="disabled">AFN</span>
+            <!--<span class="bg-primary AFGLabel" style="color:gray" v-if="!(financialPower ==1)">AFN</span> :disabled="!(financialPower==1)"-->
           </div>
         </vs-col>
       </vs-row>
@@ -779,7 +782,7 @@ export default {
 
       let total_items = 0;
       this.aForm.item.filter(function (item) {
-      // console.log(item);
+        // console.log(item);
         if (item && item.total_price) {
           total_items += parseInt(item.total_price);
         }
@@ -813,13 +816,22 @@ export default {
   border-top-right-radius: 0px !important;
 }
 
-#AFGLabel {
+.AFGLabel {
   height: 39px;
   padding: 10px;
   color: white;
   float: left !important;
   border-bottom-right-radius: 5px !important;
   border-top-right-radius: 5px !important;
+}
+
+.disabled {
+  height: 33px;
+  padding: 8px;
+  background-color: #F8858B;
+  border-bottom-right-radius: 5px !important;
+  border-top-right-radius: 5px !important;
+  color: white !important;
 }
 
 .radio-group input[type="radio"]+label {

@@ -349,13 +349,14 @@ export default {
     getProject() {
       // Start the Progress Bar
       this.$Progress.start();
-
+      this.$vs.loading();
       this.axios
         .get("/api/project")
         .then((data) => {
           this.contracts = data.data;
           // Finish the Progress Bar
           this.$Progress.set(100);
+          this.$vs.loading.close()
         })
         .catch(() => {});
     },
@@ -416,7 +417,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-        // console.log(errors.errors);
+          // console.log(errors.errors);
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',

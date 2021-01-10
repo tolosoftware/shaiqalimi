@@ -338,6 +338,9 @@
       <div class="w-full pt-2 ml-3 mr-3">
         <Uom></Uom>
       </div>
+      <div class="w-full pt-2 ml-3 mr-3">
+        <companies></companies>
+      </div>
     </vs-row>
     <!--</div> -->
   </vs-col>
@@ -349,11 +352,13 @@
 import ItemType from './ItemType'
 import Uom from "./Uom"
 import vSelect from 'vue-select'
+import Companies from './Companies'
 export default {
   components: {
     ItemType,
     Uom,
     'v-select': vSelect,
+    Companies
   },
   data() {
     return {
@@ -440,7 +445,7 @@ export default {
         .then(({
           data
         }) => {
-        // console.log(data);
+          // console.log(data);
           this.currencyForm.currency_id = data.id;
           this.getAllCurrency();
           this.currencyForm.reset();
@@ -465,12 +470,12 @@ export default {
         });
     },
     editRates() {
-    // console.log(this.rateEditForm.currencies);
+      // console.log(this.rateEditForm.currencies);
       this.rateEditForm.post('/api/currency/rates')
         .then(({
           data
         }) => {
-        // console.log(data);
+          // console.log(data);
           this.getAllCurrency();
           this.currencyForm.reset();
           this.$vs.notify({
@@ -503,7 +508,7 @@ export default {
         .then(({
           data
         }) => {
-        // console.log(data);
+          // console.log(data);
           this.getAllOperation();
           this.operationForm.reset();
           this.$vs.notify({
@@ -575,7 +580,7 @@ export default {
         .then(({
           data
         }) => {
-        // console.log(data);
+          // console.log(data);
           this.getAllOperation();
           this.operationForm.reset();
           this.$vs.notify({

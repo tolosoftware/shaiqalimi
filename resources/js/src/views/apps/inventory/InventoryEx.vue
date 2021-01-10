@@ -302,10 +302,8 @@ export default {
       sessionsData: {},
       productsOrder: {},
       customersData: {},
-
       salesRadar: {},
       supportTracker: {},
-
       revenueComparisonLine: {
         analyticsData: {
           thisMonth: 86589,

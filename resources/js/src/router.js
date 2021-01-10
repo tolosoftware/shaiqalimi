@@ -380,7 +380,7 @@ const router = new Router({
                     path: '/inventory/godams',
                     name: 'godams',
                     component: () =>
-                        import ('./views/apps/inventory/Godams/Godams_lis.vue'),
+                        import ('./views/apps/inventory/Godams/Godams_list.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',
@@ -556,33 +556,33 @@ router.afterEach(() => {
 
 router.beforeEach((to, from, next) => {
     // firebase.auth().onAuthStateChanged(() => {
-        // get firebase current user
-        // const firebaseCurrentUser = firebase.auth().currentUser
+    // get firebase current user
+    // const firebaseCurrentUser = firebase.auth().currentUser
 
-        // if (
-        //     to.path === "/pages/login" ||
-        //     to.path === "/pages/forgot-password" ||
-        //     to.path === "/pages/error-404" ||
-        //     to.path === "/pages/error-500" ||
-        //     to.path === "/pages/register" ||
-        //     to.path === "/callback" ||
-        //     to.path === "/pages/comingsoon" ||
-        //     (auth.isAuthenticated() || firebaseCurrentUser)
-        // ) {
-        //     return next();
-        // }
+    // if (
+    //     to.path === "/pages/login" ||
+    //     to.path === "/pages/forgot-password" ||
+    //     to.path === "/pages/error-404" ||
+    //     to.path === "/pages/error-500" ||
+    //     to.path === "/pages/register" ||
+    //     to.path === "/callback" ||
+    //     to.path === "/pages/comingsoon" ||
+    //     (auth.isAuthenticated() || firebaseCurrentUser)
+    // ) {
+    //     return next();
+    // }
 
-        // If auth required, check login. If login fails redirect to login page
-        if (to.meta.authRequired) {
-            if (!localStorage.getItem('token')) {
-                router.push({ path: '/login' })
-            }
+    // If auth required, check login. If login fails redirect to login page
+    if (to.meta.authRequired) {
+        if (!localStorage.getItem('token')) {
+            router.push({ path: '/login' })
         }
+    }
 
-        return next()
-            // Specify the current path as the customState parameter, meaning it
-            // will be returned to the application after auth
-            // auth.login({ target: to.path });
-    // })
+    return next()
+        // Specify the current path as the customState parameter, meaning it
+        // will be returned to the application after auth
+        // auth.login({ target: to.path });
+        // })
 })
 export default router
