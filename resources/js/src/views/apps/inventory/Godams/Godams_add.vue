@@ -34,7 +34,10 @@
         </form>
       </div>
       <div id="data-list-thumb-view" class="w-full data-list-container">
-        <vs-table pagination :max-items="4" :data="godams">
+        <vx-card v-if="!isdata">
+          <TableLoading></TableLoading>
+        </vx-card>
+        <vs-table v-if="isdata" pagination :max-items="4" :data="godams">
           <template slot="thead">
             <vs-th>#</vs-th>
             <vs-th>نام گدام</vs-th>
@@ -113,6 +116,7 @@
 
 <script>
 import vSelect from "vue-select";
+import TableLoading from './../../shared/TableLoading.vue'
 export default {
   props: {
     isSidebarActive: {
@@ -126,9 +130,11 @@ export default {
   },
   components: {
     "v-select": vSelect,
+    TableLoading
   },
   data() {
     return {
+      isdata: false,
       godamActiveForm: false,
       popupActive: false,
       gForm: new Form({
@@ -196,9 +202,11 @@ export default {
     },
     getGodamList() {
       this.$Progress.start()
+      // this.$vs.
       this.axios.get('/api/godam')
         .then((response) => {
           this.godams = response.data;
+          this.isdata = true;
           this.$Progress.set(100)
         })
     },
@@ -270,7 +278,7 @@ export default {
       })
 
     }
-  },
+  }
 };
 </script>
 

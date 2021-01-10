@@ -77,7 +77,10 @@
           </form>
         </div>
         <div id="data-list-thumb-view" class="w-full data-list-container">
-          <vs-table class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="clients">
+          <div v-if="!isdata">
+            <TableLoading></TableLoading>
+          </div>
+          <vs-table v-if="isdata" class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="clients">
             <template slot="thead">
               <vs-th>نشان نهاد</vs-th>
               <vs-th>نام نهاد</vs-th>
@@ -87,10 +90,7 @@
             </template>
             <template slot-scope="{data}">
               <tbody>
-                <vs-tr v-if="notLoaded">
-                  <!--<img src="/loading.gif" style="margin-right:40%;" /> -->
-                </vs-tr>
-                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" v-if="!notLoaded">
+                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                   <vs-td class="img-container">
                     <img :src="'/images/img/clients/'+tr.logo" class="product-img cursor-pointer" @click.stop="showClientData(tr.id)" />
                   </vs-td>
@@ -198,6 +198,7 @@
 <script>
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
+import TableLoading from './../../shared/TableLoading.vue'
 // import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 export default {
   props: {
@@ -212,8 +213,8 @@ export default {
   },
   data() {
     return {
+      isdata: false,
       orgActiveForm: false,
-      notLoaded: true,
       oldImage: true,
       logoToChange: null,
       popupActive: false,
@@ -262,6 +263,7 @@ export default {
   components: {
     // DataViewSidebar,
     // VuePerfectScrollbar
+    TableLoading
   },
   created() {
     // if (!moduleDataList.isRegistered) {
@@ -330,7 +332,7 @@ export default {
         .then((response) => {
           this.clients = response.data;
           this.$Progress.set(100);
-          this.notLoaded = false;
+          this.isdata = true;
           this.$vs.loading.close();
         })
     },
@@ -529,7 +531,15 @@ export default {
     // toggleDataSidebar(val = false) {
     //   this.addNewDataSidebar = val
     // },
-  }
+  },
+  mounted() {
+    this.isMounted = false,
+      this.$vs.loading({
+        container: '#success-load',
+        type: 'sound',
+        text: "درحال بارگیری...."
+      })
+  },
 }
 </script>
 

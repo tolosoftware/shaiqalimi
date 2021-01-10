@@ -67,6 +67,7 @@ export default {
       return this.cartItems.filter(i => i.priority == 1)
     },
     allNotif: function () {
+
       return this.cartItems
     }
   },

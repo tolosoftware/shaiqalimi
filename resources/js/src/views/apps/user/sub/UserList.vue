@@ -124,8 +124,8 @@ export default {
 
   methods: {
     loadUsers() {
-      // this.$vs.loading()
-      this.axios.get('/api/users').then(({ data }) => (this.users = data, this.isdata = true))
+      this.$vs.loading()
+      this.axios.get('/api/users').then(({ data }) => (this.users = data, this.isdata = true, this.$vs.loading.close()))
         .catch(() => {
 
           this.$vs.notify({

@@ -144,8 +144,7 @@ export default {
     loadItemtype() {
       this.axios.get('/api/uom').then(({
         data
-      }) => (this.uom = data,
-        this.$Progress.set(100), this.$vs.loading.close()));
+      }) => (this.uom = data));
     },
 
   },

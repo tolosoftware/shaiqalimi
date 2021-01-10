@@ -1,6 +1,9 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="depencers">
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
+  <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="depencers">
     <template slot="thead">
       <vs-th sort-key="name">نام</vs-th>
       <vs-th sort-key="name">مدیر</vs-th>
@@ -35,11 +38,14 @@
 </template>
 
 <script>
+import TableLoading from './../../../shared/TableLoading.vue'
 export default {
+
   // name: 'project-list',
   props: ['depencers'],
   data() {
     return {
+      isdata: false,
       statusFa: {
         on_hold: 'مدیر',
         delivered: 'ادمین',
@@ -53,11 +59,16 @@ export default {
       sidebarData: {},
     }
   },
-  components: {},
+  components: { TableLoading },
   created() {
 
   },
-  watch: {},
+  watch: {
+    depencers: function () {
+      this.isdata = true;
+    }
+
+  },
   computed: {
     currentPage() {
       if (this.isMounted) {
