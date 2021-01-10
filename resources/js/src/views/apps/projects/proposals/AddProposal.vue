@@ -3,14 +3,9 @@
   <tab-content title="معلومات عمومی" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
-        <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <vs-dropdown class="w-full">
-              <vs-input autocomplete="off" size="medium" v-model="aForm.serial_no" label="سریال نمبر" name="serial_no" class="w-full" placeholder="101" disabled />
-              <vs-dropdown-menu>
-                <vs-dropdown-item v-for="(item, i) in companies" :key="'fs' + i" > {{ item.label }} - {{ item.sign }} </vs-dropdown-item>
-              </vs-dropdown-menu>
-            </vs-dropdown>
+        <vs-col vs-type="flex" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3 ">
+            <pro-serial-number :form="aForm" @companySelected="companySelected" :companies="companies"></pro-serial-number>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -530,21 +525,24 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
   Validator
 } from 'vee-validate'
+import ProSerialNumber from '../../shared/ProSerialNumber';
 
 export default {
   components: {
     'v-select': vSelect,
     FormWizard,
     TabContent,
-    Ekmalat
+    Ekmalat,
+    ProSerialNumber
 
   },
   props: ['clients'],
   data() {
     return {
       offerSource: 1,
+      offsetWidth: 100,
       financialPower: 1,
-      serial_no: '',
+      serial_no: 'انتخاب شرکت',
       is_accepted: false,
       currentSerialNo: 0,
       aForm: new Form({
@@ -586,6 +584,7 @@ export default {
       items: [],
       mesure_unit: [],
       companies: [],
+      
       // Form field translations
       dict: {
         custom: {
@@ -646,8 +645,6 @@ export default {
   created() {
     // register custom messages
     Validator.localize('en', this.dict)
-
-    this.getNextSerialNo();
     this.getAllItems();
     this.getAllUnites();
   },
@@ -702,9 +699,9 @@ export default {
       this.$Progress.set(100)
     },
     // for getting the next serian number
-    getNextSerialNo() {
+    getNextSerialNo(sign = null) {
       this.$Progress.start()
-      this.axios.get('/api/serial-num?type=prop')
+      this.axios.get(`/api/serial-num?type=prop-${sign}`)
         .then((response) => {
           this.currentSerialNo = response.data;
           this.aForm.serial_no = this.currentSerialNo;
@@ -768,6 +765,12 @@ export default {
           });
       }
     },
+
+    companySelected(data) {
+      this.aForm.company_id = data;
+      this.getNextSerialNo(data.sign);
+      console.log(this.aForm);
+    }
   },
   // End Of methods
   computed: {

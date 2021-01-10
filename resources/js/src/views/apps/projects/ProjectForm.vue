@@ -5,8 +5,9 @@
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input size="medium" v-model="pForm.serial_no" label="سریال نمبر" class="w-full" disabled />
-            <span class="text-danger text-sm" v-show="errors.has('serial_no')">{{ errors.first('serial_no') }}</span>
+            <pro-serial-number :form="pForm" @companySelected="companySelected" :companies="companies"></pro-serial-number>
+            <!-- <vs-input size="medium" v-model="pForm.serial_no" label="سریال نمبر" class="w-full" disabled />
+            <span class="text-danger text-sm" v-show="errors.has('serial_no')">{{ errors.first('serial_no') }}</span> -->
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -402,12 +403,14 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
   Validator
 } from 'vee-validate'
+import ProSerialNumber from '../shared/ProSerialNumber.vue';
 
 export default {
   components: {
     "v-select": vSelect,
     FormWizard,
     TabContent,
+    ProSerialNumber,
     Ekmalat,
   },
   props: ['clients', 'newClient'],
@@ -421,6 +424,7 @@ export default {
         serial_no: '',
         proposal_id: '',
         client_id: '',
+        company_id: null,
         title: '',
         reference_no: '',
         status: "1",
@@ -466,6 +470,7 @@ export default {
       addNewDataSidebar: false,
       sidebarData: {},
       proposalList: [],
+      companies: [],
 
       // From Valisation Custom Massage
       dict: {
@@ -532,7 +537,7 @@ export default {
     if (this.$route.params.id) {
       this.getProject();
     } else {
-      this.getNextSerialNo();
+      // this.getNextSerialNo();
     }
   },
   computed: {
@@ -546,7 +551,7 @@ export default {
         if (data.pro_items.length) {
           for (let [key, data] of Object.entries(data.pro_items)) {
             this.pForm.item.push(data.item);
-          // console.log(this.pForm.item);
+            // console.log(this.pForm.item);
           }
 
         } else {
@@ -582,6 +587,7 @@ export default {
       this.axios.get('/api/m-units')
         .then((response) => {
           this.mesure_unit = response.data;
+          this.getCompanies();
         })
     },
 
@@ -595,16 +601,25 @@ export default {
       Object.keys(this.mesure_unit).some(key => (this.mesure_unit[key].id == id) ? name = this.mesure_unit[key].acronym : null);
       return name;
     },
-
+    // for items to be bought
+    getCompanies() {
+      this.$Progress.start()
+      this.axios.get('/api/companies')
+        .then((response) => {
+          this.companies = response.data;
+          this.$Progress.set(100)
+        })
+    },
     // 'asdfdsfds', for getting the next serian number
-    getNextSerialNo() {
-      this.axios.get('/api/serial-num?type=pro')
+    getNextSerialNo(sign = null) {
+      this.$Progress.start()
+      this.axios.get(`/api/serial-num?type=pro-${sign}`)
         .then((response) => {
           this.pForm.serial_no = response.data;
           if (this.newClient) {
             this.pForm.client_id = this.clients.find(e => !!e);
-            // this.pForm.client_id = this.clients.find(e => !!e);
           }
+          this.$Progress.set(100);
         })
     },
 
@@ -753,10 +768,14 @@ export default {
       if (resp.pro_items) {
         this.pForm.item = resp.pro_items;
       }
-    // console.log(resp.pro_items);
+      // console.log(resp.pro_items);
 
       this.pForm.client_id = resp.pro_data.client;
     },
+    companySelected(data) {
+      this.pForm.company_id = data;
+      this.getNextSerialNo(data.sign);
+    }
   },
   // End Of methods
   computed: {

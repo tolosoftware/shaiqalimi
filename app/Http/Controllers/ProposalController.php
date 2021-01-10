@@ -53,42 +53,28 @@ class ProposalController extends Controller
                 'title' => 'required',
                 'reference_no' => 'required',
                 'pr_worth' => 'required',
-                'deposit' => 'required',
-                'tax' => 'required',
+                // 'deposit' => 'required',
+                // 'tax' => 'required',
                 'transit' => 'required',
                 'others' => 'required',
                 'total_price' => 'required',
 
             ]);
             // Get The last serial number for the proposal.
-            $serial_number = SerialNumber::where('type', 'prop')->latest()->first();
-            if ($serial_number) {
-                $request['serial_no'] = $serial_number->value + 1;
-            } else {
-                $request['serial_no'] = 101;
-            }
-            // return $request;
-            $serial_number = [
-                'type' => 'prop',
-                'prefix' => 'pro',
-                'value' => $request['serial_no'],
-            ];
-
-            // foreach ($request->client_id as $key => $value) {
-            //     $request['client_id'] = $value['id'];
-            // }
+            $company_sign = $request->company_id['sign'];
+            $serial_number = Helper::getSerialNo('prop-' . $company_sign, 'pro');
+            $request['serial_no'] = $serial_number->value;
+            
             $client_id = null;
             if (gettype($request->client_id) != 'integer') {
                 $request['client_id'] = $request->client_id['id'];
                 // return $request;
             }
-
-            SerialNumber::create($serial_number);
-
             $resp = Proposal::create($request->all());
             $proData = [
                 'proposal_id' => $resp->id,
                 'client_id' => $request->client_id,
+                'company_id' => $request->company_id['id'],
                 'title' => $request->title,
                 'reference_no' => $request->reference_no,
                 'pr_worth' => $request->pr_worth,

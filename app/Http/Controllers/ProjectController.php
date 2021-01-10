@@ -83,14 +83,19 @@ class ProjectController extends Controller
             if (gettype($request->proposal_id) != 'integer') {
                 $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
             }
-            $serial_no = Helper::getSerialNo('type', 'pro');
+            // Get The last serial number for the proposal.
+            $company_sign = $request->company_id['sign'];
+            $serial_no = Helper::getSerialNo('pro-' . $company_sign, 'pro');
             $request['serial_no'] = $serial_no->value;
+            
             $resp = Project::create($request->all());
             
             if ($request['proposal_id']) {
+
                 $proData = [
                     'client_id' => $request->client_id,
                     'title' => $request->title,
+                    'company_id' => $request->company_id['id'],
                     'reference_no' => $request->reference_no,
                     'pr_worth' => $request->pr_worth,
                     'deposit' => $request->deposit,
@@ -108,6 +113,7 @@ class ProjectController extends Controller
                 $proData = [
                     'project_id' => $resp->id,
                     'client_id' => $request->client_id,
+                    'company_id' => $request->company_id['id'],
                     'title' => $request->title,
                     'reference_no' => $request->reference_no,
                     'pr_worth' => $request->pr_worth,
@@ -129,7 +135,7 @@ class ProjectController extends Controller
                         'unit_id' => $item['item_id']['uom_id']['id'],
                         'uom_equiv_id' => $item['item_id']['uom_equiv_id']['id'],
                         'item_id' => $item['item_id']['id'],
-                        'proposal_id' => $resp->id,
+                        'project_id' => $resp->id,
                         'operation_id' => $item['operation_id']['id'],
                         'ammount' => $item['ammount'],
                         'unit_price' => $item['unit_price'],
@@ -168,7 +174,6 @@ class ProjectController extends Controller
                 ];
                 FinancialRecord::create($data);
             }
-            return response()->json([$resp], 200);
             DB::commit();
             return $resp;
         } catch (Exception $e) {
