@@ -15,7 +15,7 @@
       </div>
       <hr />
       <br />
-      <Itemlist></Itemlist>
+      <Itemlist ref="godamslist"></Itemlist>
     </vs-card>
   </div>
   <!-- <vs-card>
@@ -29,14 +29,19 @@ import Goodadd from "./Goods_add.vue";
 import Itemlist from "./Item_list.vue";
 import vSelect from "vue-select";
 export default {
-  name: "vx-archive",
+  name: "vx-godams",
   data: () => ({
     // Data Sidebar
     addNewDataSidebar: false,
     sidebarData: {},
     currentx: 14,
   }),
-
+  created() {
+    this.$on('updateselection', function (value) {
+      this.$refs.godamslist.loaditem();
+      console.log('again', 'loaded')
+    });
+  },
   components: {
     "v-select": vSelect,
     Goodadd,

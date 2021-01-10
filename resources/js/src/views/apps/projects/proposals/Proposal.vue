@@ -1,7 +1,7 @@
 <template>
 <div>
   <Clients :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
-  <vs-tabs>
+  <vs-tabs :value="$route.query.tab">
     <vs-tab label="ثبت اعلان" style="padding:2px 0px 0px 0px !important;">
       <vx-card class="height-vh-80">
         <div class="header">

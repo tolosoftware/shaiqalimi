@@ -46,10 +46,10 @@ export default [{
             },
             {
                 // url: null,
-                url: '/projects/proposal',
+                url: '/projects/proposal?tab=1',
                 name: 'Proposals',
                 slug: 'Proposals',
-                icon: 'PackageIcon',
+                icon: 'FileIcon',
                 i18n: 'Proposals'
             },
             {
