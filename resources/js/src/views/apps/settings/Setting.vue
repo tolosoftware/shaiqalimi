@@ -442,7 +442,7 @@ export default {
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.currencyForm.currency_id = data.id;
           this.getAllCurrency();
           this.currencyForm.reset();
@@ -455,7 +455,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors);
+        // console.log(errors);
           this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
@@ -468,12 +468,12 @@ export default {
         });
     },
     editRates() {
-      console.log(this.rateEditForm.currencies);
+    // console.log(this.rateEditForm.currencies);
       this.rateEditForm.post('/api/currency/rates')
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.getAllCurrency();
           this.currencyForm.reset();
           this.$vs.notify({
@@ -485,7 +485,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors);
+        // console.log(errors);
           this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
@@ -513,7 +513,7 @@ export default {
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.getAllOperation();
           this.operationForm.reset();
           this.$vs.notify({
@@ -525,7 +525,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors);
+        // console.log(errors);
           this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',
@@ -586,7 +586,7 @@ export default {
         .then(({
           data
         }) => {
-          console.log(data);
+        // console.log(data);
           this.getAllOperation();
           this.operationForm.reset();
           this.$vs.notify({
@@ -598,7 +598,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors);
+        // console.log(errors);
           this.$Progress.set(100)
           this.$vs.notify({
             title: 'ناموفق!',

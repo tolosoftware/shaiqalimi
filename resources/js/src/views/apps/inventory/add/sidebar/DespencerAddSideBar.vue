@@ -143,7 +143,7 @@ export default {
               position: 'top-right'
             })
           });
-      console.log(this.dForm);
+    // console.log(this.dForm);
       // this.$validator.validateAll().then(result => {
       //   if (result) {
       //     const obj = {

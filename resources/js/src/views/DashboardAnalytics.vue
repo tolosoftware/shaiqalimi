@@ -412,14 +412,14 @@ export default {
   },
 
   created() {
-    console.log(this.$parent);
+  // console.log(this.$parent);
     // Support Tracker
     this.$http.get('/api/card/card-analytics/support-tracker')
       .then((response) => {
         this.supportTracker = response.data
       })
       .catch((error) => {
-        console.log(error)
+      // console.log(error)
       })
 
     // Active Users
@@ -428,7 +428,7 @@ export default {
         this.activeUsers = response.data
       })
       .catch((error) => {
-        console.log(error)
+      // console.log(error)
       })
     // Site Traffic gained
     this.$http.get('/api/card/card-statistics/newsletter')
@@ -436,7 +436,7 @@ export default {
         this.newsletter = response.data
       })
       .catch((error) => {
-        console.log(error)
+      // console.log(error)
       })
 
     // Start the Progress Bar

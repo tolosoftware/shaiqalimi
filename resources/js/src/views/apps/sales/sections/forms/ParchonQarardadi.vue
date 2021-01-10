@@ -332,7 +332,7 @@ export default {
     // End of Methods
     // Old methods
     onChange(contract) {
-      console.log(contract);
+    // console.log(contract);
       if (contract != null) {
         this.contract.clientName = contract.pro_data.client.name;
         this.contract.clientEmail = contract.pro_data.client.email;
@@ -377,7 +377,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors.errors);
+        // console.log(errors.errors);
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
