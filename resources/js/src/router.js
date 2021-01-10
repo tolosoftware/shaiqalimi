@@ -52,7 +52,7 @@ const router = new Router({
                     component: () =>
                         import ('./views/DashboardAnalytics.vue'),
                     meta: {
-                        breadcrumb: [{ title: 'صفحه عمومی', active: true }],
+                        breadcrumb: [{ title: 'Dashboard', active: true }],
                         rule: 'editor'
                     }
                 },
