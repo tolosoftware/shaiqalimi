@@ -97,26 +97,24 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title="تنظیمات مربط به فروشات" :active.sync="popupModalActive">
-    <div class="vx-row" v-for="(s,i) in sale">
-      <vs-row vs-w="12" v-if="s.type=='s1'">
+    <div v-for="(s,i) in sale">
+      <div v-if="s.type=='s1'">
         <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
           <tab-content title="تنظیم اطلاعات بل" class="mb-5">
-            <vs-row vs-w="12" class="mb-1">
-              <vs-divider>تنظیم اطلاعات بل</vs-divider>
-              <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
-              <br>
-              <div class="flex justify-between float-right">
-                <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
-              </div>
-              <!--<vs-divider></vs-divider> -->
-            </vs-row>
+            <vs-divider>تنظیم اطلاعات بل</vs-divider>
+            <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+            <br>
+            <div class="flex justify-between float-right">
+              <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>-->
+            </div>
+            <!--<vs-divider></vs-divider> -->
           </tab-content>
           <tab-content title="پیش پرداخت" class="mb-5">
             <vs-row vs-w="12" class="mb-1">
               <vs-divider>پیش پرداخت</vs-divider>
               <div>
                 <div>
-                  <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+                  <!--<p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p> -->
                 </div>
                 <br>
                 <div class="flex justify-between float-right">
@@ -131,7 +129,7 @@
               <vs-divider>اکمالات</vs-divider>
               <div>
                 <div>
-                  <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+
                 </div>
                 <br>
                 <div class="flex justify-between float-right">
@@ -146,7 +144,7 @@
               <vs-divider>فورم(م-16)</vs-divider>
               <div>
                 <div>
-                  <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+
                 </div>
                 <br>
                 <div class="flex justify-between float-right">
@@ -161,7 +159,7 @@
               <vs-divider>طی مراحل دولتی</vs-divider>
               <div>
                 <div>
-                  <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+
                 </div>
                 <br>
                 <div class="flex justify-between float-right">
@@ -176,7 +174,7 @@
               <vs-divider>دریافت پول</vs-divider>
               <div>
                 <div>
-                  <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+
                 </div>
                 <br>
                 <div class="flex justify-between float-right">
@@ -191,7 +189,7 @@
               <vs-divider>تاییدی</vs-divider>
               <div>
                 <div>
-                  <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
+
                 </div>
                 <br>
                 <div class="flex justify-between float-right">
@@ -202,22 +200,22 @@
             </vs-row>
           </tab-content>
         </form-wizard>
-      </vs-row>
-      <!--<vs-row vs-w="12" v-if="s.type=='s2'">
+      </div>
+      <div v-if="s.type=='s2'">
         <h1>S2</h1>
         <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
-      </vs-row>
-      <vs-row vs-w="12" v-if="s.type=='s3'">
+      </div>
+      <div v-if="s.type=='s3'">
         <h1>S3</h1>
         <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
-      </vs-row>
-      <vs-row vs-w="12" v-if="s.type=='s4'">
+      </div>
+      <div v-if="s.type=='s4'">
         <h1>S4</h1>
         <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
-      </vs-row> -->
+      </div>
     </div>
-  </vs-popup>
 
+  </vs-popup>
 </div>
 </template>
 

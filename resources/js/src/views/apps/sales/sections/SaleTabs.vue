@@ -16,18 +16,17 @@
 
 <script>
 import SalesFormAdd from './SalesFormAdd'
-import SalesFormAddMini from './SalesFormAddMini'
 import SalesList from './SalesList'
 import SalesInside from './SalesInside'
 export default {
   name: 'vx-sale-tabes',
   components: {
     SalesFormAdd,
-    SalesFormAddMini,
     SalesList,
     SalesInside
   },
-  created(){
+  created() {
+    // console.log('route value', this.$route)
   },
 }
 </script>

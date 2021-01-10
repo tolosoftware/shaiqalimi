@@ -99,7 +99,7 @@
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full mt-4 pt-2 ml-3 mr-3 mb-3">
+          <div class="w-full mt-4 pt-2 ml-3 mb-3">
             <!-- TITLE -->
             <label for=""><small>تضمین آفر</small></label>
             <vx-input-group class="">
@@ -120,12 +120,69 @@
                     </div>
                   </div>
                 </div>
-                <span class="bg-primary" style="height:39px; padding:10px;color:white;">AFN</span>
               </template>
               <vs-input autocomplete="off" type="number" name="offer_guarantee" v-model="aForm.offer_guarantee" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.offer_guarantee') }}</span>
             <has-error :form="aForm" field="offer_guarantee"></has-error>
+          </div>
+          <div class="mt-3 mr-4">
+            <span class="bg-primary" id="AFGLabel">AFN</span>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+            <label for class="ml-4 mr-4 mb-2">قرارداد مشابه </label>
+            <div class="radio-group w-full">
+              <div class="w-1/2">
+                <input type="radio" v-model="aForm.sameprop" value="1" id="yes" name="sameprop" />
+                <label for="yes" class="w-full text-center">بلی</label>
+              </div>
+              <div class="w-1/2">
+                <input type="radio" v-model="aForm.sameprop" value="2" id="no" name="sameprop" />
+                <label for="no" class="w-full text-center">نخیر</label>
+              </div>
+            </div>
+            <has-error :form="aForm" field="sameprop"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
+            <vs-input autocomplete="off" size="medium" label="حجم معاملات" v-model="aForm.deal_value" name="deal_value" class="w-full" />
+            <span class="absolute text-danger alerttext">{{ errors.first('step-1.deal_value') }}</span>
+            <has-error :form="aForm" field="deal_value"></has-error>
+          </div>
+        </vs-col>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+          <div class="w-full mt-4 pt-2 ml-3 mb-3">
+            <!-- TITLE -->
+            <label for=""><small>توانایی مالی</small></label>
+            <vx-input-group class="">
+              <template slot="prepend">
+                <div id="offer" class="prepend-text">
+                  <!--<span class="bg-primary">AFN</span>
+                  <v-select label="text" v-model="offerSource" :options="optionoffer" :dir="$vs.rtl ? 'rtl' : 'ltr'" />-->
+                  <div class="w-full mb-4">
+                    <div class="radio-group w-full">
+                      <div class="w-1/2">
+                        <input type="radio" v-model="financialPower" value="1" id="yesf" name="financialYes" />
+                        <label for="yesf" class="w-full text-center">بلی</label>
+                      </div>
+                      <div class="w-1/2">
+                        <input type="radio" v-model="financialPower" value="2" id="no2" name="financialYes" />
+                        <label for="no2" id="nof" class="w-full text-center">نخیر</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+              <vs-input v-if="(financialPower==1)" autocomplete="off" type="number" name="financial_power" v-model="aForm.financial_power" />
+            </vx-input-group>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-1.financial_power') }}</span>
+            <has-error :form="aForm" field="financial_power"></has-error>
+          </div>
+          <div class="mt-3 mr-4" v-if="(financialPower ==1)">
+            <span class="bg-primary" id="AFGLabel">AFN</span>
           </div>
         </vs-col>
       </vs-row>
@@ -221,7 +278,7 @@
                   <span>%</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.discount" :v-model="aForm.discount = discount" />
+              <vs-input autocomplete="off" type="number" v-model="aForm.discount" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.discount') }}</span>
           </div>
@@ -486,6 +543,7 @@ export default {
   data() {
     return {
       offerSource: 1,
+      financialPower: 1,
       serial_no: '',
       is_accepted: false,
       currentSerialNo: 0,
@@ -497,6 +555,9 @@ export default {
         discount: 0,
         recet: 1,
         bank_dict: 1,
+        sameprop: 1,
+        deal_value: '',
+        financial_power: '',
         title: '',
         reference_no: '',
         submission_date: '',
@@ -745,6 +806,20 @@ export default {
 #cache {
   border-bottom-right-radius: 0px !important;
   border-top-right-radius: 0px !important;
+}
+
+#nof {
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+#AFGLabel {
+  height: 39px;
+  padding: 10px;
+  color: white;
+  float: left !important;
+  border-bottom-right-radius: 5px !important;
+  border-top-right-radius: 5px !important;
 }
 
 .radio-group input[type="radio"]+label {

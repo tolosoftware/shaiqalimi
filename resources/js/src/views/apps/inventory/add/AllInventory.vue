@@ -29,7 +29,12 @@
     </form>
   </div>
   <div id="data-list-thumb-view" class="w-full data-list-container">
-    <vs-table :data="storages">
+    <vx-card v-if="!isdata" title="">
+      <p style="height:40px;margin:20px;" id="success-load">
+        <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
+      </p>
+    </vx-card>
+    <vs-table v-if="isdata" :data="storages">
       <template slot="thead">
         <vs-th>کود</vs-th>
         <vs-th>نام ذخیره</vs-th>
@@ -134,6 +139,7 @@ export default {
   name: 'vx-archive',
   data() {
     return {
+      isdata: false,
       storageActiveForm: false,
       popupActive: false,
       sForm: new Form({
@@ -274,8 +280,9 @@ export default {
     getStorageList() {
       this.axios.get('/api/storage')
         .then((response) => {
+          this.isdata = true;
           this.storages = response.data;
-          this.$vs.loading.close();
+
         })
     },
     editStorageData(data) {
@@ -346,7 +353,15 @@ export default {
       })
 
     }
-  }
+  },
+  mounted() {
+    this.isMounted = false,
+      this.$vs.loading({
+        container: '#success-load',
+        type: 'sound',
+        text: "درحال بارگیری...."
+      })
+  },
 }
 </script>
 

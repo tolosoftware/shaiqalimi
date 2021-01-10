@@ -136,6 +136,7 @@ export default {
         Dashboard: 'صفحه عمومی',
         Notifications: 'یادآوری‌ها',
         Projects: 'قرار دادها',
+        Proposals: 'آفرها',
         Sales: 'فروشات',
         Transactions: 'معاملات تجارتی',
         Inventory: 'ذخایر و تانک‌ تیل',
