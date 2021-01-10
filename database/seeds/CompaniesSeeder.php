@@ -14,14 +14,14 @@ class CompaniesSeeder extends Seeder
     {
         $data = [
             [
-                'label'=>'Conpany 1',
-                'sign'=>'CO-1',
+                'label'=>'شایق علیمی',
+                'sign'=>'SHA',
                 // 'created_at'        => Carbon::now(),
                 // 'updated_at'        => Carbon::now(),
             ],
             [
-                'label'=>'Company 2',
-                'sign'=>'CO-2',
+                'label'=>'ورنا بهفر',
+                'sign'=>'WB',
                 // 'created_at'        => Carbon::now(),
                 // 'updated_at'        => Carbon::now(),
             ],

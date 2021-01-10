@@ -19,6 +19,7 @@ class Sale extends Model
         'source_type',
         'user_id',
         'currency_id',
+        'bank_account',
         'datatime',
     ];
 

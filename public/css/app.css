@@ -5690,3 +5690,7 @@ li.fuel-station > h3 {
   padding-left: 2px;
 }
 
+[dir] .pro-serial-number {
+  text-align: right;
+}
+
