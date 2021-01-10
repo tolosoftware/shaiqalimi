@@ -1,10 +1,10 @@
 <template>
 <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :key="$vs.rtl">
-  <vx-card v-if="!isloaded" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-    </p>
-  </vx-card>
+
   <div id="data-list-thumb-view" class="w-full data-list-container">
+    <div v-if="!isloaded">
+      <TableLoading></TableLoading>
+    </div>
     <vs-table v-if="isloaded" ref="table" pagination :max-items="itemsPerPage" :data="transfers">
       <template slot="thead">
         <vs-th>شماره سریال</vs-th>
@@ -44,8 +44,9 @@
 </template>
 
 <script>
+import TableLoading from './../../shared/TableLoading.vue'
 export default {
-  components: {},
+  components: { TableLoading },
   data() {
     return {
       transfers: [],
@@ -87,7 +88,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.axios.delete('/api/transfer/' + id).then((id) => {
-            // console.log('id', id.data)
+              // console.log('id', id.data)
               swal.fire({
                 title: 'عملیه موفقانه انجام شد.',
                 text: "مورد انتقال از سیستم پاک شد!",
@@ -100,6 +101,7 @@ export default {
       })
     }
   },
+
   computed: {
     scrollbarTag() {
       return this.$store.getters.scrollbarTag

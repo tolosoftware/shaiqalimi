@@ -1,6 +1,9 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="fuelstorage">
+  <div v-if="!isloaded">
+    <TableLoading></TableLoading>
+  </div>
+  <vs-table v-if="isloaded" class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="fuelstorage">
     <template slot="thead">
       <vs-th sort-key="name">شماره</vs-th>
       <vs-th sort-key="name">نام</vs-th>
@@ -52,11 +55,13 @@
 </template>
 
 <script>
+import TableLoading from './../../../shared/TableLoading.vue'
 export default {
   // name: 'project-list',
   props: ['fuelstorage'],
   data() {
     return {
+      isloaded: false,
       fuelstorage: [],
       statusFa: {
         on_hold: 'مدیر',
@@ -71,11 +76,15 @@ export default {
       sidebarData: {},
     }
   },
-  components: {},
+  components: { TableLoading },
   created() {
 
   },
-
+  watch: {
+    fuelstorage: function () {
+      this.isloaded = true;
+    }
+  },
   computed: {
     currentPage() {
       if (this.isMounted) {
@@ -91,7 +100,6 @@ export default {
 
   },
   methods: {
-
     // Start Custom
     goTo(data) {
       this.$router.push({

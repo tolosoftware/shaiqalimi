@@ -360,13 +360,14 @@ export default {
     getProject() {
       // Start the Progress Bar
       this.$Progress.start();
-
+      this.$vs.loading();
       this.axios
         .get("/api/project")
         .then((data) => {
           this.contracts = data.data;
           // Finish the Progress Bar
           this.$Progress.set(100);
+          this.$vs.loading.close()
         })
         .catch(() => {});
     },
