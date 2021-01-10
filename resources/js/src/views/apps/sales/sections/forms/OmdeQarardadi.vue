@@ -394,7 +394,7 @@ export default {
       //     // if form have no errors
       //     alert("form submitted!");
       //   }else{
-      //     console.log("Form have erors");
+      //   // console.log("Form have erors");
       //     // form have errors
       //   }
       // })
@@ -416,7 +416,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors.errors);
+        // console.log(errors.errors);
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',

@@ -37,10 +37,10 @@ export default {
   methods: {
     checkLogin() {
       if (localStorage.getItem('token')) {
-        //  this.$router.push({ path: '/dashboard' });
-        $router.go('/dashboard');
+         this.$router.push({ path: '/dashboard' });
+        // this.$router.go('/dashboard');
         this.$vs.notify({
-          title: 'شما به سیستم از قبل دست رسی دارید',
+          title: 'شما به سیستم از قبل دسترسی دارید',
           text: 'برای وارد شدن از حساب جدید اول از سیستم خارج شوید',
           color: 'success',
           iconPack: 'feather',

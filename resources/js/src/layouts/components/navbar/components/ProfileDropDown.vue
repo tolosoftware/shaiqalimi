@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     activeUserInfo() {
-      console.log(this.$store.state.AppActiveUser);
+    // console.log(this.$store.state.AppActiveUser);
 
       return this.$store.state.AppActiveUser
     }

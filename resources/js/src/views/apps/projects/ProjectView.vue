@@ -127,7 +127,7 @@ export default {
       this.selectedOrg = arr;
     },
     getAnnounces() {
-      console.log(this.project.announce_id);
+    // console.log(this.project.announce_id);
       if (this.project.announce_id) {
         this.axios.get('/api/announcement/' + this.project.announce_id)
           .then((response) => {

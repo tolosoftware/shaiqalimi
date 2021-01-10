@@ -169,7 +169,7 @@ export default {
   },
   methods: {
     setVendordata(data) {
-      console.log(data);
+    // console.log(data);
       this.prForm.vendor_id = data.id;
       this.prForm.vendor_address = data.address;
       this.prForm.vendor_phone = data.phone;

@@ -283,7 +283,7 @@ export default {
         .get("/api/sales")
         .then((data) => {
           this.sales = data.data;
-          console.log('sales', this.sales);
+        // console.log('sales', this.sales);
           this.isloaded = true;
           this.$Progress.set(100);
 
@@ -312,7 +312,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.axios.delete('/api/sale1/' + id).then((id) => {
-              console.log('id', id.data)
+            // console.log('id', id.data)
               swal.fire({
                 title: 'عملیه موفقانه انجام شد.',
                 text: "مورد فروش از سیستم پاک شد!",

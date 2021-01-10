@@ -258,7 +258,8 @@ class ProjectController extends Controller
             'pro_items'
         ])->latest()->limit(3)->get();
     }
-    public function getClient($id)
+    public function Company()
     {
+        return DB::table('companies')->get();
     }
 }

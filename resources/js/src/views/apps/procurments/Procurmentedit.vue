@@ -161,7 +161,7 @@ export default {
             loadspcificpurchase() {
             this.axios.get('/api/purches/'+this.$route.params.procurment_id+'/edit').then(({data}) => (
                  this.prForm.fill(data),
-                console.log("hiiii"+data.vendor_id)
+              // console.log("hiiii"+data.vendor_id)
                 //  this.setVendordata(data.vendor_id)
                  ));
         },
