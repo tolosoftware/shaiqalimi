@@ -77,10 +77,8 @@
           </form>
         </div>
         <div id="data-list-thumb-view" class="w-full data-list-container">
-          <div v-if="!isdata">
-            <TableLoading></TableLoading>
-          </div>
-          <vs-table v-if="isdata" class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="clients">
+          
+          <vs-table class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="clients">
             <template slot="thead">
               <vs-th>نشان نهاد</vs-th>
               <vs-th>نام نهاد</vs-th>
@@ -122,7 +120,7 @@
                     <vs-avatar size="60px" :src="'/images/img/clients/'+tr.logo" />
                     <span><strong>{{ tr.name }}</strong></span>
                   </div>
-                  </vs-divider>
+                  <vs-divider></vs-divider>
                   <div class="flex">
                   </div>
                 </div>
@@ -137,7 +135,7 @@
         </div>
       </vs-tab>
       <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
-        <component class="scroll-area--data-list-add-new" :key="$vs.rtl">
+        <component class="scroll-area--data-list-add-new" :is="scrollbarTag" :key="$vs.rtl">
           <form>
             <div class="p-2">
               <!-- Product Image -->
@@ -306,7 +304,7 @@ export default {
       }
     },
     // scrollbarTag() { return this.$store.getters.scrollbarTag },
-    // scrollbarTag() { return this.$store.state.is_touch_device ? 'div' : 'VuePerfectScrollbar' },
+    scrollbarTag() { return this.$store.state.is_touch_device ? 'div' : 'VuePerfectScrollbar' },
 
     // currentPage() {
     //   if (this.isMounted) {
@@ -533,12 +531,7 @@ export default {
     // },
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   },
 }
 </script>
