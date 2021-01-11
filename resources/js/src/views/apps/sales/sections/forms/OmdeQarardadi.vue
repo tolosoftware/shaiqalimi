@@ -6,6 +6,9 @@
         <label for=""><small>سریال نمبر</small></label>
         <vx-input-group class="number-rtl">
           <template slot="append">
+            <div v-if="sForm.project_id && sForm.project_id.pro_data" class="append-text bg-primary serial_no_reference">
+              <span>{{ sForm.project_id.pro_data.reference_no }}</span>
+            </div>
             <div class="append-text bg-primary">
               <span>S1</span>
             </div>
@@ -38,7 +41,7 @@
         <label for class="vs-input--label">انتخاب قراردادها</label>
         <v-select v-model="sForm.project_id" :get-option-label="
               (option) => option.serial_no + ' - ' + option.pro_data.title
-            " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChange">
+            " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChangeContract">
           <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>
       </div>
@@ -372,8 +375,7 @@ export default {
         .catch(() => {});
     },
     // Old methods
-    onChange(contract) {
-
+    onChangeContract(contract) {
       if (contract != null) {
         this.field_data.clientName = contract.pro_data.client.name;
         // this.field_data.repativePerson = contract.pro_data.client.phone;
