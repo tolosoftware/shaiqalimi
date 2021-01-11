@@ -26,21 +26,15 @@
         <add-proposal :clients="clients"></add-proposal>
       </vx-card>
     </vs-tab>
-    <vs-tab label="آفرها">
-      <ProposalList></ProposalList>
-    </vs-tab>
   </vs-tabs>
 </div>
 </template>
-
 <script>
-import ProposalList from './ProposalList.vue'
 import AddProposal from './AddProposal.vue'
 import Clients from './Clients.vue'
 
 export default {
   components: {
-    ProposalList,
     AddProposal,
     Clients,
   },

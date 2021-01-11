@@ -212,9 +212,12 @@
             <p class="mt-2 mb-8 text-xl font-medium text-success">
               <span>+</span><span>5.2%</span><span class="ml-1">($956)</span>
             </p>
-            <router-link to="/sales?tab=2">
+            <!--<router-link to="/sales?tab=2">
               <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
-            </router-link>
+            </router-link> -->
+            <p>
+              <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
+            </p>
           </div>
           <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4"><small>عواید: $56156</small>
@@ -412,14 +415,14 @@ export default {
   },
 
   created() {
-  // console.log(this.$parent);
+    // console.log(this.$parent);
     // Support Tracker
     this.$http.get('/api/card/card-analytics/support-tracker')
       .then((response) => {
         this.supportTracker = response.data
       })
       .catch((error) => {
-      // console.log(error)
+        // console.log(error)
       })
 
     // Active Users
@@ -428,7 +431,7 @@ export default {
         this.activeUsers = response.data
       })
       .catch((error) => {
-      // console.log(error)
+        // console.log(error)
       })
     // Site Traffic gained
     this.$http.get('/api/card/card-statistics/newsletter')
@@ -436,7 +439,7 @@ export default {
         this.newsletter = response.data
       })
       .catch((error) => {
-      // console.log(error)
+        // console.log(error)
       })
 
     // Start the Progress Bar
