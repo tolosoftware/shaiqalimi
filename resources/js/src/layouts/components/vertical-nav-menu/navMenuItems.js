@@ -44,9 +44,17 @@ export default [{
                 icon: 'PackageIcon',
                 i18n: 'Projects'
             },
+            // {
+            //     // url: null,
+            //     url: '/projects/proposalslist?tab=1',
+            //     name: 'Proposals',
+            //     slug: 'Proposals',
+            //     icon: 'FileIcon',
+            //     i18n: 'Proposals'
+            // },
             {
                 // url: null,
-                url: '/projects/proposal?tab=1',
+                url: '/projects/proposal/list',
                 name: 'Proposals',
                 slug: 'Proposals',
                 icon: 'FileIcon',
