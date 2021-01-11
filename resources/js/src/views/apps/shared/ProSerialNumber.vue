@@ -1,13 +1,13 @@
 <template>
 <vs-dropdown class="w-full pro-serial-number company-select-wrapper" id="company-select-wrapper">
-  <label for="serial_no"><small>سریال نمبر</small></label>
+  <label for="serial_no"><small>سریال نمبر *</small></label>
   <vx-input-group class="">
     <template v-if="form.company_id" slot="append">
       <div class="append-text bg-primary">
         <span>{{ form.company_id.sign }}</span>
       </div>
     </template>
-    <vs-input autocomplete="off" size="medium" v-model="form.serial_no" name="serial_no" class="w-full" placeholder="انتخاب شرکت" disabled />
+    <vs-input autocomplete="off" v-validate="'required'" size="medium" v-model="form.serial_no" name="serial_no" class="w-full" placeholder="انتخاب شرکت" disabled />
   </vx-input-group>
   <vs-dropdown-menu class="company-select" id="company-select">
     <vs-dropdown-item v-for="(com, i) in companies" :key="'fs' + i" @click="$emit('companySelected', com)"> {{ com.label }} - {{ com.sign }} </vs-dropdown-item>

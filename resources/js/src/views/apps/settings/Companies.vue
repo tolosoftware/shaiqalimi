@@ -15,7 +15,6 @@
               <vs-th>#</vs-th>
               <vs-th>لیبل</vs-th>
               <vs-th>علامت</vs-th>
-              <vs-th>عملیه</vs-th>
             </template>
             <template slot-scope="{data}">
               <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -27,12 +26,6 @@
                 </vs-td>
                 <vs-td :data="tr.id">
                   {{ tr.sign }}
-                </vs-td>
-                <vs-td :data="tr.id">
-                  <div class="inline-flex">
-                    <vs-button @click="editCompany(tr)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-edit"></vs-button>
-                    <vs-button @click="deleteCompany(tr.id)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
-                  </div>
                 </vs-td>
               </vs-tr>
             </template>
