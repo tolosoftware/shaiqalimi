@@ -82,7 +82,6 @@ export default {
 
   data() {
     return {
-
       fuelstation: [],
       isloaded: false,
       selected: [],
@@ -131,7 +130,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/fuelstation/' + id).then(() => {

@@ -1,28 +1,25 @@
 <template>
 <vs-row>
-
   <div class="vx-card">
     <div class="vx-card__header">
       <div class="vx-card__title">
         <h4 class="">نوعیت محصولات </h4>
       </div>
     </div>
-    <vs-divider></vs-divider>
-    <div>
-      <form action="" class="p-2">
-        <vs-col vs-type="flex" vs-lg="8" vs-sm="12" vs-xs="12">
-          <div class="w-full">
-            <vs-input size="medium" label="عنوان معامله" v-model="form.type" name="type" class="w-full" />
-          </div>
-        </vs-col>
-
-        <vs-col vs-type="flex" vs-lg="4" vs-sm="12" vs-xs="12" class="mt-4 float-left">
-          <vs-button @click="submitdata"> ثبت </vs-button>
-        </vs-col>
-      </form>
-
-      <vs-divider></vs-divider>
-      <vs-table :data="itemtype" vs-justify="center">
+    <div class="vx-card__collapsible-content vs-con-loading__container">
+      <div class="vx-row">
+        <form action="" class="p-2 vx-col w-full mb-3 pr-4 pl-5 mr-3 ml-3">
+          <vs-col vs-type="flex" vs-lg="9" vs-sm="12" vs-xs="12">
+            <div class="w-full">
+              <vs-input size="medium" label="عنوان معامله" v-model="form.type" name="type" class="w-full" />
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-lg="3" vs-sm="12" vs-xs="12" class="mt-4 float-left">
+            <vs-button @click="submitdata"> ثبت </vs-button>
+          </vs-col>
+        </form>
+      </div>
+      <vs-table :data="itemtype" vs-justify="center" stripe>
         <template slot="thead" vs-justify="center">
           <vs-th>
             شماره
@@ -56,10 +53,9 @@
           </vs-tr>
         </template>
       </vs-table>
-
     </div>
-  </div>
 
+  </div>
 </vs-row>
 </template>
 
@@ -71,9 +67,7 @@ export default {
       form: new Form({
         id: '',
         type: '',
-
       }),
-
     }
   },
   methods: {
@@ -113,7 +107,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/itemtype/' + id).then(() => {

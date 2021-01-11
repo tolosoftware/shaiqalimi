@@ -9,15 +9,12 @@
 
 <template>
 <div id="data-list-list-view" class="data-list-container">
-  <vx-card v-if="!isdata" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-    </p>
-  </vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
   <vs-table v-if="isdata" ref="table" pagination :max-items="itemsPerPage" search :data="allTransaction">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <div class="flex flex-wrap-reverse items-center data-list-btn-container">
-        <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler float-right">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
             <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
@@ -66,35 +63,27 @@
           <vs-td>
             <p class="product-name font-medium truncate">{{ indextr+1 }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-name font-medium truncate">{{'TRA-'+ tr.serial_no }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-category">{{ tr.title | title }}</p>
           </vs-td>
-
           <vs-td>
             <vs-chip :color="getOrderStatusColorr(tr.transaction_status)" class="product-order-status">{{ tr.transaction_status | title }}</vs-chip>
           </vs-td>
-
           <vs-td>
             <vs-chip :color="getOrderStatusColor(tr.ammount)" class="product-order-status">{{ tr.ammount | title }}</vs-chip>
           </vs-td>
-
           <vs-td>
             <p class="product-price">{{ tr.currency.sign_fa }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-price">{{ tr.user.firstName }} {{ tr.user.lastName }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-price">{{ tr.description }}</p>
           </vs-td>
-
           <vs-td class="whitespace-no-wrap">
             <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
@@ -109,19 +98,19 @@
 <script>
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
 import moduleDataList from "@/store/data-list/moduleDataList.js";
+import TableLoading from './../shared/TableLoading.vue'
 
 export default {
   components: {
     // DataViewSidebar
+    TableLoading
   },
   data() {
     return {
       isdata: false,
       allTransaction: [],
-
       itemsPerPage: 10,
       isMounted: false,
-
     };
   },
   computed: {
@@ -142,7 +131,6 @@ export default {
   },
   methods: {
     loadTransaction() {
-      //   this.$vs.loading()
       this.axios.get('/api/transaction').then(({
           data
         }) => (this.allTransaction = data,
@@ -168,7 +156,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/transaction/' + id).then(() => {
@@ -183,16 +171,13 @@ export default {
           })
         }
       })
-
     },
 
     editData(data) {
-      // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data;
       this.toggleDataSidebar(true);
     },
     getOrderStatusColor(status) {
-
       return "success";
     },
 
@@ -210,12 +195,7 @@ export default {
     this.$store.dispatch("dataList/fetchDataListItems");
   },
   mounted() {
-    this.isMounted = false;
-    this.$vs.loading({
-      container: '#success-load',
-      type: 'sound',
-      text: "درحال بارگیری...."
-    })
+    this.isMounted = false
   },
 };
 </script>

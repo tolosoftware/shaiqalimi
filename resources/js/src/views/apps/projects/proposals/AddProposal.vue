@@ -135,7 +135,7 @@
               </div>
               <div class="w-1/2">
                 <input type="radio" v-model="aForm.sameprop" value="2" id="no" name="sameprop" />
-                <label for="no" class="w-full text-center">نخیر</label>
+                <label for="no" class="w-full text-center">خیر</label>
               </div>
             </div>
             <has-error :form="aForm" field="sameprop"></has-error>
@@ -165,7 +165,7 @@
                       </div>
                       <div class="w-1/2">
                         <input type="radio" v-model="financialPower" value="2" id="no2" name="financialYes" />
-                        <label for="no2" id="nof" class="w-full text-center">نخیر</label>
+                        <label for="no2" id="nof" class="w-full text-center">خیر</label>
                       </div>
                     </div>
                   </div>

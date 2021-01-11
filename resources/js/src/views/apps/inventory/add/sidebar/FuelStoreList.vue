@@ -1,9 +1,6 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <div v-if="!isloaded">
-    <TableLoading></TableLoading>
-  </div>
-  <vs-table v-if="isloaded" class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="fuelstorage">
+  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="fuelstorage">
     <template slot="thead">
       <vs-th sort-key="name">شماره</vs-th>
       <vs-th sort-key="name">نام</vs-th>
@@ -55,14 +52,13 @@
 </template>
 
 <script>
-import TableLoading from './../../../shared/TableLoading.vue'
 export default {
   // name: 'project-list',
   props: ['fuelstorage'],
   data() {
     return {
-      isloaded: false,
-      fuelstorage: [],
+      isdata: false,
+      // fuelstorage: [],
       statusFa: {
         on_hold: 'مدیر',
         delivered: 'ادمین',
@@ -76,14 +72,9 @@ export default {
       sidebarData: {},
     }
   },
-  components: { TableLoading },
+  components: {},
   created() {
 
-  },
-  watch: {
-    fuelstorage: function () {
-      this.isloaded = true;
-    }
   },
   computed: {
     currentPage() {
@@ -131,7 +122,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/fuelstorestation/' + id).then(() => {

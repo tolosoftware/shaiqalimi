@@ -9,11 +9,9 @@
 
 <template>
 <div id="data-list-list-view" class="data-list-container">
-  <vx-card v-if="!isloaded" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-
-    </p>
-  </vx-card>
+  <div v-if="!isloaded">
+    <TableLoading></TableLoading>
+  </div>
   <vs-table v-if="isloaded" ref="table" pagination :max-items="itemsPerPage" search :data="sales">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <div class="flex flex-wrap-reverse items-center data-list-btn-container">
@@ -220,6 +218,7 @@
 </template>
 
 <script>
+import TableLoading from './../../shared/TableLoading'
 import {
   FormWizard,
   TabContent
@@ -229,7 +228,8 @@ export default {
   components: {
     // DataViewSidebar
     FormWizard,
-    TabContent
+    TabContent,
+    TableLoading
   },
   data() {
     return {
@@ -268,7 +268,6 @@ export default {
           this.sale = data.data;
           this.$Progress.set(100);
           this.popupModalActive = true;
-
         })
         .catch(() => {});
     },
@@ -281,7 +280,6 @@ export default {
         .get("/api/sales")
         .then((data) => {
           this.sales = data.data;
-        // console.log('sales', this.sales);
           this.isloaded = true;
           this.$Progress.set(100);
 
@@ -289,15 +287,6 @@ export default {
         .catch(() => {});
     },
     deleteData(id) {
-      // if (type == "s1") {
-      //   path = 'sale1'
-      // } else if (type == "s2") {
-      //   path = 'sale2'
-      // } else if (type == "s3") {
-      //   path = 'sale3'
-      // } else if (type == "s4") {
-      //   path = 'sale4'
-      // }
       swal.fire({
         title: 'آیا  مطمئن هستید؟',
         text: "ریکارد فروش حذف خواهد شد",
@@ -306,11 +295,10 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.axios.delete('/api/sale1/' + id).then((id) => {
-            // console.log('id', id.data)
               swal.fire({
                 title: 'عملیه موفقانه انجام شد.',
                 text: "مورد فروش از سیستم پاک شد!",
@@ -341,11 +329,6 @@ export default {
   },
   mounted() {
     this.isMounted = false
-    this.$vs.loading({
-      container: '#success-load',
-      type: 'sound',
-      text: "درحال بارگیری...."
-    })
   }
 }
 </script>

@@ -137,7 +137,7 @@
         </div>
       </vs-tab>
       <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
-        <component class="scroll-area--data-list-add-new" :key="$vs.rtl">
+        <div class="scroll-area--data-list-add-new" :key="$vs.rtl">
           <form>
             <div class="p-2">
               <!-- Product Image -->
@@ -188,7 +188,7 @@
             </div>
           </form>
           <br><br>
-        </component>
+        </div>
       </vs-tab>
     </vs-tabs>
   </vs-sidebar>
@@ -485,7 +485,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.orgForm.delete('/api/clients/' + id).then((id) => {
@@ -533,12 +533,7 @@ export default {
     // },
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   },
 }
 </script>

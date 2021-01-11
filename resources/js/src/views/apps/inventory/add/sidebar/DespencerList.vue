@@ -1,9 +1,6 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <div v-if="!isdata">
-    <TableLoading></TableLoading>
-  </div>
-  <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="depencers">
+  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" :data="depencers">
     <template slot="thead">
       <vs-th sort-key="name">نام</vs-th>
       <vs-th sort-key="name">مدیر</vs-th>
@@ -11,7 +8,6 @@
       <vs-th sort-key="name">تلفن</vs-th>
       <vs-th sort-key="name">عملیه</vs-th>
     </template>
-
     <template slot-scope="{data}">
       <tbody>
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
@@ -38,14 +34,11 @@
 </template>
 
 <script>
-import TableLoading from './../../../shared/TableLoading.vue'
 export default {
-
   // name: 'project-list',
   props: ['depencers'],
   data() {
     return {
-      isdata: false,
       statusFa: {
         on_hold: 'مدیر',
         delivered: 'ادمین',
@@ -59,14 +52,8 @@ export default {
       sidebarData: {},
     }
   },
-  components: { TableLoading },
+  components: {},
   created() {
-
-  },
-  watch: {
-    depencers: function () {
-      this.isdata = true;
-    }
 
   },
   computed: {
@@ -97,7 +84,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.axios.delete('/api/despenser/' + id, id).then((id) => {
