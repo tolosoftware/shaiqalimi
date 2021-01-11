@@ -7,9 +7,9 @@
     <vs-tab label="لیست">
       <SalesList></SalesList>
     </vs-tab>
-    <vs-tab label="بازرسی" id="evaluate">
+    <!--<vs-tab label="بازرسی" id="evaluate">
       <SalesInside></SalesInside>
-    </vs-tab>
+    </vs-tab>-->
   </vs-tabs>
 </div>
 </template>

@@ -587,7 +587,7 @@ export default {
       items: [],
       mesure_unit: [],
       companies: [],
-      
+
       // Form field translations
       dict: {
         custom: {

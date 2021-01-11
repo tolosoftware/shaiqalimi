@@ -44,7 +44,7 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/',
-                    redirect: '/' + (localStorage.getItem('token')) ? "dashboard" : "login"
+                    redirect: `/${localStorage.getItem('token')}` ? 'dashboard' : 'login'
                 },
                 {
                     path: '/dashboard',
@@ -183,6 +183,29 @@ const router = new Router({
                             },
                             {
                                 title: 'ثبت اعلان جدید',
+                                active: true
+                            }
+                        ],
+
+                        rule: 'editor'
+                    }
+                },
+                {
+                    path: '/projects/proposal/list',
+                    name: 'proposallist',
+                    component: () =>
+                        import ('./views/apps/projects/proposals/ProposalList.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            // {
+                            //     title: 'پروژه ها و قراردادها',
+                            //     url: '/projects/list'
+                            // },
+                            {
+                                title: 'لست تمام آفرها',
                                 active: true
                             }
                         ],
@@ -524,7 +547,7 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/login',
-                    redirect: (localStorage.getItem('token')) ? "/dashboard" : null,
+                    redirect: localStorage.getItem('token') ? '/dashboard' : null,
                     name: 'login',
                     component: () =>
                         import ('@/views/pages/login/Login.vue'),
