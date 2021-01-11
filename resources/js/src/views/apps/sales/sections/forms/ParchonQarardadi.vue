@@ -13,7 +13,7 @@
               <span>S3</span>
             </div>
           </template>
-          <vs-input disabled :value="sForm.serial_no" autocomplete="off" type="number" />
+          <vs-input :value="sForm.serial_no" disabled autocomplete="off" placeholder="انتخاب قرارداد الزمی است." type="number" />
         </vx-input-group>
 
       </div>
@@ -308,7 +308,6 @@ export default {
     };
   },
   created() {
-    this.getNextSerialNo()
     this.getProject();
   },
   computed: {
@@ -348,6 +347,7 @@ export default {
     onChange(contract) {
     // console.log(contract);
       if (contract != null) {
+        this.getNextSerialNo(contract.id);
         this.contract.clientName = contract.pro_data.client.name;
         this.contract.clientEmail = contract.pro_data.client.email;
         this.contract.clientPhone = contract.pro_data.client.phone;
@@ -403,9 +403,10 @@ export default {
         });
     },
     // for getting the next serian number
-    getNextSerialNo() {
+    getNextSerialNo(type = null) {
+      this.sForm.serial_no = null;
       this.$Progress.start()
-      this.axios.get('/api/serial-num?type=sale3')
+      this.axios.get(`api/serial-num?type=${type}`)
         .then((response) => {
           this.sForm.serial_no = response.data;
         })

@@ -53,7 +53,7 @@ class SaleThreeController extends Controller
     {
         DB::beginTransaction();
         try {
-            $serial_no = Helper::getSerialNo('sale3', 'sale');
+            $serial_no = Helper::getSerialNo($request->project_id['id'], 'sale');
             $this->validate($request, [
                 'serial_no' => 'required',
                 'project_id' => 'required',
