@@ -42,7 +42,6 @@
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <label for="date" class="mt-3"><small>تاریخ </small></label>
-                  {{ prForm.date_time }}
                   <date-picker color="#e85454" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="prForm.date_time" />
                 </div>
               </vs-col>

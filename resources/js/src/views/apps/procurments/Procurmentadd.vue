@@ -14,7 +14,7 @@
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
   </div>
   <vs-tabs>
-    <vs-tab label="لست فروشنده گاه" icon="list" class="leftScrol">
+    <vs-tab label="لست فروشنده گان" icon="list" class="leftScrol">
       <div class="scroll-area--data-list-add-new" :key="$vs.rtl" v-if="sellerActiveForm">
         <form>
           <vs-divider>
@@ -77,7 +77,7 @@
                 <div class="con-clientx flex items-center justify-start">
                   <span><strong>{{ tr.name }}</strong></span>
                 </div>
-                </vs-divider>
+                <vs-divider></vs-divider>
                 <div class="flex">
                 </div>
               </div>
