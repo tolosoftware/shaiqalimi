@@ -28,7 +28,10 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
     //end
 
-Vue.use(require('vue-moment'))
+// Vue.use(require('vue-moment'))
+import moment from 'moment'
+moment.locale('fa');
+Vue.prototype.moment = moment
 
 import './http/requests'
 
@@ -114,10 +117,10 @@ Vue.use(VueProgressBar, {
         opacity: '0.6s',
         termination: 300
     },
-    // autoRevert: true,
+    autoRevert: true,
     // location: "left",
-    inverse: true
-        // autoFinish: true
+    inverse: true,
+    autoFinish: true
 })
 
 Vue.filter('NumToPer', function(input) {

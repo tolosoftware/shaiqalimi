@@ -20,7 +20,7 @@
     <!-- card title -->
     <div class="vx-card__title">
       <h4 v-if="this.$props.title" :style="titleStyles" :class="titleClasses">{{ title }}</h4>
-      <h6 v-if="this.$props.time" :style="subtitleStyles" :class="subtitleClasses"> {{ time }} روز قبل</h6>
+      <h6 v-if="this.$props.time" :style="subtitleStyles" :class="subtitleClasses"> {{ time }} </h6>
     </div>
 
     <!-- card actions -->
