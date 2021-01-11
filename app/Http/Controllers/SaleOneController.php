@@ -63,7 +63,7 @@ class SaleOneController extends Controller
         DB::beginTransaction();
         try {
 
-            $serial_no = Helper::getSerialNo('sale1', 'sale');
+            $serial_no = Helper::getSerialNo($request->project_id['id'], 'sale');
             $this->validate($request, [
                 // 'title' => 'required|min:2',
                 // 'formula' => 'required|min:2',
