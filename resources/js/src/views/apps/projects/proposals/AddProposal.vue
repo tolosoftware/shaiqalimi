@@ -4,7 +4,7 @@
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-lg="4" vs-sm="6" vs-xs="12">
-          <div class="w-full pt-2 ml-3 mr-3 mb-3 ">
+          <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <pro-serial-number :form="aForm" @companySelected="companySelected" :companies="companies"></pro-serial-number>
           </div>
         </vs-col>
