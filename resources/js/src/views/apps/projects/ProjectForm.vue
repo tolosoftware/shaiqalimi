@@ -547,13 +547,13 @@ export default {
   },
   methods: {
     setProjectData(data) {
+      console.log(data.pro_items);
       if (data) {
         if (data.pro_items.length) {
           for (let [key, data] of Object.entries(data.pro_items)) {
-            // console.log(data.pro_items);
-            // console.log(data);
-            // this.pForm.item.push(data);
-            // console.log(this.pForm.item);
+            this.pForm.item[key] = data;
+            this.$refs.ekmalat.operationChange(this.pForm.item[key].operation_id, key);
+            this.$refs.ekmalat.itemSelected('', this.pForm.item[key].item_id.id, key, this.pForm.item[key].item_id.uom_id.acronym);
           }
 
         } else {
