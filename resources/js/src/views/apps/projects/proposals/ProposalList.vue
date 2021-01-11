@@ -1,10 +1,8 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vx-card v-if="!isdata" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-      <!-- <img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-    </p>
-  </vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
   <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="proposals">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between" id="proposalTable">
       <!-- ITEMS PER PAGE -->
@@ -47,25 +45,16 @@
             {{ indextr + 1 }}
           </vs-td>
           <vs-td class="img-container">
-            <router-link v-if="tr.pro_data" class="product-name font-medium truncate" :to="{
-                  path: '/projects/proposal/${tr.id}',
-                  name: 'proposal-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">
+            <p v-if="tr.pro_data" class="product-name font-medium truncate">
               <!-- <img :src="tr.img" class="product-img" /> -->
               <p>{{ findClient(tr.pro_data.client_id) }}</p>
-
-            </router-link>
+            </p>
           </vs-td>
 
           <vs-td>
             <div v-if="tr.pro_data">
-              <router-link class="product-name font-medium truncate" :to="{
-                  path: '/projects/proposal/${tr.id}',
-                  name: 'proposal-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">
-                {{ tr.pro_data.title }}</router-link>
+              <p class="product-name font-medium truncate">
+                {{ tr.pro_data.title }}</p>
             </div>
           </vs-td>
 
@@ -265,6 +254,7 @@
 </template>
 
 <script>
+import TableLoading from './../../shared/TableLoading.vue'
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
 import vueEasyPrint from "vue-easy-print";
@@ -273,7 +263,7 @@ import {
   TabContent
 } from 'vue-form-wizard'
 export default {
-  name: 'vx-project-list',
+  name: 'vx-proposal-list',
   data() {
     return {
       isdata: false,
@@ -296,10 +286,11 @@ export default {
     }
   },
   components: {
+    TableLoading,
     DataViewSidebar,
     vueEasyPrint,
     FormWizard,
-    TabContent,
+    TabContent
   },
   created() {
     this.getProposals();
@@ -329,13 +320,9 @@ export default {
         .get("/api/proposal/" + id)
         .then((data) => {
           this.proposal = data.data;
-          // this.isloadedrow = true;
-        // console.log('proposal', this.proposal);
           this.$Progress.set(100);
-
         })
         .catch(() => {});
-
     },
     showPrintData(id) {
       this.popupActive = true;
@@ -353,14 +340,11 @@ export default {
     },
     getProposals() {
       this.$Progress.start()
-      // this.$vs.loading()
       this.axios.get('/api/proposal')
         .then((response) => {
           this.proposals = response.data;
           this.isdata = true;
-          // console.log('proposalData', this.proposals);
           this.$Progress.set(100)
-          // this.$vs.loading.close();
         })
     },
     // Start Custom
@@ -388,7 +372,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.axios.delete('/api/proposal/' + id).then((id) => {
@@ -404,7 +388,7 @@ export default {
       })
     },
     editData(data) {
-    // console.log(data);
+      // console.log(data);
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       // this.sidebarData = data
       // this.toggleDataSidebar(true)
@@ -431,12 +415,7 @@ export default {
     },
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   }
 }
 </script>

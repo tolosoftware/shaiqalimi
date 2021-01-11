@@ -40,7 +40,10 @@
         </form>
       </div>
       <div id="data-list-thumb-view" class="w-full data-list-container">
-        <vs-table class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="sellers">
+        <div v-if="!isdata">
+          <TableLoading></TableLoading>
+        </div>
+        <vs-table v-if="isdata" class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="sellers">
           <template slot="thead">
             <vs-th>نام فروشنده</vs-th>
             <vs-th>شماره تماس</vs-th>
@@ -109,7 +112,7 @@
 </template>
 
 <script>
-
+import TableLoading from './../shared/TableLoading.vue'
 import vSelect from 'vue-select'
 export default {
   props: {
@@ -124,6 +127,7 @@ export default {
   },
   data() {
     return {
+      isdata: false,
       sellerActiveForm: false,
       popupActive: false,
       form: new Form({
@@ -147,6 +151,7 @@ export default {
   created() {
     this.getAllSellers();
   },
+  components: { TableLoading },
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -168,6 +173,7 @@ export default {
         .then((response) => {
           this.sellers = response.data;
           this.$Progress.set(100);
+          this.isdata = true;
           this.$vs.loading.close();
         })
     },
@@ -247,7 +253,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.form.delete('/api/vendors/' + id).then((id) => {

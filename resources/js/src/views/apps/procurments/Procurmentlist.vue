@@ -9,19 +9,13 @@
 
 <template>
 <div id="data-list-list-view" class="data-list-container">
-  <vx-card v-if="!isdata" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-    </p>
-  </vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
   <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
-
   <vs-table v-if="isdata" ref="table" pagination :max-items="itemsPerPage" search :data="allpurchase">
-
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-
       <div class="flex flex-wrap-reverse items-center data-list-btn-container">
-        <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler float-right">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
             <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ products.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : products.length }} of {{ queriedItems }}</span>
@@ -29,7 +23,6 @@
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
           <vs-dropdown-menu>
-
             <vs-dropdown-item @click="itemsPerPage=4">
               <span>4</span>
             </vs-dropdown-item>
@@ -45,11 +38,8 @@
           </vs-dropdown-menu>
         </vs-dropdown>
       </div>
-
     </div>
-
     <template slot="thead">
-
       <vs-th sort-key="name">شماره</vs-th>
       <vs-th sort-key="category">سریال نمبر</vs-th>
       <vs-th sort-key="popularity">نام فروشند</vs-th>
@@ -57,38 +47,28 @@
       <vs-th sort-key="order_status">تاریخ و ساعت</vs-th>
       <vs-th sort-key="price">توضیحات</vs-th>
       <vs-th>تنظیمات</vs-th>
-
     </template>
-
     <template slot-scope="{data}">
       <tbody>
-
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-
           <vs-td>
             <p class="product-name font-medium truncate">{{ indextr +1 }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-category">{{ tr.serial_no }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-category">{{ tr.vendor.name }}</p>
           </vs-td>
-
           <vs-td>
             <vs-chip :color="getOrderStatusColor(tr.user.firstName + ' ' + tr.user.lastName)" class="product-order-status">{{ tr.user.firstName + ' '+ tr.user.lastName }}</vs-chip>
           </vs-td>
-
           <vs-td>
             <p class="product-price">{{ tr.date_time }}</p>
           </vs-td>
-
           <vs-td>
             <p class="product-price">{{ tr.description }}</p>
           </vs-td>
-
           <vs-td class="whitespace-no-wrap">
             <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
                            name: 'procurment-edit', 
@@ -96,22 +76,21 @@
 
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
-
         </vs-tr>
-
       </tbody>
     </template>
   </vs-table>
 </div>
 </template>
-
 <script>
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
+import TableLoading from './../shared/TableLoading.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
 
 export default {
   components: {
     // DataViewSidebar
+    TableLoading
   },
   data() {
     return {
@@ -143,13 +122,10 @@ export default {
   },
   methods: {
     loadpurchase() {
-      // this.$vs.loading()
       this.axios.get('/api/purches').then(({ data }) => (this.allpurchase = data,
           this.isdata = true
-          // this.$vs.loading.close()
         ))
         .catch(() => {
-          // this.$vs.loading.close()
           this.$vs.notify({
             title: '  معلومات بارگیری نشد !',
             text: 'عملیه بارگیری معلومات نام شد',
@@ -174,7 +150,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/purches/' + id).then(() => {
@@ -221,12 +197,7 @@ export default {
     this.$store.dispatch('dataList/fetchDataListItems')
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   }
 }
 </script>
