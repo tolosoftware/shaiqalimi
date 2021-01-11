@@ -29,11 +29,9 @@
     </form>
   </div>
   <div id="data-list-thumb-view" class="w-full data-list-container">
-    <vx-card v-if="!isdata" title="">
-      <p style="height:40px;margin:20px;" id="success-load">
-        <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-      </p>
-    </vx-card>
+    <div v-if="!isdata">
+      <TableLoading></TableLoading>
+    </div>
     <vs-table v-if="isdata" :data="storages">
       <template slot="thead">
         <vs-th>کود</vs-th>
@@ -134,7 +132,7 @@
 <script>
 // import VueApexCharts from 'vue-apexcharts'
 // import analyticsData from '../analyticsData.js'
-
+import TableLoading from './../../shared/TableLoading.vue'
 export default {
   name: 'vx-archive',
   data() {
@@ -274,7 +272,7 @@ export default {
   },
   components: {
     // VueApexCharts,
-
+    TableLoading
   },
   methods: {
     getStorageList() {
@@ -336,7 +334,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.sForm.delete('/api/storage/' + id).then((id) => {
@@ -355,12 +353,7 @@ export default {
     }
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   },
 }
 </script>

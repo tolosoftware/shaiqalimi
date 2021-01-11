@@ -22,20 +22,12 @@
           </vs-row>
           <br>
           <hr>
-          <!--<vs-divider/> -->
         </div>
         <add-proposal :clients="clients"></add-proposal>
       </vx-card>
     </vs-tab>
     <vs-tab label="آفرها">
-      <div class="vx-row">
-        <ProposalList :editId="edit_id"></ProposalList>
-      </div>
-    </vs-tab>
-    <vs-tab v-if="edit_id" label="ویرایش اعلانات">
-      <div class="vx-row">
-        {{ edit_id }}
-      </div>
+      <ProposalList></ProposalList>
     </vs-tab>
   </vs-tabs>
 </div>

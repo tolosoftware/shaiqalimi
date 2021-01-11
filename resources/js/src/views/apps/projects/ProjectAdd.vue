@@ -43,7 +43,6 @@ import DataViewSidebar from "./DataViewSidebar.vue";
 import ProjectList from "./ProjectList.vue";
 import ProjectForm from "./ProjectForm.vue";
 import Ekmalat from "../shared/Ekmalat";
-
 import {
   FormWizard,
   TabContent
@@ -147,7 +146,7 @@ export default {
       this.toggleDataSidebar(true);
     },
     getNewClient(client) {
-    // console.log(client);
+      // console.log(client);
     },
   },
 };

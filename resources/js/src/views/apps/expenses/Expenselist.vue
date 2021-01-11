@@ -9,15 +9,12 @@
 
 <template>
 <div id="data-list-list-view" class="data-list-container">
-  <vx-card v-if="!isdata" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-    </p>
-  </vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
   <vs-table v-if="isdata" ref="table" pagination :max-items="itemsPerPage" search :data="allTransaction">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <div class="flex flex-wrap-reverse items-center data-list-btn-container">
-        <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler float-right">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
             <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
@@ -103,11 +100,13 @@
 
 <script>
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
-import moduleDataList from "@/store/data-list/moduleDataList.js";
+import moduleDataList from "@/store/data-list/moduleDataList.js"
+import TableLoading from './../shared/TableLoading.vue'
 
 export default {
   components: {
     // DataViewSidebar
+    TableLoading
   },
   data() {
     return {
@@ -163,7 +162,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/expenses/' + id).then(() => {
@@ -204,12 +203,7 @@ export default {
     this.$store.dispatch("dataList/fetchDataListItems");
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   },
 };
 </script>

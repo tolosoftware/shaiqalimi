@@ -8,43 +8,29 @@
           <b> لیست حسابات </b>
         </h3>
       </div>
-
       <div class="vx-col w-1/2 float-left">
         <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
         <!-- <vs-button @click="testTost">tost</vs-button> -->
-
         <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Search account" class="mt-1 float-right" style="max-width:320px" /> -->
-
       </div>
     </div>
   </vs-card>
-  <vx-card v-if="!isdata" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-    </p>
-  </vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
   <span v-if="isdata" v-for="(type, i) in accountTypes" :key="i">
     <vs-card v-if="type.accounts.length > 0">
       <vs-table max-items="3" pagination :data="type.accounts" stripe>
         <template slot="header">
-          <h4 class="p-4">
-            <b>
-              {{ type.title }}
-
-            </b>
-
-          </h4>
-
+          <h4 class="p-4"><b>{{ type.title }}</b></h4>
         </template>
         <template slot="thead">
           <vs-th> <strong> ریفرینس کد</strong> </vs-th>
-
           <vs-th> <strong> عنوان</strong> </vs-th>
           <vs-th> <strong> بالانس</strong> </vs-th>
           <vs-th> <strong> حالت</strong> </vs-th>
           <vs-th> <strong> تنظیمات</strong> </vs-th>
         </template>
-
         <template slot-scope="{ data }">
           <vs-tr :key="i" v-for="(tr, i) in data">
             <vs-td :data="tr.ref_code">
@@ -53,22 +39,17 @@
             <vs-td :data="tr.name">
               <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
             </vs-td>
-
             <vs-td :data="tr">
               <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ countTheBalance(tr) }} </p>
             </vs-td>
-
             <vs-td :data="tr.status">
               <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
             </vs-td>
-
             <vs-td class="whitespace-no-wrap notupfromall">
-              <!--<feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="editAccount(tr.id)" /> -->
               <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" />
               <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
               <!-- <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" /> -->
             </vs-td>
-
           </vs-tr>
         </template>
       </vs-table>
@@ -79,17 +60,17 @@
   </span>
 </div>
 </template>
-
 <script>
-import Accountadd from "./Accountadd.vue";
+import Accountadd from "./Accountadd.vue"
+import TableLoading from './../shared/TableLoading.vue'
 import FinancialRecords from "../transactions/FinancialRecords"
-import vSelect from "vue-select";
-
+import vSelect from "vue-select"
 export default {
   components: {
     "v-select": vSelect,
     Accountadd,
     FinancialRecords,
+    TableLoading
   },
   data: () => ({
     // Data Sidebar
@@ -109,7 +90,6 @@ export default {
     currentx: 14,
     accounts: [],
     accountTypes: [],
-
     // financialRecordsData Values
     popupActive: false,
     financialRecordsData: [],
@@ -148,7 +128,6 @@ export default {
           this.isdata = true;
           this.$Progress.set(100)
           this.$vs.loading.close();
-
         })
     },
     countTheBalance(data) {
@@ -172,7 +151,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.accForm.delete('/api/account/' + id).then((id) => {
@@ -186,7 +165,6 @@ export default {
             .catch(() => {});
         }
       })
-
     },
     addNewData() {
       this.editAccData = {};
@@ -229,12 +207,7 @@ export default {
     // }
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   },
 
 };

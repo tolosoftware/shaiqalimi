@@ -388,7 +388,7 @@ export default {
           confirmButtonColor: "rgb(54 34 119)",
           cancelButtonColor: "rgb(229 83 85)",
           confirmButtonText: "<span>بله، حذف شود!</span>",
-          cancelButtonText: "<span>نخیر، لغو عملیه!</span>",
+          cancelButtonText: "<span>خیر، لغو عملیه!</span>",
         })
         .then((result) => {
           if (result.isConfirmed) {

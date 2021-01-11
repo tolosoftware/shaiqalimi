@@ -1,10 +1,8 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vx-card v-if="!isdata" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-    </p>
-  </vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
   <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="projects">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <!-- ITEMS PER PAGE -->
@@ -59,23 +57,15 @@
             {{ indextr + 1 }}
           </vs-td>
           <vs-td class="img-container">
-            <router-link v-if="tr.pro_data" class="product-name font-medium truncate" :to="{
-                  path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">
+            <p v-if="tr.pro_data" class="product-name font-medium truncate">
               <!-- <img :src="tr.img" class="product-img" /> -->
               <p>{{ findClient(tr.pro_data.client_id) }}</p>
-            </router-link>
+            </p>
           </vs-td>
           <vs-td>
             <div v-if="tr.pro_data">
-              <router-link class="product-name font-medium truncate" :to="{
-                  path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.pro_data.title },
-                }">
-                {{ tr.pro_data.title }}</router-link>
+              <p class="product-name font-medium truncate">
+                {{ tr.pro_data.title }}</p>
             </div>
           </vs-td>
           <vs-td>
@@ -191,7 +181,8 @@
 </template>
 
 <script>
-import DataViewSidebar from "./DataViewSidebar.vue";
+import DataViewSidebar from "./DataViewSidebar.vue"
+import TableLoading from './../shared/TableLoading.vue'
 import {
   Form,
   HasError,
@@ -249,6 +240,7 @@ export default {
     DataViewSidebar,
     FormWizard,
     TabContent,
+    TableLoading
   },
   created() {
     this.getProject();
@@ -281,7 +273,7 @@ export default {
         .then((data) => {
           this.project = data.data;
           // this.isloadedrow = true;
-        // console.log('project', this.project);
+          // console.log('project', this.project);
           this.$Progress.set(100);
 
         })
@@ -357,7 +349,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.pForm.delete('/api/project/' + id).then((id) => {
@@ -396,15 +388,7 @@ export default {
     printProject() {
       window.print();
     }
-  },
-  mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
-  },
+  }
 };
 </script>
 

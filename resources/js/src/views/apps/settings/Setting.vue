@@ -10,14 +10,10 @@
             </div>
             <vs-button type="border" @click="acountActiveForm = !acountActiveForm, acountTypeForm.reset()">{{ acountActiveForm ? 'بستن فورم' : 'افزودن نوع حساب جدید' }}</vs-button>
           </div>
-          <vs-divider></vs-divider>
           <div class="vx-card__collapsible-content vs-con-loading__container">
-            <div class="vx-card__body">
-              <!-- start -->
-
-              <!-- Operations Form -->
+            <div class="vx-row">
               <div class="vx-col w-full mb-base" v-if="acountActiveForm">
-                <div class="vx-col w-full">
+                <div class="vx-col pr-4 pl-5 mr-3 ml-3">
                   <div class="vx-col sm:w-1/3 w-full">
                     <span>عنوان</span>
                   </div>
@@ -26,27 +22,23 @@
                     <has-error :form="acountTypeForm" field="title"></has-error>
                   </div>
                 </div>
-                <div class="vx-col w-full pt-4 pb-5">
+                <div class="vx-col pt-4 pb-5 pr-4 pl-5 mr-3 ml-3">
                   <div class="vx-col w-full">
                     <vs-checkbox color="success" size="large" v-model="have_type"> نوعیت دارد ! </vs-checkbox>
-
                   </div>
                 </div>
-                <div class="vx-col w-full pt-2 pb-4" v-if="have_type">
-
+                <div class="vx-col pt-2 pb-4 pr-4 pl-5 mr-3 ml-3" v-if="have_type">
                   <label for="title"><small>نوعیت</small> </label>
                   <v-select label="title" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="acountTypeForm.type_id" />
-
+                </div>
+                <div class="vx-col w-full mb-base mt-5 pr-4 pl-4 mr-3 ml-3">
+                  <vs-button v-if="!acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="storeAccountType">ثبت عملیه</vs-button>
+                  <vs-button v-if="acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mb-2" @click="updateAccountType">آپدیت عملیه</vs-button>
                 </div>
               </div>
-              <div class="vx-col w-full mb-base mt-5 float-right">
-                <vs-button v-if="!acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="storeAccountType">ثبت عملیه</vs-button>
-                <vs-button v-if="acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mb-2" @click="updateAccountType">آپدیت عملیه</vs-button>
-              </div>
-
             </div>
+            <br>
             <vs-table :data="accountTypes" stripe>
-
               <template slot="thead">
                 <vs-th>#</vs-th>
                 <vs-th>نام</vs-th>
@@ -100,7 +92,6 @@
 
             <!-- end -->
           </div>
-
         </div>
       </div>
       <div class="w-full pt-2 ml-3 mr-3">
@@ -252,7 +243,7 @@
             <!-- <vs-button @click="operationActiveForm = !operationActiveForm, operationForm.reset()">{{ operationActiveForm ? 'بستن فورم' : 'عملیه جدید' }}</vs-button> -->
             <vs-button v-if="operationActiveForm" @click="operationActiveForm = !operationActiveForm, operationForm.reset()">بستن فورم </vs-button>
           </div>
-          <vs-divider></vs-divider>
+          <!--<vs-divider></vs-divider>-->
           <div class="vx-card__collapsible-content vs-con-loading__container">
             <div class="vx-card__body">
               <!-- start -->
@@ -558,7 +549,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.operationForm.delete('/api/operation/' + id).then((id) => {
@@ -630,7 +621,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.operationForm.delete('/api/operation/' + id).then((id) => {
@@ -736,7 +727,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/acount_type/' + id).then(() => {

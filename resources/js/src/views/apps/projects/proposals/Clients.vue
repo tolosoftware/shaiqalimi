@@ -77,7 +77,7 @@
           </form>
         </div>
         <div id="data-list-thumb-view" class="w-full data-list-container">
-          
+
           <vs-table class="w-full" ref="table" id="clientList" pagination :max-items="9" :data="clients">
             <template slot="thead">
               <vs-th>نشان نهاد</vs-th>
@@ -483,7 +483,7 @@ export default {
         confirmButtonColor: 'rgb(54 34 119)',
         cancelButtonColor: 'rgb(229 83 85)',
         confirmButtonText: '<span>بله، حذف شود!</span>',
-        cancelButtonText: '<span>نخیر، لغو عملیه!</span>'
+        cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
           this.orgForm.delete('/api/clients/' + id).then((id) => {

@@ -1,10 +1,8 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
-  <vx-card v-if="!isdata" title="">
-    <p style="height:40px;margin:20px;" id="success-load">
-      <!--<img src="/loading.gif" style="height:60px;margin-right:50%;" />-->
-    </p>
-  </vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
   <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="users">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <!-- ITEMS PER PAGE -->
@@ -88,6 +86,7 @@
 </template>
 
 <script>
+import TableLoading from './../../shared/TableLoading.vue'
 export default {
 
   data() {
@@ -105,7 +104,9 @@ export default {
     this.loadUsers();
 
   },
-
+  components: {
+    TableLoading
+  },
   computed: {
 
     currentPage() {
@@ -148,7 +149,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/users/' + id).then(() => {
@@ -167,12 +168,7 @@ export default {
 
   },
   mounted() {
-    this.isMounted = false,
-      this.$vs.loading({
-        container: '#success-load',
-        type: 'sound',
-        text: "درحال بارگیری...."
-      })
+    this.isMounted = false
   },
 }
 </script>

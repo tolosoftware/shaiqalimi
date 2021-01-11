@@ -17,7 +17,10 @@
       </div>
     </div>
   </vx-card>
-  <vx-card>
+  <div v-if="!isdata">
+    <TableLoading></TableLoading>
+  </div>
+  <vx-card v-if="isdata">
     <div class="vx-row">
       <div class="w-1/2 pr-2">
         <div class="justify-between">
@@ -45,19 +48,22 @@ import FuelStoreStationAddSideBar from './sidebar/FuelStoreStationAddSideBar.vue
 import DespencerAddSideBar from './sidebar/DespencerAddSideBar.vue'
 import DespencerList from './sidebar/DespencerList.vue'
 import FuelStoreList from './sidebar/FuelStoreList.vue'
+import TableLoading from './../../shared/TableLoading.vue'
 
 export default {
-  name: 'vx-archive',
+  name: 'vx-fuelstation',
   components: {
     'v-select': vSelect,
     'fuel-sidebar': FuelStationAddSideBar,
     'fuel-store-sidebar': FuelStoreStationAddSideBar,
     'despencer-sidebar': DespencerAddSideBar,
     FuelStoreList,
-    DespencerList
+    DespencerList,
+    TableLoading
   },
   data() {
     return {
+      isdata: false,
       station: [],
       storages: [],
       seletedStation: {},
@@ -75,7 +81,7 @@ export default {
       fuelStore: false,
       dataStoreFuel: {},
       // End Sidebar           
-      allDepencers: [],
+      allDepencers: []
     };
   },
   methods: {
@@ -87,6 +93,7 @@ export default {
       }) => (this.seletedStation = data, this.$Progress.set(100), this.$vs.loading.close()));
     },
     stationChanged(data) {
+      this.isdata = false;
       this.getAllDepencers();
       this.loadFuelStorage();
     },
@@ -132,7 +139,7 @@ export default {
       this.axios.get('/api/fuelstorestation', this.seletedStation)
         .then((response) => {
           this.stationStorages = response.data.filter(c => (this.seletedStation != null && this.seletedStation.id) ? c.station_id == this.seletedStation.id : true);
-        // console.log(this.stationStorages);
+          // console.log(this.stationStorages);
         });
     },
 
@@ -146,7 +153,14 @@ export default {
         });
     },
   },
+  watch: {
+    stationStorages: function () {
+      if (this.stationStorages) {
+        this.isdata = true;
+      }
+    },
 
+  },
   created() {
     this.defalutStation();
     this.loadfuelstation();

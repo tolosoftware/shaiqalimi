@@ -1,32 +1,31 @@
 <template>
-<vs-row>
+<vs-row vs-w="12" class="mb-4">
   <div class="vx-card">
     <div class="vx-card__header">
       <div class="vx-card__title">
         <h4 class=""> ثبت واحدات اندازه گیری </h4>
       </div>
     </div>
-    <vs-divider></vs-divider>
-    <div>
-      <form action="" class="p-2">
-        <vs-col vs-type="flex" vs-lg="6" vs-sm="12" vs-xs="12" class="p-1">
-          <div class="w-full">
-            <vs-input size="medium" label=" مخفف" v-model="form.acronym" name="type" class="w-full" />
-          </div>
-        </vs-col>
-        <vs-col vs-type="flex" vs-lg="6" vs-sm="12" vs-xs="12" class="p-1">
-          <div class="w-full">
-            <vs-input size="medium" label="نام" v-model="form.title" name="type" class="w-full" />
-          </div>
-        </vs-col>
+    <div class="vx-card__collapsible-content vs-con-loading__container">
+      <div class="vx-row">
+        <form action="" class="p-2 vx-col w-full mb-3 pr-4 pl-5 mr-3 ml-3">
+          <vs-col vs-type="flex" vs-lg="6" vs-sm="12" vs-xs="12" class="p-1">
+            <div class="w-full">
+              <vs-input size="medium" label=" مخفف" v-model="form.acronym" name="type" class="w-full" />
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-lg="6" vs-sm="12" vs-xs="12" class="p-1">
+            <div class="w-full">
+              <vs-input size="medium" label="نام" v-model="form.title" name="type" class="w-full" />
+            </div>
+          </vs-col>
 
-        <vs-col vs-type="flex" vs-lg="12" vs-sm="12" vs-xs="12" class="mt-4 float-left">
-          <vs-button @click="submitdata"> ثبت </vs-button>
-        </vs-col>
-      </form>
-
-      <vs-divider></vs-divider>
-      <vs-table :data="uom" vs-justify="center">
+          <vs-col vs-type="flex" vs-lg="12" vs-sm="12" vs-xs="12" class="mt-4 float-left">
+            <vs-button @click="submitdata"> ثبت </vs-button>
+          </vs-col>
+        </form>
+      </div>
+      <vs-table :data="uom" vs-justify="center" stripe>
         <template slot="thead" vs-justify="center">
           <vs-th>
             شماره
@@ -124,7 +123,7 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'بلی مطمئن هستم',
-        cancelButtonText: 'نخیر'
+        cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
           this.axios.delete('/api/uom/' + id).then(() => {
