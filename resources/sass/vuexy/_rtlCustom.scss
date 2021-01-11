@@ -573,4 +573,12 @@ li.fuel-station > h3{
     .pro-serial-number{
         text-align: right;
     }
-} 
+    .con-img-upload > div{
+        margin: auto !important;
+        float: unset !important;
+        margin-bottom: 15px !important;
+    }
+}
+.serial_no_reference{
+    white-space: nowrap;
+}

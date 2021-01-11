@@ -60,6 +60,7 @@
           <vs-input class="w-full" name="item-name" placeholder="عنوان فایل ها" v-model="form.title" />
         </div>
         <div id="scroll">
+        <!-- <div> -->
           <vs-upload multiple @on-success="successUpload" />
         </div>
         <div class="flex flex-wrap items-center p-6" slot="footer">

@@ -5694,3 +5694,13 @@ li.fuel-station > h3 {
   text-align: right;
 }
 
+[dir] .con-img-upload > div {
+  margin: auto !important;
+  float: unset !important;
+  margin-bottom: 15px !important;
+}
+
+.serial_no_reference {
+  white-space: nowrap;
+}
+

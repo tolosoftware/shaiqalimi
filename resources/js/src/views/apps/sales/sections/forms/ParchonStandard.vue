@@ -6,6 +6,9 @@
         <label for=""><small>سریال نمبر</small></label>
         <vx-input-group class="number-rtl">
           <template slot="append">
+            <div v-if="sForm.project_id && sForm.project_id.pro_data" class="append-text bg-primary serial_no_reference">
+              <span>{{ sForm.project_id.pro_data.reference_no }}</span>
+            </div>
             <div class="append-text bg-primary">
               <span>S4</span>
             </div>
