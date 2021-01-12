@@ -801,7 +801,7 @@ export default {
 </script>
 
 <style lang="scss">
-#data-list-thumb-view {
+#data-list-thumb-view0 {
   .vs-con-table {
     .product-name {
       max-width: 23rem;
@@ -842,7 +842,7 @@ export default {
       padding: 0 1rem;
 
       tr {
-        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+        // box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
 
         td {
           padding: 10px;

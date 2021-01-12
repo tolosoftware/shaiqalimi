@@ -5700,6 +5700,15 @@ li.fuel-station > h3 {
   margin-bottom: 15px !important;
 }
 
+[dir] .project-view-header {
+  background-color: #f3f5f7;
+  border-color: #42b983;
+  padding: 1rem 0;
+  border-right-width: 0.6rem;
+  border-right-style: solid;
+  margin: 1rem 0;
+}
+
 .serial_no_reference {
   white-space: nowrap;
 }
