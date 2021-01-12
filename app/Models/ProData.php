@@ -39,4 +39,8 @@ class ProData extends Model
   {
     return $this->belongsTo(Currency::class, 'currency_id');
   }
+  public function company_id()
+  {
+    return $this->belongsTo(Company::class, 'company_id');
+  }
 }
