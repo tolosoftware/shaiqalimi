@@ -1,5 +1,7 @@
 <template>
 <div>
+  <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ</vs-button>
+
   <div id="print-this">
     <vs-row vs-w="12" class="project-view-header">
       <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
@@ -191,7 +193,6 @@
     <br>
     <project-sale-summary />
   </div>
-  <button @click="cprint">ldakfjlskdfj</button>
 </div>
 </template>
 
@@ -281,11 +282,17 @@ export default {
         })
     },
     cprint() {
+      var header = `<div class="vx-logo cursor-pointer flex items-center router-link-active"><div class="w-10 mr-4 fill-current text-primary"><img width="30" src="/img/default/navelogo.png" alt="login"></div> <span class="vx-logo-text text-primary print-header">شرکت شایق علیمی</span></div>`;
       // printJS('print-this', 'html');
       var options = {
         printable: 'print-this',
         type: 'html',
+        header: header,
+        documentTitle: 'راپور پروژه تیل وزارت معارف xyz-821738',
+        style: 'body { direction: rtl;}',
         css: [
+          'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+          'https://fonts.googleapis.com/css?family=Open+Sans:400,700',
           '/css/app.css'
         ],
         scanStyles: false
