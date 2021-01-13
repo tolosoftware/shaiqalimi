@@ -1,201 +1,205 @@
 <template>
 <div>
-  <vs-row vs-w="12" class="project-view-header">
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
-      <h4>&nbsp;بخش معلومات عمومی&nbsp;</h4>
-    </vs-col>
-  </vs-row>
-  <vs-row vs-w="12">
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          سریال نمبر:
-        </strong>
-        <small class="mb-5" v-text="project.serial_no" vs-justify="right" vs-align="right"></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          اعلان:
-        </strong>
-        <small class="mb-5" v-if="project.proposal_id" v-text="project.proposal_id.pro_data.title" vs-justify="right" vs-align="right"></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          تاریخ عقد قرارداد:
-        </strong>
-        <small class="mb-5" v-text="project.contract_date" vs-justify="right" vs-align="right"></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-1">
-        <strong class="mr-4">
-          مرجع مربوطه :
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.client.name" vs-justify="right" vs-align="right"></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          عنوان قرارداد:
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.title" vs-justify="right" vs-align="right"></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          نوعیت قرارداد:
-        </strong>
-        <small v-if="project.status == 'B'" class="mb-5" vs-justify="right" vs-align="right">معین</small>
-        <small v-if="project.status == 'A'" class="mb-5" vs-justify="right" vs-align="right">چارچوبی</small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          شماره شناسایی قرارداد :
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.reference_no" vs-justify="right" vs-align="right"></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          تاریخ ختم قرارداد:
-        </strong>
-        <small class="mb-5" v-text="project.contract_end_date" vs-justify="right" vs-align="right"></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          تضمین قرارداد:
-        </strong>
-        <small class="mb-5" v-text="project.project_guarantee" vs-justify="right" vs-align="right"></small>
-        <small style="color:#42b983;"><b>افغانی </b></small>
-      </h6>
-    </vs-col>
-  </vs-row>
-  <br>
-  <!-- Ekmalat section -->
-  <vs-row vs-w="12" class="project-view-header">
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
-      <h4>&nbsp;بخش اکمالات /اقلام&nbsp;</h4>
-    </vs-col>
-  </vs-row>
-  <vs-table :data="project.pro_items">
-    <template slot="thead">
-      <vs-th>جنس / محصول</vs-th>
-      <vs-th>مقدار</vs-th>
-      <vs-th>عملیه</vs-th>
-      <vs-th>قیمت فی واحد</vs-th>
-      <vs-th>قیمت مجموعی</vs-th>
-    </template>
-    <template slot-scope="{data}">
-      <vs-tr v-for="(tr, i) in data" :key="i">
-        <vs-td :data="tr.item_id">
-          <p> {{ tr.item_id.name }} </p>
-        </vs-td>
-        <vs-td :data="tr.equivalent">
-          {{tr.equivalent}} {{ tr.item_id.uom_equiv_id.title }}
-        </vs-td>
-        <vs-td :data="tr.operation_id">
-          <p> {{ tr.operation_id.formula }} </p>
-        </vs-td>
-        <vs-td :data="tr.unit_price">
-          {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
-        </vs-td>
-        <vs-td :data="tr.total_price">
-          {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
-        </vs-td>
-      </vs-tr>
-    </template>
-  </vs-table>
+  <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ</vs-button>
 
-  <vs-col vs-lg="6" vs-sm="6" vs-xs="12">
-    <h3 class="project-view-header pr-2 pl-2">بررسی ارزش اجناس قرارداد</h3>
-    <project-items-chart ref="item_chart" />
-  </vs-col>
-  <vs-col vs-lg="6" vs-sm="6" vs-xs="12">
-    <h3 class="project-view-header pl-2 pr-2">بررسی فروشات اجناس بر اساس واحد</h3>
-    <project-items-chart ref="item_chart_type" />
-  </vs-col>
+  <div id="print-this">
+    <vs-row vs-w="12" class="project-view-header">
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+        <h4>&nbsp;بخش معلومات عمومی&nbsp;</h4>
+      </vs-col>
+    </vs-row>
+    <vs-row vs-w="12">
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            سریال نمبر:
+          </strong>
+          <small class="mb-5" v-text="project.serial_no" vs-justify="right" vs-align="right"></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            اعلان:
+          </strong>
+          <small class="mb-5" v-if="project.proposal_id" v-text="project.proposal_id.pro_data.title" vs-justify="right" vs-align="right"></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            تاریخ عقد قرارداد:
+          </strong>
+          <small class="mb-5" v-text="project.contract_date" vs-justify="right" vs-align="right"></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-1">
+          <strong class="mr-4">
+            مرجع مربوطه :
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.client.name" vs-justify="right" vs-align="right"></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            عنوان قرارداد:
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.title" vs-justify="right" vs-align="right"></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            نوعیت قرارداد:
+          </strong>
+          <small v-if="project.status == 'B'" class="mb-5" vs-justify="right" vs-align="right">معین</small>
+          <small v-if="project.status == 'A'" class="mb-5" vs-justify="right" vs-align="right">چارچوبی</small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            شماره شناسایی قرارداد :
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.reference_no" vs-justify="right" vs-align="right"></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            تاریخ ختم قرارداد:
+          </strong>
+          <small class="mb-5" v-text="project.contract_end_date" vs-justify="right" vs-align="right"></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            تضمین قرارداد:
+          </strong>
+          <small class="mb-5" v-text="project.project_guarantee" vs-justify="right" vs-align="right"></small>
+          <small style="color:#42b983;"><b>افغانی </b></small>
+        </h6>
+      </vs-col>
+    </vs-row>
+    <br>
+    <!-- Ekmalat section -->
+    <vs-row vs-w="12" class="project-view-header">
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+        <h4>&nbsp;بخش اکمالات /اقلام&nbsp;</h4>
+      </vs-col>
+    </vs-row>
+    <vs-table :data="project.pro_items">
+      <template slot="thead">
+        <vs-th>جنس / محصول</vs-th>
+        <vs-th>مقدار</vs-th>
+        <vs-th>عملیه</vs-th>
+        <vs-th>قیمت فی واحد</vs-th>
+        <vs-th>قیمت مجموعی</vs-th>
+      </template>
+      <template slot-scope="{data}">
+        <vs-tr v-for="(tr, i) in data" :key="i">
+          <vs-td :data="tr.item_id">
+            <p> {{ tr.item_id.name }} </p>
+          </vs-td>
+          <vs-td :data="tr.equivalent">
+            {{tr.equivalent}} {{ tr.item_id.uom_equiv_id.title }}
+          </vs-td>
+          <vs-td :data="tr.operation_id">
+            <p> {{ tr.operation_id.formula }} </p>
+          </vs-td>
+          <vs-td :data="tr.unit_price">
+            {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+          </vs-td>
+          <vs-td :data="tr.total_price">
+            {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+          </vs-td>
+        </vs-tr>
+      </template>
+    </vs-table>
 
+    <vs-col vs-lg="6" vs-sm="6" vs-xs="12">
+      <h3 class="project-view-header pr-2 pl-2">بررسی ارزش اجناس قرارداد</h3>
+      <project-items-chart ref="item_chart" />
+    </vs-col>
+    <vs-col vs-lg="6" vs-sm="6" vs-xs="12">
+      <h3 class="project-view-header pl-2 pr-2">بررسی فروشات اجناس بر اساس واحد</h3>
+      <project-items-chart ref="item_chart_type" />
+    </vs-col>
 
-  <vs-row vs-w="12" class="project-view-header">
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
-      <h4>&nbsp; بخش مصارف&nbsp;</h4>
-    </vs-col>
-  </vs-row>
-  <vs-row ws-w="12">
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          تامینات:
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.deposit" vs-justify="right" vs-align="right"></small>
-        <small style="color:#42b983;"><b>% </b></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          مالیات:
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.tax" vs-justify="right" vs-align="right"></small>
-        <small style="color:#42b983;"><b>% </b></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          متفرقه:
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.others" vs-justify="right" vs-align="right"></small>
-        <small style="color:#42b983;"><b>افغانی </b></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          ارزش قرارداد:
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.pr_worth" vs-justify="right" vs-align="right"></small>
-        <small style="color:#42b983;"><b>افغانی </b></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          انتقالات:
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.transit" vs-justify="right" vs-align="right"></small>
-        <small style="color:#42b983;"><b>افغانی </b></small>
-      </h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2">
-        <strong class="mr-4">
-          نرخ دهی:
-        </strong>
-        <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.total_price" vs-justify="right" vs-align="right"></small>
-        <small style="color:#42b983;"><b>افغانی </b></small>
-      </h6>
-    </vs-col>
-  </vs-row>
-  <br>
-  <project-sale-summary />
+    <vs-row vs-w="12" class="project-view-header">
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+        <h4>&nbsp; بخش مصارف&nbsp;</h4>
+      </vs-col>
+    </vs-row>
+    <vs-row ws-w="12">
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            تامینات:
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.deposit" vs-justify="right" vs-align="right"></small>
+          <small style="color:#42b983;"><b>% </b></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            مالیات:
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.tax" vs-justify="right" vs-align="right"></small>
+          <small style="color:#42b983;"><b>% </b></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            متفرقه:
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.others" vs-justify="right" vs-align="right"></small>
+          <small style="color:#42b983;"><b>افغانی </b></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            ارزش قرارداد:
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.pr_worth" vs-justify="right" vs-align="right"></small>
+          <small style="color:#42b983;"><b>افغانی </b></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            انتقالات:
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.transit" vs-justify="right" vs-align="right"></small>
+          <small style="color:#42b983;"><b>افغانی </b></small>
+        </h6>
+      </vs-col>
+      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+        <h6 class="mb-5 mt-3 ml-2">
+          <strong class="mr-4">
+            نرخ دهی:
+          </strong>
+          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.total_price" vs-justify="right" vs-align="right"></small>
+          <small style="color:#42b983;"><b>افغانی </b></small>
+        </h6>
+      </vs-col>
+    </vs-row>
+    <br>
+    <project-sale-summary />
+  </div>
 </div>
 </template>
 
 <script>
 import ProjectSaleSummary from './ProjectSaleSummary'
 import ProjectItemsChart from './ProjectItemsChart'
+import print from 'print-js'
 
 export default {
   data() {
@@ -277,7 +281,24 @@ export default {
           }
         })
     },
-
+    cprint() {
+      var header = `<div class="vx-logo cursor-pointer flex items-center router-link-active"><div class="w-10 mr-4 fill-current text-primary"><img width="30" src="/img/default/navelogo.png" alt="login"></div> <span class="vx-logo-text text-primary print-header">شرکت شایق علیمی</span></div>`;
+      // printJS('print-this', 'html');
+      var options = {
+        printable: 'print-this',
+        type: 'html',
+        header: header,
+        documentTitle: 'راپور پروژه تیل وزارت معارف xyz-821738',
+        style: 'body { direction: rtl;}',
+        css: [
+          'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+          'https://fonts.googleapis.com/css?family=Open+Sans:400,700',
+          '/css/app.css'
+        ],
+        scanStyles: false
+      };
+      printJS(options);
+    }
   },
 };
 </script>
