@@ -81,13 +81,7 @@
           <vs-td>
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.sales_id)" />&nbsp;&nbsp;
             <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
-            <router-link class="product-name font-medium truncate" :to="{
-              path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-            }">
-              <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
-            </router-link>
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
             <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.sales_id)" />
           </vs-td>
         </vs-tr>

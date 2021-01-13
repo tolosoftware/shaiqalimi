@@ -3,7 +3,7 @@
   <Clients :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
   <vs-tabs :value="$route.query.tab">
     <vs-tab label="ثبت اعلان" style="padding:2px 0px 0px 0px !important;">
-      <vx-card class="height-vh-80">
+      <vx-card>
         <div class="header">
           <vs-row vs-w="12">
             <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="2" vs-sm="4" vs-xs="4">
@@ -29,6 +29,7 @@
   </vs-tabs>
 </div>
 </template>
+
 <script>
 import AddProposal from './AddProposal.vue'
 import Clients from './Clients.vue'
