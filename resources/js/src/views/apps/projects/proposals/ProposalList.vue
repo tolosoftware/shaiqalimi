@@ -32,7 +32,7 @@
         <template slot="thead">
           <vs-th>نمبر</vs-th>
           <vs-th>نهاد</vs-th>
-          <vs-th sort-key="name">پروژه</vs-th>
+          <vs-th sort-key="product-name">پروژه</vs-th>
           <vs-th sort-key="offer_guarantee">تضمین آفر</vs-th>
           <vs-th sort-key="status">وضعیت</vs-th>
           <vs-th sort-key="price">قیمت</vs-th>
@@ -80,15 +80,9 @@
               </vs-td>
 
               <vs-td class="whitespace-no-wrap notupfromall">
-                <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.id)" />&nbsp;&nbsp;
-                <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
-                <router-link class="product-name font-medium truncate" :to="{
-                  path: '/projects/proposal/${tr.id}',
-                  name: 'proposal-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">&nbsp;&nbsp;
-                  <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
-                </router-link>&nbsp;&nbsp;
+                <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.id)" />
+                <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />
+                <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
                 <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
               </vs-td>
             </vs-tr>
@@ -265,7 +259,8 @@ import vueEasyPrint from "vue-easy-print";
 import {
   FormWizard,
   TabContent
-} from 'vue-form-wizard'
+} from 'vue-form-wizard';
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 export default {
   name: 'vx-proposal-list',
   data() {

@@ -212,12 +212,12 @@
             <p class="mt-2 mb-8 text-xl font-medium text-success">
               <span>+</span><span>5.2%</span><span class="ml-1">($956)</span>
             </p>
-            <!--<router-link to="/sales?tab=2">
+            <router-link to="/sales?tab=1">
+              <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">لست فروشات</vs-button>
+            </router-link>
+            <!--<p>
               <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
-            </router-link> -->
-            <p>
-              <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
-            </p>
+            </p>-->
           </div>
           <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4"><small>عواید: $56156</small>

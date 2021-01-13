@@ -478,6 +478,25 @@ const router = new Router({
                     }
                 },
                 {
+                    path: '/archive/files',
+                    name: 'archivefiles',
+                    component: () =>
+                        import ('./views/apps/archives/ArchiveFiles.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'فایل های آرشیف',
+                                active: true
+                            }
+                            // { title: 'Export Selected', active: true }
+                        ],
+                        rule: 'editor'
+                    }
+                },
+                {
                     path: '/reports',
                     name: 'report',
                     component: () =>

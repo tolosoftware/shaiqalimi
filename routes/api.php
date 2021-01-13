@@ -92,6 +92,12 @@ Route::resource('expenses', 'ExpensesController');
 Route::get('exserialno', 'ExpensesController@serial');
 Route::get('item-records/{item_id}', 'StockRecordController@itemRecords');
 Route::get('bank-accounts', 'AccountController@bankAccounts');
+
+// Archive
+Route::resource('archive', 'ArchiveController');
+Route::post('uploadfile', 'ArchiveController@uploadfile');
+
+Route::get('mostresent', 'ArchiveController@mostresent');
 Route::get('sale/project/{project_id}', 'ProjectController@projectSales');
 Route::get('sale/project/type/{project_id}', 'ProjectController@projectTypeChart');
 Route::get('sale/project/item-chart/{project_id}', 'ProjectController@projectItemChart');
