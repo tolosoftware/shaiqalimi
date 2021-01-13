@@ -122,11 +122,11 @@
 
     <vs-col vs-lg="6" vs-sm="6" vs-xs="12">
       <h3 class="project-view-header pr-2 pl-2">بررسی ارزش اجناس قرارداد</h3>
-      <project-items-chart ref="item_chart" />
+      <project-items-chart ref="item_chart_type" />
     </vs-col>
     <vs-col vs-lg="6" vs-sm="6" vs-xs="12">
-      <h3 class="project-view-header pl-2 pr-2">بررسی فروشات اجناس بر اساس واحد</h3>
-      <project-items-chart ref="item_chart_type" />
+      <h3 class="project-view-header pl-2 pr-2">بررسی فروشات اجناس بر اساس نوعیت</h3>
+      <project-items-chart ref="item_chart" />
     </vs-col>
 
     <vs-row vs-w="12" class="project-view-header">
@@ -269,7 +269,7 @@ export default {
       this.axios.get('/api/sale/project/item-chart/' + this.$route.params.id)
         .then((response) => {
           if (response.data) {
-            this.$refs.item_chart_type.pie.series[0].name = 'ارزش اجناس قرارداد';
+            this.$refs.item_chart_type.pie.series[0].name = 'فروشات اجناس بر اساس نوعیت';
             for (let [key, value] of Object.entries(response.data)) {
               this.$refs.item_chart.pie.legend.data.push(key);
               this.$refs.item_chart.pie.series[0].color = ['#FF9F43', '#28C76F', '#EA5455', '#87ceeb', '#7367F0'];
@@ -282,19 +282,42 @@ export default {
         })
     },
     cprint() {
+      var someJSONdata = [{
+          field: 'سریال نمبر',
+          value: this.project.serial_no,
+        },
+        {
+          field: 'مرجع مربوطه',
+          value: this.project.proposal_id.pro_data.title,
+        },
+        {
+          field: 'شماره شناسایی قرارداد',
+          value: this.project.pro_data.reference_no,
+        }
+      ]
+
       var header = `<div class="vx-logo cursor-pointer flex items-center router-link-active"><div class="w-10 mr-4 fill-current text-primary"><img width="30" src="/img/default/navelogo.png" alt="login"></div> <span class="vx-logo-text text-primary print-header">شرکت شایق علیمی</span></div>`;
       // printJS('print-this', 'html');
       var options = {
-        printable: 'print-this',
-        type: 'html',
+        printable: someJSONdata,
+        properties: [{
+            field: 'field',
+            displayName: 'نام'
+          },
+          {
+            field: 'value',
+            displayName: 'دیتا'
+          },
+        ],
+        type: 'json',
         header: header,
         documentTitle: 'راپور پروژه تیل وزارت معارف xyz-821738',
         style: 'body { direction: rtl;}',
-        css: [
-          'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-          'https://fonts.googleapis.com/css?family=Open+Sans:400,700',
-          '/css/app.css'
-        ],
+        // css: [
+        //   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+        //   'https://fonts.googleapis.com/css?family=Open+Sans:400,700',
+        //   '/css/app.css'
+        // ],
         scanStyles: false
       };
       printJS(options);
