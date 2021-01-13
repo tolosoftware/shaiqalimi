@@ -5713,3 +5713,9 @@ li.fuel-station > h3 {
   white-space: nowrap;
 }
 
+@media print {
+  h4 {
+    color: blue !important;
+  }
+}
+
