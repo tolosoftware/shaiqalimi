@@ -13,7 +13,7 @@
               <span>S1</span>
             </div>
           </template>
-          <vs-input :value="sForm.serial_no" disabled autocomplete="off" type="number" />
+          <vs-input :value="sForm.serial_no" disabled autocomplete="off" placeholder="انتخاب قرارداد الزمی است." type="number" />
         </vx-input-group>
       </div>
     </div>
@@ -339,7 +339,6 @@ export default {
   },
   created() {
     this.getProject();
-    this.getNextSerialNo();
   },
   computed: {
     saleTotalCostFinal: function () {
@@ -377,6 +376,8 @@ export default {
     // Old methods
     onChangeContract(contract) {
       if (contract != null) {
+        this.getNextSerialNo(contract.id);
+
         this.field_data.clientName = contract.pro_data.client.name;
         // this.field_data.repativePerson = contract.pro_data.client.phone;
         this.field_data.clientPhone = contract.pro_data.client.phone;
@@ -386,7 +387,6 @@ export default {
           this.sForm.item[index].increment = this.sForm.item[index].ammount;
           this.sForm.item[index].increment_equiv = this.sForm.item[index].equivalent;
           this.$refs.ekmalat.operationChange(this.sForm.item[index].operation_id, index);
-
           this.$refs.ekmalat.itemSelected('', this.sForm.item[index].item_id.id, index, this.sForm.item[index].item_id.uom_id.acronym);
         }
       } else {
@@ -452,9 +452,10 @@ export default {
       }
     },
     // for getting the next serian number
-    getNextSerialNo() {
+    getNextSerialNo(type = null) {
+      this.sForm.serial_no = null;
       this.$Progress.start()
-      this.axios.get('/api/serial-num?type=sale1')
+      this.axios.get(`api/serial-num?type=${type}`)
         .then((response) => {
           this.sForm.serial_no = response.data;
         })

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Accountadd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :accForm="accForm" :data="editAccData" />
+  <Accountadd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :accForm="accForm" :accountTypes="accountTypes" />
   <vs-card>
     <div class="vx-row mb-3">
       <div class="vx-col w-1/2">
@@ -60,6 +60,7 @@
   </span>
 </div>
 </template>
+
 <script>
 import Accountadd from "./Accountadd.vue"
 import TableLoading from './../shared/TableLoading.vue'
@@ -98,6 +99,14 @@ export default {
     this.getAllAccountTypes();
   },
   methods: {
+    // getAllAccountTypes() {
+    //   this.$Progress.start()
+    //   this.axios.get('/api/acount_type')
+    //     .then((response) => {
+    //       this.accountTypes = response.data;
+    //       this.$Progress.set(100)
+    //     })
+    // },
     findType(id) {
       let name = '';
       Object.keys(this.accountTypes).some(key => (this.accountTypes[key].id == id) ? name = this.accountTypes[key].title : null);
@@ -167,11 +176,11 @@ export default {
       })
     },
     addNewData() {
-      this.editAccData = {};
+      // this.editAccData = {};
       this.toggleDataSidebar(true);
     },
     toggleDataSidebar(val = false) {
-      this.getAllAccountTypes();
+      // this.getAllAccountTypes();
       this.addNewDataSidebar = val;
     },
 

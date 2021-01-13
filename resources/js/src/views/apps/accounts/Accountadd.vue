@@ -4,11 +4,11 @@
   ----------------------------------------------------------------------------------------
   Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
   Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent click-not-close
 ========================================================================================== -->
 
 <template>
-<vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
+<vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
   <div class="mt-6 flex items-center justify-between px-6">
     <h4>حساب جدید اضافه کنید</h4>
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
@@ -90,7 +90,7 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import SidebarDefaultVue from '../../components/vuesax/sidebar/SidebarDefault.vue';
 
 export default {
-  props: ['isSidebarActive', 'data', 'accForm'],
+  props: ['isSidebarActive', 'accountTypes', 'accForm'],
   components: {
     VuePerfectScrollbar,
     "v-select": vSelect,
@@ -127,15 +127,6 @@ export default {
     },
   },
   methods: {
-    // Get Account Types
-    getAllAccountTypes() {
-      this.$Progress.start()
-      this.axios.get('/api/acount_type')
-        .then((response) => {
-          this.accountTypes = response.data;
-          this.$Progress.set(100)
-        })
-    },
     submitData() {
       if(this.accForm.id) {
         this.accForm.patch('/api/account/' + this.accForm.id)

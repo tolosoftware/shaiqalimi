@@ -18,7 +18,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <vs-input autocomplete="off" v-model="aForm.publish_address" v-validate="'required|min:6'" label="آدرس نشراعلان" name="publish_address" class="w-full" />
+            <vs-input autocomplete="off" v-model="aForm.publish_address" v-validate="'required|min:3'" label="آدرس نشراعلان" name="publish_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.publish_address') }}</span>
             <!--<span class="text-danger text-sm" v-show="errors.has('publish_address')">{{ errors.first('publish_address') }}</span> -->
             <has-error :form="aForm" field="publish_address"></has-error>
@@ -36,7 +36,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <vs-input autocomplete="off" size="medium" v-model="aForm.title" v-validate="'required|min:6'" label="عنوان قرارداد" name="title" class="w-full" />
+            <vs-input autocomplete="off" size="medium" v-model="aForm.title" v-validate="'required|min:3'" label="عنوان قرارداد" name="title" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.title') }}</span>
             <has-error :form="aForm" field="title"></has-error>
             <!-- <span class="text-danger text-sm" v-show="errors.has('title')">{{ errors.first('title') }}</span> -->
@@ -88,7 +88,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <vs-input autocomplete="off" size="medium" label="آدرس آفرگشایی" v-validate="'required|min:6'" v-model="aForm.bidding_address" name="bidding_address" class="w-full" />
+            <vs-input autocomplete="off" size="medium" label="آدرس آفرگشایی" v-validate="'required|min:3'" v-model="aForm.bidding_address" name="bidding_address" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.bidding_address') }}</span>
             <has-error :form="aForm" field="bidding_address"></has-error>
           </div>
@@ -597,14 +597,14 @@ export default {
           },
           publish_address: {
             required: 'آدرس نشر اعلان الزامی است.',
-            min: 'آدرس نشر اعلان باید بیشتر از 6 حرف باشد.',
+            min: 'آدرس نشر اعلان باید بیشتر از 3 حرف باشد.',
           },
           client_id: {
             required: 'نهاد را انتخاب کنید.'
           },
           title: {
             required: 'عنوان اعلان الزامی است.',
-            min: 'عنوان اعلان باید بیشتر از 6 حرف باشد.',
+            min: 'عنوان اعلان باید بیشتر از 3 حرف باشد.',
           },
           reference_no: {
             required: 'شماره شناسایی اعلان ضروری است.',
@@ -618,7 +618,7 @@ export default {
           },
           bidding_address: {
             required: 'آدرس آفرگشایی الزامی است.',
-            min: 'آدرس آفرگشایی اعلان باید بیشتر از 6 حرف باشد .',
+            min: 'آدرس آفرگشایی اعلان باید بیشتر از 3 حرف باشد .',
           },
           offer_guarantee: {
             required: 'تضمین آفر الزامی است'
@@ -731,42 +731,51 @@ export default {
         })
     },
     formSubmitted() {
-      if (!this.is_accepted) {
-        swal.fire({
-          title: 'نامکمل!',
-          text: 'لطفا معلومات را تایید کنید.',
-          icon: 'error',
-        })
-      } else {
-        this.$Progress.start()
-        this.aForm.post('/api/proposal')
-          .then(({
-            aForm
-          }) => {
-            // Finish the Progress Bar
-            // this.aForm.reset();
-            // this.$refs.observer.reset();
-            this.reloadData();
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'موفقانه ثبت شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
+      swal.fire({
+        title: 'آیا مطمیٔن هستید؟',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله، ذخیره شود!</span>',
+        cancelButtonText: '<span>خیر، لغو شود!</span>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (this.is_accepted) {
+            this.$Progress.start()
+            this.aForm.post('/api/proposal')
+              .then(({
+                aForm
+              }) => {
+                this.reloadData();
+                this.$vs.notify({
+                  title: 'موفقیت!',
+                  text: 'پروپوزل موفقانه ثبت سیستم گردید',
+                  color: 'success',
+                  iconPack: 'feather',
+                  icon: 'icon-check',
+                  position: 'top-right'
+                })
+              }).catch((errors) => {
+                this.$Progress.set(100)
+                this.$vs.notify({
+                  title: 'ناموفق!',
+                  text: 'لطفاً معلومات پروپوزل را چک کنید و دوباره امتحان کنید!',
+                  color: 'danger',
+                  iconPack: 'feather',
+                  icon: 'icon-cross',
+                  position: 'top-right'
+                })
+              });
+          } else {
+            swal.fire({
+              title: 'عدم تاییدی!',
+              text: 'لطفاً از صحت معلومات تایید کنید، ویا معلومات را اصلاح کنید',
+              icon: 'error',
             })
-          }).catch((errors) => {
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'موفقانه ثبت شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
-            })
-          });
-      }
+          }
+        }
+      })
     },
 
     companySelected(data) {

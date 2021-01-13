@@ -9,7 +9,7 @@
 
 <template>
 <div>
-  <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
+  <vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
     <div class="mt-6 flex items-center justify-between px-6 float-right">
       <!-- <vs-button type="border" icon-pack="feather-icon" icon="close" color="warning" class="mr-6" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>-->
       <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
