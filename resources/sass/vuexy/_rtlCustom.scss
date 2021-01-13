@@ -591,3 +591,13 @@ li.fuel-station > h3{
 .serial_no_reference{
     white-space: nowrap;
 }
+.flex-root{
+    display: flex-root;
+}
+.remove-mb{
+    margin-bottom: 0 !important;
+}
+.vs-textarea{
+    width: initial !important;
+    // height: -webkit-fill-available !important;
+}

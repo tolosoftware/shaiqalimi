@@ -5713,3 +5713,81 @@ li.fuel-station > h3 {
   white-space: nowrap;
 }
 
+.flex-root {
+  display: flex-root;
+}
+
+[dir] .remove-mb {
+  margin-bottom: 0 !important;
+}
+
+.vs-textarea {
+  width: initial !important;
+}
+
+@media print {
+  [dir=ltr] #print-this {
+    direction: ltr !important;
+  }
+  [dir=rtl] #print-this {
+    direction: rtl !important;
+  }
+
+  .print-header {
+    color: #ea5455 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+  }
+
+  [dir=ltr] .print-header {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  [dir=rtl] .print-header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  [dir] .project-view-header {
+    background-color: #f3f5f7 !important;
+    border-color: #42b983 !important;
+    padding: 1rem 0 !important;
+    margin: 1rem 0 !important;
+  }
+
+  [dir=ltr] .project-view-header {
+    border-right-width: 0.6rem !important;
+    border-right-style: solid !important;
+  }
+
+  [dir=rtl] .project-view-header {
+    border-left-width: 0.6rem !important;
+    border-left-style: solid !important;
+  }
+
+  .echarts {
+    width: 100% !important;
+  }
+
+  .items-center {
+    align-items: center !important;
+  }
+
+  [dir=ltr] .mr-4 {
+    margin-right: 1rem !important;
+  }
+
+  [dir=rtl] .mr-4 {
+    margin-left: 1rem !important;
+  }
+
+  .flex {
+    display: flex !important;
+  }
+
+  [dir] .vx-logo img {
+    margin: 1rem !important;
+  }
+}
+
