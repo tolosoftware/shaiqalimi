@@ -279,7 +279,10 @@ class ProjectController extends Controller
         $sales3 = Sale::join('sales_threes AS s', 'sales.id', '=', 's.sales_id')
         ->selectRaw("s.sales_id, s.project_id, s.total, s.deposit, s.tax, s.service_cost, s.serial_no")
         ->where('project_id', $id);
-        $data = $sales1->union($sales3)->orderBy('serial_no', 'asc')->get()->toArray();
+        // $data[] = $sales1->union($sales3)->get();
+        $data['deposit'] = $sales1->union($sales3)->sum('deposit');
+        $data['total'] = $sales1->union($sales3)->sum('total');
+        $data['service_cost'] = $sales1->union($sales3)->sum('service_cost');
         return $data;
     }
 
