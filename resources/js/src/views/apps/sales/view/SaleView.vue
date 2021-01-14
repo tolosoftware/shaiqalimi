@@ -12,7 +12,7 @@
         <strong class="mr-4">
           سریال نمبر:
         </strong>
-        <small class="mb-5" v-text="sale.sale_s3.serial_no" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="sale.sales.serial_no" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -44,7 +44,7 @@
         <strong class="mr-4">
           واحد پولی:
         </strong>
-        <small class="mb-5" v-text="sale.currency_id" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="sale.currency_id.sign_fa" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
 
@@ -53,7 +53,7 @@
         <strong class="mr-4">
           حساب بانک:
         </strong>
-        <small class="mb-5" v-text="sale.bank_account" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="sale.bank_account.name" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -69,7 +69,7 @@
         <strong class="mr-4">
           پروژه:
         </strong>
-        <small class="mb-5" v-text="sale.sale_s3.project_id" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="sale.sales.project.pro_data.title" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -77,7 +77,7 @@
         <strong class="mr-4">
           نام دریور:
         </strong>
-        <small class="mb-5" v-text="sale.sale_s3.driver_name" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="sale.sales.driver_name" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -85,7 +85,7 @@
         <strong class="mr-4">
           نمبر پلیت:
         </strong>
-        <small class="mb-5" v-text="sale.sale_s3.plate_no" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="sale.sales.plate_no" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -93,26 +93,26 @@
         <strong class="mr-4">
           شماره تماس دریور :
         </strong>
-        <small class="mb-5" v-text="sale.sale_s3.driver_phone" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="sale.sales.driver_phone" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مصارف خدمات : </strong> <small class="mb-5" v-text="sale.sale_s3.service_cost" vs-justify="right" vs-align="right"></small> </h6>
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مصارف خدمات : </strong> <small class="mb-5" v-text="sale.sales.service_cost" vs-justify="right" vs-align="right"></small> </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مالیات : </strong> <small class="mb-5" v-text="sale.sale_s3.tax" vs-justify="right" vs-align="right"></small> </h6>
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مالیات : </strong> <small class="mb-5" v-text="sale.sales.tax" vs-justify="right" vs-align="right"></small> </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تامینات : </strong> <small class="mb-5" v-text="sale.sale_s3.deposit" vs-justify="right" vs-align="right"></small> </h6>
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تامینات : </strong> <small class="mb-5" v-text="sale.sales.deposit" vs-justify="right" vs-align="right"></small> </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> قیمت نهایی : </strong> <small class="mb-5" v-text="sale.sale_s3.total" vs-justify="right" vs-align="right"></small> </h6>
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> قیمت نهایی : </strong> <small class="mb-5" v-text="sale.sales.total" vs-justify="right" vs-align="right"></small> </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> پیشرفت : </strong> <small class="mb-5" v-text="sale.sale_s3.steps" vs-justify="right" vs-align="right"></small> </h6>
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> پیشرفت : </strong> <small class="mb-5" v-text="sale.sales.steps" vs-justify="right" vs-align="right"></small> </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تفصیلات : </strong> <small class="mb-5" v-text="sale.sale_s3.description" vs-justify="right" vs-align="right"></small> </h6>
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تفصیلات : </strong> <small class="mb-5" v-text="sale.sales.description" vs-justify="right" vs-align="right"></small> </h6>
     </vs-col>
   </vs-row>
 </div>
