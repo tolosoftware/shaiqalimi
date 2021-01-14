@@ -43,4 +43,8 @@ class Sale extends Model
     {
         return $this->belongsTo(Storage::class, 'source_id');
     }
+    public function source_id()
+    {
+        return $this->belongsTo(Storage::class, 'source_id');
+    }
 }

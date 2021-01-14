@@ -408,7 +408,7 @@ export default {
     getNextSerialNo(type = null) {
       this.sForm.serial_no = null;
       this.$Progress.start()
-      this.axios.get(`api/serial-num?type=${type}`)
+      this.axios.get(`api/serial-num?type=proj-${type}`)
         .then((response) => {
           this.sForm.serial_no = response.data;
         })
