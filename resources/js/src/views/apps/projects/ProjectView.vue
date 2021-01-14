@@ -206,6 +206,20 @@ export default {
     return {
       // init values
       project: [],
+      printStyle: `
+      body { direction: rtl;}
+      th, td {
+        text-align: right !important;
+        padding: 8px !important;
+      }
+      tr:nth-child(even) {background-color: #f2f2f2 !important;}
+      thead{
+        border-bottom: solid 3px #EA5455 !important;
+      }
+      .print_extra_data{
+        float:left;
+      }
+      `,
     };
   },
   components: {
@@ -243,6 +257,7 @@ export default {
           // }
           this.getProjectSales();
           this.getProjectItemsChart();
+          this.cprint();
         })
     },
     getProjectSales() {
@@ -288,16 +303,43 @@ export default {
         },
         {
           field: 'مرجع مربوطه',
-          value: this.project.proposal_id.pro_data.title,
+          value: this.project.pro_data.client.name,
         },
         {
           field: 'شماره شناسایی قرارداد',
           value: this.project.pro_data.reference_no,
-        }
+        },
+        {
+          field: 'تاریخ عقد قرارداد',
+          value: this.project.contract_date,
+        },
+        {
+          field: 'اعلان',
+          value: this.project.proposal_id.pro_data.title,
+        },
+        {
+          field: 'عنوان قرارداد',
+          value: this.project.pro_data.title,
+        },
+        {
+          field: 'نوعیت قرارداد',
+          value: this.project.status == 'B' ? "معین" : "چارچوبی",
+        },
+        {
+          field: 'تضمین قرارداد',
+          value: this.project.project_guarantee,
+        },
       ]
 
-      var header = `<div class="vx-logo cursor-pointer flex items-center router-link-active"><div class="w-10 mr-4 fill-current text-primary"><img width="30" src="/img/default/navelogo.png" alt="login"></div> <span class="vx-logo-text text-primary print-header">شرکت شایق علیمی</span></div>`;
-      // printJS('print-this', 'html');
+      var header = `<div class="print-header">
+      <img width="30" src="/img/default/navelogo.png" alt="login">
+      <span class="vx-logo-text">شرکت شایق علیمی</span>
+      <span class="print_extra_data">
+        <span>پرینت توسط ${localStorage.getItem('name')} ${localStorage.getItem('lastname')}</span>
+        <br>
+        <span>${ new Date().toLocaleString('fa-AF', { hour12: true })}</span>
+      </span>
+      </div>`; // printJS('print-this', 'html');
       var options = {
         printable: someJSONdata,
         properties: [{
@@ -312,12 +354,10 @@ export default {
         type: 'json',
         header: header,
         documentTitle: 'راپور پروژه تیل وزارت معارف xyz-821738',
-        style: 'body { direction: rtl;}',
-        // css: [
-        //   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-        //   'https://fonts.googleapis.com/css?family=Open+Sans:400,700',
-        //   '/css/app.css'
-        // ],
+        style: this.printStyle,
+        css: [
+          '/css/app.css'
+        ],
         scanStyles: false
       };
       printJS(options);
