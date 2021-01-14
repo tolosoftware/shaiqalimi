@@ -36,7 +36,7 @@
         <strong class="mr-4">
           منبع:
         </strong>
-        <small class="mb-5" v-text="$t(sale.source_id)" vs-justify="right" vs-align="right"></small>
+        <small class="mb-5" v-text="$t(sale.source_id.name)" vs-justify="right" vs-align="right"></small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
