@@ -257,7 +257,6 @@ export default {
           // }
           this.getProjectSales();
           this.getProjectItemsChart();
-          this.cprint();
         })
     },
     getProjectSales() {
