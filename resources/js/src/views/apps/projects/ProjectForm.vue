@@ -701,42 +701,54 @@ export default {
     },
     submitForm() {
       // Start the Progress Bar
-      if (!this.is_accepted) {
+      if (this.is_accepted) {
         swal.fire({
-          title: 'نامکمل!',
-          text: 'لطفا معلومات را تایید کنید.',
+          title: 'آیا مطمیٔن هستید؟',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: 'rgb(54 34 119)',
+          cancelButtonColor: 'rgb(229 83 85)',
+          confirmButtonText: '<span>بله، ذخیره شود!</span>',
+          cancelButtonText: '<span>خیر، لغو عملیه!</span>'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.$Progress.start()
+            this.pForm.post('/api/project')
+              .then(({
+                data
+              }) => {
+                // Finish the Progress Bar
+                // this.$refs.wizard.reset();
+                // this.pForm.reset();
+                // this.errors.clear();
+                this.$Progress.set(100)
+                this.$vs.notify({
+                  title: 'موفقیت!',
+                  text: 'قرارداد موفقانه ثبت شد.',
+                  color: 'success',
+                  iconPack: 'feather',
+                  icon: 'icon-check',
+                  position: 'top-right'
+                })
+              }).catch((errors) => {
+                this.$vs.notify({
+                  title: 'ناموفق!',
+                  text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                  color: 'danger',
+                  iconPack: 'feather',
+                  icon: 'icon-cross',
+                  position: 'top-right'
+                })
+              });
+          }
+        })
+
+      } else {
+        swal.fire({
+          title: 'عدم تاییدی معلومات!',
+          text: 'لطفا ابتداصحت معلومات را تایید کنید.',
           icon: 'error',
         })
-      } else {
-        this.$Progress.start()
-        this.pForm.post('/api/project')
-          .then(({
-            data
-          }) => {
-            // Finish the Progress Bar
-            this.$refs.wizard.reset();
-            this.pForm.reset();
-            this.errors.clear();
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'قرارداد موفقانه ثبت شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
-            })
-          }).catch((errors) => {
-
-            this.$vs.notify({
-              title: 'ناموفق!',
-              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-              color: 'danger',
-              iconPack: 'feather',
-              icon: 'icon-cross',
-              position: 'top-right'
-            })
-          });
       }
     },
     formReset() {
