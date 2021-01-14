@@ -173,16 +173,14 @@ class SaleOneController extends Controller
     {
         $base = Sale::findOrFail($id);
         if ($base->type == "s1") {
-            $sale = Sale::with(['saleS1.project', 'source_id'])->where('id', $id)->first();
+            $sale = Sale::with(['saleS1', 'source_id'])->where('id', $id)->first();
         } else if ($base->type == "s2") {
-            $sale = Sale::with(['saleS2.project', 'source_id'])->where('id', $id)->first();
+            $sale = Sale::with(['saleS2', 'source_id'])->where('id', $id)->first();
         } else if ($base->type == "s3") {
-            $sale = Sale::with(['saleS3.project', 'source_id'])->where('id', $id)->first();
+            $sale = Sale::with(['saleS3', 'source_id'])->where('id', $id)->first();
         } else if ($base->type == "s4") {
-            $sale = Sale::with(['saleS4.project', 'source_id'])->where('id', $id)->first();
+            $sale = Sale::with(['saleS4', 'source_id'])->where('id', $id)->first();
         }
-
-        // $items = 
 
         return $sale;
     }
