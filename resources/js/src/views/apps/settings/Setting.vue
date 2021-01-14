@@ -223,7 +223,7 @@
                   {{ tr.last_rate.rate }}
                 </vs-td>
                 <vs-td :data="tr.last_rate">
-                  {{ tr.last_rate.created_at  | moment("HH:MM:ss - YYYY/M/D") }}
+                  {{ new Date(tr.last_rate.created_at).toLocaleString('fa-AF', { hour12: true }) }}
                 </vs-td>
               </vs-tr>
             </template>

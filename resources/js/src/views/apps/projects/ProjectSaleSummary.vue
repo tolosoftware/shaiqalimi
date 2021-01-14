@@ -57,9 +57,9 @@ export default {
       this.$Progress.start()
       this.axios.get('/api/sale/project/' + this.$route.params.id)
         .then((response) => {
-        for (let [key, value] of Object.entries(response.data)) {
-          this.bar.dataset.source.push(['فروش ' + value['serial_no'], value['total'], (value['total'] - (value['total'] * value['tax'] / 100)).toFixed(2), value['service_cost']]);
-        }
+        // for (let [key, value] of Object.entries(response.data)) {
+          this.bar.dataset.source.push(['فروش ', response.data['total'], (response.data['total'] - (response.data['total'] * response.data['tax'] / 100)).toFixed(2), response.data['service_cost']]);
+        // }
         })
     },
      randomize() {

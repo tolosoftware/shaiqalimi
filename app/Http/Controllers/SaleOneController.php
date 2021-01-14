@@ -63,7 +63,7 @@ class SaleOneController extends Controller
         DB::beginTransaction();
         try {
 
-            $serial_no = Helper::getSerialNo($request->project_id['id'], 'sale');
+            $serial_no = Helper::getSerialNo('proj-' . $request->project_id['id'], 'sale');
             $this->validate($request, [
                 // 'title' => 'required|min:2',
                 // 'formula' => 'required|min:2',
@@ -168,6 +168,21 @@ class SaleOneController extends Controller
         }
 
         return $sales1;
+    }
+    public function showSale($id)
+    {
+        $base = Sale::findOrFail($id);
+        if ($base->type == "s1") {
+            $sale = Sale::with(['saleS1', 'source_id'])->where('id', $id)->first();
+        } else if ($base->type == "s2") {
+            $sale = Sale::with(['saleS2', 'source_id'])->where('id', $id)->first();
+        } else if ($base->type == "s3") {
+            $sale = Sale::with(['saleS3', 'source_id'])->where('id', $id)->first();
+        } else if ($base->type == "s4") {
+            $sale = Sale::with(['saleS4', 'source_id'])->where('id', $id)->first();
+        }
+
+        return $sale;
     }
 
     /**

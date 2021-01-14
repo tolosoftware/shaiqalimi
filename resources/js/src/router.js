@@ -191,6 +191,29 @@ const router = new Router({
                     }
                 },
                 {
+                    path: '/proposal/:id',
+                    name: 'proposal-view',
+                    component: () =>
+                        import ('./views/apps/projects/proposals/ProposalView.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'پروژه ها و قراردادها',
+                                url: '/projects/list'
+                            },
+                            {
+                                title: 'معلومات اعلان',
+                                active: true
+                            }
+                        ],
+
+                        rule: 'editor'
+                    }
+                },                
+                {
                     path: '/projects/proposal/list',
                     name: 'proposallist',
                     component: () =>
@@ -255,7 +278,29 @@ const router = new Router({
                         rule: 'editor'
                     }
                 },
+                {
+                    path: 'sales/sale/:id',
+                    name: 'sales-view',
+                    component: () =>
+                        import ('./views/apps/sales/view/SaleView.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'فروشات',
+                                url: '/sales'
+                            },
+                            {
+                                title: 'معلومات فروشات',
+                                active: true
+                            }
+                        ],
 
+                        rule: 'editor'
+                    }
+                },
                 {
                     path: '/transactions',
                     name: 'transactions',
