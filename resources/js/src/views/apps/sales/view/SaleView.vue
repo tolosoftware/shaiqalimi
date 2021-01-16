@@ -1,6 +1,6 @@
 <template>
 <div v-if="sale">
-  <vs-button size="small" type="gradient" icon="print" id="printBTN">چاپ</vs-button>
+  <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ</vs-button>
   <vs-row vs-w="12" class="project-view-header">
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
       <h4>&nbsp;بخش معلومات عمومی&nbsp;</h4>
@@ -193,17 +193,105 @@ export default {
           this.$Progress.set(100)
         })
     },
-    calcProgress(step){
+    calcProgress(step) {
       if (this.sale.type == 's1') {
-        return ((step*100) / 8).toFixed(2);
-      }else if (this.sale.type == 's2') {
-        return ((step*100) / 6).toFixed(2);
-      }else if (this.sale.type == 's3') {
-        return ((step*100) / 3).toFixed(2);
-      }else{
+        return ((step * 100) / 8).toFixed(2);
+      } else if (this.sale.type == 's2') {
+        return ((step * 100) / 6).toFixed(2);
+      } else if (this.sale.type == 's3') {
+        return ((step * 100) / 3).toFixed(2);
+      } else {
         return 0;
       }
-    }
+    },
+    cprint() {
+      var someJSONdata = [{
+        field: 'سریال نمبر',
+        value:  this.sale.type + '-' + ((this.sale.sales.project) ? this.sale.sales.project.pro_data.reference_no :'') + '-' + this.sale.sales.serial_no
+      }, {
+        field: 'نوعیت',
+        value: this.sale.type
+      }, {
+        field: 'نوع منبع',
+        value: this.sale.source_type
+      }, {
+        field: 'منبع',
+        value: (this.sale.source_id) ? this.sale.source_id.name : '-'
+      }, {
+        field: 'واحد پولی',
+        value: this.sale.currency_id.sign_fa
+      }, {
+        field: 'حساب بانک',
+        value: (this.sale.bank_account) ? this.sale.bank_account.name :'-'
+      }, {
+        field: 'تاریخ',
+        value: this.sale.datatime
+      }, {
+        field: 'پروژه',
+        value: (this.sale.sales.project) ? this.sale.sales.project.pro_data.title : '-'
+      }, {
+        field: 'نام دریور',
+        value: (this.sale.sales.driver_name) ? this.sale.sales.driver_name : '-'
+      }, {
+        field: 'نمبر پلیت',
+        value: (this.sale.sales.plate_no) ? this.sale.sales.plate_no : '-'
+      }, {
+        field: 'شماره تماس دریور',
+        value: (this.sale.sales.driver_phone) ? this.sale.sales.driver_phone : '-'
+      }, {
+        field: 'مصارف خدمات',
+        value: (this.sale.sales.service_cost) ? this.sale.sales.service_cost : '-'
+      }, {
+        field: 'مصارف انتقالات',
+        value: (this.sale.sales.transport_cost) ? this.sale.sales.transport_cost : '-'
+      }, {
+        field: 'مالیات',
+        value: (this.sale.sales.tax) ? this.sale.sales.tax : '-'
+      }, {
+        field: 'تامینات',
+        value: (this.sale.sales.deposit) ? this.sale.sales.deposit : '-'
+      }, {
+        field: 'قیمت مجموعی',
+        value: (this.sale.sales.total) ? this.sale.sales.total : '-'
+      }, {
+        field: 'طی مراحل',
+        value: (this.sale.sales.steps) ? this.sale.sales.steps : '-'
+      }, {
+        field: 'تفصیلات',
+        value: (this.sale.sales.description) ? this.sale.sales.description : '-'
+      }, 
+    ]
+      var header = `<div class="print-header">
+      <img width="30" src="/img/default/navelogo.png" alt="login">
+      <span class="vx-logo-text">شرکت شایق علیمی</span>
+      <span class="print_extra_data">
+        <span>پرینت توسط ${localStorage.getItem('name')} ${localStorage.getItem('lastname')}</span>
+        <br>
+        <span>${ new Date().toLocaleString('fa-AF', { hour12: true })}</span>
+      </span>
+      </div>`; // printJS('print-this', 'html');
+      var options = {
+        printable: someJSONdata,
+        properties: [{
+            field: 'field',
+            displayName: 'نام'
+          },
+          {
+            field: 'value',
+            displayName: 'دیتا'
+          },
+        ],
+        type: 'json',
+        header: header,
+        documentTitle: 'راپور پروژه تیل وزارت معارف xyz-821738',
+        style: this.printStyle,
+        css: [
+          '/css/app.css'
+        ],
+        scanStyles: false
+      };
+      printJS(options);
+    },
   }
 }
 </script>
