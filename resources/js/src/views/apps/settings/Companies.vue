@@ -15,6 +15,7 @@
               <vs-th>#</vs-th>
               <vs-th>لیبل</vs-th>
               <vs-th>علامت</vs-th>
+              <vs-th>بررسی</vs-th>
             </template>
             <template slot-scope="{data}">
               <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -27,9 +28,33 @@
                 <vs-td :data="tr.id">
                   {{ tr.sign }}
                 </vs-td>
+                <vs-td :data="tr.id">
+                  <feather-icon icon="EyeIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="showDetailModal(tr.id)" />
+                </vs-td>
               </vs-tr>
             </template>
           </vs-table>
+          <vs-popup class="holamundo" title="جزییات کمپنی" :active.sync="showmodal">
+            <div :key="indextr" v-for="(tr, indextr) in company">
+              <div class="con-expand-clients w-full">
+                <div class="con-btns-client flex items-center justify-between">
+                  <div class="con-clientx flex items-center justify-start">
+                    <vs-avatar size="60px" :src="'/images/img/company/'+tr.logo" />
+                    <span><strong>{{ tr.label }}</strong></span>
+                  </div>
+
+                  <div class="flex">
+                  </div>
+                </div>
+                <vs-list>
+                  <vs-list-item icon-pack="feather" icon="icon-user" color="success" :title="tr.bossname"></vs-list-item>
+                  <vs-list-item icon-pack="feather" icon="icon-globe" :title="tr.sign"></vs-list-item>
+                  <vs-list-item icon-pack="feather" icon="icon-file-text" :title="tr.TIN"></vs-list-item>
+                  <vs-list-item icon-pack="feather" icon="icon-file-text" :title="tr.lisense"></vs-list-item>
+                </vs-list>
+              </div>
+            </div>
+          </vs-popup>
         </div>
       </div>
     </div>
@@ -42,7 +67,12 @@ export default {
   name: "companies",
   data() {
     return {
+      // cForm:new Form({
+      //   label,sign,bossname,logo
+      // });
+      showmodal: false,
       companies: [],
+      company: [],
     }
   },
   components: {
@@ -52,6 +82,16 @@ export default {
     this.getCompanies();
   },
   methods: {
+    showDetailModal(id) {
+      this.axios.get('/api/companies/' + id)
+        .then((response) => {
+          this.company = response.data;
+          this.showmodal = true;
+          console.log('company', this.company);
+          this.$Progress.set(100);
+          this.$vs.loading.close();
+        })
+    },
     getCompanies() {
       this.axios.get('/api/companies')
         .then((response) => {

@@ -122,7 +122,7 @@
                   </div>
                   <div class="vx-row">
                     <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p class="w-full pr-5"><strong>عنوان قرارداد: </strong>قرارداد تیل وزارت معارف قرارداد تیل وزارت معارفقرارداد تیل وزارت معارف</p>
+                      <p class="w-full pr-5"><strong>عنوان قرارداد: </strong>قرارداد تیل وزارت معارف</p>
                     </vs-col>
                   </div>
                 </vs-col>
@@ -254,7 +254,7 @@
               <div class="vx-row">
                 <vs-col vs-type="flex" class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
                   <div class="">
-                    <vs-input size="small" icon-no-border icon="account_circle" label-placeholder=" اسم شخص مسول را وارد نمایید" v-model="value7" />
+                    <vs-input size="small" icon-no-border icon="account_circle" label-placeholder=" اسم شخص مسول را وارد نمایید" v-model="res_person" />
                   </div>
                   <div class="mt-1 mr-4 pt-1">
                     <span class="AFGLabel">
@@ -455,7 +455,7 @@
                     <label for="specific" class="w-full text-center">واگذاری قرارداد</label>
                   </div>
                   <div class="pr-5" vs-lg="4" vs-sm="4" vs-xs="12">
-                    <vs-input icon-no-border icon="account_circle" label-placeholder=" برنده قرار داد" v-model="value7" />
+                    <vs-input icon-no-border icon="account_circle" label-placeholder=" برنده قرار داد" v-model="winner" />
                     <!--<vs-input  autocomplete="off" name="winner" class="w-full" />-->
                     <vs-button color="success" size="small" icon="save" type="border" @click.prevent="submitForm" class="mb-2 mt-2 ml-1"> ثبت برنده </vs-button>
                   </div>
@@ -550,6 +550,9 @@ export default {
   name: 'vx-proposal-list',
   data() {
     return {
+      res_person: '',
+      winner: '',
+      is_recieved: '',
       status: 1,
       isdata: false,
       popupModalActive: false,
@@ -614,6 +617,9 @@ export default {
     }
   },
   methods: {
+    cprint() {
+
+    },
     formSubmitted() {
       alert("تنظیمات بسته شد")
       this.popupModalActive = false;
@@ -626,6 +632,7 @@ export default {
         .get("/api/proposal/" + id)
         .then((data) => {
           this.proposal = data.data;
+          console.log("proposal", this.proposal);
           this.$Progress.set(100);
         })
         .catch(() => {});

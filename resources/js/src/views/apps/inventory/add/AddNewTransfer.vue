@@ -161,8 +161,8 @@ export default {
           operation_id: null,
           increment_equiv: "",
           increment: "",
-          unit_price: 0,
-          total_price: 0,
+          unit_price: 302,
+          total_price: 906,
           density: null,
         }],
 
@@ -216,8 +216,8 @@ export default {
               operation_id: null,
               increment_equiv: "",
               increment: "",
-              unit_price: "",
-              total_price: "",
+              unit_price: "302",
+              total_price: "906",
               density: null,
             }];
         })

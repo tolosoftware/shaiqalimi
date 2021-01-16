@@ -271,8 +271,8 @@ export default {
         operation_id: null,
         increment_equiv: "",
         increment: "",
-        unit_price: "",
-        total_price: "",
+        unit_price: "302",
+        total_price: "906",
         density: null,
       });
       this.is_active.push({
