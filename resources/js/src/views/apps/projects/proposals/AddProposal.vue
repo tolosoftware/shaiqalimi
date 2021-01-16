@@ -11,7 +11,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ نشر اعلان</small></label>
-            <date-picker color="#e85454" name="publish_date" v-validate="'required'" v-model="aForm.publish_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+            <date-picker inputFormat="jYYYY/jMM/jDD" display-format="jYYYY/jMM/jDD" color="#e85454" name="publish_date" v-validate="'required'" v-model="aForm.publish_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.publish_date') }}</span>
             <has-error :form="aForm" field="publish_date"></has-error>
           </div>
@@ -71,7 +71,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ ختم پیشنهادات</small></label>
-            <date-picker color="#e85454" name="submission_date" v-validate="'required'" v-model="aForm.submission_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+            <date-picker inputFormat="jYYYY/jMM/jDD" display-format="jYYYY/jMM/jDD" color="#e85454" name="submission_date" v-validate="'required'" v-model="aForm.submission_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.submission_date') }}</span>
             <has-error :form="aForm" field="submission_date"></has-error>
           </div>
@@ -81,7 +81,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for="date" class="mt-3"><small>تاریخ آفرگشایی</small></label>
-            <date-picker color="#e85454" v-validate="'required'" v-model="aForm.bidding_date" name="bidding_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" class="mt-5 w-full" :auto-submit="true" size="large"></date-picker>
+            <date-picker inputFormat="jYYYY/jMM/jDD" display-format="jYYYY/jMM/jDD" color="#e85454" v-validate="'required'" v-model="aForm.bidding_date" name="bidding_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" class="mt-5 w-full" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.bidding_date') }}</span>
             <has-error :form="aForm" field="bidding_date"></has-error>
           </div>
@@ -559,10 +559,10 @@ export default {
         financial_power: '',
         title: '',
         reference_no: '',
-        submission_date: '',
-        bidding_date: '',
+        submission_date: this.momentj().format('jYYYY/jMM/jDD'),
+        bidding_date: this.momentj().format('jYYYY/jMM/jDD'),
         bidding_address: '',
-        publish_date: '',
+        publish_date: this.momentj().format('jYYYY/jMM/jDD'),
         publish_address: '',
         status: '1',
         offer_guarantee: '',

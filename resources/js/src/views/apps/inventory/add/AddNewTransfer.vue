@@ -13,7 +13,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
             <label for="date" class="mt-3"><small>تاریخ </small></label>
-            <date-picker color="#e85454" :auto-submit="true" v-model="tForm.datetime" type="datetime" />
+            <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" :auto-submit="true" v-model="tForm.datetime" type="datetime" />
           </div>
         </vs-col>
 
@@ -141,7 +141,7 @@ export default {
         serial_no: '',
         source_id: "", // The Id of the Source.
         source_type: "", // Type Source
-        datetime: '',
+        datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
         title: '',
         supervisor: '',
         description: '',

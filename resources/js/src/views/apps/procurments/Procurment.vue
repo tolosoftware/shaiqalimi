@@ -133,7 +133,7 @@ export default {
       prForm: new Form({
         serial_no: '',
         currency_id: 1,
-        date_time: '', //new Date().getTime().formatdate('YYYY/MM/DD'),
+        date_time: this.momentj().format('jYYYY/jMM/jDD HH:mm'), //new Date().getTime().formatdate('YYYY/MM/DD'),
         vendor_id: '',
         account_id: '',
         vendor_address: '',

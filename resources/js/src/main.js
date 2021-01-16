@@ -33,6 +33,10 @@ import moment from 'moment'
 moment.locale('fa');
 Vue.prototype.moment = moment
 
+var momentj = require('moment-jalaali')
+momentj().format('jYYYY/jM/jD')
+Vue.prototype.momentj = momentj
+
 import './http/requests'
 
 // start sweetalert
