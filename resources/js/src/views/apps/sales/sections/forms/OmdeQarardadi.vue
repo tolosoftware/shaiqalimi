@@ -34,7 +34,7 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker v-model="sForm.datatime" color="#e85454" type="datetime" v-validate="'required'" :title="errors.first(`contract_date`)" v-bind:class="errors.first(`contract_date`) ? 'has-error' : ''" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker v-model="sForm.datatime" inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD HH:mm" color="#e85454" type="datetime" v-validate="'required'" :title="errors.first(`contract_date`)" v-bind:class="errors.first(`contract_date`) ? 'has-error' : ''" name="contract_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -204,7 +204,7 @@
     </vs-col>
   </vs-row>
   <div class="vx-row">
-        <div class="w-full pt-2 ml-3 mr-3">
+    <div class="w-full pt-2 ml-3 mr-3">
       <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
         <bank-account-select :form="sForm"></bank-account-select>
       </vs-col>
@@ -320,7 +320,7 @@ export default {
         source_type: "", // Type Project
         user_id: localStorage.getItem('id'), //Get the current user id
         currency_id: 1,
-        datatime: "",
+        datatime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
         // Item for the ekmalat section
         item: [{
           item_id: "",
@@ -405,6 +405,7 @@ export default {
       }
     },
     submitForm() {
+
       // this.$validator.validateAll().then(result => {
       //   if(result) {
       //     // if form have no errors
