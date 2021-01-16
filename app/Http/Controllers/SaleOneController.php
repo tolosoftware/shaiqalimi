@@ -188,8 +188,18 @@ class SaleOneController extends Controller
         // return $sale->saleS1;
         $sale->currency_id = Currency::find($sale->currency_id);
         $sale->bank_account = Account::find($sale->bank_account);
+        $sale['stock_records'] = StockRecord::where('type', 'sale')->where('type_id', $sale->id)
+        ->with([
+            'item_id',
+            'item_id.uom_equiv_id',
+            'item_id.uom_id',
+            'uom_equiv_id',
+            'uom_id',
+            'operation_id',
+            'measur_unit',
+            'source_id'
+        ])->get();
 
-        // $items = 
 
         return $sale;
     }

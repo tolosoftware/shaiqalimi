@@ -587,6 +587,10 @@ li.fuel-station > h3{
         margin: 1rem 0;
     
     }
+    .number-rtl-view{
+        direction: ltr;
+        float: left;
+    }
 }
 .serial_no_reference{
     white-space: nowrap;
