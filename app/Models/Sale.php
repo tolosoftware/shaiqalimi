@@ -47,4 +47,5 @@ class Sale extends Model
     {
         return $this->belongsTo(Storage::class, 'source_id');
     }
+    
 }
