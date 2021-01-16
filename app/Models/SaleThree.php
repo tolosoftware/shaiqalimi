@@ -33,6 +33,10 @@ class SaleThree extends Model
         return $this->belongsTo(Client::class, 'client_id');
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
     public function storage()
     {
         return $this->belongsTo(Storage::class, 'storage_id');

@@ -199,8 +199,9 @@ export default {
         // shared fields with other sales
         bank_account: null,
         type: "s4",
-        // client_id: "", // The Id of the Client.
-        source_type: "client", // Type Client
+        client_id: "", // The Id of the Client.
+        source_type: "",
+        source_id: "",
         user_id: localStorage.getItem('id'), //Get the current user id
         currency_id: 1,
         datatime: "",
