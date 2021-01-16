@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     public $table = 'companies';
-    // protected $fillable = [
-    // ];
+    protected $fillable = [
+        'label',
+        'sign',
+        'bossname',
+        'logo',
+        'TIN',
+        'lisense'
+    ];
 }
