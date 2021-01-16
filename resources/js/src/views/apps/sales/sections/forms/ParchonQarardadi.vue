@@ -35,7 +35,7 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -289,7 +289,7 @@ export default {
         source_type: "str", // Type storage
         user_id: localStorage.getItem('id'), //Get the current user id
         currency_id: 1,
-        datatime: "",
+        datatime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
         relative_person: "",
         // Item for the ekmalat section
         item: [{
