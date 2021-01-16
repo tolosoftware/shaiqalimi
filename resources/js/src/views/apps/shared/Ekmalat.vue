@@ -119,7 +119,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="i.total_price" :data="itemsTotalPrice"/>
+              <vs-input type="number" v-model="i.total_price" :data="itemsTotalPrice" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
           </div>
@@ -173,7 +173,7 @@ export default {
       this.axios.get(`/api/item-records/${id}`).then((response) => {
         this.remaining_items[index] = [response.data, acronym];
         this.remaining_items = Object.assign({}, this.remaining_items)
-      // console.log(this.remaining_items);
+        // console.log(this.remaining_items);
         this.$Progress.set(100);
       });
     },
@@ -279,9 +279,9 @@ export default {
         item_id: "",
         operation_id: null,
         equivalent: "",
-        ammount: "",
-        unit_price: "",
-        total_price: "",
+        ammount: "3",
+        unit_price: "302",
+        total_price: "906",
         density: null,
       });
       this.is_active.push({

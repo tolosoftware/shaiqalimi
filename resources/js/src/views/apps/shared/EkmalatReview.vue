@@ -155,9 +155,9 @@ export default {
         item_id: "",
         operation_id: null,
         equivalent: "",
-        ammount: "",
-        unit_price: "",
-        total_price: "",
+        ammount: "3",
+        unit_price: "302",
+        total_price: "906",
         density: null,
       });
     },

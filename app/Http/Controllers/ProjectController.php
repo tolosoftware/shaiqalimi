@@ -89,9 +89,9 @@ class ProjectController extends Controller
             $company_sign = $request->company_id['sign'];
             $serial_no = Helper::getSerialNo('pro-' . $company_sign, 'pro');
             $request['serial_no'] = $serial_no->value;
-            
+
             $resp = Project::create($request->all());
-            
+
             if ($request['proposal_id']) {
 
                 $proData = [
@@ -266,19 +266,15 @@ class ProjectController extends Controller
             'pro_items'
         ])->latest()->limit(3)->get();
     }
-    public function Company()
-    {
-        return DB::table('companies')->get();
-    }
     public function projectSales($id)
     {
         $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
-        ->selectRaw("s.sales_id, s.project_id, s.total, s.deposit, s.tax, s.service_cost, s.serial_no")
-        ->where('project_id', $id);
-        
+            ->selectRaw("s.sales_id, s.project_id, s.total, s.deposit, s.tax, s.service_cost, s.serial_no")
+            ->where('project_id', $id);
+
         $sales3 = Sale::join('sales_threes AS s', 'sales.id', '=', 's.sales_id')
-        ->selectRaw("s.sales_id, s.project_id, s.total, s.deposit, s.tax, s.service_cost, s.serial_no")
-        ->where('project_id', $id);
+            ->selectRaw("s.sales_id, s.project_id, s.total, s.deposit, s.tax, s.service_cost, s.serial_no")
+            ->where('project_id', $id);
         // $data[] = $sales1->union($sales3)->get();
         $data['deposit'] = $sales1->union($sales3)->sum('deposit');
         $data['total'] = $sales1->union($sales3)->sum('total');
@@ -290,19 +286,19 @@ class ProjectController extends Controller
     public function projectTypeChart($id)
     {
         $sales1 = Sale::join('sales_ones AS s', 'sales.id', '=', 's.sales_id')
-        ->selectRaw("s.sales_id, s.project_id")->where('project_id', $id);
+            ->selectRaw("s.sales_id, s.project_id")->where('project_id', $id);
 
         $sales3 = Sale::join('sales_threes AS s', 'sales.id', '=', 's.sales_id')
-        ->selectRaw("s.sales_id, s.project_id")->where('project_id', $id);
+            ->selectRaw("s.sales_id, s.project_id")->where('project_id', $id);
         $matched_sales = $sales1->union($sales3)->pluck('sales_id');
         $stocks = StockRecord::with(['measur_unit', 'item'])->where('type', 'sale')->whereIn('type_id', $matched_sales)->get();
         $chart_data = [];
         // return $stocks;
         foreach ($stocks as $key => $value) {
             // $chart_data[$value['item']['name']] = [$value['uom_equiv_id'], $value['increment_equiv']];
-            if(isset($chart_data[$value['measur_unit']['title']])){
+            if (isset($chart_data[$value['measur_unit']['title']])) {
                 $chart_data[$value['measur_unit']['title']] += $value['increment_equiv'];
-            }else{
+            } else {
                 $chart_data[$value['measur_unit']['title']] = $value['increment_equiv'];
             }
         }
@@ -321,9 +317,9 @@ class ProjectController extends Controller
         // return $data;
         $chart_data = [];
         foreach ($data['pro_items'] as $key => $value) {
-            if(array_key_exists($value['item']['name'], $chart_data)){
+            if (array_key_exists($value['item']['name'], $chart_data)) {
                 $chart_data[$value['item']['name']] += $value['total_price'];
-            }else{
+            } else {
                 $chart_data[$value['item']['name']] = $value['total_price'];
             }
         }
