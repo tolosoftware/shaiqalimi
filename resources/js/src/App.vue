@@ -51,15 +51,18 @@ export default {
           localStorage.setItem('id', this.currentuserdata.id)
 
         }).catch(() => {
+          
           this.$router.push({ path: '/login' });
-          this.$vs.notify({
-            title: ' شما به سیستم دسترسی ندارید!',
-            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
+          if (this.$route.name != 'login') {
+            this.$vs.notify({
+              title: ' شما به سیستم دسترسی ندارید!',
+              text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+          }
         })
     },
 

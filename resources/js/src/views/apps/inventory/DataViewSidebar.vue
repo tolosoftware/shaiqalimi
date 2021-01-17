@@ -15,7 +15,7 @@
   <div class="mt-6 flex items-center justify-between px-6 float-left mb-4">
     <h4>ذخایر اصلی</h4>
   </div>
-  </vs-divider>
+  <vs-divider />
   <vs-tabs>
     <vs-tab label="ذخایر">
       <AllInventory></AllInventory>

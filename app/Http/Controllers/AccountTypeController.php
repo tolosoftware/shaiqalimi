@@ -15,15 +15,27 @@ class AccountTypeController extends Controller
      */
     public function index()
     {
-     
-
         $accounts =  AccountType::with('accounts.financial_records')->get();
-       
-
         return $accounts;
         // return AccountType::all();
     }
+    public function allAccounts()
+    {
+        $accounts =  AccountType::with('accounts.financial_records')->get();
+        // $accounts = AccountType::with([])->get();
+        foreach ($accounts as $key => &$acc) {
+            $this->loadType($acc);
+        }
+        return $accounts;
+    }
 
+    public function loadType($account)
+    {
+        if ($account['type_id'] != null) {
+            $account['type_id'] = AccountType::where('id', $account['type_id'])->first();
+            $this->loadType($account['type_id']);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

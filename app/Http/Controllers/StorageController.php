@@ -41,7 +41,7 @@ class StorageController extends Controller
     public function store(Request $request)
     {
 
-        return Storage::create([
+        $storage = Storage::create([
 
             'code' => $request['code'],
             'name' => $request['name'],
@@ -52,6 +52,11 @@ class StorageController extends Controller
             'oum_id' => $request['oum_id']['id'],
 
         ]);
+        if ($storage) {
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     /**

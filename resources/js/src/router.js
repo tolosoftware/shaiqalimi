@@ -44,7 +44,13 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/',
-                    redirect: `/${localStorage.getItem('token')}` ? 'dashboard' : 'login'
+                    name: 'home',
+                    component: () =>
+                        import ('./views/DashboardAnalytics.vue'),
+                    meta: {
+                        breadcrumb: [{ title: 'Dashboard', active: true }],
+                        rule: 'editor'
+                    }
                 },
                 {
                     path: '/dashboard',
@@ -611,7 +617,7 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/login',
-                    redirect: localStorage.getItem('token') ? '/dashboard' : null,
+                    redirect: (localStorage.getItem('token') === null) ? null : '/dashboard',
                     name: 'login',
                     component: () =>
                         import ('@/views/pages/login/Login.vue'),

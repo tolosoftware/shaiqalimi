@@ -33,10 +33,18 @@ export default {
   },
   created() {
     this.checkLogin();
+    window.addEventListener('keydown', (e) => {
+      if (e.key == 'Enter') {
+        if(!e.path.find(x => x.className === 'vs-textarea')){
+          this.loginJWT();
+        }
+      }
+    });
   },
   methods: {
     checkLogin() {
       if (localStorage.getItem('token')) {
+        console.log('go to dashboard');
          this.$router.push({ path: '/dashboard' });
         // this.$router.go('/dashboard');
         this.$vs.notify({

@@ -421,7 +421,8 @@ export default {
     },
     toggleSidebar() {
       this.sidebarData = {}
-      this.toggleDataSidebar(true)
+      this.toggleDataSidebar(true);
+      this.totalStorageStation();
     },
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
