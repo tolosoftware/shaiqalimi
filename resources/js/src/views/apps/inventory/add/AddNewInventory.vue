@@ -85,12 +85,12 @@ export default {
       uom: [],
       form: new Form({
         id: '',
-        code: '',
+        code: '0',
         name: '',
         manager: '',
         phone: '',
         address: '',
-        capacity: '',
+        capacity: '0',
         oum_id: '',
 
       }),

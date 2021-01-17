@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Fuel_station;
@@ -39,15 +40,15 @@ class FuelStationController extends Controller
      */
     public function store(Request $request)
     {
-        return Fuel_station::create([
-
+        $fuel_station = Fuel_station::create([
             'name' => $request['name'],
             'manager' => $request['manager'],
             'phone' => $request['phone'],
-            'address' => $request['address'],
-
-
+            'address' => $request['address']
         ]);
+        if ($fuel_station) {
+            return 200;
+        }
     }
 
     /**

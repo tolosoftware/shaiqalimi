@@ -8,8 +8,8 @@
           <vx-card :title="item.title" :title-color="item.type" :subtitle="item.subtitle" :time="moment([item.gen_date]).fromNow()" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
             <span class="item-time-ago cursor-pointer">
               <!--<feather-icon icon="BookmarkIcon" svgClasses="w-5 h-6 text-success" />-->
-              <vs-button radius color="primary" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="close" style="margin-right:7px;" @click="showWarn()"></vs-button>&nbsp;&nbsp;
-              <vs-button radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark"></vs-button>
+              <vs-button radius color="primary" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="close" style="margin-right:7px;" @click="removeFromImportant(item.id)"></vs-button>&nbsp;&nbsp;
+              <vs-button radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToImportant(item.id)"></vs-button>
               <!--<feather-icon icon="XIcon" color="warning" svgClasses="w-5 h-6 hover:text-danger stroke-current" class="mr-2" /> -->&nbsp;&nbsp;
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
@@ -75,7 +75,8 @@ export default {
   },
   data() {
     return {
-      cartItems: []
+      cartItems: [],
+      removeFromI: false,
     }
   },
   components: {
@@ -89,11 +90,50 @@ export default {
       this.axios.get('/api/notification')
         .then((response) => {
           this.cartItems = response.data;
-          console.log(this.cartItems);
+          // console.log('data', this.cartItems);
         })
     },
-    showWarn() {
-      alert("close button clicked");
+    removeFromImportant(id) {
+      swal.fire({
+        title: 'مطمیٔن هستید ؟',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله !</span>',
+        cancelButtonText: '<span>خیر !</span>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$Progress.start()
+          this.axios.get('/api/notification/' + id)
+            .then(({
+              data
+            }) => {
+              this.getAllNotification();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'اعلامیه مذکور به لست عمومی انتقال نمود!.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        }
+      })
+    },
+    addToImportant(id) {
+      alert('Clicked Row ID = ' + id);
     }
 
   }

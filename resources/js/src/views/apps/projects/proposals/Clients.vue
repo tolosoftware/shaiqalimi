@@ -135,8 +135,8 @@
         </div>
       </vs-tab>
       <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
-        <component class="scroll-area--data-list-add-new" :is="scrollbarTag" :key="$vs.rtl">
-          <form>
+        <div class="scroll-area--data-list-add-new" :is="scrollbarTag" :key="$vs.rtl" :before-change="validateClientAdd">
+          <form data-vv-scope="clientForm">
             <div class="p-2">
               <!-- Product Image -->
               <template v-if="orgForm.logo">
@@ -158,25 +158,26 @@
                 </div>
               </template>
 
-              <vs-input label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
+              <vs-input name="name" v-validate="'required|min:3'" label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>
               <has-error :form="orgForm" field="name"></has-error>
 
-              <vs-input label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
+              <vs-input name="email" v-validate="'required|email'" label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
               <has-error :form="orgForm" field="email"></has-error>
 
-              <vs-input label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
+              <vs-input name="phone" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
               <has-error :form="orgForm" field="phone"></has-error>
 
-              <vs-input label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
+              <vs-input name="website" v-validate="'required|min:2'" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
               <has-error :form="orgForm" field="website"></has-error>
 
-              <vs-input label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
+              <vs-input name="address" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
               <has-error :form="orgForm" field="address"></has-error>
               <!-- Upload -->
               <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
               <div class="upload-img mt-3" v-if="!orgForm.logo">
-                <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+                <input type="file" name="logo" v-validate="'required'" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
                 <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان نهاد</vs-button>
                 <has-error :form="orgForm" field="logo"></has-error>
               </div>
@@ -186,7 +187,7 @@
             </div>
           </form>
           <br><br>
-        </component>
+        </div>
       </vs-tab>
     </vs-tabs>
   </vs-sidebar>
@@ -197,6 +198,9 @@
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
 import TableLoading from './../../shared/TableLoading.vue'
+import {
+  Validator
+} from 'vee-validate'
 // import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 export default {
   props: {
@@ -256,12 +260,23 @@ export default {
       //   maxScrollbarLength: 60,
       //   wheelSpeed: .60
       // }
+      dict: {
+        custom: {
+          name: { required: ' اسم الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
+          email: { required: 'ایمیل الزامی میباشد', email: 'به فارمت ایمیل وارد گردد.' },
+          phone: { required: 'شماره تماس الزامی میباشد', min: 'شماره تماس حد اقل 3 حرف باشد.' },
+          website: { required: 'آدرس ویب سایت الزامی میباشد', min: ' آدرس ویب سایت حداقل 2 حرف میباشد' },
+          address: { required: 'آدرس الزامی میباشد', min: 'حداقل آدرس 3 حرف است' },
+          logo: { required: 'نشان الزامی میباشد' }
+        }
+      }
     }
   },
   components: {
     // DataViewSidebar,
     // VuePerfectScrollbar
-    TableLoading
+    TableLoading,
+    Validator
   },
   created() {
     // if (!moduleDataList.isRegistered) {
@@ -269,6 +284,7 @@ export default {
     //   moduleDataList.isRegistered = true
     // }
     // this.$store.dispatch('dataList/fetchDataListItems'),
+    Validator.localize('en', this.dict);
     this.getData();
   },
 
@@ -320,6 +336,17 @@ export default {
     }
   },
   methods: {
+    validateClientAdd() {
+      return new Promise((resolve, reject) => {
+        this.$validator.validateAll('clientForm').then(result => {
+          if (result) {
+            resolve(true)
+          } else {
+            reject('correct all values')
+          }
+        })
+      })
+    },
     printClients() {
       window.print();
     },
@@ -385,31 +412,34 @@ export default {
     // },
     submitData() {
       // console.log('Edit Form', this.orgForm.logo)
-      this.orgForm.post('/api/clients')
-        .then(({
-          data
-        }) => {
-          this.getData();
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'نهاد موفقانه ثبت سیستم شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-          this.orgForm.reset();
-        }).catch((errors) => {
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات نهاد را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+    
+      if (this.validateClientAdd()) {
+        this.orgForm.post('/api/clients')
+          .then(({
+            data
+          }) => {
+            this.getData();
+            this.$vs.notify({
+              title: 'موفقیت!',
+              text: 'نهاد موفقانه ثبت سیستم شد.',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+            this.orgForm.reset();
+          }).catch((errors) => {
+            this.$Progress.set(100)
+            this.$vs.notify({
+              title: 'ناموفق!',
+              text: 'لطفاً معلومات نهاد را چک کنید و دوباره امتحان کنید!',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-cross',
+              position: 'top-right'
+            })
+          });
+      }
 
       // this.$validator.validateAll().then(result => {
       //   if (result) {
