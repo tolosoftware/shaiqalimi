@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      accountTypes: [],
+      // accountTypes: [],
       settings: {
         // perfectscrollbar settings
         // maxScrollbarLength: 60,

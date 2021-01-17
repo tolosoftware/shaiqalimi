@@ -191,10 +191,11 @@ export default {
       sForm: new Form({
         // sales_id: '', // Get the created sales id.
         serial_no: '',
-        service_cost: '',
-        additional_cost: '',
-        total: '',
+        service_cost: '0',
+        additional_cost: '0',
+        total: '0',
         steps: '',
+        tax:'0',
         description: '',
         // shared fields with other sales
         bank_account: null,
@@ -213,8 +214,8 @@ export default {
           operation_id: null,
           increment_equiv: "",
           increment: "",
-          unit_price: "302",
-          total_price: "906",
+          unit_price: "0",
+          total_price: "0",
           density: null,
         }],
       }),

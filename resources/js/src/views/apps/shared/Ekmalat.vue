@@ -279,9 +279,9 @@ export default {
         item_id: "",
         operation_id: null,
         equivalent: "",
-        ammount: "3",
-        unit_price: "302",
-        total_price: "906",
+        ammount: "0",
+        unit_price: "0",
+        total_price: "0",
         density: null,
       });
       this.is_active.push({

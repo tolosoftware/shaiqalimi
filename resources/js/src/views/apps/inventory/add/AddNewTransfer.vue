@@ -148,10 +148,10 @@ export default {
         destination: '',
         currency_id: 1,
         // Costs ....
-        transit: '',
-        scale: '',
-        others: '',
-        total: '',
+        transit: '0',
+        scale: '0',
+        others: '0',
+        total: '0',
 
         user_id: localStorage.getItem('id'),
         // Item for the ekmalat section
@@ -161,8 +161,8 @@ export default {
           operation_id: null,
           increment_equiv: "",
           increment: "",
-          unit_price: 302,
-          total_price: 906,
+          unit_price: 0,
+          total_price: 0,
           density: null,
         }],
 
@@ -209,17 +209,17 @@ export default {
         .then((response) => {
           this.tForm.serial_no = response.data;
           this.tForm.user_id = localStorage.getItem('id');
-            // Item for the ekmalat section
-            this.tForm.item = [{
-              item_id: "",
-              unit_id: "",
-              operation_id: null,
-              increment_equiv: "",
-              increment: "",
-              unit_price: "302",
-              total_price: "906",
-              density: null,
-            }];
+          // Item for the ekmalat section
+          this.tForm.item = [{
+            item_id: "",
+            unit_id: "",
+            operation_id: null,
+            increment_equiv: "",
+            increment: "",
+            unit_price: "0",
+            total_price: "0",
+            density: null,
+          }];
         })
     },
     submitForm() {

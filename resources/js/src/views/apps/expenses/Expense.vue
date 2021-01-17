@@ -106,7 +106,7 @@ export default {
         datetime: '',
         title: '',
         user_id: localStorage.getItem('id'),
-        ammount: '',
+        ammount: '0',
         credit_account: '',
         debit_account: '',
         credit_desc: '',

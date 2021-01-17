@@ -210,12 +210,12 @@ export default {
         img: '',
         auth_number: '',
         type: '',
-        total_price: '906',
+        total_price: '0',
         duration: '',
         offer_date: '',
         close_date: '',
-        offer_total_price: '1098',
-        project_total_price: '9854',
+        offer_total_price: '0',
+        project_total_price: '0',
         announce_id: '',
         organization_id: '',
       }),
@@ -302,6 +302,7 @@ export default {
       // this.$vs.loading()
       this.pForm.get('/api/project').then((data) => {
           this.projects = data.data;
+          console.log('projects', this.projects);
           this.isdata = true;
           this.$Progress.set(100);
           // this.$vs.loading.close();

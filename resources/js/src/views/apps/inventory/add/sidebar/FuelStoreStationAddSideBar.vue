@@ -65,7 +65,7 @@ export default {
                 station_id: null,
                 name: '',
                 supervisor: '',
-                capacity: '',
+                capacity: '0',
                 oum_id: '',
 
             }),
