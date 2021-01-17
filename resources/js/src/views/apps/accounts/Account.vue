@@ -19,10 +19,13 @@
     <TableLoading></TableLoading>
   </div>
   <span v-if="isdata" v-for="(type, i) in accountTypes" :key="i">
-    <vs-card v-if="type.accounts.length > 0">
+    <vs-card v-if="type.accounts && type.accounts.length > 0">
       <vs-table max-items="3" pagination :data="type.accounts" stripe>
         <template slot="header">
           <h4 class="p-4"><b>{{ type.title }}</b></h4>
+          <span class="p-4 align-right">
+            <span class="text-rtl-left breadcrumb" v-if="type.type_id">{{ generateBroadCrumps(type) }}</span>
+          </span>
         </template>
         <template slot="thead">
           <vs-th> <strong> ریفرینس کد</strong> </vs-th>
@@ -94,6 +97,7 @@ export default {
     // financialRecordsData Values
     popupActive: false,
     financialRecordsData: [],
+    broadSeperate: `<span class="breadcrumb-separator mx-2"><feather-icon :icon="rtl ? 'ChevronsLeftIcon' : 'ChevronsRightIcon'" svgClasses="w-4 h-4" /></span>`,
   }),
   created() {
     this.getAllAccountTypes();
@@ -131,9 +135,10 @@ export default {
     getAllAccountTypes() {
       this.$Progress.start()
       this.$vs.loading()
-      this.axios.get('/api/acount_type')
+      this.axios.get('/api/accounts')
         .then((response) => {
           this.accountTypes = response.data;
+          console.log(this.accountTypes);
           this.isdata = true;
           this.$Progress.set(100)
           this.$vs.loading.close();
@@ -180,7 +185,7 @@ export default {
       this.toggleDataSidebar(true);
     },
     toggleDataSidebar(val = false) {
-      // this.getAllAccountTypes();
+      this.getAllAccountTypes();
       this.addNewDataSidebar = val;
     },
 
@@ -214,6 +219,15 @@ export default {
     //         position: 'top-right'
     //     })
     // }
+    generateBroadCrumps(type, seperate = false){
+
+      if(type.type_id && type.type_id.title){
+        var t = ((seperate) ? " << " : '') + type.type_id.title.replace(/ *\([^)]*\) */g, "") + this.generateBroadCrumps(type.type_id, true);
+        return t
+      }else{
+        return ''
+      }
+    }
   },
   mounted() {
     this.isMounted = false

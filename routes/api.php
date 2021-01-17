@@ -48,6 +48,7 @@ Route::resource('proposal', 'ProposalController');
 Route::resource('currency', 'CurrencyController');
 Route::resource('operation', 'OperationController');
 Route::resource('acount_type', 'AccountTypeController');
+Route::get('accounts', 'AccountTypeController@allAccounts');
 Route::resource('clients', 'ClientController');
 Route::resource('item-type', 'ItemTypeController');
 Route::resource('items', 'ItemController');

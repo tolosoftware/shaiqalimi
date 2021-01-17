@@ -5709,9 +5709,15 @@ li.fuel-station > h3 {
   margin: 1rem 0;
 }
 
-[dir] .number-rtl-view {
+[dir] .number-rtl-view,
+[dir] .text-rtl-left {
   direction: ltr;
   float: left;
+}
+
+[dir] .text-rtl-left.breadcrumb {
+  margin-left: 0.5em;
+  display: list-item;
 }
 
 .serial_no_reference {

@@ -341,6 +341,13 @@ export default {
   },
   created() {
     this.getProject();
+    window.addEventListener('keydown', (e) => {
+      if (e.key == 'Enter') {
+        if(!e.path.find(x => x.className === 'vs-textarea')){
+          this.submitForm();
+        }
+      }
+    });
   },
   computed: {
     saleTotalCostFinal: function () {
