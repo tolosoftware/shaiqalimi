@@ -22,7 +22,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for="date" class="mt-3"><small>تاریخ عقد قرارداد</small></label>
-            <date-picker color="#e85454" v-validate="'required'" name="contract_date" v-model="pForm.contract_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+            <date-picker inputFormat="jYYYY/jMM/jDD" display-format="jYYYY/jMM/jDD" color="#e85454" v-validate="'required'" name="contract_date" v-model="pForm.contract_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.contract_date') }}</span>
             <has-error :form="pForm" field="contract_date"></has-error>
           </div>
@@ -71,7 +71,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for="date" class="mt-3"><small>تاریخ ختم قرارداد</small></label>
-            <date-picker color="#e85454" v-validate="'required'" name="contract_end_date" v-model="pForm.contract_end_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
+            <date-picker inputFormat="jYYYY/jMM/jDD" display-format="jYYYY/jMM/jDD" color="#e85454" v-validate="'required'" name="contract_end_date" v-model="pForm.contract_end_date" input-format="YYYY/MM/DD" format="jYYYY/jMM/jDD" :auto-submit="true" size="large"></date-picker>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.contract_end_date') }}</span>
             <has-error :form="pForm" field="contract_end_date"></has-error>
           </div>
@@ -426,8 +426,8 @@ export default {
         title: '',
         reference_no: '0',
         status: "1",
-        contract_date: '',
-        contract_end_date: '',
+        contract_date: this.momentj().format('jYYYY/jMM/jDD'),
+        contract_end_date: this.momentj().format('jYYYY/jMM/jDD'),
         project_guarantee: '0',
         item: [{
           item_id: "",
