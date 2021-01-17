@@ -175,7 +175,7 @@ export default {
       this.axios.get(`/api/item-records/${id}`).then((response) => {
         this.remaining_items[index] = [response.data, acronym];
         this.remaining_items = Object.assign({}, this.remaining_items)
-      // console.log(this.remaining_items);
+        // console.log(this.remaining_items);
         this.$Progress.set(100);
       });
     },
@@ -262,7 +262,7 @@ export default {
           }
         });
       });
-    // console.log(this.errors);
+      // console.log(this.errors);
     },
     justAddRow() {
       this.items.push({
@@ -270,9 +270,9 @@ export default {
         unit_id: "",
         operation_id: null,
         increment_equiv: "",
-        increment: "",
-        unit_price: "302",
-        total_price: "906",
+        increment: "0",
+        unit_price: "0",
+        total_price: "0",
         density: null,
       });
       this.is_active.push({

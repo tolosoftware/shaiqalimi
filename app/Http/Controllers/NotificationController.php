@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Notification;
@@ -45,9 +46,12 @@ class NotificationController extends Controller
      * @param  \App\Models\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function show(Notification $notification)
+    public function show($id)
     {
-        //
+        $notification = Notification::findOrFail($id);
+        $notification->type = "normal";
+        $notification->save();
+        return response(['status' => 'changed']);
     }
 
     /**

@@ -76,7 +76,7 @@ export default {
         name: '',
         uom_id: '',
         uom_equiv_id: '',
-        equivalent: '',
+        equivalent: '0',
         description: '',
       }),
       settings: {

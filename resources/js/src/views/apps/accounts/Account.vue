@@ -84,11 +84,11 @@ export default {
     accForm: new Form({
       type_id: '',
       name: '',
-      ref_code: '',
+      ref_code: '0',
       status: 1,
       description: '',
-      credit: '',
-      debit: '',
+      credit: '0',
+      debit: '0',
       id: null
     }),
     currentx: 14,

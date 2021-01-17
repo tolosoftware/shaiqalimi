@@ -112,7 +112,7 @@
                 <vs-col vs-lg="9" class="pl-3" vs-align="right" vs-sm="8" vs-xs="12">
                   <div class="vx-row w-full">
                     <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p clas="w-full"><strong>نام نهاد: </strong>وزارت معارف</p>
+                      <p clas="w-full"><strong>نام نهاد: </strong>{{proposal.pro_data}}</p>
                     </vs-col>
                   </div>
                   <div class="vx-row">
@@ -578,7 +578,7 @@ export default {
           operation_id: null,
           equivalent: "",
           ammount: "",
-          unit_price: "",
+          unit_price: "0",
           total_price: "",
           density: null,
         }]
@@ -626,16 +626,18 @@ export default {
 
     },
     showCheckModal(id) {
+      this.proposal = this.proposals.filter(c => (this.id != null && id) ? c.proposal_id == id : true);
       this.popupModalActive = true;
-      this.$Progress.start()
-      this.axios
-        .get("/api/proposal/" + id)
-        .then((data) => {
-          this.proposal = data.data;
-          console.log("proposal", this.proposal);
-          this.$Progress.set(100);
-        })
-        .catch(() => {});
+      console.log('proposal', this.proposal);
+      // this.$Progress.start()
+      // this.axios
+      //   .get("/api/proposal/" + id)
+      //   .then((data) => {
+      //     this.proposal = data.data;
+      //     console.log("proposal", this.proposal);
+      //     this.$Progress.set(100);
+      //   })
+      //   .catch(() => {});
     },
     showPrintData(id) {
       this.popupActive = true;

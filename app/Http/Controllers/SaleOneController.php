@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\SaleOne;
@@ -28,7 +29,7 @@ class SaleOneController extends Controller
      */
     public function index()
     {
-        
+
         $sales1 = Sale::with(['saleS1.project', 'source'])->get();
         $sales2 = Sale::with(['saleS2.storage', 'source'])->get();
 
@@ -189,16 +190,16 @@ class SaleOneController extends Controller
         $sale->currency_id = Currency::find($sale->currency_id);
         $sale->bank_account = Account::find($sale->bank_account);
         $sale['stock_records'] = StockRecord::where('type', 'sale')->where('type_id', $sale->id)
-        ->with([
-            'item_id',
-            'item_id.uom_equiv_id',
-            'item_id.uom_id',
-            'uom_equiv_id',
-            'uom_id',
-            'operation_id',
-            'measur_unit',
-            'source_id'
-        ])->get();
+            ->with([
+                'item_id',
+                'item_id.uom_equiv_id',
+                'item_id.uom_id',
+                'uom_equiv_id',
+                'uom_id',
+                'operation_id',
+                'measur_unit',
+                'source_id'
+            ])->get();
 
 
         return $sale;
@@ -236,7 +237,7 @@ class SaleOneController extends Controller
     public function destroy($id)
     {
         $sale = Sale::findOrFail($id);
-        $helperDele = deleteSales($sale->id, $sale->type);
+        $helperDele = Helper::deleteSales($sale->id, $sale->type);
         if ($helperDele) {
             $sale->delete();
         }
