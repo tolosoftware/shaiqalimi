@@ -61,34 +61,35 @@
       <tbody>
         <vs-tr :data="tr" :key="i" v-for="(tr, i) in data">
           <vs-td>
-            <p>{{i + 1 }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{i + 1 }}</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.type +" - "+ tr.serial_no }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.type +" - "+ tr.serial_no }}</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.total }} افغانی</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.total }} افغانی</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.service_cost }} افغانی</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.service_cost }} افغانی</p>
           </vs-td>
           <vs-td>
-            <p>{{ $t(tr.type) }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ $t(tr.type) }}</p>
           </vs-td>
           <vs-td>
-            <p>{{ tr.source_type }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.source_type }}</p>
           </vs-td>
           <vs-td>
-            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.sales_id)" />&nbsp;&nbsp;
-            <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
-            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
-            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.sales_id)" />
+            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showCheckModal(tr.sales_id)" />&nbsp;&nbsp;
+            <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current cursor-pointer" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="deleteData(tr.sales_id)" />
+            <feather-icon icon="EyeIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="viewData(tr)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
-  <vs-popup class="holamundo" title="تنظیمات مربط به فروشات" :active.sync="popupModalActive">
+  <vs-popup class="holamundo" title="تنظیمات مربوط به فروشات" :active.sync="popupModalActive">
     <div v-for="(s,i) in sale">
       <div v-if="s.type=='s1'">
         <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
@@ -208,11 +209,15 @@
     </div>
 
   </vs-popup>
+  <vs-popup class="holamundo" title="معلومات فروشات" :active.sync="saleModalActive">
+    <sale-view :sale="sale_to_view"/>
+  </vs-popup>
 </div>
 </template>
 
 <script>
 import TableLoading from './../../shared/TableLoading'
+import SaleView from '../view/SaleView'
 import {
   FormWizard,
   TabContent
@@ -223,13 +228,16 @@ export default {
     // DataViewSidebar
     FormWizard,
     TabContent,
-    TableLoading
+    TableLoading,
+    SaleView
   },
   data() {
     return {
       popupModalActive: false,
+      saleModalActive: false,
       sales: [],
       sale: [],
+      sale_to_view: null,
       // Demo data
       popupActive: false,
       isloaded: false,
@@ -277,6 +285,17 @@ export default {
           this.isloaded = true;
           this.$Progress.set(100);
 
+        })
+        .catch(() => {});
+    },
+    viewData(sale) {
+      this.$Progress.start()
+      this.axios
+        .get("/api/sale/" + sale.sales_id)
+        .then((data) => {
+          this.sale_to_view = data.data;
+          this.saleModalActive = true;
+          this.$Progress.set(100);
         })
         .catch(() => {});
     },
