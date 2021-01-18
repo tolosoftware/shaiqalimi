@@ -1,6 +1,6 @@
 <template>
 <div v-if="sale">
-  <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ</vs-button>
+  <vs-button size="small" type="gradient" icon="print" class="mb-1" id="printBTN" @click="cprint">چاپ</vs-button>
   <vs-row vs-w="12" class="project-view-header">
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
       <h4>&nbsp;بخش معلومات عمومی&nbsp;</h4>
@@ -98,27 +98,6 @@
         <small class="number-rtl-view" v-text="sale.sales.driver_phone"></small>
       </h6>
     </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مصارف خدمات : </strong> <small class="mb-5" v-text="sale.sales.service_cost" vs-justify="right" vs-align="right"></small> {{sale.currency_id.sign_fa}}</h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.transport_cost">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مصارف انتقالات : </strong> <small class="mb-5" v-text="sale.sales.transport_cost" vs-justify="right" vs-align="right"></small> {{sale.currency_id.sign_fa}}</h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.tax">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مالیات : </strong> <small class="mb-5" v-text="sale.sales.tax" vs-justify="right" vs-align="right"></small> %</h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.deposit">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تامینات : </strong> <small class="mb-5" v-text="sale.sales.deposit" vs-justify="right" vs-align="right"></small> %</h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> قیمت نهایی : </strong> <small class="mb-5" v-text="sale.sales.total" vs-justify="right" vs-align="right"></small> {{ sale.currency_id.sign_fa }}</h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.steps">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> پیشرفت : </strong> <small class="mb-5" v-text="calcProgress(sale.sales.steps)" vs-justify="right" vs-align="right"></small> %</h6>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
-      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تفصیلات : </strong> <small class="mb-5" v-text="sale.sales.description" vs-justify="right" vs-align="right"></small> </h6>
-    </vs-col>
   </vs-row>
 
   <!-- Ekmalat section -->
@@ -155,6 +134,36 @@
       </vs-tr>
     </template>
   </vs-table>
+
+  <vs-row vs-w="12" class="project-view-header">
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+      <h4>&nbsp;بخش مالی&nbsp;</h4>
+    </vs-col>
+  </vs-row>
+  <vs-row>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مصارف خدمات : </strong> <small class="mb-5" v-text="sale.sales.service_cost" vs-justify="right" vs-align="right"></small> {{sale.currency_id.sign_fa}}</h6>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.transport_cost">
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مصارف انتقالات : </strong> <small class="mb-5" v-text="sale.sales.transport_cost" vs-justify="right" vs-align="right"></small> {{sale.currency_id.sign_fa}}</h6>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.tax">
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> مالیات : </strong> <small class="mb-5" v-text="sale.sales.tax" vs-justify="right" vs-align="right"></small> %</h6>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.deposit">
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تامینات : </strong> <small class="mb-5" v-text="sale.sales.deposit" vs-justify="right" vs-align="right"></small> %</h6>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> قیمت نهایی : </strong> <small class="mb-5" v-text="sale.sales.total" vs-justify="right" vs-align="right"></small> {{ sale.currency_id.sign_fa }}</h6>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12" v-if="sale.sales.steps">
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> پیشرفت : </strong> <small class="mb-5" v-text="calcProgress(sale.sales.steps)" vs-justify="right" vs-align="right"></small> %</h6>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+      <h6 class="mb-5 mt-3 ml-2"> <strong class="mr-4"> تفصیلات : </strong> <small class="mb-5" v-text="sale.sales.description" vs-justify="right" vs-align="right"></small> </h6>
+    </vs-col>
+
+  </vs-row>
 </div>
 </template>
 
@@ -162,10 +171,13 @@
 import print from 'print-js'
 
 export default {
-
+  props: {
+    sale: {
+      required: false,
+    },
+  },
   data() {
     return {
-      sale: null,
       printStyle: `
       body { direction: rtl;}
       th, td {
@@ -187,11 +199,13 @@ export default {
   },
   methods: {
     getSale() {
-      this.axios.get('/api/sale/' + this.$route.params.id)
-        .then((response) => {
-          this.sale = response.data;
-          this.$Progress.set(100)
-        })
+      if (this.$route.params.id) {
+        this.axios.get('/api/sale/' + this.$route.params.id)
+          .then((response) => {
+            this.sale = response.data;
+            this.$Progress.set(100)
+          })
+      }
     },
     calcProgress(step) {
       if (this.sale.type == 's1') {
@@ -207,7 +221,7 @@ export default {
     cprint() {
       var someJSONdata = [{
         field: 'سریال نمبر',
-        value:  this.sale.type + '-' + ((this.sale.sales.project) ? this.sale.sales.project.pro_data.reference_no :'') + '-' + this.sale.sales.serial_no
+        value: this.sale.type + '-' + ((this.sale.sales.project) ? this.sale.sales.project.pro_data.reference_no : '') + '-' + this.sale.sales.serial_no
       }, {
         field: 'نوعیت',
         value: this.sale.type
@@ -222,7 +236,7 @@ export default {
         value: this.sale.currency_id.sign_fa
       }, {
         field: 'حساب بانک',
-        value: (this.sale.bank_account) ? this.sale.bank_account.name :'-'
+        value: (this.sale.bank_account) ? this.sale.bank_account.name : '-'
       }, {
         field: 'تاریخ',
         value: this.sale.datatime
@@ -259,8 +273,7 @@ export default {
       }, {
         field: 'تفصیلات',
         value: (this.sale.sales.description) ? this.sale.sales.description : '-'
-      }, 
-    ]
+      }, ]
       var header = `<div class="print-header">
       <img width="30" src="/img/default/navelogo.png" alt="login">
       <span class="vx-logo-text">شرکت شایق علیمی</span>

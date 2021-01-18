@@ -5717,6 +5717,7 @@ li.fuel-station > h3 {
 
 [dir] .text-rtl-left.breadcrumb {
   margin-left: 0.5em;
+  font-weight: bold;
   display: list-item;
 }
 
