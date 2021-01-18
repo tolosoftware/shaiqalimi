@@ -354,6 +354,16 @@ const router = new Router({
                     }
                 },
                 {
+                    path: '/tr/view/:id',
+                    component: () =>
+                        import ('./views/apps/transactions/TransactionView.vue'),
+                    meta: {
+                        rule: 'editor',
+                        parent: 'email',
+                        no_scroll: true
+                    }
+                },
+                {
                     path: '/accounts',
                     name: 'accounts',
                     component: () =>
@@ -377,6 +387,20 @@ const router = new Router({
                     name: 'expenses',
                     component: () =>
                         import ('./views/apps/expenses/Expense.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'مخارج', active: true }
+                        ],
+                        pageTitle: '',
+                        rule: 'editor'
+                    }
+                },
+                {
+                    path: '/view/expense/:id',
+                    name: 'view-expense',
+                    component: () =>
+                        import ('./views/apps/expenses/ExpenseView.vue'),
                     meta: {
                         breadcrumb: [
                             { title: 'Home', url: '/' },
@@ -478,6 +502,25 @@ const router = new Router({
                     name: 'procurment',
                     component: () =>
                         import ('./views/apps/procurments/Procurment.vue'),
+                    meta: {
+                        breadcrumb: [{
+                                title: 'Home',
+                                url: '/'
+                            },
+                            {
+                                title: 'خریداری',
+                                active: true
+                            }
+                            // { title: 'Export Selected', active: true }
+                        ],
+                        rule: 'editor'
+                    }
+                },
+                {
+                    path: '/view/procurment/:id',
+                    name: 'view-procurment',
+                    component: () =>
+                        import ('./views/apps/procurments/ProcurmentView.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',

@@ -130,7 +130,7 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        return Transaction::with('user','currency')->find($id);
     }
 
     /**

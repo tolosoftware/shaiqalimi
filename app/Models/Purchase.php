@@ -23,17 +23,15 @@ class Purchase extends Model
     {
         return $this->belongsTo(Vendor::class, 'vendor_id');
     }
-
-
     public function vendor_id()
     {
         return $this->belongsTo(Vendor::class, 'vendor_id');
     }
-
-
-
-
     public function item()
+    {
+        return $this->hasMany(StockRecord::class, 'type_id');
+    }
+    public function stock()
     {
         return $this->hasMany(StockRecord::class, 'type_id');
     }

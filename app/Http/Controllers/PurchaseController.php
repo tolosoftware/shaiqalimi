@@ -191,9 +191,14 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function show(Purchase $purchase)
+    public function show($id)
     {
-        //
+        return Purchase::with(['vendor', 'user', 
+        'stock.item_id',
+        'stock.uom_equiv_id',
+        'stock.uom_id',
+        'stock.operation_id',
+        ])->find($id);
     }
 
     /**

@@ -128,7 +128,7 @@ class ExpensesController extends Controller
      */
     public function show($id)
     {
-        //
+        return Expense::find($id);
     }
 
     /**
