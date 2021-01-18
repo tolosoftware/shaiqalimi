@@ -5603,8 +5603,7 @@ input[type=number] {
 }
 
 [dir] .v-select:not(.vs--single) .vs__selected {
-  background: #312f4b !important;
-  background-image: linear-gradient(calc(360deg - 168deg), rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+  background: #ea5455 !important;
 }
 
 .v-select:not(.vs--single) .vs__selected svg {
