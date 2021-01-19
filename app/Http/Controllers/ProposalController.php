@@ -135,16 +135,16 @@ class ProposalController extends Controller
         // return Proposal::with(['pro_data.client_id', 'pro_items'])->latest()->find($id);
         // return ProData::join('clients AS c', 'pro_data.client_id', '=', 'c.id')
         //     ->selectRaw("c.name, pro_data.title")->where('pro_data.proposal_id', $id)->get();
-        // return Proposal::with(['pro_data.client',
-        // 'pro_items.item_id.uom_equiv_id',
-        // 'pro_items.item_id.uom_id',
-        // 'pro_items.item_id.type',
-        // 'pro_items.unit_id',
-        // 'pro_items.uom_equiv_id',
-        // 'pro_items.operation_id'
-        // ])->whereHas('pro_data', function ($query) {
-        //     return $query->where('proposal_id', '!=', null);
-        // })->find($id);
+        return Proposal::with(['pro_data.client',
+        'pro_items.item_id.uom_equiv_id',
+        'pro_items.item_id.uom_id',
+        'pro_items.item_id.type',
+        'pro_items.unit_id',
+        'pro_items.uom_equiv_id',
+        'pro_items.operation_id'
+        ])->whereHas('pro_data', function ($query) {
+            return $query->where('proposal_id', '!=', null);
+        })->find($id);
 
     }
 

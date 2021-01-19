@@ -354,7 +354,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/tr/view/:id',
+                    path: '/tr/:id',
                     component: () =>
                         import ('./views/apps/transactions/TransactionView.vue'),
                     meta: {
@@ -397,7 +397,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/view/expense/:id',
+                    path: '/expense/:id',
                     name: 'view-expense',
                     component: () =>
                         import ('./views/apps/expenses/ExpenseView.vue'),
@@ -517,7 +517,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/view/procurment/:id',
+                    path: '/procurment/:id',
                     name: 'view-procurment',
                     component: () =>
                         import ('./views/apps/procurments/ProcurmentView.vue'),
