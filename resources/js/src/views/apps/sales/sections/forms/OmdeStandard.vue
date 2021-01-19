@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="submitForm">
+<form data-vv-scope="s2Form" :before-change="validateS2Add">
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -35,12 +35,12 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="sele_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">انتخاب نهاد</label>
-        <v-select :get-option-label="option => option.name" name="contract" :options="clients" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="sForm.client_id" @input="onChange">
+        <v-select v-validate="'required'" :get-option-label="option => option.name" name="contract" :options="clients" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="sForm.client_id" @input="onChange">
           <span slot="no-options">{{ $t('WhoopsNothinghere') }}</span>
         </v-select>
       </div>
@@ -54,17 +54,17 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="phone_number" class="w-full number-rtl" v-bind:value="field_data.clientPhone" label="شماره تماس" />
+        <vs-input name="phone_number" v-validate="'required|min:2'" class="w-full number-rtl" v-bind:value="field_data.clientPhone" label="شماره تماس" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input type="email" name="email" class="w-full number-rtl" v-bind:value="field_data.clientEmail" label="ایمیل آدرس" />
+        <vs-input type="email" name="email" v-validate="'required|email'" class="w-full number-rtl" v-bind:value="field_data.clientEmail" label="ایمیل آدرس" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="address" class="w-full" v-bind:value="field_data.clientAddress" label="آدرس" />
+        <vs-input name="address" v-validate="'required|min:3'" class="w-full" v-bind:value="field_data.clientAddress" label="آدرس" />
       </div>
     </div>
   </div>
@@ -172,7 +172,7 @@
     </vs-col>
   </vs-row>
   <div class="vx-row">
-        <div class="w-full pt-2 ml-3 mr-3">
+    <div class="w-full pt-2 ml-3 mr-3">
       <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
         <bank-account-select :form="sForm"></bank-account-select>
       </vs-col>
@@ -212,6 +212,13 @@
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click.prevent="sForm.reset()">پاک کردن فرم</vs-button>
     </div>
   </div>
+  <vs-list>
+    <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+    <div :key="indextr" v-for="(error, indextr) in errors.items">
+      <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+    </div>
+    <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+  </vs-list>
 </form>
 </template>
 
@@ -220,7 +227,9 @@ import vSelect from 'vue-select'
 import EkmalatStock from "../../../shared/EkmalatStock"
 import SourceSelect from "../../../shared/SourceSelect";
 import BankAccountSelect from "../../../shared/BankAccountSelect"
-
+import {
+  Validator
+} from 'vee-validate'
 export default {
   props: {
     data: {
@@ -232,7 +241,8 @@ export default {
     'v-select': vSelect,
     EkmalatStock,
     SourceSelect,
-    BankAccountSelect
+    BankAccountSelect,
+    Validator
 
   },
   data() {
@@ -295,7 +305,7 @@ export default {
           increment_equiv: "",
           increment: "",
           unit_price: "0",
-          total_price: "0",
+          total_price: "",
           density: null,
         }],
       }),
@@ -303,9 +313,24 @@ export default {
       clients: [],
       field_data: [],
       // End of sidebar items
+      dict: {
+        custom: {
+          curency: { required: ' واحد پولی الزامی میباشد.' },
+          sele_date: { required: ' تاریخ فروش الزامی میباشد.' },
+          contract: { required: ' انتخاب علان الزامی میباشد.' },
+          email: { required: '  ایمیل آدرس الزامی میباشد.', email: 'ایمیل آدرس باید به فارمت ایمیل باشد', },
+          // person_relation: { required: '  شخص ارتباطی الزامی میباشد.', min: 'اسم شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
+          phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
+          address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.', },
+          source: { required: ' انتخاب منبع الزامی میباشد.' },
+          destination: { required: ' انتخاب مقصد الزامی میباشد.' },
+          // sel_date: { required: '  الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
+        }
+      }
     };
   },
   created() {
+    Validator.localize('en', this.dict);
     this.getNextSerialNo()
     this.getProject();
   },
@@ -328,6 +353,9 @@ export default {
     // },
   },
   methods: {
+    validateS2Add() {
+
+    },
     getProject() {
       // Start the Progress Bar
       this.$Progress.start();
@@ -362,34 +390,41 @@ export default {
       }
     },
     submitForm() {
-      this.$Progress.start()
-      this.sForm.post('/api/sale2')
-        .then(({
-          data
-        }) => {
-          // Finish the Progress Bar
-          // this.sForm.reset();
-          // this.errors.clear();
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'قرارداد موفقانه ثبت شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        }).catch((errors) => {
-          // console.log(errors.errors);
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+      this.$validator.validateAll('s2Form').then(result => {
+        if (result) {
+          this.$Progress.start()
+          this.sForm.post('/api/sale2')
+            .then(({
+              data
+            }) => {
+              // Finish the Progress Bar
+              // this.sForm.reset();
+              // this.errors.clear();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'قرارداد موفقانه ثبت شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              // console.log(errors.errors);
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        } else {
+          console.log("Form have erors");
+        }
+      })
+
     },
     // for getting the next serian number
     getNextSerialNo() {

@@ -58,7 +58,7 @@
           </vs-td>
           <vs-td class="img-container">
             <p v-if="tr.pro_data" class="product-name font-medium truncate">
-              <!-- <img :src="tr.img" class="product-img" /> -->
+              <!-- <img :src="tr.img" class="product-img" />--> 
               <p>{{ findClient(tr.pro_data.client_id) }}</p>
             </p>
           </vs-td>

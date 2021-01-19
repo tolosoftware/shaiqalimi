@@ -70,7 +70,7 @@ class SaleOneController extends Controller
                 // 'formula' => 'required|min:2',
                 // 'serial_no' => 'required',
                 'project_id' => 'required',
-                'destination' => 'required',
+                // 'destination' => 'required',
                 'transport_cost' => 'required',
                 'service_cost' => 'required',
                 'tax' => 'required',
