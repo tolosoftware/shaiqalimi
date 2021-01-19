@@ -90,7 +90,7 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title="تنظیمات مربوط به فروشات" :active.sync="popupModalActive">
-    <div v-for="(s,i) in sale">
+    <div v-for="(s,i) in sale" :key="i">
       <div v-if="s.type=='s1'">
         <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
           <tab-content title="تنظیم اطلاعات بل" class="mb-5">

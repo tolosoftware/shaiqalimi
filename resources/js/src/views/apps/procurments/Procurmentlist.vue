@@ -75,6 +75,7 @@
                            params: {procurment_id: tr.id }}).catch(() => {})" />
 
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="EyeIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="$router.push({ path: `/view/procurment/${tr.id}` })" />
           </vs-td>
         </vs-tr>
       </tbody>
@@ -82,14 +83,15 @@
   </vs-table>
 </div>
 </template>
+
 <script>
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
 import TableLoading from './../shared/TableLoading.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
-
+import ProcurmentView from './ProcurmentView'
 export default {
   components: {
-    // DataViewSidebar
+    ProcurmentView,
     TableLoading
   },
   data() {
@@ -122,7 +124,9 @@ export default {
   },
   methods: {
     loadpurchase() {
-      this.axios.get('/api/purches').then(({ data }) => (this.allpurchase = data,
+      this.axios.get('/api/procurments').then(({
+          data
+        }) => (this.allpurchase = data,
           this.isdata = true
         ))
         .catch(() => {
@@ -153,7 +157,7 @@ export default {
         cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
-          this.axios.delete('/api/purches/' + id).then(() => {
+          this.axios.delete('/api/procurments/' + id).then(() => {
             swal.fire(
               'حذف شد !',
               'موفقانه عملیه حذف انجام شد',
@@ -186,7 +190,7 @@ export default {
     },
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
-    }
+    },
   },
   created() {
     this.loadpurchase();

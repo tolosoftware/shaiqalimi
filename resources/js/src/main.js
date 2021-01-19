@@ -12,6 +12,7 @@ import App from './App.vue'
 
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
+import print from 'print-js'
 
 Vue.use(Vuesax)
 

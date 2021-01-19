@@ -79,7 +79,7 @@ Route::get('client/{id}', 'ProjectController@getClient');
 
 //vendors
 Route::resource('vendors', 'VendorController');
-Route::resource('purches', 'PurchaseController');
+Route::resource('procurments', 'PurchaseController');
 Route::get('purchSerialNO', 'PurchaseController@serial');
 Route::get('sources', 'StorageController@allTypeSource');
 
@@ -103,3 +103,4 @@ Route::get('mostresent', 'ArchiveController@mostresent');
 Route::get('sale/project/{project_id}', 'ProjectController@projectSales');
 Route::get('sale/project/type/{project_id}', 'ProjectController@projectTypeChart');
 Route::get('sale/project/item-chart/{project_id}', 'ProjectController@projectItemChart');
+// Route::get('transaction/view/{transaction_id}', 'TransactionController@');
