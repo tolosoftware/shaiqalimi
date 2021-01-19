@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="submitForm">
+<form data-vv-scope="s1Form" :before-change="validateS1Add">
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -34,12 +34,12 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker v-model="sForm.datatime" inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" type="datetime" v-validate="'required'" :title="errors.first(`contract_date`)" v-bind:class="errors.first(`contract_date`) ? 'has-error' : ''" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker v-model="sForm.datatime" inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" type="datetime" v-validate="'required'" :title="errors.first(`contract_date`)" v-bind:class="errors.first(`contract_date`) ? 'has-error' : ''" name="sel_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">انتخاب قراردادها</label>
-        <v-select v-model="sForm.project_id" :get-option-label="
+        <v-select v-validate="'required'" v-model="sForm.project_id" :get-option-label="
               (option) => option.serial_no + ' - ' + option.pro_data.title
             " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChangeContract">
           <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
@@ -50,22 +50,22 @@
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="client_name" class="w-full" v-bind:value="field_data.clientName" label="نام نهاد" />
+        <vs-input name="client_name" v-validate="'required|min:2'" class="w-full" v-bind:value="field_data.clientName" label="نام نهاد" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="person_relation" class="w-full" v-bind:value="field_data.repativePerson" type="text" label="شخص ارتباطی" />
+        <vs-input class="w-full" v-bind:value="field_data.repativePerson" type="text" label="شخص ارتباطی" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="phone_number" class="w-full number-rtl" v-bind:value="field_data.clientPhone" label="شماره تماس" />
+        <vs-input name="phone_number" v-validate="'required|min:2'" class="w-full number-rtl" v-bind:value="field_data.clientPhone" label="شماره تماس" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="address" class="w-full" v-bind:value="field_data.clientAddress" label="آدرس" />
+        <vs-input name="address" v-validate="'required|min:3'" class="w-full" v-bind:value="field_data.clientAddress" label="آدرس" />
       </div>
     </div>
   </div>
@@ -82,10 +82,8 @@
       </div>
     </div>
   </div>
-
   <!-- EkmalatStock -->
   <ekmalat-stock :items="sForm.item" :form="sForm" :currencyID="sForm.currency_id" :listOfFields="[]" :disabledFields="[]" :grid="[]" ref="ekmalat"></ekmalat-stock>
-
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-w="3">
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -242,6 +240,13 @@
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
     </div>
   </div>
+  <vs-list>
+    <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+    <div :key="indextr" v-for="(error, indextr) in errors.items">
+      <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+    </div>
+    <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+  </vs-list>
 </form>
 </template>
 
@@ -250,6 +255,9 @@ import vSelect from "vue-select";
 import EkmalatStock from "../../../shared/EkmalatStock";
 import SourceSelect from "../../../shared/SourceSelect";
 import BankAccountSelect from "../../../shared/BankAccountSelect"
+import {
+  Validator
+} from 'vee-validate'
 
 export default {
   props: {
@@ -262,7 +270,8 @@ export default {
     "v-select": vSelect,
     EkmalatStock,
     SourceSelect,
-    BankAccountSelect
+    BankAccountSelect,
+    Validator
   },
   data() {
     return {
@@ -327,23 +336,38 @@ export default {
           unit_id: "",
           operation_id: null,
           increment_equiv: "",
-          increment: "0",
-          unit_price: "0",
-          total_price: "0",
+          increment: "",
+          unit_price: "",
+          total_price: "",
           density: null,
         }],
       }),
       items: [],
       contracts: [],
       field_data: [],
+      dict: {
+        custom: {
+          curency: { required: ' واحد پولی الزامی میباشد.' },
+          sel_date: { required: ' تاریخ فروش الزامی میباشد.' },
+          contract: { required: ' انتخاب علان الزامی میباشد.' },
+          client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.', },
+          // person_relation: { required: '  شخص ارتباطی الزامی میباشد.', min: 'اسم شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
+          phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
+          address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.', },
+          source: { required: ' انتخاب منبع الزامی میباشد.' },
+          destination: { required: ' انتخاب مقصد الزامی میباشد.' },
+          // sel_date: { required: '  الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
+        }
+      }
       // End of sidebar items
     };
   },
   created() {
+    Validator.localize('en', this.dict);
     this.getProject();
     window.addEventListener('keydown', (e) => {
       if (e.key == 'Enter') {
-        if(!e.path.find(x => x.className === 'vs-textarea')){
+        if (!e.path.find(x => x.className === 'vs-textarea')) {
           this.submitForm();
         }
       }
@@ -368,6 +392,17 @@ export default {
     // },
   },
   methods: {
+    validateS1Add() {
+      // return new Promise((resolve, reject) => {
+      //   this.$validator.validateAll('s1Form').then(result => {
+      //     if (result) {
+      //       resolve(true)
+      //     } else {
+      //       reject('correct all values')
+      //     }
+      //   })
+      // })
+    },
     getProject() {
       // Start the Progress Bar
       this.$Progress.start();
@@ -376,6 +411,7 @@ export default {
         .get("/api/project")
         .then((data) => {
           this.contracts = data.data;
+          console.log('contractss', this.contracts);
           // Finish the Progress Bar
           this.$Progress.set(100);
           this.$vs.loading.close()
@@ -413,43 +449,42 @@ export default {
     },
     submitForm() {
 
-      // this.$validator.validateAll().then(result => {
-      //   if(result) {
-      //     // if form have no errors
-      //     alert("form submitted!");
-      //   }else{
-      //   // console.log("Form have erors");
-      //     // form have errors
-      //   }
-      // })
-      this.$Progress.start()
-      this.sForm.post('/api/sale1')
-        .then(({
-          data
-        }) => {
-          // Finish the Progress Bar
-          // this.sForm.reset();
-          // this.errors.clear();
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'قرارداد موفقانه ثبت شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        }).catch((errors) => {
-          // console.log(errors.errors);
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+      this.$validator.validateAll('s1Form').then(result => {
+        if (result) {
+          this.$Progress.start()
+          this.sForm.post('/api/sale1')
+            .then(({
+              data
+            }) => {
+              // Finish the Progress Bar
+              // this.sForm.reset();
+              // this.errors.clear();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'قرارداد موفقانه ثبت شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              // console.log(errors.errors);
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
+
     },
     appCheckBoxes(x) {
       if (this.sForm.steps && this.sForm.steps >= x) {

@@ -626,7 +626,7 @@ export default {
 
     },
     showCheckModal(id) {
-      this.proposal = this.proposals.filter(c => (this.id != null && id) ? c.proposal_id == id : true);
+      
       this.popupModalActive = true;
       console.log('proposal', this.proposal);
       // this.$Progress.start()
