@@ -1,9 +1,9 @@
 <template>
 <div v-if="expense">
-  <vs-button size="small" type="gradient" icon="print" class="mb-1" id="printBTN">چاپ</vs-button>
+  <vs-button size="small" type="gradient" icon="print" class="mb-1" id="printBTN" @click="cprint">چاپ</vs-button>
   <vs-row vs-w="12" class="project-view-header">
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
-      <h4>&nbsp;بخش معلومات عمومی&nbsp;</h4>
+      <h4>&nbsp;بخش مصارف&nbsp;</h4>
     </vs-col>
   </vs-row>
   <vs-row vs-w="12">
@@ -33,15 +33,95 @@ export default {
     return {
       fields: [
         'serial_no',
+        'datetime',
+        'title',
+        'ammount',
+        ['currency', ['sign_fa']],
+        ['user', ['firstName', 'lastName']],
         'description',
       ],
+      printStyle: `
+      body { direction: rtl;}
+      th, td {
+        text-align: right !important;
+        padding: 8px !important;
+      }
+      tr:nth-child(even) {background-color: #f2f2f2 !important;}
+      thead{
+        border-bottom: solid 3px #EA5455 !important;
+      }
+      .print_extra_data{
+        float:left;
+      }
+      `,
     };
   },
   created() {
     this.getTransaction();
   },
   methods: {
+    cprint() {
+      var someJSONdata = [{
+          field: 'سریال نمبر',
+          value: this.expense.serial_no,
+        },
+        {
+          field: 'تاریخ',
+          value: this.expense.datetime,
+        },
+        {
+          field: 'عنوان',
+          value: this.expense.title,
+        },
+        {
+          field: 'مقدار',
+          value: this.expense.ammount,
+        },
+        {
+          field: 'واحد پولی',
+          value: this.expense.currency.sign_fa,
+        },
+        {
+          field: 'کاربر',
+          value: this.expense.user.firstName + ' ' + this.expense.user.lastName,
+        },
+        {
+          field: 'تفصیلات',
+          value: this.expense.description,
+        },
+      ]
 
+      var header = `<div class="print-header">
+      <img width="30" src="/img/default/navelogo.png" alt="login">
+      <span class="vx-logo-text">شرکت شایق علیمی</span>
+      <span class="print_extra_data">
+        <span>پرینت توسط ${localStorage.getItem('name')} ${localStorage.getItem('lastname')}</span>
+        <br>
+        <span>${ new Date().toLocaleString('fa-AF', { hour12: true })}</span>
+      </span>
+      </div>`; // printJS('print-this', 'html');
+      var options = {
+        printable: someJSONdata,
+        properties: [{
+            field: 'field',
+            displayName: 'نام'
+          },
+          {
+            field: 'value',
+            displayName: 'دیتا'
+          },
+        ],
+        type: 'json',
+        header: header,
+        documentTitle: 'راپور پروژه تیل وزارت معارف xyz-821738',
+        style: this.printStyle,
+        css: [
+          '/css/app.css'
+        ],
+        scanStyles: false
+      };
+      printJS(options);
+    },
     getTransaction() {
       if (this.$route.params.id) {
         this.$Progress.start()

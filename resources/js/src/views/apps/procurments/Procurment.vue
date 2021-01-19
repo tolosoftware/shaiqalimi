@@ -18,7 +18,7 @@
             <vs-row vs-w="12">
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                 <div class="w-full pt-2 ml-3 mr-3">
-                  <vs-input size="medium" v-validate="'serialnumber'" label="سریال نمبر" name="serialnumber" v-model="prForm.serial_no" class="w-full" disabled />
+                  <vs-input size="medium" v-validate="'required'" label="سریال نمبر" name="serialnumber" v-model="prForm.serial_no" class="w-full" disabled />
                   <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
                 </div>
               </vs-col>
@@ -202,7 +202,7 @@ export default {
       this.addNewDataSidebar = val
     },
     submitData() {
-      this.prForm.post('/api/purches')
+      this.prForm.post('/api/procurments')
         .then(() => {
           this.$vs.notify({
             title: 'عملیه ثبت موفق بود!',

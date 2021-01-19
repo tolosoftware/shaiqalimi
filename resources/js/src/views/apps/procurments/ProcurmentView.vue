@@ -1,32 +1,32 @@
 <template>
-<div v-if="purchase">
-  <vs-button size="small" type="gradient" icon="print" class="mb-1" id="printBTN">چاپ</vs-button>
+<div v-if="procurment">
+  <vs-button size="small" type="gradient" icon="print" class="mb-1" id="printBTN" @click="cprint">چاپ</vs-button>
   <vs-row vs-w="12" class="project-view-header">
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
       <h4>&nbsp;بخش معلومات عمومی&nbsp;</h4>
     </vs-col>
   </vs-row>
   <vs-row vs-w="12">
-    <vs-col :key="i" v-for="(field, i) in fields" vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+    <vs-col :key="i" v-for="(field, i) in display_fields" vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
       <h6 class="mb-5 mt-3 ml-2">
         <strong class="mr-4">
           {{ (typeof field === 'object') ? $t(field[0]) : $t(field) }}:
         </strong>
-        <small class="mb-5" v-if="(typeof field !== 'object')">{{ purchase[field] }}</small>
+        <small class="mb-5" v-if="(typeof field !== 'object')">{{ procurment[field] }}</small>
         <small class="mb-5" v-if="(typeof field === 'object')">
-          <span :key="i" v-for="(sub, i) in field[1]"> {{ purchase[field[0]][sub] }} </span>
+          <span :key="i" v-for="(sub, i) in field[1]"> {{ procurment[field[0]][sub] }} </span>
         </small>
       </h6>
     </vs-col>
   </vs-row>
 
-    <!-- Ekmalat section -->
+  <!-- Ekmalat section -->
   <vs-row vs-w="12" class="project-view-header">
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
       <h4>&nbsp;بخش اکمالات /اقلام&nbsp;</h4>
     </vs-col>
   </vs-row>
-  <vs-table :data="purchase.stock">
+  <vs-table :data="procurment.stock">
     <template slot="thead">
       <vs-th>جنس / محصول</vs-th>
       <vs-th>مقدار</vs-th>
@@ -59,20 +59,30 @@
 
 <script>
 export default {
-  props: {
-    purchase: {
-      required: false
-    },
-  },
   data() {
     return {
-      fields: [
+      display_fields: [
         'serial_no',
         'description',
         'date_time',
         ['vendor', ['name']],
         ['user', ['firstName', 'lastName']],
       ],
+      procurment: null,
+      printStyle: `
+      body { direction: rtl;}
+      th, td {
+        text-align: right !important;
+        padding: 8px !important;
+      }
+      tr:nth-child(even) {background-color: #f2f2f2 !important;}
+      thead{
+        border-bottom: solid 3px #EA5455 !important;
+      }
+      .print_extra_data{
+        float:left;
+      }
+      `,
     };
   },
   created() {
@@ -84,14 +94,68 @@ export default {
       if (this.$route.params.id) {
         this.$Progress.start()
         this.$vs.loading()
-        this.axios.get('/api/purches/' + this.$route.params.id)
+        this.axios.get('/api/procurments/' + this.$route.params.id)
           .then((response) => {
-            this.purchase = response.data;
+            this.procurment = response.data;
+            console.log(this.procurment);
             this.$vs.loading.close();
             this.$Progress.set(100)
           })
       }
     },
+    cprint() {
+      var someJSONdata = [{
+          field: 'سریال نمبر',
+          value: this.procurment.serial_no,
+        },
+        {
+          field: 'تفصیلات',
+          value: this.procurment.description,
+        },
+        {
+          field: 'تاریخ',
+          value: this.procurment.date_time,
+        },
+        {
+          field: 'نام فروشنده',
+          value: this.procurment.vendor.name,
+        },
+        {
+          field: 'کاربر',
+          value: this.procurment.user.firstName + ' ' + this.procurment.user.lastName,
+        },
+      ];
+      var header = `<div class="print-header">
+      <img width="30" src="/img/default/navelogo.png" alt="login">
+      <span class="vx-logo-text">شرکت شایق علیمی</span>
+      <span class="print_extra_data">
+        <span>پرینت توسط ${localStorage.getItem('name')} ${localStorage.getItem('lastname')}</span>
+        <br>
+        <span>${ new Date().toLocaleString('fa-AF', { hour12: true })}</span>
+      </span>
+      </div>`; // printJS('print-this', 'html');
+      var options = {
+        printable: someJSONdata,
+        properties: [{
+            field: 'field',
+            displayName: 'نام'
+          },
+          {
+            field: 'value',
+            displayName: 'دیتا'
+          },
+        ],
+        type: 'json',
+        header: header,
+        documentTitle: 'راپور پروژه تیل وزارت معارف xyz-821738',
+        style: this.printStyle,
+        css: [
+          '/css/app.css'
+        ],
+        scanStyles: false
+      };
+      printJS(options);
+    }
   },
 };
 </script>
