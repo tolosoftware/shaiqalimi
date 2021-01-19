@@ -288,7 +288,7 @@ const router = new Router({
                     path: 'sales/sale/:id',
                     name: 'sales-view',
                     component: () =>
-                        import ('./views/apps/sales/SaleView.vue'),
+                        import ('./views/apps/sales/view/SaleView.vue'),
                     meta: {
                         breadcrumb: [{
                                 title: 'Home',
