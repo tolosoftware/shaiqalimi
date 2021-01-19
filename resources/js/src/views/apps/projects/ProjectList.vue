@@ -57,14 +57,14 @@
             {{ indextr + 1 }}
           </vs-td>
           <vs-td class="img-container">
-            <p v-if="tr.pro_data" class="product-name font-medium truncate">
-              <!-- <img :src="tr.img" class="product-img" />--> 
+            <p v-if="tr.pro_data" class="product-name font-medium truncate" @click.stop="$router.push({ path: `/projects/project/${tr.id}` })">
+              <!-- <img :src="tr.img" class="product-img" /> -->
               <p>{{ findClient(tr.pro_data.client_id) }}</p>
             </p>
           </vs-td>
           <vs-td>
             <div v-if="tr.pro_data">
-              <p class="product-name font-medium truncate">
+              <p class="product-name font-medium truncate" @click.stop="$router.push({ path: `/projects/project/${tr.id}` })">
                 {{ tr.pro_data.title }}</p>
             </div>
           </vs-td>
