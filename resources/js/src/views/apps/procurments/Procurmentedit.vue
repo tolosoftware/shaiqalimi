@@ -156,7 +156,7 @@ export default {
   methods: {
 
     loadspcificpurchase() {
-      this.axios.get('/api/purches/' + this.$route.params.procurment_id + '/edit').then(({
+      this.axios.get('/api/procurments/' + this.$route.params.procurment_id + '/edit').then(({
         data
       }) => (
         this.prForm.fill(data)
@@ -203,7 +203,7 @@ export default {
       this.addNewDataSidebar = val
     },
     submitData() {
-      this.prForm.post('/api/purches')
+      this.prForm.post('/api/procurments')
         .then(() => {
           this.$vs.notify({
             title: 'عملیه ثبت موفق بود!',

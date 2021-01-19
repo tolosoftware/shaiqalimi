@@ -197,6 +197,15 @@ export default {
         s2: 'عمده عادی',
         s3: 'پرچون قراردادی',
         s4: 'پرچون عادی',
-        STRG: 'ذخیره اصلی'
+        STRG: 'ذخیره اصلی',
+        serial_no:'سریال نمبر',
+        transaction_status:'حالت معامله',
+        ammount:'مقدار',
+        description:'تفصیلات',
+        currency:'واحد پولی',
+        user:'کاربر',
+        vendor:'نام فروشنده',
+        datetime:'تاریخ',
+        date_time:'تاریخ',
     }
 }

@@ -61,13 +61,13 @@
       <tbody>
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
           <vs-td>
-            <p class="product-name font-medium truncate">{{ indextr+1 }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer product-name font-medium truncate">{{ indextr+1 }}</p>
           </vs-td>
           <vs-td>
-            <p class="product-name font-medium truncate">{{'TRA-'+ tr.serial_no }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer product-name font-medium truncate">{{'TRA-'+ tr.serial_no }}</p>
           </vs-td>
           <vs-td>
-            <p class="product-category">{{ tr.title | title }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer product-category">{{ tr.title | title }}</p>
           </vs-td>
           <vs-td>
             <vs-chip :color="getOrderStatusColorr(tr.transaction_status)" class="product-order-status">{{ tr.transaction_status | title }}</vs-chip>
@@ -92,6 +92,9 @@
       </tbody>
     </template>
   </vs-table>
+    <vs-popup class="holamundo" title="معلومات معاملات تجارتی" :active.sync="transactionModalActive">
+    <transaction-view :transaction="transaction_to_view"/>
+  </vs-popup>
 </div>
 </template>
 
@@ -99,10 +102,10 @@
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
 import moduleDataList from "@/store/data-list/moduleDataList.js";
 import TableLoading from './../shared/TableLoading.vue'
-
+import TransactionView from './TransactionView';
 export default {
   components: {
-    // DataViewSidebar
+    TransactionView,
     TableLoading
   },
   data() {
@@ -111,6 +114,8 @@ export default {
       allTransaction: [],
       itemsPerPage: 10,
       isMounted: false,
+      transaction_to_view: null,
+      transactionModalActive: false,
     };
   },
   computed: {
@@ -146,7 +151,18 @@ export default {
           })
         });
     },
+    viewData(transaction){
+      this.$Progress.start()
+      this.axios
+        .get("/api/transaction/" + transaction.id)
+        .then((resp) => {
+          this.transaction_to_view = resp.data;
+          this.transactionModalActive = true;
+          this.$Progress.set(100);
+        })
+        .catch(() => {});
 
+    },
     deleteData(id) {
       swal.fire({
         title: 'آیا شما مطمئن هستید ؟',

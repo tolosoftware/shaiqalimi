@@ -90,11 +90,16 @@
           <vs-td class="whitespace-no-wrap">
             <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="EyeIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="viewData(tr)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
+  <vs-popup class="holamundo" title="معلومات معاملات تجارتی" :active.sync="expenseModalActive">
+    <expense-view :expense="expense_to_view" />
+  </vs-popup>
+
 </div>
 </template>
 
@@ -102,17 +107,19 @@
 //import DataViewSidebar from '../../../DataViewSidebar.vue'
 import moduleDataList from "@/store/data-list/moduleDataList.js"
 import TableLoading from './../shared/TableLoading.vue'
+import ExpenseView from './ExpenseView';
 
 export default {
   components: {
-    // DataViewSidebar
+    ExpenseView,
     TableLoading
   },
   data() {
     return {
       isdata: false,
       allTransaction: [],
-
+      expense_to_view: null,
+      expenseModalActive: false,
       itemsPerPage: 10,
       isMounted: false,
 
@@ -152,6 +159,17 @@ export default {
             position: 'top-right'
           })
         });
+    },
+    viewData(expense) {
+      this.$Progress.start()
+      this.axios
+        .get("/api/expenses/" + expense.id)
+        .then((data) => {
+          this.expense_to_view = data.data;
+          this.expenseModalActive = true;
+          this.$Progress.set(100);
+        })
+        .catch(() => {});
     },
     deleteData(id) {
       swal.fire({

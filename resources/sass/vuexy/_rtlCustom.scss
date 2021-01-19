@@ -505,8 +505,7 @@ input[type=number] {
 .v-select:not(.vs--single) .vs__selected {
     color: white !important;
     /* font-size: 0.9rem; */
-    background: #312f4b !important;
-    background-image: linear-gradient(calc(360deg - 168deg), rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+    background: #ea5455 !important;
     svg{
         stroke: #ffffff !important;
         opacity: 1 !important;
@@ -587,9 +586,14 @@ li.fuel-station > h3{
         margin: 1rem 0;
     
     }
-    .number-rtl-view{
+    .number-rtl-view, .text-rtl-left{
         direction: ltr;
         float: left;
+    }
+    .text-rtl-left.breadcrumb{
+        margin-left: 0.5em;
+        font-weight: bold;
+        display: list-item;
     }
 }
 .serial_no_reference{

@@ -104,7 +104,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return User::findOrFail($id);
+        $user = User::findOrFail($id);
+        // $user['userleaders'] = UserAssignment::where('lead_user_id', $id)->get();
+        return $user;
     }
 
     /**
@@ -116,18 +118,30 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
+        $photoname = NULL;
         if($request->image != null){
-            $photoname = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
-            \Image::make($request->image)->save(public_path('img/user/').$photoname);
-            $request->merge(['photo' => $photoname]);
+            if (strpos($request->image, 'base64')) {
+                $photoname = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+                \Image::make($request->image)->save(public_path('img/user/').$photoname);
+                $request->merge(['photo' => $photoname]);
+            }else
+            {
+                $photoname = $request->image;
+            }
         }
        
 
         $user = User::findOrFail($id);
         $request['password'] =  Hash::make($request['password']);
-        $request['image'] =  $photoname;
+        $request['image'] =  ($photoname) ? $photoname : '';
         $user->update($request->all());
+        // if($request->userleaders != null){
+        //     foreach ($request->userleaders as $key => $val) {
+        //         if(!UserAssignment::where(['lead_user_id' => $val['id'], 'user_id'=> $id])->get()){
+        //             UserAssignment::create(['lead_user_id' => $val['id'], 'user_id'=> $id]);
+        //         }
+        //     }
+        // }
         return ["message"=>"موفقانه معلومات اصلاح شد"];
     }
 

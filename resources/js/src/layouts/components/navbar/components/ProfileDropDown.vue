@@ -85,19 +85,15 @@ export default {
           localStorage.removeItem('position');
           localStorage.removeItem('image');
           localStorage.removeItem('id');
-
-          this.$router.push({ path: '/login' });
-
-             this.$vs.notify({
-                title: 'عملیه خروج موفق بود!',
-                text: 'عملیه موفغانه انجام شد',
-                color: 'success',
-                iconPack: 'feather',
-                icon: 'icon-check',
-                position: 'top-right'
-            })
-
-
+          this.$vs.notify({
+            title: 'عملیه خروج موفق بود!',
+            text: 'عملیه موفغانه انجام شد',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+        })
+        window.location.href = '/login';
     }
   }
 }
