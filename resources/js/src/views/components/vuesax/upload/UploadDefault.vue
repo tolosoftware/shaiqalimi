@@ -18,25 +18,8 @@
         </vs-alert>
 
         <div class="mt-5">
-            <vs-upload action="https://jsonplaceholder.typicode.com/posts/" @on-success="successUpload" />
+            <vs-upload action="/api/archive" @on-success="successUpload" />
         </div>
-
-        <template slot="codeContainer">
-&lt;template&gt;
-  &lt;vs-upload action=&quot;https://jsonplaceholder.typicode.com/posts/&quot; @on-success=&quot;successUpload&quot; /&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default {
-  methods:{
-    successUpload(){
-      this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
-    }
-  }
-}
-&lt;/script&gt;
-        </template>
-
     </vx-card>
 </template>
 
