@@ -10,8 +10,8 @@
 
 <template>
     <div id="upload-demo">
-        <upload-default></upload-default>
-        <upload-multiple></upload-multiple>
+        <!-- <upload-default></upload-default>
+        <upload-multiple></upload-multiple> -->
         <upload-automatic></upload-automatic>
     </div>
 </template>

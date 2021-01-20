@@ -49,39 +49,28 @@
     </div>
     <div class="vx-col w-full md:w-1/3">
       <vx-card title="افزودن آرشیف جدید" :before-change="validateArchiveAdd">
-        <form data-vv-scope="archForm">
-
+        <!-- <form data-vv-scope="archForm"> -->
           <div class="mb-base">
             <vs-input class="w-full" autocomplete="off" v-validate="'required|min:2'" name="title" label="عنوان فایل" v-model="aForm.title" />
             <span class="absolute text-danger alerttext">{{ errors.first('archForm.title') }}</span>
-
           </div>
           <div class="mb-base">
             <vs-input type="text" autocomplete="off" class="w-full" v-validate="'required|unique:archives'" name="refcode" label="ریفرینس کود" v-model="aForm.refcode" />
             <span class="absolute text-danger alerttext">{{ errors.first('archForm.refcode') }}</span>
-
           </div>
-
+          <div class="mb-base">
+            <vs-textarea autocomplete="off" class="w-full" name="note" label="تفصیلات" v-model="aForm.note" />
+            <span class="absolute text-danger alerttext">{{ errors.first('archForm.note') }}</span>
+          </div>
           <div id="scroll">
-            <!-- <div> -->
-            <vs-upload text="اپلود فایل آرشیف" :show-upload-button="filse"></vs-upload>
+            <vs-upload :data="{account_id: aForm.account_id}" text="اپلود فایل آرشیف" multiple fileName='archive[]' :show-upload-button="true" action="/api/archive/upload" @on-success="successUpload" @on-error="onError" @on-delete="onDelete" />
           </div>
 
-          <!--<div class="mb-base">
-            <vs-input type="text" autocomplete="off" class="w-full" v-validate="'required'" name="type" label="نوع" v-model="aForm.type" />
-            <span class="absolute text-danger alerttext">{{ errors.first('archForm.type') }}</span>-->
-          <!--<has-error :form="aForm" field="type"></has-error>-->
-          <!--</div>
-          <div class="mb-base pt-4">
-            <vs-textarea label="نوت" v-validate="'required|min:3'" name="note" v-model="aForm.note"></vs-textarea>
-            <span class="absolute text-danger alerttext">{{ errors.first('archForm.note') }}</span>-->
-          <!--<has-error :form="aForm" field="note"></has-error>
-          </div>-->
           <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData">ذخیره</vs-button>
+            <vs-button :disabled="(aForm.archive_files != null && aForm.archive_files.length > 0)? false : true" class="mr-6" @click="submitData">ذخیره</vs-button>
             <vs-button type="border" color="danger" @click="resetFrom">لغو</vs-button>
           </div>
-        </form>
+        <!-- </form> -->
       </vx-card>
     </div>
   </div>
@@ -113,11 +102,11 @@ export default {
       aForm: new Form({
         title: '',
         refcode: '',
-        account_id: 21,
-        file: '',
+        account_id: null,
         note: '',
         user_id: localStorage.getItem('id'),
-        type: ''
+        type: 'important',
+        archive_files: null,
       }),
       settings: {
         // perfectscrollbar settings
@@ -197,7 +186,7 @@ export default {
       this.$Progress.start();
       this.axios.get('/api/mostresent').then(({
         data
-      }) => (this.seletedAccount = data, this.$Progress.set(100), this.$vs.loading.close()));
+      }) => (this.seletedAccount = data, this.aForm.account_id = data.id, this.$Progress.set(100), this.$vs.loading.close()));
     },
 
     accountChanged(data) {
@@ -206,7 +195,6 @@ export default {
       this.loadArchives();
     },
     submitData() {
-      // console.log('file', this.archiveFile);
       let valide = this.validateArchiveAdd();
       if (valide) {
         this.aForm.post('/api/archive')
@@ -223,7 +211,6 @@ export default {
               icon: 'icon-check',
               position: 'top-right'
             })
-            this.aForm.reset();
           }).catch((errors) => {
             this.$Progress.set(100)
             this.$vs.notify({
@@ -274,12 +261,35 @@ export default {
         }
       })
     },
-    successUpload() {
+    successUpload(event) {
+      this.aForm.archive_files = event.srcElement.response;
       this.$vs.notify({
         color: "success",
-        title: "Upload Success",
-        text: "Lorem ipsum dolor sit amet, consectetur",
+        title: "آپلود فایل",
+        text: "عمیله آپلود فایل با موفقیت انجام شد.",
       });
+    },
+    onError(event) {
+      this.$vs.notify({
+        color: "danger",
+        title: "آپلود فایل ناموفق",
+        text: "عمیله آپلود فایل ناموفق بود..",
+      });
+    },
+    onDelete(event) {
+      // this.axios.post('/api/remove-file', {
+      //   fileName: event.name,
+      // }).then(({
+      //   data
+      // }) => {
+      //   this.$vs.notify({
+      //     color: "info",
+      //     title: "حذف فایل",
+      //     text: "عمیله حذف فایل با موفقیت انجام شد.",
+      //   });
+      // }).catch((errors) => {
+
+      // });
     }
 
   },

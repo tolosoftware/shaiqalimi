@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Archive;
+use App\Models\Archives_file;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
 {
@@ -36,30 +38,40 @@ class ArchiveController extends Controller
      */
     public function store(Request $request)
     {
-        // $imageName = time() . rand(11111, 99999);
-        // $request->file->move(public_path('images/img/archieves/'), $imageName);
-        $imageName = time() . rand(11111, 99999) . '_' . $request->file->getClientOriginalName() . '.' . $request->file->getClientOriginalExtension();
-        return response(['status' => $imageName]);
-
-        // $this->validate($request, [
-        //     'title' => 'required|min:2',
-        //     'refcode' => 'required|unique:archives',
-        //     'account_id' => 'required',
-        //     'note' => 'required|min:3',
-        //     'user_id' => 'required',
-        //     'type' => 'required'
-        // ]);
-        // $archive = Archive::create([
-        //     'title' => $request['title'],
-        //     'refcode' => $request['refcode'],
-        //     'account_id' => $request['account_id'],
-        //     'note' => $request['note'],
-        //     'user_id' => $request['user_id'],
-        //     'type' => $request['type']
-        // ]);
-        // if ($archive) {
-        //     return 1;
-        // }
+        $files = null;
+        if($archive = Archive::create($request->all())){
+            foreach (json_decode($request->archive_files, true) as $key => $file) {
+                $file['archive_id'] = $archive->id;
+                $files[] = Archives_file::create($file);
+            }
+        }
+        return [$archive, $files];
+    }
+    public function upload(Request $request)
+    {
+        $account = Account::find($request->account_id);
+        $dir = 'archive/' . $account->id . '-' . $account->name . '/';
+        $stored = [];
+        // return $_FILES;
+        $files = $_FILES;
+        foreach ($files['archive']['tmp_name'] as $key => $value) {
+            $file = file_get_contents($value);
+            // $realName = pathinfo($files['archive']['name'][$key], PATHINFO_FILENAME);
+            $extention =  pathinfo($files['archive']['name'][$key], PATHINFO_EXTENSION);
+            $newName = time() . $key . '.' . $extention;
+            if(Storage::disk('local')->put($dir . $newName, $file)){
+                $stored[$key] = [
+                    'path' => $dir . $newName,
+                    'origname' => $files['archive']['name'][$key],
+                    'newname' => $newName,
+                    'mime' => $files['archive']['type'][$key],
+                    'caption' => '',
+                ];
+            }else{
+                $stored[$key] = $files['archive']['error'][$key];
+            }
+        }
+        return $stored;
     }
 
     /**
@@ -94,8 +106,9 @@ class ArchiveController extends Controller
     {
         //
     }
-    public function uploadfile(Request $request)
+    public function removeFile(Request $request)
     {
+        return Storage::delete('archive/' . $request->fileName);
     }
     /**
      * Remove the specified resource from storage.
