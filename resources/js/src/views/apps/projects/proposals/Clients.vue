@@ -159,32 +159,39 @@
               </template>
 
               <vs-input name="name" v-validate="'required|min:3'" label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
-              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>
-              <has-error :form="orgForm" field="name"></has-error>
+              <!--<span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>-->
+              <!--<has-error :form="orgForm" field="name"></has-error>-->
 
               <vs-input name="email" v-validate="'required|email'" label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
-              <has-error :form="orgForm" field="email"></has-error>
+              <!--<has-error :form="orgForm" field="email"></has-error>-->
 
               <vs-input name="phone" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
-              <has-error :form="orgForm" field="phone"></has-error>
+              <!--<has-error :form="orgForm" field="phone"></has-error>-->
 
               <vs-input name="website" v-validate="'required|min:2'" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
-              <has-error :form="orgForm" field="website"></has-error>
+              <!--<has-error :form="orgForm" field="website"></has-error>-->
 
               <vs-input name="address" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
-              <has-error :form="orgForm" field="address"></has-error>
+              <!--<has-error :form="orgForm" field="address"></has-error>-->
               <!-- Upload -->
               <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
               <div class="upload-img mt-3" v-if="!orgForm.logo">
                 <input type="file" name="logo" v-validate="'required'" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
                 <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان نهاد</vs-button>
-                <has-error :form="orgForm" field="logo"></has-error>
+                <!--<has-error :form="orgForm" field="logo"></has-error>-->
               </div>
             </div>
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
               <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
+            <vs-list>
+              <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+              <div :key="indextr" v-for="(error, indextr) in errors.items">
+                <vs-list-item icon="verified_user" style="color:red;" :title="error.msg"></vs-list-item>
+              </div>
+              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+            </vs-list>
           </form>
           <br><br>
         </div>
@@ -342,7 +349,7 @@ export default {
           if (result) {
             resolve(true)
           } else {
-            reject('correct all values')
+            reject(alert('correct all values'))
           }
         })
       })
@@ -412,7 +419,7 @@ export default {
     // },
     submitData() {
       // console.log('Edit Form', this.orgForm.logo)
-    
+      console.log('Client Errors', this.errors);
       if (this.validateClientAdd()) {
         this.orgForm.post('/api/clients')
           .then(({
