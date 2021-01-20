@@ -14,8 +14,7 @@
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
   </div>
   <vs-divider class="mb-0"></vs-divider>
-
-  <component :is="scrollbarTag" class="scroll-area--data-list-add-new"  :key="$vs.rtl">
+  <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :key="$vs.rtl">
     <div class="pt-6 pr-6 pl-6">
       <!-- NAME -->
       <div class="vx-col mt-4">
@@ -28,16 +27,16 @@
 
       <div class="vx-col mt-5">
         <label for="" class="ml-4 mr-4 mb-2">حالت</label>
-          <div class="radio-group w-full">
-            <div class="w-1/2">
-              <input type="radio" v-model="accForm.status" value="1" id="struct" name="status" />
-              <label for="struct" class="w-full text-center">فعال</label>
-            </div>
-            <div class="w-1/2">
-              <input type="radio" v-model="accForm.status" value="2" id="specific" name="status" />
-              <label for="specific" class="w-full text-center">غیرفعال</label>
-            </div>
+        <div class="radio-group w-full">
+          <div class="w-1/2">
+            <input type="radio" v-model="accForm.status" value="1" id="struct" name="status" />
+            <label for="struct" class="w-full text-center">فعال</label>
           </div>
+          <div class="w-1/2">
+            <input type="radio" v-model="accForm.status" value="2" id="specific" name="status" />
+            <label for="specific" class="w-full text-center">غیرفعال</label>
+          </div>
+        </div>
       </div>
 
       <!-- NAME -->
@@ -52,7 +51,7 @@
               </div>
             </template>
 
-            <vs-input type="number" :disabled="accForm.id || accForm.debit > 0" v-model="accForm.credit"/>
+            <vs-input type="number" :disabled="accForm.id || accForm.debit > 0" v-model="accForm.credit" />
           </vx-input-group>
           <!-- /TITLE -->
         </div>
@@ -67,13 +66,13 @@
               </div>
             </template>
 
-            <vs-input type="number" :disabled="accForm.id || accForm.credit > 0" v-model="accForm.debit"/>
+            <vs-input type="number" :disabled="accForm.id || accForm.credit > 0" v-model="accForm.debit" />
           </vx-input-group>
           <!-- /TITLE -->
         </div>
       </div>
 
-      <vs-textarea placeholder="تفصیلات" v-model="accForm.description"/>
+      <vs-textarea placeholder="تفصیلات" v-model="accForm.description" />
     </div>
   </component>
 
@@ -88,12 +87,16 @@
 import vSelect from "vue-select";
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import SidebarDefaultVue from '../../components/vuesax/sidebar/SidebarDefault.vue';
+import {
+  Validator
+} from 'vee-validate'
 
 export default {
   props: ['isSidebarActive', 'accountTypes', 'accForm'],
   components: {
     VuePerfectScrollbar,
     "v-select": vSelect,
+    Validator
   },
   data() {
     return {
@@ -103,12 +106,15 @@ export default {
         // maxScrollbarLength: 60,
         // wheelSpeed: 0.6,
       },
+      dict: {
+        custom: {}
+      }
     };
   },
-  created(){
+  created() {
+    Validator.localize('en', this.dict);
   },
-  watch: {
-  },
+  watch: {},
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -127,7 +133,7 @@ export default {
   },
   methods: {
     submitData() {
-      if(this.accForm.id) {
+      if (this.accForm.id) {
         this.accForm.patch('/api/account/' + this.accForm.id)
           .then(({
             accForm
@@ -152,7 +158,7 @@ export default {
               position: 'top-right'
             })
           });
-      }else{
+      } else {
         this.accForm.post('/api/account')
           .then(({
             accForm
