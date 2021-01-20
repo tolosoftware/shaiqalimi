@@ -134,14 +134,14 @@ export default {
     // Get Account Types
     getAllAccountTypes() {
       this.$Progress.start()
-      this.$vs.loading()
+      // this.$vs.loading()
       this.axios.get('/api/accounts')
         .then((response) => {
           this.accountTypes = response.data;
           console.log(this.accountTypes);
           this.isdata = true;
           this.$Progress.set(100)
-          this.$vs.loading.close();
+          // this.$vs.loading.close();
         })
     },
     countTheBalance(data) {
@@ -219,12 +219,12 @@ export default {
     //         position: 'top-right'
     //     })
     // }
-    generateBroadCrumps(type, seperate = false){
+    generateBroadCrumps(type, seperate = false) {
 
-      if(type.type_id && type.type_id.title){
+      if (type.type_id && type.type_id.title) {
         var t = ((seperate) ? " << " : '') + type.type_id.title.replace(/ *\([^)]*\) */g, "") + this.generateBroadCrumps(type.type_id, true);
         return t
-      }else{
+      } else {
         return ''
       }
     }
