@@ -644,6 +644,16 @@ const router = new Router({
                         rule: 'editor',
                         no_scroll: true
                     }
+                },
+                {
+                    path: '/upload',
+                    name: 'upload',
+                    component: () =>
+                        import ('./views/components/vuesax/upload/Upload.vue'),
+                    meta: {
+                        rule: 'editor',
+                        no_scroll: true
+                    }
                 }
             ]
         },
