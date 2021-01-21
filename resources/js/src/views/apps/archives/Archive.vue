@@ -66,7 +66,7 @@
           <span class="absolute text-danger alerttext">{{ errors.first('archForm.note') }}</span>
         </div>
         <div id="scroll">
-          <vs-upload ref="vsUpload" :data="{account_id: aForm.account_id}" text="اپلود فایل آرشیف" multiple fileName='archive[]' :show-upload-button="checkUploadCondition" action="/api/archive/upload" @on-success="successUpload" @on-error="onError" @on-delete="onDelete" />
+          <vs-upload ref="vsUpload" automatic :data="{account_id: aForm.account_id}" text="اپلود فایل آرشیف" multiple fileName='archive[]' :show-upload-button="checkUploadCondition" action="/api/archive/upload" @on-success="successUpload" @on-error="onError" @on-delete="onDelete" />
         </div>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
@@ -165,7 +165,9 @@ export default {
       for (const index of Object.keys(this.$refs.vsUpload.filesx)) {
         this.$refs.vsUpload.removeFile(+index);
       }
+      var account_id = this.aForm.account_id;
       this.aForm.reset();
+      this.aForm.account_id = account_id;
       this.$validator.reset();
     },
     loadAccount() {
@@ -276,13 +278,18 @@ export default {
       });
     },
     onError(event) {
+      var msg = "خطا در آپلود فایل، لطفا فایل های خود را چک کنید.";
+      if(event.srcElement.status == 403){
+        msg = "حجم استاندارد برای آپلود ۴۰ ام‌بی میباشد."
+      }
       this.$vs.notify({
         color: "danger",
         title: "آپلود فایل ناموفق",
-        text: "عمیله آپلود فایل ناموفق بود..",
+        text: msg,
       });
     },
     onDelete(event) {
+      console.log(this.$refs.vsUpload.filesx);
       // this.axios.post('/api/remove-file', {
       //   fileName: event.name,
       // }).then(({

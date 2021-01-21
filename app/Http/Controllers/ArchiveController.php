@@ -50,11 +50,20 @@ class ArchiveController extends Controller
     }
     public function upload(Request $request)
     {
+        $files = $_FILES;
+        $sizeLimit = 40000000;
+        // $sizeLimit = 400;
+        // Check for the size
+        foreach ($files['archive']['size'] as $key => $value) {
+            if ($value > $sizeLimit) {
+                $data = ['name' => $files['archive']['name'], 'size' => $this->formatBytes($value), 'main-size' => $value];
+                return response($data, 403);
+            }
+        }
+        // Store the Files
         $account = Account::find($request->account_id);
         $dir = 'archive/' . $account->id . '-' . $account->name . '/';
         $stored = [];
-        // return $_FILES;
-        $files = $_FILES;
         foreach ($files['archive']['tmp_name'] as $key => $value) {
             $file = file_get_contents($value);
             // $realName = pathinfo($files['archive']['name'][$key], PATHINFO_FILENAME);
@@ -146,4 +155,17 @@ class ArchiveController extends Controller
             }
         }
     }
+    public function formatBytes($bytes, $precision = 2) { 
+        $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+    
+        $bytes = max($bytes, 0); 
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+        $pow = min($pow, count($units) - 1); 
+    
+        // Uncomment one of the following alternatives
+        $bytes /= pow(1024, $pow);
+        // $bytes /= (1 << (10 * $pow)); 
+    
+        return round($bytes, $precision) . ' ' . $units[$pow]; 
+    } 
 }
