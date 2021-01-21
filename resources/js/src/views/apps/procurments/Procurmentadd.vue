@@ -93,16 +93,23 @@
     <vs-tab label="ثبت فروشنده" icon="add" class="leftScrol">
       <div class="scroll-area--data-list-add-new" :key="$vs.rtl">
         <div class="pt-6 pr-6 pl-6">
-          <form>
-            <vs-input label="نام فروشنده" class="mt-5 w-full" name="item-name" v-validate="'required'" v-model="form.name" />
+          <form data-vv-scope="sellerForm">
+            <vs-input label="نام فروشنده" class="mt-5 w-full" name="sellername" v-validate="'required'" v-model="form.name" />
             <has-error :form="form" field="name"></has-error>
-            <vs-input label="شماره تماس" class="mt-5 w-full" name="item-phone" v-model="form.phone" />
+            <vs-input label="شماره تماس" class="mt-5 w-full" name="sellerphone" v-validate="'required'" v-model="form.phone" />
             <has-error :form="form" field="phone"></has-error>
-            <vs-input label="آدرس" class="mt-5 w-full" name="item-address" v-model="form.address" />
+            <vs-input label="آدرس" class="mt-5 w-full" name="selleraddress" v-validate="'required|min:2'" v-model="form.address" />
             <has-error :form="form" field="address"></has-error>
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
               <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
+            <vs-list>
+              <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+              <div :key="indextr" v-for="(error, indextr) in errors.items">
+                <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+              </div>
+              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+            </vs-list>
           </form>
         </div>
       </div>
@@ -114,6 +121,9 @@
 <script>
 import TableLoading from './../shared/TableLoading.vue'
 import vSelect from 'vue-select'
+import {
+  Validator
+} from 'vee-validate'
 export default {
   props: {
     isSidebarActive: {
@@ -145,13 +155,21 @@ export default {
         account_id: null,
       }),
       sellers: [],
-      seller: {}
+      seller: {},
+      dict: {
+        custom: {
+          sellername: { required: ' نام فروشنده الزامی میباشد.' },
+          sellerphone: { required: ' شماره تماس فروشنده الزامی میباشد.' },
+          selleraddress: { required: ' آدرس فروشنده الزامی میباشد.', min: 'آدرس فروشنده باید بیشتر از 2 حرف باشد.' },
+        }
+      }
     }
   },
   created() {
+    Validator.localize('en', this.dict);
     this.getAllSellers();
   },
-  components: { TableLoading },
+  components: { TableLoading, Validator },
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -178,28 +196,36 @@ export default {
         })
     },
     submitData() {
-      this.form.post('/api/vendors')
-        .then(() => {
-          this.$vs.notify({
-            title: 'عملیه ثبت موفق بود!',
-            text: 'عملیه موفغانه انجام شد',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-          this.form.reset();
-        })
-        .catch(() => {
-          this.$vs.notify({
-            title: 'عملیه ثبت نام فروشندهوفق بود!',
-            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        })
+      this.$validator.validateAll('sellerForm').then(result => {
+        if (result) {
+          this.form.post('/api/vendors')
+            .then(() => {
+              this.$vs.notify({
+                title: 'عملیه ثبت موفق بود!',
+                text: 'عملیه موفغانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.form.reset();
+            })
+            .catch(() => {
+              this.$vs.notify({
+                title: 'عملیه ثبت نام فروشندهوفق بود!',
+                text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            })
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
+
     },
     editData(data) {
       this.sellerActiveForm = true;

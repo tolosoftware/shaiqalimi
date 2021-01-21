@@ -1,7 +1,7 @@
 <template>
 <component :is="scrollbarTag" class="scroll-area--data-list-add-new">
   <vx-card class="no-shadow">
-    <form>
+    <form data-vv-scope="transferAddForm">
       <div class="vx-row">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
@@ -13,7 +13,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
             <label for="date" class="mt-3"><small>تاریخ </small></label>
-            <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" :auto-submit="true" v-model="tForm.datetime" type="datetime" />
+            <date-picker name="trans_date" v-validate="'required'" inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" :auto-submit="true" v-model="tForm.datetime" type="datetime" />
           </div>
         </vs-col>
 
@@ -21,19 +21,19 @@
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
           <div class="w-full pb-2 ml-3 mr-3">
-            <vs-input size="medium" v-validate="'required'" v-model="tForm.title" label="عنوان انتقال" name="title" class="w-full" />
+            <vs-input size="medium" name="trans_title" v-validate="'required'" v-model="tForm.title" label="عنوان انتقال" class="w-full" />
           </div>
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
             <label for=""><small>منبع</small></label>
-            <source-select :parentForm="tForm"></source-select>
+            <source-select :parentForm="tForm" name="source" v-validate="'required'" v-model="tForm.source_id"></source-select>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
-            <vs-input size="medium" v-validate="'required'" v-model="tForm.destination" label="مقصد" name="title" class="w-full" />
+            <vs-input size="medium" name="trans_destination" v-validate="'required'" v-model="tForm.destination" label="مقصد" class="w-full" />
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
@@ -55,7 +55,7 @@
                 </div>
               </template>
 
-              <vs-input v-model="tForm.transit" type="number" />
+              <vs-input v-model="tForm.transit" name="trans_transit" v-validate="'required'" type="number" />
             </vx-input-group>
           </div>
         </vs-col>
@@ -71,7 +71,7 @@
                 </div>
               </template>
 
-              <vs-input v-model="tForm.scale" type="number" />
+              <vs-input v-model="tForm.scale" name="trans_scale" v-validate="'required'" type="number" />
             </vx-input-group>
           </div>
         </vs-col>
@@ -87,7 +87,7 @@
                 </div>
               </template>
 
-              <vs-input v-model="tForm.others" type="number" />
+              <vs-input v-model="tForm.others" name="trans_others" v-validate="'required'" type="number" />
             </vx-input-group>
           </div>
         </vs-col>
@@ -103,13 +103,13 @@
                 </div>
               </template>
 
-              <vs-input :value="tForm.total = total_cost" v-model="tForm.total" type="number" />
+              <vs-input :value="tForm.total = total_cost" name="trans_total" v-validate="'required'" v-model="tForm.total" type="number" />
             </vx-input-group>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
-            <vs-input size="medium" v-model="tForm.supervisor" v-validate="'required'" label="شخص مسول" name="projecttitle" class="w-full" />
+            <vs-input size="medium" v-model="tForm.supervisor" v-validate="'required'" label="شخص مسول" name="trans_supervisor" class="w-full" />
           </div>
         </vs-col>
 
@@ -127,12 +127,16 @@
 import vSelect from "vue-select";
 import EkmalatStock from "../../shared/EkmalatStock";
 import SourceSelect from "../../shared/SourceSelect";
+import {
+  Validator
+} from 'vee-validate'
 
 export default {
   components: {
     'v-select': vSelect,
     EkmalatStock,
     SourceSelect,
+    Validator
   },
   data() {
     return {
@@ -172,6 +176,9 @@ export default {
       settings: { // perfectscrollbar settings
         maxScrollbarLength: 70,
         wheelSpeed: .60
+      },
+      dict: {
+        custom: {}
       }
     }
   },
@@ -199,6 +206,7 @@ export default {
     },
   },
   created() {
+    Validator.localize('en', this.dict);
     this.getNextSerialNo();
   },
   methods: {
@@ -223,40 +231,43 @@ export default {
         })
     },
     submitForm() {
-      // Start the Progress Bar
       this.$Progress.start()
-      this.tForm.post('/api/transfer')
-        .then(({
-          data
-        }) => {
-          this.tForm.reset();
-          this.getNextSerialNo();
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'انتقال موفقانه ثبت شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        }).catch((errors) => {
+      this.$validator.validateAll('transferAddForm').then(result => {
+        if (result) {
+          this.tForm.post('/api/transfer')
+            .then(({
+              data
+            }) => {
+              this.tForm.reset();
+              this.getNextSerialNo();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'انتقال موفقانه ثبت شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
 
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
-    },
-    submitData2() {
-      this.$validator.validateAll().then(result => {
-        if (result) {}
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
       })
-    },
+      // Start the Progress Bar
+
+    }
   },
 }
 </script>

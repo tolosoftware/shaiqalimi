@@ -123,7 +123,6 @@
               <vs-input type="number" title="مقدار و قیمت فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="(i.total_price) ? parseFloat(i.total_price).toFixed(2) : ''" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
-
           </div>
         </vs-col>
       </vs-row>

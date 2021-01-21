@@ -9,7 +9,7 @@
               <h3>فورم ثبت مصارف</h3>
             </div>
           </div>
-          <form>
+          <form data-vv-scope="expensForm">
             <div class="vx-row">
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
@@ -37,12 +37,12 @@
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <label for="date" class="mt-3"><small>تاریخ </small></label>
-                  <date-picker color="#e85454" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="form.datetime" />
+                  <date-picker color="#e85454" name="expense_date" v-validate="'required'" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="form.datetime" />
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
-                  <vs-input size="medium" v-model="form.title" @input="getTitle" label="عنوان مصارف" class="w-full" />
+                  <vs-input size="medium" name="expense_title" v-validate="'required|min:2'" v-model="form.title" @input="getTitle" label="عنوان مصارف" class="w-full" />
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12" class="mt-5">
@@ -56,29 +56,36 @@
                         <span>{{currency_title}}</span>
                       </div>
                     </template>
-                    <vs-input type="number" v-model="form.ammount" />
+                    <vs-input type="number" name="expense_ammount" v-validate="'required'" v-model="form.ammount" />
                   </vx-input-group>
                 </div>
               </vs-col>
               <div class="vx-col w-1/3 mt-4">
                 <label for=""><small> حساب کریدیت</small></label>
-                <v-select size="large" label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.credit_account" />
+                <v-select size="large" label="name" name="credit_acc_expen" v-validate="'required'" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.credit_account" />
               </div>
               <div class="vx-col w-2/3">
-                <vs-input size="medium" v-validate="'required'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" v-model="form.credit_desc" />
+                <vs-input size="medium" label="تفصیلات " name="credit_acc_exp_desc" class="mt-5 w-full" v-model="form.credit_desc" />
               </div>
               <div class="vx-col w-1/3 mt-4">
                 <label for=""><small> حساب دبت</small></label>
-                <v-select label="name" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.debit_account" />
+                <v-select label="name" name="debit_acc_expen" v-validate="'required'" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.debit_account" />
               </div>
               <div class="vx-col w-2/3">
-                <vs-input size="medium" v-validate="'required'" label="تفصیلات " name="projecttitle" class="mt-5 w-full" v-model="form.debit_desc" />
+                <vs-input size="medium" label="تفصیلات " name="debit_acc_exp_desc" class="mt-5 w-full" v-model="form.debit_desc" />
               </div>
               <div class="vx-col w-full mt-4">
                 <vs-textarea label="تفصیلات کلی" v-model="form.description"></vs-textarea>
               </div>
             </div>
             <vs-button type="filled" @click.prevent="submitData" class="mt-5 block">ثبت</vs-button>
+            <vs-list>
+              <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+              <div :key="indextr" v-for="(error, indextr) in errors.items">
+                <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+              </div>
+              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+            </vs-list>
           </form>
         </vx-card>
       </div>
@@ -89,14 +96,19 @@
   </vs-tabs>
 </div>
 </template>
+
 <script>
 import Expenselist from "./Expenselist.vue";
 import vSelect from "vue-select";
+import {
+  Validator
+} from 'vee-validate'
 
 export default {
   components: {
     Expenselist,
-    "v-select": vSelect
+    "v-select": vSelect,
+    Validator
   },
   data() {
     return {
@@ -115,6 +127,15 @@ export default {
       }),
       currency_title: 'AFN',
       accounts: [],
+      dict: {
+        custom: {
+          expense_date: { required: ' تاریخ انجام مصرف الزامی میباشد.' },
+          expense_title: { required: 'عنوان مصرف الزامی میباشد.', min: 'عنوان مصرف باید بیشتر از 2 حرف باشد.' },
+          expense_ammount: { required: 'مقدار مصرف الزامی میباشد.' },
+          credit_acc_expen: { required: 'حساب کریدیت الزامی میباشد.' },
+          debit_acc_expen: { required: 'حساب دیبیت الزامی میباشد.' }
+        }
+      }
     };
   },
   methods: {
@@ -130,28 +151,36 @@ export default {
       this.form.debit_desc = data;
     },
     submitData() {
-      this.form.post('/api/expenses')
-        .then(() => {
-          this.$vs.notify({
-            title: 'عملیه ثبت موفق بود!',
-            text: 'عملیه موفغانه انجام شد',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-          this.form.reset();
-        })
-        .catch(() => {
-          this.$vs.notify({
-            title: 'ثبت عملیه  ناموفق بود!',
-            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        })
+      this.$validator.validateAll('expensForm').then(result => {
+        if (result) {
+          this.form.post('/api/expenses')
+            .then(() => {
+              this.$vs.notify({
+                title: 'عملیه ثبت موفق بود!',
+                text: 'عملیه موفغانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.form.reset();
+            })
+            .catch(() => {
+              this.$vs.notify({
+                title: 'ثبت عملیه  ناموفق بود!',
+                text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            })
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      });
+
     },
 
     getAccounts() {
@@ -174,6 +203,7 @@ export default {
   },
 
   created() {
+    Validator.localize('en', this.dict);
     this.getAccounts();
     this.getSerialNom();
   }

@@ -74,7 +74,7 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <!-- This conpoment need the form source id and form source type field -->
       <label for=""><small>منبع</small></label>
-      <source-select :parentForm="sForm"></source-select>
+      <source-select :parentForm="sForm" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -319,8 +319,8 @@ export default {
         tax: "0",
         deposit: "0",
         total: "0",
-        steps: null,
-        description: "",
+        steps: "0",
+        description: "توضیحات تاحال درج نشده",
 
         // shared fields with other sales
         bank_account: null,
@@ -349,7 +349,7 @@ export default {
         custom: {
           curency: { required: ' واحد پولی الزامی میباشد.' },
           sel_date: { required: ' تاریخ فروش الزامی میباشد.' },
-          contract: { required: ' انتخاب علان الزامی میباشد.' },
+          contract: { required: ' انتخاب قرارداد الزامی میباشد.' },
           client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.', },
           // person_relation: { required: '  شخص ارتباطی الزامی میباشد.', min: 'اسم شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
           phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
