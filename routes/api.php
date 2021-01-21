@@ -98,7 +98,9 @@ Route::get('bank-accounts', 'AccountController@bankAccounts');
 // Archive
 Route::resource('archive', 'ArchiveController');
 Route::post('archive/upload', 'ArchiveController@upload');
-Route::post('remove-file', 'ArchiveController@removeFile');
+Route::post('archive/remove-file', 'ArchiveController@removeFile');
+Route::get('archive/download-file/{path}', 'ArchiveController@downloadFile');
+Route::get('archive/download-file/{path}/{c}', 'ArchiveController@downloadFile');
 
 Route::get('mostresent', 'ArchiveController@mostresent');
 Route::get('sale/project/{project_id}', 'ProjectController@projectSales');

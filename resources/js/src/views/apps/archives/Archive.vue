@@ -22,25 +22,27 @@
         <TableLoading></TableLoading>
       </div>
       <vx-card v-if="isdata" title="لست آرشیف" style="height:527px;">
-        <vs-table max-items="7" pagination :data="archievs" stripe @updateTable="loadArchives">
+        <vs-table max-items="7" pagination :data="archives" stripe @updateTable="loadArchives">
           <template slot="thead">
             <vs-th>عنوان</vs-th>
             <vs-th>ریفرینس</vs-th>
             <vs-th>کاربر</vs-th>
-            <vs-th>نوع فایل</vs-th>
+            <vs-th>تفصیلات</vs-th>
+            <vs-th>تعداد</vs-th>
             <vs-th>تغییرات</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td :data="data[indextr].id">{{ data[indextr].title }}</vs-td>
-              <vs-td :data="data[indextr].id">{{ data[indextr].refcode  }}</vs-td>
-              <vs-td :data="data[indextr].id">{{ data[indextr].user_id }}</vs-td>
-              <vs-td :data="data[indextr].id">{{ data[indextr].type }}</vs-td>
+              <vs-td>{{ tr.title }}</vs-td>
+              <vs-td>{{ tr.refcode  }}</vs-td>
+              <vs-td>{{ tr.user.firstName }} {{ tr.user.lastName }}</vs-td>
+              <vs-td>{{ tr.note }}</vs-td>
+              <vs-td>{{ tr.files_count }} فایل</vs-td>
               <vs-td class="whitespace-no-wrap notupfromall">
-                <feather-icon icon="FileIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2" @click.stop="showClientData(tr.id)" />
-                <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
+                <feather-icon icon="FileIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current cursor-pointer" class="mr-2" @click.stop="archiveFilesModal(tr.id)" />
+                <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current cursor-pointer" />
                 <!--</router-link> -->
-                <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+                <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="deleteData(tr.id)" />
               </vs-td>
             </vs-tr>
           </template>
@@ -50,30 +52,34 @@
     <div class="vx-col w-full md:w-1/3">
       <vx-card title="افزودن آرشیف جدید" :before-change="validateArchiveAdd">
         <!-- <form data-vv-scope="archForm"> -->
-          <div class="mb-base">
-            <vs-input class="w-full" autocomplete="off" v-validate="'required|min:2'" name="title" label="عنوان فایل" v-model="aForm.title" />
-            <span class="absolute text-danger alerttext">{{ errors.first('archForm.title') }}</span>
-          </div>
-          <div class="mb-base">
-            <vs-input type="text" autocomplete="off" class="w-full" v-validate="'required|unique:archives'" name="refcode" label="ریفرینس کود" v-model="aForm.refcode" />
-            <span class="absolute text-danger alerttext">{{ errors.first('archForm.refcode') }}</span>
-          </div>
-          <div class="mb-base">
-            <vs-textarea autocomplete="off" class="w-full" name="note" label="تفصیلات" v-model="aForm.note" />
-            <span class="absolute text-danger alerttext">{{ errors.first('archForm.note') }}</span>
-          </div>
-          <div id="scroll">
-            <vs-upload :data="{account_id: aForm.account_id}" text="اپلود فایل آرشیف" multiple fileName='archive[]' :show-upload-button="true" action="/api/archive/upload" @on-success="successUpload" @on-error="onError" @on-delete="onDelete" />
-          </div>
+        <div class="mb-3">
+          <vs-input class="w-full" autocomplete="off" v-validate="'required|min:2'" name="title" label="عنوان فایل" v-model="aForm.title" />
+          <span class="absolute text-danger alerttext">{{ errors.first('archForm.title') }}</span>
+        </div>
+        <div class="mb-3">
+          <vs-input type="text" autocomplete="off" class="w-full" v-validate="'required|unique:archives'" name="refcode" label="ریفرینس کود" v-model="aForm.refcode" />
+          <span class="absolute text-danger alerttext">{{ errors.first('archForm.refcode') }}</span>
+        </div>
+        <div class="mb-3">
+          <label for=""><small>تفصیلات</small></label>
+          <vs-textarea autocomplete="off" class="w-full" name="note" v-model="aForm.note" />
+          <span class="absolute text-danger alerttext">{{ errors.first('archForm.note') }}</span>
+        </div>
+        <div id="scroll">
+          <vs-upload ref="vsUpload" :data="{account_id: aForm.account_id}" text="اپلود فایل آرشیف" multiple fileName='archive[]' :show-upload-button="checkUploadCondition" action="/api/archive/upload" @on-success="successUpload" @on-error="onError" @on-delete="onDelete" />
+        </div>
 
-          <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button :disabled="(aForm.archive_files != null && aForm.archive_files.length > 0)? false : true" class="mr-6" @click="submitData">ذخیره</vs-button>
-            <vs-button type="border" color="danger" @click="resetFrom">لغو</vs-button>
-          </div>
+        <div class="flex flex-wrap items-center p-6" slot="footer">
+          <vs-button :title="(aForm.archive_files != null && aForm.archive_files.length > 0)? 'فایل های آپلود شده را ثبت کنید' : 'ابتدا فایل های آرشیف را آپلود کنید.'" class="mr-6" @click="submitArchiveData">ذخیره</vs-button>
+          <vs-button type="border" color="danger" @click="resetFrom">لغو</vs-button>
+        </div>
         <!-- </form> -->
       </vx-card>
     </div>
   </div>
+  <vs-popup class="holamundo" title="معلومات آرشیف" :active.sync="archiveModalActive">
+    <archive-view :archive="archive_to_view"/>
+  </vs-popup>
 </div>
 </template>
 
@@ -81,6 +87,7 @@
 import Vue from "vue";
 
 import TableLoading from '../shared/TableLoading.vue'
+import ArchiveView from './ArchiveView'
 import {
   Validator
 } from 'vee-validate'
@@ -95,6 +102,8 @@ export default {
   name: "vx-archive",
   data() {
     return {
+      archiveModalActive: false,
+      archive_to_view: null,
       seletedAccount: {},
       archiveFile: [],
       accounts: [],
@@ -113,7 +122,7 @@ export default {
         maxScrollbarLength: 60,
         wheelSpeed: 0.6,
       },
-      archievs: [],
+      archives: [],
       dict: {
         custom: {
           title: {
@@ -140,22 +149,6 @@ export default {
   },
 
   methods: {
-    upateFile(data) {
-      console.log('file', data);
-    },
-    updateCurrImg(input) {
-      this.aForm.file = input;
-      // console.log('input', this.aForm.file);
-      // if (input.target.files && input.target.files[0]) {
-      //   // this.oldImage = false
-      //   const reader = new FileReader()
-      //   reader.onload = e => {
-      //     this.archiveFile = e.target.result
-      //     console.log('file', this.archiveFile)
-      //   }
-      //   reader.readAsDataURL(input.target.files[0])
-      // }
-    },
     validateArchiveAdd() {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('archForm').then(result => {
@@ -168,6 +161,10 @@ export default {
       })
     },
     resetFrom() {
+      // Remove Items From VS Upload object
+      for (const index of Object.keys(this.$refs.vsUpload.filesx)) {
+        this.$refs.vsUpload.removeFile(+index);
+      }
       this.aForm.reset();
       this.$validator.reset();
     },
@@ -194,35 +191,44 @@ export default {
       this.aForm.account_id = data.id;
       this.loadArchives();
     },
-    submitData() {
-      let valide = this.validateArchiveAdd();
-      if (valide) {
-        this.aForm.post('/api/archive')
-          .then(({
-            data
-          }) => {
-            this.resetFrom();
-            this.loadArchives();
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'آرشیف موفقانه ثبت سیستم شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
-            })
-          }).catch((errors) => {
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'ناموفق!',
-              text: 'لطفاً معلومات آرشیف را چک کنید و دوباره امتحان کنید!',
-              color: 'danger',
-              iconPack: 'feather',
-              icon: 'icon-cross',
-              position: 'top-right'
-            })
-          });
+    submitArchiveData() {
+      if (this.aForm.archive_files != null && this.aForm.archive_files.length > 0) {
+        let valide = this.validateArchiveAdd();
+        if (valide) {
+          this.aForm.post('/api/archive')
+            .then(({
+              data
+            }) => {
+              this.resetFrom();
+              this.loadArchives();
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'آرشیف موفقانه ثبت سیستم شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات آرشیف را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
 
+        }
+      } else {
+        swal.fire({
+          text: 'فایل های آرشیف را آپلود کنید.',
+          icon: 'error',
+          title: 'خطای کاربر',
+          confirmButtonColor: '#ea5455',
+        }).then((result) => {}).catch(() => {});
       }
     },
 
@@ -231,8 +237,8 @@ export default {
       this.$Progress.start();
       this.axios.get('/api/archive', this.seletedAccount)
         .then((resp) => {
-          // this.archievs = resp.data;
-          this.archievs = resp.data.filter(c => (this.seletedAccount != null && this.seletedAccount.id) ? c.account_id == this.seletedAccount.id : true);
+          // this.archives = resp.data;
+          this.archives = resp.data.filter(c => (this.seletedAccount != null && this.seletedAccount.id) ? c.account_id == this.seletedAccount.id : true);
           this.$Progress.set(100);
           this.$vs.loading.close();
           this.isdata = true;
@@ -290,6 +296,16 @@ export default {
       // }).catch((errors) => {
 
       // });
+    },
+    archiveFilesModal(id){
+        this.axios.get(`/api/archive/${id}`)
+        .then((resp) => {
+          this.archive_to_view = resp.data;
+          this.$Progress.set(100);
+          this.$vs.loading.close();
+          this.archiveModalActive = true;
+        });
+
     }
 
   },
@@ -305,23 +321,25 @@ export default {
         }
       },
     },
-
     scrollbarTag() {
       return this.$store.getters.scrollbarTag;
     },
+    checkUploadCondition() {
+      return true;
+    }
   },
 
   created() {
     Validator.localize('en', this.dict);
     this.defalutAcount();
-    console.log('default', this.seletedAccount);
     this.loadAccount();
     this.loadArchives();
   },
   components: {
     "v-select": vSelect,
     TableLoading,
-    Validator
+    Validator,
+    ArchiveView
   },
 }
 </script>
@@ -343,5 +361,8 @@ export default {
 
 .vs-con-textarea {
   margin-bottom: 1px;
+}
+.con-vs-popup .vs-popup{
+  width: fit-content !important;
 }
 </style>
