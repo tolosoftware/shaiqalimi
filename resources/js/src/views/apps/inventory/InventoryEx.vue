@@ -398,8 +398,13 @@ export default {
     DataViewSidebar,
     TransferViewSidebar
   },
-  created() {
+  created() {   
+    this.$vs.loading();
     this.totalStorageStation();
+    setTimeout(()=> {
+        this.$vs.loading.close()
+    }, 2000);
+    
   },
   methods: {
     totalStorageStation(){
@@ -407,9 +412,6 @@ export default {
       this.$Progress.start();
         this.axios.get('/api/totalstorage')
         .then((response) => {
-          // this.totalStorageStations = response.data;
-          // console.log('all',this.totalStorageStations);
-          // this.$vs.loading.close();
           this.totalStorageStations=response.data;
           this.$Progress.set(100)
           this.$vs.loading.close();
@@ -425,7 +427,7 @@ export default {
     },
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
-      this.totalStorageStation();
+      // this.totalStorageStation();
     },
     toggleTSidebar(val = false) {
       this.transferSidebar = val

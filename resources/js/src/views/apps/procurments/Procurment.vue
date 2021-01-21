@@ -14,7 +14,7 @@
             </div>
           </div>
 
-          <form>
+          <form data-vv-scope="procurmentForm">
             <vs-row vs-w="12">
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                 <div class="w-full pt-2 ml-3 mr-3">
@@ -42,7 +42,7 @@
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <label for="date" class="mt-3"><small>تاریخ </small></label>
-                  <date-picker color="#e85454" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="prForm.date_time" />
+                  <date-picker color="#e85454" name="procurment_date" v-validate="'required'" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="prForm.date_time" />
                 </div>
               </vs-col>
 
@@ -51,19 +51,19 @@
                   <label for>
                     <small> نام فروشنده</small>
                   </label>
-                  <v-select label="name" :options="allvendors" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="setVendordata" />
+                  <v-select label="name" name="seller_name" v-validate="'required'" v-model="prForm.vendor_name" :options="allvendors" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="setVendordata" />
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                 <div class="w-full pt-2 ml-3 mr-3">
-                  <vs-input size="medium" v-validate="'serialnumber'" label="شماره تماس" name="serialnumber" class="w-full" v-model="prForm.vendor_phone" />
-                  <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
+                  <vs-input size="medium" v-validate="'required'" label="شماره تماس" name="seller_phone" class="w-full" v-model="prForm.vendor_phone" />
+                  <span class="text-danger text-sm" v-show="errors.has('seller_phone')">{{ errors.first("seller_phone") }}</span>
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                 <div class="w-full pt-2 ml-3 mr-3">
-                  <vs-input size="medium" v-validate="'serialnumber'" label="آدرس" name="serialnumber" class="w-full" v-model="prForm.vendor_address" />
-                  <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
+                  <vs-input size="medium" v-validate="'required'" label="آدرس" name="address" class="w-full" v-model="prForm.vendor_address" />
+                  <span class="text-danger text-sm" v-show="errors.has('address')">{{ errors.first("address") }}</span>
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -71,7 +71,7 @@
                   <label for>
                     <small>ذخیره اصلی</small>
                   </label>
-                  <source-select :parentForm="prForm"></source-select>
+                  <source-select :parentForm="prForm" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
                 </div>
               </vs-col>
 
@@ -93,6 +93,13 @@
               </vs-col>
             </vs-row>
             <vs-button class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
+            <vs-list>
+              <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+              <div :key="indextr" v-for="(error, indextr) in errors.items">
+                <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+              </div>
+              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+            </vs-list>
           </form>
         </vx-card>
       </div>
@@ -112,6 +119,9 @@ import SourceSelect from "../shared/SourceSelect";
 import Procurmentlist from './Procurmentlist.vue'
 import Procurmentadd from './Procurmentadd.vue'
 import vSelect from 'vue-select'
+import {
+  Validator
+} from 'vee-validate'
 
 export default {
   components: {
@@ -120,7 +130,8 @@ export default {
     "v-select": vSelect,
     EkmalatStock,
     moment,
-    SourceSelect
+    SourceSelect,
+    Validator
   },
 
   data() {
@@ -158,22 +169,35 @@ export default {
 
       allvendors: [],
       storage: [],
+      dict: {
+        custom: {
+          serialnumber: { required: ' سریال نمبر خریداری الزامی میباشد.' },
+          procurment_date: { required: ' تاریخ انجام خریداری الزامی میباشد.' },
+          seller_name: { required: ' نام فروشنده الزامی میباشد.' },
+          seller_phone: { required: ' شماره تماس فروشنده الزامی میباشد.' },
+          address: { required: ' آدرس فروشنده الزامی میباشد.', min: 'آدرس فروشنده باید بیشتر از 2 حرف باشد.' },
+          source: { required: ' انتخاب ذخیره اصلی الزامی میباشد.' }
+        }
+      }
     };
   },
 
   created() {
+    Validator.localize('en', this.dict);
     this.loadvendor();
     this.loadgodam();
     this.getPurchaseSerialNumber();
   },
   methods: {
     setVendordata(data) {
-    // console.log(data);
+      // console.log(data);
       this.prForm.vendor_id = data.id;
       this.prForm.vendor_address = data.address;
       this.prForm.vendor_phone = data.phone;
       this.prForm.account_id = data.account_id;
       this.prForm.vendor_name = data.name;
+
+      console.log('seller_name', this.prForm.vendor_name);
 
     },
     loadvendor() {
@@ -202,29 +226,37 @@ export default {
       this.addNewDataSidebar = val
     },
     submitData() {
-      this.prForm.post('/api/procurments')
-        .then(() => {
-          this.$vs.notify({
-            title: 'عملیه ثبت موفق بود!',
-            text: 'عملیه موفغانه انجام شد',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-          this.prForm.reset();
-        })
+      this.$validator.validateAll('procurmentForm').then(result => {
+        if (result) {
+          this.prForm.post('/api/procurments')
+            .then(() => {
+              this.$vs.notify({
+                title: 'عملیه ثبت موفق بود!',
+                text: 'عملیه موفغانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.prForm.reset();
+            })
 
-        .catch(() => {
-          this.$vs.notify({
-            title: 'ثبت عملیه  ناموفق بود!',
-            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        })
+            .catch(() => {
+              this.$vs.notify({
+                title: 'ثبت عملیه  ناموفق بود!',
+                text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            })
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
+
     },
   },
 

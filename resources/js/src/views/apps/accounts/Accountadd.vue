@@ -15,65 +15,73 @@
   </div>
   <vs-divider class="mb-0"></vs-divider>
   <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :key="$vs.rtl">
-    <div class="pt-6 pr-6 pl-6">
-      <!-- NAME -->
-      <div class="vx-col mt-4">
-        <label for=""><small>نوعیت</small></label>
-        <v-select label="title" v-model="accForm.type_id" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-      </div>
-      <vs-input label="ریفرینس کد" v-model="accForm.ref_code" type="number" class="mt-5 w-full" name="ref_code" />
-      <!-- NAME -->
-      <vs-input label="عنوان" v-model="accForm.name" class="mt-5 w-full" name="name" v-validate="'required'" />
+    <form data-vv-scope="accountForm">
+      <div class="pt-6 pr-6 pl-6">
+        <!-- NAME -->
+        <div class="vx-col mt-4">
+          <label for=""><small>نوعیت</small></label>
+          <v-select label="title" name="account_type" v-validate="'required'" v-model="accForm.type_id" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        </div>
+        <vs-input label="ریفرینس کد" name="reference_code" v-validate="'required'" v-model="accForm.ref_code" type="number" class="mt-5 w-full" />
+        <!-- NAME -->
+        <vs-input label="عنوان" name="account_title" v-validate="'required'" v-model="accForm.name" class="mt-5 w-full" />
 
-      <div class="vx-col mt-5">
-        <label for="" class="ml-4 mr-4 mb-2">حالت</label>
-        <div class="radio-group w-full">
-          <div class="w-1/2">
-            <input type="radio" v-model="accForm.status" value="1" id="struct" name="status" />
-            <label for="struct" class="w-full text-center">فعال</label>
+        <div class="vx-col mt-5">
+          <label for="" class="ml-4 mr-4 mb-2">حالت</label>
+          <div class="radio-group w-full">
+            <div class="w-1/2">
+              <input type="radio" v-model="accForm.status" value="1" id="struct" name="status" />
+              <label for="struct" class="w-full text-center">فعال</label>
+            </div>
+            <div class="w-1/2">
+              <input type="radio" v-model="accForm.status" value="2" id="specific" name="status" />
+              <label for="specific" class="w-full text-center">غیرفعال</label>
+            </div>
           </div>
-          <div class="w-1/2">
-            <input type="radio" v-model="accForm.status" value="2" id="specific" name="status" />
-            <label for="specific" class="w-full text-center">غیرفعال</label>
+        </div>
+
+        <!-- NAME -->
+        <div class="vx-row mt-4">
+          <div class="vx-col w-1/2 pt-4">
+            <!-- TITLE -->
+            <label for=""> <small> کردیت</small></label>
+            <vx-input-group class="mb-base">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>َAFN</span>
+                </div>
+              </template>
+
+              <vs-input type="number" name="credit_account" v-validate="'required'" :disabled="accForm.id || accForm.debit > 0" v-model="accForm.credit" />
+            </vx-input-group>
+            <!-- /TITLE -->
+          </div>
+
+          <div class="vx-col w-1/2 pt-4">
+            <!-- TITLE -->
+            <label for=""> <small> دبت</small></label>
+            <vx-input-group class="mb-base">
+              <template slot="prepend">
+                <div class="prepend-text bg-primary">
+                  <span>AFN</span>
+                </div>
+              </template>
+              <vs-input type="number" name="debit_account" v-validate="'required'" :disabled="accForm.id || accForm.credit > 0" v-model="accForm.debit" />
+            </vx-input-group>
+            <!-- /TITLE -->
           </div>
         </div>
+        <vs-textarea placeholder="تفصیلات" v-model="accForm.description" />
+        <vs-list>
+          <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+          <div :key="indextr" v-for="(error, indextr) in errors.items">
+            <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+          </div>
+          <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+        </vs-list>
       </div>
+    </form>
 
-      <!-- NAME -->
-      <div class="vx-row mt-4">
-        <div class="vx-col w-1/2 pt-4">
-          <!-- TITLE -->
-          <label for=""> <small> کردیت</small></label>
-          <vx-input-group class="mb-base">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>َAFN</span>
-              </div>
-            </template>
-
-            <vs-input type="number" :disabled="accForm.id || accForm.debit > 0" v-model="accForm.credit" />
-          </vx-input-group>
-          <!-- /TITLE -->
-        </div>
-
-        <div class="vx-col w-1/2 pt-4">
-          <!-- TITLE -->
-          <label for=""> <small> دبت</small></label>
-          <vx-input-group class="mb-base">
-            <template slot="prepend">
-              <div class="prepend-text bg-primary">
-                <span>AFN</span>
-              </div>
-            </template>
-
-            <vs-input type="number" :disabled="accForm.id || accForm.credit > 0" v-model="accForm.debit" />
-          </vx-input-group>
-          <!-- /TITLE -->
-        </div>
-      </div>
-
-      <vs-textarea placeholder="تفصیلات" v-model="accForm.description" />
-    </div>
   </component>
 
   <div class="flex flex-wrap items-center p-6" slot="footer">
@@ -107,7 +115,13 @@ export default {
         // wheelSpeed: 0.6,
       },
       dict: {
-        custom: {}
+        custom: {
+          account_type: { required: ' نوع حساب الزامی میباشد.' },
+          reference_code: { required: ' کود الزامی میباشد.' },
+          account_title: { required: ' عنوان حساب الزامی میباشد.' },
+          credit_account: { required: ' حساب کریدیت الزامی میباشد.' },
+          debit_account: { required: ' حساب دیبیت الزامی میباشد.' }
+        }
       }
     };
   },
@@ -133,58 +147,66 @@ export default {
   },
   methods: {
     submitData() {
-      if (this.accForm.id) {
-        this.accForm.patch('/api/account/' + this.accForm.id)
-          .then(({
-            accForm
-          }) => {
-            // Finish the Progress Bar
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'موفقانه ثبت شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
-            })
-          }).catch((errors) => {
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'ناموفق!',
-              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-              color: 'danger',
-              iconPack: 'feather',
-              icon: 'icon-cross',
-              position: 'top-right'
-            })
-          });
-      } else {
-        this.accForm.post('/api/account')
-          .then(({
-            accForm
-          }) => {
-            // Finish the Progress Bar
-            this.accForm.reset();
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'موفقانه ثبت شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
-            })
-          }).catch((errors) => {
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'ناموفق!',
-              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-              color: 'danger',
-              iconPack: 'feather',
-              icon: 'icon-cross',
-              position: 'top-right'
-            })
-          });
-      }
+      this.$validator.validateAll('accountForm').then(result => {
+        if (result) {
+          if (this.accForm.id) {
+            this.accForm.patch('/api/account/' + this.accForm.id)
+              .then(({
+                accForm
+              }) => {
+                // Finish the Progress Bar
+                this.$vs.notify({
+                  title: 'موفقیت!',
+                  text: 'موفقانه ثبت شد.',
+                  color: 'success',
+                  iconPack: 'feather',
+                  icon: 'icon-check',
+                  position: 'top-right'
+                })
+              }).catch((errors) => {
+                this.$Progress.set(100)
+                this.$vs.notify({
+                  title: 'ناموفق!',
+                  text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                  color: 'danger',
+                  iconPack: 'feather',
+                  icon: 'icon-cross',
+                  position: 'top-right'
+                })
+              });
+          } else {
+            this.accForm.post('/api/account')
+              .then(({
+                accForm
+              }) => {
+                // Finish the Progress Bar
+                this.accForm.reset();
+                this.$vs.notify({
+                  title: 'موفقیت!',
+                  text: 'موفقانه ثبت شد.',
+                  color: 'success',
+                  iconPack: 'feather',
+                  icon: 'icon-check',
+                  position: 'top-right'
+                })
+              }).catch((errors) => {
+                this.$Progress.set(100)
+                this.$vs.notify({
+                  title: 'ناموفق!',
+                  text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                  color: 'danger',
+                  iconPack: 'feather',
+                  icon: 'icon-cross',
+                  position: 'top-right'
+                })
+              });
+          }
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      });
+
     },
   },
 };
