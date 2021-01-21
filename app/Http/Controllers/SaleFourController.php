@@ -59,7 +59,7 @@ class SaleFourController extends Controller
                 'service_cost' => 'required',
                 'additional_cost' => 'required',
                 'total' => 'required',
-                'description' => 'required',
+                // 'description' => 'required',
                 'item' => 'required',
             ]);
 

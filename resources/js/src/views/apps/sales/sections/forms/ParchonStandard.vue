@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="submitForm">
+<form data-vv-scope="s4Form">
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -35,11 +35,11 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="sele_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="client_name" v-model="sForm.client_name" class="w-full" label="نام" />
+        <vs-input name="client_name" v-validate="'required|min:2'" v-model="sForm.client_name" class="w-full" label="نام" />
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input v-model="sForm.destination" class="w-full" label="مقصد" />
+        <vs-input v-model="sForm.destination" name="destination" v-validate="'required|min:2'" class="w-full" label="مقصد" />
       </div>
     </div>
   </div>
@@ -63,7 +63,6 @@
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="3" vs-xs="12">
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-
         <div class="w-full pt-2 ml-3 mr-3">
           <label for=""><small>مصارف خدمات</small></label>
           <vx-input-group class="number-rtl">
@@ -106,7 +105,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
+          <vs-input disabled :value="saleTotalCost" name="sale_total_price" v-validate="'required'" autocomplete="off" type="number" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -137,14 +136,14 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" />
+          <vs-input disabled :value="saleTotalCostFinal" name="sele_total_value" v-validate="'required'" autocomplete="off" type="number" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
     </vs-col>
   </vs-row>
   <div class="vx-row">
-        <div class="w-full pt-2 ml-3 mr-3">
+    <div class="w-full pt-2 ml-3 mr-3">
       <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
         <bank-account-select :form="sForm"></bank-account-select>
       </vs-col>
@@ -162,6 +161,13 @@
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="sForm.reset()">پاک کردن فرم</vs-button>
     </div>
   </div>
+  <vs-list>
+    <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+    <div :key="indextr" v-for="(error, indextr) in errors.items">
+      <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+    </div>
+    <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+  </vs-list>
 </form>
 </template>
 
@@ -170,6 +176,9 @@ import vSelect from 'vue-select'
 import EkmalatStock from "../../../shared/EkmalatStock"
 import SourceSelect from "../../../shared/SourceSelect";
 import BankAccountSelect from "../../../shared/BankAccountSelect"
+import {
+  Validator
+} from 'vee-validate'
 
 export default {
   props: {
@@ -182,7 +191,8 @@ export default {
     'v-select': vSelect,
     EkmalatStock,
     SourceSelect,
-    BankAccountSelect
+    BankAccountSelect,
+    Validator
 
   },
   data() {
@@ -194,8 +204,8 @@ export default {
         service_cost: '0',
         additional_cost: '0',
         total: '0',
-        steps: '',
-        tax:'0',
+        steps: '0',
+        tax: '0',
         description: '',
         // shared fields with other sales
         bank_account: null,
@@ -220,10 +230,23 @@ export default {
         }],
       }),
       items: [],
+      dict: {
+        custom: {
+          sele_date: { required: ' تاریخ خریداری الزامی میباشد.' },
+          client_name: { required: 'اسم نهاد الزامی میباشد', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.' },
+          destination: { required: 'مقصد الزامی میباشد', min: 'مقصد باید بیشتر از 2 حرف باشد.' },
+          service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
+          additional_cost: { required: 'مصارف اضافی الزامی میباشد. ' },
+          sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
+          tax: { required: 'مالیه الزامی میباشد ' },
+          sele_total_value: { required: 'قیمت کلی فروش الزامی میباشد .' },
+        }
+      }
       // End of sidebar items
     };
   },
   created() {
+    Validator.localize('en', this.dict);
     this.getNextSerialNo()
   },
   computed: {
@@ -243,34 +266,43 @@ export default {
   methods: {
     // Old methods
     submitForm() {
-      this.$Progress.start()
-      this.sForm.post('/api/sale4')
-        .then(({
-          data
-        }) => {
-          // Finish the Progress Bar
-          // this.sForm.reset();
-          // this.errors.clear();
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'قرارداد موفقانه ثبت شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        }).catch((errors) => {
-        // console.log(errors.errors);
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+      this.$validator.validateAll('s4Form').then(result => {
+        if (result) {
+          this.$Progress.start()
+          this.sForm.post('/api/sale4')
+            .then(({
+              data
+            }) => {
+              // Finish the Progress Bar
+              // this.sForm.reset();
+              // this.errors.clear();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'قرارداد موفقانه ثبت شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              // console.log(errors.errors);
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+
+      })
+
     },
     // for getting the next serian number
     getNextSerialNo() {

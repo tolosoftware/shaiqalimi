@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="submitForm">
+<form data-vv-scope="s3Form">
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -35,7 +35,7 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
-      <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="contract_date" :auto-submit="true" size="large"></date-picker>
+      <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="sele_date" :auto-submit="true" size="large"></date-picker>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -51,7 +51,7 @@
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="client_name" class="w-full" v-bind:value="contract.clientName" label="نام نهاد" />
+        <vs-input name="client_name" v-validate="'required|min:2'" class="w-full" v-bind:value="contract.clientName" label="نام نهاد" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
@@ -61,29 +61,29 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="phone_number" class="w-full number-rtl" v-bind:value="contract.clientPhone" label="شماره تماس" />
+        <vs-input name="phone_number" v-validate="'required|min:2'" class="w-full number-rtl" v-bind:value="contract.clientPhone" label="شماره تماس" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="address" class="w-full" v-bind:value="contract.clientAddress" label="آدرس" />
+        <vs-input name="address" v-validate="'required|min:3'" class="w-full" v-bind:value="contract.clientAddress" label="آدرس" />
       </div>
     </div>
   </div>
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/3 xl:w-1/3 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="driver" class="w-full" v-model="sForm.driver_name" label="نام دریور" />
+        <vs-input name="driver" v-validate="'required|min:2'" class="w-full" v-model="sForm.driver_name" label="نام دریور" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/3 xl:w-1/3 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="plate_no" class="w-full number-rtl" v-model="sForm.plate_no" label="نمبر پلیت" />
+        <vs-input name="plate_no" v-validate="'required|min:2'" class="w-full number-rtl" v-model="sForm.plate_no" label="نمبر پلیت" />
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/3 xl:w-1/3 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input name="driver_phone" class="w-full" v-model="sForm.driver_phone" label="شماره تماس" />
+        <vs-input name="driver_phone" v-validate="'required|min:2'" class="w-full" v-model="sForm.driver_phone" label="شماره تماس" />
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
-        <vs-input v-model="sForm.destination" class="w-full" label="مقصد" />
+        <vs-input name="destination" v-validate="'required|min:2'" v-model="sForm.destination" class="w-full" label="مقصد" />
       </div>
     </div>
   </div>
@@ -132,7 +132,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
+          <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" v-validate="'required'" name="sale_total_price" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -183,14 +183,14 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" />
+          <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" name="sale_total_value" v-validate="'required'" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
     </vs-col>
   </vs-row>
   <div class="vx-row">
-        <div class="w-full pt-2 ml-3 mr-3">
+    <div class="w-full pt-2 ml-3 mr-3">
       <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
         <bank-account-select :form="sForm"></bank-account-select>
       </vs-col>
@@ -228,6 +228,13 @@
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
     </div>
   </div>
+  <vs-list>
+    <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+    <div :key="indextr" v-for="(error, indextr) in errors.items">
+      <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+    </div>
+    <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+  </vs-list>
 </form>
 </template>
 
@@ -236,6 +243,9 @@ import vSelect from 'vue-select'
 import EkmalatStock from "../../../shared/EkmalatStock"
 import SourceSelect from "../../../shared/SourceSelect";
 import BankAccountSelect from "../../../shared/BankAccountSelect"
+import {
+  Validator
+} from 'vee-validate'
 
 export default {
   props: {
@@ -248,7 +258,8 @@ export default {
     'v-select': vSelect,
     EkmalatStock,
     SourceSelect,
-    BankAccountSelect
+    BankAccountSelect,
+    Validator
 
   },
   data() {
@@ -279,7 +290,7 @@ export default {
         tax: '0',
         deposit: '0',
         total: '0',
-        steps: '',
+        steps: '0',
         description: '',
 
         // shared fields with other sales
@@ -307,9 +318,28 @@ export default {
       contracts: [],
       contract: [],
       // End of sidebar items
+      dict: {
+        custom: {
+          sele_date: { required: ' تاریخ خریداری الزامی میباشد.' },
+          client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.' },
+          phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.' },
+          address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.' },
+          driver: { required: '  اسم راننده الزامی میباشد.', min: 'اسم راننده باید بیشتر از 2 حرف باشد.' },
+          plate_no: { required: '  نمبر پلیت راننده الزامی میباشد.', min: 'نمبر پلیت راننده باید بیشتر از 2 حرف باشد.' },
+          driver_phone: { required: 'شماره تماس راننده الزامی میباشد .', min: 'شماره تماس راننده باید بیشتر از 2 حرف باشد.' },
+          destination: { required: 'مقصد الزامی میباشد .', min: 'مقصد باید بیشتر از 2 حرف باشد.' },
+          service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
+          sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
+          tax: { required: 'مالیه الزامی میباشد ' },
+          deposit: { required: 'تامینات الزامی میباشد ' },
+          sale_total_value: { required: 'قیمت نهایی فروش الزامی میباشد ' }
+
+        }
+      }
     };
   },
   created() {
+    Validator.localize('en', this.dict);
     this.getProject();
   },
   computed: {
@@ -347,7 +377,7 @@ export default {
     // End of Methods
     // Old methods
     onChange(contract) {
-    // console.log(contract);
+      // console.log(contract);
       if (contract != null) {
         this.getNextSerialNo(contract.id);
         this.contract.clientName = contract.pro_data.client.name;
@@ -375,34 +405,43 @@ export default {
       }
     },
     submitForm() {
-      this.$Progress.start()
-      this.sForm.post('/api/sale3')
-        .then(({
-          data
-        }) => {
-          // Finish the Progress Bar
-          // this.sForm.reset();
-          // this.errors.clear();
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'قرارداد موفقانه ثبت شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        }).catch((errors) => {
-        // console.log(errors.errors);
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+      this.$validator.validateAll('s3Form').then(result => {
+        if (result) {
+          this.$Progress.start()
+          this.sForm.post('/api/sale3')
+            .then(({
+              data
+            }) => {
+              // Finish the Progress Bar
+              // this.sForm.reset();
+              // this.errors.clear();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'قرارداد موفقانه ثبت شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              // console.log(errors.errors);
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+
+      })
+
     },
     // for getting the next serian number
     getNextSerialNo(type = null) {
