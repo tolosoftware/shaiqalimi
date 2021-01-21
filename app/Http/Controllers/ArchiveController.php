@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Archive;
 use App\Models\Archives_file;
 use Illuminate\Http\Request;
+use Response;
 use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
@@ -17,7 +18,7 @@ class ArchiveController extends Controller
      */
     public function index()
     {
-        return Archive::all();
+        return Archive::with('user')->withCount('files')->get();
     }
 
     /**
@@ -80,9 +81,9 @@ class ArchiveController extends Controller
      * @param  \App\Archive  $archive
      * @return \Illuminate\Http\Response
      */
-    public function show(Archive $archive)
+    public function show($id)
     {
-        //
+        return Archive::with('files')->find($id);
     }
 
     /**
@@ -124,5 +125,25 @@ class ArchiveController extends Controller
     public function mostresent()
     {
         return Account::first();
+    }
+
+    public function downloadFile($id, $check = 'c')
+    {
+        if($check == 'get'){
+            $file = Archives_file::find($id);
+            $storage_path = storage_path().'/'.'app'.'/' . $file->path;
+            if (file_exists($storage_path)) {
+                return Response::download($storage_path, $file->origname);
+            }    
+        }else{
+            $file = Archives_file::find($id);
+            $storage_path = storage_path().'/'.'app'.'/' . $file->path;
+            if (file_exists($storage_path)) {
+                return response(['Ready For Download!'], 200);
+            }
+            else{
+                return response(['File Not Found!'], 404);
+            }
+        }
     }
 }
