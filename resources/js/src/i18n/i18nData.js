@@ -207,5 +207,11 @@ export default {
         vendor:'نام فروشنده',
         datetime:'تاریخ',
         date_time:'تاریخ',
+        origname: 'نام اصلی',
+        path: 'لینک',
+        newname: 'نام سیستم',
+        mime: 'نوعیت',
+        caption: 'کپشن',
+
     }
 }

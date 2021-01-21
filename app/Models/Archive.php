@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Archives_file;
+use App\Models\Archives_file;
 use Illuminate\Database\Eloquent\Model;
 
 class Archive extends Model
@@ -20,4 +20,9 @@ class Archive extends Model
     {
         return $this->hasMany(Archives_file::class, 'archive_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }
