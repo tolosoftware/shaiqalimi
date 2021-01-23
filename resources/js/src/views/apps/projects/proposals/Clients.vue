@@ -168,8 +168,8 @@
               <vs-input name="phone" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
               <!--<has-error :form="orgForm" field="phone"></has-error>-->
 
-              <vs-input name="websitee" v-validate="'required|min:2'" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
-              <!--<has-error :form="orgForm" field="website"></has-error>-->
+              <vs-input name="websitee" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
+              <!--<has-error :form="orgForm" v-validate="'required|min:2'"field="website"></has-error>-->
 
               <vs-input name="address" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
               <!--<has-error :form="orgForm" field="address"></has-error>-->
@@ -292,7 +292,6 @@ export default {
     // }
     // this.$store.dispatch('dataList/fetchDataListItems'),
     Validator.localize('en', this.dict);
-    console.log('eeeeee', this.errors.items)
     this.getData();
   },
 
@@ -322,8 +321,8 @@ export default {
       },
       set(val) {
         if (!val) {
-          this.$emit('closeSidebar'),
-            this.$emit('customEvent', this.clients.find(e => !!e))
+          this.$emit('closeSidebar')
+          this.$emit('customEvent', this.clients.find(e => !!e))
         }
       }
     },

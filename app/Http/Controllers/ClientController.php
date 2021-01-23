@@ -42,7 +42,7 @@ class ClientController extends Controller
             'name' => 'required|min:2',
             'email' => 'required|email',
             'phone' => 'required',
-            'website' => 'required',
+            // 'website' => 'required',
             'address' => 'required',
             'logo' => 'required'
         ]);
