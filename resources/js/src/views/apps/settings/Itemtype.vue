@@ -11,7 +11,7 @@
         <form action="" class="p-2 vx-col w-full mb-3 pr-4 pl-5 mr-3 ml-3">
           <vs-col vs-type="flex" vs-lg="9" vs-sm="12" vs-xs="12">
             <div class="w-full">
-              <vs-input size="medium" label="عنوان معامله" v-model="form.type" name="type" class="w-full" />
+              <vs-input size="medium" label="عنوان" v-model="form.type" name="type" class="w-full" />
             </div>
           </vs-col>
           <vs-col vs-type="flex" vs-lg="3" vs-sm="12" vs-xs="12" class="mt-4 float-left">

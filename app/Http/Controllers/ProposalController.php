@@ -30,7 +30,8 @@ class ProposalController extends Controller
             'pro_items.item_id.type',
             'pro_items.unit_id',
             'pro_items.uom_equiv_id',
-            'pro_items.operation_id'
+            'pro_items.operation_id',
+            'pro_data.company_id'
         ])->whereHas('pro_data', function ($query) {
             return $query->where('proposal_id', '!=', null);
         })->latest()->get();
@@ -141,6 +142,7 @@ class ProposalController extends Controller
         'pro_items.item_id.type',
         'pro_items.unit_id',
         'pro_items.uom_equiv_id',
+        'pro_data.company_id',
         'pro_items.operation_id'
         ])->whereHas('pro_data', function ($query) {
             return $query->where('proposal_id', '!=', null);

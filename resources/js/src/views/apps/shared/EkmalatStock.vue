@@ -52,7 +52,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
+              <vs-input :max="remaining_items[index][0]" :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
             </vx-input-group>
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>

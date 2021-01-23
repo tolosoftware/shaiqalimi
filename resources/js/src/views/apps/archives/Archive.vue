@@ -77,7 +77,7 @@
       </vx-card>
     </div>
   </div>
-  <vs-popup class="holamundo" title="معلومات آرشیف" :active.sync="archiveModalActive">
+  <vs-popup class="holamundo width-80" title="معلومات آرشیف" :active.sync="archiveModalActive">
     <archive-view :archive="archive_to_view"/>
   </vs-popup>
 </div>
