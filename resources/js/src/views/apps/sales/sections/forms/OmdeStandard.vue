@@ -212,7 +212,7 @@
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click.prevent="sForm.reset()">پاک کردن فرم</vs-button>
     </div>
   </div>
-  <vs-list>
+  <vs-list v-if="(errors.items.length > 0)">
     <vs-list-header color="danger" title="مشکلات"></vs-list-header>
     <div :key="indextr" v-for="(error, indextr) in errors.items">
       <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
@@ -403,12 +403,14 @@ export default {
               this.$Progress.set(100)
               this.$vs.notify({
                 title: 'موفقیت!',
-                text: 'قرارداد موفقانه ثبت شد.',
+                text: 'مورد فروش موفقانه ثبت شد.',
                 color: 'success',
                 iconPack: 'feather',
                 icon: 'icon-check',
                 position: 'top-right'
               })
+              this.sForm.reset();
+              this.$validator.reset();
             }).catch((errors) => {
               // console.log(errors.errors);
               this.$vs.notify({

@@ -8,48 +8,59 @@
 
   <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :key="$vs.rtl">
     <div class="pt-6 pr-6 pl-6">
-      <!-- CATEGORY -->
-      <div class="vx-col mt-4">
-        <label for=""><small>کتگوری</small></label>
-        <v-select label="type" :options="itemtype" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.type_id" />
-      </div>
-      <!-- CATEGORY -->
+      <form data-vv-scope="goodsAddForm">
+        <!-- CATEGORY -->
+        <div class="vx-col mt-4">
+          <label for=""><small>کتگوری</small></label>
+          <v-select label="type" name="good_type" v-validate="'required'" :options="itemtype" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.type_id" />
+        </div>
+        <!-- CATEGORY -->
 
-      <!-- NAME -->
-      <vs-input label=" نوعیت" class="mt-5 w-full" name="item-name" v-validate="'required'" v-model="form.name" />
-      <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
-      <!-- NAME -->
-      <div class="vx-col mt-4">
-        <label for=""><small>واحد سنجش اصلی</small></label>
-        <v-select label="title" :options="uom" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.uom_id" />
-      </div>
-      <!-- CATEGORY -->
+        <!-- NAME -->
+        <vs-input label=" نوعیت" class="mt-5 w-full" name="good_name" v-validate="'required'" v-model="form.name" />
+        <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
+        <!-- NAME -->
+        <div class="vx-col mt-4">
+          <label for=""><small>واحد سنجش اصلی</small></label>
+          <v-select label="title" name="good_uom" v-validate="'required'" :options="uom" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.uom_id" />
+        </div>
+        <!-- CATEGORY -->
 
-      <!-- NAME -->
-      <div class="vx-col mt-4">
-        <label for=""><small>واحد سنجش فرعی</small></label>
-        <v-select label="title" :options="uom" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.uom_equiv_id" />
-      </div>
-      <!-- NAME -->
-      <!-- NAME -->
-      <vs-input label="مقدار معادل به واحد فرعی" class="mt-5 w-full" name="item-name" v-validate="'required'" v-model="form.equivalent" />
-      <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
-      <!-- NAME -->
-      <div class="vx-col mt-4"></div>
-      <vs-textarea placeholder="تفصیلات" v-model="form.description" />
+        <!-- NAME -->
+        <div class="vx-col mt-4">
+          <label for=""><small>واحد سنجش فرعی</small></label>
+          <v-select label="title" name="good_uom_equiv" v-validate="'required'" :options="uom" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.uom_equiv_id" />
+        </div>
+        <!-- NAME -->
+        <!-- NAME -->
+        <vs-input label="مقدار معادل به واحد فرعی" class="mt-5 w-full" name="good_equivalent" v-validate="'required'" v-model="form.equivalent" />
+        <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
+        <!-- NAME -->
+        <div class="vx-col mt-4"></div>
+        <vs-textarea label="تفصیلات" v-model="form.description" />
+        <div class="flex flex-wrap items-center p-6" slot="footer">
+          <vs-button class="mr-6" @click="submitData">ثبت</vs-button>
+          <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
+          <vs-list v-if="(errors.items.length > 0)">
+            <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+            <div :key="indextr" v-for="(error, indextr) in errors.items">
+              <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+            </div>
+            <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+          </vs-list>
+        </div>
+      </form>
     </div>
   </component>
-
-  <div class="flex flex-wrap items-center p-6" slot="footer">
-    <vs-button class="mr-6" @click="submitData">ثبت</vs-button>
-    <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
-  </div>
 </vs-sidebar>
 </template>
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import vSelect from "vue-select";
+import {
+  Validator
+} from 'vee-validate'
 export default {
   props: {
     isSidebarActive: {
@@ -63,7 +74,8 @@ export default {
   },
   components: {
     "v-select": vSelect,
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
+    Validator
   },
   data() {
     return {
@@ -83,10 +95,19 @@ export default {
         maxScrollbarLength: 60,
         wheelSpeed: 0.6,
       },
+      dict: {
+        custom: {
+          good_type: { required: ' کتگوری جنس الزامی میباشد' },
+          good_name: { required: ' نوعیت جنس الزامی میباشد' },
+          good_uom: { required: ' واحد سنجش اصلی جنس الزامی میباشد' },
+          good_uom_equiv: { required: ' واحد سنجش  فرعی جنس الزامی میباشد' },
+          good_equivalent: { required: ' مقدار معادل به واحد فرعی جنس الزامی میباشد' },
+        }
+      }
     };
   },
   created() {
-
+    Validator.localize('en', this.dict);
     this.loaduom();
     this.getAllItemtype();
 
@@ -94,31 +115,38 @@ export default {
 
   methods: {
     submitData() {
-      this.form.post('/api/item')
-        .then(() => {
-          this.$parent.$emit('updateselection', 'test');
-          this.$vs.notify({
-            title: '  محصول اضافه شد',
-            text: 'عملیه موفغانه انجام شد',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-          this.form.reset();
+      this.$validator.validateAll('goodsAddForm').then(result => {
+        if (result) {
+          this.form.post('/api/item')
+            .then(() => {
+              this.$parent.$emit('updateselection', 'test');
+              this.$vs.notify({
+                title: '  محصول اضافه شد',
+                text: 'عملیه موفقانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.form.reset();
+              this.$validator.reset();
 
-        })
+            }).catch(() => {
+              this.$vs.notify({
+                title: 'عملیه ناکام شد',
+                text: 'عملیه حذف جنس انجام نشد',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            })
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
 
-        .catch(() => {
-          this.$vs.notify({
-            title: 'عملیه ناکام شد',
-            text: 'عملیه موفغانه انجام شد',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        })
     },
 
     loaduom() {
@@ -133,7 +161,6 @@ export default {
       this.axios.get('/api/itemtype')
         .then((response) => {
           this.itemtype = response.data;
-
         })
     },
   },
@@ -185,7 +212,7 @@ export default {
 
 .scroll-area--data-list-add-new {
   // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-  height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+  height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 2px);
 
   &:not(.ps) {
     overflow-y: auto;
