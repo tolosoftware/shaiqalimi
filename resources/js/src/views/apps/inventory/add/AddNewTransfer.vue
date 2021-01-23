@@ -21,7 +21,7 @@
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
           <div class="w-full pb-2 ml-3 mr-3">
-            <vs-input size="medium" name="trans_title" v-validate="'required'" v-model="tForm.title" label="عنوان انتقال" class="w-full" />
+            <vs-input size="medium" name="trans_title" v-validate="'required|min:2'" v-model="tForm.title" label="عنوان انتقال" class="w-full" />
           </div>
         </vs-col>
 
@@ -109,15 +109,22 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
-            <vs-input size="medium" v-model="tForm.supervisor" v-validate="'required'" label="شخص مسول" name="trans_supervisor" class="w-full" />
+            <vs-input size="medium" v-model="tForm.supervisor" name="trans_supervisor" v-validate="'required'" label="شخص مسول" class="w-full" />
           </div>
         </vs-col>
 
         <div class="w-full mt-4 mr-3 ml-3">
-          <vs-textarea v-model="tForm.description" placeholder="تفصیلات"></vs-textarea>
+          <vs-textarea v-model="tForm.description" label="تفصیلات"></vs-textarea>
         </div>
       </div>
       <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">ثبت</vs-button>
+      <vs-list v-if="(errors.items.length > 0)">
+        <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+        <div :key="indextr" v-for="(error, indextr) in errors.items">
+          <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+        </div>
+        <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+      </vs-list>
     </form>
   </vx-card>
 </component>
@@ -148,7 +155,7 @@ export default {
         datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
         title: '',
         supervisor: '',
-        description: '',
+        description: 'تفصیلات تاحال درج نشده است.',
         destination: '',
         currency_id: 1,
         // Costs ....
@@ -178,7 +185,17 @@ export default {
         wheelSpeed: .60
       },
       dict: {
-        custom: {}
+        custom: {
+          trans_date: { required: ' تاریخ انتقال الزامی میباشد.' },
+          trans_title: { required: ' عنوان انتقال الزامی میباشد.', min: 'عنوان انتقال باید بیشتر از 2 حرف باشد.' },
+          source: { required: 'منبع انتقال الزامی میباشد.' },
+          trans_destination: { required: ' مقصد انتقال الزامی میباشد.' },
+          trans_transit: { required: ' مصارف انتقال الزامی میباشد.' },
+          trans_scale: { required: ' مصارف ترازو انتقال الزامی میباشد.' },
+          trans_others: { required: ' مصارف متفرقه انتقال الزامی میباشد.' },
+          trans_total: { required: ' مصارف مجموعی انتقال الزامی میباشد.' },
+          trans_supervisor: { required: ' شخص مسول انتقال الزامی میباشد.' }
+        }
       }
     }
   },
@@ -231,16 +248,13 @@ export default {
         })
     },
     submitForm() {
-      this.$Progress.start()
       this.$validator.validateAll('transferAddForm').then(result => {
         if (result) {
+          this.$Progress.start()
           this.tForm.post('/api/transfer')
             .then(({
               data
             }) => {
-              this.tForm.reset();
-              this.getNextSerialNo();
-              this.$Progress.set(100)
               this.$vs.notify({
                 title: 'موفقیت!',
                 text: 'انتقال موفقانه ثبت شد.',
@@ -249,6 +263,10 @@ export default {
                 icon: 'icon-check',
                 position: 'top-right'
               })
+              this.tForm.reset();
+              this.$validator.reset();
+              this.getNextSerialNo();
+              this.$Progress.set(100)
             }).catch((errors) => {
 
               this.$vs.notify({

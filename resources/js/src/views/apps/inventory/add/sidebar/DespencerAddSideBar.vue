@@ -5,32 +5,43 @@
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
   </div>
   <div class="p-6">
-    <div class="vx-row mb-6">
-      <div class="vx-col w-full">
-        <vs-input class="w-full" type="text" v-model="dForm.name" label="نام" />
+    <form data-vv-scope="despenserAddForm">
+      <div class="vx-row mb-6">
+        <div class="vx-col w-full">
+          <vs-input class="w-full" name="despenser_name" v-validate="'required'" type="text" v-model="dForm.name" label="نام" />
+        </div>
       </div>
-    </div>
-    <div class="vx-row mb-6">
-      <div class="vx-col w-full">
-        <label for class="vs-input--label">انتخاب دخایر</label>
-        <v-select label="name" multiple v-model="dForm.storage_id" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-          <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
-        </v-select>
+      <div class="vx-row mb-6">
+        <div class="vx-col w-full">
+          <label for class="vs-input--label">انتخاب دخایر</label>
+          <v-select label="name" name="despenser_storage" v-validate="'required'" multiple v-model="dForm.storage_id" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+            <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
+          </v-select>
+        </div>
       </div>
-    </div>
-    <div class="vx-row">
-      <div class="vx-col w-full">
-        <vs-button class="mr-3 mb-2 " @click.stop="submitData">ثبت</vs-button>
-        <vs-button color="warning" type="border" class="mb-2" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>
+      <div class="vx-row">
+        <div class="vx-col w-full">
+          <vs-button class="mr-3 mb-2 " @click.stop="submitData">ثبت</vs-button>
+          <vs-button color="warning" type="border" class="mb-2" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>
+        </div>
       </div>
-    </div>
+      <vs-list v-if="(errors.items.length > 0)">
+        <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+        <div :key="indextr" v-for="(error, indextr) in errors.items">
+          <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+        </div>
+        <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+      </vs-list>
+    </form>
   </div>
 </vs-sidebar>
 </template>
 
 <script>
 import vSelect from 'vue-select'
-
+import {
+  Validator
+} from 'vee-validate'
 export default {
   props: {
     isSidebarActive: {
@@ -48,7 +59,7 @@ export default {
   },
   components: {
     'v-select': vSelect,
-
+    Validator
   },
   data() {
     return {
@@ -60,6 +71,12 @@ export default {
       settings: { // perfectscrollbar settings
         maxScrollbarLength: 60,
         wheelSpeed: .60
+      },
+      dict: {
+        custom: {
+          despenser_name: { required: ' اسم دیسپنسر الزامی میباشد' },
+          despenser_storage: { required: ' انتخاب دخایر دیسپنسر الزامی میباشد' }
+        }
       }
     }
   },
@@ -83,6 +100,9 @@ export default {
       // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
     }
   },
+  created() {
+    Validator.localize('en', this.dict);
+  },
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -90,9 +110,10 @@ export default {
       },
       set(val) {
         if (!val) {
-          this.$emit('closeSidebar')
           this.$validator.reset()
-          this.initValues()
+          this.$emit('closeSidebar')
+
+          // this.initValues()
         }
       }
     },
@@ -114,36 +135,43 @@ export default {
       this.dataImg = null
     },
     submitData() {
-      this.dForm.station_id = this.data.id;
+      this.$validator.validateAll('despenserAddForm').then(result => {
+        if (result) {
+          this.dForm.station_id = this.data.id;
+          this.$Progress.start()
+          this.dForm.post('/api/despenser')
+            .then(({
+              dForm
+            }) => {
+              // Finish the Progress Bar
+              // this.dForm.reset();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'موفقانه ثبت شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
 
-        this.$Progress.start()
-        this.dForm.post('/api/despenser')
-          .then(({
-            dForm
-          }) => {
-            // Finish the Progress Bar
-            // this.dForm.reset();
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'موفقانه ثبت شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
-            })
-          }).catch((errors) => {
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'ناموفق!',
-              text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-              color: 'danger',
-              iconPack: 'feather',
-              icon: 'icon-cross',
-              position: 'top-right'
-            })
-          });
-    // console.log(this.dForm);
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
+      // console.log(this.dForm);
       // this.$validator.validateAll().then(result => {
       //   if (result) {
       //     const obj = {

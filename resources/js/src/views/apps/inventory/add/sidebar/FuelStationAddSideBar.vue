@@ -9,38 +9,48 @@
       <Stationlist></Stationlist>
     </vs-tab>
     <vs-tab label="ثبت">
-      <div class="p-6">
-        <div class="vx-row mb-6">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" label="نام" v-model="form.name" />
-          </div>
-        </div>
+      <component :is="scrollbarTag" class="scroll-area--data-list-add-new" :key="$vs.rtl">
+        <div class="p-6 mb-base">
+          <form data-vv-scope="fueStationAdForm">
+            <div class="vx-row mb-6">
+              <div class="vx-col w-full">
+                <vs-input class="w-full" name="st_name" v-validate="'required'" label="نام" v-model="form.name" />
+              </div>
+            </div>
 
-        <div class="vx-row mb-6">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" label="مسؤل" v-model="form.manager" />
-          </div>
-        </div>
-        <div class="vx-row mb-6">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" label="آدرس" v-model="form.phone" />
-          </div>
-        </div>
-        <div class="vx-row mb-6">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" label="شماره" v-model="form.address" />
-          </div>
-        </div>
+            <div class="vx-row mb-6">
+              <div class="vx-col w-full">
+                <vs-input class="w-full" name="st_manager" v-validate="'required'" label="مسؤل" v-model="form.manager" />
+              </div>
+            </div>
+            <div class="vx-row mb-6">
+              <div class="vx-col w-full">
+                <vs-input class="w-full" name="st_phone" v-validate="'required'" label="آدرس" v-model="form.phone" />
+              </div>
+            </div>
+            <div class="vx-row mb-6">
+              <div class="vx-col w-full">
+                <vs-input class="w-full" name="st_address" v-validate="'required'" label="شماره" v-model="form.address" />
+              </div>
+            </div>
 
-        <div class="vx-row">
-          <div class="vx-col w-full">
-            <vs-button class="mr-3 mb-2" @click="submitdata">ثبت</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="input9 = input10 = input11 = input12 = ''; check3 = false;">پاک کردن فرم</vs-button>
-          </div>
+            <div class="vx-row">
+              <div class="vx-col w-full">
+                <vs-button class="mr-3 mb-2" @click="submitdata">ثبت</vs-button>
+                <vs-button color="warning" type="border" class="mb-2" @click="input9 = input10 = input11 = input12 = ''; check3 = false;">پاک کردن فرم</vs-button>
+              </div>
+            </div>
+            <vs-list v-if="(errors.items.length > 0)">
+              <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+              <div :key="indextr" v-for="(error, indextr) in errors.items">
+                <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+              </div>
+              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+            </vs-list>
+          </form>
         </div>
-      </div>
+      </component>
     </vs-tab>
-
   </vs-tabs>
 
 </vs-sidebar>
@@ -49,6 +59,9 @@
 <script>
 import vSelect from 'vue-select'
 import Stationlist from './Stationlist.vue'
+import {
+  Validator
+} from 'vee-validate'
 export default {
   props: {
     isSidebarActive: {
@@ -62,21 +75,18 @@ export default {
   },
   components: {
     'v-select': vSelect,
-    Stationlist
-
+    Stationlist,
+    Validator
   },
   data() {
     return {
-
       form: new Form({
         id: '',
         name: '',
         manager: '',
         phone: '',
         address: '',
-
       }),
-
       // End of sidebar items
       dataId: null,
       dataName: '',
@@ -88,10 +98,20 @@ export default {
       settings: { // perfectscrollbar settings
         maxScrollbarLength: 60,
         wheelSpeed: .60
+      },
+      dict: {
+        custom: {
+          st_name: { required: ' نام تانگ تیل الزامی میباشد.' },
+          st_manager: { required: ' نام شخص مسول الزامی میباشد.' },
+          st_phone: { required: ' شماره تماس شخص مسول الزامی میباشد.' },
+          st_address: { required: ' آدرس تانگ تیل الزامی میباشد.' },
+        }
       }
     }
   },
-
+  created() {
+    Validator.localize('en', this.dict);
+  },
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -99,8 +119,9 @@ export default {
       },
       set(val) {
         if (!val) {
+          this.$validator.reset()
           this.$emit('closeSidebar')
-          // this.$validator.reset()
+
           // this.initValues()
         }
       }
@@ -114,30 +135,38 @@ export default {
   },
   methods: {
     submitdata() {
-      this.form.post('/api/fuelstation')
-        .then(({
-          data
-        }) => {
-          this.$vs.notify({
-            title: 'ذخیره اضافه شد',
-            text: 'عملیه موفقانه انجام شد',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-          this.form.reset();
-        })
-        .catch(() => {
-          this.$vs.notify({
-            title: 'عملیه ناکام شد',
-            text: 'عملیه ثبت تانگ تیل انجام نشد',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-        })
+      this.$validator.validateAll('fueStationAdForm').then(result => {
+        if (result) {
+          this.form.post('/api/fuelstation')
+            .then(({
+              data
+            }) => {
+              this.$vs.notify({
+                title: 'ذخیره اضافه شد',
+                text: 'عملیه موفقانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.form.reset();
+            })
+            .catch(() => {
+              this.$vs.notify({
+                title: 'عملیه ناکام شد',
+                text: 'عملیه ثبت تانگ تیل انجام نشد',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            })
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
+
     },
 
   }
@@ -172,7 +201,7 @@ export default {
 
 .scroll-area--data-list-add-new {
   // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-  height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+  height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 2px);
 
   &:not(.ps) {
     overflow-y: auto;

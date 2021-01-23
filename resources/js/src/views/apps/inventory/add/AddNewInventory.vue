@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <vs-list>
+        <vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
             <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
@@ -168,6 +168,7 @@ export default {
                 position: 'top-right'
               })
               this.form.reset();
+              this.$validator.reset();
               this.loadItemtype();
             }).catch(() => {
               this.$vs.notify({
