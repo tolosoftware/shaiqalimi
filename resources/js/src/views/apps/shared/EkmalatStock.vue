@@ -128,7 +128,7 @@
       </vs-row>
     </div>
   </form>
-  <vs-row vs-w="12">
+  <vs-row vs-w="12" :data="itemsTotalPrice">
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="4" vs-xs="12" class="pt-2 mb-2 ml-1 mr-1">
       <vs-button type="border" @click.stop="justAddRow" color="success" icon="add"></vs-button>
       &nbsp;&nbsp;
@@ -434,7 +434,7 @@ export default {
 
         let unit_price = this.items[key].unit_price;
         let density = this.items[key].density;
-
+        
         if (opr && opr.id == 1) {
           this.items[key].total_price = this.items[key].increment * unit_price;
           this.items[key].increment_equiv = 0;
