@@ -64,7 +64,12 @@
             <p @click.stop="viewData(tr)" class="cursor-pointer">{{i + 1 }}</p>
           </vs-td>
           <vs-td>
-            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.type +" - "+ tr.serial_no }}</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">
+              <!-- {{ tr.type +" - "+ tr.serial_no }} -->
+                <small class="mb-5">{{tr.type}}-</small>
+                <small class="mb-5" v-if="(tr.sales && tr.sales.project) && tr.sales.project.pro_data">{{tr.sales.project.pro_data.reference_no}}-</small>
+                <small class="mb-5" v-text="tr.serial_no"></small>
+              </p>
           </vs-td>
           <vs-td>
             <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.total }} افغانی</p>

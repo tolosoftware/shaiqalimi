@@ -52,13 +52,18 @@ class ArchiveController extends Controller
     {
         $files = $_FILES;
         $sizeLimit = 40000000;
-        // $sizeLimit = 400;
+        // $sizeLimit = 40000;
         // Check for the size
         foreach ($files['archive']['size'] as $key => $value) {
             if ($value > $sizeLimit) {
                 $data = ['name' => $files['archive']['name'], 'size' => $this->formatBytes($value), 'main-size' => $value];
-                return response($data, 403);
+                $file_errors[$key] = true;
+            }else{
+                $file_errors[$key] = false;
             }
+        }
+        if (in_array(true, $file_errors)) {
+            return response($file_errors, 403);
         }
         // Store the Files
         $account = Account::find($request->account_id);

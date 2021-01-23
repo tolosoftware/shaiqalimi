@@ -66,7 +66,7 @@
           <span class="absolute text-danger alerttext">{{ errors.first('archForm.note') }}</span>
         </div>
         <div id="scroll">
-          <vs-upload ref="vsUpload" automatic :data="{account_id: aForm.account_id}" text="اپلود فایل آرشیف" multiple fileName='archive[]' :show-upload-button="checkUploadCondition" action="/api/archive/upload" @on-success="successUpload" @on-error="onError" @on-delete="onDelete" />
+          <vs-upload ref="vsUpload" accept="pdf" :data="{account_id: aForm.account_id}" text="اپلود فایل آرشیف" multiple fileName='archive[]' :show-upload-button="checkUploadCondition" action="/api/archive/upload" @on-success="successUpload" @on-error="onError" @on-delete="onDelete" />
         </div>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
@@ -78,7 +78,7 @@
     </div>
   </div>
   <vs-popup class="holamundo width-80" title="معلومات آرشیف" :active.sync="archiveModalActive">
-    <archive-view :archive="archive_to_view"/>
+    <archive-view :archive="archive_to_view" />
   </vs-popup>
 </div>
 </template>
@@ -278,8 +278,13 @@ export default {
       });
     },
     onError(event) {
+      const RESP = JSON.parse(event.srcElement.response);
+      for (let i = 0; i < RESP.length; ++i) {
+        this.$refs.vsUpload.srcs[i].error = RESP[i];
+        // this.$refs.vsUpload.srcs[i].percent = (RESP[i]) ? 100 : 0;
+      }
       var msg = "خطا در آپلود فایل، لطفا فایل های خود را چک کنید.";
-      if(event.srcElement.status == 403){
+      if (event.srcElement.errors == 403) {
         msg = "حجم استاندارد برای آپلود ۴۰ ام‌بی میباشد."
       }
       this.$vs.notify({
@@ -289,7 +294,24 @@ export default {
       });
     },
     onDelete(event) {
-      console.log(this.$refs.vsUpload.filesx);
+      // console.log("filesx", this.$refs.vsUpload.filesx);
+      // console.log("srcs", this.$refs.vsUpload.srcs);
+      // console.log("this.$refs.vsUpload.itemRemove", this.$refs.vsUpload.itemRemove);
+      // setTimeout(() => {
+      //   // let files = this.$refs.vsUpload.filesx.filter((key, item) => {
+      //   let files = [];
+      //   let srcs = [];
+      //   this.$refs.vsUpload.filesx.some((item, i) => {
+      //     if (!item.remove) {
+      //       files.push(item);
+      //       srcs.push(this.$refs.vsUpload.srcs[i])
+      //     }
+      //   });
+      //   // this.$refs.vsUpload.itemRemove = [];
+      //   this.$refs.vsUpload.srcs = srcs;
+      //   this.$refs.vsUpload.filesx = files;
+      // }, 501)
+
       // this.axios.post('/api/remove-file', {
       //   fileName: event.name,
       // }).then(({
@@ -304,8 +326,8 @@ export default {
 
       // });
     },
-    archiveFilesModal(id){
-        this.axios.get(`/api/archive/${id}`)
+    archiveFilesModal(id) {
+      this.axios.get(`/api/archive/${id}`)
         .then((resp) => {
           this.archive_to_view = resp.data;
           this.$Progress.set(100);
@@ -369,7 +391,8 @@ export default {
 .vs-con-textarea {
   margin-bottom: 1px;
 }
-.con-vs-popup .vs-popup{
+
+.con-vs-popup .vs-popup {
   width: fit-content !important;
 }
 </style>

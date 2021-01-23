@@ -614,4 +614,11 @@ li.fuel-station > h3{
         width: 80% !important;
     }
 }
+.img-upload .btn-upload-file:not(.ready-progress){
+    // display: none !important;
+}
   
+.con-img-upload .img-upload:hover {
+    transition: all .3s ease !important;
+    border: 1px dashed rgba(var(--vs-primary),.5);
+}
