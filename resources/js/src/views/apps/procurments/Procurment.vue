@@ -93,13 +93,15 @@
               </vs-col>
             </vs-row>
             <vs-button class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
-            <vs-list>
-              <vs-list-header color="danger" title="مشکلات"></vs-list-header>
-              <div :key="indextr" v-for="(error, indextr) in errors.items">
-                <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
-              </div>
-              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-            </vs-list>
+            <div v-if="(errors.items.length > 0)">
+              <vs-list v-if="showEr">
+                <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+                <div :key="indextr" v-for="(err, indextr) in errors.items">
+                  <vs-list-item icon="verified_user" style="color:red;" :subtitle="err.msg"></vs-list-item>
+                </div>
+                <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+              </vs-list>
+            </div>
           </form>
         </vx-card>
       </div>
@@ -137,10 +139,10 @@ export default {
   data() {
     return {
       active: true,
+      showEr: true,
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},
-
       prForm: new Form({
         serial_no: '',
         currency_id: 1,
@@ -169,7 +171,7 @@ export default {
 
       allvendors: [],
       storage: [],
-      dict: {
+      dictp: {
         custom: {
           serialnumber: { required: ' سریال نمبر خریداری الزامی میباشد.' },
           procurment_date: { required: ' تاریخ انجام خریداری الزامی میباشد.' },
@@ -181,9 +183,19 @@ export default {
       }
     };
   },
+  watch: {
+    addNewDataSidebar: function () {
+      if (this.addNewDataSidebar == false) {
+        this.$validator.reset();
+        this.showEr = true;
+      } else {
+        this.showEr = false;
+      }
+    },
 
+  },
   created() {
-    Validator.localize('en', this.dict);
+    Validator.localize('en', this.dictp);
     this.loadvendor();
     this.loadgodam();
     this.getPurchaseSerialNumber();
@@ -223,6 +235,9 @@ export default {
       this.toggleDataSidebar(true)
     },
     toggleDataSidebar(val = false) {
+      // this.errors.items.length = 0
+      // this.errors.length = 0
+      this.$validator.reset()
       this.addNewDataSidebar = val
     },
     submitData() {
@@ -239,9 +254,8 @@ export default {
                 position: 'top-right'
               })
               this.prForm.reset();
-            })
-
-            .catch(() => {
+              this.$validator.reset();
+            }).catch(() => {
               this.$vs.notify({
                 title: 'ثبت عملیه  ناموفق بود!',
                 text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',

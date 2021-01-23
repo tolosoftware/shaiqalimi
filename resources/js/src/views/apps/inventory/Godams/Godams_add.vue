@@ -90,15 +90,15 @@
       </div>
     </vs-tab>
     <vs-tab label="ثبت گدام" icon-pack="feather" icon="icon-plus" class="leftScrol">
-      <form>
+      <form data-vv-scope="godamForm">
         <div class="pt-1 pr-6 pl-6">
-          <vs-input label="نام گدام" class="mt-3 w-full" v-model="gForm.name" />
+          <vs-input label="نام گدام" name="inv_name" v-validate="'required'" class="mt-3 w-full" v-model="gForm.name" />
           <has-error :form="gForm" field="name"></has-error>
-          <vs-input label=" آدرس" class="mt-3 w-full" v-model="gForm.address" />
+          <vs-input label=" آدرس" name="inv_address" v-validate="'required|min:3'" class="mt-3 w-full" v-model="gForm.address" />
           <has-error :form="gForm" field="address"></has-error>
-          <vs-input label=" مسول" class="mt-3 w-full" v-model="gForm.manager" />
+          <vs-input label=" مسول" name="inv_responsible" v-validate="'required|min:2'" class="mt-3 w-full" v-model="gForm.manager" />
           <has-error :form="gForm" field="manager"></has-error>
-          <vs-input label=" تماس" class="mt-3 w-full" v-model="gForm.phone" />
+          <vs-input label=" تماس" name="inv_phone" v-validate="'required'" class="mt-3 w-full" v-model="gForm.phone" />
           <has-error :form="gForm" field="phone"></has-error>
           <div class="vx-col mt-5">
             <vs-textarea label="تفصیلات" v-model="gForm.description" />
@@ -108,6 +108,13 @@
         <div class="flex flex-wrap items-center p-6" slot="footer">
           <vs-button type="border" color="success" icon="save" class="mr-6" @click="submitGFormData()"><strong>ثبت گدام</strong></vs-button>
         </div>
+        <vs-list v-if="(errors.items.length > 0)">
+          <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+          <div :key="indextr" v-for="(error, indextr) in errors.items">
+            <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+          </div>
+          <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+        </vs-list>
       </form>
     </vs-tab>
   </vs-tabs>
@@ -117,6 +124,9 @@
 <script>
 import vSelect from "vue-select";
 import TableLoading from './../../shared/TableLoading.vue'
+import {
+  Validator
+} from 'vee-validate'
 export default {
   props: {
     isSidebarActive: {
@@ -130,7 +140,8 @@ export default {
   },
   components: {
     "v-select": vSelect,
-    TableLoading
+    TableLoading,
+    Validator
   },
   data() {
     return {
@@ -153,6 +164,14 @@ export default {
       }),
       godams: [],
       godamSingleRowData: [],
+      dict: {
+        custom: {
+          inv_name: { required: ' نام گدام الزامی میباشد', min: 'اسم گدام باید بیشتر از 2 حرف باشد.' },
+          inv_address: { required: 'آدرس گدام الزامی میباشد.', min: 'آدرس گدام باید بیشتر از 3 حرف باشد.' },
+          inv_responsible: { required: 'شخص مسول گدام الزامی میباشد', min: 'اسم شخص مسول گدام باید بیشتر از 2 حرف باشد.' },
+          inv_phone: { required: 'شماره تماس شخص مسول گدام الزامی میباشد' }
+        }
+      }
     };
   },
   watch: {},
@@ -169,35 +188,45 @@ export default {
     },
   },
   created() {
+    Validator.localize('en', this.dict);
     this.getGodamList();
   },
   methods: {
     submitGFormData() {
-      this.gForm.post('/api/godam')
-        .then(({
-          data
-        }) => {
-          this.getGodamList();
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: 'گدام موفقانه ثبت سیستم شد.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
-          this.gForm.reset();
-        }).catch((errors) => {
-          this.$Progress.set(100)
-          this.$vs.notify({
-            title: 'ناموفق!',
-            text: 'لطفاً معلومات گدام را چک کنید و دوباره امتحان کنید!',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-cross',
-            position: 'top-right'
-          })
-        });
+      this.$validator.validateAll('godamForm').then(result => {
+        if (result) {
+          this.gForm.post('/api/godam')
+            .then(({
+              data
+            }) => {
+              this.getGodamList();
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'گدام موفقانه ثبت سیستم شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.gForm.reset();
+              this.$validator.reset();
+            }).catch((errors) => {
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات گدام را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
 
     },
     getGodamList() {

@@ -102,6 +102,7 @@ export default {
       this.toggleFuelSidebar(true)
     },
     toggleFuelSidebar(val = false) {
+      this.$validator.reset();
       this.fuelAddSidebar = val
     },
 
@@ -111,8 +112,9 @@ export default {
       this.toggleDespencer(true)
     },
     toggleDespencer(val = false) {
-      this.despencerSidebar = val,
-        this.getAllDepencers();
+      this.$validator.reset();
+      this.despencerSidebar = val
+      this.getAllDepencers();
     },
 
     openFuelStore() {
@@ -120,6 +122,7 @@ export default {
       this.toggleFuelStore(true)
     },
     toggleFuelStore(val = false) {
+      this.$validator.reset();
       this.fuelStore = val;
       this.loadFuelStorage();
     },

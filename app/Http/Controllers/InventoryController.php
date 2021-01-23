@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Inventory;
@@ -44,7 +45,7 @@ class InventoryController extends Controller
             'address' => 'required|min:3',
             'manager' => 'required|min:2',
             'phone' => 'required',
-            'description' => 'required|min:5',
+            // 'description' => 'required|min:5',
         ]);
 
         Inventory::create([

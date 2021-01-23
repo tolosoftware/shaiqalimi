@@ -103,7 +103,7 @@
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
               <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
-            <vs-list>
+            <vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
                 <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
@@ -156,7 +156,7 @@ export default {
       }),
       sellers: [],
       seller: {},
-      dict: {
+      dictf: {
         custom: {
           sellername: { required: ' نام فروشنده الزامی میباشد.' },
           sellerphone: { required: ' شماره تماس فروشنده الزامی میباشد.' },
@@ -166,7 +166,7 @@ export default {
     }
   },
   created() {
-    Validator.localize('en', this.dict);
+    Validator.localize('en', this.dictf);
     this.getAllSellers();
   },
   components: { TableLoading, Validator },
@@ -177,6 +177,7 @@ export default {
       },
       set(val) {
         if (!val) {
+          this.$validator.reset();
           this.$emit('closeSidebar')
 
         }
@@ -209,6 +210,7 @@ export default {
                 position: 'top-right'
               })
               this.form.reset();
+              this.$validator.reset();
             })
             .catch(() => {
               this.$vs.notify({

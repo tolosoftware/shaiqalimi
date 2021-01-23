@@ -72,7 +72,7 @@
           </div>
         </div>
         <vs-textarea placeholder="تفصیلات" v-model="accForm.description" />
-        <vs-list>
+        <vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
             <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
@@ -163,6 +163,7 @@ export default {
                   icon: 'icon-check',
                   position: 'top-right'
                 })
+
               }).catch((errors) => {
                 this.$Progress.set(100)
                 this.$vs.notify({
@@ -179,8 +180,7 @@ export default {
               .then(({
                 accForm
               }) => {
-                // Finish the Progress Bar
-                this.accForm.reset();
+                // Finish the Progress Bar                
                 this.$vs.notify({
                   title: 'موفقیت!',
                   text: 'موفقانه ثبت شد.',
@@ -189,6 +189,8 @@ export default {
                   icon: 'icon-check',
                   position: 'top-right'
                 })
+                this.accForm.reset();
+                this.$validator.reset();
               }).catch((errors) => {
                 this.$Progress.set(100)
                 this.$vs.notify({

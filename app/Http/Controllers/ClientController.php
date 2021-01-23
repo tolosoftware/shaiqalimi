@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Account;
@@ -39,9 +40,9 @@ class ClientController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|min:2',
-            'email' => 'required|email|unique:clients',
+            'email' => 'required|email',
             'phone' => 'required',
-            'website' => 'required|unique:clients',
+            // 'website' => 'required',
             'address' => 'required',
             'logo' => 'required'
         ]);

@@ -135,7 +135,7 @@
         </div>
       </vs-tab>
       <vs-tab label=" اضافه کردن نهاد جدید" icon="add" class="leftScrol">
-        <div class="scroll-area--data-list-add-new" :is="scrollbarTag" :key="$vs.rtl" :before-change="validateClientAdd">
+        <div class="scroll-area--data-list-add-new" :is="scrollbarTag" :key="$vs.rtl">
           <form data-vv-scope="clientForm">
             <div class="p-2">
               <!-- Product Image -->
@@ -168,8 +168,8 @@
               <vs-input name="phone" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
               <!--<has-error :form="orgForm" field="phone"></has-error>-->
 
-              <vs-input name="website" v-validate="'required|min:2'" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
-              <!--<has-error :form="orgForm" field="website"></has-error>-->
+              <vs-input name="websitee" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
+              <!--<has-error :form="orgForm" v-validate="'required|min:2'"field="website"></has-error>-->
 
               <vs-input name="address" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
               <!--<has-error :form="orgForm" field="address"></has-error>-->
@@ -185,10 +185,10 @@
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
               <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
-            <vs-list>
+            <vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
-                <vs-list-item icon="verified_user" style="color:red;" :title="error.msg"></vs-list-item>
+                <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
               </div>
               <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
             </vs-list>
@@ -270,9 +270,9 @@ export default {
       dict: {
         custom: {
           name: { required: ' اسم الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
-          email: { required: 'ایمیل الزامی میباشد', email: 'به فارمت ایمیل وارد گردد.' },
+          email: { required: 'ایمیل الزامی میباشد', email: 'ایمیل باید به فارمت ایمیل وارد گردد.' },
           phone: { required: 'شماره تماس الزامی میباشد', min: 'شماره تماس حد اقل 3 حرف باشد.' },
-          website: { required: 'آدرس ویب سایت الزامی میباشد', min: ' آدرس ویب سایت حداقل 2 حرف میباشد' },
+          websitee: { required: 'آدرس ویب سایت الزامی میباشد', min: ' آدرس ویب سایت حداقل 2 حرف میباشد' },
           address: { required: 'آدرس الزامی میباشد', min: 'حداقل آدرس 3 حرف است' },
           logo: { required: 'نشان الزامی میباشد' }
         }
@@ -300,7 +300,7 @@ export default {
       if (!val) return
       if (Object.entries(this.data).length === 0) {
         // this.initValues()
-        this.$validator.reset()
+        // this.$validator.reset()
       } else {
         // const { category, id, img, name, order_status, price } = JSON.parse(JSON.stringify(this.data))
         // this.dataId = id
@@ -321,8 +321,8 @@ export default {
       },
       set(val) {
         if (!val) {
-          this.$emit('closeSidebar'),
-            this.$emit('customEvent', this.clients.find(e => !!e))
+          this.$emit('closeSidebar')
+          this.$emit('customEvent', this.clients.find(e => !!e))
         }
       }
     },
@@ -343,17 +343,17 @@ export default {
     }
   },
   methods: {
-    validateClientAdd() {
-      return new Promise((resolve, reject) => {
-        this.$validator.validateAll('clientForm').then(result => {
-          if (result) {
-            resolve(true)
-          } else {
-            reject(alert('correct all values'))
-          }
-        })
-      })
-    },
+    // validateClientAdd() {
+    //   return new Promise((resolve, reject) => {
+    //     this.$validator.validateAll('clientForm').then(result => {
+    //       if (result) {
+    //         resolve(true)
+    //       } else {
+    //         reject(alert('correct all values'))
+    //       }
+    //     })
+    //   })
+    // },
     printClients() {
       window.print();
     },
@@ -419,34 +419,41 @@ export default {
     // },
     submitData() {
       // console.log('Edit Form', this.orgForm.logo)
-      console.log('Client Errors', this.errors);
-      if (this.validateClientAdd()) {
-        this.orgForm.post('/api/clients')
-          .then(({
-            data
-          }) => {
-            this.getData();
-            this.$vs.notify({
-              title: 'موفقیت!',
-              text: 'نهاد موفقانه ثبت سیستم شد.',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
-            })
-            this.orgForm.reset();
-          }).catch((errors) => {
-            this.$Progress.set(100)
-            this.$vs.notify({
-              title: 'ناموفق!',
-              text: 'لطفاً معلومات نهاد را چک کنید و دوباره امتحان کنید!',
-              color: 'danger',
-              iconPack: 'feather',
-              icon: 'icon-cross',
-              position: 'top-right'
-            })
-          });
-      }
+      // console.log('Client Errors', this.errors);
+      this.$validator.validateAll('clientForm').then(result => {
+        if (result) {
+          this.orgForm.post('/api/clients')
+            .then(({
+              data
+            }) => {
+              this.getData();
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'نهاد موفقانه ثبت سیستم شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.orgForm.reset();
+              this.$validator.reset();
+            }).catch((errors) => {
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات نهاد را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        } else {
+          console.log("Form have erors");
+          console.log('eerrorr', this.errors.items)
+          // form have errors
+        }
+      })
 
       // this.$validator.validateAll().then(result => {
       //   if (result) {
