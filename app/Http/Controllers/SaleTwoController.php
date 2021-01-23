@@ -13,6 +13,7 @@ use App\Models\ExchangeRate;
 use App\Models\FinancialRecord;
 use App\Models\Currency;
 use App\Models\Project;
+use App\Models\Client;
 use App\Models\Notification;
 use App\Models\StockRecord;
 use App\Models\SerialNumber;
@@ -88,17 +89,18 @@ class SaleTwoController extends Controller
             $request['sales_id'] = $newSale->id;
             $newSaleTwo = SaleTwo::create($request->all());
 
-            $typeId = AccountType::latest()->first()->id;
-            $accData = [
-                'user_id' => $request->user_id,
-                'type_id' => $typeId,
-                'name' => 'اکانت ساخته شده برای فروشات',
-                'ref_code' => 'فروشات - ' . $newSale->id,
-                'status' => 1,
-                'description' => 'اکانت ساخته شده برای فروشات',
-                'system' => 0,
-            ];
-            $newAcc = Account::create($accData);
+            // $typeId = AccountType::latest()->first()->id;
+            // $accData = [
+            //     'user_id' => $request->user_id,
+            //     'type_id' => $typeId,
+            //     'name' => 'اکانت ساخته شده برای فروشات',
+            //     'ref_code' => 'فروشات - ' . $newSale->id,
+            //     'status' => 1,
+            //     'description' => 'اکانت ساخته شده برای فروشات',
+            //     'system' => 0,
+            // ];
+            $newAcc = Account::find(Client::find($client['id'])->account_id);
+            return $newAcc;
             if ($newAcc) {
 
                 $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);

@@ -419,6 +419,7 @@ export default {
       mainSNumber: 0,
       // Project Form
       pForm: new Form({
+        user_id: localStorage.getItem('id'),
         serial_no: '',
         proposal_id: '',
         client_id: '',
