@@ -52,7 +52,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
+              <vs-input :max="remaining_items[index][0]" :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
             </vx-input-group>
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
@@ -381,42 +381,47 @@ export default {
       return resp;
     },
     removeRow() {
-      swal
-        .fire({
-          title: "آیا  مطمئن هستید؟",
-          text: "جنس مورد نظر حذف خواهد شد",
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonColor: "rgb(54 34 119)",
-          cancelButtonColor: "rgb(229 83 85)",
-          confirmButtonText: "<span>بله، حذف شود!</span>",
-          cancelButtonText: "<span>خیر، لغو عملیه!</span>",
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            if (this.items.length > 1) {
-              if (this.items[this.items.length - 1].id == undefined) {
-                this.items.splice(this.items.length - 1, 1);
-              } else {
-                let id = this.items[this.items.length - 1].id;
-                this.axios
-                  .delete("/api/pro-item/" + id)
-                  .then((id) => {
-                    swal.fire({
-                      title: "عملیه موفقانه انجام شد.",
-                      text: "جنس مورد نظر از سیستم پاک شد!",
-                      icon: "success",
-                    });
-                    if (this.items.length > 1) {
-                      this.items.splice(this.items.length - 1, 1);
-                      this.is_active.splice(this.items.length - 1, 1);
-                    }
-                  })
-                  .catch(() => {});
+      if (typeof this.items[this.items.length - 1].item_id == "string" && !this.items[this.items.length - 1].operation_id) {
+        this.items.splice(this.items.length - 1, 1);
+      } else {
+
+        swal
+          .fire({
+            title: "آیا  مطمئن هستید؟",
+            text: "جنس مورد نظر حذف خواهد شد",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "rgb(54 34 119)",
+            cancelButtonColor: "rgb(229 83 85)",
+            confirmButtonText: "<span>بله، حذف شود!</span>",
+            cancelButtonText: "<span>خیر، لغو عملیه!</span>",
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              if (this.items.length > 1) {
+                if (this.items[this.items.length - 1].id == undefined) {
+                  this.items.splice(this.items.length - 1, 1);
+                } else {
+                  let id = this.items[this.items.length - 1].id;
+                  this.axios
+                    .delete("/api/pro-item/" + id)
+                    .then((id) => {
+                      swal.fire({
+                        title: "عملیه موفقانه انجام شد.",
+                        text: "جنس مورد نظر از سیستم پاک شد!",
+                        icon: "success",
+                      });
+                      if (this.items.length > 1) {
+                        this.items.splice(this.items.length - 1, 1);
+                        this.is_active.splice(this.items.length - 1, 1);
+                      }
+                    })
+                    .catch(() => {});
+                }
               }
             }
-          }
-        });
+          });
+      }
     },
   },
   // End Of methods

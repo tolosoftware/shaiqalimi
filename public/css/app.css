@@ -5761,6 +5761,20 @@ li.fuel-station > h3 {
   width: initial !important;
 }
 
+@media only screen and (min-width: 420px) {
+  .width-80 .vs-popup {
+    width: 80% !important;
+  }
+}
+
+.con-img-upload .img-upload:hover {
+  transition: all 0.3s ease !important;
+}
+
+[dir] .con-img-upload .img-upload:hover {
+  border: 1px dashed rgba(var(--vs-primary), 0.5);
+}
+
 @media print {
   [dir=ltr] #print-this {
     direction: ltr !important;

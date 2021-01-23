@@ -545,7 +545,6 @@ export default {
   },
   methods: {
     setProjectData(data) {
-      console.log(data.pro_items);
       if (data) {
         if (data.pro_items.length) {
           for (let [key, data] of Object.entries(data.pro_items)) {
@@ -560,9 +559,9 @@ export default {
             unit_id: "",
             operation_id: null,
             equivalent: "",
-            ammount: "3",
-            unit_price: "302",
-            total_price: "906",
+            ammount: "0",
+            unit_price: "0",
+            total_price: "0",
             density: null,
 
           }];
@@ -577,9 +576,11 @@ export default {
           this.pForm.title = data.pro_data.title;
           this.pForm.total_price = data.pro_data.total_price;
           this.pForm.transit = data.pro_data.transit;
+          // this.pForm.company_id = data.pro_data.company_id;
           this.pForm.status = (data.status == 'normal') ? 1 : 2;
-          // console.log(this.pForm);
+          this.companySelected(data.pro_data.company_id);
         }
+          console.log(this.pForm);
       }
     },
     // for getting measure unit of the item
