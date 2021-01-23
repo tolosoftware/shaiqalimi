@@ -81,17 +81,17 @@ class SaleThreeController extends Controller
             $request['sales_id'] = $newSale->id;
             $newSaleThree = SaleThree::create($request->all());
 
-            $typeId = AccountType::latest()->first()->id;
-            $accData = [
-                'user_id' => $request->user_id,
-                'type_id' => $typeId,
-                'name' => 'اکانت ساخته شده برای فروشات',
-                'ref_code' => 'فروشات - ' . $newSale->id,
-                'status' => 1,
-                'description' => 'اکانت ساخته شده برای فروشات',
-                'system' => 0,
-            ];
-            $newAcc = Account::create($accData);
+            // $typeId = AccountType::latest()->first()->id;
+            // $accData = [
+            //     'user_id' => $request->user_id,
+            //     'type_id' => $typeId,
+            //     'name' => 'اکانت ساخته شده برای فروشات',
+            //     'ref_code' => 'فروشات - ' . $newSale->id,
+            //     'status' => 1,
+            //     'description' => 'اکانت ساخته شده برای فروشات',
+            //     'system' => 0,
+            // ];
+            $newAcc = Account::where('type_id', config('app.contract_account_type'))->where('ref_code', $project['id'])->first();
             if ($newAcc) {
 
                 $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);

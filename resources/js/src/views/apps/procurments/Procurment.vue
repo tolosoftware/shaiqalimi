@@ -209,7 +209,7 @@ export default {
       this.prForm.account_id = data.account_id;
       this.prForm.vendor_name = data.name;
 
-      console.log('seller_name', this.prForm.vendor_name);
+      // console.log('seller_name', this.prForm.vendor_name);
 
     },
     loadvendor() {

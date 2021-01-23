@@ -56,11 +56,11 @@
           </vs-tr>
         </template>
       </vs-table>
-      <vs-popup class="holamundo financial-records-modal" title="اطلاعات معاملات تجاری" :active.sync="popupActive">
-        <financial-records :recordsData="financialRecordsData"></financial-records>
-      </vs-popup>
     </vs-card>
   </span>
+  <vs-popup class="holamundo financial-records-modal" title="اطلاعات معاملات تجاری" :active.sync="popupActive">
+    <financial-records :recordsData="financialRecordsData"></financial-records>
+  </vs-popup>
 </div>
 </template>
 

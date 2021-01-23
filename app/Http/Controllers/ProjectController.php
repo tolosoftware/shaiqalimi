@@ -32,6 +32,7 @@ class ProjectController extends Controller
     {
         return Project::with([
             'pro_data.client',
+            'pro_data.company_id',
             'pro_items.operation_id',
             'pro_items.item_id.type',
             'pro_items.item_id.uom_id',
@@ -150,10 +151,10 @@ class ProjectController extends Controller
             }
 
             // Create the Account beside the project
-            $typeId = AccountType::latest()->first()->id;
+            // $typeId = AccountType::latest()->first()->id;
             $data = [
-                'user_id' => 4,
-                'type_id' => $typeId,
+                'user_id' => $request->user_id,
+                'type_id' => config('app.contract_account_type'),
                 'name' => $request->title,
                 'ref_code' => $resp->id,
                 'status' => 1,
@@ -161,7 +162,6 @@ class ProjectController extends Controller
                 // 'system' => $request->system,    
             ];
             if ($new = Account::create($data)) {
-
                 // Create opening FR for the created Projet
                 $data = [
                     'type' => 'project', // here the type of financial record is project

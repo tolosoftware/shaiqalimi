@@ -256,7 +256,6 @@ export default {
             this.addrow();
           } else {
             // reject('correct all values')
-
           }
         });
       });
