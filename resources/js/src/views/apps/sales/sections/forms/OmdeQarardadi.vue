@@ -367,7 +367,8 @@ export default {
     this.getProject();
     window.addEventListener('keydown', (e) => {
       if (e.key == 'Enter') {
-        if (!e.path.find(x => x.className === 'vs-textarea')) {
+        // console.log("e.path", e.path);
+        if (!e.path.find(x => x.className === 'vs-textarea' || x.className === 'vs__selected-options')) {
           this.submitForm();
         }
       }

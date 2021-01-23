@@ -256,8 +256,17 @@ class SaleOneController extends Controller
         $sales4 = Sale::join('sales_fours AS s', 'sales.id', '=', 's.sales_id')
             ->selectRaw("s.sales_id, s.serial_no, s.total, s.additional_cost as service_cost, sales.type, sales.source_type, sales.source_id");
 
-        $all = $sales1->union($sales2)->union($sales3)->union($sales4)->orderBy('sales_id', 'desc')->get();
-
-        return $all;
+        $sales_data = $sales1->union($sales2)->union($sales3)->union($sales4)->orderBy('sales_id', 'desc')->get();
+        foreach ($sales_data as $key => $sale) {
+            $base = Sale::findOrFail($sale['sales_id']);
+            if ($base->type == "s1") {
+                $sale = Sale::with(['saleS1.project.pro_data', 'source_id'])->where('id', $sale['sales_id'])->first();
+                $sales_data[$key]['sales'] = $sale->saleS1;
+            } else if ($base->type == "s3") {
+                $sale = Sale::with(['saleS3.project.pro_data', 'source_id'])->where('id', $sale['sales_id'])->first();
+                $sales_data[$key]['sales'] = $sale->saleS3;
+            }
+        }
+        return $sales_data;
     }
 }
