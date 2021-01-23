@@ -101,8 +101,8 @@ class ExpensesController extends Controller
          $data = [
             'type' => 'EXP', 
             'type_id' => $expenses->id, 
-            'account_id' => $request['credit_account']['id'],
-            'description' => $request['credit_desc'],
+            'account_id' => $request['debit_account']['id'],
+            'description' => $request['debit_desc'],
             'currency_id' => $request['currency_id'],
             'credit' => 0,
             'debit' => $request['ammount'],
