@@ -103,8 +103,8 @@ class TransactionController extends Controller
          $data = [
             'type' => 'TRA', 
             'type_id' => $transaction->id, 
-            'account_id' => $request['credit_account']['id'],
-            'description' => $request['credit_desc'],
+            'account_id' => $request['debit_account']['id'],
+            'description' => $request['debit_desc'],
             'currency_id' => $request['currency_id'],
             'credit' => 0,
             'debit' => $request['ammount'],
