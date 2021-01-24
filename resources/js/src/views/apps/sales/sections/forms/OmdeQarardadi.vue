@@ -40,7 +40,7 @@
       <div class="vx-col w-full">
         <label for class="vs-input--label">انتخاب قراردادها</label>
         <v-select v-validate="'required'" v-model="sForm.project_id" :get-option-label="
-              (option) => option.serial_no + ' - ' + option.pro_data.title
+              (option) => option.serial_no + ' - ' + option.pro_data.title  + ' - ' + option.pro_data.company_id.sign
             " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChangeContract">
           <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>

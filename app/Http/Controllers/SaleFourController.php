@@ -85,7 +85,7 @@ class SaleFourController extends Controller
                 'description' => 'اکانت ساخته شده برای فروشات',
                 'system' => 0,
             ];
-            $newAcc = Account::create($accData);
+            $newAcc = Account::find(config('app.general_customers_account'));
             if ($newAcc) {
 
                 $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);
