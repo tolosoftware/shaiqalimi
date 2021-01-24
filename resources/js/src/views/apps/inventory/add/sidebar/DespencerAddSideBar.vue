@@ -145,6 +145,7 @@ export default {
             }) => {
               // Finish the Progress Bar
               // this.dForm.reset();
+              console.log('despDATA', this.dForm);
               this.$Progress.set(100)
               this.$vs.notify({
                 title: 'موفقیت!',
