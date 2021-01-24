@@ -647,11 +647,13 @@ export default {
     },
     getProposals() {
       this.$Progress.start()
+      this.$vs.loading();
       this.axios.get('/api/proposal')
         .then((response) => {
           this.proposals = response.data;
           this.isdata = true;
           this.$Progress.set(100)
+          this.$vs.loading.close()
         })
     },
     // Start Custom

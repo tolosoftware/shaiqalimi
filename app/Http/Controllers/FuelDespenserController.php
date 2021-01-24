@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\Helper;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Fuel_despenser;
 use App\Models\Fuel_desp_str;
 use Illuminate\Http\Request;
@@ -38,6 +38,14 @@ class FuelDespenserController extends Controller
      */
     public function store(Request $request)
     {
+        $stations = Fuel_despenser::where('station_id', $request->station_id)->get();
+        // return response(['station' => $stations]);
+        foreach ($stations as $station) {
+            if ($station->name == $request['name']) {
+                // return DB::rollBack();
+                return response(['status' => 'same']);
+            }
+        }
         $despenser = Fuel_despenser::create($request->all());
         foreach ($request->storage_id as $key => $storage) {
             Fuel_desp_str::create(['storage_id' => $storage['id'], 'despencer_id' => $despenser->id]);

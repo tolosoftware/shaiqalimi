@@ -115,6 +115,7 @@
 
 <script>
 import Transactionlist from "./Transactionlist.vue";
+import TransactionAdd from "./Transactionadd.vue";
 import vSelect from "vue-select";
 import {
   Validator
@@ -122,6 +123,7 @@ import {
 export default {
   components: {
     Transactionlist,
+    TransactionAdd,
     "v-select": vSelect,
     Validator
   },

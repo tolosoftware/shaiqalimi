@@ -8,7 +8,7 @@
         </div>
         <!--<vs-button type="border" @click="blue=true"></vs-button>-->
       </div>
-      <div class="vx-card__collapsible-content vs-con-loading__container">
+      <div class="">
         <div class="vx-card__body">
           <vs-table :data="companies" stripe>
             <template slot="thead">

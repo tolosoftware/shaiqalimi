@@ -45,7 +45,6 @@ export default {
   },
   components: {
     'v-select': vSelect,
-
     AllInventory,
     AddNewInventory,
   },
