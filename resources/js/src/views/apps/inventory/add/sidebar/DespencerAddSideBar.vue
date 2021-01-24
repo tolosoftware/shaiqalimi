@@ -8,7 +8,10 @@
     <form data-vv-scope="despenserAddForm">
       <div class="vx-row mb-6">
         <div class="vx-col w-full">
-          <vs-input class="w-full" name="despenser_name" v-validate="'required'" type="text" v-model="dForm.name" label="نام" />
+          <vs-input class="w-full" autocomplete="off" name="despenser_name" v-validate="'required'" type="text" v-model="dForm.name" label="نام" />
+          <span v-if="errorShow">
+            <h5 style="color:red"></h5>
+          </span>
         </div>
       </div>
       <div class="vx-row mb-6">
@@ -63,6 +66,7 @@ export default {
   },
   data() {
     return {
+      errorShow: false,
       dForm: new Form({
         name: '',
         station_id: null,
@@ -135,26 +139,41 @@ export default {
       this.dataImg = null
     },
     submitData() {
+
       this.$validator.validateAll('despenserAddForm').then(result => {
         if (result) {
           this.dForm.station_id = this.data.id;
           this.$Progress.start()
           this.dForm.post('/api/despenser')
-            .then(({
-              dForm
-            }) => {
+            .then((response) => {
               // Finish the Progress Bar
-              // this.dForm.reset();
-              console.log('despDATA', this.dForm);
-              this.$Progress.set(100)
-              this.$vs.notify({
-                title: 'موفقیت!',
-                text: 'موفقانه ثبت شد.',
-                color: 'success',
-                iconPack: 'feather',
-                icon: 'icon-check',
-                position: 'top-right'
-              })
+              // 
+
+              if (response.data.status == 'same') {
+                this.dForm.reset();
+                this.$validator.reset();
+                this.$vs.notify({
+                  title: 'ناموفق!',
+                  text: 'نام دیسپنسر درعین استیشن مشابه نباشد!',
+                  color: 'danger',
+                  iconPack: 'feather',
+                  icon: 'icon-cross',
+                  position: 'top-right'
+                })
+              } else {
+                this.dForm.reset();
+                this.$validator.reset();
+                this.$Progress.set(100)
+                this.$vs.notify({
+                  title: 'موفقیت!',
+                  text: 'موفقانه ثبت شد.',
+                  color: 'success',
+                  iconPack: 'feather',
+                  icon: 'icon-check',
+                  position: 'top-right'
+                })
+              }
+
             }).catch((errors) => {
               this.$Progress.set(100)
               this.$vs.notify({

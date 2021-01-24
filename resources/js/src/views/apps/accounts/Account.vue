@@ -100,7 +100,11 @@ export default {
     broadSeperate: `<span class="breadcrumb-separator mx-2"><feather-icon :icon="rtl ? 'ChevronsLeftIcon' : 'ChevronsRightIcon'" svgClasses="w-4 h-4" /></span>`,
   }),
   created() {
-    this.getAllAccountTypes();
+    this.$vs.loading();
+    this.getAllAccountTypes()
+    setTimeout(() => {
+      this.$vs.loading.close()
+    }, 3000);
   },
   methods: {
     // getAllAccountTypes() {

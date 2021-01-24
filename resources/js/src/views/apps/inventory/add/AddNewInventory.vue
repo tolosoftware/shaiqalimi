@@ -161,7 +161,7 @@ export default {
             .then(() => {
               this.$vs.notify({
                 title: 'ذخیره اضافه شد',
-                text: 'عملیه موفغانه انجام شد',
+                text: 'عملیه موفقانه انجام شد',
                 color: 'success',
                 iconPack: 'feather',
                 icon: 'icon-check',
@@ -169,11 +169,10 @@ export default {
               })
               this.form.reset();
               this.$validator.reset();
-              this.loadItemtype();
             }).catch(() => {
               this.$vs.notify({
                 title: 'عملیه ناکام شد',
-                text: 'عملیه موفغانه انجام شد',
+                text: 'عملیه موفقانه انجام شد',
                 color: 'danger',
                 iconPack: 'feather',
                 icon: 'icon-check',

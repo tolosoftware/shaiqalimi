@@ -408,13 +408,13 @@ export default {
   },
   methods: {
     totalStorageStation(){
-        this.$vs.loading()
+        // this.$vs.loading()
       this.$Progress.start();
         this.axios.get('/api/totalstorage')
         .then((response) => {
           this.totalStorageStations=response.data;
           this.$Progress.set(100)
-          this.$vs.loading.close();
+          // this.$vs.loading.close();
         })
     },
     ToggleTransfer() {
@@ -425,9 +425,10 @@ export default {
       this.sidebarData = {}
       this.toggleDataSidebar(true);
     },
-    toggleDataSidebar(val = false) {
+    toggleDataSidebar(val = false) { 
+      this.totalStorageStation();
       this.addNewDataSidebar = val
-      // this.totalStorageStation();
+     
     },
     toggleTSidebar(val = false) {
       this.transferSidebar = val

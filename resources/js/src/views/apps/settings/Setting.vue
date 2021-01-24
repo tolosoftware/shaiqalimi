@@ -10,88 +10,87 @@
             </div>
             <vs-button type="border" @click="acountActiveForm = !acountActiveForm, acountTypeForm.reset()">{{ acountActiveForm ? 'بستن فورم' : 'افزودن نوع حساب جدید' }}</vs-button>
           </div>
-          <div class="vx-card__collapsible-content vs-con-loading__container">
-            <div class="vx-row">
-              <div class="vx-col w-full mb-base" v-if="acountActiveForm">
-                <div class="vx-col pr-4 pl-5 mr-3 ml-3">
-                  <div class="vx-col sm:w-1/3 w-full">
-                    <span>عنوان</span>
+          <component :is="scrollbarTag" :key="$vs.rtl" style="max-height:320px;">
+            <div class="pt-6 pr-6 pl-6 pb-6">
+              <div class="vx-row">
+                <div class="vx-col w-full mb-base" v-if="acountActiveForm">
+                  <div class="vx-col pr-4 pl-5 mr-3 ml-3">
+                    <div class="vx-col sm:w-1/3 w-full">
+                      <span>عنوان</span>
+                    </div>
+                    <div class="vx-col w-full">
+                      <vs-input class="w-full" v-model="acountTypeForm.title" />
+                      <has-error :form="acountTypeForm" field="title"></has-error>
+                    </div>
                   </div>
-                  <div class="vx-col w-full">
-                    <vs-input class="w-full" v-model="acountTypeForm.title" />
-                    <has-error :form="acountTypeForm" field="title"></has-error>
+                  <div class="vx-col pt-4 pb-5 pr-4 pl-5 mr-3 ml-3">
+                    <div class="vx-col w-full">
+                      <vs-checkbox color="success" size="large" v-model="have_type"> نوعیت دارد ! </vs-checkbox>
+                    </div>
                   </div>
-                </div>
-                <div class="vx-col pt-4 pb-5 pr-4 pl-5 mr-3 ml-3">
-                  <div class="vx-col w-full">
-                    <vs-checkbox color="success" size="large" v-model="have_type"> نوعیت دارد ! </vs-checkbox>
+                  <div class="vx-col pt-2 pb-4 pr-4 pl-5 mr-3 ml-3" v-if="have_type">
+                    <label for="title"><small>نوعیت</small> </label>
+                    <v-select label="title" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="acountTypeForm.type_id" />
                   </div>
-                </div>
-                <div class="vx-col pt-2 pb-4 pr-4 pl-5 mr-3 ml-3" v-if="have_type">
-                  <label for="title"><small>نوعیت</small> </label>
-                  <v-select label="title" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="acountTypeForm.type_id" />
-                </div>
-                <div class="vx-col w-full mb-base mt-5 pr-4 pl-4 mr-3 ml-3">
-                  <vs-button v-if="!acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="storeAccountType">ثبت عملیه</vs-button>
-                  <vs-button v-if="acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mb-2" @click="updateAccountType">آپدیت عملیه</vs-button>
+                  <div class="vx-col w-full mb-base mt-5 pr-4 pl-4 mr-3 ml-3">
+                    <vs-button v-if="!acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mr-3 mb-2" @click="storeAccountType">ثبت عملیه</vs-button>
+                    <vs-button v-if="acountTypeForm.id" class="shadow-md w-full lg:mt-0 mt-4 mb-2" @click="updateAccountType">آپدیت عملیه</vs-button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <br>
-            <vs-table :data="accountTypes" stripe>
-              <template slot="thead">
-                <vs-th>#</vs-th>
-                <vs-th>نام</vs-th>
-                <vs-th>نوعیت</vs-th>
-                <vs-th>سیستم</vs-th>
-                <vs-th>عملیه</vs-th>
-              </template>
+              <br>
+              <vs-table :data="accountTypes" stripe>
+                <template slot="thead">
+                  <vs-th>#</vs-th>
+                  <vs-th>نام</vs-th>
+                  <vs-th>نوعیت</vs-th>
+                  <vs-th>سیستم</vs-th>
+                  <vs-th>عملیه</vs-th>
+                </template>
 
-              <template slot-scope="{data}">
-                <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-                  <vs-td :data="tr.id">
-                    {{ ++indextr }}
-                  </vs-td>
-                  <vs-td :data="tr.id">
-                    {{ tr.title }}
-                  </vs-td>
+                <template slot-scope="{data}">
+                  <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                    <vs-td :data="tr.id">
+                      {{ ++indextr }}
+                    </vs-td>
+                    <vs-td :data="tr.id">
+                      {{ tr.title }}
+                    </vs-td>
 
-                  <vs-td :data="tr.id">
-                    <span v-if="!(tr.system == 1)">
-                      <!--<vs-select v-model="tr.type_id" disabled>
+                    <vs-td :data="tr.id">
+                      <span v-if="!(tr.system == 1)">
+                        <!--<vs-select v-model="tr.type_id" disabled>
                           <vs-select-item :key="index" :value="item.id" :text="item.title" v-for="item,index in accountTypes" />
                         </vs-select> -->
-                      <div v-for="(item,index) in accountTypes" :key="index">
-                        <span v-if="(tr.type_id==item.id)">
-                          <span v-text="item.title"></span>
+                        <div v-for="(item,index) in accountTypes" :key="index">
+                          <span v-if="(tr.type_id==item.id)">
+                            <span v-text="item.title"></span>
+                          </span>
+                        </div>
+                      </span>
+                      <span v-if="(tr.system == 1)"> سیستم </span>
+                    </vs-td>
+
+                    <vs-td :data="tr.id">
+                      <span v-if="(tr.system == 1)">است</span>
+                      <span v-if="(tr.system == 0)">نیست</span>
+                    </vs-td>
+                    <vs-td :data="tr.id">
+                      <div class="flex">
+                        <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="cursor-pointer" @click.stop="editAccountType(tr.id)" />&nbsp;&nbsp;
+                        <span v-if="(tr.system ==1)" style="padding-top:9px;">
+                          <feather-icon disabled icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="cursor-pointer" @click.stop="deleteAccountType(tr.id)" />
+                        </span>
+                        <span v-if="!(tr.system ==1)" style="padding-top:9px;">
+                          <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="cursor-pointer" @click.stop="deleteAccountType(tr.id)" />
                         </span>
                       </div>
-                    </span>
-                    <span v-if="(tr.system == 1)"> سیستم </span>
-                  </vs-td>
-
-                  <vs-td :data="tr.id">
-                    <span v-if="(tr.system == 1)">است</span>
-                    <span v-if="(tr.system == 0)">نیست</span>
-                  </vs-td>
-                  <vs-td :data="tr.id">
-                    <div class="inline-flex">
-                      <vs-button @click="editAccountType(tr)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-edit"></vs-button>
-                      <span v-if="(tr.system ==1)">
-                        <vs-button disabled @click="deleteAccountType(tr.id)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
-                      </span>
-                      <span v-if="!(tr.system ==1)">
-                        <vs-button @click="deleteAccountType(tr.id)" size="large" color="warning" type="flat" icon-pack="feather" icon="icon-trash"></vs-button>
-                      </span>
-                    </div>
-                  </vs-td>
-                </vs-tr>
-              </template>
-
-            </vs-table>
-
-            <!-- end -->
-          </div>
+                    </vs-td>
+                  </vs-tr>
+                </template>
+              </vs-table>
+            </div>
+          </component>
         </div>
       </div>
       <div class="w-full pt-2 ml-3 mr-3">
@@ -386,6 +385,11 @@ export default {
       have_type: 0,
 
     };
+  },
+  computed: {
+    scrollbarTag() {
+      return this.$store.getters.scrollbarTag;
+    },
   },
   created() {
     this.$vs.loading();

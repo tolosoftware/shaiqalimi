@@ -83,7 +83,11 @@ export default {
     AirplayIcon
   },
   created() {
-    this.getAllNotification()
+    this.$vs.loading();
+    this.getAllNotification();
+    setTimeout(() => {
+      this.$vs.loading.close()
+    }, 2500);
   },
   methods: {
     getAllNotification() {

@@ -187,13 +187,13 @@ export default {
   methods: {
     getAllSellers() {
       this.$Progress.start()
-      this.$vs.loading()
+      // this.$vs.loading()
       this.axios.get('/api/vendors')
         .then((response) => {
           this.sellers = response.data;
           this.$Progress.set(100);
           this.isdata = true;
-          this.$vs.loading.close();
+          // this.$vs.loading.close();
         })
     },
     submitData() {
@@ -209,6 +209,7 @@ export default {
                 icon: 'icon-check',
                 position: 'top-right'
               })
+              this.getAllSellers();
               this.form.reset();
               this.$validator.reset();
             })
