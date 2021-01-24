@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Fuel_despenser;
@@ -37,10 +38,9 @@ class FuelDespenserController extends Controller
      */
     public function store(Request $request)
     {
-     
         $despenser = Fuel_despenser::create($request->all());
         foreach ($request->storage_id as $key => $storage) {
-            Fuel_desp_str::create(['storage_id' => $storage['id'], 'despencer_id'=> $despenser->id]);
+            Fuel_desp_str::create(['storage_id' => $storage['id'], 'despencer_id' => $despenser->id]);
         }
         return $despenser;
     }
@@ -90,6 +90,5 @@ class FuelDespenserController extends Controller
         \Schema::disableForeignKeyConstraints();
         $fuel_despenser = Fuel_despenser::findOrFail($id);
         return $fuel_despenser->delete();
-
     }
 }
