@@ -158,20 +158,20 @@
                 </div>
               </template>
 
-              <vs-input name="name" v-validate="'required|min:3'" label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
+              <vs-input name="name" autocomplete="off" autofill="off" v-validate="'required|min:3'" label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
               <!--<span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>-->
               <!--<has-error :form="orgForm" field="name"></has-error>-->
 
-              <vs-input name="email" v-validate="'required|email'" label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
+              <vs-input name="email" autocomplete="off" autofill="off" v-validate="'required|email'" label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
               <!--<has-error :form="orgForm" field="email"></has-error>-->
 
-              <vs-input name="phone" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
+              <vs-input name="phone" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
               <!--<has-error :form="orgForm" field="phone"></has-error>-->
 
-              <vs-input name="websitee" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
+              <vs-input name="websitee" autocomplete="off" autofill="off" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
               <!--<has-error :form="orgForm" v-validate="'required|min:2'"field="website"></has-error>-->
 
-              <vs-input name="address" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
+              <vs-input name="address" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
               <!--<has-error :form="orgForm" field="address"></has-error>-->
               <!-- Upload -->
               <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
@@ -183,7 +183,7 @@
               </div>
             </div>
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
-              <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
+              <vs-button type="border" color="success" :disabled="orgForm.busy" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
             <vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>

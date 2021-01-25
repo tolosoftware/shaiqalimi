@@ -36,7 +36,7 @@
 
             <div class="vx-row">
               <div class="vx-col w-full">
-                <vs-button class="mr-3 mb-2" @click="submitdata">ثبت</vs-button>
+                <vs-button :disabled="form.busy" class="mr-3 mb-2" @click="submitdata">ثبت</vs-button>
                 <vs-button color="warning" type="border" class="mb-2" @click="input9 = input10 = input11 = input12 = ''; check3 = false;">پاک کردن فرم</vs-button>
               </div>
             </div>
@@ -150,6 +150,7 @@ export default {
                 position: 'top-right'
               })
               this.form.reset();
+              this.$validator.reset();
             })
             .catch(() => {
               this.$vs.notify({

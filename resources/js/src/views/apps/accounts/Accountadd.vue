@@ -71,21 +71,19 @@
             <!-- /TITLE -->
           </div>
         </div>
-        <vs-textarea placeholder="تفصیلات" v-model="accForm.description" />
+        <vs-textarea label="تفصیلات" v-model="accForm.description" />
         <vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
             <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
           </div>
-          <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
         </vs-list>
       </div>
     </form>
-
   </component>
 
   <div class="flex flex-wrap items-center p-6" slot="footer">
-    <vs-button class="mr-6" @click="submitData">انجام</vs-button>
+    <vs-button class="mr-6" :disabled="accForm.busy" @click="submitData">انجام</vs-button>
     <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">بستن</vs-button>
   </div>
 </vs-sidebar>
@@ -128,7 +126,9 @@ export default {
   created() {
     Validator.localize('en', this.dict);
   },
-  watch: {},
+  watch: {
+
+  },
   computed: {
     isSidebarActiveLocal: {
       get() {
@@ -146,6 +146,9 @@ export default {
     },
   },
   methods: {
+    keydown($event) {
+      console.log('event', $event)
+    },
     submitData() {
       this.$validator.validateAll('accountForm').then(result => {
         if (result) {
@@ -163,6 +166,8 @@ export default {
                   icon: 'icon-check',
                   position: 'top-right'
                 })
+                this.accForm.reset();
+                this.$validator.reset();
 
               }).catch((errors) => {
                 this.$Progress.set(100)

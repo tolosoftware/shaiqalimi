@@ -224,7 +224,7 @@
   </div>
   <div class="mt-10">
     <div class="vx-col w-full">
-      <vs-button @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
+      <vs-button :disabled="sForm.busy" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
     </div>
   </div>

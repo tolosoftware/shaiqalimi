@@ -1,10 +1,16 @@
 <template>
 <div>
+  <AccountaddSidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :accForm="accForm" :accountTypes="accountTypes" />
   <div class="vx-row">
     <vx-card>
       <div class="vx-row">
         <div class="vx-col w-1/2">
           <h3>فورم ثبت معاملات تجارتی</h3>
+        </div>
+        <div class="vx-col w-1/2 float-left">
+          <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
+          <!-- <vs-button @click="testTost">tost</vs-button> -->
+          <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Search account" class="mt-1 float-right" style="max-width:320px" /> -->
         </div>
       </div>
       <form data-vv-scope="transactionForm">
@@ -21,11 +27,11 @@
               <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
               <div class="radio-group w-full">
                 <div class="w-1/2">
-                  <input type="radio" v-model="form.currency_id" value="1" id="struct" name="curency" v-on:change="currencychange(1)" />
+                  <input type="radio" v-model="form.currency_id" value="1" id="struct" name="curency" @change="currencychange(1)" />
                   <label for="struct" class="w-full text-center">افغانی</label>
                 </div>
                 <div class="w-1/2">
-                  <input type="radio" v-model="form.currency_id" value="2" id="specific" name="curency" v-on:change="currencychange(2)" />
+                  <input type="radio" v-model="form.currency_id" value="2" id="specific" name="curency" @change="currencychange(2)" />
                   <label for="specific" class="w-full text-center">دالر</label>
                 </div>
               </div>
@@ -92,7 +98,7 @@
             <vs-textarea label="تفصیلات کلی" v-model="form.description"></vs-textarea>
           </div>
         </div>
-        <vs-button class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
+        <vs-button :disabled="form.busy" class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
         <vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
@@ -107,6 +113,7 @@
 </template>
 
 <script>
+import AccountaddSidebar from "./../accounts/Accountadd.vue"
 import vSelect from "vue-select";
 import {
   Validator
@@ -114,6 +121,17 @@ import {
 export default {
   data() {
     return {
+      accForm: new Form({
+        type_id: '',
+        name: '',
+        ref_code: '0',
+        status: 1,
+        description: '',
+        credit: '0',
+        debit: '0',
+        id: null
+      }),
+      addNewDataSidebar: false,
       form: new Form({
         serial_no: '',
         currency_id: 1,
@@ -130,6 +148,7 @@ export default {
       }),
       currency_title: 'AFN',
       accounts: [],
+      accountTypes: [],
       dict: {
         custom: {
           trans_date: { required: ' تاریخ انجام معامله الزامی میباشد.' },
@@ -143,14 +162,39 @@ export default {
   },
   components: {
     "v-select": vSelect,
-    Validator
+    Validator,
+    AccountaddSidebar
   },
   created() {
+
     Validator.localize('en', this.dict);
+    this.getAllAccountTypes()
     this.getAccounts();
     this.getSerialNom();
+
   },
   methods: {
+    addNewData() {
+      // this.editAccData = {};
+      this.toggleDataSidebar(true);
+    },
+    toggleDataSidebar(val = false) {
+      // this.getAllAccountTypes();
+      if (val == false) {
+        this.getAccounts();
+      }
+      this.addNewDataSidebar = val;
+    },
+    getAllAccountTypes() {
+      this.$Progress.start()
+      // this.$vs.loading()
+      this.axios.get('/api/accounts')
+        .then((response) => {
+          this.accountTypes = response.data;
+          this.$Progress.set(100)
+          // this.$vs.loading.close();
+        })
+    },
     currencychange(data) {
       if (data == 2) {
         this.currency_title = "USD";
@@ -171,7 +215,7 @@ export default {
             .then(() => {
               this.$vs.notify({
                 title: 'عملیه ثبت موفق بود!',
-                text: 'عملیه موفغانه انجام شد',
+                text: 'عملیه موفقانه انجام شد',
                 color: 'success',
                 iconPack: 'feather',
                 icon: 'icon-check',
@@ -200,11 +244,11 @@ export default {
 
     getAccounts() {
       this.$Progress.start()
-      this.$vs.loading()
+      // this.$vs.loading()
       this.axios.get('/api/account')
         .then((response) => {
           this.accounts = response.data;
-          this.$vs.loading.close();
+          // this.$vs.loading.close();
         })
     },
 

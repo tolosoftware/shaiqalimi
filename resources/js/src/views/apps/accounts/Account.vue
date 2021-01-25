@@ -28,11 +28,11 @@
           </span>
         </template>
         <template slot="thead">
-          <vs-th> <strong> ریفرینس کد</strong> </vs-th>
-          <vs-th> <strong> عنوان</strong> </vs-th>
-          <vs-th> <strong> بالانس</strong> </vs-th>
-          <vs-th> <strong> حالت</strong> </vs-th>
-          <vs-th> <strong> تنظیمات</strong> </vs-th>
+          <vs-th><strong> ریفرینس کد</strong> </vs-th>
+          <vs-th><strong> عنوان</strong> </vs-th>
+          <vs-th><strong> بالانس</strong> </vs-th>
+          <vs-th><strong> حالت</strong> </vs-th>
+          <vs-th><strong> تنظیمات</strong> </vs-th>
         </template>
         <template slot-scope="{ data }">
           <vs-tr :key="i" v-for="(tr, i) in data">
@@ -142,7 +142,6 @@ export default {
       this.axios.get('/api/accounts')
         .then((response) => {
           this.accountTypes = response.data;
-          console.log(this.accountTypes);
           this.isdata = true;
           this.$Progress.set(100)
           // this.$vs.loading.close();

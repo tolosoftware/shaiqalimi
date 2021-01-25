@@ -157,7 +157,7 @@
   </div>
   <div class="mt-10">
     <div class="vx-col w-full">
-      <vs-button @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
+      <vs-button :disabled="sForm.busy" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="sForm.reset()">پاک کردن فرم</vs-button>
     </div>
   </div>
@@ -166,7 +166,6 @@
     <div :key="indextr" v-for="(error, indextr) in errors.items">
       <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
     </div>
-    <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
   </vs-list>
 </form>
 </template>

@@ -24,7 +24,7 @@
       </div>
       <div class="vx-row">
         <div class="vx-col w-full">
-          <vs-button class="mr-3 mb-2 " @click.stop="submitData">ثبت</vs-button>
+          <vs-button :disabled="dForm.busy" class="mr-3 mb-2 " @click.stop="submitData">ثبت</vs-button>
           <vs-button color="warning" type="border" class="mb-2" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>
         </div>
       </div>
@@ -146,9 +146,6 @@ export default {
           this.$Progress.start()
           this.dForm.post('/api/despenser')
             .then((response) => {
-              // Finish the Progress Bar
-              // 
-
               if (response.data.status == 'same') {
                 this.dForm.reset();
                 this.$validator.reset();

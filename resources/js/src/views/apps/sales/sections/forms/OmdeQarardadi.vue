@@ -1,5 +1,5 @@
 <template>
-<form data-vv-scope="s1Form" :before-change="validateS1Add">
+<form data-vv-scope="s1Form">
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -236,7 +236,7 @@
   </div>
   <div class="mt-10">
     <div class="vx-col w-full">
-      <vs-button @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
+      <vs-button :disabled="sForm.busy" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
     </div>
   </div>
@@ -393,17 +393,6 @@ export default {
     // },
   },
   methods: {
-    validateS1Add() {
-      // return new Promise((resolve, reject) => {
-      //   this.$validator.validateAll('s1Form').then(result => {
-      //     if (result) {
-      //       resolve(true)
-      //     } else {
-      //       reject('correct all values')
-      //     }
-      //   })
-      // })
-    },
     getProject() {
       // Start the Progress Bar
       this.$Progress.start();

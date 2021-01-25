@@ -38,7 +38,7 @@
 
         <div class="vx-row">
           <div class="vx-col w-full">
-            <vs-button class="mr-3 mb-2" @click="submitData">ثبت</vs-button>
+            <vs-button :disabled="form.busy" class="mr-3 mb-2" @click="submitData">ثبت</vs-button>
             <vs-button color="warning" type="border" class="mb-2">پاک کردن فرم</vs-button>
           </div>
         </div>
@@ -135,6 +135,7 @@ export default {
                 position: 'top-right'
               })
               this.form.reset();
+              this.$validator.reset();
             })
             .catch(() => {})
         } else {
