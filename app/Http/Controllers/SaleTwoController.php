@@ -100,7 +100,7 @@ class SaleTwoController extends Controller
             //     'system' => 0,
             // ];
             $newAcc = Account::find(Client::find($client['id'])->account_id);
-            return $newAcc;
+
             if ($newAcc) {
 
                 $newFR = Helper::createDoubleFR('sale', $newSale, $newAcc, $request);
