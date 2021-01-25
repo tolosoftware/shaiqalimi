@@ -1,12 +1,219 @@
 <template>
 <div>
-
+  <div class="vx-row">
+    <vx-card>
+      <div class="vx-row">
+        <div class="vx-col w-1/2">
+          <h3>فورم ثبت معاملات تجارتی</h3>
+        </div>
+      </div>
+      <form data-vv-scope="transactionForm">
+        <div class="vx-row">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <vs-input size="medium" v-validate="'required'" v-model="form.serial_no" label="سریال نمبر" name="serial_no" class="mt-5 w-full" placeholder="سریال نمبر" disabled />
+              <!--<span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span> -->
+              <has-error :form="form" field="serial_no"></has-error>
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12" class="mt-3">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
+              <div class="radio-group w-full">
+                <div class="w-1/2">
+                  <input type="radio" v-model="form.currency_id" value="1" id="struct" name="curency" v-on:change="currencychange(1)" />
+                  <label for="struct" class="w-full text-center">افغانی</label>
+                </div>
+                <div class="w-1/2">
+                  <input type="radio" v-model="form.currency_id" value="2" id="specific" name="curency" v-on:change="currencychange(2)" />
+                  <label for="specific" class="w-full text-center">دالر</label>
+                </div>
+              </div>
+              <has-error :form=" form" field="curency"></has-error>
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <label for="date" class="mt-3"><small>تاریخ </small></label>
+              <date-picker color="#e85454" name="trans_date" v-validate="'required'" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="form.datetime" />
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+            <div class="w-full pt-2 ml-3 mr-3">
+              <label for class="ml-4 mr-4 mb-2"> حالت معامله</label>
+              <div class="radio-group w-full">
+                <div class="w-1/2">
+                  <input type="radio" v-model="form.transaction_status" value="عاید" id="benifate" name="transaction" />
+                  <label for="benifate" class="w-full text-center">عاید</label>
+                </div>
+                <div class="w-1/2">
+                  <input type="radio" v-model="form.transaction_status" value="امانت/عادی" id="basic" name="transaction" />
+                  <label for="basic" class="w-full text-center">امانت/عادی</label>
+                </div>
+              </div>
+              <has-error :form=" form" field="transaction_status"></has-error>
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
+            <div class="w-full  ml-3 mr-3">
+              <vs-input size="medium" name="deal_title" v-validate="'required|min:2'" v-model="form.title" @input="getTitle" label="عنوان معامله" class="w-full" />
+            </div>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12" class="mt-5">
+            <div class="w-full  ml-3 mr-3 mt-2">
+              <label for>
+                <small>مقدار</small>
+              </label>
+              <vx-input-group class="mb-base">
+                <template slot="prepend">
+                  <div class="prepend-text bg-primary">
+                    <span>{{currency_title}}</span>
+                  </div>
+                </template>
+                <vs-input type="number" name="trans_ammount" v-validate="'required'" v-model="form.ammount" />
+              </vx-input-group>
+            </div>
+          </vs-col>
+          <div class="vx-col w-1/3 mt-4">
+            <label for=""><small> حساب کریدیت</small></label>
+            <v-select size="large" label="name" name="credit_account" v-validate="'required'" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.credit_account" />
+          </div>
+          <div class="vx-col w-2/3">
+            <vs-input size="medium" label="تفصیلات " name="credit_ac_detail" class="mt-5 w-full" v-model="form.credit_desc" />
+          </div>
+          <div class="vx-col w-1/3 mt-4">
+            <label for=""><small> حساب دبت</small></label>
+            <v-select label="name" :options="accounts" name="debit_account" v-validate="'required'" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.debit_account" />
+          </div>
+          <div class="vx-col w-2/3">
+            <vs-input size="medium" label="تفصیلات " name="debit_ac_detail" class="mt-5 w-full" v-model="form.debit_desc" />
+          </div>
+          <div class="vx-col w-full mt-4">
+            <vs-textarea label="تفصیلات کلی" v-model="form.description"></vs-textarea>
+          </div>
+        </div>
+        <vs-button class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
+        <vs-list v-if="(errors.items.length > 0)">
+          <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+          <div :key="indextr" v-for="(error, indextr) in errors.items">
+            <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+          </div>
+          <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+        </vs-list>
+      </form>
+    </vx-card>
+  </div>
 </div>
 </template>
+
 <script>
+import vSelect from "vue-select";
+import {
+  Validator
+} from 'vee-validate'
 export default {
-  
+  data() {
+    return {
+      form: new Form({
+        serial_no: '',
+        currency_id: 1,
+        datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
+        title: '',
+        user_id: localStorage.getItem('id'),
+        transaction_status: 'عاید',
+        ammount: '0',
+        credit_account: '',
+        debit_account: '',
+        credit_desc: '',
+        debit_desc: '',
+        description: ''
+      }),
+      currency_title: 'AFN',
+      accounts: [],
+      dict: {
+        custom: {
+          trans_date: { required: ' تاریخ انجام معامله الزامی میباشد.' },
+          deal_title: { required: 'عنوان معامله الزامی میباشد.', min: 'عنوان معامله باید بیشتر از 2 حرف باشد.' },
+          trans_ammount: { required: 'مقدار معامله الزامی میباشد.' },
+          credit_account: { required: 'حساب کریدیت الزامی میباشد.' },
+          debit_account: { required: 'حساب دیبیت الزامی میباشد.' }
+        }
+      }
+    };
+  },
+  components: {
+    "v-select": vSelect,
+    Validator
+  },
+  created() {
+    Validator.localize('en', this.dict);
+    this.getAccounts();
+    this.getSerialNom();
+  },
+  methods: {
+    currencychange(data) {
+      if (data == 2) {
+        this.currency_title = "USD";
+      } else {
+        this.currency_title = "AFN";
+      }
+    },
 
+    getTitle(data) {
+      this.form.credit_desc = data;
+      this.form.debit_desc = data;
+    },
 
+    submitData() {
+      this.$validator.validateAll('transactionForm').then(result => {
+        if (result) {
+          this.form.post('/api/transaction')
+            .then(() => {
+              this.$vs.notify({
+                title: 'عملیه ثبت موفق بود!',
+                text: 'عملیه موفغانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.form.reset();
+              this.$validator.reset();
+            })
+            .catch(() => {
+              this.$vs.notify({
+                title: 'ثبت عملیه  ناموفق بود!',
+                text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            })
+        } else {
+          console.log("Form have erors");
+          // form have errors
+        }
+      })
+
+    },
+
+    getAccounts() {
+      this.$Progress.start()
+      this.$vs.loading()
+      this.axios.get('/api/account')
+        .then((response) => {
+          this.accounts = response.data;
+          this.$vs.loading.close();
+        })
+    },
+
+    getSerialNom() {
+      this.axios.get('/api/transactionSerialnum')
+        .then((resp) => {
+          this.form.serial_no = resp.data;
+        });
+    }
+  }
 }
 </script>
