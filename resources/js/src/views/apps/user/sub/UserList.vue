@@ -77,16 +77,23 @@
                            name: 'user-profile-edit', 
                            params: {user_id: tr.id }}).catch(() => {})" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="setPrivilages(tr)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
+  <vs-popup class="holamundo width-60" title="تنظیمات صلاحیت ها" :active.sync="privilegeModalActive">
+    <privilege-setting :source="user" @closeModal="privilegeModalActive = false" />
+  </vs-popup>
+
 </div>
 </template>
 
 <script>
 import TableLoading from './../../shared/TableLoading.vue'
+import PrivilegeSetting from './PrivilegeSetting'
+
 export default {
 
   data() {
@@ -96,6 +103,8 @@ export default {
       // products: [],
       itemsPerPage: 4,
       isMounted: false,
+      user: null,
+      privilegeModalActive: false,
 
     }
   },
@@ -105,7 +114,8 @@ export default {
 
   },
   components: {
-    TableLoading
+    TableLoading,
+    PrivilegeSetting
   },
   computed: {
 
@@ -124,9 +134,29 @@ export default {
   },
 
   methods: {
+    setPrivilages(user) {
+      this.$Progress.start()
+      this.axios
+        .get("/api/users/" + user.id)
+        .then((resp) => {
+          this.user = resp.data;
+          this.privilegeModalActive = true;
+          this.$Progress.set(100);
+        })
+        .catch(() => {});
+
+    },
+
     loadUsers() {
       this.$vs.loading()
-      this.axios.get('/api/users').then(({ data }) => (this.users = data, this.isdata = true, this.$vs.loading.close()))
+      this.axios.get('/api/users').then(({
+          data
+        }) => (
+          this.users = data,
+          this.isdata = true,
+          this.$vs.loading.close(),
+          this.user = data.find(e => true)
+        ))
         .catch(() => {
 
           this.$vs.notify({

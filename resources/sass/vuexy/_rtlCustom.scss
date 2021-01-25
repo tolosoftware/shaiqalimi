@@ -611,7 +611,16 @@ li.fuel-station > h3{
 }
 @media only screen and (min-width: 420px) {
     .width-80 .vs-popup{
-        width: 80% !important;
+        min-width: 80% !important;
+    }
+    .width-70 .vs-popup{
+        min-width: 70% !important;
+    }
+    .width-60 .vs-popup{
+        min-width: 60% !important;
+    }
+    .width-50 .vs-popup{
+        min-width: 50% !important;
     }
 }
 .img-upload .btn-upload-file:not(.ready-progress){
@@ -621,4 +630,13 @@ li.fuel-station > h3{
 .con-img-upload .img-upload:hover {
     transition: all .3s ease !important;
     border: 1px dashed rgba(var(--vs-primary),.5);
+}
+.flex {
+    display: flex !important;
+}
+.flex.space-between{
+    justify-content: space-between !important;
+}
+.input-height{
+    padding: 0.55rem 2rem !important;
 }
