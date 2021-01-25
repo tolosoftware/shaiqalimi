@@ -53,7 +53,7 @@ class CurrencyController extends Controller
         if ($new = Currency::create($request->all())){
             $rate = [
                 'currency_id' => $new->id,
-                'user_id' => 1,
+                'user_id' => $request->user_id,
                 'rate' => $request->rate,
                 'counter' => $lastCounter
             ];
@@ -132,8 +132,9 @@ class CurrencyController extends Controller
             // return $value['id'];
             $rate = [
                 'currency_id' => $value['id'],
-                'user_id' => 4,
+                'user_id' => $request->user_id,
                 'rate' => $value['last_rate']['rate'],
+                'system_rate' => 1/$value['last_rate']['rate'],
                 'counter' => $newcounter,
             ];
             // return $rate;

@@ -1,5 +1,6 @@
 <template>
 <div id="data-list-thumb-view" class="w-full data-list-container">
+  <h4 class="">واحدهای پولی </h4>
   <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="recordsData">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <!-- ITEMS PER PAGE -->
@@ -61,10 +62,10 @@ export default {
       itemsPerPage: 5,
       isMounted: false,
       tableFields: [
+        {title: 'description', label: 'تفصیلات'},
         {title: 'credit', label: 'کردت'},
         {title: 'debit', label: 'دیبت'},
         {title: 'currency', label: 'واحد پولی', sub: 'sign_fa'},
-        {title: 'description', label: 'تفصیلات'},
         {title: 'exchange_rate', label: 'نرخ', sub: 'rate'},
         {title: 'status', label: 'نوعیت'},
         {title: 'type', label: 'منبع'},
