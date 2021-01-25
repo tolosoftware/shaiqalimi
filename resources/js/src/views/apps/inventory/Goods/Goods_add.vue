@@ -39,7 +39,7 @@
         <div class="vx-col mt-4"></div>
         <vs-textarea label="تفصیلات" v-model="form.description" />
         <div class="flex flex-wrap items-center p-6" slot="footer">
-          <vs-button class="mr-6" @click="submitData">ثبت</vs-button>
+          <vs-button :disabled="form.busy" class="mr-6" @click="submitData">ثبت</vs-button>
           <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
           <vs-list v-if="(errors.items.length > 0)">
             <vs-list-header color="danger" title="مشکلات"></vs-list-header>

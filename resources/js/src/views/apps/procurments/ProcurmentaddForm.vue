@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Procurmentadd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
+  <SerllerAddForm :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
   <div class="vx-row">
     <vx-card class="height-vh-80">
       <div class="vx-row">
@@ -76,28 +76,23 @@
         </vs-row>
         <br>
         <vs-divider />
-        <!-- end currency_id -->
-        <!-- eteration -->
 
         <EkmalatStock :items="prForm.item" :form="prForm" :currencyID="prForm.currency_id" :listOfFields="[]" :disabledFields="[]" :grid="[]" ref="ekmalat"></EkmalatStock>
 
-        <!-- end eteration -->
         <vs-row vs-w="12">
-
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3">
-              <vs-textarea placeholder="تفصیلات" v-model="prForm.description"></vs-textarea>
+              <vs-textarea label="تفصیلات" v-model="prForm.description"></vs-textarea>
             </div>
           </vs-col>
         </vs-row>
-        <vs-button class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
+        <vs-button class="mr-3 mb-2" :disabled="prForm.busy" @click.prevent="submitData">ثبت</vs-button>
         <div v-if="(errors.items.length > 0)">
           <vs-list v-if="showEr">
             <vs-list-header color="danger" title="مشکلات"></vs-list-header>
             <div :key="indextr" v-for="(err, indextr) in errors.items">
               <vs-list-item icon="verified_user" style="color:red;" :subtitle="err.msg"></vs-list-item>
             </div>
-            <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
           </vs-list>
         </div>
       </form>
@@ -107,7 +102,7 @@
 </template>
 
 <script>
-import Procurmentadd from './Procurmentadd.vue'
+import SerllerAddForm from './SerllerAddForm.vue'
 import moment from 'moment-jalaali'
 import EkmalatStock from "../shared/EkmalatStock"
 import SourceSelect from "../shared/SourceSelect";
@@ -178,10 +173,16 @@ export default {
 
   },
   created() {
+    this.$on('sellerdelete', function (value) {
+      this.loadvendor();
+    });
+    this.$on('selleradd', function (value) {
+      this.loadvendor();
+    });
+    this.getPurchaseSerialNumber();
     Validator.localize('en', this.dictp);
     this.loadvendor();
-    this.loadgodam();
-    this.getPurchaseSerialNumber();
+    // this.loadgodam();
   },
   components: {
     "v-select": vSelect,
@@ -189,12 +190,13 @@ export default {
     moment,
     SourceSelect,
     Validator,
-    Procurmentadd
+    SerllerAddForm
   },
   methods: {
     toggleDataSidebar(val = false) {
       // this.errors.items.length = 0
       // this.errors.length = 0
+      this.loadvendor();
       this.$validator.reset()
       this.addNewDataSidebar = val
     },
@@ -219,12 +221,12 @@ export default {
           this.allvendors = resp.data;
         });
     },
-    loadgodam() {
-      this.axios.get('/api/storage')
-        .then((resp) => {
-          this.storage = resp.data;
-        });
-    },
+    // loadgodam() {
+    //   this.axios.get('/api/storage')
+    //     .then((resp) => {
+    //       this.storage = resp.data;
+    //     });
+    // },
     getPurchaseSerialNumber() {
       this.axios.get('/api/purchSerialNO')
         .then((resp) => {
@@ -253,6 +255,7 @@ export default {
               })
               this.prForm.reset();
               this.$validator.reset();
+              this.getPurchaseSerialNumber();
             }).catch(() => {
               this.$vs.notify({
                 title: 'ثبت عملیه  ناموفق بود!',

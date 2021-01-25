@@ -78,7 +78,7 @@
                 <vs-textarea label="تفصیلات کلی" v-model="form.description"></vs-textarea>
               </div>
             </div>
-            <vs-button type="filled" @click.prevent="submitData" class="mt-5 block">ثبت</vs-button>
+            <vs-button :disabled="form.busy" type="filled" @click.prevent="submitData" class="mt-5 block">ثبت</vs-button>
             <vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
