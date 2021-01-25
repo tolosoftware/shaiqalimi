@@ -434,7 +434,7 @@ export default {
 
         let unit_price = this.items[key].unit_price;
         let density = this.items[key].density;
-        
+
         if (opr && opr.id == 1) {
           this.items[key].total_price = this.items[key].increment * unit_price;
           this.items[key].increment_equiv = 0;
