@@ -306,7 +306,7 @@
           </div>
           <div class="w-full pt-5 ml-3 mr-3 mb-3">
             <div class="w-full mt-5">
-              <vs-checkbox color="primary" size="large" v-model="aForm.bank_dict">توضیع بانکی</vs-checkbox>
+              <vs-checkbox color="primary" size="large" v-model="aForm.bank_dict">توضیع تانک</vs-checkbox>
             </div>
           </div>
         </vs-col>
@@ -540,6 +540,7 @@ export default {
   props: ['clients'],
   data() {
     return {
+      proposalid: 0,
       offerSource: 1,
       offsetWidth: 100,
       financialPower: 1,
@@ -650,8 +651,16 @@ export default {
     Validator.localize('en', this.dict)
     this.getAllItems();
     this.getAllUnites();
+    this.getRecentProposalID();
+
   },
   methods: {
+    getRecentProposalID() {
+      this.axios.get('/api/getrecent')
+        .then((response) => {
+          this.proposalid = response.data;
+        })
+    },
     validateStep1() {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
@@ -756,6 +765,8 @@ export default {
                   icon: 'icon-check',
                   position: 'top-right'
                 })
+                this.getRecentProposalID();
+                this.$router.push('/proposal/' + this.proposalid).catch(() => {})
               }).catch((errors) => {
                 this.$Progress.set(100)
                 this.$vs.notify({

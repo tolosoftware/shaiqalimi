@@ -85,9 +85,9 @@ class TransferController extends Controller
      * @param  \App\Models\transfer  $transfer
      * @return \Illuminate\Http\Response
      */
-    public function show(transfer $transfer)
+    public function show($id)
     {
-        //
+        return Transfer::findOrFail($id);
     }
 
     /**

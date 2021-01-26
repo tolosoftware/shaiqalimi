@@ -70,17 +70,67 @@
             <p class="product-price">{{ tr.description }}</p>
           </vs-td>
           <vs-td class="whitespace-no-wrap">
-            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
-                           name: 'procurment-edit', 
-                           params: {procurment_id: tr.id }}).catch(() => {})" />
-
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showStepsModal(tr.id)" />&nbsp;&nbsp;
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
             <feather-icon icon="EyeIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="$router.push({ path: `/view/procurment/${tr.id}` })" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
+  <vs-popup class="holamundo" title="تنظیمات مربط به خریداری" :active.sync="popupStepActive">
+    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
+      <tab-content title="درخواست خریداری" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>درخواست خریداری</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+            <div>
+              <p v-if="procurment.vendor">نام فروشند: {{procurment.vendor.name }}</p>
+            </div>
+          </vs-row>
+        </vs-row>
+      </tab-content>
+      <tab-content title="اطلاعات مالی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>اطلاعات مالی</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+          </vs-row>
+        </vs-row>
+      </tab-content>
+      <tab-content title="دریافت اکمالات" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>دریافت اکمالات</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+          </vs-row>
+        </vs-row>
+      </tab-content>
+      <tab-content title="تصفیه حسابات" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>تصفیه حسابات</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+          </vs-row>
+        </vs-row>
+      </tab-content>
+      <tab-content title="تاییدی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>تاییدی</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+          </vs-row>
+        </vs-row>
+      </tab-content>
+    </form-wizard>
+  </vs-popup>
 </div>
 </template>
 
@@ -89,13 +139,22 @@
 import TableLoading from './../shared/TableLoading.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
 import ProcurmentView from './ProcurmentView'
+import {
+  FormWizard,
+  TabContent
+} from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 export default {
   components: {
     ProcurmentView,
-    TableLoading
+    TableLoading,
+    FormWizard,
+    TabContent
   },
   data() {
     return {
+      procurment: [],
+      popupStepActive: false,
       isdata: false,
       allpurchase: [],
       selected: [],
@@ -123,6 +182,22 @@ export default {
     }
   },
   methods: {
+    showStepsModal(id) {
+      this.$Progress.start()
+      this.axios
+        .get("/api/procurments/" + id)
+        .then((data) => {
+          this.procurment = data.data;
+          console.log('procurment', this.procurment);
+          this.$Progress.set(100);
+          this.popupStepActive = true;
+        })
+        .catch(() => {});
+    },
+    formSubmitted() {
+      alert("تنظیمات بسته شد")
+      this.popupStepActive = false;
+    },
     loadpurchase() {
       this.axios.get('/api/procurments').then(({
           data

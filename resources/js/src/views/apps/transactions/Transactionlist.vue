@@ -85,15 +85,41 @@
             <p class="product-price">{{ tr.description }}</p>
           </vs-td>
           <vs-td class="whitespace-no-wrap">
-            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showStepsModal(tr.id)" />&nbsp;&nbsp;
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
-    <vs-popup class="holamundo" title="معلومات معاملات تجارتی" :active.sync="transactionModalActive">
-    <transaction-view :transaction="transaction_to_view"/>
+  <vs-popup class="holamundo" title=" تنظیمات مربط به معاملات تجارتی " :active.sync="popupStepActive">
+    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
+      <tab-content title="اطلاعات مالی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>اطلاعات مالی</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+            <div>
+              <p v-if="transaction.title">عنوان معامله: {{transaction.title }}</p>
+            </div>
+          </vs-row>
+        </vs-row>
+      </tab-content>
+      <tab-content title="تاییدی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>تاییدی</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+          </vs-row>
+        </vs-row>
+      </tab-content>
+    </form-wizard>
+  </vs-popup>
+  <vs-popup class="holamundo" title="معلومات معاملات تجارتی" :active.sync="transactionModalActive">
+    <transaction-view :transaction="transaction_to_view" />
   </vs-popup>
 </div>
 </template>
@@ -103,13 +129,22 @@
 import moduleDataList from "@/store/data-list/moduleDataList.js";
 import TableLoading from './../shared/TableLoading.vue'
 import TransactionView from './TransactionView';
+import {
+  FormWizard,
+  TabContent
+} from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 export default {
   components: {
     TransactionView,
-    TableLoading
+    TableLoading,
+    FormWizard,
+    TabContent
   },
   data() {
     return {
+      transaction: [],
+      popupStepActive: false,
       isdata: false,
       allTransaction: [],
       itemsPerPage: 10,
@@ -135,6 +170,22 @@ export default {
     },
   },
   methods: {
+    showStepsModal(id) {
+      this.$Progress.start()
+      this.axios
+        .get("/api/transaction/" + id)
+        .then((data) => {
+          this.transaction = data.data;
+          console.log('transaction', this.transaction);
+          this.$Progress.set(100);
+          this.popupStepActive = true;
+        })
+        .catch(() => {});
+    },
+    formSubmitted() {
+      alert("تنظیمات بسته شد")
+      this.popupStepActive = false;
+    },
     loadTransaction() {
       this.axios.get('/api/transaction').then(({
           data
@@ -151,7 +202,7 @@ export default {
           })
         });
     },
-    viewData(transaction){
+    viewData(transaction) {
       this.$Progress.start()
       this.axios
         .get("/api/transaction/" + transaction.id)
