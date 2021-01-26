@@ -101,7 +101,7 @@
             <vs-input label="آدرس" class="mt-5 w-full" name="selleraddress" v-validate="'required|min:2'" v-model="form.address" />
             <has-error :form="form" field="address"></has-error>
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
-              <vs-button type="border" color="success" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
+              <vs-button type="border" color="success" class="mr-6" :disabled="form.busy" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
             <vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
@@ -179,7 +179,6 @@ export default {
         if (!val) {
           this.$validator.reset();
           this.$emit('closeSidebar')
-
         }
       }
     },
@@ -201,6 +200,7 @@ export default {
         if (result) {
           this.form.post('/api/vendors')
             .then(() => {
+              this.$parent.$emit('selleradd', 'add');
               this.$vs.notify({
                 title: 'عملیه ثبت موفق بود!',
                 text: 'عملیه موفغانه انجام شد',
@@ -285,6 +285,7 @@ export default {
         cancelButtonText: '<span>خیر، لغو عملیه!</span>'
       }).then((result) => {
         if (result.isConfirmed) {
+          this.$parent.$emit('sellerdelete', 'delete');
           this.form.delete('/api/vendors/' + id).then((id) => {
               swal.fire({
                 title: 'عملیه حذف موفقانه انجام شد.',

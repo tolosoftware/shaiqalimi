@@ -117,7 +117,7 @@
           <vs-textarea v-model="tForm.description" label="تفصیلات"></vs-textarea>
         </div>
       </div>
-      <vs-button type="filled" @click.prevent="submitForm" class="mt-5 block">ثبت</vs-button>
+      <vs-button :disabled="tForm.busy" type="filled" @click.prevent="submitForm" class="mt-5 block">ثبت</vs-button>
       <vs-list v-if="(errors.items.length > 0)">
         <vs-list-header color="danger" title="مشکلات"></vs-list-header>
         <div :key="indextr" v-for="(error, indextr) in errors.items">

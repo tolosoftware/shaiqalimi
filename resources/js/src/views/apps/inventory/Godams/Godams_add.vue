@@ -106,7 +106,7 @@
           </div>
         </div>
         <div class="flex flex-wrap items-center p-6" slot="footer">
-          <vs-button type="border" color="success" icon="save" class="mr-6" @click="submitGFormData()"><strong>ثبت گدام</strong></vs-button>
+          <vs-button :disabled="gForm.busy" type="border" color="success" icon="save" class="mr-6" @click="submitGFormData()"><strong>ثبت گدام</strong></vs-button>
         </div>
         <vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>

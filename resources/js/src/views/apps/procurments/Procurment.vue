@@ -2,7 +2,7 @@
 <div>
   <vs-tabs>
     <vs-tab label="ثبت خریداری">
-      <ProcurmentaddNew></ProcurmentaddNew>
+      <ProcurmentaddForm></ProcurmentaddForm>
     </vs-tab>
     <vs-tab label="لیست خریداری">
       <Procurmentlist></Procurmentlist>
@@ -13,14 +13,12 @@
 
 <script>
 import Procurmentlist from './Procurmentlist.vue'
-import ProcurmentaddNew from './ProcurmentaddNew.vue'
+import ProcurmentaddForm from './ProcurmentaddForm.vue'
 
 export default {
   components: {
     Procurmentlist,
-    ProcurmentaddNew
+    ProcurmentaddForm
   },
 }
 </script>
-
-

@@ -19,7 +19,12 @@ export default {
   components: {
     Transactionlist,
     TransactionAdd,
-
   },
+  created() {
+    this.$vs.loading();
+    setTimeout(() => {
+      this.$vs.loading.close()
+    }, 2000);
+  }
 };
 </script>

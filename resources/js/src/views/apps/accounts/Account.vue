@@ -18,47 +18,45 @@
   <div v-if="!isdata">
     <TableLoading></TableLoading>
   </div>
-  <span v-if="isdata">
-    <span v-for="(type, i) in accountTypes" :key="i">
-      <vs-card v-if="type.accounts && type.accounts.length > 0">
-        <vs-table max-items="3" pagination :data="type.accounts" stripe>
-          <template slot="header">
-            <h4 class="p-4"><b>{{ type.title }}</b></h4>
-            <span class="p-4 align-right">
-              <span class="text-rtl-left breadcrumb" v-if="type.type_id">{{ generateBroadCrumps(type) }}</span>
-            </span>
-          </template>
-          <template slot="thead">
-            <vs-th> <strong> ریفرینس کد</strong> </vs-th>
-            <vs-th> <strong> عنوان</strong> </vs-th>
-            <vs-th> <strong> بیلانس</strong> </vs-th>
-            <vs-th> <strong> حالت</strong> </vs-th>
-            <vs-th> <strong> تنظیمات</strong> </vs-th>
-          </template>
-          <template slot-scope="{ data }">
-            <vs-tr :key="i" v-for="(tr, i) in data">
-              <vs-td :data="tr.ref_code">
-                <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.ref_code }} </p>
-              </vs-td>
-              <vs-td :data="tr.name">
-                <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
-              </vs-td>
-              <vs-td :data="tr">
+  <span v-if="isdata" v-for="(type, i) in accountTypes" :key="i">
+    <vs-card v-if="type.accounts && type.accounts.length > 0">
+      <vs-table max-items="3" pagination :data="type.accounts" stripe>
+        <template slot="header">
+          <h4 class="p-4"><b>{{ type.title }}</b></h4>
+          <span class="p-4 align-right">
+            <span class="text-rtl-left breadcrumb" v-if="type.type_id">{{ generateBroadCrumps(type) }}</span>
+          </span>
+        </template>
+        <template slot="thead">
+          <vs-th><strong> ریفرینس کد</strong> </vs-th>
+          <vs-th><strong> عنوان</strong> </vs-th>
+          <vs-th><strong> بالانس</strong> </vs-th>
+          <vs-th><strong> حالت</strong> </vs-th>
+          <vs-th><strong> تنظیمات</strong> </vs-th>
+        </template>
+        <template slot-scope="{ data }">
+          <vs-tr :key="i" v-for="(tr, i) in data">
+            <vs-td :data="tr.ref_code">
+              <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.ref_code }} </p>
+            </vs-td>
+            <vs-td :data="tr.name">
+              <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
+            </vs-td>
+            <vs-td :data="tr">
                 <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.total_af.toFixed(2) }} </p>
-              </vs-td>
-              <vs-td :data="tr.status">
-                <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
-              </vs-td>
-              <vs-td class="whitespace-no-wrap notupfromall">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" />
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
-                <!-- <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" /> -->
-              </vs-td>
-            </vs-tr>
-          </template>
-        </vs-table>
-      </vs-card>
-    </span>
+            </vs-td>
+            <vs-td :data="tr.status">
+              <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
+            </vs-td>
+            <vs-td class="whitespace-no-wrap notupfromall">
+              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" />
+              <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
+              <!-- <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" /> -->
+            </vs-td>
+          </vs-tr>
+        </template>
+      </vs-table>
+    </vs-card>
   </span>
   <vs-popup class="holamundo financial-records-modal" title="اطلاعات معاملات تجاری" :active.sync="popupActive">
     <financial-records :recordsData="financialRecordsData"></financial-records>
@@ -144,7 +142,6 @@ export default {
       this.axios.get('/api/accounts')
         .then((response) => {
           this.accountTypes = response.data;
-          console.log(this.accountTypes);
           this.isdata = true;
           this.$Progress.set(100)
           // this.$vs.loading.close();
