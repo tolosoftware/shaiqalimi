@@ -59,10 +59,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-
+        $default_afn = Currency::where('sign_en', 'AFN')->first()->id;
         DB::beginTransaction();
         try {
-
             // return $request;
             // return Carbon::parse($request->issue_date);
             $this->validate($request, [
@@ -105,7 +104,7 @@ class ProjectController extends Controller
                     'tax' => $request->tax,
                     'transit' => $request->transit,
                     'others' => $request->others,
-                    'currency_id' => Currency::latest()->first()->id,
+                    'currency_id' => $default_afn,
                     'total_price' => 1000,
                     'total_price' => $request->total_price,
                     // 'proposal_id' => null,
@@ -124,7 +123,7 @@ class ProjectController extends Controller
                     'tax' => $request->tax,
                     'transit' => $request->transit,
                     'others' => $request->others,
-                    'currency_id' => Currency::latest()->first()->id,
+                    'currency_id' => $default_afn,
                     'total_price' => $request->total_price,
                 ];
                 ProData::create($proData);
@@ -168,7 +167,7 @@ class ProjectController extends Controller
                     'type_id' => $resp->id, //Project Id will be used here as type id
                     'account_id' => $new->id,
                     'description' => 'Dynamically Created For Project.' . $resp->id,
-                    'currency_id' => Currency::latest()->first()->id,
+                    'currency_id' => config('app.currency_afn'),
                     'credit' => $request->pr_worth,
                     'debit' => 0,
                     'ex_rate_id' => ExchangeRate::latest()->first()->id,

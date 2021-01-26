@@ -595,6 +595,27 @@ li.fuel-station > h3{
         font-weight: bold;
         display: list-item;
     }
+    .balance_currency_toggle{
+        display: inline-flex !important;
+        h4{
+            line-height: 2em;
+            padding-left: 10px;
+            white-space: nowrap;
+        }
+    }
+    .flex .vs-alert{
+        display: flex !important;
+        padding: 2px 10px !important;
+    }
+    .balance_currency_value{
+        width: fit-content;
+        float: left;
+    }
+    .balance_list_currency_toggle{
+        .radio-group label{
+            padding: 1rem !important;
+        }
+    }
 }
 .serial_no_reference{
     white-space: nowrap;
@@ -639,4 +660,7 @@ li.fuel-station > h3{
 }
 .input-height{
     padding: 0.55rem 2rem !important;
+}
+.vs-con-table.table-stripe .tr-values:nth-child(2n-1){
+    background: transparent!important;
 }

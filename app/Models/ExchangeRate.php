@@ -10,6 +10,7 @@ class ExchangeRate extends Model
         'currency_id',
         'user_id',
         'rate',
+        'system_rate',
         'counter',
     ];
 

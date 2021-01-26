@@ -241,7 +241,7 @@
       </div>
     </vs-row>
   </vs-col>
-  </vs-divider>
+  <vs-divider />
 </div>
 </template>
 
@@ -270,9 +270,19 @@ export default {
         sign_fa: '',
         id: null,
         rate: '',
+        user_id: localStorage.getItem('id'),
       }),
       rateEditForm: new Form({
         currencies: null,
+        user_id: localStorage.getItem('id'),
+      }),
+      operations: [],
+      operationForm: new Form({
+        title: '',
+        formula: '',
+        description: '',
+        id: null,
+        user_id: localStorage.getItem('id'),
       }),
 
       // select1: 10,
@@ -283,6 +293,7 @@ export default {
         title: '',
         type_id: '',
         system: 0,
+        user_id: localStorage.getItem('id'),
       }),
       have_type: 0,
 
