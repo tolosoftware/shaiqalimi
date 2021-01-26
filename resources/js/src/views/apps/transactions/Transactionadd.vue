@@ -27,12 +27,12 @@
               <label for class="ml-4 mr-4 mb-2">واحد پولی</label>
               <div class="radio-group w-full">
                 <div class="w-1/2">
-                  <input type="radio" v-model="form.currency_id" value="1" id="struct" name="curency" @change="currencychange(1)" />
-                  <label for="struct" class="w-full text-center">افغانی</label>
+                  <input type="radio" v-model="form.currency_id" value="1" id="currency_afn" name="currency_id" @change="currencychange(1)" />
+                  <label for="currency_afn" class="w-full text-center">افغانی</label>
                 </div>
                 <div class="w-1/2">
-                  <input type="radio" v-model="form.currency_id" value="2" id="specific" name="curency" @change="currencychange(2)" />
-                  <label for="specific" class="w-full text-center">دالر</label>
+                  <input type="radio" v-model="form.currency_id" value="2" id="currency_usd" name="currency_id" @change="currencychange(2)" />
+                  <label for="currency_usd" class="w-full text-center">دالر</label>
                 </div>
               </div>
               <has-error :form=" form" field="curency"></has-error>

@@ -14,6 +14,6 @@ class AccountType extends Model
 
     public function accounts()
     {
-        return $this->hasMany(Account::class, 'type_id');
+        return $this->hasMany(Account::class, 'type_id')->orderBy('id', 'DESC');
     }
 }

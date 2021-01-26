@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Helper\Helper;
 
 use App\Models\FinancialRecord;
+use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
 
 class FinancialRecordController extends Controller
@@ -86,7 +87,14 @@ class FinancialRecordController extends Controller
 
     public function byaccount(Request $request, FinancialRecord $financialRecord)
     {
-        return FinancialRecord::where('account_id', $request->id)->with(['currency', 'exchange_rate'])->get();
+        $financial_records = FinancialRecord::where('account_id', $request->id)
+        // ->where('id', 205)
+        ->with(['currency', 'exchange_rate'])->get();
+        $total_af = 0;
+        $total_usd = 0;
+        Helper::calc_account_balance($financial_records, $total_af, $total_usd);
+
+        return ['fr' => $financial_records, 'afn' => $total_af, 'usd' => $total_usd];
     }
 
 }

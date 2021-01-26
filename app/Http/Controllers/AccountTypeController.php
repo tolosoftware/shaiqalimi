@@ -21,14 +21,36 @@ class AccountTypeController extends Controller
     }
     public function allAccounts()
     {
-        $accounts =  AccountType::with('accounts.financial_records')->get();
-        // $accounts = AccountType::with([])->get();
-        foreach ($accounts as $key => &$acc) {
-            $this->loadType($acc);
+        // return 'x';
+        $accounts_types =  AccountType::with('accounts.financial_records.exchange_rate')
+        // ->has('accounts')
+        // ->has('accounts.financial_records')
+        // ->has('accounts.financial_records.exchange_rate')
+        ->get();
+        foreach ($accounts_types as $key1 => &$type) {
+            $this->loadType($type);
+            foreach ($type['accounts'] as $key2 => &$acc) {
+                $total_af = 0;
+                $total_usd = 0;
+                Helper::calc_account_balance($acc['financial_records'], $total_af, $total_usd);
+                $accounts_types[$key1]['accounts'][$key2]['afn'] = $total_af;
+                $accounts_types[$key1]['accounts'][$key2]['usd'] = $total_usd;
+            }    
         }
-        return $accounts;
+        // foreach ($accounts_types as $key => &$type) {
+        //     $this->loadType($type);
+        // }
+        return $accounts_types;
     }
 
+    public function calc($account){
+        foreach ($account['accounts'] as $key => $acc) {
+            foreach ($acc as $key => $a) {
+                return $a;
+                return $a['financial_records'];
+            }
+        }
+    }
     public function loadType($account)
     {
         if ($account['type_id'] != null) {

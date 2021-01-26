@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\SerialNumber;
 use App\Models\FinancialRecord;
+use App\Models\ExchangeRate;
 use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
@@ -93,7 +94,7 @@ class TransactionController extends Controller
             'currency_id' => $request['currency_id'],
             'credit' => $request['ammount'],
             'debit' => 0,
-            'ex_rate_id' => $request['currency_id'],
+            'ex_rate_id' => ExchangeRate::where('currency_id', $request['currency_id'])->latest()->first()->id,
             'status' => 'INC'
             
             ];
@@ -108,7 +109,7 @@ class TransactionController extends Controller
             'currency_id' => $request['currency_id'],
             'credit' => 0,
             'debit' => $request['ammount'],
-            'ex_rate_id' => $request['currency_id'],
+            'ex_rate_id' => ExchangeRate::where('currency_id', $request['currency_id'])->latest()->first()->id,
             'status' => 'EXP'
             
             ];

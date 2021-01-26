@@ -212,6 +212,8 @@ export default {
         newname: 'نام سیستم',
         mime: 'نوعیت',
         caption: 'کپشن',
+        afn: 'افغانی',
+        usd: 'دالر',
 
     }
 }
