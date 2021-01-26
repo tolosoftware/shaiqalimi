@@ -3,35 +3,35 @@
   <div class="balance_currency_toggle sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
     <div class="radio-group w-full">
       <div class="w-1/2">
-        <input type="radio" v-model="currency_display" value="afn" id="struct" name="curency" />
-        <label for="struct" class="w-full text-center">افغانی</label>
+        <input type="radio" v-model="currency_display" value="afn" id="cur_afn" name="curency" />
+        <label for="cur_afn" class="w-full text-center">افغانی</label>
       </div>
       <div class="w-1/2">
-        <input type="radio" v-model="currency_display" value="usd" id="specific" name="curency" />
-        <label for="specific" class="w-full text-center">دالر</label>
+        <input type="radio" v-model="currency_display" value="usd" id="cur_usd" name="curency" />
+        <label for="cur_usd" class="w-full text-center">دالر</label>
       </div>
     </div>
   </div>
-  <vs-alert class="balance_currency_value flex" v-if="recordsData[currency_display]" :color="recordsData[currency_display] > 0 ? 'success' : 'danger'" active="true">
+  <vs-alert class="balance_currency_value flex" v-if="fRData[currency_display]" :color="fRData[currency_display] > 0 ? 'success' : 'danger'" active="true">
     <span>بیلانس : </span>
-    <p dir="ltr">&nbsp;{{ recordsData[currency_display].toFixed(2) }}&nbsp;</p>
+    <p dir="ltr">&nbsp;{{ fRData[currency_display].toFixed(2) }}&nbsp;</p>
     <span> {{ $t(currency_display) }}</span>
   </vs-alert>
-  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="recordsData['fr']">
+  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="(fRData['fr']) ? fRData['fr'] : []">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <!-- ITEMS PER PAGE -->
-      <vs-dropdown v-if="recordsData != null && recordsData.length > 4" vs-trigger-click class="cursor-pointer mb-4 mr-4">
+      <vs-dropdown v-if="fRData != null && fRData.length > 4" vs-trigger-click class="cursor-pointer mb-4 mr-4">
         <div class="pl-4 pr-4 pt-1 pb-1 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
           <span class="mr-2">
             {{ currentPage * itemsPerPage - (itemsPerPage - 1) }} -
             {{
-              recordsData.length - currentPage * itemsPerPage > 0
+              fRData.length - currentPage * itemsPerPage > 0
               ? currentPage * itemsPerPage
-              : recordsData.length
+              : fRData.length
               }}
             از {{ queriedItems }}
           </span>
-          <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ recordsData.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : recordsData.length }} از {{ queriedItems }}</span> -->
+          <!-- <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ fRData.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : fRData.length }} از {{ queriedItems }}</span> -->
           <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
         </div>
         <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -71,7 +71,7 @@
 
 <script>
 export default {
-  props: ['recordsData'],
+  props: ['fRData'],
   data() {
     return {
       currency_display: 'afn',
@@ -114,14 +114,14 @@ export default {
   computed: {
     currentPage() {
       if (this.isMounted) {
-        return this.$refs.table.currentx;
+        // return this.$refs.table.currentx;
       }
       return 0;
     },
     queriedItems() {
-      return this.$refs.table ?
-        this.$refs.table.queriedResults.length :
-        (this.recordsData) ? this.recordsData.length : 0;
+      // return this.$refs.table ?
+        // this.$refs.table.queriedResults.length :
+        // (this.fRData) ? this.fRData.length : 0;
     },
   },
   created() {

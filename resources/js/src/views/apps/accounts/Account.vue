@@ -10,10 +10,21 @@
       </div>
       <div class="vx-col w-1/2 float-left">
         <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
-        <!-- <vs-button @click="testTost">tost</vs-button> -->
-        <!-- <vs-input icon-after="true" label-placeholder="icon-after" icon="search" placeholder="Search account" class="mt-1 float-right" style="max-width:320px" /> -->
+        <div class="balance_list_currency_toggle sm:w-1 md:w-1/2 lg:w-1/4 float-right xl:w-1/4">
+          <div class="radio-group w-full">
+            <div class="w-1/2" >
+              <input type="radio" v-model="curr_display" value='afn' id="acc_list_afn" name="curr_display"/>
+              <label for="acc_list_afn" class="w-full text-center">افغانی</label>
+            </div>
+            <div class="w-1/2" >
+              <input type="radio" v-model="curr_display" value='usd' id="acc_list_usd" name="curr_display"/>
+              <label for="acc_list_usd" class="w-full text-center">دالر</label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
   </vs-card>
   <div v-if="!isdata">
     <TableLoading></TableLoading>
@@ -42,13 +53,13 @@
             <vs-td :data="tr.name">
               <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
             </vs-td>
-            <vs-td :data="tr">
+            <vs-td :data="tr" class="float-left">
               <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">
-                <!-- <vs-alert class="balance_currency_value flex" v-if="recordsData[currency_display]" :color="recordsData[currency_display] > 0 ? 'success' : 'danger'" active="true">
+                <vs-alert class="balance_currency_value flex p-0" v-if="tr[curr_display]" :color="tr[curr_display] > 0 ? 'success' : 'danger'" active="true">
                   <span>بیلانس : </span>
-                  <p dir="ltr">&nbsp;{{ tr.total_af.toFixed(2) }}&nbsp;</p>
-                  <span> {{ $t(currency_display) }}</span>
-                </vs-alert> -->
+                  <p dir="ltr">&nbsp;{{ tr[curr_display].toFixed(2) }}&nbsp;</p>
+                  <span>{{ $t(curr_display) }}</span>
+                </vs-alert>
               </p>
             </vs-td>
             <vs-td :data="tr.status">
@@ -65,7 +76,7 @@
     </vs-card>
   </span>
   <vs-popup class="holamundo financial-records-modal" title="اطلاعات معاملات تجاری" :active.sync="popupActive">
-    <financial-records :recordsData="financialRecordsData"></financial-records>
+    <financial-records :fRData="financialRecordsData"></financial-records>
   </vs-popup>
 </div>
 </template>
@@ -85,7 +96,7 @@ export default {
   data: () => ({
     // Data Sidebar
     isdata: false,
-    currency_display: 'afn',
+    curr_display: 'afn',
     addNewDataSidebar: false,
     editAccData: {},
     accForm: new Form({
@@ -207,7 +218,6 @@ export default {
         .then((response) => {
           this.financialRecordsData = response.data;
           this.$Progress.set(100)
-
         })
     },
 

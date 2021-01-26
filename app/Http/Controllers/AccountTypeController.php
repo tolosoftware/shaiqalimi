@@ -22,19 +22,19 @@ class AccountTypeController extends Controller
     public function allAccounts()
     {
         $accounts_types =  AccountType::with('accounts.financial_records.exchange_rate')
-        // ->has('accounts')
-        // ->has('accounts.financial_records')
-        // ->has('accounts.financial_records.exchange_rate')
+        ->has('accounts')
+        ->has('accounts.financial_records')
+        ->has('accounts.financial_records.exchange_rate')
         ->get();
         // $accounts_types = AccountType::with([])->get();
         foreach ($accounts_types as $key1 => &$type) {
             $this->loadType($type);
             foreach ($type['accounts'] as $key2 => &$acc) {
-                $accounts_types[$key1]['accounts'][$key2]['total_af'] = 0;
-                foreach ($acc['financial_records'] as $key3 => $a) {
-                    $rate = ($a['exchange_rate']['system_rate'] != 0) ? $a['exchange_rate']['system_rate'] : 1;
-                    $accounts_types[$key1]['accounts'][$key2]['total_af'] += ($a['credit'] / $rate)-($a['debit'] / $rate);
-                }
+                $total_af = 0;
+                $total_usd = 0;
+                Helper::calc_account_balance($acc['financial_records'], $total_af, $total_usd);
+                $accounts_types[$key1]['accounts'][$key2]['afn'] = $total_af;
+                $accounts_types[$key1]['accounts'][$key2]['usd'] = $total_usd;
             }    
         }
         // foreach ($accounts_types as $key => &$type) {

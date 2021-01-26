@@ -5757,6 +5757,7 @@ li.fuel-station > h3 {
 
 [dir] .flex .vs-alert {
   display: flex !important;
+  padding: 2px 10px !important;
 }
 
 [dir] .balance_currency_value {
@@ -5764,6 +5765,10 @@ li.fuel-station > h3 {
   width: -moz-fit-content;
   width: fit-content;
   float: left;
+}
+
+[dir] .balance_list_currency_toggle .radio-group label {
+  padding: 1rem !important;
 }
 
 .serial_no_reference {
