@@ -595,6 +595,21 @@ li.fuel-station > h3{
         font-weight: bold;
         display: list-item;
     }
+    .balance_currency_toggle{
+        display: inline-flex !important;
+        h4{
+            line-height: 2em;
+            padding-left: 10px;
+            white-space: nowrap;
+        }
+    }
+    .flex .vs-alert{
+        display: flex !important;
+    }
+    .balance_currency_value{
+        width: fit-content;
+        float: left;
+    }
 }
 .serial_no_reference{
     white-space: nowrap;

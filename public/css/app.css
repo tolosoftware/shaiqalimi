@@ -5745,6 +5745,27 @@ li.fuel-station > h3 {
   display: list-item;
 }
 
+[dir] .balance_currency_toggle {
+  display: inline-flex !important;
+}
+
+[dir] .balance_currency_toggle h4 {
+  line-height: 2em;
+  padding-left: 10px;
+  white-space: nowrap;
+}
+
+[dir] .flex .vs-alert {
+  display: flex !important;
+}
+
+[dir] .balance_currency_value {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  float: left;
+}
+
 .serial_no_reference {
   white-space: nowrap;
 }

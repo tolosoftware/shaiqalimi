@@ -19,7 +19,7 @@
     <TableLoading></TableLoading>
   </div>
   <span v-if="isdata" v-for="(type, i) in accountTypes" :key="i">
-    <vs-card v-if="type.accounts && type.accounts.length > 0">
+    <vs-card v-if="type.accounts != null && type.accounts.length > 0">
       <vs-table max-items="3" pagination :data="type.accounts" stripe>
         <template slot="header">
           <h4 class="p-4"><b>{{ type.title }}</b></h4>
@@ -43,7 +43,13 @@
               <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.name }} </p>
             </vs-td>
             <vs-td :data="tr">
-                <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">{{ tr.total_af.toFixed(2) }} </p>
+              <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">
+                <!-- <vs-alert class="balance_currency_value flex" v-if="recordsData[currency_display]" :color="recordsData[currency_display] > 0 ? 'success' : 'danger'" active="true">
+                  <span>بیلانس : </span>
+                  <p dir="ltr">&nbsp;{{ tr.total_af.toFixed(2) }}&nbsp;</p>
+                  <span> {{ $t(currency_display) }}</span>
+                </vs-alert> -->
+              </p>
             </vs-td>
             <vs-td :data="tr.status">
               <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
@@ -79,6 +85,7 @@ export default {
   data: () => ({
     // Data Sidebar
     isdata: false,
+    currency_display: 'afn',
     addNewDataSidebar: false,
     editAccData: {},
     accForm: new Form({

@@ -1,7 +1,8 @@
 <?php
 
 return [
-
+    'currency_afn' => 1,
+    'currency_usd' => 2,
     // accounts type id configuration
     'cash_in_hand' => 10,
     'liabilities' => 5,
