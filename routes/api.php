@@ -45,6 +45,7 @@ Route::delete('sales/{sale}', 'SaleOneController@deleting');
 // Product Review
 Route::resource('project', 'ProjectController');
 Route::resource('proposal', 'ProposalController');
+Route::get('getrecent', 'ProposalController@getrecent');
 Route::resource('currency', 'CurrencyController');
 Route::resource('operation', 'OperationController');
 Route::resource('acount_type', 'AccountTypeController');

@@ -33,7 +33,7 @@
       <vs-th>نمبر</vs-th>
       <vs-th>نهاد</vs-th>
       <vs-th sort-key="product-name">پروژه</vs-th>
-      <vs-th sort-key="offer_guarantee">تضمین آفر</vs-th>
+      <vs-th sort-key="offer_guarantee">تاریخ ختم اعلان</vs-th>
       <vs-th sort-key="status">وضعیت</vs-th>
       <!--<vs-th sort-key="price">قیمت</vs-th>
       <vs-th sort-key="bidding_address">آدرس</vs-th>
@@ -62,7 +62,7 @@
 
           <vs-td>
             <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" />-->
-            <p class="offer_guarantee">{{ tr.offer_guarantee }} افغانی</p>
+            <p class="offer_guarantee">{{ tr.submission_date }} </p>
           </vs-td>
 
           <vs-td>
@@ -286,16 +286,20 @@
           <vs-divider></vs-divider>
         </vs-row>
       </tab-content>
-      <tab-content title="ارایه قیمت" class="mb-5">
+      <tab-content title="اشتراک" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
           <vs-row vs-w="12">
-            <vs-divider>بررسی بخش ارایه قیمت</vs-divider>
+            <vs-divider>بررسی بخش اشتراک</vs-divider>
           </vs-row>
           <vs-row vs-w="12">
             <ekmalat :items="proposal.pro_items" :form="aForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
-            <!--<div class="flex justify-between float-right">
-              <vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
-            </div>-->
+          </vs-row>
+          <vs-row vs-w="12">
+            <vs-col class="pl-5" vs-lg="9" vs-sm="9" vs-xs="12">
+            </vs-col>
+            <vs-col class="pl-5" vs-lg="3" vs-sm="3" vs-xs="12">
+              <vs-checkbox color="success" class="float-left" size="large" v-model="is_participated"><strong> اشتراک میشود ؟ </strong></vs-checkbox>
+            </vs-col>
           </vs-row>
           <vs-divider></vs-divider>
         </vs-row>
@@ -341,7 +345,7 @@
                   <p class="w-full" v-if="proposal"><strong class="mr-4"> آدرس داوطلبی: </strong><span v-text="proposal.bidding_address"></span></p>
                 </vs-col>
                 <vs-col class="mb-2" vs-justify="right" vs-align="right" vs-w="12">
-                  <p class="w-full" v-if="proposal"><strong class="mr-4"> مقدارتضمین: </strong>(<span v-text="proposal.offer_guarantee"></span>)<b style="color:lightblue"> افغانی </b>__<b style="color:green">بانکی</b></p>
+                  <p class="w-full" v-if="proposal"><strong class="mr-4"> مقدارتضمین: </strong><span v-text="proposal.offer_guarantee"></span><b> افغانی </b>__<b style="color:green">بانکی</b></p>
                 </vs-col>
               </div>
             </vs-col>
@@ -366,7 +370,7 @@
                   </vs-col>
                   <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
                     <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" v-model="i.statement" label="اسیستمنت" name="assistment" class="w-full" />
+                      <vs-input autocomplete="off" v-model="i.statement" label="استیتمنت" name="statement" class="w-full" />
                     </div>
                   </vs-col>
                   <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="1" vs-xs="6">
@@ -448,7 +452,7 @@
           <vs-th>نمبر</vs-th>
           <vs-th>نهاد</vs-th>
           <vs-th>پروژه</vs-th>
-          <vs-th>تضمین آفر</vs-th>
+          <vs-th>تاریخ ختم اعلان</vs-th>
           <vs-th>وضعیت</vs-th>
           <vs-th>قیمت</vs-th>
           <vs-th>آدرس</vs-th>
@@ -488,7 +492,7 @@
                 <vs-chip :color="getOrderStatusColor(tr.status)">{{ statusFa[tr.status] }}</vs-chip>
               </vs-td>
               <vs-td>
-                <p v-if="tr.pro_data">{{ tr.pro_data.total_price }} افغانی</p>
+                <p>{{ tr.submission_date }}</p>
               </vs-td>
               <vs-td>
                 <p>{{ tr.bidding_address }}</p>
@@ -525,7 +529,7 @@ export default {
       res_person: '',
       winner: '',
       is_recieved: '',
-
+      is_participated: '',
       status: 1,
       isdata: false,
       popupModalActive: false,
@@ -703,9 +707,9 @@ export default {
       // this.toggleDataSidebar(true)
     },
     getOrderStatusColor(status) {
-      if (status === 'normal') return 'warning'
-      if (status === 'delivered') return 'success'
-      if (status === 'canceled') return 'danger'
+      if (status === 'normal') return 'success'
+      // if (status === 'delivered') return 'success'
+      // if (status === 'canceled') return 'danger'
       return 'primary'
     },
     getPopularityColor(num) {

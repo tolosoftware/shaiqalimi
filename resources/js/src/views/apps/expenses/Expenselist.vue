@@ -88,14 +88,40 @@
           </vs-td>
 
           <vs-td class="whitespace-no-wrap">
-            <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showStepsModal(tr.id)" />&nbsp;&nbsp;
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
             <feather-icon icon="EyeIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="viewData(tr)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
+  <vs-popup class="holamundo" title="تنظیمات مربط به مصارف " :active.sync="popupStepActive">
+    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
+      <tab-content title="اطلاعات مالی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>اطلاعات مالی</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+            <div>
+              <p v-if="expense.title">عنوان مصرف: {{expense.title }}</p>
+            </div>
+          </vs-row>
+        </vs-row>
+      </tab-content>
+      <tab-content title="تاییدی" class="mb-5">
+        <vs-row vs-w="12" class="mb-1">
+          <vs-row vs-w="12">
+            <vs-divider>تاییدی</vs-divider>
+          </vs-row>
+          <vs-row vs-w="12">
+          </vs-row>
+        </vs-row>
+      </tab-content>
+    </form-wizard>
+  </vs-popup>
   <vs-popup class="holamundo" title="معلومات معاملات تجارتی" :active.sync="expenseModalActive">
     <expense-view :expense="expense_to_view" />
   </vs-popup>
@@ -108,14 +134,23 @@
 import moduleDataList from "@/store/data-list/moduleDataList.js"
 import TableLoading from './../shared/TableLoading.vue'
 import ExpenseView from './ExpenseView';
+import {
+  FormWizard,
+  TabContent
+} from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 export default {
   components: {
     ExpenseView,
-    TableLoading
+    TableLoading,
+    FormWizard,
+    TabContent
   },
   data() {
     return {
+      expense: [],
+      popupStepActive: false,
       isdata: false,
       allTransaction: [],
       expense_to_view: null,
@@ -142,7 +177,23 @@ export default {
     },
   },
   methods: {
-    loadTransaction() {
+    showStepsModal(id) {
+      this.$Progress.start()
+      this.axios
+        .get("/api/expenses/" + id)
+        .then((data) => {
+          this.expense = data.data;
+          console.log('expense', this.expense);
+          this.$Progress.set(100);
+          this.popupStepActive = true;
+        })
+        .catch(() => {});
+    },
+    formSubmitted() {
+      alert("تنظیمات بسته شد")
+      this.popupStepActive = false;
+    },
+    loadExpenses() {
 
       this.axios.get('/api/expenses').then(({
           data
@@ -189,7 +240,7 @@ export default {
               'موفقانه عملیه حذف انجام شد',
               'success'
             )
-            this.loadTransaction();
+            this.loadExpenses();
           }).catch(() => {
             swal("Failed!", "سیستم قادر به حذف نیست دوباره تلاش نماید.", "warning");
           })
@@ -213,7 +264,7 @@ export default {
 
   },
   created() {
-    this.loadTransaction();
+    this.loadExpenses();
     if (!moduleDataList.isRegistered) {
       this.$store.registerModule("dataList", moduleDataList);
       moduleDataList.isRegistered = true;

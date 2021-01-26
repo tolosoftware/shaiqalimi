@@ -32,23 +32,89 @@
           <vs-td :data="data[i].supervisor" class="just-one-line">
             <p>{{ data[i].supervisor }}</p>
           </vs-td>
-          <vs-td class="just-one-line">
-            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+          <vs-td>
+            <div class="flex">
+              <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showStepsModal(tr.id)" />&nbsp;&nbsp;
+              <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            </div>
           </vs-td>
         </vs-tr>
         </tbody>
       </template>
     </vs-table>
+    <vs-popup class="holamundo" title="تنظیمات مربط به انتقالات " :active.sync="popupStepActive">
+      <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
+        <tab-content title="تنظیم اطلاعات" class="mb-5">
+          <vs-row vs-w="12" class="mb-1">
+            <vs-row vs-w="12">
+              <vs-divider>تنظیم اطلاعات</vs-divider>
+            </vs-row>
+            <vs-row vs-w="12">
+              <div>
+                <p>عنوان: {{transfer.title }}</p>
+              </div>
+            </vs-row>
+          </vs-row>
+        </tab-content>
+        <tab-content title="بارگیری اقلام" class="mb-5">
+          <vs-row vs-w="12" class="mb-1">
+            <vs-row vs-w="12">
+              <vs-divider>بارگیری اقلام</vs-divider>
+            </vs-row>
+            <vs-row vs-w="12">
+            </vs-row>
+          </vs-row>
+        </tab-content>
+        <tab-content title="دریافت اقلام" class="mb-5">
+          <vs-row vs-w="12" class="mb-1">
+            <vs-row vs-w="12">
+              <vs-divider>دریافت اقلام</vs-divider>
+            </vs-row>
+            <vs-row vs-w="12">
+            </vs-row>
+          </vs-row>
+        </tab-content>
+        <tab-content title="اطلاعات مالی" class="mb-5">
+          <vs-row vs-w="12" class="mb-1">
+            <vs-row vs-w="12">
+              <vs-divider>اطلاعات مالی</vs-divider>
+            </vs-row>
+            <vs-row vs-w="12">
+            </vs-row>
+          </vs-row>
+        </tab-content>
+        <tab-content title="تاییدی" class="mb-5">
+          <vs-row vs-w="12" class="mb-1">
+            <vs-row vs-w="12">
+              <vs-divider>تاییدی</vs-divider>
+            </vs-row>
+            <vs-row vs-w="12">
+            </vs-row>
+          </vs-row>
+        </tab-content>
+      </form-wizard>
+    </vs-popup>
   </div>
 </component>
 </template>
 
 <script>
 import TableLoading from './../../shared/TableLoading.vue'
+import {
+  FormWizard,
+  TabContent
+} from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 export default {
-  components: { TableLoading },
+  components: {
+    TableLoading,
+    FormWizard,
+    TabContent
+  },
   data() {
     return {
+      popupStepActive: false,
+      transfer: [],
       transfers: [],
       itemsPerPage: 5,
       isloaded: false,
@@ -64,6 +130,22 @@ export default {
     this.getTransfers();
   },
   methods: {
+    showStepsModal(id) {
+      this.$Progress.start()
+      this.axios
+        .get("/api/transfer/" + id)
+        .then((data) => {
+          this.transfer = data.data;
+          console.log('transfer', this.transfer);
+          this.$Progress.set(100);
+          this.popupStepActive = true;
+        })
+        .catch(() => {});
+    },
+    formSubmitted() {
+      alert("تنظیمات بسته شد")
+      this.popupStepActive = false;
+    },
     getTransfers() {
       this.axios
         .get("/api/transfer")

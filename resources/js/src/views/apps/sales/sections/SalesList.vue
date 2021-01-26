@@ -66,10 +66,10 @@
           <vs-td>
             <p @click.stop="viewData(tr)" class="cursor-pointer">
               <!-- {{ tr.type +" - "+ tr.serial_no }} -->
-                <small class="mb-5">{{tr.type}}-</small>
-                <small class="mb-5" v-if="(tr.sales && tr.sales.project) && tr.sales.project.pro_data">{{tr.sales.project.pro_data.reference_no}}-</small>
-                <small class="mb-5" v-text="tr.serial_no"></small>
-              </p>
+              <small class="mb-5">{{tr.type}}-</small>
+              <small class="mb-5" v-if="(tr.sales && tr.sales.project) && tr.sales.project.pro_data">{{tr.sales.project.pro_data.reference_no}}-</small>
+              <small class="mb-5" v-text="tr.serial_no"></small>
+            </p>
           </vs-td>
           <vs-td>
             <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.total }} افغانی</p>
@@ -97,7 +97,7 @@
   <vs-popup class="holamundo" title="تنظیمات مربوط به فروشات" :active.sync="popupModalActive">
     <div v-for="(s,i) in sale" :key="i">
       <div v-if="s.type=='s1'">
-        <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن مادل" @on-complete="formSubmitted">
+        <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
           <tab-content title="تنظیم اطلاعات بل" class="mb-5">
             <vs-divider>تنظیم اطلاعات بل</vs-divider>
             <p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p>
@@ -107,9 +107,9 @@
             </div>
             <!--<vs-divider></vs-divider> -->
           </tab-content>
-          <tab-content title="پیش پرداخت" class="mb-5">
+          <tab-content title="اطلاعات مالی" class="mb-5">
             <vs-row vs-w="12" class="mb-1">
-              <vs-divider>پیش پرداخت</vs-divider>
+              <vs-divider>اطلاعات مالی</vs-divider>
               <div>
                 <div>
                   <!--<p>سریال نمبر: {{ s.type +" - "+ s.serial_no }}</p> -->
@@ -215,7 +215,7 @@
 
   </vs-popup>
   <vs-popup class="holamundo" title="معلومات فروشات" :active.sync="saleModalActive">
-    <sale-view :sale="sale_to_view"/>
+    <sale-view :sale="sale_to_view" />
   </vs-popup>
 </div>
 </template>
