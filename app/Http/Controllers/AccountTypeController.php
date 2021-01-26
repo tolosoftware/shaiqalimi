@@ -21,12 +21,12 @@ class AccountTypeController extends Controller
     }
     public function allAccounts()
     {
+        // return 'x';
         $accounts_types =  AccountType::with('accounts.financial_records.exchange_rate')
-        ->has('accounts')
-        ->has('accounts.financial_records')
-        ->has('accounts.financial_records.exchange_rate')
+        // ->has('accounts')
+        // ->has('accounts.financial_records')
+        // ->has('accounts.financial_records.exchange_rate')
         ->get();
-        // $accounts_types = AccountType::with([])->get();
         foreach ($accounts_types as $key1 => &$type) {
             $this->loadType($type);
             foreach ($type['accounts'] as $key2 => &$acc) {

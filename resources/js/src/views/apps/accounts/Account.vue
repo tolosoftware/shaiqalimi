@@ -41,7 +41,7 @@
         <template slot="thead">
           <vs-th><strong> ریفرینس کد</strong> </vs-th>
           <vs-th><strong> عنوان</strong> </vs-th>
-          <vs-th><strong> بالانس</strong> </vs-th>
+          <vs-th><strong> بیلانس</strong> </vs-th>
           <vs-th><strong> حالت</strong> </vs-th>
           <vs-th><strong> تنظیمات</strong> </vs-th>
         </template>
@@ -118,21 +118,9 @@ export default {
     broadSeperate: `<span class="breadcrumb-separator mx-2"><feather-icon :icon="rtl ? 'ChevronsLeftIcon' : 'ChevronsRightIcon'" svgClasses="w-4 h-4" /></span>`,
   }),
   created() {
-    this.$vs.loading();
     this.getAllAccountTypes()
-    setTimeout(() => {
-      this.$vs.loading.close()
-    }, 3000);
   },
   methods: {
-    // getAllAccountTypes() {
-    //   this.$Progress.start()
-    //   this.axios.get('/api/acount_type')
-    //     .then((response) => {
-    //       this.accountTypes = response.data;
-    //       this.$Progress.set(100)
-    //     })
-    // },
     findType(id) {
       let name = '';
       Object.keys(this.accountTypes).some(key => (this.accountTypes[key].id == id) ? name = this.accountTypes[key].title : null);
@@ -162,7 +150,7 @@ export default {
           this.accountTypes = response.data;
           this.isdata = true;
           this.$Progress.set(100)
-          // this.$vs.loading.close();
+          this.$vs.loading.close();
         })
     },
     countTheBalance(data) {
@@ -212,10 +200,10 @@ export default {
 
     // Financial Records Modal
     openFinancialRecords(data) {
-      this.popupActive = true;
       this.$Progress.start()
       this.axios.post('/api/financial-account', data)
         .then((response) => {
+          this.popupActive = true;
           this.financialRecordsData = response.data;
           this.$Progress.set(100)
         })

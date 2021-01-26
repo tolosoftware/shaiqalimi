@@ -17,7 +17,7 @@
     <p dir="ltr">&nbsp;{{ fRData[currency_display].toFixed(2) }}&nbsp;</p>
     <span> {{ $t(currency_display) }}</span>
   </vs-alert>
-  <vs-table class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="(fRData['fr']) ? fRData['fr'] : []">
+  <vs-table class="w-full table-stripe" ref="table" pagination :max-items="itemsPerPage" :data="(fRData['fr']) ? fRData['fr'] : []">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
       <!-- ITEMS PER PAGE -->
       <vs-dropdown v-if="fRData != null && fRData.length > 4" vs-trigger-click class="cursor-pointer mb-4 mr-4">
@@ -114,14 +114,14 @@ export default {
   computed: {
     currentPage() {
       if (this.isMounted) {
-        // return this.$refs.table.currentx;
+        return this.$refs.table.currentx;
       }
       return 0;
     },
     queriedItems() {
-      // return this.$refs.table ?
-        // this.$refs.table.queriedResults.length :
-        // (this.fRData) ? this.fRData.length : 0;
+      return this.$refs.table ?
+        this.$refs.table.queriedResults.length :
+        (this.fRData) ? this.fRData.length : 0;
     },
   },
   created() {
