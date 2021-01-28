@@ -92,7 +92,6 @@
 <script>
 import vSelect from "vue-select";
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import SidebarDefaultVue from '../../components/vuesax/sidebar/SidebarDefault.vue';
 import {
   Validator
 } from 'vee-validate'

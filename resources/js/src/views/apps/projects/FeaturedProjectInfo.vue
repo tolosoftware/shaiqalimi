@@ -117,9 +117,6 @@ export default {
     VueApexCharts,
   },
   created() {
-    this.$http.get('/api/card/card-statistics/active-users')
-      .then((response) => { this.activeUsers = response.data })
-      .catch((error) => { console.log(error) })
   }
 }
 </script>

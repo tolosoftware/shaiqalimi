@@ -415,33 +415,6 @@ export default {
   },
 
   created() {
-    // console.log(this.$parent);
-    // Support Tracker
-    this.$http.get('/api/card/card-analytics/support-tracker')
-      .then((response) => {
-        this.supportTracker = response.data
-      })
-      .catch((error) => {
-        // console.log(error)
-      })
-
-    // Active Users
-    this.$http.get('/api/card/card-statistics/active-users')
-      .then((response) => {
-        this.activeUsers = response.data
-      })
-      .catch((error) => {
-        // console.log(error)
-      })
-    // Site Traffic gained
-    this.$http.get('/api/card/card-statistics/newsletter')
-      .then((response) => {
-        this.newsletter = response.data
-      })
-      .catch((error) => {
-        // console.log(error)
-      })
-
     // Start the Progress Bar
     this.$Progress.start()
     this.$vs.loading({
