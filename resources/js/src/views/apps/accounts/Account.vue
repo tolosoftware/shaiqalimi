@@ -56,7 +56,6 @@
             <vs-td :data="tr" class="float-left">
               <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">
                 <vs-alert class="balance_currency_value flex p-0" v-if="tr[curr_display]" :color="tr[curr_display] > 0 ? 'success' : 'danger'" active="true">
-                  <span>بیلانس : </span>
                   <p dir="ltr">&nbsp;{{ tr[curr_display].toFixed(2) }}&nbsp;</p>
                   <span>{{ $t(curr_display) }}</span>
                 </vs-alert>
