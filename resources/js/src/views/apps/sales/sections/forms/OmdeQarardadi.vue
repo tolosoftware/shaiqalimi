@@ -96,7 +96,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input v-model="sForm.transport_cost" autocomplete="off" type="number" v-validate="'required'" name="others" />
+            <vs-input v-model="visualFields.transport_cost" @input="formatToEnPrice($event, sForm, 'transport_cost', visualFields)" autocomplete="off" v-validate="'required'" name="others" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
               errors.first("step-2.others")
@@ -114,7 +114,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="transit" />
+            <vs-input v-model="visualFields.service_cost" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" autocomplete="off" v-validate="'required'" name="transit" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
               errors.first("step-2.transit")
@@ -309,6 +309,13 @@ export default {
         },
       ],
       userid: localStorage.getItem('id'),
+      visualFields:{
+        transport_cost: "0",
+        service_cost: "0",
+        tax: "0",
+        deposit: "0",
+        total: "0",
+      },
       sForm: new Form({
         // sales_id: '', // Get the created sales id.
         serial_no: "",
@@ -363,8 +370,8 @@ export default {
     };
   },
   created() {
-    Validator.localize('en', this.dict);
-    this.getProject();
+    Validator.localize('en', this.dict)
+    this.getProject()
     window.addEventListener('keydown', (e) => {
       if (e.key == 'Enter') {
         // console.log("e.path", e.path);
@@ -372,7 +379,7 @@ export default {
           this.submitForm();
         }
       }
-    });
+    })
   },
   computed: {
     saleTotalCostFinal: function () {

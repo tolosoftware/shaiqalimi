@@ -105,7 +105,7 @@
         <vs-col vs-type="flex" vs-w="9" class="mb-base">
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3">
-              <label for=""><small>مصارف توضیعات / انتقالات</small></label>
+              <label for=""><small>مصارف توزیعات / انتقالات</small></label>
               <vx-input-group class="">
                 <template slot="prepend">
                   <div class="prepend-text bg-primary">

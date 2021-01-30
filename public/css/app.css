@@ -5829,6 +5829,10 @@ li.fuel-station > h3 {
   background: transparent !important;
 }
 
+[dir] .border-radius-0 {
+  border-radius: 0 !important;
+}
+
 @media print {
   [dir=ltr] #print-this {
     direction: ltr !important;
