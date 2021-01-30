@@ -172,7 +172,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <vs-input autocomplete="off" size="medium" label="حجم معاملات" v-model="aForm.deal_value" @input="formatToEnPrice" name="deal_value" class="w-full" />
+            <vs-input autocomplete="off" size="medium" label="حجم معاملات" v-model="aForm.deal_value" name="deal_value" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.deal_value') }}</span>
             <has-error :form="aForm" field="deal_value"></has-error>
           </div>
@@ -252,7 +252,7 @@
             </div>
           </vs-col>
         </vs-col> -->
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+        <!-- <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>انتقالات</small></label>
             <vx-input-group class="">
@@ -266,7 +266,7 @@
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
             <has-error :form="aForm" field="transit"></has-error>
           </div>
-        </vs-col>
+        </vs-col> -->
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>متفرقه</small></label>
@@ -684,20 +684,6 @@ export default {
 
   },
   methods: {
-    formatToEnPrice(value) {
-      var nStr = (value + '').replace(/,/g, "");
-      nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
-      nStr = nStr.replace(/\,/g, "");
-      var x = nStr.split('.');
-      var x1 = x[0];
-      var x2 = x.length > 1 ? '.' + x[1] : '';
-      var rgx = /(\d+)(\d{3})/;
-      while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-      }
-      value = x1 + x2;
-      this.aForm.deal_value = value;
-    },
     getRecentProposalID() {
       this.axios.get('/api/getrecent')
         .then((response) => {
