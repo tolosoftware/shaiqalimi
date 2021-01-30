@@ -664,3 +664,12 @@ li.fuel-station > h3{
 .vs-con-table.table-stripe .tr-values:nth-child(2n-1){
     background: transparent!important;
 }
+.border-radius-0{
+    border-radius: 0 !important;
+}
+.append-currency{
+    height: 39px !important;
+}
+.append-currency-template-group .vx-input-group-append.flex{
+    flex-direction: column ;
+}

@@ -183,10 +183,10 @@
           </vs-table>
         </vs-row>
       </tab-content>
-      <tab-content title=" مرحله اکمالات وتوضیعات" class="mb-5" :before-change="changeStepStatus2">
+      <tab-content title=" مرحله اکمالات وتوزیعات" class="mb-5">
         <vs-row vs-w="12" class="mb-1">
           <vs-row vs-w="12">
-            <vs-divider> مرحله اکمالات وتوضیعات</vs-divider>
+            <vs-divider> مرحله اکمالات وتوزیعات</vs-divider>
           </vs-row>
           <vs-row vs-w="12">
             <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">

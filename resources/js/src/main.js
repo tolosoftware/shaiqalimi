@@ -139,6 +139,20 @@ Vue.filter('NumToPer', function(input) {
     //     return persianMap[parseInt(m)];
     // });
 })
+Vue.filter('NumThreeDigit', function(value) {
+    var nStr = value.replace(/[^0-9.]/g, '')
+    nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr
+    nStr = nStr.replace(/\,/g, "")
+    var x = nStr.split('.')
+    var x1 = x[0]
+    var x2 = x.length > 1 ? '.' + x[1] : ''
+    var rgx = /(\d+)(\d{3})/
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2')
+    }
+    value = x1 + x2
+    return value
+})
 
 // Persian DatePcicker
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
@@ -162,6 +176,53 @@ const MyPlugin = {
     }
 }
 Vue.use(MyPlugin)
+
+// Custom Methods
+Vue.mixin({
+    methods: {
+        formatToEnPrice: function(value, sourceObject, field, fieldObject) {
+            if(value.length > 0){
+                var nStr = value.replace(/[^0-9.]/g, '');
+                nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
+                nStr = nStr.replace(/\,/g, "");
+                var x = nStr.split('.');
+                var x1 = x[0];
+                var x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                  x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                value = x1 + x2;
+                fieldObject[field] = value;
+                sourceObject[field] = value.replace(/[^0-9.]/g, '');
+            }else{
+                fieldObject[field] = 0;
+                sourceObject[field] = 0;
+            }
+          },
+        formatToEnPriceSimple: function(value, sourceObject, field, fieldObject) {
+        if(value.length > 0){
+            var nStr = value.replace(/[^0-9.]/g, '');
+            nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
+            nStr = nStr.replace(/\,/g, "");
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            value = x1 + x2;
+            fieldObject[field] = value;
+            sourceObject[field] = value.replace(/[^0-9.]/g, '');
+        }else{
+            fieldObject[field] = 0;
+            sourceObject[field] = 0;
+        }
+        },
+    },
+  })
+// End Of Custom Methods
 
 new Vue({
     mixins: [Mixin],

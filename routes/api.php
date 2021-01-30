@@ -17,6 +17,13 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+// Clear cache and redirect to the home page.
+Route::get('/cc', function() {
+  $exitCode = Artisan::call('config:cache');
+  $exitCode = Cache::flush();
+  $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+  return redirect($actual_link);
+});
 
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 Route::get('user', 'UserController@user')->middleware('auth:api');
