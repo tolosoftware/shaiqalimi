@@ -96,9 +96,10 @@
       </tbody>
     </template>
   </vs-table>
+  <!--:before-change="changeStepStatus(1)"-->
   <vs-popup class="holamundo" title="تنظیمات مربط پروژه" :active.sync="popupModalActive">
-    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
-      <tab-content title="دریافت قرار داد" class="mb-5">
+    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" :start-index="step-1" ref="wizard" @on-complete="formSubmitted">
+      <tab-content title="دریافت قرار داد" class="mb-5" :before-change="changeStepStatus">
         <vs-row vs-w="12" class="mb-1">
           <vs-row vs-w="12">
             <vs-divider>دریافت قرار داد</vs-divider>
@@ -182,7 +183,7 @@
           </vs-table>
         </vs-row>
       </tab-content>
-      <tab-content title=" مرحله اکمالات وتوضیعات" class="mb-5">
+      <tab-content title=" مرحله اکمالات وتوضیعات" class="mb-5" :before-change="changeStepStatus2">
         <vs-row vs-w="12" class="mb-1">
           <vs-row vs-w="12">
             <vs-divider> مرحله اکمالات وتوضیعات</vs-divider>
@@ -256,14 +257,14 @@
           </vs-table>
         </vs-row>
       </tab-content>
-      <tab-content title="اطلاعات مالی" class="mb-5">
+      <tab-content title="اطلاعات مالی" class="mb-5" :before-change="changeStepStatus3">
         <vs-row vs-w="12" class="mb-1">
           <vs-divider>اطلاعات مالی</vs-divider>
 
           <vs-divider></vs-divider>
         </vs-row>
       </tab-content>
-      <tab-content title="مراحل ختم پروژه" class="mb-5">
+      <tab-content title="مراحل ختم پروژه" class="mb-5" :before-change="changeStepStatus4">
         <vs-row vs-w="12" class="mb-1">
           <vs-row vs-w="12">
             <vs-divider>مراحل ختم پروژه</vs-divider>
@@ -317,7 +318,7 @@
           <vs-divider></vs-divider>
         </vs-row>
       </tab-content>
-      <tab-content title="تکمیل پروژه" class="mb-5">
+      <tab-content title="تکمیل پروژه" class="mb-5" :before-change="changeStepStatus5">
         <vs-row vs-w="12" class="mb-1">
           <vs-row vs-w="12">
             <vs-divider>تکمیل پروژه</vs-divider>
@@ -392,6 +393,9 @@
           <vs-divider></vs-divider>
         </vs-row>
       </tab-content>
+      <vs-button slot="prev">قبلی</vs-button>
+      <vs-button slot="next">بعدی</vs-button>
+      <vs-button slot="finish">بستن صحفه</vs-button>
     </form-wizard>
   </vs-popup>
 </div>
@@ -415,10 +419,12 @@ export default {
   data() {
     return {
       status: 1,
+      step: 1,
       is_ekmalat_allowed: 0,
       adminis_procedure: 0,
       setting_and_baqyat: 0,
       finishedcontract: 0,
+      mactob_sending: 0,
       isdata: false,
       popupModalActive: false,
       activeLoading: false,
@@ -482,6 +488,71 @@ export default {
     },
   },
   methods: {
+    changeStepStatus() {
+      if (this.step == 1) {
+        alert("you were at the Step :" + this.step)
+        this.step = 2
+      } else if (this.step == 2) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      } else if (this.step == 3) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      } else if (this.step == 4) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      } else if (this.step == 5) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      }
+      return true;
+    },
+
+    changeStepStatus2() {
+      if (this.step == 2) {
+        alert("you were at the Step :" + this.step)
+        this.step = 2
+      } else if (this.step == 2) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      } else if (this.step == 3) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      } else if (this.step == 4) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      } else if (this.step == 5) {
+        alert("came from step :" + this.step)
+        this.step = 1
+        alert("changed back to :" + this.step)
+      }
+      return true;
+    },
+    changeStepStatus3() {
+
+      // this.step = this.step + 1;
+      alert("you changed the Step 3")
+      return true;
+    },
+    changeStepStatus4() {
+
+      // this.step = this.step + 1;
+      alert("you changed the Step 4")
+      return true;
+    },
+    changeStepStatus5() {
+
+      // this.step = this.step + 1;
+      alert("you changed the Step 5")
+      return true;
+    },
     getThisProject(id) {
       this.$Progress.start()
       this.axios.get('/api/project/' + id)
