@@ -101,19 +101,24 @@
               <template slot="prepend">
                 <div id="offer" class="prepend-text">
                   <!--<span class="bg-primary">AFN</span>
-                  <v-select label="text" v-model="offerSource" :options="optionoffer" :dir="$vs.rtl ? 'rtl' : 'ltr'" />-->
+                  <v-select label="text" v-model="aForm.offer_guarantee_type" :options="optionoffer" :dir="$vs.rtl ? 'rtl' : 'ltr'" />-->
                   <div class="w-full mb-4">
                     <div class="radio-group w-full">
                       <div class="w-1/2">
-                        <input type="radio" v-model="offerSource" value="1" id="struct1" name="offerSource" />
+                        <input type="radio" v-model="aForm.offer_guarantee_type" value="1" id="struct1" name="aForm.offer_guarantee_type" />
                         <label for="struct1" class="w-full text-center">بانکی</label>
                       </div>
                       <div class="w-1/2">
-                        <input type="radio" v-model="offerSource" value="2" id="specific1" name="offerSource" />
+                        <input type="radio" v-model="aForm.offer_guarantee_type" value="2" id="specific1" name="aForm.offer_guarantee_type" />
                         <label for="specific1" id="cache" class="w-full text-center">نقده</label>
                       </div>
                     </div>
                   </div>
+                </div>
+              </template>
+              <template slot="append">
+                <div id="offer" class="append-text append-currency">
+                  <span class="bg-primary AFGLabel">AFN</span>
                 </div>
               </template>
               <vs-input autocomplete="off" type="number" name="offer_guarantee" v-validate="'required'" v-model="aForm.offer_guarantee" />
@@ -121,24 +126,21 @@
             </vx-input-group>
             <has-error :form="aForm" field="offer_guarantee"></has-error>
           </div>
-          <div class="mt-3 mr-4">
-            <span class="bg-primary AFGLabel">AFN</span>
-          </div>
         </vs-col>
         <!-- <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for class="ml-4 mr-4 mb-2">قرارداد مشابه </label>
             <div class="radio-group w-full">
               <div class="w-1/2">
-                <input type="radio" v-model="aForm.sameprop" value="1" id="yes" name="sameprop" />
+                <input type="radio" v-model="aForm.same_pro" value="1" id="yes" name="same_pro" />
                 <label for="yes" class="w-full text-center">بلی</label>
               </div>
               <div class="w-1/2">
-                <input type="radio" v-model="aForm.sameprop" value="2" id="no" name="sameprop" />
+                <input type="radio" v-model="aForm.same_pro" value="2" id="no" name="same_pro" />
                 <label for="no" class="w-full text-center">خیر</label>
               </div>
             </div>
-            <has-error :form="aForm" field="sameprop"></has-error>
+            <has-error :form="aForm" field="same_pro"></has-error>
           </div>
         </vs-col> -->
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -152,22 +154,30 @@
                   <div class="w-full mb-4">
                     <div class="radio-group w-full">
                       <div class="w-1/2">
-                        <input type="radio" v-model="aForm.sameprop" value="1" id="same_contract_yes" name="same_contract" />
+                        <input type="radio" v-model="samePro" value="1" id="same_contract_yes" name="same_contract" />
                         <label for="same_contract_yes" class="w-full text-center">بلی</label>
                       </div>
                       <div class="w-1/2">
-                        <input type="radio" v-model="aForm.sameprop" value="2" id="same_contract_no" name="same_contract" />
+                        <input type="radio" v-model="samePro" value="2" id="same_contract_no" name="same_contract" />
                         <label for="same_contract_no" id="nof" class="w-full text-center">خیر</label>
                       </div>
                     </div>
                   </div>
                 </div>
               </template>
-              <vs-input v-if="!(aForm.sameprop ==1)" disabled autocomplete="off" type="number" name="financial_power" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="aForm.financial_power" />
-              <vs-input v-if="(aForm.sameprop ==1)" autocomplete="off" type="number" name="financial_power" style="border-radius: 0 !important;" v-model="aForm.financial_power" />
+              <template slot="append">
+                <div id="offer" class="append-text append-currency">
+                  <div>
+                    <span v-if="(samePro == 1)" class="bg-primary AFGLabel">AFN</span>
+                    <span v-if="!(samePro == 1)" class="disabled">AFN</span>
+                  </div>
+                </div>
+              </template>
+              <vs-input v-if="!(samePro == 1)" disabled autocomplete="off" type="number" name="same_pro" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="aForm.same_pro" />
+              <vs-input v-if="(samePro == 1)" autocomplete="off" type="number" name="same_pro" style="border-radius: 0 !important;" v-model="aForm.same_pro" />
             </vx-input-group>
-            <span class="absolute text-danger alerttext">{{ errors.first('step-1.financial_power') }}</span>
-            <has-error :form="aForm" field="financial_power"></has-error>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-1.same_pro') }}</span>
+            <has-error :form="aForm" field="same_pro"></has-error>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -181,11 +191,11 @@
           <div class="w-full mt-4 pt-2 ml-3 mb-3">
             <!-- TITLE -->
             <label for=""><small>توانایی مالی</small></label>
-            <vx-input-group class="">
+            <vx-input-group class="append-currency-template-group">
               <template slot="prepend">
                 <div id="offer" class="prepend-text">
                   <!--<span class="bg-primary">AFN</span>
-                  <v-select label="text" v-model="offerSource" :options="optionoffer" :dir="$vs.rtl ? 'rtl' : 'ltr'" />-->
+                  <v-select label="text" v-model="aForm.offer_guarantee_type" :options="optionoffer" :dir="$vs.rtl ? 'rtl' : 'ltr'" />-->
                   <div class="w-full mb-4">
                     <div class="radio-group w-full">
                       <div class="w-1/2">
@@ -200,16 +210,17 @@
                   </div>
                 </div>
               </template>
+              <template slot="append">
+                <div id="offer" class="append-text append-currency">
+                  <span v-if="(financialPower ==1)" class="bg-primary AFGLabel">AFN</span>
+                  <span v-if="!(financialPower ==1)" class="AFGLabel disabled">AFN</span>
+                </div>
+              </template>
               <vs-input v-if="!(financialPower ==1)" disabled autocomplete="off" type="number" name="financial_power" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="aForm.financial_power" />
               <vs-input v-if="(financialPower ==1)" autocomplete="off" type="number" name="financial_power" style="border-radius: 0 !important;" v-model="aForm.financial_power" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.financial_power') }}</span>
             <has-error :form="aForm" field="financial_power"></has-error>
-          </div>
-          <div class="mt-3 mr-4">
-            <span v-if="(financialPower ==1)" class="bg-primary AFGLabel">AFN</span>
-            <span v-if="!(financialPower ==1)" class="disabled">AFN</span>
-            <!--<span class="bg-primary AFGLabel" style="color:gray" v-if="!(financialPower ==1)">AFN</span> :disabled="!(financialPower==1)"-->
           </div>
         </vs-col>
       </vs-row>
@@ -310,9 +321,7 @@
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.discount') }}</span>
           </div>
         </vs-col>
-      </vs-row>
-      <vs-row vs-w="12" class="mb-base">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
             <label for=""><small>ارزش قرارداد</small></label>
             <vx-input-group class="">
@@ -327,15 +336,18 @@
             <has-error :form="aForm" field="pr_worth"></has-error>
           </div>
         </vs-col>
+
+      </vs-row>
+      <vs-row vs-w="12" class="mb-base">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-5 ml-3 mr-3 mb-3">
             <div class="w-full mt-5">
-              <vs-checkbox color="primary" size="large" v-model="aForm.recet">رسانده اداره</vs-checkbox>
+              <vs-checkbox color="primary" size="large" v-model="aForm.receive_office">رسانده اداره</vs-checkbox>
             </div>
           </div>
           <div class="w-full pt-5 ml-3 mr-3 mb-3">
             <div class="w-full mt-5">
-              <vs-checkbox color="primary" size="large" v-model="aForm.bank_dict">توزیع تانک</vs-checkbox>
+              <vs-checkbox color="primary" size="large" v-model="aForm.bank_distribute">توزیع تانک</vs-checkbox>
             </div>
           </div>
         </vs-col>
@@ -570,9 +582,9 @@ export default {
   data() {
     return {
       proposalid: 0,
-      offerSource: 1,
       offsetWidth: 100,
       financialPower: 1,
+      samePro: 1,
       serial_no: 'انتخاب شرکت',
       is_accepted: false,
       currentSerialNo: 0,
@@ -581,10 +593,11 @@ export default {
         client_id: '',
         company_id: null,
         total_price: 0,
+        offer_guarantee_type: 1,
         discount: 0,
-        recet: 1,
-        bank_dict: 1,
-        sameprop: 1,
+        receive_office: '',
+        bank_distribute: '',
+        same_pro: '',
         deal_value: '0',
         financial_power: '0',
         title: '',
@@ -869,9 +882,9 @@ export default {
 }
 
 .AFGLabel {
-  height: 39px;
-  padding: 10px;
-  color: white;
+  height: 39px !important;
+  padding: 10px !important;
+  color: white !important;
   float: left !important;
   border-bottom-right-radius: 5px !important;
   border-top-right-radius: 5px !important;

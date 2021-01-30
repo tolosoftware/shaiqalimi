@@ -15,6 +15,12 @@ class Proposal extends Model
         'bidding_address',
         'offer_guarantee',
         'status',
+        'offer_guarantee_type',
+        'same_pro',
+        'deal_value',
+        'financial_power',
+        'receive_office',
+        'bank_distribute',
         'user_id'
     ];
 
