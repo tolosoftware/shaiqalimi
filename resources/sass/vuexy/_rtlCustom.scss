@@ -667,3 +667,9 @@ li.fuel-station > h3{
 .border-radius-0{
     border-radius: 0 !important;
 }
+.append-currency{
+    height: 39px !important;
+}
+.append-currency-template-group .vx-input-group-append.flex{
+    flex-direction: column ;
+}
