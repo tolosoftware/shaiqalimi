@@ -139,6 +139,20 @@ Vue.filter('NumToPer', function(input) {
     //     return persianMap[parseInt(m)];
     // });
 })
+Vue.filter('NumThreeDigit', function(value) {
+    var nStr = value.replace(/[^0-9.]/g, '')
+    nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr
+    nStr = nStr.replace(/\,/g, "")
+    var x = nStr.split('.')
+    var x1 = x[0]
+    var x2 = x.length > 1 ? '.' + x[1] : ''
+    var rgx = /(\d+)(\d{3})/
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2')
+    }
+    value = x1 + x2
+    return value
+})
 
 // Persian DatePcicker
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'

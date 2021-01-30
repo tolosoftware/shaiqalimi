@@ -121,7 +121,7 @@
                   <span class="bg-primary AFGLabel">AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" type="number" name="offer_guarantee" v-validate="'required'" v-model="aForm.offer_guarantee" />
+              <vs-input autocomplete="off" name="offer_guarantee" v-validate="'required'" v-model="visualFields.offer_guarantee" @input="formatToEnPrice($event, aForm, 'offer_guarantee', visualFields)"/>
               <span class="absolute text-danger alerttext">{{ errors.first('step-1.offer_guarantee') }}</span>
             </vx-input-group>
             <has-error :form="aForm" field="offer_guarantee"></has-error>
@@ -173,8 +173,8 @@
                   </div>
                 </div>
               </template>
-              <vs-input v-if="!(samePro == 1)" disabled autocomplete="off" type="number" name="same_pro" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="aForm.same_pro" />
-              <vs-input v-if="(samePro == 1)" autocomplete="off" type="number" name="same_pro" style="border-radius: 0 !important;" v-model="aForm.same_pro" />
+              <vs-input v-if="!(samePro == 1)" disabled autocomplete="off" name="same_pro" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="visualFields.same_pro" @input="formatToEnPrice($event, aForm, 'same_pro', visualFields)"/>
+              <vs-input v-if="(samePro == 1)" autocomplete="off" name="same_pro" style="border-radius: 0 !important;" v-model="visualFields.same_pro" @input="formatToEnPrice($event, aForm, 'same_pro', visualFields)" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.same_pro') }}</span>
             <has-error :form="aForm" field="same_pro"></has-error>
@@ -182,7 +182,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <vs-input autocomplete="off" size="medium" label="حجم معاملات" v-model="aForm.deal_value" name="deal_value" class="w-full" />
+            <vs-input autocomplete="off" size="medium" label="حجم معاملات" v-model="visualFields.deal_value" @input="formatToEnPrice($event, aForm, 'deal_value', visualFields)" name="deal_value" class="w-full" />
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.deal_value') }}</span>
             <has-error :form="aForm" field="deal_value"></has-error>
           </div>
@@ -216,8 +216,8 @@
                   <span v-if="!(financialPower ==1)" class="AFGLabel disabled">AFN</span>
                 </div>
               </template>
-              <vs-input v-if="!(financialPower ==1)" disabled autocomplete="off" type="number" name="financial_power" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="aForm.financial_power" />
-              <vs-input v-if="(financialPower ==1)" autocomplete="off" type="number" name="financial_power" style="border-radius: 0 !important;" v-model="aForm.financial_power" />
+              <vs-input v-if="!(financialPower ==1)" disabled autocomplete="off" @input="formatToEnPrice($event, aForm, 'financial_power', visualFields)" name="financial_power" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="visualFields.financial_power" />
+              <vs-input v-if="(financialPower ==1)" autocomplete="off" @input="formatToEnPrice($event, aForm, 'financial_power', visualFields)" name="financial_power" style="border-radius: 0 !important;" v-model="visualFields.financial_power" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.financial_power') }}</span>
             <has-error :form="aForm" field="financial_power"></has-error>
@@ -287,7 +287,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.others" v-validate="'required'" name="others" />
+              <vs-input autocomplete="off" v-model="visualFields.others" v-validate="'required'" name="others" @input="formatToEnPrice($event, aForm, 'others', visualFields)"/>
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
             <has-error :form="aForm" field="others"></has-error>
@@ -302,7 +302,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.total_price" :v-model="aForm.total_price = total_cost" />
+              <vs-input autocomplete="off" :v-model="aForm.total_price = total_cost" v-model="visualFields.total_price" @input="formatToEnPrice($event, aForm, 'total_price', visualFields)"/>
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
           </div>
@@ -330,7 +330,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" type="number" v-model="aForm.pr_worth" v-validate="'required'" name="pr_worth" />
+              <vs-input autocomplete="off" @input="formatToEnPrice($event, aForm, 'pr_worth', visualFields)" v-model="visualFields.pr_worth" v-validate="'required'" name="pr_worth" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
             <has-error :form="aForm" field="pr_worth"></has-error>
@@ -447,7 +447,7 @@
           <strong class="mr-4">
             تضمین آفر:
           </strong>
-          <small class="mb-5" v-text="aForm.offer_guarantee" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ aForm.offer_guarantee | NumThreeDigit }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -592,14 +592,14 @@ export default {
         serial_no: '',
         client_id: '',
         company_id: null,
-        total_price: 0,
         offer_guarantee_type: 1,
+        total_price: 0,
         discount: 0,
-        receive_office: '',
-        bank_distribute: '',
         same_pro: '',
         deal_value: '0',
         financial_power: '0',
+        receive_office: '',
+        bank_distribute: '',
         title: '',
         reference_no: '0',
         submission_date: this.momentj().format('jYYYY/jMM/jDD'),
@@ -625,6 +625,17 @@ export default {
         pr_worth: '0',
         transit: '0',
       }),
+      visualFields: {
+        others: 0,
+        pr_worth: 0,
+        transit: 0,
+        offer_guarantee: 0,
+        total_price: 0,
+        discount: 0,
+        same_pro: '',
+        deal_value: 0,
+        financial_power: 0,
+      },
       items: [],
       mesure_unit: [],
       companies: [],

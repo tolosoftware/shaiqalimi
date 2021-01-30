@@ -5,6 +5,11 @@
   <div v-if="!isdata">
     <TableLoading></TableLoading>
   </div>
+  <vs-col v-if="isdata" class="pr-5 ml-4" vs-lg="2" vs-sm="3" vs-xs="12">
+    <router-link to="/projects/proposal">
+      <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">ثبت اعلان جدید</vs-button>
+    </router-link>
+  </vs-col>
   <vs-table v-if="isdata" class="w-full" ref="table" pagination :max-items="itemsPerPage" search :data="proposals">
     <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between" id="proposalTable">
       <!-- ITEMS PER PAGE -->
