@@ -4,3 +4,6 @@ ALTER TABLE `proposals` ADD `deal_value` decimal(18,2) NULL AFTER `same_pro`;
 ALTER TABLE `proposals` ADD `financial_power` decimal(18,2) NULL AFTER `deal_value`;
 ALTER TABLE `proposals` ADD `receive_office` boolean NULL AFTER `financial_power`;
 ALTER TABLE `proposals` ADD `bank_distribute` boolean NULL AFTER `receive_office`;
+
+
+ALTER TABLE `projects` CHANGE `project_guarantee` `project_guarantee` BIGINT(20) NOT NULL;

@@ -447,7 +447,7 @@
           <strong class="mr-4">
             تضمین آفر:
           </strong>
-          <span class="mb-5" vs-justify="right" vs-align="right">{{ aForm.offer_guarantee | NumThreeDigit }}</span>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ visualFields.offer_guarantee }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -516,7 +516,7 @@
           <strong class="mr-4">
             متفرقه:
           </strong>
-          <small class="mb-5" v-text="aForm.others" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ visualFields.others }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -525,25 +525,25 @@
           <strong class="mr-4">
             ارزش قرارداد:
           </strong>
-          <small class="mb-5" v-text="aForm.pr_worth" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ visualFields.pr_worth }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
-      <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+      <!-- <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
         <h6 class="mb-5 mt-3 ml-2">
           <strong class="mr-4">
             انتقالات:
           </strong>
-          <small class="mb-5" v-text="aForm.transit" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ visualFields.transit }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
-      </vs-col>
+      </vs-col> -->
       <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
         <h6 class="mb-5 mt-3 ml-2">
           <strong class="mr-4">
             نرخ دهی:
           </strong>
-          <small class="mb-5" v-text="aForm.total_price" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ visualFields.total_price }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
