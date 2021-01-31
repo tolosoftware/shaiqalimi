@@ -38,6 +38,7 @@ Route::get('latestfuelstation', 'FuelStationController@latest');
 Route::resource('fuelstorestation', 'FuelStationStorageController');
 Route::post('users1', 'UserController@store');
 Route::post('users1', 'UserController@store');
+Route::get('tables_trancate', 'ApplicationController@trancate_db');
 
 // Sales
 Route::resource('sale1', 'SaleOneController');

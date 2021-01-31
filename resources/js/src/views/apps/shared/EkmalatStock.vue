@@ -33,7 +33,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_${index}`)" :class="errors.first(`step-3.increment_${index}`) ? 'has-error' : ''" :name="`increment_${index}`" type="number" min="0" v-model="i.increment" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_${index}`)" :class="errors.first(`step-3.increment_${index}`) ? 'has-error' : ''" :name="`increment_${index}`" @input="formatToEnPrice($event, items[index], 'increment', visualFields[index])" v-model="visualFields[index].increment" />
             </vx-input-group>
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.increment_${index}`) }}</span> -->
             <has-error :form="form" field="increment"></has-error>
@@ -52,7 +52,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :max="remaining_items[index][0]" :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
+              <vs-input :max="remaining_items[index][0]" :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" @input="formatToEnPrice($event, items[index], 'increment_equiv', visualFields[index])" v-model="visualFields[index].increment_equiv" />
             </vx-input-group>
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
@@ -77,7 +77,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" type="number" v-model="i.increment_equiv" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_equiv_${index}`)" :name="`increment_equiv_${index}`" :class="errors.first(`step-3.increment_equiv_${index}`) ? 'has-error' : ''" @input="formatToEnPrice($event, items[index], 'increment_equiv', visualFields[index])" v-model="visualFields[index].increment_equiv" />
             </vx-input-group>
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
@@ -95,7 +95,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_${index}`)" :class="errors.first(`step-3.increment_${index}`) ? 'has-error' : ''" :name="`increment_${index}`" type="number" min="0" v-model="i.increment" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.increment_${index}`)" :class="errors.first(`step-3.increment_${index}`) ? 'has-error' : ''" :name="`increment_${index}`" @input="formatToEnPrice($event, items[index], 'increment', visualFields[index])" v-model="visualFields[index].increment" />
             </vx-input-group>
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.increment_${index}`) }}</span> -->
             <has-error :form="form" field="increment"></has-error>
@@ -104,7 +104,7 @@
 
         <vs-col v-if="!disabledFields.includes('unit_price')" vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-1 mr-1 number-rtl">
-            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="قیمت ‌فی‌واحد" class="w-full" />
+            <vs-input v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" label="قیمت ‌فی‌واحد" class="w-full" @input="formatToEnPrice($event, items[index], 'unit_price', visualFields[index])" v-model="visualFields[index].unit_price" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
@@ -120,7 +120,7 @@
                   <span v-if="currencyID==2">USD</span>
                 </div>
               </template>
-              <vs-input type="number" title="مقدار و قیمت فی واحد را وارد کنید" disabled :data="itemsTotalPrice" :value="(i.total_price) ? parseFloat(i.total_price).toFixed(2) : ''" />
+              <vs-input title="مقدار و قیمت فی واحد را وارد کنید" disabled :data="itemsTotalPrice" @input="formatToEnPrice($event, items[index], 'total_price', visualFields[index])" :value="visualFields[index].total_price" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
           </div>
@@ -162,6 +162,12 @@ export default {
         reverse: false,
       }],
       remaining_items: [],
+      visualFields: [{
+        increment_equiv: "0",
+        increment: "0",
+        unit_price: "0",
+        total_price: "0",
+      }],
     };
   },
   created() {
@@ -247,6 +253,12 @@ export default {
             eqv_uom: true,
             reverse: false,
           });
+          this.visualFields.push({
+            increment_equiv: "0",
+            increment: "0",
+            unit_price: "0",
+            total_price: "0",
+          })
         }
       });
     },
@@ -274,6 +286,12 @@ export default {
         total_price: "0",
         density: null,
       });
+      this.visualFields.push({
+        increment_equiv: "0",
+        increment: "0",
+        unit_price: "0",
+        total_price: "0",
+      })
       this.is_active.push({
         density: false,
         uom: true,
@@ -437,34 +455,43 @@ export default {
 
         if (opr && opr.id == 1) {
           this.items[key].total_price = this.items[key].increment * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
           this.items[key].increment_equiv = 0;
         } else if (opr && opr.id == 2) {
           this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
           this.items[key].increment = 0;
         } else if (opr && opr.id == 3) {
           if (item_equivalent !== 0) {
             this.items[key].increment_equiv = this.items[key].increment * item_equivalent;
             this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(2);
+            this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
           }
           this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         } else if (opr && opr.id == 4) {
           if (item_equivalent !== 0) {
             this.items[key].increment = this.items[key].increment_equiv / item_equivalent;
             this.items[key].increment = this.items[key].increment.toFixed(2);
+            this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
           }
           this.items[key].total_price = this.items[key].increment * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         } else if (opr && opr.id == 5) {
           if (item_equivalent !== 0) {
             this.items[key].increment_equiv = (this.items[key].increment * density) * item_equivalent;
             this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(2);
+            this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
           }
           this.items[key].total_price = this.items[key].increment_equiv * unit_price;
         } else if (opr && opr.id == 6) {
           if (item_equivalent !== 0) {
             this.items[key].increment = (this.items[key].increment_equiv * density) / item_equivalent;
             this.items[key].increment = this.items[key].increment.toFixed(2);
+            this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
           }
           this.items[key].total_price = this.items[key].increment * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         }
       }
 
