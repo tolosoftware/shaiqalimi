@@ -96,9 +96,7 @@
       </vs-row>
     </form>
   </tab-content>
-
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
-
     <form data-vv-scope="step-2">
       <ekmalat :items="pForm.item" :form="pForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
       <vs-row vs-w="12" class="mt-5">
@@ -598,7 +596,6 @@ export default {
           this.pForm.status = (data.status == 'normal') ? 1 : 2;
           this.companySelected(data.pro_data.company_id);
         }
-        // console.log(this.pForm);
       }
     },
     // for getting measure unit of the item
