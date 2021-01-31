@@ -212,7 +212,13 @@ class ProjectController extends Controller
         return ProData::join('clients AS c', 'pro_data.client_id', '=', 'c.id')
             ->selectRaw("c.name, pro_data.title")->where('pro_data.project_id', $id)->get();
     }
-
+    public function changeStep($id, $stepNo)
+    {
+        // return response(['id'=>$id,'stid'=>$stepNo]);
+        $project = Project::findOrFail($id);
+        $project->step = $stepNo;
+        $project->save();
+    }
     /**
      * Update the specified resource in storage.
      *
