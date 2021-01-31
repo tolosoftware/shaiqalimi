@@ -251,7 +251,7 @@ export default {
             eqv_uom: true,
             reverse: false,
           });
-                    this.visualFields.push({
+          this.visualFields.push({
             increment_equiv: "0",
             increment: "0",
             unit_price: "0",
@@ -266,7 +266,7 @@ export default {
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
           if (result) {
-            this.addrow();
+            this.addRow();
           } else {
             // reject('correct all values')
           }
@@ -296,7 +296,7 @@ export default {
         total_price: "0",
         density: null,
       });
-            this.visualFields.push({
+      this.visualFields.push({
         increment_equiv: "0",
         increment: "0",
         unit_price: "0",
@@ -444,6 +444,7 @@ export default {
   // End Of methods
   computed: {
     itemsTotalPrice: function () {
+      console.log(this.items);
       for (const key of Object.keys(this.items)) {
         let item_equivalent = this.items[key].item_id.equivalent;
         let opr = this.items[key].operation_id;
@@ -463,7 +464,7 @@ export default {
           if (item_equivalent !== 0) {
             this.items[key].equivalent = this.items[key].ammount * item_equivalent;
             this.items[key].equivalent = this.items[key].equivalent.toFixed(2);
-          this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
+            this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
           }
           this.items[key].total_price = this.items[key].equivalent * unit_price;
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
@@ -471,7 +472,7 @@ export default {
           if (item_equivalent !== 0) {
             this.items[key].ammount = this.items[key].equivalent / item_equivalent;
             this.items[key].ammount = this.items[key].ammount.toFixed(2);
-          this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
+            this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
           }
           this.items[key].total_price = this.items[key].ammount * unit_price;
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
@@ -479,7 +480,7 @@ export default {
           if (item_equivalent !== 0) {
             this.items[key].equivalent = (this.items[key].ammount * density) * item_equivalent;
             this.items[key].equivalent = this.items[key].equivalent.toFixed(2);
-          this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
+            this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
           }
           this.items[key].total_price = this.items[key].equivalent * unit_price;
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
@@ -487,7 +488,7 @@ export default {
           if (item_equivalent !== 0) {
             this.items[key].ammount = (this.items[key].equivalent * density) / item_equivalent;
             this.items[key].ammount = this.items[key].ammount.toFixed(2);
-          this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
+            this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
           }
           this.items[key].total_price = this.items[key].ammount * unit_price;
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);

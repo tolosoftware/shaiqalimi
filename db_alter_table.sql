@@ -7,3 +7,15 @@ ALTER TABLE `proposals` ADD `bank_distribute` boolean NULL AFTER `receive_office
 
 
 ALTER TABLE `projects` CHANGE `project_guarantee` `project_guarantee` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_data` CHANGE `total_price` `total_price` BIGINT(20) NOT NULL;
+
+
+ALTER TABLE `pro_items` CHANGE `ammount` `ammount` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_items` CHANGE `unit_price` `unit_price` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_items` CHANGE `total_price` `total_price` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_items` CHANGE `equivalent` `equivalent` BIGINT(20) NOT NULL;
+
+
+
+
+ALTER TABLE `items` CHANGE `equivalent` `equivalent` BIGINT(20) NOT NULL;

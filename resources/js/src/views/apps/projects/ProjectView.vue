@@ -102,7 +102,7 @@
       <template slot-scope="{data}">
         <vs-tr v-for="(tr, i) in data" :key="i">
           <vs-td :data="tr.item_id">
-            <p> {{ tr.item_id.name }} </p>
+            <p> {{ tr.item_id.type.type }} {{ tr.item_id.name }} </p>
           </vs-td>
           <vs-td :data="tr.equivalent">
             {{tr.equivalent}} {{ tr.item_id.uom_equiv_id.title }}
