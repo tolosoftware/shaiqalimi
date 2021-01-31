@@ -97,7 +97,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input v-model="sForm.transport_cost" autocomplete="off" type="number" v-validate="'required'" name="others" />
+            <vs-input v-model="visualFields.transport_cost" @input="formatToEnPrice($event, sForm, 'transport_cost', visualFields)" autocomplete="off" v-validate="'required'" name="others" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
           <has-error :form="sForm" field="others"></has-error>
@@ -113,7 +113,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
+            <vs-input v-model="visualFields.service_cost" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" autocomplete="off" v-validate="'required'" name="service_cost" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
           <has-error :form="sForm" field="service_cost"></has-error>
@@ -131,7 +131,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
+            <vs-input disabled :value="saleTotalCost" autocomplete="off" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
         </div>
@@ -164,7 +164,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" />
+            <vs-input disabled :value="saleTotalCostFinal" autocomplete="off"/>
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
         </div>
@@ -274,15 +274,20 @@ export default {
       ],
 
       userid: localStorage.getItem('id'),
+      visualFields:{
+        transport_cost: "0",
+        service_cost: "0",
+        total: "0",
+      },
       sForm: new Form({
         // sales_id: '', // Get the created sales id.
         serial_no: "",
         source_id: "",
         destination: "",
-        transport_cost: "0",
-        service_cost: "0",
         tax: "0",
         // deposit: "",
+        transport_cost: "0",
+        service_cost: "0",
         total: "0",
         steps: "",
         description: "",
@@ -336,8 +341,8 @@ export default {
   },
   computed: {
     saleTotalCostFinal: function () {
-      var x = parseFloat(this.sForm.total) - (this.sForm.total * (this.sForm.tax / 100));
-      return x.toFixed(2);
+      var x = parseFloat(this.sForm.total) - (this.sForm.total * (parseFloat(this.sForm.tax) / 100));
+      return this.formatToEnPriceSimple(x.toFixed(2));
     },
     saleTotalCost: function () {
       var i_total = 0;
@@ -346,7 +351,7 @@ export default {
       });
 
       this.sForm.total = parseFloat(this.sForm.transport_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total);
-      return this.sForm.total;
+      return this.formatToEnPriceSimple(this.sForm.total);
     }
     // isFormValid() {
     //   // return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0

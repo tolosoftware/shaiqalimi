@@ -134,7 +134,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" />
+            <vs-input disabled :value="saleTotalCost" autocomplete="off" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
               errors.first("step-2.total_price")
@@ -192,7 +192,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" />
+            <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
               errors.first("step-2.total_price")
@@ -383,8 +383,8 @@ export default {
   },
   computed: {
     saleTotalCostFinal: function () {
-      var x = parseFloat(this.sForm.total) - (this.sForm.total * ((this.sForm.deposit / 100)) + (this.sForm.total * (this.sForm.tax / 100)));
-      return x.toFixed(2);
+      var x = parseFloat(this.sForm.total) - (this.sForm.total * ((parseFloat(this.sForm.deposit) + parseFloat(this.sForm.tax)) / 100));
+      return this.formatToEnPriceSimple(x.toFixed(2));
     },
     saleTotalCost: function () {
       var i_total = 0;
@@ -393,7 +393,7 @@ export default {
       });
 
       this.sForm.total = (parseFloat(this.sForm.transport_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total)).toFixed(2);
-      return this.sForm.total;
+      return this.formatToEnPriceSimple(this.sForm.total);
     }
     // isFormValid() {
     //   // return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
