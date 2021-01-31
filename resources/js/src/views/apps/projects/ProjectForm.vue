@@ -1,5 +1,5 @@
 <template>
-<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="ثبت معلومات" @on-complete="submitForm">
+<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index=0 ref="wizard" finishButtonText="ثبت معلومات" @on-complete="submitForm">
   <tab-content title="معلومات عمومی قرارداد" class="mb-5" :before-change="validateStep1">
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
@@ -87,7 +87,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" name="project_guarantee" v-model="pForm.project_guarantee" />
+              <vs-input name="project_guarantee" v-model="visualFields.project_guarantee" @input="formatToEnPrice($event, pForm, 'project_guarantee', visualFields)" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.project_guarantee') }}</span>
             <has-error :form="pForm" field="project_guarantee"></has-error>
@@ -112,7 +112,7 @@
                     <span>AFN</span>
                   </div>
                 </template>
-                <vs-input autocomplete="off" type="number" v-model="pForm.transit" v-validate="'required'" name="transit" />
+                <vs-input autocomplete="off" v-model="visualFields.transit" @input="formatToEnPrice($event, pForm, 'transit', visualFields)" v-validate="'required'" name="transit" />
               </vx-input-group>
               <span class="absolute text-danger alerttext">{{ errors.first('step-2.transit') }}</span>
               <has-error :form="pForm" field="transit"></has-error>
@@ -127,7 +127,7 @@
                     <span>AFN</span>
                   </div>
                 </template>
-                <vs-input autocomplete="off" type="number" v-model="pForm.others" v-validate="'required'" name="others" />
+                <vs-input autocomplete="off" v-model="visualFields.others" @input="formatToEnPrice($event, pForm, 'others', visualFields)" v-validate="'required'" name="others" />
               </vx-input-group>
               <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
               <has-error :form="pForm" field="others"></has-error>
@@ -143,7 +143,7 @@
                     <span>AFN</span>
                   </div>
                 </template>
-                <vs-input autocomplete="off" type="number" v-model="pForm.total_price" :v-model="pForm.total_price = total_cost" />
+                <vs-input autocomplete="off" v-model="visualFields.total_price" @input="formatToEnPrice($event, pForm, 'total_price', visualFields)" :v-model="visualFields.total_price = total_cost" />
               </vx-input-group>
               <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
             </div>
@@ -194,7 +194,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" type="number" v-model="pForm.pr_worth" v-validate="'required'" name="pr_worth" />
+              <vs-input autocomplete="off" v-model="visualFields.pr_worth" @input="formatToEnPrice($event, pForm, 'pr_worth', visualFields)" v-validate="'required'" name="pr_worth" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.pr_worth') }}</span>
             <has-error :form="pForm" field="pr_worth"></has-error>
@@ -280,7 +280,7 @@
           <strong class="mr-4">
             تضمین قرارداد:
           </strong>
-          <small class="mb-5" v-text="pForm.project_guarantee" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ pForm.project_guarantee | NumThreeDigit }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -330,7 +330,7 @@
           <strong class="mr-4">
             تامینات:
           </strong>
-          <small class="mb-5" v-text="pForm.deposit" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" v-text="pForm.deposit" vs-justify="right" vs-align="right"></span>
           <small style="color:#42b983;"><b>% </b></small>
         </h6>
       </vs-col>
@@ -348,7 +348,7 @@
           <strong class="mr-4">
             متفرقه:
           </strong>
-          <small class="mb-5" v-text="pForm.others" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ pForm.others | NumThreeDigit }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -357,7 +357,7 @@
           <strong class="mr-4">
             ارزش قرارداد:
           </strong>
-          <small class="mb-5" v-text="pForm.pr_worth" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ pForm.pr_worth | NumThreeDigit }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -366,7 +366,7 @@
           <strong class="mr-4">
             انتقالات:
           </strong>
-          <small class="mb-5" v-text="pForm.transit" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ pForm.transit | NumThreeDigit }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -375,7 +375,7 @@
           <strong class="mr-4">
             نرخ دهی:
           </strong>
-          <small class="mb-5" v-text="pForm.total_price" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" vs-justify="right" vs-align="right">{{ pForm.total_price | NumThreeDigit }}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -425,29 +425,38 @@ export default {
         client_id: '',
         company_id: null,
         title: '',
-        reference_no: '0',
+        reference_no: 0,
         status: "1",
         contract_date: this.momentj().format('jYYYY/jMM/jDD'),
         contract_end_date: this.momentj().format('jYYYY/jMM/jDD'),
-        project_guarantee: '0',
+        project_guarantee: 0,
         item: [{
           item_id: "",
           unit_id: "",
           operation_id: null,
           equivalent: "",
-          ammount: "0",
-          unit_price: "0",
-          total_price: "0",
+          ammount: 0,
+          unit_price: 0,
+          total_price: 0,
           density: null,
         }],
-        deposit: '0',
-        tax: '0',
-        others: '0',
-        pr_worth: '0',
-        transit: '0',
-        total_price: 0,
 
+        deposit: 0,
+        tax: 0,
+        others: 0,
+        pr_worth: 0,
+        transit: 0,
+        total_price: 0,
       }),
+      visualFields: {
+        deposit: 0,
+        tax: 0,
+        others: 0,
+        pr_worth: 0,
+        transit: 0,
+        total_price: 0,
+        project_guarantee: 0,
+      },
       items: [],
       mesure_unit: [],
       proposals: [],
@@ -560,28 +569,36 @@ export default {
             unit_id: "",
             operation_id: null,
             equivalent: "",
-            ammount: "0",
-            unit_price: "0",
-            total_price: "0",
+            ammount: 0,
+            unit_price: 0,
+            total_price: 0,
             density: null,
 
           }];
         }
         if (data.pro_data) {
           this.pForm.client_id = data.pro_data.client;
+          this.pForm.reference_no = data.pro_data.reference_no;
+          this.pForm.title = data.pro_data.title;
           this.pForm.deposit = data.pro_data.deposit;
           this.pForm.others = data.pro_data.others;
           this.pForm.pr_worth = data.pro_data.pr_worth;
-          this.pForm.reference_no = data.pro_data.reference_no;
           this.pForm.tax = data.pro_data.tax;
-          this.pForm.title = data.pro_data.title;
           this.pForm.total_price = data.pro_data.total_price;
           this.pForm.transit = data.pro_data.transit;
+
+          // Assign to the visualFields
+          this.visualFields.deposit = this.formatToEnPriceSimple(data.pro_data.deposit);
+          this.visualFields.others = this.formatToEnPriceSimple(data.pro_data.others);
+          this.visualFields.pr_worth = this.formatToEnPriceSimple(data.pro_data.pr_worth);
+          this.visualFields.tax = this.formatToEnPriceSimple(data.pro_data.tax);
+          this.visualFields.total_price = this.formatToEnPriceSimple(data.pro_data.total_price);
+          this.visualFields.transit = this.formatToEnPriceSimple(data.pro_data.transit);
           // this.pForm.company_id = data.pro_data.company_id;
           this.pForm.status = (data.status == 'normal') ? 1 : 2;
           this.companySelected(data.pro_data.company_id);
         }
-          console.log(this.pForm);
+        // console.log(this.pForm);
       }
     },
     // for getting measure unit of the item
@@ -805,7 +822,26 @@ export default {
           total_items += parseInt(item.total_price);
         }
       })
-      return others + transit + total_items;
+      var total = others + transit + total_items;
+      var nStr = total;
+      if (nStr > 0) {
+        nStr = nStr.toString()
+        nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
+        nStr = nStr.replace(/\,/g, "");
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        var value = x1 + x2;
+        this.pForm['total_price'] = value.replace(/[^0-9.]/g, '');
+        return value;
+      } else {
+        this.pForm['total_price'] = 0;
+        return 0;
+      }
     },
   },
 
