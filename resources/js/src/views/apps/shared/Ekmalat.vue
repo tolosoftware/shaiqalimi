@@ -33,7 +33,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.ammount_${index}`)" :class="errors.first(`step-3.ammount_${index}`) ? 'has-error' : ''" :name="`ammount_${index}`" type="number" min="0" v-model="i.ammount" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.ammount_${index}`)" :class="errors.first(`step-3.ammount_${index}`) ? 'has-error' : ''" :name="`ammount_${index}`" @input="formatToEnPrice($event, items[index], 'ammount', visualFields[index])" v-model="visualFields[index].ammount" />
             </vx-input-group>
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.ammount_${index}`) }}</span> -->
             <has-error :form="form" field="ammount"></has-error>
@@ -52,7 +52,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.equivalent_${index}`)" :name="`equivalent_${index}`" :class="errors.first(`step-3.equivalent_${index}`) ? 'has-error' : ''" type="number" v-model="i.equivalent" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.equivalent_${index}`)" :name="`equivalent_${index}`" :class="errors.first(`step-3.equivalent_${index}`) ? 'has-error' : ''" @input="formatToEnPrice($event, items[index], 'equivalent', visualFields[index])" v-model="visualFields[index].equivalent" />
             </vx-input-group>
             <has-error :form="form" field="equivalent"></has-error>
           </div>
@@ -77,7 +77,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.equivalent_${index}`)" :name="`equivalent_${index}`" :class="errors.first(`step-3.equivalent_${index}`) ? 'has-error' : ''" type="number" v-model="i.equivalent" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.equivalent_${index}`)" :name="`equivalent_${index}`" :class="errors.first(`step-3.equivalent_${index}`) ? 'has-error' : ''" @input="formatToEnPrice($event, items[index], 'equivalent', visualFields[index])" v-model="visualFields[index].equivalent" />
             </vx-input-group>
             <has-error :form="form" field="equivalent"></has-error>
           </div>
@@ -95,7 +95,7 @@
                     }}</span>
                 </div>
               </template>
-              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.ammount_${index}`)" :class="errors.first(`step-3.ammount_${index}`) ? 'has-error' : ''" :name="`ammount_${index}`" type="number" min="0" v-model="i.ammount" />
+              <vs-input :disabled="!i.operation_id" v-validate="'required'" :title="errors.first(`step-3.ammount_${index}`)" :class="errors.first(`step-3.ammount_${index}`) ? 'has-error' : ''" :name="`ammount_${index}`" @input="formatToEnPrice($event, items[index], 'ammount', visualFields[index])" v-model="visualFields[index].ammount" />
             </vx-input-group>
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.ammount_${index}`) }}</span> -->
             <has-error :form="form" field="ammount"></has-error>
@@ -104,7 +104,7 @@
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" v-model="i.unit_price" label="قیمت‌فی‌واحد" class="w-full" />
+            <vs-input v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" @input="formatToEnPrice($event, items[index], 'unit_price', visualFields[index])" v-model="visualFields[index].unit_price" label="قیمت‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
@@ -119,7 +119,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input type="number" v-model="i.total_price" :data="itemsTotalPrice" />
+              <vs-input v-model="visualFields[index].total_price" :data="itemsTotalPrice" />
             </vx-input-group>
             <has-error :form="form" field="total_price"></has-error>
           </div>
@@ -159,6 +159,13 @@ export default {
         uom: true,
         eqv_uom: true,
         reverse: false,
+      }],
+      visualFields: [{
+        equivalent: "0",
+        ammount: "0",
+        unit_price: "0",
+        total_price: "0",
+        density: false,
       }],
       remaining_items: [],
     };
@@ -245,6 +252,13 @@ export default {
             eqv_uom: true,
             reverse: false,
           });
+          // this.visualFields.push({
+          //   equivalent: "0",
+          //   ammount: "0",
+          //   unit_price: "0",
+          //   total_price: "0",
+          // })
+
         }
       });
     },
@@ -253,7 +267,7 @@ export default {
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
           if (result) {
-            this.addrow();
+            // this.addRow();
           } else {
             // reject('correct all values')
           }
@@ -272,23 +286,49 @@ export default {
       //   });
       // });
     },
-
-    addRow() {
-      this.items.push({
-        item_id: "",
-        operation_id: null,
-        equivalent: "",
-        ammount: "0",
-        unit_price: "0",
-        total_price: "0",
-        density: null,
-      });
-      this.is_active.push({
-        density: false,
-        uom: true,
-        eqv_uom: true,
-        reverse: false,
-      });
+    resetArrays(){
+      this.visualFields.splice(0,this.visualFields.length);
+      this.is_active.splice(0,this.is_active.length);
+      this.items.splice(0,this.items.length);
+    },
+    addRow(data = null) {
+      if (data.key) {
+        this.items[data.key] = data['data'];
+        this.visualFields[data.key] = {
+          ammount: data['data'].ammount,
+          equivalent: data['data'].equivalent,
+          unit_price: data['data'].unit_price,
+          total_price: data['data'].total_price,
+        }
+        this.is_active[data.key] = {
+          density: false,
+          uom: true,
+          eqv_uom: true,
+          reverse: false,
+        }        
+      }else{
+        this.items.push({
+          item_id: "",
+          operation_id: null,
+          equivalent: "",
+          ammount: "0",
+          unit_price: "0",
+          total_price: "0",
+          density: "1.00",
+        });
+        this.visualFields.push({
+          ammount: "0",
+          equivalent: "0",
+          unit_price: "0",
+          total_price: "0",
+        })
+        this.is_active.push({
+          density: false,
+          uom: true,
+          eqv_uom: true,
+          reverse: false,
+        });
+      }
     },
     initFormError() {
       this.listOfFields.custom = {
@@ -424,6 +464,7 @@ export default {
   // End Of methods
   computed: {
     itemsTotalPrice: function () {
+      console.log("this.items Ekmalat", this.visualFields);
       for (const key of Object.keys(this.items)) {
         let item_equivalent = this.items[key].item_id.equivalent;
         let opr = this.items[key].operation_id;
@@ -433,34 +474,44 @@ export default {
 
         if (opr && opr.id == 1) {
           this.items[key].total_price = this.items[key].ammount * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
           this.items[key].equivalent = 0;
         } else if (opr && opr.id == 2) {
           this.items[key].total_price = this.items[key].equivalent * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
           this.items[key].ammount = 0;
         } else if (opr && opr.id == 3) {
           if (item_equivalent !== 0) {
             this.items[key].equivalent = this.items[key].ammount * item_equivalent;
             this.items[key].equivalent = this.items[key].equivalent.toFixed(2);
+            this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
           }
           this.items[key].total_price = this.items[key].equivalent * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         } else if (opr && opr.id == 4) {
           if (item_equivalent !== 0) {
             this.items[key].ammount = this.items[key].equivalent / item_equivalent;
             this.items[key].ammount = this.items[key].ammount.toFixed(2);
+            this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
           }
           this.items[key].total_price = this.items[key].ammount * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         } else if (opr && opr.id == 5) {
           if (item_equivalent !== 0) {
             this.items[key].equivalent = (this.items[key].ammount * density) * item_equivalent;
             this.items[key].equivalent = this.items[key].equivalent.toFixed(2);
+            this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
           }
           this.items[key].total_price = this.items[key].equivalent * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         } else if (opr && opr.id == 6) {
           if (item_equivalent !== 0) {
             this.items[key].ammount = (this.items[key].equivalent * density) / item_equivalent;
             this.items[key].ammount = this.items[key].ammount.toFixed(2);
+            this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
           }
           this.items[key].total_price = this.items[key].ammount * unit_price;
+          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         }
 
       }

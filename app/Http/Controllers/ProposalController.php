@@ -111,6 +111,7 @@ class ProposalController extends Controller
                         'ammount' => $item['ammount'],
                         'unit_price' => $item['unit_price'],
                         'equivalent' => $item['equivalent'],
+                        'density' => $item['density'],
                         'total_price' => $item['total_price'],
                     ];
 
