@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 // Clear cache and redirect to the home page.
-Route::get('/cc', function() {
+Route::get('/cc', function () {
   $exitCode = Artisan::call('config:cache');
   $exitCode = Cache::flush();
   $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
@@ -52,6 +52,7 @@ Route::delete('sales/{sale}', 'SaleOneController@deleting');
 
 // Product Review
 Route::resource('project', 'ProjectController');
+Route::get('projectstchange/{id}/{stid}', 'ProjectController@changeStep');
 Route::resource('proposal', 'ProposalController');
 Route::get('getrecent', 'ProposalController@getrecent');
 Route::resource('currency', 'CurrencyController');
