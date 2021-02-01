@@ -161,10 +161,11 @@ export default {
         reverse: false,
       }],
       visualFields: [{
-        increment_equiv: "0",
-        increment: "0",
+        equivalent: "0",
+        ammount: "0",
         unit_price: "0",
         total_price: "0",
+        density: false,
       }],
       remaining_items: [],
     };
@@ -251,12 +252,12 @@ export default {
             eqv_uom: true,
             reverse: false,
           });
-          this.visualFields.push({
-            increment_equiv: "0",
-            increment: "0",
-            unit_price: "0",
-            total_price: "0",
-          })
+          // this.visualFields.push({
+          //   equivalent: "0",
+          //   ammount: "0",
+          //   unit_price: "0",
+          //   total_price: "0",
+          // })
 
         }
       });
@@ -266,7 +267,7 @@ export default {
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
           if (result) {
-            this.addRow();
+            // this.addRow();
           } else {
             // reject('correct all values')
           }
@@ -285,30 +286,49 @@ export default {
       //   });
       // });
     },
-
-    addRow() {
-      this.items.push({
-        item_id: "",
-        operation_id: null,
-        equivalent: "",
-        ammount: "0",
-        unit_price: "0",
-        total_price: "0",
-        density: null,
-      });
-      this.visualFields.push({
-        increment_equiv: "0",
-        increment: "0",
-        unit_price: "0",
-        total_price: "0",
-      })
-
-      this.is_active.push({
-        density: false,
-        uom: true,
-        eqv_uom: true,
-        reverse: false,
-      });
+    resetArrays(){
+      this.visualFields.splice(0,this.visualFields.length);
+      this.is_active.splice(0,this.is_active.length);
+      this.items.splice(0,this.items.length);
+    },
+    addRow(data = null) {
+      if (data.key) {
+        this.items[data.key] = data['data'];
+        this.visualFields[data.key] = {
+          ammount: data['data'].ammount,
+          equivalent: data['data'].equivalent,
+          unit_price: data['data'].unit_price,
+          total_price: data['data'].total_price,
+        }
+        this.is_active[data.key] = {
+          density: false,
+          uom: true,
+          eqv_uom: true,
+          reverse: false,
+        }        
+      }else{
+        this.items.push({
+          item_id: "",
+          operation_id: null,
+          equivalent: "",
+          ammount: "0",
+          unit_price: "0",
+          total_price: "0",
+          density: "1.00",
+        });
+        this.visualFields.push({
+          ammount: "0",
+          equivalent: "0",
+          unit_price: "0",
+          total_price: "0",
+        })
+        this.is_active.push({
+          density: false,
+          uom: true,
+          eqv_uom: true,
+          reverse: false,
+        });
+      }
     },
     initFormError() {
       this.listOfFields.custom = {
@@ -444,7 +464,7 @@ export default {
   // End Of methods
   computed: {
     itemsTotalPrice: function () {
-      console.log(this.items);
+      console.log("this.items Ekmalat", this.visualFields);
       for (const key of Object.keys(this.items)) {
         let item_equivalent = this.items[key].item_id.equivalent;
         let opr = this.items[key].operation_id;

@@ -300,7 +300,7 @@
       <template slot-scope="{data}">
         <vs-tr v-for="(tr, i) in data" :key="i">
           <vs-td :data="tr.item_id">
-              <p> {{ tr.item_id.type.type }} {{ tr.item_id.name }} </p>
+            <p> {{ (tr.item_id && tr.item_id.type) ? tr.item_id.type.type : '' }} {{ tr.item_id.name }} </p>
           </vs-td>
           <vs-td :data="tr.equivalent">
             {{tr.equivalent | NumThreeDigit}} {{ (tr.item_id.uom_equiv_id) ? tr.item_id.uom_equiv_id.title : '' }}
@@ -556,13 +556,14 @@ export default {
     setProjectData(data) {
       if (data) {
         if (data.pro_items.length) {
+          this.$refs.ekmalat.resetArrays();
+          
           for (let [key, data] of Object.entries(data.pro_items)) {
             this.pForm.item[key] = data;
-            console.log(this.pForm.item);
+            this.$refs.ekmalat.addRow({'key': key, 'data': data});
             this.$refs.ekmalat.operationChange(this.pForm.item[key].operation_id, key);
             this.$refs.ekmalat.itemSelected('', this.pForm.item[key].item_id.id, key, this.pForm.item[key].item_id.uom_id.acronym);
           }
-
         } else {
           this.pForm.item = [{
             item_id: "",
@@ -572,8 +573,7 @@ export default {
             ammount: 0,
             unit_price: 0,
             total_price: 0,
-            density: null,
-
+            density: "1.00",
           }];
         }
         if (data.pro_data) {

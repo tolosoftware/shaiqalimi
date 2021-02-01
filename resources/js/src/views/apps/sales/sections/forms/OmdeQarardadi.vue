@@ -425,9 +425,17 @@ export default {
         this.field_data.clientPhone = contract.pro_data.client.phone;
         this.field_data.clientAddress = contract.pro_data.client.address;
         this.sForm.item = contract.pro_items;
+        this.$refs.ekmalat.resetArrays();
         for (const [index, item] of Object.values(this.sForm.item).entries()) {
-          this.sForm.item[index].increment = this.sForm.item[index].ammount;
-          this.sForm.item[index].increment_equiv = this.sForm.item[index].equivalent;
+          this.sForm.item[index].increment_equiv = "22";
+          this.sForm.item[index].increment = "22";
+          var data = {
+            increment: this.sForm.item[index].ammount, 
+            increment_equiv: this.sForm.item[index].equivalent,
+            unit_price: this.sForm.item[index].unit_price,
+            total_price: this.sForm.item[index].total_price,
+          }
+          this.$refs.ekmalat.addRow({'key': index, 'data': data});
           this.$refs.ekmalat.operationChange(this.sForm.item[index].operation_id, index);
           this.$refs.ekmalat.itemSelected('', this.sForm.item[index].item_id.id, index, this.sForm.item[index].item_id.uom_id.acronym);
         }

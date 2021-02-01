@@ -16,7 +16,8 @@ class ProItem extends Model
         'ammount',
         'unit_price',
         'total_price',
-        'equivalent'
+        'equivalent',
+        'density',
     ];
 
     public function project()

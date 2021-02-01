@@ -16,6 +16,12 @@ ALTER TABLE `pro_items` CHANGE `total_price` `total_price` BIGINT(20) NOT NULL;
 ALTER TABLE `pro_items` CHANGE `equivalent` `equivalent` BIGINT(20) NOT NULL;
 
 
+ALTER TABLE `pro_data` CHANGE `pr_worth` `pr_worth` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_data` CHANGE `deposit` `deposit` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_data` CHANGE `tax` `tax` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_data` CHANGE `transit` `transit` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_data` CHANGE `others` `others` BIGINT(20) NOT NULL;
 
 
 ALTER TABLE `items` CHANGE `equivalent` `equivalent` BIGINT(20) NOT NULL;
+ALTER TABLE `pro_items` ADD `density` FLOAT(5,5) NULL AFTER `equivalent`;
