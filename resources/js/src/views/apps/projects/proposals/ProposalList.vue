@@ -94,360 +94,7 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title="پیشرفت آفر/ اعلان" :active.sync="popupModalActive">
-    <form-wizard v-if="proposal" color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
-      <tab-content title="ثبت اطلاعات" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>بررسی بخش ثبت اطلاعات</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row">
-                <vs-col vs-lg="3" vs-sm="4" vs-xs="12">
-                  <div class="img-container">
-                    <img :src="'/images/img/clients/'+proposal.pro_data.client.logo" style="height:80px;margin:-1px 10px" class="product-img" @click.stop="showClientData(tr.id)" />
-                  </div>
-                </vs-col>
-                <vs-col vs-lg="9" class="pl-3" vs-align="right" vs-sm="8" vs-xs="12">
-                  <div class="vx-row w-full">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p clas="w-full" v-if="proposal.pro_data"><strong>نام نهاد: </strong><span v-text="proposal.pro_data.client.name"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="righ" vs-align="right" vs-w="12">
-                      <p class="w-full" v-if="proposal.pro_data"><strong>شماره قرارداد: </strong><span v-text="proposal.pro_data.reference_no"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p class="w-full pr-5" v-if="proposal.pro_data"><strong>عنوان قرارداد: </strong><span v-text="proposal.pro_data.title"></span></p>
-                    </vs-col>
-                  </div>
-                </vs-col>
-              </div>
-            </vs-col>
-            <vs-col class="pl-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row w-full">
-                <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                  <p clas="w-full" v-if="proposal"><strong class="mr-4">تاریخ نشراعلان: </strong><span v-text="proposal.publish_date"></span></p>
-                </vs-col>
-              </div>
-              <div class="vx-row">
-                <vs-col class="mb-1" vs-justify="righ" vs-align="right" vs-w="12">
-                  <p class="w-full" v-if="proposal"><strong class="mr-4">تاریخ ختم پیشنهادات: </strong><span v-text="proposal.submission_date"></span></p>
-                </vs-col>
-              </div>
-              <div class="vx-row">
-                <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                  <p class="w-full pr-5" v-if="proposal"><strong class="mr-4">تاریخ داوطلبی: </strong><span v-text="proposal.bidding_date"></span></p>
-                </vs-col>
-              </div>
-              <div class="vx-row">
-                <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                  <p class="w-full pr-5" v-if="proposal"><strong class="mr-4">مقدار تضمین: </strong><span v-text="proposal.offer_guarantee"></span><small style="color:#42b983;"><b> افغانی </b></small></p>
-                </vs-col>
-              </div>
-            </vs-col>
-            <!-- <div class="flex justify-between float-right">
-              <vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
-            </div>-->
-          </vs-row>
-          <vs-divider>بخش اکمالات</vs-divider>
-          <vs-table class="responsive" :data="proposal.pro_items">
-            <template slot="thead">
-              <vs-th>جنس / محصول</vs-th>
-              <vs-th>مقدار</vs-th>
-              <vs-th>عملیه</vs-th>
-              <vs-th>قیمت فی واحد</vs-th>
-              <vs-th>قیمت مجموعی</vs-th>
-            </template>
-            <template slot-scope="{data}">
-              <vs-tr v-for="(tr, i) in data" :key="i">
-                <vs-td :data="tr.item_id">
-                  <p> {{ tr.item_id.name }} </p>
-                </vs-td>
-                <vs-td :data="tr.equivalent">
-                  {{tr.equivalent}} {{ tr.item_id.uom_equiv_id.title }}
-                </vs-td>
-                <vs-td :data="tr.operation_id">
-                  <p> {{ tr.operation_id.formula }} </p>
-                </vs-td>
-                <vs-td :data="tr.unit_price">
-                  {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
-                </vs-td>
-                <vs-td :data="tr.total_price">
-                  {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
-                </vs-td>
-              </vs-tr>
-            </template>
-          </vs-table>
-        </vs-row>
-      </tab-content>
-      <tab-content title="ارسال درخواستی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>بررسی بخش ارسال درخواستی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row">
-                <vs-col vs-lg="3" vs-sm="4" vs-xs="12">
-                  <div class="img-container">
-                    <img :src="'/images/img/clients/'+proposal.pro_data.client.logo" style="height:80px;margin:-1px 10px" class="product-img" @click.stop="showClientData(tr.id)" />
-                  </div>
-                </vs-col>
-                <vs-col vs-lg="9" class="pl-3" vs-align="right" vs-sm="8" vs-xs="12">
-                  <div class="vx-row w-full">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p clas="w-full" v-if="proposal.pro_data"><strong>نام نهاد: </strong><span v-text="proposal.pro_data.client.name"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="righ" vs-align="right" vs-w="12">
-                      <p class="w-full" v-if="proposal.pro_data"><strong>شماره قرارداد: </strong><span v-text="proposal.pro_data.reference_no"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p class="w-full pr-5" v-if="proposal.pro_data"><strong>عنوان قرارداد: </strong><span v-text="proposal.pro_data.title"></span></p>
-                    </vs-col>
-                  </div>
-                </vs-col>
-              </div>
-            </vs-col>
-            <vs-col class="pl-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row">
-                <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                  <p clas="w-full" v-if="proposal.pro_data"><strong class="mr-4"> شماه تماس: </strong>{{proposal.pro_data.client.phone}}</p>
-                </vs-col>
-              </div>
-              <div class="vx-row">
-                <vs-col class="mb-1" vs-justify="righ" vs-align="right" vs-w="12">
-                  <p class="w-full" v-if="proposal.pro_data"><strong class="mr-4"> آدرس: </strong><span v-text="proposal.pro_data.client.address"></span></p>
-                </vs-col>
-              </div>
-              <div class="vx-row">
-                <vs-col vs-type="flex" class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                  <div class="mt-2 mr-5">
-                    <vs-input label=" اسم شخص مسول را وارد نمایید" v-model="res_person" />
-                  </div>
-                  <div class="mr-5 pt-2 mt-5">
-                    <vs-button class="float-right mr-5 mt-1" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ عریضه</vs-button>
-                  </div>
-                </vs-col>
-              </div>
-            </vs-col>
-          </vs-row>
-          <vs-divider></vs-divider>
-          <div class="vx-row" vs-w="12"></div>
-        </vs-row>
-      </tab-content>
-      <tab-content title="دریافت شرطنامه/آفر" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>بررسی بخش دریافت شرطنامه </vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row">
-                <vs-col vs-lg="3" vs-sm="4" vs-xs="12">
-                  <div class="img-container">
-                    <img :src="'/images/img/clients/'+proposal.pro_data.client.logo" style="height:80px;margin:-1px 10px" class="product-img" @click.stop="showClientData(tr.id)" />
-                  </div>
-                </vs-col>
-                <vs-col vs-lg="9" class="pl-3" vs-align="right" vs-sm="8" vs-xs="12">
-                  <div class="vx-row w-full">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p clas="w-full" v-if="proposal.pro_data"><strong>نام نهاد: </strong><span v-text="proposal.pro_data.client.name"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="righ" vs-align="right" vs-w="12">
-                      <p class="w-full" v-if="proposal.pro_data"><strong>شماره قرارداد: </strong><span v-text="proposal.pro_data.reference_no"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p class="w-full pr-5" v-if="proposal.pro_data"><strong>عنوان قرارداد: </strong><span v-text="proposal.pro_data.title"></span></p>
-                    </vs-col>
-                  </div>
-                </vs-col>
-              </div>
-            </vs-col>
-            <vs-col class="pl-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row pl-3">
-                <vs-col class="mb-3 ml-2" vs-justify="right" vs-align="right" vs-w="12">
-                  <p clas="mb-1" v-if="proposal.pro_data"><strong class="mr-4"> تاریخ دریافت شرطنامه: </strong><span></span>
-                  </p>
-                </vs-col>
-                <vs-col class="mb-2" vs-justify="right" vs-align="right" vs-w="12">
-                  <vs-checkbox color="success" size="large" v-model="is_recieved"><strong> شرطنامه دریافت گردید ؟ </strong></vs-checkbox>
-                  <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2 mt-2 ml-1"> ویرایش معلومات </vs-button>-->
-                </vs-col>
-              </div>
-            </vs-col>
-          </vs-row>
-          <vs-divider></vs-divider>
-        </vs-row>
-      </tab-content>
-      <tab-content title="اشتراک" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>بررسی بخش اشتراک</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <ekmalat :items="proposal.pro_items" :form="aForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
-          </vs-row>
-          <vs-row vs-w="12">
-            <vs-col class="pl-5" vs-lg="9" vs-sm="9" vs-xs="12">
-            </vs-col>
-            <vs-col class="pl-5" vs-lg="3" vs-sm="3" vs-xs="12">
-              <vs-checkbox color="success" class="float-left" size="large" v-model="is_participated"><strong> اشتراک میشود ؟ </strong></vs-checkbox>
-            </vs-col>
-          </vs-row>
-          <vs-divider></vs-divider>
-        </vs-row>
-      </tab-content>
-      <tab-content title="مرحله داوطلبی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>بررسی بخش داوطلبی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row">
-                <vs-col vs-lg="3" vs-sm="4" vs-xs="12">
-                  <div class="img-container">
-                    <img :src="'/images/img/clients/'+proposal.pro_data.client.logo" style="height:80px;margin:-1px 10px" class="product-img" @click.stop="showClientData(tr.id)" />
-                  </div>
-                </vs-col>
-                <vs-col vs-lg="9" class="pl-3" vs-align="right" vs-sm="8" vs-xs="12">
-                  <div class="vx-row w-full">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p clas="w-full" v-if="proposal.pro_data"><strong>نام نهاد: </strong><span v-text="proposal.pro_data.client.name"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="righ" vs-align="right" vs-w="12">
-                      <p class="w-full" v-if="proposal.pro_data"><strong>شماره قرارداد: </strong><span v-text="proposal.pro_data.reference_no"></span></p>
-                    </vs-col>
-                  </div>
-                  <div class="vx-row">
-                    <vs-col class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-                      <p class="w-full pr-5" v-if="proposal.pro_data"><strong>عنوان قرارداد: </strong><span v-text="proposal.pro_data.title"></span></p>
-                    </vs-col>
-                  </div>
-                </vs-col>
-              </div>
-            </vs-col>
-            <vs-col class="pl-5" vs-lg="6" vs-sm="6" vs-xs="12">
-              <div class="vx-row pl-3">
-                <vs-col class="mb-3" vs-justify="right" vs-align="right" vs-w="12">
-                  <p clas="mb-1" v-if="proposal"><strong class="mr-4"> تاریخ داوطلبی: </strong><span v-text="proposal.bidding_date"></span></p>
-                </vs-col>
-                <vs-col class="mb-2" vs-justify="right" vs-align="right" vs-w="12">
-                  <p class="w-full" v-if="proposal"><strong class="mr-4"> آدرس داوطلبی: </strong><span v-text="proposal.bidding_address"></span></p>
-                </vs-col>
-                <vs-col class="mb-2" vs-justify="right" vs-align="right" vs-w="12">
-                  <p class="w-full" v-if="proposal"><strong class="mr-4"> مقدارتضمین: </strong><span v-text="proposal.offer_guarantee"></span><b> افغانی </b>__<b style="color:green">بانکی</b></p>
-                </vs-col>
-              </div>
-            </vs-col>
-            <!--<div class="flex justify-between float-right">
-             <vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
-            </div>-->
-          </vs-row>
-          <vs-divider>اطلاعات اشتراک کننده گان داوطلبی</vs-divider>
-          <vs-row vs-w="12">
-            <form>
-              <div v-for="(i, index) in participators" :key="i.id">
-                <vs-row vs-w="12">
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                    <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" label="نام شرکت" name="co_name" v-model="i.name" class="w-full" />
-                    </div>
-                  </vs-col>
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                    <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" v-model="i.problems" label="مشابه / مشکلات" name="problems" class="w-full" />
-                    </div>
-                  </vs-col>
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                    <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" v-model="i.statement" label="استیتمنت" name="statement" class="w-full" />
-                    </div>
-                  </vs-col>
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="1" vs-xs="6">
-                    <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" v-model="i.feyat" label="فیات" name="feyat" class="w-full" />
-                    </div>
-                  </vs-col>
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                    <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" v-model="i.offer_price" label="قیمت آفر" name="offer_price" class="w-full" />
-                    </div>
-                  </vs-col>
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="1" vs-xs="6">
-                    <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" v-model="i.discount" label="تخفیف" name="discount" class="w-full" />
-                    </div>
-                  </vs-col>
-                  <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                    <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                      <vs-input autocomplete="off" v-model="i.final_price" label="قیمت نهایی" name="final_price" class="w-full" />
-                    </div>
-                  </vs-col>
-                </vs-row>
-              </div>
-            </form>
-            <vs-row vs-w="12">
-              <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="4" vs-xs="12" class="pt-2 mb-2 ml-3 mr-3">
-                <vs-button type="border" @click.stop="addRow" color="success" icon="add"></vs-button>
-                &nbsp;&nbsp;
-                <vs-button type="border" id="delete-btn" @click.stop="removeRow" color="danger" icon="delete" :disabled="this.participators.length <= 1"></vs-button>
-              </vs-col>
-            </vs-row>
-          </vs-row>
-          <vs-divider></vs-divider>
-        </vs-row>
-      </tab-content>
-      <tab-content title="نتیجه قرارداد" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>بررسی بخش نتیجه قرارداد</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12" vs-type="flex" vs-justify="center">
-            <div class="radio-group1 w-full">
-              <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
-                <vs-row vs-w="12" vs-type="flex" vs-justify="center">
-                  <!--<div class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
-                  </div>-->
-                  <div class="pr-5 float-left" vs-lg="8" vs-sm="8" vs-xs="12">
-                    <input type="radio" v-model="status" value="1" id="struct" name="status" />
-                    <label for="struct" class="w-full text-center">دریافت قرارداد</label>
-                  </div>
-                </vs-row>
-              </vs-col>
-              <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
-                <vs-row vs-w="12" vs-type="flex" vs-justify="center">
-                  <div class="pr-5" vs-lg="8" vs-sm="8" vs-xs="12">
-                    <input type="radio" v-model="status" value="2" id="specific" name="status" />
-                    <label for="specific" class="w-full text-center">واگذاری قرارداد</label>
-                  </div>
-                  <div class="pr-5" vs-lg="4" vs-sm="4" vs-xs="12">
-                    <span for="winner">برنده قرار داد</span>
-                    <vs-input id="winner" v-model="winner" />
-                    <!--<vs-input  autocomplete="off" name="winner" class="w-full" />-->
-                  </div>
-                </vs-row>
-              </vs-col>
-            </div>
-          </vs-row>
-          <vs-divider></vs-divider>
-        </vs-row>
-      </tab-content>
-    </form-wizard>
+    <ProposalSteps @closesteps="closeModel" ref="wizardModal1" :proposal="proposal"></ProposalSteps>
   </vs-popup>
   <vs-popup fullscreen title="fullscreen" :active.sync="popupActive">
     <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="printProposal">چاپ</vs-button>
@@ -520,22 +167,13 @@
 import TableLoading from './../../shared/TableLoading.vue'
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
-import Ekmalat from "../../shared/Ekmalat"
 import vueEasyPrint from "vue-easy-print";
-import {
-  FormWizard,
-  TabContent
-} from 'vue-form-wizard';
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import ProposalSteps from "./ProposalSteps"
+
 export default {
   name: 'vx-proposal-list',
   data() {
     return {
-      res_person: '',
-      winner: '',
-      is_recieved: '',
-      is_participated: '',
-      status: 1,
       isdata: false,
       popupModalActive: false,
       popupActive: false,
@@ -553,44 +191,13 @@ export default {
       addNewDataSidebar: false,
       sidebarData: {},
       clients: [],
-      aForm: new Form({
-        item: [{
-          item_id: "",
-          unit_id: "",
-          operation_id: null,
-          equivalent: "",
-          ammount: "",
-          unit_price: "0",
-          total_price: "",
-          density: null,
-        }]
-      }),
-      dict: {
-        custom: {
-          sf: {
-            required: 'سریال نمبر الزامی میباشد.',
-            number: 'سریال نمبر باید نمبر باشد.'
-          }
-        }
-      },
-      participators: [{
-        name: '',
-        problems: '',
-        statement: '',
-        feyat: '',
-        offer_price: '',
-        discount: '',
-        final_price: ''
-      }],
     }
   },
   components: {
     TableLoading,
     DataViewSidebar,
     vueEasyPrint,
-    FormWizard,
-    TabContent,
-    Ekmalat
+    ProposalSteps
   },
   created() {
     this.getProposals();
@@ -608,35 +215,19 @@ export default {
     }
   },
   methods: {
-    cprint() {
-
-    },
-    formSubmitted() {
-      alert("تنظیمات بسته شد")
+    closeModel() {
       this.popupModalActive = false;
-    },
-    addRow() {
-      this.participators.push({
-        name: '',
-        problems: '',
-        statement: '',
-        feyat: '',
-        offer_price: '',
-        discount: '',
-        final_price: ''
-      });
-    },
-    removeRow() {
-      this.participators.splice(this.participators.length - 1, 1);
+
     },
     showCheckModal(id) {
       this.popupModalActive = true;
-      this.$Progress.start()
+      // this.$Progress.start()
       this.axios
         .get("/api/proposal/" + id)
         .then((data) => {
           this.proposal = data.data;
-          this.$Progress.set(100);
+          this.$refs.wizardModal1.setWizardStep(this.proposal.step);
+          // this.$Progress.set(100);
         })
         .catch(() => {});
     },
@@ -868,30 +459,30 @@ export default {
 [dir=ltr] .radio-group1 div:first-child label {
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
-  height: 90px !important;
+
 }
 
 [dir=rtl] .radio-group1 div:first-child label {
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
-  height: 90px !important;
+
 }
 
 .radio-group1 div:last-child label {
   overflow: hidden;
-  height: 90px !important;
+
 }
 
 [dir=ltr] .radio-group1 div:last-child label {
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
-  height: 90px !important;
+
 }
 
 [dir=rtl] .radio-group1 div:last-child label {
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
-  height: 90px !important;
+
 }
 
 .radio-group1 input[type=radio] {
@@ -917,7 +508,7 @@ export default {
 }
 
 [dir] .radio-group1 input[type=radio]:checked+label {
-  background: #e85454;
+  background: rgba(var(--vs-success), 1);
   box-shadow: 0 8px 25px -8px #e85454;
   border-color: #e85454;
 }

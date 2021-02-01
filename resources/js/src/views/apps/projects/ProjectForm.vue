@@ -1,22 +1,24 @@
 <template>
-<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index=0 ref="wizard" finishButtonText="ثبت معلومات" @on-complete="submitForm">
+<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index.sync="currentIndex" ref="wizard" finishButtonText="" @on-complete="submitForm">
   <tab-content title="معلومات عمومی قرارداد" class="mb-5" :before-change="validateStep1">
+  
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <pro-serial-number :form="pForm" @companySelected="companySelected" :companies="companies"></pro-serial-number>
-            <!-- <vs-input size="medium" v-model="pForm.serial_no" label="سریال نمبر" class="w-full" disabled />
-            <span class="text-danger text-sm" v-show="errors.has('serial_no')">{{ errors.first('serial_no') }}</span> -->
+            <pro-serial-number :form="pForm" v-model="pForm.company_id" v-validate="'required'" name="company_id" @companySelected="companySelected" :companies="companies"></pro-serial-number>
+            <!-- <vs-input size="medium" v-model="pForm.serial_no" label="سریال نمبر" class="w-full" disabled /> -->
+            <span style="margin-right: -280px;margin-top: 62px;" class="absolute text-danger alerttext">{{ errors.first('step-1.company_id') }}</span>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>انتخاب اعلان</small></label>
-            <v-select name="serial_no" :clearable="false" :get-option-label="option => option.serial_no + ' - ' + option.pro_data.title" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
-              <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
+            <v-select name="proposal_id" v-validate="'required'" :clearable="false" :get-option-label="option => option.serial_no + ' - ' + option.pro_data.title" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+              <!--<span slot="no-options">{{$t('WhoopsNothinghere')}}</span>-->
             </v-select>
-            <has-error :form="pForm" field="proposal_id"></has-error>
+            <span class="absolute text-danger alerttext">{{ errors.first('step-1.proposal_id') }}</span>
+            <!--<has-error :form="pForm" field="proposal_id"></has-error>-->
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -97,6 +99,7 @@
     </form>
   </tab-content>
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
+  
     <form data-vv-scope="step-2">
       <ekmalat :items="pForm.item" :form="pForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
       <vs-row vs-w="12" class="mt-5">
@@ -382,8 +385,9 @@
     <vs-row vs-w="12" class="pt-6 pb-6">
       <vs-checkbox color="success" size="large" v-model="is_accepted">تایید مینمایم که معلومات فوق درست میباشد.</vs-checkbox>
     </vs-row>
-
   </tab-content>
+  <vs-button v-bind:class="(is_accepted && currentIndex == 2 )? '': 'hide'" slot="finish">ثبت معلومات</vs-button>
+  <vs-button disabled v-bind:class="(is_accepted || currentIndex != 2) ? 'hide': ''">ثبت معلومات</vs-button>
 </form-wizard>
 </template>
 
@@ -412,6 +416,7 @@ export default {
   props: ['clients', 'newClient'],
   data() {
     return {
+      currentIndex: 0,
       is_accepted: false,
       // init values
       mainSNumber: 0,
@@ -481,9 +486,12 @@ export default {
       // From Valisation Custom Massage
       dict: {
         custom: {
-          serial_no: {
+          company_id: {
             required: 'سریال نمبر الزامی میباشد.',
             number: 'سریال نمبر باید نمبر باشد.'
+          },
+          proposal_id: {
+            required: 'انتخاب اعلان الزامی میباشد.',
           },
           contract_date: {
             required: 'تاریخ عقد قرارداد را انتخاب کنید.'

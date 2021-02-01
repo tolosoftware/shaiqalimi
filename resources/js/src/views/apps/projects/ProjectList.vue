@@ -98,7 +98,6 @@
   </vs-table>
   <!--:before-change="changeStepStatus(1)"-->
   <vs-popup class="holamundo" title="تنظیمات مربط پروژه" :active.sync="popupModalActive">
-    
     <ProjectSteps @closesteps="closeModel" ref="wizardModal" :project="project"></ProjectSteps>
   </vs-popup>
 </div>
