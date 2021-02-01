@@ -98,7 +98,8 @@
   </vs-table>
   <!--:before-change="changeStepStatus(1)"-->
   <vs-popup class="holamundo" title="تنظیمات مربط پروژه" :active.sync="popupModalActive">
-    <ProjectSteps :project="project"></ProjectSteps>
+    
+    <ProjectSteps @closesteps="closeModel" ref="wizardModal" :project="project"></ProjectSteps>
   </vs-popup>
 </div>
 </template>
@@ -117,7 +118,7 @@ export default {
   name: "vx-project-list",
   data() {
     return {
-      step: 0,
+      // step: 0,
       isdata: false,
       popupModalActive: false,
       activeLoading: false,
@@ -180,21 +181,25 @@ export default {
     },
   },
   methods: {
+    closeModel() {
+      this.popupModalActive = false;
+    },
     getThisProject(id) {
       this.$Progress.start()
       this.axios.get('/api/project/' + id)
         .then((response) => {
           this.project = response.data;
-          console.log('step', this.step);
+          this.$refs.wizardModal.setWizardStep(this.project.step);
+          // this.step = this.project.step;
+          // console.log('step', this.step);
           this.$Progress.set(100);
         }).catch(() => {});
     },
-
     showStepsModal(id) {
       this.getThisProject(id);
       this.popupModalActive = true;
     },
-    
+
     showPrintData(id) {
       this.popupActive = true;
     },

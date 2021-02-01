@@ -1,5 +1,5 @@
 <template>
-<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" :start-index="currentIndex" ref="wizard" @on-complete="formSubmitted">
+<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" ref="wizard" @on-complete="formSubmitted">
   <tab-content title="دریافت قرار داد" class="mb-5" :before-change="changeStepStatus">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
@@ -295,8 +295,11 @@
     </vs-row>
   </tab-content>
   <vs-button slot="prev">قبلی</vs-button>
-  <vs-button :disabled="!is_ekmalat_allowed" slot="next">بعدی</vs-button>
-  <vs-button :disabled="!finishedcontract" slot="finish">بستن صحفه</vs-button>
+  <vs-button v-bind:class="is_ekmalat_allowed ? '': 'hide'" slot="next">بعدی</vs-button>
+  <vs-button disabled v-bind:class="is_ekmalat_allowed ? 'hide': ''">بعدی</vs-button>
+
+  <vs-button v-bind:class="finishedcontract && is_ekmalat_allowed ? '': 'hide'" slot="finish">بستن صحفه</vs-button>
+  <!--<vs-button disabled v-bind:class="finishedcontract ? 'hide': ''">بستن صحفه</vs-button>-->
 </form-wizard>
 </template>
 
@@ -309,30 +312,51 @@ export default {
   props: ['project'],
   data() {
     return {
-      step: null,
+      step: 0,
       status: 1,
+      nextTabIndex: 0,
       is_ekmalat_allowed: 0,
       adminis_procedure: 0,
       setting_and_baqyat: 0,
       finishedcontract: 0,
       mactob_sending: 0,
     }
-
   },
   components: {
     FormWizard,
     TabContent
   },
   created() {
-    this.step = this.project.step;
-    console.log('sep', this.step)
+    console.log('s', this.step)
+    // console.log('sssss', this.$refs.wizard.activeTabIndex)
+    // setInterval(this.step = this.step + 1, 2000);
   },
   computed: {
-    currentIndex() {
-      return this.step;
-    }
+
   },
   methods: {
+    formSubmitted() {
+      this.$emit('closesteps');
+    },
+    // nextTab() {
+    //   let cb = () => {
+    //     if (this.activeTabIndex < this.tabCount - 1) {
+    //       this.changeTab(this.activeTabIndex, this.activeTabIndex + 1)
+    //       this.afterTabChange(this.activeTabIndex)
+    //       console.log('fslkfjslafs','fsfaaaaaaaa')
+    //     } else {
+    //       this.$emit('on-complete')
+    //     }
+    //   }
+    //   this.beforeTabChange(this.activeTabIndex, cb)
+    // },
+    setWizardStep(index) {
+      this.step = index;
+      console.log('index', this.step);
+      this.$refs.wizard.activateAll();
+      this.$refs.wizard.navigateToTab(index - 1);
+      // this.$refs.wizard.navigateToTab(2);
+    },
     changeItTo(id, st) {
       this.$Progress.start()
       this.axios.get('/api/projectstchange/' + id + '/' + st)
@@ -352,78 +376,47 @@ export default {
       if (this.step == 1) {
         this.step = 2;
         this.changeItTo(this.project.id, this.step);
-      } else {
-        this.$vs.notify({
-          title: 'موفقیت!',
-          text: 'قدم قبلا تغیر یافته است.',
-          color: 'primary',
-          iconPack: 'feather',
-          icon: 'icon-check',
-          position: 'top-right'
-        })
       }
-      console.log('step', this.step)
       return true;
     },
     changeStepStatus2() {
       if (this.step == 2) {
-        this.step = 3;
-        this.changeItTo(this.project.id, this.step)
-      } else {
-        this.$vs.notify({
-          title: 'موفقیت!',
-          text: 'قدم قبلا تغیر یافته است.',
-          color: 'primary',
-          iconPack: 'feather',
-          icon: 'icon-check',
-          position: 'top-right'
-        })
+        if (this.is_ekmalat_allowed) {
+          this.step = 3;
+          this.changeItTo(this.project.id, this.step)
+        }
       }
-      console.log('step', this.step)
       return true;
     },
     changeStepStatus3() {
       if (this.step == 3) {
-        this.step = 4;
-        this.changeItTo(this.project.id, this.step)
-      } else {
-        this.$vs.notify({
-          title: 'موفقیت!',
-          text: 'قدم قبلا تغیر یافته است.',
-          color: 'primary',
-          iconPack: 'feather',
-          icon: 'icon-check',
-          position: 'top-right'
-        })
+        if (this.is_ekmalat_allowed) {
+          this.step = 4;
+          this.changeItTo(this.project.id, this.step)
+        }
       }
-      console.log('step', this.step)
       return true;
     },
     changeStepStatus4() {
       if (this.step == 4) {
-        this.step = 5;
-        this.changeItTo(this.project.id, this.step);
-      } else {
-        this.$vs.notify({
-          title: 'موفقیت!',
-          text: 'قدم قبلا تغیر یافته است.',
-          color: 'primary',
-          iconPack: 'feather',
-          icon: 'icon-check',
-          position: 'top-right'
-        })
+        if (this.is_ekmalat_allowed) {
+          this.step = 5;
+          this.changeItTo(this.project.id, this.step);
+        }
       }
-      console.log('step', this.step)
       return true;
     },
-    formSubmitted() {
-      alert("تنظیمات بسته شد")
-      console.log('fsfa', this.step)
-      this.popupModalActive = false;
-    },
+
   },
   mounted() {
-    this.step = this.project.step;
+
   }
 }
 </script>
+
+<style>
+[dir] .vs-button:not(.vs-radius):not(.includeIconOnly):not(.small):not(.large) {
+  padding: 0.75rem 2rem;
+  float: left;
+}
+</style>
