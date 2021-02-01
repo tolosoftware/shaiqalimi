@@ -72,7 +72,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
+            <vs-input v-model="visualFields.service_cost" autocomplete="off" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" v-validate="'required'" name="service_cost" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
           <has-error :form="sForm" field="service_cost"></has-error>
@@ -88,7 +88,7 @@
                 <span v-if="sForm.currency_id==2">USD</span>
               </div>
             </template>
-            <vs-input autocomplete="off" v-model="sForm.additional_cost" type="number" v-validate="'required'" name="additional_cost" />
+            <vs-input autocomplete="off" v-model="visualFields.additional_cost" @input="formatToEnPrice($event, sForm, 'additional_cost', visualFields)" v-validate="'required'" name="additional_cost" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{ errors.first('step-2.additional_cost') }}</span>
           <has-error :form="sForm" field="additional_cost"></has-error>
@@ -105,7 +105,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCost" name="sale_total_price" v-validate="'required'" autocomplete="off" type="number" />
+          <vs-input disabled :value="saleTotalCost" name="sale_total_price" v-validate="'required'" autocomplete="off"/>
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -136,7 +136,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCostFinal" name="sele_total_value" v-validate="'required'" autocomplete="off" type="number" />
+          <vs-input disabled :value="saleTotalCostFinal" name="sele_total_value" v-validate="'required'" autocomplete="off"/>
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -197,6 +197,10 @@ export default {
   data() {
     return {
       userid: localStorage.getItem('id'),
+      visualFields: {
+        service_cost: 0,
+        additional_cost: 0,
+      },
       sForm: new Form({
         // sales_id: '', // Get the created sales id.
         serial_no: '',
@@ -231,14 +235,32 @@ export default {
       items: [],
       dict: {
         custom: {
-          sele_date: { required: ' تاریخ خریداری الزامی میباشد.' },
-          client_name: { required: 'اسم نهاد الزامی میباشد', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.' },
-          destination: { required: 'مقصد الزامی میباشد', min: 'مقصد باید بیشتر از 2 حرف باشد.' },
-          service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
-          additional_cost: { required: 'مصارف اضافی الزامی میباشد. ' },
-          sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
-          tax: { required: 'مالیه الزامی میباشد ' },
-          sele_total_value: { required: 'قیمت کلی فروش الزامی میباشد .' },
+          sele_date: {
+            required: ' تاریخ خریداری الزامی میباشد.'
+          },
+          client_name: {
+            required: 'اسم نهاد الزامی میباشد',
+            min: 'اسم نهاد باید بیشتر از 2 حرف باشد.'
+          },
+          destination: {
+            required: 'مقصد الزامی میباشد',
+            min: 'مقصد باید بیشتر از 2 حرف باشد.'
+          },
+          service_cost: {
+            required: 'مصارف خدمات الزامی میباشد .'
+          },
+          additional_cost: {
+            required: 'مصارف اضافی الزامی میباشد. '
+          },
+          sale_total_price: {
+            required: 'مصارف کلی فروش الزامی میباشد .'
+          },
+          tax: {
+            required: 'مالیه الزامی میباشد '
+          },
+          sele_total_value: {
+            required: 'قیمت کلی فروش الزامی میباشد .'
+          },
         }
       }
       // End of sidebar items
@@ -255,11 +277,11 @@ export default {
         i_total += item.total_price;
       });
       this.sForm.total = parseFloat(this.sForm.additional_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total);
-      return this.sForm.total;
+      return this.formatToEnPriceSimple(this.sForm.total);
     },
     saleTotalCostFinal: function () {
-      var x = parseFloat(this.sForm.total) - (this.sForm.total * (this.sForm.tax / 100));
-      return x.toFixed(2);
+      var x = parseFloat(this.sForm.total) - (this.sForm.total * (parseFloat(this.sForm.tax) / 100));
+      return this.formatToEnPriceSimple(x.toFixed(2));
     },
   },
   methods: {

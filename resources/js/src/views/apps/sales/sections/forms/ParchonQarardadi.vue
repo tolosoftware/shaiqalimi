@@ -116,7 +116,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input v-model="sForm.service_cost" autocomplete="off" type="number" v-validate="'required'" name="service_cost" />
+          <vs-input v-model="visualFields.service_cost" autocomplete="off" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" v-validate="'required'" name="service_cost" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
         <has-error :form="sForm" field="service_cost"></has-error>
@@ -132,7 +132,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCost" autocomplete="off" type="number" v-validate="'required'" name="sale_total_price" />
+          <vs-input disabled :value="saleTotalCost" autocomplete="off" v-validate="'required'" name="sale_total_price" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -183,7 +183,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" type="number" name="sale_total_value" v-validate="'required'" />
+          <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" name="sale_total_value" v-validate="'required'" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -279,6 +279,9 @@ export default {
       ],
 
       userid: localStorage.getItem('id'),
+      visualFields:{
+        service_cost: 0,
+      },
       sForm: new Form({
         // sales_id: '', // Get the created sales id.
         serial_no: '',
@@ -344,8 +347,8 @@ export default {
   },
   computed: {
     saleTotalCostFinal: function () {
-      var x = parseFloat(this.sForm.total) - (this.sForm.total * ((this.sForm.deposit / 100)) + (this.sForm.total * (this.sForm.tax / 100)));
-      return x.toFixed(2);
+      var x = parseFloat(this.sForm.total) - (this.sForm.total * ((parseFloat(this.sForm.deposit) + parseFloat(this.sForm.tax)) / 100));
+      return this.formatToEnPriceSimple(x.toFixed(2));
     },
     saleTotalCost: function () {
       var i_total = 0;
@@ -354,7 +357,7 @@ export default {
       });
 
       this.sForm.total = parseFloat(this.sForm.service_cost) + parseFloat(i_total);
-      return this.sForm.total;
+      return this.formatToEnPriceSimple(this.sForm.total);
     }
     // isFormValid() {
     //   // return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
