@@ -46,14 +46,14 @@
 
           <vs-td>
             <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
-            <p>{{ tr.project_guarantee }} افغانی</p>
+            <p>{{ tr.project_guarantee | NumThreeDigit }} افغانی</p>
           </vs-td>
 
           <vs-td>
-            <p v-if="tr.pro_data">{{ tr.pro_data.pr_worth }}</p>
+            <p v-if="tr.pro_data">{{ tr.pro_data.pr_worth | NumThreeDigit }}</p>
           </vs-td>
           <vs-td>
-            <p v-if="tr.pro_data">{{ tr.pro_data.total_total_price }} افغانی</p>
+            <p v-if="tr.pro_data">{{ tr.pro_data.total_total_price | NumThreeDigit }} افغانی</p>
           </vs-td>
           <vs-td>
             <p>{{ tr.contract_end_date }}</p>

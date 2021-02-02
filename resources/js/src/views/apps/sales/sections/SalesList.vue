@@ -72,10 +72,10 @@
             </p>
           </vs-td>
           <vs-td>
-            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.total }} افغانی</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.total | NumThreeDigit}} افغانی</p>
           </vs-td>
           <vs-td>
-            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.service_cost }} افغانی</p>
+            <p @click.stop="viewData(tr)" class="cursor-pointer">{{ tr.service_cost | NumThreeDigit }} افغانی</p>
           </vs-td>
           <vs-td>
             <p @click.stop="viewData(tr)" class="cursor-pointer">{{ $t(tr.type) }}</p>

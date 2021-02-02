@@ -36,6 +36,7 @@ class ProjectController extends Controller
             'pro_items.operation_id',
             'pro_items.item_id.type',
             'pro_items.item_id.uom_id',
+            'pro_items.item_id.type',
             'pro_items.unit_id',
             'pro_items.uom_equiv_id',
         ])->latest()->get();;
@@ -198,6 +199,7 @@ class ProjectController extends Controller
             'pro_items.operation_id',
             'pro_items.item_id.uom_equiv_id',
             'pro_items.item_id.uom_id',
+            'pro_items.item_id.type',
             'proposal_id.pro_data.client'
         ])->latest()->find($project->id);
     }

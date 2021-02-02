@@ -119,16 +119,16 @@
             <p> {{ (tr.item_id && tr.item_id.type) ? tr.item_id.type.type : '' }} {{ tr.item_id.name }} </p>
         </vs-td>
         <vs-td :data="tr.equivalent">
-          {{tr.equivalent}} {{ tr.item_id.uom_equiv_id.title }}
+          {{ tr.equivalent | NumThreeDigit }} {{ tr.item_id.uom_equiv_id.title }}
         </vs-td>
         <vs-td :data="tr.operation_id">
           <p> {{ tr.operation_id.formula }} </p>
         </vs-td>
         <vs-td :data="tr.unit_price">
-          {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+          {{tr.unit_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
         </vs-td>
         <vs-td :data="tr.total_price">
-          {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+          {{tr.total_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
         </vs-td>
       </vs-tr>
     </template>
@@ -212,7 +212,7 @@ export default {
         },
         {
           field: 'تضمین آفر',
-          value: this.proposal.offer_guarantee,
+          value: this.formatToEnPriceSimple(this.proposal.offer_guarantee),
         },
       ]
 

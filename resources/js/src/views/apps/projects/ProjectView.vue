@@ -103,18 +103,19 @@
         <vs-tr v-for="(tr, i) in data" :key="i">
           <vs-td :data="tr.item_id">
             <p> {{ (tr.item_id && tr.item_id.type) ? tr.item_id.type.type : '' }} {{ tr.item_id.name }} </p>
+            <!-- <p> {{ (tr.item_id && tr.item_id.type) ? tr.item_id.type.type : '' }} {{ tr.item_id.name }} </p> -->
           </vs-td>
           <vs-td :data="tr.equivalent">
-            {{tr.equivalent}} {{ tr.item_id.uom_equiv_id.title }}
+            {{tr.equivalent | NumThreeDigit}} {{ tr.item_id.uom_equiv_id.title }}
           </vs-td>
           <vs-td :data="tr.operation_id">
             <p> {{ tr.operation_id.formula }} </p>
           </vs-td>
           <vs-td :data="tr.unit_price">
-            {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+            {{tr.unit_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
           <vs-td :data="tr.total_price">
-            {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+            {{tr.total_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
         </vs-tr>
       </template>
@@ -140,7 +141,7 @@
           <strong class="mr-4">
             تامینات:
           </strong>
-          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.deposit" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" v-if="project.pro_data" vs-justify="right" vs-align="right"> {{ project.pro_data.deposit | NumThreeDigit}}</span>
           <small style="color:#42b983;"><b>% </b></small>
         </h6>
       </vs-col>
@@ -158,7 +159,7 @@
           <strong class="mr-4">
             متفرقه:
           </strong>
-          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.others" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" v-if="project.pro_data" vs-justify="right" vs-align="right"> {{ project.pro_data.others | NumThreeDigit}}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -167,7 +168,7 @@
           <strong class="mr-4">
             ارزش قرارداد:
           </strong>
-          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.pr_worth" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" v-if="project.pro_data" vs-justify="right" vs-align="right"> {{ project.pro_data.pr_worth | NumThreeDigit}}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -176,7 +177,7 @@
           <strong class="mr-4">
             انتقالات:
           </strong>
-          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.transit" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" v-if="project.pro_data" vs-justify="right" vs-align="right"> {{ project.pro_data.transit | NumThreeDigit}}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>
@@ -185,7 +186,7 @@
           <strong class="mr-4">
             نرخ دهی:
           </strong>
-          <small class="mb-5" v-if="project.pro_data" v-text="project.pro_data.total_price" vs-justify="right" vs-align="right"></small>
+          <span class="mb-5" v-if="project.pro_data" vs-justify="right" vs-align="right"> {{ project.pro_data.total_price | NumThreeDigit}}</span>
           <small style="color:#42b983;"><b>افغانی </b></small>
         </h6>
       </vs-col>

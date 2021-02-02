@@ -31,7 +31,7 @@
           </vs-td>
 
           <vs-td>
-            <p class="product-category">{{ tr.capacity }}</p>
+            <p class="product-category">{{ tr.capacity | NumThreeDigit }}</p>
           </vs-td>
 
           <vs-td>

@@ -77,7 +77,7 @@
                            name: 'user-profile-edit', 
                            params: {user_id: tr.id }}).catch(() => {})" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="setPrivilages(tr)" />
+            <feather-icon icon="UserPlusIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="setPrivilages(tr)" />
           </vs-td>
         </vs-tr>
       </tbody>
