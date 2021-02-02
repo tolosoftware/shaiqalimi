@@ -243,4 +243,11 @@ class ProposalController extends Controller
         $propsal = Proposal::latest()->first();
         return $propsal->id;
     }
+    public function changeStep($id, $stepNo)
+    {
+        // return response(['id'=>$id,'stid'=>$stepNo]);
+        $proposal = Proposal::findOrFail($id);
+        $proposal->step = $stepNo;
+        $proposal->save();
+    }
 }

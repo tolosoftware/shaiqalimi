@@ -43,11 +43,11 @@
             <div class="radio-group w-full">
               <div class="w-1/2">
                 <input type="radio" v-model="status" value="1" id="active" name="status" />
-                <label for="active" class="w-full text-center p-4">قرارداد فعال است</label>
+                <label for="active" style="font-size:15px;" class="w-full text-center p-6">قرارداد فعال است</label>
               </div>
               <div class="w-1/2">
                 <input type="radio" v-model="status" value="2" id="deactive" name="status" />
-                <label for="deactive" class="w-full text-center p-4">قرارداد داد غیر فعال است</label>
+                <label for="deactive" style="font-size:14px;" class="w-full text-center p-6">قرارداد داد غیر فعال است</label>
               </div>
             </div>
           </div>
@@ -85,6 +85,7 @@
     </vs-row>
   </tab-content>
   <tab-content title=" مرحله اکمالات وتوزیعات" class="mb-5" :before-change="changeStepStatus2">
+
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider> مرحله اکمالات وتوزیعات</vs-divider>
@@ -161,7 +162,6 @@
   <tab-content title="اطلاعات مالی" class="mb-5" :before-change="changeStepStatus3">
     <vs-row vs-w="12" class="mb-1">
       <vs-divider>اطلاعات مالی</vs-divider>
-
       <vs-divider></vs-divider>
     </vs-row>
   </tab-content>
@@ -299,7 +299,7 @@
   <vs-button disabled v-bind:class="is_ekmalat_allowed ? 'hide': ''">بعدی</vs-button>
 
   <vs-button v-bind:class="finishedcontract && is_ekmalat_allowed ? '': 'hide'" slot="finish">بستن صحفه</vs-button>
-  <!--<vs-button disabled v-bind:class="finishedcontract ? 'hide': ''">بستن صحفه</vs-button>-->
+  <vs-button disabled v-bind:class="!finishedcontract || is_ekmalat_allowed ? 'hide': ''">بستن صحفه</vs-button>
 </form-wizard>
 </template>
 
@@ -331,9 +331,7 @@ export default {
     // console.log('sssss', this.$refs.wizard.activeTabIndex)
     // setInterval(this.step = this.step + 1, 2000);
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     formSubmitted() {
       this.$emit('closesteps');
@@ -364,7 +362,7 @@ export default {
           this.$Progress.set(100);
           this.$vs.notify({
             title: 'موفقیت!',
-            text: 'قدم موفقانه تغیر یافت.',
+            text: ' مرحله موفقانه به ' + st + ' تغیر یافت.',
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check',
@@ -408,9 +406,7 @@ export default {
     },
 
   },
-  mounted() {
-
-  }
+  mounted() {}
 }
 </script>
 

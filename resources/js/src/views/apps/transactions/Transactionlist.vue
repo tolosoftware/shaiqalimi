@@ -94,29 +94,7 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title=" تنظیمات مربط به معاملات تجارتی " :active.sync="popupStepActive">
-    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
-      <tab-content title="اطلاعات مالی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>اطلاعات مالی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <div>
-              <p v-if="transaction.title">عنوان معامله: {{transaction.title }}</p>
-            </div>
-          </vs-row>
-        </vs-row>
-      </tab-content>
-      <tab-content title="تاییدی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>تاییدی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-          </vs-row>
-        </vs-row>
-      </tab-content>
-    </form-wizard>
+    <TransactionStep @closesteps="closeModel" ref="wizardModalTrans" :transaction="transaction"></TransactionStep>
   </vs-popup>
   <vs-popup class="holamundo" title="معلومات معاملات تجارتی" :active.sync="transactionModalActive">
     <transaction-view :transaction="transaction_to_view" />
@@ -129,17 +107,13 @@
 import moduleDataList from "@/store/data-list/moduleDataList.js";
 import TableLoading from './../shared/TableLoading.vue'
 import TransactionView from './TransactionView';
-import {
-  FormWizard,
-  TabContent
-} from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import TransactionStep from './TransactionStep.vue'
+
 export default {
   components: {
     TransactionView,
     TableLoading,
-    FormWizard,
-    TabContent
+    TransactionStep
   },
   data() {
     return {
@@ -170,21 +144,23 @@ export default {
     },
   },
   methods: {
-    showStepsModal(id) {
+    closeModel() {
+      this.popupStepActive = false;
+    },
+    getTransaction(id) {
       this.$Progress.start()
       this.axios
         .get("/api/transaction/" + id)
         .then((data) => {
           this.transaction = data.data;
-          console.log('transaction', this.transaction);
+          this.$refs.wizardModalTrans.setWizardStepTrans(this.transaction.step);
           this.$Progress.set(100);
-          this.popupStepActive = true;
         })
         .catch(() => {});
     },
-    formSubmitted() {
-      alert("تنظیمات بسته شد")
-      this.popupStepActive = false;
+    showStepsModal(id) {
+      this.getTransaction(id);
+      this.popupStepActive = true;
     },
     loadTransaction() {
       this.axios.get('/api/transaction').then(({
