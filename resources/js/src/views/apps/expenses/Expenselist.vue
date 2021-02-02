@@ -72,7 +72,7 @@
           </vs-td>
 
           <vs-td>
-            <vs-chip :color="getOrderStatusColor(tr.ammount)" class="product-order-status">{{ tr.ammount | title }}</vs-chip>
+            <vs-chip :color="getOrderStatusColor(tr.ammount)" class="product-order-status">{{ (tr.ammount | title ) | NumThreeDigit }}</vs-chip>
           </vs-td>
 
           <vs-td>

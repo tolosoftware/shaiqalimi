@@ -479,10 +479,10 @@
             {{ findUom(tr.item_id.uom_id) }}
           </vs-td>
           <vs-td :data="tr.unit_price">
-            {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+            {{tr.unit_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
           <vs-td :data="tr.total_price">
-            {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+            {{tr.total_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
         </vs-tr>
       </template>

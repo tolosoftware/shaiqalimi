@@ -73,7 +73,7 @@
             <vs-chip :color="getOrderStatusColorr(tr.transaction_status)" class="product-order-status">{{ tr.transaction_status | title }}</vs-chip>
           </vs-td>
           <vs-td>
-            <vs-chip :color="getOrderStatusColor(tr.ammount)" class="product-order-status">{{ tr.ammount | title }}</vs-chip>
+            <vs-chip :color="getOrderStatusColor(tr.ammount)" class="product-order-status">{{ (tr.ammount | title) | NumThreeDigit }}</vs-chip>
           </vs-td>
           <vs-td>
             <p class="product-price">{{ tr.currency.sign_fa }}</p>
