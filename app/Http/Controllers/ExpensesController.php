@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\DB;
 class ExpensesController extends Controller
 {
 
-    public function serial(){
+    public function serial()
+    {
         $serial_number = SerialNumber::where('type', 'EXP')->latest()->first();
-        if($serial_number){
+        if ($serial_number) {
             return $serial_number->value + 1;
-        }
-        else{
+        } else {
             return 101;
         }
     }
@@ -27,7 +27,7 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        return Expense::with('user','currency')->get();
+        return Expense::with('user', 'currency')->get();
     }
 
     /**
@@ -48,22 +48,21 @@ class ExpensesController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         DB::beginTransaction();
         try {
 
-            $serial_number = SerialNumber::where( 'type',   'EXP')->latest()->first();
-            if($serial_number){
-                if($serial_number->value > $request['serial_no']){
-                    $request['serial_no'] = $serial_number->value +1;
+            $serial_number = SerialNumber::where('type',   'EXP')->latest()->first();
+            if ($serial_number) {
+                if ($serial_number->value > $request['serial_no']) {
+                    $request['serial_no'] = $serial_number->value + 1;
                     $serial_number->value =  $request['serial_no'];
                     $serial_number->save();
-                }else{
+                } else {
                     $serial_number->value =  $request['serial_no'];
                     $serial_number->save();
                 }
-
-            }else{
+            } else {
                 SerialNumber::create([
                     'type' => 'EXP',
                     'prefix' => 'EXP',
@@ -73,51 +72,51 @@ class ExpensesController extends Controller
 
             Expense::create([
                 'serial_no' => $request['serial_no'],
-                'currency_id'=> $request['currency_id'],
-                'datetime' =>$request['datetime'],
+                'currency_id' => $request['currency_id'],
+                'datetime' => $request['datetime'],
                 'title' => $request['title'],
                 'ammount' => $request['ammount'],
-                'description' =>$request['description'],
-                'user_id' =>$request['user_id'],
+                'description' => $request['description'],
+                'user_id' => $request['user_id'],
             ]);
 
-         $expenses =  Expense::latest()->first();
-        // Create opening FR for the created Projet
-         $data = [
-            'type' => 'EXP', 
-            'type_id' => $expenses->id, 
-            'account_id' => $request['credit_account']['id'],
-            'description' => $request['credit_desc'],
-            'currency_id' => $request['currency_id'],
-            'credit' => $request['ammount'],
-            'debit' => 0,
-            'ex_rate_id' => $request['currency_id'],
-            'status' => 'INC'
-            
+            $expenses =  Expense::latest()->first();
+            // Create opening FR for the created Projet
+            $data = [
+                'type' => 'EXP',
+                'type_id' => $expenses->id,
+                'account_id' => $request['credit_account']['id'],
+                'description' => $request['credit_desc'],
+                'currency_id' => $request['currency_id'],
+                'credit' => $request['ammount'],
+                'debit' => 0,
+                'ex_rate_id' => $request['currency_id'],
+                'status' => 'INC'
+
             ];
             FinancialRecord::create($data);
 
-        // Create opening FR for the created Projet
-         $data = [
-            'type' => 'EXP', 
-            'type_id' => $expenses->id, 
-            'account_id' => $request['debit_account']['id'],
-            'description' => $request['debit_desc'],
-            'currency_id' => $request['currency_id'],
-            'credit' => 0,
-            'debit' => $request['ammount'],
-            'ex_rate_id' => $request['currency_id'],
-            'status' => 'EXP'
-            
+            // Create opening FR for the created Projet
+            $data = [
+                'type' => 'EXP',
+                'type_id' => $expenses->id,
+                'account_id' => $request['debit_account']['id'],
+                'description' => $request['debit_desc'],
+                'currency_id' => $request['currency_id'],
+                'credit' => 0,
+                'debit' => $request['ammount'],
+                'ex_rate_id' => $request['currency_id'],
+                'status' => 'EXP'
+
             ];
             FinancialRecord::create($data);
-        
+
 
             DB::commit();
             return ['msg' => 'expenses successfully inserted'];
         } catch (Exception $e) {
             DB::rollback();
-           }
+        }
     }
 
     /**
@@ -128,7 +127,7 @@ class ExpensesController extends Controller
      */
     public function show($id)
     {
-        return Expense::with('user','currency')->find($id);
+        return Expense::with('user', 'currency')->find($id);
     }
 
     /**
@@ -164,20 +163,27 @@ class ExpensesController extends Controller
     {
         DB::beginTransaction();
         try {
-        $expenses = Expense::findOrFail($id);
-        $expenses->delete();
-        $finanrecord = FinancialRecord::where('type_id',$id)->where('type','EXP')->get();
-        if($finanrecord){
-            foreach($finanrecord as $val){
-                $record = FinancialRecord::findOrFail($val->id);
-                $record->delete();
+            $expenses = Expense::findOrFail($id);
+            $expenses->delete();
+            $finanrecord = FinancialRecord::where('type_id', $id)->where('type', 'EXP')->get();
+            if ($finanrecord) {
+                foreach ($finanrecord as $val) {
+                    $record = FinancialRecord::findOrFail($val->id);
+                    $record->delete();
+                }
             }
+
+            DB::commit();
+            return 1;
+        } catch (Exception $e) {
+            DB::rollback();
         }
-       
-        DB::commit();
-        return 1;
-    } catch (Exception $e) {
-        DB::rollback();
-       }
+    }
+    public function changeStep($id, $stepNo)
+    {
+        // return response(['id'=>$id,'stid'=>$stepNo]);
+        $expenses = Expense::findOrFail($id);
+        $expenses->step = $stepNo;
+        $expenses->save();
     }
 }

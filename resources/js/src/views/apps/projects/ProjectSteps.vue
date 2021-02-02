@@ -85,7 +85,7 @@
     </vs-row>
   </tab-content>
   <tab-content title=" مرحله اکمالات وتوزیعات" class="mb-5" :before-change="changeStepStatus2">
-   
+
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider> مرحله اکمالات وتوزیعات</vs-divider>
@@ -162,7 +162,6 @@
   <tab-content title="اطلاعات مالی" class="mb-5" :before-change="changeStepStatus3">
     <vs-row vs-w="12" class="mb-1">
       <vs-divider>اطلاعات مالی</vs-divider>
-
       <vs-divider></vs-divider>
     </vs-row>
   </tab-content>
@@ -300,7 +299,7 @@
   <vs-button disabled v-bind:class="is_ekmalat_allowed ? 'hide': ''">بعدی</vs-button>
 
   <vs-button v-bind:class="finishedcontract && is_ekmalat_allowed ? '': 'hide'" slot="finish">بستن صحفه</vs-button>
-  <!--<vs-button disabled v-bind:class="finishedcontract ? 'hide': ''">بستن صحفه</vs-button>-->
+  <vs-button disabled v-bind:class="!finishedcontract || is_ekmalat_allowed ? 'hide': ''">بستن صحفه</vs-button>
 </form-wizard>
 </template>
 
@@ -363,7 +362,7 @@ export default {
           this.$Progress.set(100);
           this.$vs.notify({
             title: 'موفقیت!',
-            text: 'قدم موفقانه تغیر یافت.',
+            text: ' مرحله موفقانه به ' + st + ' تغیر یافت.',
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check',

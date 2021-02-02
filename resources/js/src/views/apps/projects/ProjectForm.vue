@@ -287,39 +287,40 @@
       </vs-col>
     </vs-row>
     <br>
-    <vs-row vs-w="12" style="background-color: #f3f5f7; border-color: #42b983; padding: 1rem 0;border-right-width:0.6rem;border-right-style: solid;margin: 1rem 0">
+    <vs-row vs-w="12" class="project-view-header">
       <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
         <h4>&nbsp;مرور بخش اکمالات /اقلام&nbsp;</h4>
       </vs-col>
     </vs-row>
     <vs-table :data="pForm.item">
-      <template slot="thead" style="background-color: #f3f5f7">
+      <template slot="thead">
         <vs-th>جنس / محصول</vs-th>
         <vs-th>مقدار</vs-th>
-        <vs-th>واحد اندازه گیری</vs-th>
+        <vs-th>عملیه</vs-th>
         <vs-th>قیمت فی واحد</vs-th>
         <vs-th>قیمت مجموعی</vs-th>
       </template>
       <template slot-scope="{data}">
-        <vs-tr :key="i" v-for="(tr, i) in data">
+        <vs-tr v-for="(tr, i) in data" :key="i">
           <vs-td :data="tr.item_id">
-            {{ (typeof tr.item_id == "object") ? findItem(tr.item_id.id) : findItem(tr.item_id) }}
+            <p> {{ (tr.item_id && tr.item_id.type) ? tr.item_id.type.type : '' }} {{ tr.item_id.name }} </p>
           </vs-td>
-          <vs-td :data="tr.ammount">
-            {{tr.ammount}}
+          <vs-td :data="tr.equivalent">
+            {{tr.equivalent | NumThreeDigit}} {{ (tr.item_id.uom_equiv_id) ? tr.item_id.uom_equiv_id.title : '' }}
           </vs-td>
-          <vs-td :data="tr.item_id.uom_id">
-            {{ (typeof tr.item_id == "object") ? findUom(tr.item_id.uom_id) : findUom(tr.unit_id) }}
+          <vs-td :data="tr.operation_id">
+            <p> {{ (tr.operation_id) ? tr.operation_id.formula : ''}} </p>
           </vs-td>
           <vs-td :data="tr.unit_price">
-            {{tr.unit_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+            {{tr.unit_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
           <vs-td :data="tr.total_price">
-            {{tr.total_price}} <small style="color:#42b983;"><b>افغانی </b></small>
+            {{tr.total_price | NumThreeDigit}} <small style="color:#42b983;"><b>افغانی </b></small>
           </vs-td>
         </vs-tr>
       </template>
     </vs-table>
+
     <vs-row vs-w="12" class="expense-section">
       <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
         <h4>&nbsp;مرور بخش مصارف&nbsp;</h4>
@@ -563,12 +564,14 @@ export default {
     setProjectData(data) {
       if (data) {
         if (data.pro_items.length) {
+          this.$refs.ekmalat.resetArrays();
+          
           for (let [key, data] of Object.entries(data.pro_items)) {
             this.pForm.item[key] = data;
+            this.$refs.ekmalat.addRow({'key': key, 'data': data});
             this.$refs.ekmalat.operationChange(this.pForm.item[key].operation_id, key);
             this.$refs.ekmalat.itemSelected('', this.pForm.item[key].item_id.id, key, this.pForm.item[key].item_id.uom_id.acronym);
           }
-
         } else {
           this.pForm.item = [{
             item_id: "",
@@ -578,8 +581,7 @@ export default {
             ammount: 0,
             unit_price: 0,
             total_price: 0,
-            density: null,
-
+            density: "1.00",
           }];
         }
         if (data.pro_data) {

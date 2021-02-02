@@ -43,56 +43,7 @@
       </template>
     </vs-table>
     <vs-popup class="holamundo" title="تنظیمات مربط به انتقالات " :active.sync="popupStepActive">
-      <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
-        <tab-content title="تنظیم اطلاعات" class="mb-5">
-          <vs-row vs-w="12" class="mb-1">
-            <vs-row vs-w="12">
-              <vs-divider>تنظیم اطلاعات</vs-divider>
-            </vs-row>
-            <vs-row vs-w="12">
-              <div>
-                <p>عنوان: {{transfer.title }}</p>
-              </div>
-            </vs-row>
-          </vs-row>
-        </tab-content>
-        <tab-content title="بارگیری اقلام" class="mb-5">
-          <vs-row vs-w="12" class="mb-1">
-            <vs-row vs-w="12">
-              <vs-divider>بارگیری اقلام</vs-divider>
-            </vs-row>
-            <vs-row vs-w="12">
-            </vs-row>
-          </vs-row>
-        </tab-content>
-        <tab-content title="دریافت اقلام" class="mb-5">
-          <vs-row vs-w="12" class="mb-1">
-            <vs-row vs-w="12">
-              <vs-divider>دریافت اقلام</vs-divider>
-            </vs-row>
-            <vs-row vs-w="12">
-            </vs-row>
-          </vs-row>
-        </tab-content>
-        <tab-content title="اطلاعات مالی" class="mb-5">
-          <vs-row vs-w="12" class="mb-1">
-            <vs-row vs-w="12">
-              <vs-divider>اطلاعات مالی</vs-divider>
-            </vs-row>
-            <vs-row vs-w="12">
-            </vs-row>
-          </vs-row>
-        </tab-content>
-        <tab-content title="تاییدی" class="mb-5">
-          <vs-row vs-w="12" class="mb-1">
-            <vs-row vs-w="12">
-              <vs-divider>تاییدی</vs-divider>
-            </vs-row>
-            <vs-row vs-w="12">
-            </vs-row>
-          </vs-row>
-        </tab-content>
-      </form-wizard>
+      <TransferStep @closesteps="closeModel" ref="wizardModalTransf" :transfer="transfer"></TransferStep>
     </vs-popup>
   </div>
 </component>
@@ -100,16 +51,11 @@
 
 <script>
 import TableLoading from './../../shared/TableLoading.vue'
-import {
-  FormWizard,
-  TabContent
-} from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import TransferStep from './TransferStep.vue'
 export default {
   components: {
     TableLoading,
-    FormWizard,
-    TabContent
+    TransferStep
   },
   data() {
     return {
@@ -119,7 +65,6 @@ export default {
       itemsPerPage: 5,
       isloaded: false,
       isloadedrow: false,
-
       settings: { // perfectscrollbar settings
         maxScrollbarLength: 60,
         wheelSpeed: .60
@@ -130,22 +75,25 @@ export default {
     this.getTransfers();
   },
   methods: {
-    showStepsModal(id) {
+    closeModel() {
+      this.popupStepActive = false;
+    },
+    getTransfer(id) {
       this.$Progress.start()
       this.axios
         .get("/api/transfer/" + id)
         .then((data) => {
           this.transfer = data.data;
-          console.log('transfer', this.transfer);
+          this.$refs.wizardModalTransf.setWizardStepTransf(this.transfer.step);
           this.$Progress.set(100);
-          this.popupStepActive = true;
         })
         .catch(() => {});
     },
-    formSubmitted() {
-      alert("تنظیمات بسته شد")
-      this.popupStepActive = false;
+    showStepsModal(id) {
+      this.getTransfer(id)
+      this.popupStepActive = true;
     },
+
     getTransfers() {
       this.axios
         .get("/api/transfer")

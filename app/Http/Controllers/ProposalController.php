@@ -111,6 +111,7 @@ class ProposalController extends Controller
                         'ammount' => $item['ammount'],
                         'unit_price' => $item['unit_price'],
                         'equivalent' => $item['equivalent'],
+                        'density' => $item['density'],
                         'total_price' => $item['total_price'],
                     ];
 
@@ -241,5 +242,12 @@ class ProposalController extends Controller
     {
         $propsal = Proposal::latest()->first();
         return $propsal->id;
+    }
+    public function changeStep($id, $stepNo)
+    {
+        // return response(['id'=>$id,'stid'=>$stepNo]);
+        $proposal = Proposal::findOrFail($id);
+        $proposal->step = $stepNo;
+        $proposal->save();
     }
 }

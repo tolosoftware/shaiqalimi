@@ -1,6 +1,6 @@
 <template>
 <form-wizard v-if="proposal" color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" ref="wizarde" @on-complete="formSubmitted">
-  <tab-content title="ثبت اطلاعات" class="mb-5">
+  <tab-content title="ثبت اطلاعات" class="mb-5" :before-change="changePropStepStatus">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider>بررسی بخش ثبت اطلاعات</vs-divider>
@@ -89,7 +89,7 @@
       </vs-table>
     </vs-row>
   </tab-content>
-  <tab-content title="ارسال درخواستی" class="mb-5">
+  <tab-content title="ارسال درخواستی" class="mb-5" :before-change="changePropStepStatus1">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider>بررسی بخش ارسال درخواستی</vs-divider>
@@ -148,7 +148,7 @@
       <div class="vx-row" vs-w="12"></div>
     </vs-row>
   </tab-content>
-  <tab-content title="دریافت شرطنامه/آفر" class="mb-5">
+  <tab-content title="دریافت شرطنامه/آفر" class="mb-5" :before-change="changePropStepStatus2">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider>بررسی بخش دریافت شرطنامه </vs-divider>
@@ -187,7 +187,7 @@
               </p>
             </vs-col>
             <vs-col class="mb-2" vs-justify="right" vs-align="right" vs-w="12">
-              <vs-checkbox color="success" size="large" v-model="is_recieved"><strong> شرطنامه دریافت گردید ؟ </strong></vs-checkbox>
+              <vs-checkbox color="success" size="large" v-model="is_recieved_cont"><strong> شرطنامه دریافت گردید ؟ </strong></vs-checkbox>
               <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2 mt-2 ml-1"> ویرایش معلومات </vs-button>-->
             </vs-col>
           </div>
@@ -196,7 +196,7 @@
       <vs-divider></vs-divider>
     </vs-row>
   </tab-content>
-  <tab-content title="اشتراک" class="mb-5">
+  <tab-content title="اشتراک" class="mb-5" :before-change="changePropStepStatus3">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider>بررسی بخش اشتراک</vs-divider>
@@ -214,7 +214,7 @@
       <vs-divider></vs-divider>
     </vs-row>
   </tab-content>
-  <tab-content title="مرحله داوطلبی" class="mb-5">
+  <tab-content title="مرحله داوطلبی" class="mb-5" :before-change="changePropStepStatus4">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider>بررسی بخش داوطلبی</vs-divider>
@@ -326,13 +326,13 @@
         <div class="radio-group1 w-full">
           <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
             <vs-row vs-w="12" vs-type="flex" vs-justify="center">
-              <input type="radio" v-model="status" value="1" id="struct" name="status" />
+              <input type="radio" v-model="prop_recieve_or_allow" value="1" id="struct" name="prop_recieve_or_allow" />
               <label for="struct" style="font-size:35px;" class="w-full text-center p-24">دریافت قرارداد</label>
             </vs-row>
           </vs-col>
           <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
             <vs-row vs-w="12" vs-type="flex" vs-justify="center">
-              <input type="radio" v-model="status" value="2" id="specific" name="status" />
+              <input type="radio" v-model="prop_recieve_or_allow" value="2" id="specific" name="prop_recieve_or_allow" />
               <label for="specific" style="font-size:35px;" class="w-full text-center p-12">واگذاری قرارداد</label>
               <vs-divider><span for="winner">برنده قرار داد</span></vs-divider>
               <vs-input id="winner" autocomplete="off" v-model="winner" name="winner" class="w-full" />
@@ -355,7 +355,7 @@
 </template>
 
 <script>
-import Ekmalat from "../../shared/Ekmalat"
+import Ekmalat from "../../shared/Ekmalat.vue"
 import {
   FormWizard,
   TabContent
@@ -368,9 +368,9 @@ export default {
       step: 0,
       res_person: '',
       winner: '',
-      is_recieved: '',
+      is_recieved_cont: '',
       is_participated: '',
-      status: 1,
+      prop_recieve_or_allow: 1,
       participators: [{
         name: '',
         problems: '',
@@ -386,7 +386,7 @@ export default {
           unit_id: "",
           operation_id: null,
           equivalent: "",
-          ammount: "",
+          ammount: "0",
           unit_price: "0",
           total_price: "",
           density: null,
@@ -410,12 +410,60 @@ export default {
   created() {},
   computed: {},
   methods: {
-    cprint() {
-
+    changeItTo(id, st) {
+      this.$Progress.start()
+      this.axios.get('/api/proposlstchange/' + id + '/' + st)
+        .then((response) => {
+          this.$Progress.set(100);
+          this.$vs.notify({
+            title: 'موفقیت!',
+            text: ' مرحله موفقانه به ' + st + ' تغیر یافت.',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check',
+            position: 'top-right'
+          })
+        }).catch(() => {});
     },
+
+    changePropStepStatus() {
+      if (this.step == 1) {
+        this.step = 2;
+        this.changeItTo(this.proposal.id, this.step);
+      }
+      return true;
+    },
+    changePropStepStatus1() {
+      if (this.step == 2) {
+        this.step = 3;
+        this.changeItTo(this.proposal.id, this.step);
+      }
+      return true;
+    },
+    changePropStepStatus2() {
+      if (this.step == 3) {
+        this.step = 4;
+        this.changeItTo(this.proposal.id, this.step);
+      }
+      return true;
+    },
+    changePropStepStatus3() {
+      if (this.step == 4) {
+        this.step = 5;
+        this.changeItTo(this.proposal.id, this.step);
+      }
+      return true;
+    },
+    changePropStepStatus4() {
+      if (this.step == 5) {
+        this.step = 6;
+        this.changeItTo(this.proposal.id, this.step);
+      }
+      return true;
+    },
+    cprint() {},
     formSubmitted() {
       this.$emit('closesteps');
-
     },
     addRow() {
       this.participators.push({
@@ -431,7 +479,7 @@ export default {
     removeRow() {
       this.participators.splice(this.participators.length - 1, 1);
     },
-    setWizardStep(index) {
+    setWizardStep1(index) {
       this.step = index;
       console.log('index', this.step);
       this.$refs.wizarde.activateAll();

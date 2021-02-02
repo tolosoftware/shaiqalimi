@@ -38,6 +38,7 @@ Route::get('latestfuelstation', 'FuelStationController@latest');
 Route::resource('fuelstorestation', 'FuelStationStorageController');
 Route::post('users1', 'UserController@store');
 Route::post('users1', 'UserController@store');
+Route::get('tables_trancate', 'ApplicationController@trancate_db');
 
 // Sales
 Route::resource('sale1', 'SaleOneController');
@@ -52,6 +53,11 @@ Route::delete('sales/{sale}', 'SaleOneController@deleting');
 // Product Review
 Route::resource('project', 'ProjectController');
 Route::get('projectstchange/{id}/{stid}', 'ProjectController@changeStep');
+Route::get('proposlstchange/{id}/{stid}', 'ProposalController@changeStep');
+Route::get('procchange/{id}/{stid}', 'PurchaseController@changeStep');
+Route::get('expchange/{id}/{stid}', 'ExpensesController@changeStep');
+Route::get('tranchange/{id}/{stid}', 'TransactionController@changeStep');
+Route::get('tranfchange/{id}/{stid}', 'TransferController@changeStep');
 Route::resource('proposal', 'ProposalController');
 Route::get('getrecent', 'ProposalController@getrecent');
 Route::resource('currency', 'CurrencyController');

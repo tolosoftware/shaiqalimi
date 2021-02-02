@@ -200,8 +200,8 @@ Vue.mixin({
                 fieldObject[field] = value;
                 sourceObject[field] = value.replace(/[^0-9.]/g, '');
             }else{
-                fieldObject[field] = 0;
-                sourceObject[field] = 0;
+                fieldObject[field] = nStr;
+                sourceObject[field] = nStr;
             }
           },
         formatToEnPriceSimple: function(value) {
@@ -219,7 +219,7 @@ Vue.mixin({
                 value = x1 + x2;
                 return value;
             }else{
-                return 0;
+                return nStr;
             }
         },
     },

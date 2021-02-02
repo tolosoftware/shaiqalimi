@@ -168,7 +168,7 @@ import TableLoading from './../../shared/TableLoading.vue'
 import DataViewSidebar from './../DataViewSidebar.vue'
 import moduleDataList from './../data-list/moduleDataList.js'
 import vueEasyPrint from "vue-easy-print";
-import ProposalSteps from "./ProposalSteps"
+import ProposalSteps from "./ProposalSteps.vue"
 
 export default {
   name: 'vx-proposal-list',
@@ -194,10 +194,11 @@ export default {
     }
   },
   components: {
+    ProposalSteps,
     TableLoading,
     DataViewSidebar,
-    vueEasyPrint,
-    ProposalSteps
+    vueEasyPrint
+
   },
   created() {
     this.getProposals();
@@ -217,19 +218,21 @@ export default {
   methods: {
     closeModel() {
       this.popupModalActive = false;
-
     },
-    showCheckModal(id) {
-      this.popupModalActive = true;
-      // this.$Progress.start()
+    getProposal(id) {
+      this.$Progress.start()
       this.axios
         .get("/api/proposal/" + id)
-        .then((data) => {
-          this.proposal = data.data;
-          this.$refs.wizardModal1.setWizardStep(this.proposal.step);
-          // this.$Progress.set(100);
+        .then((response) => {
+          this.proposal = response.data
+          this.$refs.wizardModal1.setWizardStep1(this.proposal.step);
+          this.$Progress.set(100);
         })
         .catch(() => {});
+    },
+    showCheckModal(id) {
+      this.getProposal(id);
+      this.popupModalActive = true;
     },
     showPrintData(id) {
       this.popupActive = true;
