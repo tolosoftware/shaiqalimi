@@ -427,8 +427,8 @@ export default {
         this.sForm.item = contract.pro_items;
         this.$refs.ekmalat.resetArrays();
         for (const [index, item] of Object.values(this.sForm.item).entries()) {
-          this.sForm.item[index].increment_equiv = "22";
-          this.sForm.item[index].increment = "22";
+          this.sForm.item[index].increment_equiv = this.sForm.item[index].equivalent;
+          this.sForm.item[index].increment = this.sForm.item[index].ammount;
           var data = {
             increment: this.sForm.item[index].ammount, 
             increment_equiv: this.sForm.item[index].equivalent,

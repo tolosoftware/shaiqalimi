@@ -301,9 +301,6 @@ export default {
           eqv_uom: true,
           reverse: false,
         }
-        console.log("this.items[data.key]", this.items[data.key]);
-        console.log("Add New", data);
-        console.log("this.visualFields", this.visualFields);
       }else{
         this.items.push({
           item_id: "",
@@ -462,22 +459,23 @@ export default {
   // End Of methods
   computed: {
     itemsTotalPrice: function () {
+      console.log(this.items);
       for (const key of Object.keys(this.items)) {
-        console.log("this.items[key].item_id", this.items[key]);
         let item_increment_equiv = (this.items[key].item_id.increment_equiv) ? this.items[key].item_id.increment_equiv : this.items[key].item_id.equivalent;
         let opr = this.items[key].operation_id;
 
         let unit_price = this.items[key].unit_price;
         let density = this.items[key].density;
-
         if (opr && opr.id == 1) {
           this.items[key].total_price = this.items[key].increment * unit_price;
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
           this.items[key].increment_equiv = 0;
+          this.visualFields[key].increment_equiv = 0;
         } else if (opr && opr.id == 2) {
           this.items[key].total_price = this.items[key].increment_equiv * unit_price;
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
           this.items[key].increment = 0;
+          this.visualFields[key].increment = 0;
         } else if (opr && opr.id == 3) {
           if (item_increment_equiv !== 0) {
             this.items[key].increment_equiv = this.items[key].increment * item_increment_equiv;
