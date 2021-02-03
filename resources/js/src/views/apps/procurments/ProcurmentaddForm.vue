@@ -5,7 +5,7 @@
     <vx-card class="height-vh-80">
       <div class="vx-row">
         <div class="vx-col w-1/2">
-          <h3>فورم ثبت خریداری</h3>
+          <h3>فورم ثبت خریداری</h3> {{prForm.source_id}}
         </div>
         <div class="vx-col w-1/2">
           <vs-button type="filled" @click="addNewData" class="mt-5 float-right">ثبت فروشنده جدید</vs-button>
