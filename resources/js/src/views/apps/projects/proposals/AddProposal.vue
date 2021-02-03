@@ -590,6 +590,7 @@ export default {
       is_accepted: false,
       currentSerialNo: 0,
       aForm: new Form({
+        user_id: localStorage.getItem('id'),
         serial_no: '',
         client_id: '',
         company_id: null,

@@ -234,7 +234,9 @@ export default {
         website: '',
         address: '',
         logo: null,
-        account_id: null
+        account_id: null,
+        user_id: localStorage.getItem('id'),
+
       }),
       orgFormEdit: new Form({
         name: '',
