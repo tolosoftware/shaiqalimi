@@ -5,7 +5,7 @@
     <vx-card class="height-vh-80">
       <div class="vx-row">
         <div class="vx-col w-1/2">
-          <h3>فورم ثبت خریداری</h3> {{prForm.source_id}}
+          <h3>فورم ثبت خریداری</h3> {{prForm.source}}
         </div>
         <div class="vx-col w-1/2">
           <vs-button type="filled" @click="addNewData" class="mt-5 float-right">ثبت فروشنده جدید</vs-button>
@@ -69,7 +69,7 @@
               <label for>
                 <small>ذخیره اصلی</small>
               </label>
-              <source-select :parentForm="prForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
+              <source-select :parentForm="prForm" @sourcetype="setSourceType" @updateItems="update_items" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
             </div>
           </vs-col>
 
@@ -132,6 +132,7 @@ export default {
         vendor_address: '',
         vendor_phone: '',
         vendor_name: '',
+        source: '',
         source_id: '',
         source_type: '',
         user_id: localStorage.getItem('id'),
@@ -193,8 +194,13 @@ export default {
     SerllerAddForm
   },
   methods: {
-    update_items(matched_items){
-      this.$refs.ekmalat.getAllItems(matched_items);
+    setSourceType($type) {
+      // console.log('incoming type', $type)
+      this.prForm.source = $type;
+    },
+    update_items(matched_items) {
+      this.$refs.ekmalat.getAllItems(matched_items, false);
+      console.log('mat item', matched_items)
     },
     toggleDataSidebar(val = false) {
       // this.errors.items.length = 0
@@ -270,7 +276,7 @@ export default {
               })
             })
         } else {
-          
+
           // form have errors
         }
       })

@@ -28,7 +28,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
             <label for=""><small>منبع</small></label>
-            <source-select :parentForm="tForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="tForm.source_id"></source-select>
+            <source-select :parentForm="tForm" @sourcetype="setSourceType" @updateItems="update_items" name="source" v-validate="'required'" v-model="tForm.source_id"></source-select>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
@@ -153,6 +153,7 @@ export default {
       // Main INIT
       tForm: new Form({
         serial_no: '',
+        source: '',
         source_id: "", // The Id of the Source.
         source_type: "", // Type Source
         datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
@@ -231,7 +232,11 @@ export default {
     this.getNextSerialNo();
   },
   methods: {
-    update_items(matched_items){
+    setSourceType($type) {
+      // console.log('incoming type', $type)
+      this.tForm.source = $type;
+    },
+    update_items(matched_items) {
       this.$refs.ekmalat.getAllItems(matched_items);
     },
     // for getting the next serian number
@@ -255,7 +260,7 @@ export default {
         })
     },
     submitForm() {
-      
+
       this.$validator.validateAll('transferAddForm').then(result => {
         if (result) {
           this.$Progress.start()
@@ -287,7 +292,7 @@ export default {
               })
             });
         } else {
-          
+
           // form have errors
         }
       })

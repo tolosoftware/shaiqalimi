@@ -50,6 +50,7 @@ class TransferController extends Controller
             $request['currency_id'] = 1;
             $request['ammount'] = $request->total;
             $source = $request->source_id;
+            $sourceABR = $request->source;
 
             $t = Transfer::create($request->all());
             $account = Account::find(config('app.base_transfer_account'));
@@ -57,7 +58,7 @@ class TransferController extends Controller
             Helper::createDoubleFR('TRS', $t, $account, $request);
 
             $totalmoney = 0;
-            $stocks = Helper::salesCreateStockRecords('TRS', $request->item, $t, $source, $request, $totalmoney, $source['name'], $source['id']);
+            $stocks = Helper::salesCreateStockRecords('TRS', $request->item, $t, $source, $request, $totalmoney, $sourceABR, $source['id']);
             $stocks = Helper::incrementCreateStockRecords('TRS', $request->item, $t, $request['destination_id'], $request, $totalmoney, $request['destination_id']['name'], $request['destination_id']['id']);
 
             $target = $request->destination;

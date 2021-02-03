@@ -246,14 +246,17 @@ export default {
       });
     },
     // for items to be bought
-    getAllItems(matched_items) {
+    getAllItems(matched_items, filter = true) {
       this.axios.get("/api/items").then((response) => {
         this.goods = response.data;
-        this.goods = this.goods.filter((elem) => matched_items.find(({
-          id
-        }) => elem.id === id));
+        // console.log('stock', this.goods)
+        if (filter) {
+          this.goods = this.goods.filter((elem) => matched_items.find(({
+            id
+          }) => elem.id === id));
+        }
         this.getAllUnites();
-          this.resetItemsData();
+        this.resetItemsData();
       });
     },
     // for getting measure unit of the item
@@ -307,9 +310,9 @@ export default {
       this.items.splice(0, this.items.length);
       this.remaining_items.splice(0, this.remaining_items.length);
       // this.remaining_items = [];
-        // this.addRow();
+      // this.addRow();
     },
-    resetItemsData(){
+    resetItemsData() {
       this.is_active = [{
         density: false,
         uom: true,
