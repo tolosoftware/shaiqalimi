@@ -380,7 +380,7 @@ export default {
     // End of Methods
     // Old methods
     onChange(contract) {
-      // console.log(contract);
+      // 
       if (contract != null) {
         this.getNextSerialNo(contract.id);
         this.contract.clientName = contract.pro_data.client.name;
@@ -430,7 +430,7 @@ export default {
               this.sForm.reset();
               this.$validator.reset();
             }).catch((errors) => {
-              // console.log(errors.errors);
+              // 
               this.$vs.notify({
                 title: 'ناموفق!',
                 text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -441,7 +441,7 @@ export default {
               })
             });
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
 

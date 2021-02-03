@@ -169,7 +169,7 @@ export default {
         .then((response) => {
           this.proposal = response.data;
           // Object.keys(this.proposal).some(key => this.proposal[key]['title'] = this.proposal[key].pro_data.title);
-          console.log(this.proposal);
+          
           this.$Progress.set(100)
         })
     },

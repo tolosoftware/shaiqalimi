@@ -845,7 +845,7 @@ export default {
     companySelected(data) {
       this.aForm.company_id = data;
       this.getNextSerialNo(data.sign);
-      console.log(this.aForm);
+      
     }
   },
   // End Of methods
@@ -858,7 +858,7 @@ export default {
 
       let total_items = 0;
       this.aForm.item.filter(function (item) {
-        // console.log(item);
+        // 
         if (item && item.total_price) {
           total_items += parseInt(item.total_price);
         }

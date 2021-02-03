@@ -706,7 +706,7 @@ export default {
       })
     },
     editData(data) {
-      // console.log(data);
+      // 
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       // this.sidebarData = data
       // this.toggleDataSidebar(true)

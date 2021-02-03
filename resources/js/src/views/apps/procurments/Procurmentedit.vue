@@ -160,7 +160,7 @@ export default {
         data
       }) => (
         this.prForm.fill(data)
-        // console.log("hiiii"+data.vendor_id)
+        // 
         //  this.setVendordata(data.vendor_id)
       ));
     },

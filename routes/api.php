@@ -103,7 +103,7 @@ Route::get('transactionSerialnum', 'TransactionController@serial');
 //Expenses
 Route::resource('expenses', 'ExpensesController');
 Route::get('exserialno', 'ExpensesController@serial');
-Route::get('item-records/{item_id}', 'StockRecordController@itemRecords');
+Route::get('item-records', 'StockRecordController@itemRecords');
 Route::get('bank-accounts', 'AccountController@bankAccounts');
 
 // Archive

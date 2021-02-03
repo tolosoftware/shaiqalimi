@@ -84,12 +84,19 @@ class StockRecordController extends Controller
         //
     }
 
-    public function itemRecords($item_id)
+    public function itemRecords(Request $request)
     {
-        $inc = StockRecord::where('item_id', $item_id)
-        ->sum('increment');
-        $dec = StockRecord::where('item_id', $item_id)
-        ->sum('decrement');
+        $inc = StockRecord::
+        where('source', $request->source)
+        ->where('source_id', $request->source_id)
+        ->where('item_id', $request->item_id)
+        ->sum('increment_equiv');
+        $dec = StockRecord::
+        where('source', $request->source)
+        ->where('source_id', $request->source_id)
+        ->where('item_id', $request->item_id)
+        ->sum('decrement_equiv');
         return $inc - $dec;
     }
+    
 }

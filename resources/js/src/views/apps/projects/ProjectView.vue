@@ -249,7 +249,7 @@ export default {
           // for (let [key, item] of Object.entries(this.project.pro_items)) {
           //   this.$refs.item_chart_type.pie.series[0].color = ['#FF9F43', '#28C76F', '#EA5455', '#87ceeb', '#7367F0'].reverse();
 
-          //   console.log(this.$refs.item_chart_type.pie.legend.data);
+          //   
           //     this.$refs.item_chart_type.pie.legend.data.push(item.item_id.uom_equiv_id.title);
           //     this.$refs.item_chart_type.pie.series[0].data.push({
           //       value: (item.equivalent) ? item.equivalent : 0,

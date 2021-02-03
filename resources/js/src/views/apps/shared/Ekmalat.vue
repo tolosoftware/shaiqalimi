@@ -180,7 +180,7 @@ export default {
       this.axios.get(`/api/item-records/${id}`).then((response) => {
         this.remaining_items[index] = [response.data, acronym];
         this.remaining_items = Object.assign({}, this.remaining_items)
-        // console.log(this.remaining_items);
+        // 
         this.$Progress.set(100);
       });
     },
@@ -403,7 +403,7 @@ export default {
           required: "ثقلت الزامی است.",
         };
       }
-      // console.log(this.listOfFields);
+      // 
       Validator.localize("en", this.listOfFields);
     },
     findUom(id, field) {

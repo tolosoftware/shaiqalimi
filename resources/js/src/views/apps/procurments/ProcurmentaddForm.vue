@@ -205,14 +205,14 @@ export default {
       this.toggleDataSidebar(true)
     },
     setVendordata(data) {
-      // console.log(data);
+      // 
       this.prForm.vendor_id = data.id;
       this.prForm.vendor_address = data.address;
       this.prForm.vendor_phone = data.phone;
       this.prForm.account_id = data.account_id;
       this.prForm.vendor_name = data.name;
 
-      // console.log('seller_name', this.prForm.vendor_name);
+      // 
 
     },
     loadvendor() {
@@ -267,7 +267,7 @@ export default {
               })
             })
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       })

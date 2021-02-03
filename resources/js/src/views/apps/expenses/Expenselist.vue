@@ -183,7 +183,7 @@ export default {
         .get("/api/expenses/" + id)
         .then((data) => {
           this.expense = data.data;
-          console.log('expense', this.expense);
+          
           this.$Progress.set(100);
           this.popupStepActive = true;
         })

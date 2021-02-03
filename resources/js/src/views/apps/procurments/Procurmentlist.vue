@@ -188,7 +188,7 @@ export default {
         .get("/api/procurments/" + id)
         .then((data) => {
           this.procurment = data.data;
-          console.log('procurment', this.procurment);
+          
           this.$Progress.set(100);
           this.popupStepActive = true;
         })

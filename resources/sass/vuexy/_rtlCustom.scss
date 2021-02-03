@@ -586,6 +586,9 @@ li.fuel-station>h3 {
 }
 
 [dir] {
+    .vs-input--input.normal, .v-select .vs__dropdown-toggle{
+        direction: ltr !important;
+    }
     .just-one-line {
         -webkit-line-clamp: 1 !important;
     }

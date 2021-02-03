@@ -146,7 +146,7 @@ export default {
       this.toggleDataSidebar(true);
     },
     getNewClient(client) {
-      // console.log(client);
+      // 
     },
   },
 };

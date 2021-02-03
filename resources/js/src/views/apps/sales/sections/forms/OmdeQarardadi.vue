@@ -74,7 +74,7 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <!-- This conpoment need the form source id and form source type field -->
       <label for=""><small>منبع</small></label>
-      <source-select :parentForm="sForm" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
+      <source-select :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -374,7 +374,7 @@ export default {
     this.getProject()
     window.addEventListener('keydown', (e) => {
       if (e.key == 'Enter') {
-        // console.log("e.path", e.path);
+        // 
         if (!e.path.find(x => x.className === 'vs-textarea' || x.className === 'vs__selected-options')) {
           this.submitForm();
         }
@@ -408,8 +408,6 @@ export default {
         .get("/api/project")
         .then((data) => {
           this.contracts = data.data;
-          console.log('contractss', this.contracts);
-          // Finish the Progress Bar
           this.$Progress.set(100);
           this.$vs.loading.close()
         })
@@ -452,6 +450,9 @@ export default {
         this.form[key] = null;
       }
     },
+    update_items(matched_items){
+      this.$refs.ekmalat.getAllItems(matched_items);
+    },
     submitForm() {
 
       this.$validator.validateAll('s1Form').then(result => {
@@ -461,9 +462,6 @@ export default {
             .then(({
               data
             }) => {
-              // Finish the Progress Bar
-              // this.sForm.reset();
-              // this.errors.clear();
               this.$Progress.set(100)
               this.$vs.notify({
                 title: 'موفقیت!',
@@ -476,7 +474,7 @@ export default {
               this.sForm.reset();
               this.$validator.reset();
             }).catch((errors) => {
-              // console.log(errors.errors);
+              // 
               this.$vs.notify({
                 title: 'ناموفق!',
                 text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -487,7 +485,7 @@ export default {
               })
             });
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       })

@@ -190,7 +190,7 @@ export default {
           this.project = response.data;
           this.$refs.wizardModal.setWizardStep(this.project.step);
           // this.step = this.project.step;
-          // console.log('step', this.step);
+          // 
           this.$Progress.set(100);
         }).catch(() => {});
     },
@@ -221,7 +221,7 @@ export default {
       // this.$vs.loading()
       this.pForm.get('/api/project').then((data) => {
           this.projects = data.data;
-          console.log('projects', this.projects);
+          
           this.isdata = true;
           this.$Progress.set(100);
           // this.$vs.loading.close();

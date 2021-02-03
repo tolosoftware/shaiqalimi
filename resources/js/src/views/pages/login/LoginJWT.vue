@@ -44,7 +44,7 @@ export default {
   methods: {
     checkLogin() {
       if (localStorage.getItem('token')) {
-        console.log('go to dashboard');
+        
          this.$router.push({ path: '/dashboard' });
         // this.$router.go('/dashboard');
         this.$vs.notify({

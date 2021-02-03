@@ -136,7 +136,7 @@ export default {
         .get("/api/transfer/" + id)
         .then((data) => {
           this.transfer = data.data;
-          console.log('transfer', this.transfer);
+          
           this.$Progress.set(100);
           this.popupStepActive = true;
         })
@@ -170,7 +170,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.axios.delete('/api/transfer/' + id).then((id) => {
-              // console.log('id', id.data)
+              // 
               swal.fire({
                 title: 'عملیه موفقانه انجام شد.',
                 text: "مورد انتقال از سیستم پاک شد!",

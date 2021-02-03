@@ -125,14 +125,39 @@ class StorageController extends Controller
         return $all;
     }
     public function allItemsOfSource(Request $request){
-        $inc = StockRecord::where('source', $request->type)->where('source_id', $request->id)
-        ->get();
-        $items = [];
-        foreach ($inc as $key => $obj) {
-            $val = (isset ($items[$obj->item_id])) ? $items[$obj->item_id] : 0;
-            $items[$obj->item_id] = $val + ($obj->increment_equiv - $obj->decrement_equiv);
+        if($inc = StockRecord::where('source', $request->type)->where('source_id', $request->id)->get()
+        ){
+            $items = [];
+            foreach ($inc as $key => &$obj) {
+                    $items[] = [
+                        'id' => $obj->item_id,
+                        'value' => $obj->increment_equiv
+                    ];
+            }
+            // $return = array();
+            
+            // foreach($items as $val) {
+            //     $return[$val['id']] = (isset($return[$val['id']])) ? $return[$val['id']] + $val['value'] : $val['value']; 
+            // }
+            // return $return;
+            return $items;
+            // $items = [
+            //     [
+
+            //     'id' => 1,
+            //     'value' => 100,
+            // ],
+            // [
+
+            //     'id' => 3,
+            //     'value' => 2100,
+            // ],
+            // ];
+            
+        }else{
+            
+            return response(['status' => 'Not Found'], 404);
         }
-        return $items;
 
     }
 }

@@ -176,7 +176,7 @@ export default {
         .get("/api/transaction/" + id)
         .then((data) => {
           this.transaction = data.data;
-          console.log('transaction', this.transaction);
+          
           this.$Progress.set(100);
           this.popupStepActive = true;
         })

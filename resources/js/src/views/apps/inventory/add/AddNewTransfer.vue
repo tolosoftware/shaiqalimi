@@ -252,7 +252,7 @@ export default {
         })
     },
     submitForm() {
-      console.log(this.tForm);
+      
       this.$validator.validateAll('transferAddForm').then(result => {
         if (result) {
           this.$Progress.start()
@@ -284,7 +284,7 @@ export default {
               })
             });
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       })

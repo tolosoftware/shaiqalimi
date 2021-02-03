@@ -67,8 +67,8 @@ export default {
         .catch(() => {});
     },
     getStorageItems(type, id) {
-      console.log(id);
-      console.log(type);
+      
+      
       // Start the Progress Bar
       this.$Progress.start();
       this.axios

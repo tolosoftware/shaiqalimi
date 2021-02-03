@@ -94,7 +94,7 @@ export default {
       this.axios.get('/api/notification')
         .then((response) => {
           this.cartItems = response.data;
-          // console.log('data', this.cartItems);
+          // 
         })
     },
     removeFromImportant(id) {

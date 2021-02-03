@@ -417,7 +417,7 @@ export default {
               this.sForm.reset();
               this.$validator.reset();
             }).catch((errors) => {
-              // console.log(errors.errors);
+              // 
               this.$vs.notify({
                 title: 'ناموفق!',
                 text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -428,7 +428,7 @@ export default {
               })
             });
         } else {
-          console.log("Form have erors");
+          
         }
       })
 

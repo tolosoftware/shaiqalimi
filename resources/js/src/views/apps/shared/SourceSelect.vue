@@ -9,7 +9,7 @@
 
       <vs-dropdown-group vs-label="تانک تیل">
         <vs-dropdown-group vs-label="" class="fuel-station">
-          <vs-dropdown-group vs-collapse vs-icon="add" v-for="(fuel, i) in sources.fuel" :key="'f' + i" @click="ddSelected(fuel, 'fuel', )" :vs-label="fuel.name">
+          <vs-dropdown-group vs-collapse vs-icon="add" v-for="(fuel, i) in sources.fuel" :key="'f' + i" @click="ddSelected(fuel, 'FUEL', )" :vs-label="fuel.name">
             <vs-dropdown-item v-for="(item, i) in fuel.fuel_station_storages" :key="'fs' + i" @click="ddSelected(item, 'FSTR', fuel)"> {{ item.name }} </vs-dropdown-item>
             <vs-dropdown-item v-for="(item, i) in fuel.fuel_despencers" :key="'fd' + i" @click="ddSelected(item, 'FDSP', fuel)"> {{ item.name }} </vs-dropdown-item>
           </vs-dropdown-group>
@@ -37,7 +37,8 @@ export default {
       offsetWidth: 100,
       sources: [],
       selection: "",
-      matched_items: []
+      matched_items: [],
+      items: [],
     }
   },
   created() {
@@ -76,7 +77,7 @@ export default {
         })
         .then((data) => {
           this.matched_items = data.data;
-          console.log(this.matched_items);
+          this.$emit('updateItems', this.matched_items)
         })
         .catch(() => {});
     },

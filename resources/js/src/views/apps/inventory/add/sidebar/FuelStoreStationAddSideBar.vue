@@ -139,7 +139,7 @@ export default {
             })
             .catch(() => {})
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       })
