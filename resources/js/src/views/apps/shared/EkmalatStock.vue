@@ -5,22 +5,22 @@
   <form data-vv-scope="step-3">
     <div v-for="(i, index) in items" :key="i.id">
       <vs-row vs-w="12" class="pb-2 mb-2">
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 3" :vs-sm="grid && grid[1] ? grid[1] : 6" vs-xs="12">
           <div class="w-full pt-2 mr-3">
             <label for=""><small>جنس / محصول</small><small v-if="remaining_items[index] != undefined" class="item-remain-balance" :data="remaining_items[index]">موجودی {{ remaining_items[index][0] }} {{ remaining_items[index][1] }}</small></label>
-            <v-select v-validate="'required'" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="itemSelected($event, i.item_id.id, index, i.item_id.uom_id.acronym)" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select v-validate="'required'" :clearable="false" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="itemSelected($event, i.item_id.id, index, i.item_id.uom_id.acronym)" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.item_id_${index}`) }}</span> -->
             <has-error :form="form" field="item_id"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="2" vs-xs="12">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 1" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>عملیه</small></label>
             <v-select v-validate="'required'" :clearable="false" v-show="true" :title="errors.first(`step-3.operation_id_${index}`)" :class="errors.first(`step-3.operation_id_${index}`) ? 'has-error' : ''" :name="`operation_id_${index}`" label="title" @input="operationChange(i.operation_id, index)" v-model="i.operation_id" :options="operations" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.operation_id_${index}`) }}</span> -->
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].uom && !is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>مقدار (واحد اصلی)</small>
@@ -39,7 +39,7 @@
             <has-error :form="form" field="increment"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>مقدار (واحد فرعی)</small>
@@ -57,14 +57,14 @@
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 1" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full" />
             <has-error :form="form" field="density"></has-error>
             <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && !is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].eqv_uom && !is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>مقدار (واحد فرعی)</small>
@@ -82,7 +82,7 @@
             <has-error :form="form" field="increment_equiv"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" v-if="is_active[index].uom && is_active[index].reverse" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="6" vs-xs="12">
+        <vs-col vs-type="flex" v-if="is_active[index].uom && is_active[index].reverse" vs-justify="center" :vs-lg="grid && grid[0] ? grid[0] : 2" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>مقدار (واحد اصلی)</small>
@@ -102,13 +102,13 @@
           </div>
         </vs-col>
 
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
+        <vs-col v-if="!disabledFields.includes('unit_price')" vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : is_active[index].density ? 1 : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <vs-input v-validate="'required'" :title="errors.first(`step-3.unit_price_${index}`)" :class="errors.first(`step-3.unit_price_${index}`) ? 'has-error' : ''" :name="`unit_price_${index}`" @input="formatToEnPrice($event, items[index], 'unit_price', visualFields[index])" v-model="visualFields[index].unit_price" label="قیمت‌فی‌واحد" class="w-full" />
             <has-error :form="form" field="density"></has-error>
           </div>
         </vs-col>
-        <vs-col vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
+        <vs-col v-if="!disabledFields.includes('total_price')" vs-type="flex" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : is_active[index].eqv_uom == is_active[index].uom ? 2 : 3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for>
               <small>قیمت مجموعی</small>
@@ -145,7 +145,8 @@ import {
 
 export default {
   name: "vx-ekmalat",
-  props: ["items", "form", "listOfFields"],
+  // props: ["items", "form", "listOfFields"],
+  props: ["items", "form", "listOfFields", "currencyID", "grid", "disabledFields"],
   data() {
     return {
       operations: [],
@@ -286,13 +287,13 @@ export default {
       //   });
       // });
     },
-    resetArrays(){
-      this.visualFields.splice(0,this.visualFields.length);
-      this.is_active.splice(0,this.is_active.length);
-      this.items.splice(0,this.items.length);
+    resetArrays() {
+      this.visualFields.splice(0, this.visualFields.length);
+      this.is_active.splice(0, this.is_active.length);
+      this.items.splice(0, this.items.length);
     },
     addRow(data = null) {
-      if (data.key>= 0) {
+      if (data.key >= 0) {
         this.items[data.key] = data['data'];
         this.visualFields[data.key] = data['data']
         this.is_active[data.key] = {
@@ -301,7 +302,7 @@ export default {
           eqv_uom: true,
           reverse: false,
         }
-      }else{
+      } else {
         this.items.push({
           item_id: "",
           operation_id: null,
@@ -459,7 +460,7 @@ export default {
   // End Of methods
   computed: {
     itemsTotalPrice: function () {
-      console.log(this.items);
+      var x = this.listOfFields.increment + this.listOfFields.increment_equiv + this.listOfFields.unit_price + this.listOfFields.total_price;
       for (const key of Object.keys(this.items)) {
         let item_increment_equiv = (this.items[key].item_id.increment_equiv) ? this.items[key].item_id.increment_equiv : this.items[key].item_id.equivalent;
         let opr = this.items[key].operation_id;
@@ -492,9 +493,10 @@ export default {
           }
           this.items[key].total_price = this.items[key].increment * unit_price;
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+
         } else if (opr && opr.id == 5) {
           if (item_increment_equiv !== 0) {
-            this.items[key].increment_equiv = (this.items[key].increment * density) * item_increment_equiv;
+            this.items[key].increment_equiv = (this.items[key].increment * 1000) / density;
             this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(2);
             this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
 
@@ -503,7 +505,7 @@ export default {
           this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         } else if (opr && opr.id == 6) {
           if (item_increment_equiv !== 0) {
-            this.items[key].increment = (this.items[key].increment_equiv * density) / item_increment_equiv;
+            this.items[key].increment = (this.items[key].increment_equiv / 1000) * density;
             this.items[key].increment = this.items[key].increment.toFixed(2);
             this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
           }
@@ -517,8 +519,8 @@ export default {
   },
   components: {
     "v-select": vSelect,
-        // increment_equiv: "0",
-        // increment: "0",
+    // increment_equiv: "0",
+    // increment: "0",
   },
 };
 </script>

@@ -25,3 +25,8 @@ ALTER TABLE `pro_data` CHANGE `others` `others` BIGINT(20) NOT NULL;
 
 ALTER TABLE `items` CHANGE `equivalent` `equivalent` BIGINT(20) NOT NULL;
 ALTER TABLE `pro_items` ADD `density` FLOAT(5,5) NULL AFTER `equivalent`;
+
+ALTER TABLE `stock_records` CHANGE `decrement` `decrement` DECIMAL(18,2) NULL DEFAULT '0.00';
+ALTER TABLE `stock_records` CHANGE `increment` `increment` DECIMAL(18,2) NULL DEFAULT '0.00';
+ALTER TABLE `stock_records` CHANGE `decrement_equiv` `decrement_equiv` DECIMAL(18,2) NULL DEFAULT '0.00';
+ALTER TABLE `stock_records` CHANGE `increment_equiv` `increment_equiv` DECIMAL(18,2) NULL DEFAULT '0.00';

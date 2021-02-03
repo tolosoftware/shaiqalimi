@@ -92,6 +92,7 @@ Route::resource('vendors', 'VendorController');
 Route::resource('procurments', 'PurchaseController');
 Route::get('purchSerialNO', 'PurchaseController@serial');
 Route::get('sources', 'StorageController@allTypeSource');
+Route::get('sources/find-items', 'StorageController@allItemsOfSource');
 
 //Archive
 Route::get('accoutload', 'AccountController@getaccount');

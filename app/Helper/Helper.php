@@ -111,6 +111,32 @@ class Helper
         }
         return $stocks;
     }
+    public static function incrementCreateStockRecords($type, $items, $newSale, $storage, $request, &$totalmoney, $source, $source_id)
+    {
+        foreach ($items as $valueItem) {
+
+            $stocks[] = StockRecord::create([
+                'type' => $type,
+                'type_id' => $newSale->id,
+                'source' => $source,
+                'source_id' => $source_id,
+                'item_id' => $valueItem['item_id']['id'],
+                'increment' => (array_key_exists("ammount", $valueItem) && $valueItem['ammount']) ? $valueItem['ammount'] : $valueItem['increment'],
+                'decrement' => 0,
+                'uom_id' => (array_key_exists('measurment_unites_min', $valueItem['item_id'])) ? $valueItem['item_id']['measurment_unites_min']['id'] : $valueItem['item_id']['uom_id']['id'],
+                'increment_equiv' => (array_key_exists("equivalent", $valueItem) && $valueItem['equivalent']) ? $valueItem['equivalent'] : $valueItem['increment_equiv'],
+                'deccrement_equiv' => 0,
+                'uom_equiv_id' => array_key_exists('measurment_unites_sub', $valueItem['item_id']) ? $valueItem['item_id']['measurment_unites_sub']['id'] : (gettype($valueItem['item_id']['uom_equiv_id']) != 'object' ? $valueItem['item_id']['uom_equiv_id'] : $valueItem['item_id']['uom_equiv_id']['id']),
+                'density' => array_key_exists('density', $valueItem) ? $valueItem['density'] : null,
+                'operation_id' => $valueItem['operation_id']['id'],
+                'unit_price' => (array_key_exists("unit_price", $valueItem) && $valueItem['unit_price'] != null) ? $valueItem['unit_price'] : 0,
+                'total_price' => (array_key_exists("total_price", $valueItem) && $valueItem['total_price'] != null) ? $valueItem['total_price'] : 0,
+                'remark' => $request['description'],
+            ]);
+            $totalmoney = $totalmoney + $valueItem['total_price'];
+        }
+        return $stocks;
+    }
     public static function  deleteSales($id, $type)
     {
         if ($type == "s1") {

@@ -12,7 +12,7 @@
         <strong class="mr-4">
           سریال نمبر:
         </strong>
-        <small class="mb-5" v-text="proposal.serial_no" vs-justify="right" vs-align="right"></small>
+          <small class="mb-5" vs-justify="right" vs-align="right"> {{ proposal.serial_no }}{{ (proposal.pro_data && proposal.pro_data.company_id) ? ' - ' + proposal.pro_data.company_id.sign : '' }}</small>
       </h6>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">

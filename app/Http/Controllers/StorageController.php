@@ -7,6 +7,7 @@ use App\Models\Storage;
 use App\Models\Fuel_station;
 use App\Models\Inventory;
 use App\Models\Fuel_despenser;
+use App\Models\StockRecord;
 use App\Models\Fuel_station_storage;
 use Illuminate\Http\Request;
 
@@ -122,5 +123,16 @@ class StorageController extends Controller
         $all = ['str' => $source1, 'fuel' => $source2, 'inv' => $source3];
     
         return $all;
+    }
+    public function allItemsOfSource(Request $request){
+        $inc = StockRecord::where('source', $request->type)->where('source_id', $request->id)
+        ->get();
+        $items = [];
+        foreach ($inc as $key => $obj) {
+            $val = (isset ($items[$obj->item_id])) ? $items[$obj->item_id] : 0;
+            $items[$obj->item_id] = $val + ($obj->increment_equiv - $obj->decrement_equiv);
+        }
+        return $items;
+
     }
 }

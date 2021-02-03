@@ -58,6 +58,7 @@ class TransferController extends Controller
 
             $totalmoney = 0;
             $stocks = Helper::salesCreateStockRecords('TRS', $request->item, $t, $source, $request, $totalmoney, $source['name'], $source['id']);
+            $stocks = Helper::incrementCreateStockRecords('TRS', $request->item, $t, $request['destination_id'], $request, $totalmoney, $request['destination_id']['name'], $request['destination_id']['id']);
 
             $target = $request->destination;
             $source = $source['name'];
