@@ -93,7 +93,7 @@ class PurchaseController extends Controller
                 StockRecord::create([
                     'type' => "purchase",
                     'type_id' => $purchase->id,
-                    'source' => $request['source_type'],
+                    'source' => $request->source,
                     'source_id' => $request['source_id']['id'],
                     'item_id' => $valueItem['item_id']['id'],
                     'increment' => $valueItem['increment'],
