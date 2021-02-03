@@ -263,4 +263,11 @@ class PurchaseController extends Controller
             DB::rollback();
         }
     }
+    public function changeStep($id, $stepNo)
+    {
+        // return response(['id'=>$id,'stid'=>$stepNo]);
+        $purchase = Purchase::findOrFail($id);
+        $purchase->step = $stepNo;
+        $purchase->save();
+    }
 }

@@ -5,6 +5,7 @@
       <div class="vx-card__title">
         <h4 class="">نوعیت محصولات </h4>
       </div>
+
     </div>
     <component :is="scrollbarTag" :key="$vs.rtl" style="max-height:320px;">
       <div class="pt-6 pr-6 pl-6 pb-6">
@@ -20,6 +21,12 @@
             </vs-col>
           </form>
         </div>
+        <div class="vx-row">
+          <vs-alert :active.sync="showExistMSG" closable close-icon="close" class="mr-3 ml-3">
+            <p style="color:red">نوعیت مذکور به جای دیگری استفاده شده است و قابل حذف نیست</p>
+          </vs-alert>
+        </div>
+        <br>
         <vs-table :data="itemtype" vs-justify="center" stripe>
           <template slot="thead" vs-justify="center">
             <vs-th> شماره</vs-th>
@@ -53,6 +60,7 @@
 export default {
   data() {
     return {
+      showExistMSG: false,
       itemtype: [],
       form: new Form({
         id: '',
@@ -105,13 +113,20 @@ export default {
         cancelButtonText: 'خیر'
       }).then((result) => {
         if (result.value) {
-          this.axios.delete('/api/itemtype/' + id).then(() => {
-            swal.fire(
-              'حذف شد !',
-              'موفقانه عملیه حذف انجام شد',
-              'success'
-            )
-            this.loadItemtype();
+          this.axios.delete('/api/itemtype/' + id).then((response) => {
+
+            if (response.data.status == 'exist') {
+              this.showExistMSG = true;
+            } else if (response.data.status == 'deleted') {
+              this.showExistMSG = false;
+              swal.fire(
+                'حذف شد !',
+                'موفقانه عملیه حذف انجام شد',
+                'success'
+              )
+              this.loadItemtype();
+            }
+
           }).catch(() => {
             swal("Failed!", "سیستم قادر به حذف نیست دوباره تلاش نماید.", "warning");
           })

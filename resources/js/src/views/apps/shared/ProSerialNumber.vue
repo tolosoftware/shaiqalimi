@@ -26,8 +26,7 @@ export default {
     }
   },
   created() {},
-  mounted() {
-  },
+  mounted() {},
   computed: {
     getBannerStyle() {
       return `min-width: ${this.offsetWidth}px;`

@@ -80,56 +80,7 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title="تنظیمات مربط به خریداری" :active.sync="popupStepActive">
-    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
-      <tab-content title="درخواست خریداری" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>درخواست خریداری</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <div>
-              <p v-if="procurment.vendor">نام فروشند: {{procurment.vendor.name }}</p>
-            </div>
-          </vs-row>
-        </vs-row>
-      </tab-content>
-      <tab-content title="اطلاعات مالی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>اطلاعات مالی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-          </vs-row>
-        </vs-row>
-      </tab-content>
-      <tab-content title="دریافت اکمالات" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>دریافت اکمالات</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-          </vs-row>
-        </vs-row>
-      </tab-content>
-      <tab-content title="تصفیه حسابات" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>تصفیه حسابات</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-          </vs-row>
-        </vs-row>
-      </tab-content>
-      <tab-content title="تاییدی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>تاییدی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-          </vs-row>
-        </vs-row>
-      </tab-content>
-    </form-wizard>
+    <procurmentStep @closesteps="closeModel" ref="wizardModalProcur" :procurment="procurment"></procurmentStep>
   </vs-popup>
 </div>
 </template>
@@ -139,17 +90,13 @@
 import TableLoading from './../shared/TableLoading.vue'
 import moduleDataList from '@/store/data-list/moduleDataList.js'
 import ProcurmentView from './ProcurmentView'
-import {
-  FormWizard,
-  TabContent
-} from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import procurmentStep from './procurmentSteps.vue'
+
 export default {
   components: {
     ProcurmentView,
     TableLoading,
-    FormWizard,
-    TabContent
+    procurmentStep
   },
   data() {
     return {
@@ -182,22 +129,25 @@ export default {
     }
   },
   methods: {
+    closeModel() {
+      this.popupStepActive = false;
+    },
     showStepsModal(id) {
+      this.getPurchace(id)
+      this.popupStepActive = true;
+    },
+    getPurchace(id) {
       this.$Progress.start()
       this.axios
         .get("/api/procurments/" + id)
         .then((data) => {
           this.procurment = data.data;
-          
+          this.$refs.wizardModalProcur.setWizardStepProc(this.procurment.step);
           this.$Progress.set(100);
-          this.popupStepActive = true;
         })
         .catch(() => {});
     },
-    formSubmitted() {
-      alert("تنظیمات بسته شد")
-      this.popupStepActive = false;
-    },
+
     loadpurchase() {
       this.axios.get('/api/procurments').then(({
           data

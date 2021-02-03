@@ -54,7 +54,7 @@ class ClientController extends Controller
         // if ($accountType) {
         // $lastAccountType = AccountType::latest()->first();
         $account = Account::create([
-            'user_id' => 4,
+            'user_id' => $request->user_id,
             'type_id' => 2,
             'name' => $request['name'],
             'ref_code' => 1223,

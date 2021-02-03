@@ -131,4 +131,12 @@ class TransferController extends Controller
             DB::rollback();
         }
     }
+
+    public function changeStep($id, $stepNo)
+    {
+        // return response(['id'=>$id,'stid'=>$stepNo]);
+        $transfer = Transfer::findOrFail($id);
+        $transfer->step = $stepNo;
+        $transfer->save();
+    }
 }

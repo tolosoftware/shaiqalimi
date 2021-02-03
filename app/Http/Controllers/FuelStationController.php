@@ -93,8 +93,8 @@ class FuelStationController extends Controller
      */
     public function destroy($id)
     {
-        $user = Fuel_station::findOrFail($id);
-        $user->delete();
+        $fuel_station = Fuel_station::findOrFail($id);
+        $fuel_station->delete();
         return ['message' => 'station Deleted'];
     }
 }

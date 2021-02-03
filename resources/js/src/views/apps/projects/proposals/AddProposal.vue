@@ -5,7 +5,8 @@
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3 mb-3">
-            <pro-serial-number :form="aForm" @companySelected="companySelected" :companies="companies"></pro-serial-number>
+            <pro-serial-number v-model="aForm.company_id" v-validate="'required'" name="company_id" :form="aForm" @companySelected="companySelected" :companies="companies"></pro-serial-number>
+            <span style="margin-right: -280px;margin-top: 62px;" class="absolute text-danger alerttext">{{ errors.first('step-1.company_id') }}</span>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -121,7 +122,7 @@
                   <span class="bg-primary AFGLabel">AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" name="offer_guarantee" v-validate="'required'" v-model="visualFields.offer_guarantee" @input="formatToEnPrice($event, aForm, 'offer_guarantee', visualFields)"/>
+              <vs-input autocomplete="off" name="offer_guarantee" v-validate="'required'" v-model="visualFields.offer_guarantee" @input="formatToEnPrice($event, aForm, 'offer_guarantee', visualFields)" />
               <span class="absolute text-danger alerttext">{{ errors.first('step-1.offer_guarantee') }}</span>
             </vx-input-group>
             <has-error :form="aForm" field="offer_guarantee"></has-error>
@@ -173,7 +174,7 @@
                   </div>
                 </div>
               </template>
-              <vs-input v-if="!(samePro == 1)" disabled autocomplete="off" name="same_pro" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="visualFields.same_pro" @input="formatToEnPrice($event, aForm, 'same_pro', visualFields)"/>
+              <vs-input v-if="!(samePro == 1)" disabled autocomplete="off" name="same_pro" style="background-color:#EBECF0;border-radius: 0 !important;" v-model="visualFields.same_pro" @input="formatToEnPrice($event, aForm, 'same_pro', visualFields)" />
               <vs-input v-if="(samePro == 1)" autocomplete="off" name="same_pro" style="border-radius: 0 !important;" v-model="visualFields.same_pro" @input="formatToEnPrice($event, aForm, 'same_pro', visualFields)" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.same_pro') }}</span>
@@ -287,7 +288,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" v-model="visualFields.others" v-validate="'required'" name="others" @input="formatToEnPrice($event, aForm, 'others', visualFields)"/>
+              <vs-input autocomplete="off" v-model="visualFields.others" v-validate="'required'" name="others" @input="formatToEnPrice($event, aForm, 'others', visualFields)" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
             <has-error :form="aForm" field="others"></has-error>
@@ -302,7 +303,7 @@
                   <span>AFN</span>
                 </div>
               </template>
-              <vs-input autocomplete="off" :v-model="aForm.total_price = total_cost" v-model="visualFields.total_price" @input="formatToEnPrice($event, aForm, 'total_price', visualFields)"/>
+              <vs-input autocomplete="off" :v-model="aForm.total_price = total_cost" v-model="visualFields.total_price" @input="formatToEnPrice($event, aForm, 'total_price', visualFields)" />
             </vx-input-group>
             <span class="absolute text-danger alerttext">{{ errors.first('step-2.total_price') }}</span>
           </div>
@@ -589,6 +590,7 @@ export default {
       is_accepted: false,
       currentSerialNo: 0,
       aForm: new Form({
+        user_id: localStorage.getItem('id'),
         serial_no: '',
         client_id: '',
         company_id: null,
@@ -642,10 +644,14 @@ export default {
       // Form field translations
       dict: {
         custom: {
-          serial_no: {
+          company_id: {
             required: 'سریال نمبر الزامی میباشد.',
             number: 'سریال نمبر باید نمبر باشد.'
           },
+          // serial_no: {
+          //   required: 'سریال نمبر الزامی میباشد.',
+          //   number: 'سریال نمبر باید نمبر باشد.'
+          // },
           publish_date: {
             required: 'تاریخ نشر اعلان را انتخاب کنید.'
           },

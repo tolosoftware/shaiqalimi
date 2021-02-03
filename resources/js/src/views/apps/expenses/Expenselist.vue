@@ -98,34 +98,11 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title="تنظیمات مربط به مصارف " :active.sync="popupStepActive">
-    <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index="0" ref="wizard" finishButtonText="بستن صحفه" @on-complete="formSubmitted">
-      <tab-content title="اطلاعات مالی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>اطلاعات مالی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-            <div>
-              <p v-if="expense.title">عنوان مصرف: {{expense.title }}</p>
-            </div>
-          </vs-row>
-        </vs-row>
-      </tab-content>
-      <tab-content title="تاییدی" class="mb-5">
-        <vs-row vs-w="12" class="mb-1">
-          <vs-row vs-w="12">
-            <vs-divider>تاییدی</vs-divider>
-          </vs-row>
-          <vs-row vs-w="12">
-          </vs-row>
-        </vs-row>
-      </tab-content>
-    </form-wizard>
+    <ExpenseStep @closesteps="closeModel" ref="wizardModalExpense" :expense="expense"></ExpenseStep>
   </vs-popup>
   <vs-popup class="holamundo" title="معلومات معاملات تجارتی" :active.sync="expenseModalActive">
     <expense-view :expense="expense_to_view" />
   </vs-popup>
-
 </div>
 </template>
 
@@ -134,18 +111,13 @@
 import moduleDataList from "@/store/data-list/moduleDataList.js"
 import TableLoading from './../shared/TableLoading.vue'
 import ExpenseView from './ExpenseView';
-import {
-  FormWizard,
-  TabContent
-} from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import ExpenseStep from './ExpenseStep.vue'
 
 export default {
   components: {
     ExpenseView,
     TableLoading,
-    FormWizard,
-    TabContent
+    ExpenseStep
   },
   data() {
     return {
@@ -177,30 +149,31 @@ export default {
     },
   },
   methods: {
-    showStepsModal(id) {
+    closeModel() {
+      this.popupStepActive = false;
+    },
+    getExpense(id) {
       this.$Progress.start()
       this.axios
         .get("/api/expenses/" + id)
         .then((data) => {
           this.expense = data.data;
-          
+          this.$refs.wizardModalExpense.setWizardStepExpense(this.expense.step);
           this.$Progress.set(100);
-          this.popupStepActive = true;
         })
         .catch(() => {});
     },
-    formSubmitted() {
-      alert("تنظیمات بسته شد")
-      this.popupStepActive = false;
+    showStepsModal(id) {
+      this.getExpense(id);
+      this.popupStepActive = true;
     },
+   
     loadExpenses() {
-
       this.axios.get('/api/expenses').then(({
           data
         }) => (this.allTransaction = data,
           this.isdata = true))
         .catch(() => {
-
           this.$vs.notify({
             title: '  معلومات بارگیری نشد !',
             text: 'عملیه بارگیری معلومات نام شد',

@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
 
-    public function serial(){
+    public function serial()
+    {
         $serial_number = SerialNumber::where('type', 'TRA')->latest()->first();
-        if($serial_number){
+        if ($serial_number) {
             return $serial_number->value + 1;
-        }
-        else{
+        } else {
             return 101;
         }
     }
@@ -29,7 +29,7 @@ class TransactionController extends Controller
     public function index()
     {
         //return Transaction::with('user','currency')->get();
-        return Transaction::with('user','currency')->get();
+        return Transaction::with('user', 'currency')->get();
     }
 
     /**
@@ -50,22 +50,21 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-  
+
         DB::beginTransaction();
         try {
 
-            $serial_number = SerialNumber::where( 'type',   'TRA')->latest()->first();
-            if($serial_number){
-                if($serial_number->value > $request['serial_no']){
-                    $request['serial_no'] = $serial_number->value +1;
+            $serial_number = SerialNumber::where('type',   'TRA')->latest()->first();
+            if ($serial_number) {
+                if ($serial_number->value > $request['serial_no']) {
+                    $request['serial_no'] = $serial_number->value + 1;
                     $serial_number->value =  $request['serial_no'];
                     $serial_number->save();
-                }else{
+                } else {
                     $serial_number->value =  $request['serial_no'];
                     $serial_number->save();
                 }
-
-            }else{
+            } else {
                 SerialNumber::create([
                     'type' => 'TRA',
                     'prefix' => 'TRA',
@@ -75,52 +74,52 @@ class TransactionController extends Controller
 
             Transaction::create([
                 'serial_no' => $request['serial_no'],
-                'currency_id'=> $request['currency_id'],
-                'datetime' =>$request['datetime'],
+                'currency_id' => $request['currency_id'],
+                'datetime' => $request['datetime'],
                 'title' => $request['title'],
-                'transaction_status' =>$request['transaction_status'],
+                'transaction_status' => $request['transaction_status'],
                 'ammount' => $request['ammount'],
-                'description' =>$request['description'],
-                'user_id' =>$request['user_id'],
+                'description' => $request['description'],
+                'user_id' => $request['user_id'],
             ]);
 
-         $transaction =  Transaction::latest()->first();
-        // Create opening FR for the created Projet
-         $data = [
-            'type' => 'TRA', 
-            'type_id' => $transaction->id, 
-            'account_id' => $request['credit_account']['id'],
-            'description' => $request['credit_desc'],
-            'currency_id' => $request['currency_id'],
-            'credit' => $request['ammount'],
-            'debit' => 0,
-            'ex_rate_id' => ExchangeRate::where('currency_id', $request['currency_id'])->latest()->first()->id,
-            'status' => 'INC'
-            
+            $transaction =  Transaction::latest()->first();
+            // Create opening FR for the created Projet
+            $data = [
+                'type' => 'TRA',
+                'type_id' => $transaction->id,
+                'account_id' => $request['credit_account']['id'],
+                'description' => $request['credit_desc'],
+                'currency_id' => $request['currency_id'],
+                'credit' => $request['ammount'],
+                'debit' => 0,
+                'ex_rate_id' => ExchangeRate::where('currency_id', $request['currency_id'])->latest()->first()->id,
+                'status' => 'INC'
+
             ];
             FinancialRecord::create($data);
 
-        // Create opening FR for the created Projet
-         $data = [
-            'type' => 'TRA', 
-            'type_id' => $transaction->id, 
-            'account_id' => $request['debit_account']['id'],
-            'description' => $request['debit_desc'],
-            'currency_id' => $request['currency_id'],
-            'credit' => 0,
-            'debit' => $request['ammount'],
-            'ex_rate_id' => ExchangeRate::where('currency_id', $request['currency_id'])->latest()->first()->id,
-            'status' => 'EXP'
-            
+            // Create opening FR for the created Projet
+            $data = [
+                'type' => 'TRA',
+                'type_id' => $transaction->id,
+                'account_id' => $request['debit_account']['id'],
+                'description' => $request['debit_desc'],
+                'currency_id' => $request['currency_id'],
+                'credit' => 0,
+                'debit' => $request['ammount'],
+                'ex_rate_id' => ExchangeRate::where('currency_id', $request['currency_id'])->latest()->first()->id,
+                'status' => 'EXP'
+
             ];
             FinancialRecord::create($data);
-        
+
 
             DB::commit();
             return ['msg' => 'purchase successfully inserted'];
         } catch (Exception $e) {
             DB::rollback();
-           }
+        }
     }
 
     /**
@@ -131,7 +130,7 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        return Transaction::with('user','currency')->find($id);
+        return Transaction::with('user', 'currency')->find($id);
     }
 
     /**
@@ -167,20 +166,27 @@ class TransactionController extends Controller
     {
         DB::beginTransaction();
         try {
-        $expenses = Transaction::findOrFail($id);
-        $expenses->delete();
-        $finanrecord = FinancialRecord::where('type_id',$id)->where('type','TRA')->get();
-        if($finanrecord){
-            foreach($finanrecord as $val){
-                $record = FinancialRecord::findOrFail($val->id);
-                $record->delete();
+            $expenses = Transaction::findOrFail($id);
+            $expenses->delete();
+            $finanrecord = FinancialRecord::where('type_id', $id)->where('type', 'TRA')->get();
+            if ($finanrecord) {
+                foreach ($finanrecord as $val) {
+                    $record = FinancialRecord::findOrFail($val->id);
+                    $record->delete();
+                }
             }
+
+            DB::commit();
+            return 1;
+        } catch (Exception $e) {
+            DB::rollback();
         }
-       
-        DB::commit();
-        return 1;
-    } catch (Exception $e) {
-        DB::rollback();
-       }
+    }
+    public function changeStep($id, $stepNo)
+    {
+        // return response(['id'=>$id,'stid'=>$stepNo]);
+        $transaction = Transaction::findOrFail($id);
+        $transaction->step = $stepNo;
+        $transaction->save();
     }
 }
