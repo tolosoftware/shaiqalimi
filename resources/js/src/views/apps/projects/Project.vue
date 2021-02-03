@@ -133,7 +133,7 @@ export default {
     FeaturedProjectInfo
   },
   created() {
-    // console.log(this.analyticsData);
+    // 
   },
 }
 </script>

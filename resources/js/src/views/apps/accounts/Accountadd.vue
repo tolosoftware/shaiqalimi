@@ -146,7 +146,6 @@ export default {
   },
   methods: {
     keydown($event) {
-      console.log('event', $event)
     },
     submitData() {
       this.$validator.validateAll('accountForm').then(result => {
@@ -208,7 +207,7 @@ export default {
               });
           }
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       });

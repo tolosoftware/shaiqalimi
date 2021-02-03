@@ -14,7 +14,7 @@
           <strong class="mr-4">
             سریال نمبر:
           </strong>
-          <small class="mb-5" v-text="project.serial_no" vs-justify="right" vs-align="right"></small>
+          <small class="mb-5" vs-justify="right" vs-align="right"> {{ project.serial_no }}{{ (project.pro_data && project.pro_data.company_id) ? ' - ' + project.pro_data.company_id.sign : '' }}</small>
         </h6>
       </vs-col>
       <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -249,7 +249,7 @@ export default {
           // for (let [key, item] of Object.entries(this.project.pro_items)) {
           //   this.$refs.item_chart_type.pie.series[0].color = ['#FF9F43', '#28C76F', '#EA5455', '#87ceeb', '#7367F0'].reverse();
 
-          //   console.log(this.$refs.item_chart_type.pie.legend.data);
+          //   
           //     this.$refs.item_chart_type.pie.legend.data.push(item.item_id.uom_equiv_id.title);
           //     this.$refs.item_chart_type.pie.series[0].data.push({
           //       value: (item.equivalent) ? item.equivalent : 0,

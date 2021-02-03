@@ -142,16 +142,16 @@ export default {
       this.axios.get('/api/fuelstorestation', this.seletedStation)
         .then((response) => {
           this.stationStorages = response.data.filter(c => (this.seletedStation != null && this.seletedStation.id) ? c.station_id == this.seletedStation.id : true);
-          // console.log(this.stationStorages);
+          // 
         });
     },
 
     getAllDepencers() {
       this.axios.get('/api/despenser', this.seletedStation)
         .then((resp) => {
-          // console.log(this.allDepencers);
+          // 
           this.allDepencers = resp.data.filter(c => (this.seletedStation != null && this.seletedStation.id) ? c.station_id == this.seletedStation.id : true);
-          // console.log(this.allDepencers);
+          // 
 
         });
     },

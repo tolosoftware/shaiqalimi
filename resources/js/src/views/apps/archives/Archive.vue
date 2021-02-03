@@ -294,9 +294,9 @@ export default {
       });
     },
     onDelete(event) {
-      // console.log("filesx", this.$refs.vsUpload.filesx);
-      // console.log("srcs", this.$refs.vsUpload.srcs);
-      // console.log("this.$refs.vsUpload.itemRemove", this.$refs.vsUpload.itemRemove);
+      // 
+      // 
+      // 
       // setTimeout(() => {
       //   // let files = this.$refs.vsUpload.filesx.filter((key, item) => {
       //   let files = [];

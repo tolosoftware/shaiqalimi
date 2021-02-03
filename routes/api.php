@@ -97,6 +97,7 @@ Route::resource('vendors', 'VendorController');
 Route::resource('procurments', 'PurchaseController');
 Route::get('purchSerialNO', 'PurchaseController@serial');
 Route::get('sources', 'StorageController@allTypeSource');
+Route::get('sources/find-items', 'StorageController@allItemsOfSource');
 
 //Archive
 Route::get('accoutload', 'AccountController@getaccount');
@@ -107,7 +108,7 @@ Route::get('transactionSerialnum', 'TransactionController@serial');
 //Expenses
 Route::resource('expenses', 'ExpensesController');
 Route::get('exserialno', 'ExpensesController@serial');
-Route::get('item-records/{item_id}', 'StockRecordController@itemRecords');
+Route::get('item-records', 'StockRecordController@itemRecords');
 Route::get('bank-accounts', 'AccountController@bankAccounts');
 
 // Archive

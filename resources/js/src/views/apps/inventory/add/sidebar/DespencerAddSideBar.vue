@@ -184,11 +184,11 @@ export default {
             });
 
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       })
-      // console.log(this.dForm);
+      // 
       // this.$validator.validateAll().then(result => {
       //   if (result) {
       //     const obj = {

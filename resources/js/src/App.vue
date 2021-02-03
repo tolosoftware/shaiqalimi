@@ -103,7 +103,7 @@ export default {
     document.documentElement.style.setProperty('--vh', `${vh}px`)
   },
   async created() {
-    // console.log(localStorage.getItem('token'));
+    // 
     if (localStorage.getItem('id') == null) {
       this.loadcurrentuser();
     }

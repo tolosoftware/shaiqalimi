@@ -382,7 +382,7 @@ export default {
 
     },
     showClientData(id) {
-      // console.log('ID', id);
+      // 
       this.$Progress.start()
       this.$vs.loading()
       this.orgActiveForm = false;
@@ -420,8 +420,8 @@ export default {
 
     // },
     submitData() {
-      // console.log('Edit Form', this.orgForm.logo)
-      // console.log('Client Errors', this.errors);
+      // 
+      // 
       this.$validator.validateAll('clientForm').then(result => {
         if (result) {
           this.orgForm.post('/api/clients')
@@ -451,8 +451,8 @@ export default {
               })
             });
         } else {
-          console.log("Form have erors");
-          console.log('eerrorr', this.errors.items)
+          
+          
           // form have errors
         }
       })

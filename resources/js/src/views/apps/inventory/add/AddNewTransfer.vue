@@ -28,12 +28,13 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
             <label for=""><small>منبع</small></label>
-            <source-select :parentForm="tForm" name="source" v-validate="'required'" v-model="tForm.source_id"></source-select>
+            <source-select :parentForm="tForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="tForm.source_id"></source-select>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
-            <vs-input size="medium" name="trans_destination" v-validate="'required'" v-model="tForm.destination" label="مقصد" class="w-full" />
+            <label for=""><small>مقصد</small></label>
+            <destination-select :parentForm="tForm" name="destination" v-validate="'required'" v-model="tForm.destination"></destination-select>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
@@ -134,6 +135,7 @@
 import vSelect from "vue-select";
 import EkmalatStock from "../../shared/EkmalatStock";
 import SourceSelect from "../../shared/SourceSelect";
+import DestinationSelect from "../../shared/DestinationSelect";
 import {
   Validator
 } from 'vee-validate'
@@ -142,6 +144,7 @@ export default {
   components: {
     'v-select': vSelect,
     EkmalatStock,
+    DestinationSelect,
     SourceSelect,
     Validator
   },
@@ -156,6 +159,7 @@ export default {
         title: '',
         supervisor: '',
         description: 'تفصیلات تاحال درج نشده است.',
+        destination_id: '',
         destination: '',
         currency_id: 1,
         // Costs ....
@@ -227,6 +231,9 @@ export default {
     this.getNextSerialNo();
   },
   methods: {
+    update_items(matched_items){
+      this.$refs.ekmalat.getAllItems(matched_items);
+    },
     // for getting the next serian number
     getNextSerialNo() {
       this.$Progress.start()
@@ -248,6 +255,7 @@ export default {
         })
     },
     submitForm() {
+      
       this.$validator.validateAll('transferAddForm').then(result => {
         if (result) {
           this.$Progress.start()
@@ -279,7 +287,7 @@ export default {
               })
             });
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       })

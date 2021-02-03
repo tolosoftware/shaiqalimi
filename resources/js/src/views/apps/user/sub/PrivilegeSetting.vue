@@ -110,11 +110,11 @@ export default {
     }
   },
   created() {
-    console.log(this.source);
+    
   },
   methods: {
     storePrivilages(p){
-      console.log(p);
+      
       this.$emit('closeModal'); 
     }
   }
