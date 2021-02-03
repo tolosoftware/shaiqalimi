@@ -194,7 +194,7 @@ export default {
   },
   methods: {
     update_items(matched_items){
-      this.$refs.ekmalat.getAllItems(matched_items);
+      this.$refs.ekmalat.getAllItems(matched_items, false);
     },
     toggleDataSidebar(val = false) {
       // this.errors.items.length = 0

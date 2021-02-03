@@ -180,7 +180,6 @@ export default {
   },
   methods: {
     itemSelected(e, id, index, acronym) {
-      console.log(this.form);
       this.$Progress.start();
       this.axios.get(`/api/item-records`, {
         params: {
@@ -246,14 +245,16 @@ export default {
       });
     },
     // for items to be bought
-    getAllItems(matched_items) {
+    getAllItems(matched_items, filter = true) {
       this.axios.get("/api/items").then((response) => {
         this.goods = response.data;
-        this.goods = this.goods.filter((elem) => matched_items.find(({
-          id
-        }) => elem.id === id));
+          if (filter) {
+            this.goods = this.goods.filter((elem) => matched_items.find(({
+              id
+            }) => elem.id === id));
+          }
         this.getAllUnites();
-          this.resetItemsData();
+        this.resetItemsData();
       });
     },
     // for getting measure unit of the item

@@ -28,6 +28,8 @@ Route::get('/cc', function () {
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 Route::get('user', 'UserController@user')->middleware('auth:api');
 Route::resource('users', 'UserController');
+Route::resource('permissions', 'PermissionController');
+Route::get('users/privilage/{id}', 'PermissionController@userPrivilages');
 Route::resource('itemtype', 'ItemTypeController');
 Route::resource('item', 'ItemController');
 Route::resource('uom', 'MeasurmentUnitController');
