@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Helper\Helper;
 
+use App\Helper\Helper;
+use App\Models\Item;
 use App\Models\ItemType;
 use Illuminate\Http\Request;
 
@@ -83,8 +84,15 @@ class ItemTypeController extends Controller
      */
     public function destroy($id)
     {
-        $user = ItemType::findOrFail($id);
-        $user->delete();
-        return ['message' => 'item type Deleted'];
+        $itemtype = ItemType::findOrFail($id);
+        $item = Item::where(['type_id' => $itemtype->id])->get();
+        if (sizeof($item) >= 1) {
+            return response(['status' => 'exist']);
+        } else {
+            $itemtype->delete();
+            return response(['status' => 'deleted']);
+        }
+        // if($itemType->id)
+
     }
 }

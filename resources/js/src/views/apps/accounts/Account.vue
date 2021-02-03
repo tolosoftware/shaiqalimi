@@ -12,12 +12,12 @@
         <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
         <div class="balance_list_currency_toggle sm:w-1 md:w-1/2 lg:w-1/4 float-right xl:w-1/4">
           <div class="radio-group w-full">
-            <div class="w-1/2" >
-              <input type="radio" v-model="curr_display" value='afn' id="acc_list_afn" name="curr_display"/>
+            <div class="w-1/2">
+              <input type="radio" v-model="curr_display" value='afn' id="acc_list_afn" name="curr_display" />
               <label for="acc_list_afn" class="w-full text-center">افغانی</label>
             </div>
-            <div class="w-1/2" >
-              <input type="radio" v-model="curr_display" value='usd' id="acc_list_usd" name="curr_display"/>
+            <div class="w-1/2">
+              <input type="radio" v-model="curr_display" value='usd' id="acc_list_usd" name="curr_display" />
               <label for="acc_list_usd" class="w-full text-center">دالر</label>
             </div>
           </div>
@@ -106,7 +106,8 @@ export default {
       description: '',
       credit: '0',
       debit: '0',
-      id: null
+      id: null,
+      user_id: localStorage.getItem('id'),
     }),
     currentx: 14,
     accounts: [],

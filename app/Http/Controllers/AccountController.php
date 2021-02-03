@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Account;
@@ -19,10 +20,11 @@ class AccountController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getaccount(){
+    public function getaccount()
+    {
         return Account::all();
     }
-    
+
     public function index()
     {
         return Account::with('financial_records')->get();
@@ -51,12 +53,12 @@ class AccountController extends Controller
             'ref_code' => 'required',
             'name' => 'required',
         ]);
-        if(gettype($request->type_id) != 'integer') {
+        if (gettype($request->type_id) != 'integer') {
             $request->type_id = $request['type_id']['id'];
         }
 
         $data = [
-            'user_id' => 4,
+            'user_id' => $request->user_id,
             'type_id' => $request->type_id,
             'name' => $request->name,
             'ref_code' => $request->ref_code,
@@ -64,10 +66,10 @@ class AccountController extends Controller
             'description' => $request->description,
             // 'system' => $request->system,    
         ];
-        if($request->debit > 0) {
+        if ($request->debit > 0) {
             $request->credit = null;
         }
-        if($new = Account::create($data)){
+        if ($new = Account::create($data)) {
             $data = [
                 'type' => 'account',
                 'type_id' => $request->type_id,
@@ -77,11 +79,11 @@ class AccountController extends Controller
                 'credit' => $request->credit,
                 'debit' => $request->debit,
                 'ex_rate_id' => ExchangeRate::latest()->first()->id,
-                'status' => 'opn'    
+                'status' => 'opn'
             ];
             FinancialRecord::create($data);
             return $new;
-        }else{
+        } else {
             return $new;
         }
     }
@@ -122,12 +124,12 @@ class AccountController extends Controller
             'ref_code' => 'required',
             'name' => 'required',
         ]);
-        if(gettype($request->type_id) != 'integer') {
+        if (gettype($request->type_id) != 'integer') {
             $request->type_id = $request['type_id']['id'];
         }
 
         $data = [
-            'user_id' => 4,
+            'user_id' => $request->user_id,
             'type_id' => $request->type_id,
             'name' => $request->name,
             'ref_code' => $request->ref_code,
@@ -135,9 +137,9 @@ class AccountController extends Controller
             'description' => $request->description,
             // 'system' => $request->system,    
         ];
-        if($new = Account::find($account->id)->update($data)){
+        if ($new = Account::find($account->id)->update($data)) {
             return $new;
-        }else{
+        } else {
             return $new;
         }
     }
