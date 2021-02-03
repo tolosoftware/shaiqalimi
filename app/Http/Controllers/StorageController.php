@@ -7,6 +7,7 @@ use App\Models\Storage;
 use App\Models\Fuel_station;
 use App\Models\Inventory;
 use App\Models\Fuel_despenser;
+use App\Models\StockRecord;
 use App\Models\Fuel_station_storage;
 use Illuminate\Http\Request;
 
@@ -122,5 +123,41 @@ class StorageController extends Controller
         $all = ['str' => $source1, 'fuel' => $source2, 'inv' => $source3];
     
         return $all;
+    }
+    public function allItemsOfSource(Request $request){
+        if($inc = StockRecord::where('source', $request->type)->where('source_id', $request->id)->get()
+        ){
+            $items = [];
+            foreach ($inc as $key => &$obj) {
+                    $items[] = [
+                        'id' => $obj->item_id,
+                        'value' => $obj->increment_equiv
+                    ];
+            }
+            // $return = array();
+            
+            // foreach($items as $val) {
+            //     $return[$val['id']] = (isset($return[$val['id']])) ? $return[$val['id']] + $val['value'] : $val['value']; 
+            // }
+            // return $return;
+            return $items;
+            // $items = [
+            //     [
+
+            //     'id' => 1,
+            //     'value' => 100,
+            // ],
+            // [
+
+            //     'id' => 3,
+            //     'value' => 2100,
+            // ],
+            // ];
+            
+        }else{
+            
+            return response(['status' => 'Not Found'], 404);
+        }
+
     }
 }

@@ -97,7 +97,7 @@ export default {
         this.axios.get('/api/procurments/' + this.$route.params.id)
           .then((response) => {
             this.procurment = response.data;
-            console.log(this.procurment);
+            
             this.$vs.loading.close();
             this.$Progress.set(100)
           })

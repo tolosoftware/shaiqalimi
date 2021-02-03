@@ -69,7 +69,7 @@
               <label for>
                 <small>ذخیره اصلی</small>
               </label>
-              <source-select :parentForm="prForm" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
+              <source-select :parentForm="prForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
             </div>
           </vs-col>
 
@@ -193,6 +193,9 @@ export default {
     SerllerAddForm
   },
   methods: {
+    update_items(matched_items){
+      this.$refs.ekmalat.getAllItems(matched_items);
+    },
     toggleDataSidebar(val = false) {
       // this.errors.items.length = 0
       // this.errors.length = 0
@@ -205,14 +208,14 @@ export default {
       this.toggleDataSidebar(true)
     },
     setVendordata(data) {
-      // console.log(data);
+      // 
       this.prForm.vendor_id = data.id;
       this.prForm.vendor_address = data.address;
       this.prForm.vendor_phone = data.phone;
       this.prForm.account_id = data.account_id;
       this.prForm.vendor_name = data.name;
 
-      // console.log('seller_name', this.prForm.vendor_name);
+      // 
 
     },
     loadvendor() {
@@ -267,7 +270,7 @@ export default {
               })
             })
         } else {
-          console.log("Form have erors");
+          
           // form have errors
         }
       })

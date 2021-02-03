@@ -1,15 +1,15 @@
 <template>
-<div class="source-select-wrapper" id="source-select-wrapper">
+<div class="destination-select-wrapper" id="destination-select-wrapper">
   <vs-dropdown>
-    <vs-input :value="parentForm.source_id ? selection : ''" disabled autocomplete="off" class="w-full" />
-    <vs-dropdown-menu class="source-select" id="source-select" :style="getBannerStyle">
+    <vs-input :value="parentForm.destination_id ? selection : ''" disabled autocomplete="off" class="w-full" />
+    <vs-dropdown-menu class="destination-select" id="destination-select" :style="getBannerStyle">
       <vs-dropdown-group vs-label="ذخایر عمومی">
-        <vs-dropdown-item v-for="(item, i) in sources.str" :key="'str' + i" @click="ddSelected(item, 'STRG')"> {{ item.name }} </vs-dropdown-item>
+        <vs-dropdown-item v-for="(item, i) in destinations.str" :key="'str' + i" @click="ddSelected(item, 'STRG')"> {{ item.name }} </vs-dropdown-item>
       </vs-dropdown-group>
 
       <vs-dropdown-group vs-label="تانک تیل">
         <vs-dropdown-group vs-label="" class="fuel-station">
-          <vs-dropdown-group vs-collapse vs-icon="add" v-for="(fuel, i) in sources.fuel" :key="'f' + i" @click="ddSelected(fuel, 'FUEL', )" :vs-label="fuel.name">
+          <vs-dropdown-group vs-collapse vs-icon="add" v-for="(fuel, i) in destinations.fuel" :key="'f' + i" @click="ddSelected(fuel, 'fuel', )" :vs-label="fuel.name">
             <vs-dropdown-item v-for="(item, i) in fuel.fuel_station_storages" :key="'fs' + i" @click="ddSelected(item, 'FSTR', fuel)"> {{ item.name }} </vs-dropdown-item>
             <vs-dropdown-item v-for="(item, i) in fuel.fuel_despencers" :key="'fd' + i" @click="ddSelected(item, 'FDSP', fuel)"> {{ item.name }} </vs-dropdown-item>
           </vs-dropdown-group>
@@ -17,7 +17,7 @@
       </vs-dropdown-group>
 
       <vs-dropdown-group vs-label="گدام ها">
-        <vs-dropdown-item v-for="(item, i) in sources.inv" :key="'s' + i" @click="ddSelected(item, 'STOK')"> {{ item.name }} </vs-dropdown-item>
+        <vs-dropdown-item v-for="(item, i) in destinations.inv" :key="'s' + i" @click="ddSelected(item, 'STOK')"> {{ item.name }} </vs-dropdown-item>
       </vs-dropdown-group>
     </vs-dropdown-menu>
   </vs-dropdown>
@@ -35,10 +35,8 @@ export default {
   data() {
     return {
       offsetWidth: 100,
-      sources: [],
-      selection: "",
-      matched_items: [],
-      items: [],
+      destinations: [],
+      selection: ""
     }
   },
   created() {
@@ -47,13 +45,14 @@ export default {
   methods: {
     ddSelected(data, type, parent = null) {
 
-      this.getStorageItems(type, data.id);
-      this.parentForm.source_id = data;
-      this.parentForm.source_type = type;
+      // this.getStorageItems(type, data.id);
+      this.parentForm.destination_id = data;
+      this.parentForm.destination_type = type;
+      this.parentForm.destination = type;
       if (parent) {
-        this.selection = parent.name + ' - ' + this.parentForm.source_id.name;
+        this.selection = parent.name + ' - ' + this.parentForm.destination_id.name;
       } else {
-        this.selection = this.parentForm.source_id.name;
+        this.selection = this.parentForm.destination_id.name;
       }
     },
     getStorages() {
@@ -62,12 +61,16 @@ export default {
       this.axios
         .get("/api/sources")
         .then((data) => {
-          this.sources = data.data;
+          this.destinations = data.data;
           this.$Progress.set(100);
         })
         .catch(() => {});
     },
     getStorageItems(type, id) {
+      
+      
+      // Start the Progress Bar
+      this.$Progress.start();
       this.axios
         .get(`/api/sources/find-items`, {
           params: {
@@ -76,14 +79,14 @@ export default {
           }
         })
         .then((data) => {
-          this.matched_items = data.data;
-          this.$emit('updateItems', this.matched_items)
+          this.destinations = data.data;
+          this.$Progress.set(100);
         })
         .catch(() => {});
     },
   },
   mounted() {
-    this.offsetWidth = document.getElementById('source-select-wrapper').offsetWidth
+    this.offsetWidth = document.getElementById('destination-select-wrapper').offsetWidth
   },
   computed: {
     getBannerStyle() {

@@ -15,6 +15,7 @@
       </template>
 
       <template slot-scope="{data}">
+        <tbody>
         <vs-tr :key="i" v-for="(tr, i) in data">
 
           <vs-td :data="data[i].serial_no">
@@ -118,7 +119,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.axios.delete('/api/transfer/' + id).then((id) => {
-              // console.log('id', id.data)
+              // 
               swal.fire({
                 title: 'عملیه موفقانه انجام شد.',
                 text: "مورد انتقال از سیستم پاک شد!",

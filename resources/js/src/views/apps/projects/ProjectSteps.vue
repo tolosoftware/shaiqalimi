@@ -327,8 +327,8 @@ export default {
     TabContent
   },
   created() {
-    console.log('s', this.step)
-    // console.log('sssss', this.$refs.wizard.activeTabIndex)
+    
+    // 
     // setInterval(this.step = this.step + 1, 2000);
   },
   computed: {},
@@ -341,7 +341,7 @@ export default {
     //     if (this.activeTabIndex < this.tabCount - 1) {
     //       this.changeTab(this.activeTabIndex, this.activeTabIndex + 1)
     //       this.afterTabChange(this.activeTabIndex)
-    //       console.log('fslkfjslafs','fsfaaaaaaaa')
+    //       
     //     } else {
     //       this.$emit('on-complete')
     //     }
@@ -350,7 +350,7 @@ export default {
     // },
     setWizardStep(index) {
       this.step = index;
-      console.log('index', this.step);
+      
       this.$refs.wizard.activateAll();
       this.$refs.wizard.navigateToTab(index - 1);
       // this.$refs.wizard.navigateToTab(2);

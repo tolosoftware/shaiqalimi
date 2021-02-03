@@ -586,6 +586,9 @@ li.fuel-station>h3 {
 }
 
 [dir] {
+    .custom_number .vs-input--input{
+        direction: ltr !important;
+    }
     .just-one-line {
         -webkit-line-clamp: 1 !important;
     }

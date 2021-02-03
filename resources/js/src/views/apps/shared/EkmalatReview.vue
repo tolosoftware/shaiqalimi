@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     operationChange() {
-      // console.log(this.items[0]['operation_id']['id'] == 1);
+      // 
     },
     getOperations() {
       this.$Progress.start();

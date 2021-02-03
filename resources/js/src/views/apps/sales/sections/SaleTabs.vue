@@ -26,7 +26,7 @@ export default {
     SalesInside
   },
   created() {
-    // console.log('route value', this.$route)
+    // 
   },
 }
 </script>

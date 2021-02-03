@@ -94,7 +94,7 @@ export default {
         .then((response) => {
           this.company = response.data;
           this.showmodal = true;
-          console.log('company', this.company);
+          
           this.$Progress.set(100);
           this.$vs.loading.close();
         })

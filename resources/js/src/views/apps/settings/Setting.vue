@@ -348,7 +348,7 @@ export default {
         .then(({
           data
         }) => {
-          // console.log(data);
+          // 
           this.currencyForm.currency_id = data.id;
           this.getAllCurrency();
           this.currencyForm.reset();
@@ -361,7 +361,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors);
+          
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -373,12 +373,12 @@ export default {
         });
     },
     editRates() {
-      // console.log(this.rateEditForm.currencies);
+      // 
       this.rateEditForm.post('/api/currency/rates')
         .then(({
           data
         }) => {
-          // console.log(data);
+          // 
           this.getAllCurrency();
           this.currencyForm.reset();
           this.$vs.notify({
@@ -449,7 +449,7 @@ export default {
       this.acountTypeForm.type_id = data.type_id;
       this.acountTypeForm.system = data.system;
       this.acountTypeForm.id = data.id;
-      // console.log('editaAccount_type', this.acountTypeForm)
+      // 
     },
     // 4- update the info
     updateAccountType() {

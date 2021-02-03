@@ -124,7 +124,7 @@ export default {
       this.operationForm.formula = data.formula;
       this.operationForm.description = data.description;
       this.operationForm.id = data.id;
-      // console.log('operation',this.operationForm);
+      // 
 
     },
     storeOperation() {
@@ -133,7 +133,7 @@ export default {
         .then(({
           data
         }) => {
-          // console.log(data);
+          // 
           this.getAllOperation();
           this.operationForm.reset();
           this.$vs.notify({
@@ -145,7 +145,7 @@ export default {
             position: 'top-right'
           })
         }).catch((errors) => {
-          console.log(errors);
+          
           this.$vs.notify({
             title: 'ناموفق!',
             text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',

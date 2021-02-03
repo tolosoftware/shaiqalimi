@@ -670,7 +670,7 @@ export default {
         .then((response) => {
           this.proposals = response.data;
           // Object.keys(this.proposals).some(key => this.proposals[key]['title'] = this.proposals[key].pro_data.title);
-          // console.log(this.proposals);
+          // 
           this.$Progress.set(100)
         })
     },
@@ -806,7 +806,7 @@ export default {
       if (resp.pro_items) {
         this.pForm.item = resp.pro_items;
       }
-      // console.log(resp.pro_items);
+      // 
 
       this.pForm.client_id = resp.pro_data.client;
     },

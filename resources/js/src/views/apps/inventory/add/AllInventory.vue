@@ -266,7 +266,7 @@ export default {
     }
   },
   created() {
-    // console.log(this.radialBarChart);
+    // 
     this.getStorageList();
 
   },

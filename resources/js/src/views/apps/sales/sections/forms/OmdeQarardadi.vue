@@ -74,7 +74,7 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <!-- This conpoment need the form source id and form source type field -->
       <label for=""><small>منبع</small></label>
-      <source-select :parentForm="sForm" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
+      <source-select :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -309,7 +309,7 @@ export default {
         },
       ],
       userid: localStorage.getItem('id'),
-      visualFields:{
+      visualFields: {
         transport_cost: "0",
         service_cost: "0",
         tax: "0",
@@ -354,15 +354,34 @@ export default {
       field_data: [],
       dict: {
         custom: {
-          curency: { required: ' واحد پولی الزامی میباشد.' },
-          sel_date: { required: ' تاریخ فروش الزامی میباشد.' },
-          contract: { required: ' انتخاب قرارداد الزامی میباشد.' },
-          client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.', },
+          curency: {
+            required: ' واحد پولی الزامی میباشد.'
+          },
+          sel_date: {
+            required: ' تاریخ فروش الزامی میباشد.'
+          },
+          contract: {
+            required: ' انتخاب قرارداد الزامی میباشد.'
+          },
+          client_name: {
+            required: '  اسم نهاد الزامی میباشد.',
+            min: 'اسم نهاد باید بیشتر از 2 حرف باشد.',
+          },
           // person_relation: { required: '  شخص ارتباطی الزامی میباشد.', min: 'اسم شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
-          phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
-          address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.', },
-          source: { required: ' انتخاب منبع الزامی میباشد.' },
-          destination: { required: ' انتخاب مقصد الزامی میباشد.' },
+          phone_number: {
+            required: 'شماره تماس الزامی میباشد .',
+            min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.',
+          },
+          address: {
+            required: '  آدرس الزامی میباشد.',
+            min: 'آدرس باید بیشتر از 3 حرف باشد.',
+          },
+          source: {
+            required: ' انتخاب منبع الزامی میباشد.'
+          },
+          destination: {
+            required: ' انتخاب مقصد الزامی میباشد.'
+          },
           // sel_date: { required: '  الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
         }
       }
@@ -374,7 +393,7 @@ export default {
     this.getProject()
     window.addEventListener('keydown', (e) => {
       if (e.key == 'Enter') {
-        // console.log("e.path", e.path);
+        // 
         if (!e.path.find(x => x.className === 'vs-textarea' || x.className === 'vs__selected-options')) {
           this.submitForm();
         }
@@ -408,8 +427,6 @@ export default {
         .get("/api/project")
         .then((data) => {
           this.contracts = data.data;
-          console.log('contractss', this.contracts);
-          // Finish the Progress Bar
           this.$Progress.set(100);
           this.$vs.loading.close()
         })
@@ -427,15 +444,18 @@ export default {
         this.sForm.item = contract.pro_items;
         this.$refs.ekmalat.resetArrays();
         for (const [index, item] of Object.values(this.sForm.item).entries()) {
-          this.sForm.item[index].increment_equiv = "22";
-          this.sForm.item[index].increment = "22";
+          this.sForm.item[index].increment_equiv = this.sForm.item[index].equivalent;
+          this.sForm.item[index].increment = this.sForm.item[index].ammount;
           var data = {
-            increment: this.sForm.item[index].ammount, 
+            increment: this.sForm.item[index].ammount,
             increment_equiv: this.sForm.item[index].equivalent,
             unit_price: this.sForm.item[index].unit_price,
             total_price: this.sForm.item[index].total_price,
           }
-          this.$refs.ekmalat.addRow({'key': index, 'data': data});
+          this.$refs.ekmalat.addRow({
+            'key': index,
+            'data': data
+          });
           this.$refs.ekmalat.operationChange(this.sForm.item[index].operation_id, index);
           this.$refs.ekmalat.itemSelected('', this.sForm.item[index].item_id.id, index, this.sForm.item[index].item_id.uom_id.acronym);
         }
@@ -452,6 +472,9 @@ export default {
         this.form[key] = null;
       }
     },
+    update_items(matched_items) {
+      this.$refs.ekmalat.getAllItems(matched_items);
+    },
     submitForm() {
 
       this.$validator.validateAll('s1Form').then(result => {
@@ -461,9 +484,6 @@ export default {
             .then(({
               data
             }) => {
-              // Finish the Progress Bar
-              // this.sForm.reset();
-              // this.errors.clear();
               this.$Progress.set(100)
               this.$vs.notify({
                 title: 'موفقیت!',
@@ -476,7 +496,7 @@ export default {
               this.sForm.reset();
               this.$validator.reset();
             }).catch((errors) => {
-              // console.log(errors.errors);
+              // 
               this.$vs.notify({
                 title: 'ناموفق!',
                 text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -487,7 +507,7 @@ export default {
               })
             });
         } else {
-          console.log("Form have erors");
+
           // form have errors
         }
       })
