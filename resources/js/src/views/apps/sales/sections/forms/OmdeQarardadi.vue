@@ -309,7 +309,7 @@ export default {
         },
       ],
       userid: localStorage.getItem('id'),
-      visualFields:{
+      visualFields: {
         transport_cost: "0",
         service_cost: "0",
         tax: "0",
@@ -354,15 +354,34 @@ export default {
       field_data: [],
       dict: {
         custom: {
-          curency: { required: ' واحد پولی الزامی میباشد.' },
-          sel_date: { required: ' تاریخ فروش الزامی میباشد.' },
-          contract: { required: ' انتخاب قرارداد الزامی میباشد.' },
-          client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.', },
+          curency: {
+            required: ' واحد پولی الزامی میباشد.'
+          },
+          sel_date: {
+            required: ' تاریخ فروش الزامی میباشد.'
+          },
+          contract: {
+            required: ' انتخاب قرارداد الزامی میباشد.'
+          },
+          client_name: {
+            required: '  اسم نهاد الزامی میباشد.',
+            min: 'اسم نهاد باید بیشتر از 2 حرف باشد.',
+          },
           // person_relation: { required: '  شخص ارتباطی الزامی میباشد.', min: 'اسم شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
-          phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
-          address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.', },
-          source: { required: ' انتخاب منبع الزامی میباشد.' },
-          destination: { required: ' انتخاب مقصد الزامی میباشد.' },
+          phone_number: {
+            required: 'شماره تماس الزامی میباشد .',
+            min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.',
+          },
+          address: {
+            required: '  آدرس الزامی میباشد.',
+            min: 'آدرس باید بیشتر از 3 حرف باشد.',
+          },
+          source: {
+            required: ' انتخاب منبع الزامی میباشد.'
+          },
+          destination: {
+            required: ' انتخاب مقصد الزامی میباشد.'
+          },
           // sel_date: { required: '  الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
         }
       }
@@ -428,12 +447,15 @@ export default {
           this.sForm.item[index].increment_equiv = this.sForm.item[index].equivalent;
           this.sForm.item[index].increment = this.sForm.item[index].ammount;
           var data = {
-            increment: this.sForm.item[index].ammount, 
+            increment: this.sForm.item[index].ammount,
             increment_equiv: this.sForm.item[index].equivalent,
             unit_price: this.sForm.item[index].unit_price,
             total_price: this.sForm.item[index].total_price,
           }
-          this.$refs.ekmalat.addRow({'key': index, 'data': data});
+          this.$refs.ekmalat.addRow({
+            'key': index,
+            'data': data
+          });
           this.$refs.ekmalat.operationChange(this.sForm.item[index].operation_id, index);
           this.$refs.ekmalat.itemSelected('', this.sForm.item[index].item_id.id, index, this.sForm.item[index].item_id.uom_id.acronym);
         }
@@ -450,7 +472,7 @@ export default {
         this.form[key] = null;
       }
     },
-    update_items(matched_items){
+    update_items(matched_items) {
       this.$refs.ekmalat.getAllItems(matched_items);
     },
     submitForm() {
@@ -485,7 +507,7 @@ export default {
               })
             });
         } else {
-          
+
           // form have errors
         }
       })

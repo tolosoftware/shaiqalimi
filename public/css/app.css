@@ -5677,8 +5677,7 @@ li.fuel-station > h3 {
   top: 0;
 }
 
-[dir] .vs-input--input.normal,
-[dir] .v-select .vs__dropdown-toggle {
+[dir] .custom_number .vs-input--input {
   direction: ltr !important;
 }
 

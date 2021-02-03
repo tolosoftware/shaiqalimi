@@ -63,7 +63,7 @@
         </vs-col>
         <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" :vs-lg="grid && grid[0] ? grid[0] : 1" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full" />
+            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full custom_number" />
             <has-error :form="form" field="density"></has-error>
             <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
           </div>
@@ -180,13 +180,13 @@ export default {
   },
   methods: {
     itemSelected(e, id, index, acronym) {
-
+      console.log(this.form);
       this.$Progress.start();
       this.axios.get(`/api/item-records`, {
         params: {
           item_id: id,
-          source: 'source',
-          source_id: 1
+          source: this.form.source_type,
+          source_id: this.form.source_id.id
         }
       }).then((response) => {
         this.remaining_items[index] = [response.data, acronym];
@@ -253,6 +253,7 @@ export default {
           id
         }) => elem.id === id));
         this.getAllUnites();
+          this.resetItemsData();
       });
     },
     // for getting measure unit of the item
@@ -266,12 +267,12 @@ export default {
             eqv_uom: true,
             reverse: false,
           });
-          // this.visualFields.push({
-          //   increment_equiv: "0",
-          //   increment: "0",
-          //   unit_price: "0",
-          //   total_price: "0",
-          // })
+          this.visualFields.push({
+            increment_equiv: "0",
+            increment: "0",
+            unit_price: "0",
+            total_price: "0",
+          })
 
         }
       });
@@ -304,6 +305,26 @@ export default {
       this.visualFields.splice(0, this.visualFields.length);
       this.is_active.splice(0, this.is_active.length);
       this.items.splice(0, this.items.length);
+      this.remaining_items.splice(0, this.remaining_items.length);
+      // this.remaining_items = [];
+        // this.addRow();
+    },
+    resetItemsData(){
+      this.is_active = [{
+        density: false,
+        uom: true,
+        eqv_uom: true,
+        reverse: false,
+      }]
+      this.visualFields = [{
+        increment_equiv: "0",
+        increment: "0",
+        unit_price: "0",
+        total_price: "0",
+        density: "1",
+      }]
+      this.remaining_items = []
+
     },
     addRow(data = null) {
       if (data.key >= 0) {

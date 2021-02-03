@@ -73,7 +73,7 @@
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <!-- This conpoment need the form source id and form source type field -->
       <label for=""><small>منبع</small></label>
-      <source-select :parentForm="sForm"></source-select>
+      <source-select :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -358,8 +358,8 @@ export default {
     // },
   },
   methods: {
-    validateS2Add() {
-
+    update_items(matched_items){
+      this.$refs.ekmalat.getAllItems(matched_items);
     },
     getProject() {
       // Start the Progress Bar

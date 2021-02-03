@@ -7,9 +7,12 @@
       <vs-row vs-w="12" class="pb-2 mb-2">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 mr-3">
-            <label for=""><small>جنس / محصول</small><small v-if="remaining_items[index] != undefined" class="item-remain-balance" :data="remaining_items[index]">موجودی {{ remaining_items[index][0] }} {{ remaining_items[index][1] }}</small></label>
-            <v-select v-validate="'required'" :clearable="false" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="itemSelected($event, i.item_id.id, index, i.item_id.uom_id.acronym)" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-            <!-- <span class="absolute text-danger alerttext">{{ errors.first(`step-3.item_id_${index}`) }}</span> -->
+            <label for=""><small>جنس / محصول</small><span v-if="remaining_items[index] != undefined" class="item-remain-balance" :data="remaining_items[index]">موجودی {{ remaining_items[index][0] }} {{ remaining_items[index][1] }}</span></label>
+            <v-select v-validate="'required'" :clearable="false" :title="errors.first(`step-3.item_id_${index}`)" v-bind:class="errors.first(`step-3.item_id_${index}`) ? 'has-error' : ''" :name="`item_id_${index}`" @input="itemSelected($event, i.item_id.id, index, i.item_id.uom_equiv_id.acronym)" :get-option-label="(option) => option.type.type + ' - ' + option.name" v-model="i.item_id" :options="goods" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+              <span slot="no-options" @click="$refs.select.open = false">
+                محصول موجود نمی باشد.
+              </span>
+            </v-select>
             <has-error :form="form" field="item_id"></has-error>
           </div>
         </vs-col>
@@ -177,7 +180,12 @@ export default {
     itemSelected(e, id, index, acronym) {
 
       this.$Progress.start();
-      this.axios.get(`/api/item-records/${id}`).then((response) => {
+      this.axios.get(`/api/item-records`, {
+        params: {
+          item_id: id,
+          source: null,
+          source_id: null
+        }}).then((response) => {
         this.remaining_items[index] = [response.data, acronym];
         this.remaining_items = Object.assign({}, this.remaining_items)
         // 

@@ -28,7 +28,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
           <div class="w-full pb-2 ml-3 mr-3">
             <label for=""><small>منبع</small></label>
-            <source-select :parentForm="tForm" name="source" v-validate="'required'" v-model="tForm.source_id"></source-select>
+            <source-select :parentForm="tForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="tForm.source_id"></source-select>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
@@ -231,6 +231,9 @@ export default {
     this.getNextSerialNo();
   },
   methods: {
+    update_items(matched_items){
+      this.$refs.ekmalat.getAllItems(matched_items);
+    },
     // for getting the next serian number
     getNextSerialNo() {
       this.$Progress.start()

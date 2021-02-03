@@ -69,7 +69,7 @@
               <label for>
                 <small>ذخیره اصلی</small>
               </label>
-              <source-select :parentForm="prForm" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
+              <source-select :parentForm="prForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
             </div>
           </vs-col>
 
@@ -193,6 +193,9 @@ export default {
     SerllerAddForm
   },
   methods: {
+    update_items(matched_items){
+      this.$refs.ekmalat.getAllItems(matched_items);
+    },
     toggleDataSidebar(val = false) {
       // this.errors.items.length = 0
       // this.errors.length = 0
