@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\User;
@@ -15,18 +16,18 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $per = Permission::all();
-        foreach ($per as $key => &$value) {
-            $value['assign'] = true;
+        $userPrivilagesId = $this->userPrivilages($request['id'])->pluck('id')->toArray();
+        $systemPrivilages = Permission::all();
+        foreach ($systemPrivilages as $key => &$sPri) {
+            if (in_array($sPri->id, $userPrivilagesId)) {
+                $sPri['assign'] = true;
+            } else {
+                $sPri['assign'] = false;
+            }
         }
-        return $per;
-        // Create All Privilages for first.
-        // $this->createPermissions();
-        // return $this->userPrivilages(3);
-
-        // $user->givePermissionTo('edit articles');
+        return $systemPrivilages;
     }
 
     /**
@@ -38,14 +39,10 @@ class PermissionController extends Controller
     {
         $user = User::find($id);
         $permissions = $user->permissions;
-        return response($permissions);
-        // $permissions = $user->getAllPermissions();
-        // $user->syncPermissions('مدیریت جامع');
-        $user->revokePermissionTo(1);
-        $user->givePermissionTo(1);
-        return $user->hasPermissionTo(1);
+        return $permissions;
     }
-    public function userPermissionAssign(Request $request){
+    public function userPermissionAssign(Request $request)
+    {
 
         $user = User::find(3);
         $user->givePermissionTo([]);
@@ -88,9 +85,16 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $user = User::find($request[0]);
-        foreach ($request[1] as $key => $value) {
-            $user->givePermissionTo($value['id']);
+        $userPrivilagesId = array_column($request[1], 'id');
+        $systemPrivilages = Permission::all();
+        foreach ($systemPrivilages as $key => &$sPri) {
+            if (in_array($sPri->id, $userPrivilagesId)) {
+                $user->givePermissionTo($sPri->id);
+            } else {
+                $user->revokePermissionTo($sPri->id);
+            }
         }
+        return $systemPrivilages;
     }
 
     /**
@@ -140,10 +144,9 @@ class PermissionController extends Controller
 
     public function latest(Request $request)
     {
-        if($resp = Permission::where('type', $request->type)->latest()->first()){
+        if ($resp = Permission::where('type', $request->type)->latest()->first()) {
             return $resp->value + 1;
-        }
-        else {
+        } else {
             return 101;
         }
     }

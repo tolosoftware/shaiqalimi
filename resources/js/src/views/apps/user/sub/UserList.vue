@@ -128,7 +128,7 @@ export default {
 
   methods: {
     setPrivilages(user) {
-      this.$refs.userprivilege.getPermissions();
+      this.$refs.userprivilege.getPermissions(user);
     },
 
     loadUsers() {
