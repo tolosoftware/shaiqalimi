@@ -1,5 +1,5 @@
 <template>
-<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" ref="wizard" @on-complete="formSubmitted">
+<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" :start-index.sync="curTabIndex" ref="wizard" @on-complete="formSubmitted">
   <tab-content title="دریافت قرار داد" class="mb-5" :before-change="changeStepStatus">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
@@ -85,7 +85,6 @@
     </vs-row>
   </tab-content>
   <tab-content title=" مرحله اکمالات وتوزیعات" class="mb-5" :before-change="changeStepStatus2">
-
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider> مرحله اکمالات وتوزیعات</vs-divider>
@@ -297,9 +296,8 @@
   <vs-button slot="prev">قبلی</vs-button>
   <vs-button v-bind:class="is_ekmalat_allowed ? '': 'hide'" slot="next">بعدی</vs-button>
   <vs-button disabled v-bind:class="is_ekmalat_allowed ? 'hide': ''">بعدی</vs-button>
-
-  <vs-button v-bind:class="finishedcontract && is_ekmalat_allowed ? '': 'hide'" slot="finish">بستن صحفه</vs-button>
-  <vs-button disabled v-bind:class="!finishedcontract || is_ekmalat_allowed ? 'hide': ''">بستن صحفه</vs-button>
+  <vs-button v-bind:class="finishedcontract ? '': 'hide'" slot="finish">بستن صحفه</vs-button>
+  <vs-button disabled v-bind:class="!finishedcontract ? 'hide': ''">بستن صحفه</vs-button>
 </form-wizard>
 </template>
 
@@ -314,7 +312,7 @@ export default {
     return {
       step: 0,
       status: 1,
-      nextTabIndex: 0,
+      curTabIndex: 0,
       is_ekmalat_allowed: 0,
       adminis_procedure: 0,
       setting_and_baqyat: 0,
@@ -327,7 +325,7 @@ export default {
     TabContent
   },
   created() {
-    
+
     // 
     // setInterval(this.step = this.step + 1, 2000);
   },
@@ -350,7 +348,7 @@ export default {
     // },
     setWizardStep(index) {
       this.step = index;
-      
+      this.curTabIndex = index;
       this.$refs.wizard.activateAll();
       this.$refs.wizard.navigateToTab(index - 1);
       // this.$refs.wizard.navigateToTab(2);
