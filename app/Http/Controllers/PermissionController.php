@@ -18,16 +18,19 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        $userPrivilagesId = $this->userPrivilages($request['id'])->pluck('id')->toArray();
-        $systemPrivilages = Permission::all();
-        foreach ($systemPrivilages as $key => &$sPri) {
-            if (in_array($sPri->id, $userPrivilagesId)) {
-                $sPri['assign'] = true;
-            } else {
-                $sPri['assign'] = false;
+        $systemPrivileges = Permission::all();
+        if($request['id']){
+            $userPrivilegesId = $this->userPrivileges($request['id'])->pluck('id')->toArray();
+            foreach ($systemPrivileges as $key => &$sPri) {
+                if (in_array($sPri->id, $userPrivilegesId)) {
+                    $sPri['assign'] = true;
+                } else {
+                    $sPri['assign'] = false;
+                }
             }
+
         }
-        return $systemPrivilages;
+        return $systemPrivileges;
     }
 
     /**
@@ -35,7 +38,7 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function userPrivilages($id)
+    public function userPrivileges($id)
     {
         $user = User::find($id);
         $permissions = $user->permissions;
@@ -85,16 +88,16 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $user = User::find($request[0]);
-        $userPrivilagesId = array_column($request[1], 'id');
-        $systemPrivilages = Permission::all();
-        foreach ($systemPrivilages as $key => &$sPri) {
-            if (in_array($sPri->id, $userPrivilagesId)) {
+        $userPrivilegesId = array_column($request[1], 'id');
+        $systemPrivileges = Permission::all();
+        foreach ($systemPrivileges as $key => &$sPri) {
+            if (in_array($sPri->id, $userPrivilegesId)) {
                 $user->givePermissionTo($sPri->id);
             } else {
                 $user->revokePermissionTo($sPri->id);
             }
         }
-        return $systemPrivilages;
+        return $systemPrivileges;
     }
 
     /**

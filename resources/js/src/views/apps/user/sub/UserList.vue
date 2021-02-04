@@ -44,7 +44,7 @@
       <tbody>
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
           <vs-td class="img-container">
-            <img :src="'/img/user/'+tr.image" class="product-img" />
+            <img :src="(tr.image) ? '/img/user/'+tr.image : '/images/user/user.jpg'" class="product-img" />
           </vs-td>
 
           <vs-td>
@@ -70,7 +70,7 @@
                            name: 'user-profile-edit', 
                            params: {user_id: tr.id }}).catch(() => {})" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
-            <feather-icon :disabled="!privilegeModalActive" icon="UserPlusIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="setPrivilages(tr)" />
+            <feather-icon :disabled="!privilegeModalActive" icon="UserPlusIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="setPrivileges(tr)" />
           </vs-td>
         </vs-tr>
       </tbody>
@@ -127,7 +127,7 @@ export default {
   },
 
   methods: {
-    setPrivilages(user) {
+    setPrivileges(user) {
       this.$refs.userprivilege.getPermissions(user);
     },
 
