@@ -1,19 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Helper\Helper;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+
+use App\Helper\Helper;
+use Illuminate\Http\Request;
 use App\Models\UserAssignment;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 
 
 class UserController extends Controller
 {
 
-    public function user(Request $request){
+    public function user(Request $request)
+    {
         return $request->user();
     }
     /**
@@ -24,7 +28,7 @@ class UserController extends Controller
     public function index()
     {
         return User::all();
-  
+
         //  return User::select('lastName','firstName')->get();
     }
 
@@ -54,15 +58,17 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
+            $photoname = NULL;
+            if ($request->image != null) {
 
-            $photoname = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
-            \Image::make($request->image)->save(public_path('img/user/').$photoname);
-            $request->merge(['photo' => $photoname]);
-
+                $photoname = time() . '.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+                \Image::make($request->image)->save(public_path('img/user/') . $photoname);
+                $request->merge(['photo' => $photoname]);
+            }
             $user = User::create([
                 'firstName' => $request['firstName'],
                 'lastName' => $request['lastName'],
-                'user_type' =>$request['user_type']['value'],
+                'user_type' => $request['user_type']['value'],
                 'position' => $request['position'],
                 'email' => $request['email'],
                 'phone' => $request['phone'],
@@ -71,18 +77,26 @@ class UserController extends Controller
                 'image' => $photoname,
             ]);
 
-            if($request->userleaders != null){
+            if ($request->userleaders != null) {
                 foreach ($request->userleaders as $key => $val) {
-                    UserAssignment::create(['lead_user_id' => $val['id'], 'user_id'=> $user->id]);
+                    UserAssignment::create(['lead_user_id' => $val['id'], 'user_id' => $user->id]);
                 }
             }
 
-        DB::commit();
-        return ['msg' => 'user successfully inserted'];
-    } catch (Exception $e) {
-        DB::rollback();
-    }
-        
+            $userPrivilegesId = array_column($request->privileges, 'id');
+            $systemPrivileges = Permission::all();
+            foreach ($systemPrivileges as $key => &$sPri) {
+                if (in_array($sPri->id, $userPrivilegesId)) {
+                    $user->givePermissionTo($sPri->id);
+                } else {
+                    $user->revokePermissionTo($sPri->id);
+                }
+            }
+            DB::commit();
+            return ['msg' => 'user successfully inserted', $systemPrivileges];
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**
@@ -118,31 +132,36 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $photoname = NULL;
-        if($request->image != null){
-            if (strpos($request->image, 'base64')) {
-                $photoname = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
-                \Image::make($request->image)->save(public_path('img/user/').$photoname);
-                $request->merge(['photo' => $photoname]);
-            }else
-            {
-                $photoname = $request->image;
+        DB::beginTransaction();
+        try {
+            $photoname = NULL;
+            if ($request->image != null) {
+                if (strpos($request->image, 'base64')) {
+                    $photoname = time() . '.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+                    \Image::make($request->image)->save(public_path('img/user/') . $photoname);
+                    $request->merge(['photo' => $photoname]);
+                } else {
+                    $photoname = $request->image;
+                }
             }
-        }
-       
 
-        $user = User::findOrFail($id);
-        $request['password'] =  Hash::make($request['password']);
-        $request['image'] =  ($photoname) ? $photoname : '';
-        $user->update($request->all());
-        // if($request->userleaders != null){
-        //     foreach ($request->userleaders as $key => $val) {
-        //         if(!UserAssignment::where(['lead_user_id' => $val['id'], 'user_id'=> $id])->get()){
-        //             UserAssignment::create(['lead_user_id' => $val['id'], 'user_id'=> $id]);
-        //         }
-        //     }
-        // }
-        return ["message"=>"موفقانه معلومات اصلاح شد"];
+
+            $user = User::findOrFail($id);
+            $request['password'] =  Hash::make($request['password']);
+            $request['image'] =  ($photoname) ? $photoname : '';
+            $user->update($request->all());
+            // if($request->userleaders != null){
+            //     foreach ($request->userleaders as $key => $val) {
+            //         if(!UserAssignment::where(['lead_user_id' => $val['id'], 'user_id'=> $id])->get()){
+            //             UserAssignment::create(['lead_user_id' => $val['id'], 'user_id'=> $id]);
+            //         }
+            //     }
+            // }
+            DB::commit();
+            return ["message" => "موفقانه معلومات اصلاح شد"];
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**
