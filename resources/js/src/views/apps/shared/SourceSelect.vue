@@ -46,15 +46,16 @@ export default {
   },
   methods: {
     ddSelected(data, type, parent = null) {
-
       this.getStorageItems(type, data.id);
       this.parentForm.source_id = data;
       this.parentForm.source_type = type;
+      this.parentForm.source = type
       if (parent) {
         this.selection = parent.name + ' - ' + this.parentForm.source_id.name;
       } else {
         this.selection = this.parentForm.source_id.name;
       }
+
     },
     getStorages() {
       // Start the Progress Bar

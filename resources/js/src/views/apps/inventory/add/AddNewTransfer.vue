@@ -153,6 +153,7 @@ export default {
       // Main INIT
       tForm: new Form({
         serial_no: '',
+        source: '',
         source_id: "", // The Id of the Source.
         source_type: "", // Type Source
         datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
@@ -231,7 +232,7 @@ export default {
     this.getNextSerialNo();
   },
   methods: {
-    update_items(matched_items){
+    update_items(matched_items) {
       this.$refs.ekmalat.getAllItems(matched_items);
     },
     // for getting the next serian number
@@ -255,7 +256,7 @@ export default {
         })
     },
     submitForm() {
-      
+
       this.$validator.validateAll('transferAddForm').then(result => {
         if (result) {
           this.$Progress.start()
@@ -287,7 +288,7 @@ export default {
               })
             });
         } else {
-          
+
           // form have errors
         }
       })

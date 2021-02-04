@@ -308,9 +308,9 @@ export default {
       this.items.splice(0, this.items.length);
       this.remaining_items.splice(0, this.remaining_items.length);
       // this.remaining_items = [];
-        // this.addRow();
+      // this.addRow();
     },
-    resetItemsData(){
+    resetItemsData() {
       this.is_active = [{
         density: false,
         uom: true,
