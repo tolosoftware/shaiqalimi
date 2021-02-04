@@ -49,12 +49,12 @@ export default {
       this.getStorageItems(type, data.id);
       this.parentForm.source_id = data;
       this.parentForm.source_type = type;
+      this.parentForm.source = type
       if (parent) {
         this.selection = parent.name + ' - ' + this.parentForm.source_id.name;
       } else {
         this.selection = this.parentForm.source_id.name;
       }
-      this.$emit('sourcetype', type)
 
     },
     getStorages() {

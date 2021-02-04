@@ -66,25 +66,18 @@
           </vs-td>
 
           <vs-td class="whitespace-no-wrap notupfromall">
-            <!-- <router-link :to="{name: 'newOrder', params: { id: fild }}">
-                            <button class="btn btn-primary" style="width:100px">
-                                <i class="fa fa-long-arrow-right"></i>
-                                &nbsp;
-                                بعدی
-                            </button>
-                        </router-link> -->
             <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push({
                            name: 'user-profile-edit', 
                            params: {user_id: tr.id }}).catch(() => {})" />
             <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
-            <feather-icon icon="UserPlusIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="setPrivilages(tr)" />
+            <feather-icon :disabled="!privilegeModalActive" icon="UserPlusIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="setPrivilages(tr)" />
           </vs-td>
         </vs-tr>
       </tbody>
     </template>
   </vs-table>
   <vs-popup class="holamundo width-60" title="تنظیمات صلاحیت ها" :active.sync="privilegeModalActive">
-    <privilege-setting :source="user" @closeModal="privilegeModalActive = false" />
+    <privilege-setting ref="userprivilege" :source="user" @closeModal="privilegeModalActive = !privilegeModalActive" />
   </vs-popup>
 
 </div>
@@ -135,16 +128,7 @@ export default {
 
   methods: {
     setPrivilages(user) {
-      this.$Progress.start()
-      this.axios
-        .get("/api/users/" + user.id)
-        .then((resp) => {
-          this.user = resp.data;
-          this.privilegeModalActive = true;
-          this.$Progress.set(100);
-        })
-        .catch(() => {});
-
+      this.$refs.userprivilege.getPermissions();
     },
 
     loadUsers() {

@@ -11,7 +11,7 @@
               <i class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null">check</i>
             </span>
           </span>
-          <span class="con-slot-label">{{n.label}}</span>
+          <span class="con-slot-label">{{n.name}}</span>
         </div>
       </li>
     </ul>
@@ -34,89 +34,36 @@ export default {
   },
   data() {
     return {
-      privileges: [{
-        label: 'مدیریت تانک تیل ها',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت اجناس و محصولات',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت گدام ها',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت انتقالات',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت راپورها',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت مصارف',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت کاربران',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت قراردادها',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت آفرها',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت فروشات',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت حساب ها',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت معاملات تجارتی',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت ذخایر',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت خریداری ها',
-        code: '',
-        assign: false,
-      }, {
-        label: 'مدیریت آرشیف',
-        code: '',
-        assign: false,
-      }, {
-        label: 'تنظیمات سیستم',
-        code: '',
-        assign: false,
-      }, {
-        label: 'تنظیمات مشتریان',
-        code: '',
-        assign: false,
-      }, {
-        label: 'تنظیمات فروشندگان',
-        code: '',
-        assign: false,
-      }],
+      privileges: [],
+      user_id: null,
     }
-  },
-  created() {
-    
   },
   methods: {
-    storePrivilages(p){
-      
-      this.$emit('closeModal'); 
-    }
+    getPermissions() {
+      this.axios.get('/api/permissions')
+        .then((response) => {
+          this.privileges = response.data;
+          this.$emit('closeModal');
+        })
+    },
+    storePrivilages(p) {
+      this.axios.post('/api/permissions', [this.source.id, this.privileges.filter((e) => e.assign === true)])
+        .then((response) => {
+          this.privileges = response.data;
+          this.$emit('closeModal');
+        })
+    },
+    // updatePrivilegeTable(userprivilege, user_id){
+    //   // this.user_id = user_id;
+    //   // for (let [key, value] of Object.entries(this.privileges)) {
+    //   //   if (userprivilege.find(({
+    //   //       id
+    //   //     }) => value.id === id)) {
+    //   //     this.privileges[key]['assign'] = true;
+    //   //   }
+    //   // }
+    //   // console.log(this.privileges);
+    // }
   }
 
 }
