@@ -1,8 +1,9 @@
 /* RTL Codes */
 
 @font-face {
-    font-family: 'YekanWeb';
-    src: url('fonts/YekanWeb-Regular.woff2') format('woff2'), url('fonts/YekanWeb-Regular.woff') format('woff');
+    font-family: "YekanWeb";
+    src: url("fonts/YekanWeb-Regular.woff2") format("woff2"),
+        url("fonts/YekanWeb-Regular.woff") format("woff");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -97,17 +98,25 @@ audio:not(.glyphicon),
 video,
 span:not(.glyphicon):not(.post-views-icon),
 text {
-    font-family: 'YekanWeb' !important;
+    font-family: "YekanWeb" !important;
 }
 
-.vs-sidebar-reduceNotRebound .vs-sidebar--items>div {
-    background-image: linear-gradient(calc(360deg - 135deg), rgb(86 45 183 / 0.5), rgb(245 82 82 / 0.8));
+.vs-sidebar-reduceNotRebound .vs-sidebar--items > div {
+    background-image: linear-gradient(
+        calc(360deg - 135deg),
+        rgb(86 45 183 / 0.5),
+        rgb(245 82 82 / 0.8)
+    );
 }
 
 [dir] .navbar-floating .vx-navbar {
     background: rgb(49 47 75) !important;
     // background-image: linear-gradient(calc(360deg - 175deg), rgb(86 45 183 / 0.5), rgb(86 45 183 / 0.5) 50%, rgb(245 82 82 / 0.8) 100%) !important;
-    background-image: linear-gradient(calc(360deg - 175deg), rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+    background-image: linear-gradient(
+        calc(360deg - 175deg),
+        rgba(86, 45, 183, 0.5) 6%,
+        rgba(245, 82, 82, 0.8) 130%
+    ) !important;
 }
 
 [dir] .theme-semi-dark .v-nav-menu .shadow-bottom {
@@ -118,14 +127,12 @@ text {
     transform: rotate(180 deg);
 }
 
-
 /* width */
 
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
-
 
 /* Track */
 
@@ -134,15 +141,13 @@ text {
     border-radius: 10px;
 }
 
-
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
     background: #ea5455;
     border-radius: 10px;
-    transition: .3s;
+    transition: 0.3s;
 }
-
 
 /* Handle on hover */
 
@@ -155,7 +160,7 @@ text {
     // min-height: 80vh;
 }
 
-.vs-tabs-position-top>.con-ul-tabs>.line-vs-tabs {
+.vs-tabs-position-top > .con-ul-tabs > .line-vs-tabs {
     top: auto !important;
     left: auto !important;
 }
@@ -202,7 +207,7 @@ text {
 }
 
 .c-button {
-    transition: all .2s ease;
+    transition: all 0.2s ease;
     padding: 10px;
     border: 0;
     border-radius: 6px;
@@ -212,7 +217,11 @@ text {
     color: #fff;
     box-sizing: border-box;
     background: #000;
-    background-image: linear-gradient(155deg, rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+    background-image: linear-gradient(
+        155deg,
+        rgba(86, 45, 183, 0.5) 6%,
+        rgba(245, 82, 82, 0.8) 130%
+    ) !important;
 }
 
 .c-button svg {
@@ -230,7 +239,7 @@ text {
     border-radius: 5px 0 0 5px;
 }
 
-.img-container+.vs-table--td>span {
+.img-container + .vs-table--td > span {
     position: relative;
     z-index: 9999;
 }
@@ -239,8 +248,8 @@ text {
     cursor: default !important;
 }
 
-.img-container+.vs-table--td span,
-.img-container+.vs-table--td span a {
+.img-container + .vs-table--td span,
+.img-container + .vs-table--td span a {
     display: table-row-group !important;
     cursor: pointer !important;
 }
@@ -263,7 +272,7 @@ text {
     margin-bottom: 10px;
 }
 
-.vs-tabs-position-left>.con-ul-tabs {
+.vs-tabs-position-left > .con-ul-tabs {
     height: 60vh !important;
     border-right: solid 1px !important;
     border-image: linear-gradient(180deg, #dddddd, #fff) 1 stretch;
@@ -271,7 +280,7 @@ text {
         position: relative;
         top: 70px;
     }
-    >.line-vs-tabs {
+    > .line-vs-tabs {
         display: none !important;
     }
 }
@@ -292,12 +301,12 @@ text {
     }
 }
 
-.vs-tabs--content>form>.vx-row {
+.vs-tabs--content > form > .vx-row {
     margin: unset !important;
 }
 
 [dir] .number-rtl input {
-    font-family: 'YekanWeb' !important;
+    font-family: "YekanWeb" !important;
     direction: ltr !important;
     text-align: left !important;
 }
@@ -305,7 +314,7 @@ text {
 .vs-input--input.normal,
 .v-select .vs__dropdown-toggle {
     height: 2.8em !important;
-    font-family: 'YekanWeb' !important;
+    font-family: "YekanWeb" !important;
 }
 
 .no_clear .vs__clear {
@@ -341,13 +350,13 @@ text {
     // display: none !important;
 }
 
-.ps:hover>.ps__scrollbar-y-rail:hover,
-.ps.ps--in-scrolling.ps--y>.ps__scrollbar-y-rail,
-.ps:hover.ps--in-scrolling.ps--y>.ps__scrollbar-y-rail {
+.ps:hover > .ps__scrollbar-y-rail:hover,
+.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail,
+.ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail {
     background-color: transparent !important;
 }
 
-.ps.ps--in-scrolling.ps--y>.ps__scrollbar-y-rail>.ps__scrollbar-y {
+.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y {
     background-color: #e85454 !important;
 }
 
@@ -360,7 +369,10 @@ body .ps__scrollbar-y-rail {
     right: 0px !important;
 }
 
-div.vs-content-sidebar.v-nav-menu .ps>.ps__scrollbar-y-rail>.ps__scrollbar-y {
+div.vs-content-sidebar.v-nav-menu
+    .ps
+    > .ps__scrollbar-y-rail
+    > .ps__scrollbar-y {
     width: 100% !important;
     right: 0px !important;
 }
@@ -368,8 +380,7 @@ div.vs-content-sidebar.v-nav-menu .ps>.ps__scrollbar-y-rail>.ps__scrollbar-y {
 // Group Radio Button
 $bg: #e85454;
 $bc: #cccccc;
-$fg: lighten($bg,
-20%);
+$fg: lighten($bg, 20%);
 $borderWidth: 1px;
 .radio-group {
     display: inline-flex;
@@ -384,7 +395,7 @@ $borderWidth: 1px;
         border-top-right-radius: 5px;
         overflow: hidden;
     }
-    input[type=radio] {
+    input[type="radio"] {
         position: absolute;
         visibility: hidden;
         display: none;
@@ -393,11 +404,11 @@ $borderWidth: 1px;
         display: inline-block;
         cursor: pointer;
         font-weight: bold;
-        transition: .4s;
+        transition: 0.4s;
         padding: 8px;
         border: solid $borderWidth $bc;
     }
-    input[type=radio]:checked+label {
+    input[type="radio"]:checked + label {
         background: $bg;
         color: white;
         box-shadow: 0 8px 25px -8px $bg;
@@ -429,7 +440,11 @@ $borderWidth: 1px;
 
 .vs-popup--header {
     background: #000 !important;
-    background-image: linear-gradient(calc(360deg - 175deg), rgba(86, 45, 183, 0.5) 6%, rgba(245, 82, 82, 0.8) 130%) !important;
+    background-image: linear-gradient(
+        calc(360deg - 175deg),
+        rgba(86, 45, 183, 0.5) 6%,
+        rgba(245, 82, 82, 0.8) 130%
+    ) !important;
     .vs-popup--title h3 {
         color: white !important;
     }
@@ -455,10 +470,10 @@ $borderWidth: 1px;
 }
 
 #delete-btn.isActive .vs-button--icon {
-    color: #e55355!important;
+    color: #e55355 !important;
 }
 
-.has-error>.vs__dropdown-toggle,
+.has-error > .vs__dropdown-toggle,
 .has-error .vs-con-input input,
 .has-error .vpd-input-group input {
     border-color: #ea5455 !important;
@@ -470,8 +485,8 @@ $borderWidth: 1px;
 
 // .official-process{
 //     .vs-collapse,
-//     .vs-collapse-item, 
-//     .vs-collapse-item--header, 
+//     .vs-collapse-item,
+//     .vs-collapse-item--header,
 //     .con-content--item{
 //         padding-left: 0px !important;
 //     }
@@ -485,7 +500,6 @@ $borderWidth: 1px;
     white-space: nowrap !important;
 }
 
-
 /* Chrome, Safari, Edge, Opera */
 
 input::-webkit-outer-spin-button,
@@ -494,19 +508,18 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-
 /* Firefox */
 
-input[type=number] {
+input[type="number"] {
     -moz-appearance: textfield;
 }
 
 .vs-tabs--li.activeChild {
     border-bottom: solid #e85456 2px !important;
-    transition: .3s;
+    transition: 0.3s;
 }
 
-.vs-tabs-position-top>.con-ul-tabs>.line-vs-tabs {
+.vs-tabs-position-top > .con-ul-tabs > .line-vs-tabs {
     display: none !important;
 }
 
@@ -516,7 +529,7 @@ input[type=number] {
 }
 
 .vs-input--input:disabled,
-.vs-input--input:disabled+.vs-input--placeholder {
+.vs-input--input:disabled + .vs-input--placeholder {
     opacity: 1 !important;
     background: inherit !important;
     // color: #000 !important;
@@ -532,7 +545,7 @@ input[type=number] {
     }
 }
 
-li.fuel-station>h3 {
+li.fuel-station > h3 {
     display: none !important;
 }
 
@@ -556,9 +569,9 @@ li.fuel-station>h3 {
     margin: 0 !important;
 }
 
-.vs-dropdown--group.marginIcon:hover>.icon-group {
+.vs-dropdown--group.marginIcon:hover > .icon-group {
     opacity: 1 !important;
-    transform: translateY(-50%) rotate(180deg)!important;
+    transform: translateY(-50%) rotate(180deg) !important;
     top: 15px !important;
 }
 
@@ -586,7 +599,7 @@ li.fuel-station>h3 {
 }
 
 [dir] {
-    .custom_number .vs-input--input{
+    .custom_number .vs-input--input {
         direction: ltr !important;
     }
     .just-one-line {
@@ -605,7 +618,7 @@ li.fuel-station>h3 {
     .pro-serial-number {
         text-align: right;
     }
-    .con-img-upload>div {
+    .con-img-upload > div {
         margin: auto !important;
         float: unset !important;
         margin-bottom: 15px !important;
@@ -688,8 +701,8 @@ li.fuel-station>h3 {
 }
 
 .con-img-upload .img-upload:hover {
-    transition: all .3s ease !important;
-    border: 1px dashed rgba(var(--vs-primary), .5);
+    transition: all 0.3s ease !important;
+    border: 1px dashed rgba(var(--vs-primary), 0.5);
 }
 
 .flex {
@@ -705,7 +718,7 @@ li.fuel-station>h3 {
 }
 
 .vs-con-table.table-stripe .tr-values:nth-child(2n-1) {
-    background: transparent!important;
+    background: transparent !important;
 }
 
 .border-radius-0 {
