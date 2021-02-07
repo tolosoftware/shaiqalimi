@@ -1,6 +1,4 @@
 <template>
-<!--<vs-tabs>
-  <vs-tab label="تمام آفرها">-->
 <div id="data-list-thumb-view" class="w-full data-list-container">
   <div v-if="!isdata">
     <TableLoading></TableLoading>
@@ -94,7 +92,7 @@
     </template>
   </vs-table>
   <vs-popup class="holamundo" title="پیشرفت آفر/ اعلان" :active.sync="popupModalActive">
-    <ProposalSteps @closesteps="closeModel" ref="wizardModal1" :proposal="proposal"></ProposalSteps>
+    <ProposalSteps @closesteps="closeModel" ref="wizardModal1" :participators="participators" :proposal="proposal"></ProposalSteps>
   </vs-popup>
   <vs-popup fullscreen title="fullscreen" :active.sync="popupActive">
     <vs-button size="small" type="gradient" icon="print" id="printBTN" @click="printProposal">چاپ</vs-button>
@@ -159,8 +157,6 @@
     </vue-easy-print>
   </vs-popup>
 </div>
-<!--</vs-tab>
-</vs-tabs>-->
 </template>
 
 <script>
@@ -186,6 +182,17 @@ export default {
       selected: [],
       proposals: [],
       proposal: null,
+      participators: [],
+      proposalstep: [],
+      proposalsteps: new Form({
+        step: 0,
+        proposal_id: 0,
+        res_person: '',
+        is_recieved_cont: 0,
+        is_participated: 0,
+        prop_recieved_or_allow: 0,
+        winner: ''
+      }),
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
@@ -198,7 +205,6 @@ export default {
     TableLoading,
     DataViewSidebar,
     vueEasyPrint
-
   },
   created() {
     this.getProposals();
@@ -219,19 +225,44 @@ export default {
     closeModel() {
       this.popupModalActive = false;
     },
-    getProposal(id) {
+    getProposlStep(id) {
       this.$Progress.start()
+      this.axios.get('/api/proposalstep/' + id)
+        .then((response) => {
+          this.proposalstep = response.data;
+          if (response.data.status == 'no') {
+            this.$refs.wizardModal1.setWizardStep1(1, this.proposalsteps);
+          } else {
+            this.proposalstep.forEach(item => {
+              this.$refs.wizardModal1.setWizardStep1(item.step, item);
+            })
+          }
+          this.$Progress.set(100);
+        }).catch(() => {});
+    },
+    getProposal(id) {
       this.axios
         .get("/api/proposal/" + id)
         .then((response) => {
-          this.proposal = response.data
-          this.$refs.wizardModal1.setWizardStep1(this.proposal.step);
-          this.$Progress.set(100);
+          this.proposal = [];
+          this.proposal = response.data;
+        })
+        .catch(() => {});
+    },
+    getParticipators(proposalid) {
+      this.axios
+        .get("/api/participators/" + proposalid)
+        .then((response) => {
+          this.participators = [];
+          this.participators = response.data;
         })
         .catch(() => {});
     },
     showCheckModal(id) {
+      this.proposalstep = [];
       this.getProposal(id);
+      this.getParticipators(id);
+      this.getProposlStep(id);
       this.popupModalActive = true;
     },
     showPrintData(id) {

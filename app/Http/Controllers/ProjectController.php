@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper\Helper;
 
 use App\Models\Project;
+use App\Models\Projects_Step;
 use App\Models\SerialNumber;
 use App\Models\Currency;
 use App\Models\ProData;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
+use Symfony\Component\Translation\IdentityTranslator;
 
 class ProjectController extends Controller
 {
@@ -215,12 +217,68 @@ class ProjectController extends Controller
         return ProData::join('clients AS c', 'pro_data.client_id', '=', 'c.id')
             ->selectRaw("c.name, pro_data.title")->where('pro_data.project_id', $id)->get();
     }
-    public function changeStep($id, $stepNo)
+    public function changeStep(Request $request, $id)
     {
-        // return response(['id'=>$id,'stid'=>$stepNo]);
-        $project = Project::findOrFail($id);
-        $project->step = $stepNo;
-        $project->save();
+
+        $projectstep = Projects_Step::where(['project_id' => $id])->get();
+        if (sizeof($projectstep) == 1) {
+            if ($request->step == 2) {
+                foreach ($projectstep as $project) {
+                    $project->step = 2;
+                    $project->statusActive = $request->statusActive;
+                    $project->save();
+                }
+            } else if ($request->step == 3) {
+                foreach ($projectstep as $project) {
+                    $project->step = 3;
+                    $project->is_ekmalat_allowed = $request->is_ekmalat_allowed;
+                    $project->save();
+                }
+            } else if ($request->step == 4) {
+                foreach ($projectstep as $project) {
+                    $project->step = 4;
+                    // $project->is_ekmalat_allowed = $request->is_ekmalat_allowed;
+                    // $project->save();
+                }
+            } else if ($request->step == 5) {
+                foreach ($projectstep as $project) {
+                    $project->step = 5;
+                    $project->mactob_sending = $request->mactob_sending;
+                    $project->adminis_prove = $request->adminis_procedure;
+                    $project->setting_and_baqyat = $request->setting_and_baqyat;
+                    $project->save();
+                }
+            } else if ($request->step == 6) {
+                foreach ($projectstep as $project) {
+                    $project->finishcontract = $request->finishedcontract;
+                    $project->save();
+                }
+            }
+            return $projectstep;
+        } else if (sizeof($projectstep) == 0) {
+            $newProjectSt = Projects_Step::create([
+                'step' => 1,
+                'project_id' => $id,
+                'is_ekmalat_allowed' => $request['is_ekmalat_allowed'],
+                'mactob_sending' => $request['mactob_sending'],
+                'adminis_prove' => $request['adminis_procedure'],
+                'finishcontract' => $request['finishedcontract'],
+                'statusActive' => $request['statusActive'],
+                'setting_and_baqyat' => $request['setting_and_baqyat'],
+            ]);
+        }
+        // $projectstep = Projects_Step::where(['project_id' => $id]);
+
+    }
+    public function getprojectStep($id)
+    {
+        $projectstep = Projects_Step::where(['project_id' => $id])->get();
+        if (sizeof($projectstep) >= 1) {
+            return $projectstep;
+        } else {
+            return response(['status' => 'no']);
+        }
+        // 
     }
     /**
      * Update the specified resource in storage.

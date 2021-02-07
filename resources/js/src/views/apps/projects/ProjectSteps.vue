@@ -42,11 +42,11 @@
             <!--<label for class="ml-4 mr-4 mb-2">نوعیت قرارداد</label>-->
             <div class="radio-group w-full">
               <div class="w-1/2">
-                <input type="radio" v-model="status" value="1" id="active" name="status" />
+                <input type="radio" v-model="stepForm.statusActive" value="1" id="active" name="statusActive" />
                 <label for="active" style="font-size:15px;" class="w-full text-center p-6">قرارداد فعال است</label>
               </div>
               <div class="w-1/2">
-                <input type="radio" v-model="status" value="2" id="deactive" name="status" />
+                <input type="radio" v-model="stepForm.statusActive" value="2" id="deactive" name="statusActive" />
                 <label for="deactive" style="font-size:14px;" class="w-full text-center p-6">قرارداد داد غیر فعال است</label>
               </div>
             </div>
@@ -89,6 +89,13 @@
       <vs-row vs-w="12">
         <vs-divider> مرحله اکمالات وتوزیعات</vs-divider>
       </vs-row>
+      <div class="vx-row mb-3">
+        <vs-col vs-type="flex" vs-justify="right" vs-align="right" vs-lg="12" vs-sm="12" vs-xs="12">
+          <vs-alert :active.sync="!stepForm.is_ekmalat_allowed" close-icon="close" class="w-full mr-3 ml-3">
+            <p style="color:red">شما باید گزینه <code>اکمالات مجاز است</code> را انتخاب کنید تا بتوانید مرحله بعدی راتغیر بدهید.</p>
+          </vs-alert>
+        </vs-col>
+      </div>
       <vs-row vs-w="12">
         <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
           <div class="vx-row">
@@ -123,7 +130,7 @@
         </vs-col>
         <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
           <div class="p-6">
-            <vs-checkbox color="success" class="float-left" size="large" v-model="is_ekmalat_allowed"><strong>اکمالات مجاز است </strong></vs-checkbox>
+            <vs-checkbox color="success" class="float-left" size="large" v-model="stepForm.is_ekmalat_allowed"><strong>اکمالات مجاز است </strong></vs-checkbox>
           </div>
         </vs-col>
       </vs-row>
@@ -204,13 +211,13 @@
         <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
           <div class="p-2">
             <div class="p-2">
-              <vs-checkbox color="success" size="large" v-model="mactob_sending"><strong>ارسال مکتوبات </strong></vs-checkbox>
+              <vs-checkbox color="success" size="large" v-model="stepForm.mactob_sending"><strong>ارسال مکتوبات </strong></vs-checkbox>
             </div>
             <div class="p-2">
-              <vs-checkbox color="success" size="large" v-model="adminis_procedure"><strong>طی مراحل اداری</strong></vs-checkbox>
+              <vs-checkbox color="success" size="large" v-model="stepForm.adminis_procedure"><strong>طی مراحل اداری</strong></vs-checkbox>
             </div>
             <div class="p-2">
-              <vs-checkbox color="success" size="large" v-model="setting_and_baqyat"><strong>دریافت تنظیمات و باقیات</strong></vs-checkbox>
+              <vs-checkbox color="success" size="large" v-model="stepForm.setting_and_baqyat"><strong>دریافت تنظیمات و باقیات</strong></vs-checkbox>
             </div>
           </div>
         </vs-col>
@@ -218,7 +225,7 @@
       <vs-divider></vs-divider>
     </vs-row>
   </tab-content>
-  <tab-content title="تکمیل پروژه" class="mb-5">
+  <tab-content title="تکمیل پروژه" class="mb-5" :before-change="changeStepStatus5">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider>تکمیل پروژه</vs-divider>
@@ -257,7 +264,7 @@
         </vs-col>
         <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
           <div class="p-5">
-            <vs-checkbox color="success" size="large" v-model="finishedcontract"><strong>ختم قرارداد</strong></vs-checkbox>
+            <vs-checkbox color="success" size="large" v-model="stepForm.finishedcontract"><strong>ختم قرارداد</strong></vs-checkbox>
           </div>
         </vs-col>
       </vs-row>
@@ -294,10 +301,11 @@
     </vs-row>
   </tab-content>
   <vs-button slot="prev">قبلی</vs-button>
-  <vs-button v-bind:class="is_ekmalat_allowed ? '': 'hide'" slot="next">بعدی</vs-button>
-  <vs-button disabled v-bind:class="is_ekmalat_allowed ? 'hide': ''">بعدی</vs-button>
-  <vs-button v-bind:class="finishedcontract ? '': 'hide'" slot="finish">بستن صحفه</vs-button>
-  <vs-button disabled v-bind:class="!finishedcontract ? 'hide': ''">بستن صحفه</vs-button>
+  <vs-button v-bind:class="stepForm.is_ekmalat_allowed || curTabIndex >=0 ? '': 'hide'" slot="next">بعدی</vs-button>
+  <!--<vs-button v-bind:class="is_ekmalat_allowed  curTabIndex >= 0 ? '': 'hide'" slot="next">بعدی</vs-button>-->
+  <!--<vs-button disabled v-bind:class="is_ekmalat_allowed || curTabIndex >= 1 ? 'hide': ''">بعدی</vs-button>-->
+  <vs-button v-bind:class="stepForm.finishedcontract ? '': 'hide'" slot="finish">بستن صحفه</vs-button>
+  <vs-button v-if="curTabIndex == 4" disabled v-bind:class="stepForm.finishedcontract ? 'hide': ''">بستن صحفه</vs-button>
 </form-wizard>
 </template>
 
@@ -310,14 +318,18 @@ export default {
   props: ['project'],
   data() {
     return {
-      step: 0,
-      status: 1,
       curTabIndex: 0,
-      is_ekmalat_allowed: 0,
-      adminis_procedure: 0,
-      setting_and_baqyat: 0,
-      finishedcontract: 0,
-      mactob_sending: 0,
+      firstloadstep: 0,
+      stepForm: new Form({
+        step: 0,
+        project_id: 0,
+        statusActive: 2,
+        is_ekmalat_allowed: 0,
+        adminis_procedure: 0,
+        finishedcontract: 0,
+        mactob_sending: 0,
+        setting_and_baqyat: 0,
+      })
     }
   },
   components: {
@@ -325,7 +337,6 @@ export default {
     TabContent
   },
   created() {
-
     // 
     // setInterval(this.step = this.step + 1, 2000);
   },
@@ -334,75 +345,98 @@ export default {
     formSubmitted() {
       this.$emit('closesteps');
     },
-    // nextTab() {
-    //   let cb = () => {
-    //     if (this.activeTabIndex < this.tabCount - 1) {
-    //       this.changeTab(this.activeTabIndex, this.activeTabIndex + 1)
-    //       this.afterTabChange(this.activeTabIndex)
-    //       
-    //     } else {
-    //       this.$emit('on-complete')
-    //     }
-    //   }
-    //   this.beforeTabChange(this.activeTabIndex, cb)
-    // },
-    setWizardStep(index) {
-      this.step = index;
+    setWizardStep(index = 1, pr) {
+      this.firstloadstep = index;
+      this.stepForm.step = index;
+      this.stepForm.project_id = pr.project_id;
+      this.stepForm.is_ekmalat_allowed = pr.is_ekmalat_allowed;
+      this.stepForm.mactob_sending = pr.mactob_sending;
+      this.stepForm.adminis_procedure = pr.adminis_prove;
+      this.stepForm.finishedcontract = pr.finishcontract;
+      this.stepForm.statusActive = pr.statusActive;
+      this.stepForm.setting_and_baqyat = pr.setting_and_baqyat;
       this.curTabIndex = index;
       this.$refs.wizard.activateAll();
       this.$refs.wizard.navigateToTab(index - 1);
-      // this.$refs.wizard.navigateToTab(2);
     },
     changeItTo(id, st) {
       this.$Progress.start()
-      this.axios.get('/api/projectstchange/' + id + '/' + st)
+      this.stepForm.post('/api/projectstchange/' + id)
         .then((response) => {
           this.$Progress.set(100);
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: ' مرحله موفقانه به ' + st + ' تغیر یافت.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
+          if (this.firstloadstep == 1) {
+            if (st == 6) {
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'تمام مراحل ختم گردید',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            } else {
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: ' مرحله موفقانه به ' + st + ' تغیر یافت.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }
+          } else if (this.firstloadstep > 1) {
+            this.firstloadstep = (this.firstloadstep - 1);
+          }
+
         }).catch(() => {});
+      // } 
     },
     changeStepStatus() {
-      if (this.step == 1) {
-        this.step = 2;
-        this.changeItTo(this.project.id, this.step);
-      }
+      // if (this.stepForm.step == 1) {
+      this.stepForm.step = 2;
+      // }
+      this.changeItTo(this.project.id, this.stepForm.step);
       return true;
+
     },
     changeStepStatus2() {
-      if (this.step == 2) {
-        if (this.is_ekmalat_allowed) {
-          this.step = 3;
-          this.changeItTo(this.project.id, this.step)
-        }
+      // if(firstloadstep == )
+      if (this.stepForm.is_ekmalat_allowed) {
+        //   if (this.stepForm.step == 2) {
+        this.stepForm.step = 3;
+        this.changeItTo(this.project.id, this.stepForm.step)
+        //   }
+        return true;
       }
-      return true;
+
     },
     changeStepStatus3() {
-      if (this.step == 3) {
-        if (this.is_ekmalat_allowed) {
-          this.step = 4;
-          this.changeItTo(this.project.id, this.step)
-        }
+      // if (this.stepForm.step == 3) {
+      if (this.stepForm.is_ekmalat_allowed) {
+        this.stepForm.step = 4;
+        this.changeItTo(this.project.id, this.stepForm.step)
       }
+      // }
       return true;
     },
     changeStepStatus4() {
-      if (this.step == 4) {
-        if (this.is_ekmalat_allowed) {
-          this.step = 5;
-          this.changeItTo(this.project.id, this.step);
+      // if (this.stepForm.step == 4) {
+      if (this.stepForm.is_ekmalat_allowed) {
+        this.stepForm.step = 5;
+        this.changeItTo(this.project.id, this.stepForm.step);
+      }
+      // }
+      return true;
+    },
+    changeStepStatus5() {
+      if (this.stepForm.step == 5) {
+        if (this.stepForm.is_ekmalat_allowed) {
+          this.stepForm.step = 6;
+          this.changeItTo(this.project.id, this.stepForm.step);
         }
       }
       return true;
-    },
-
+    }
   },
   mounted() {}
 }
