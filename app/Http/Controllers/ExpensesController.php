@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Expense;
 use App\Models\SerialNumber;
 use App\Models\FinancialRecord;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ExpensesController extends Controller
@@ -52,7 +53,7 @@ class ExpensesController extends Controller
         DB::beginTransaction();
         try {
 
-            $serial_number = SerialNumber::where('type',   'EXP')->latest()->first();
+            $serial_number = SerialNumber::where('type', 'EXP')->latest()->first();
             if ($serial_number) {
                 if ($serial_number->value > $request['serial_no']) {
                     $request['serial_no'] = $serial_number->value + 1;
@@ -70,7 +71,7 @@ class ExpensesController extends Controller
                 ]);
             }
 
-            Expense::create([
+            $expenses = Expense::create([
                 'serial_no' => $request['serial_no'],
                 'currency_id' => $request['currency_id'],
                 'datetime' => $request['datetime'],
@@ -80,7 +81,6 @@ class ExpensesController extends Controller
                 'user_id' => $request['user_id'],
             ]);
 
-            $expenses =  Expense::latest()->first();
             // Create opening FR for the created Projet
             $data = [
                 'type' => 'EXP',
@@ -127,7 +127,12 @@ class ExpensesController extends Controller
      */
     public function show($id)
     {
-        return Expense::with('user', 'currency')->find($id);
+        $expense = Expense::with('user', 'currency')->find($id);
+        $creditFinancialRecord = FinancialRecord::with('account')->where('type_id', $id)->where('credit', '>', 0)->where('type', 'EXP')->first();
+        $expense['credit_account'] = $creditFinancialRecord->account;
+        $debitFinancialRecord = FinancialRecord::with('account')->where('type_id', $id)->where('debit', '>', 0)->where('type', 'EXP')->first();
+        $expense['debit_account'] = $debitFinancialRecord->account;
+        return $expense;
     }
 
     /**
@@ -150,7 +155,37 @@ class ExpensesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+
+            $expense = Expense::find($id);
+            $expense->update($request->all());
+
+            $creditFinancialRecord = FinancialRecord::where('type_id', $id)->where('credit', '>', 0)->where('type', 'EXP')->first();
+            $data = [
+                'account_id' => $request['credit_account']['id'],
+                'description' => $request['credit_desc'],
+                'currency_id' => $request['currency_id'],
+                'credit' => $request['ammount'],
+                'ex_rate_id' => $request['currency_id'],
+            ];
+            $creditFinancialRecord->update($data);
+
+            $debitFinancialRecord = FinancialRecord::where('type_id', $id)->where('debit', '>', 0)->where('type', 'EXP')->first();
+            $data = [
+                'account_id' => $request['debit_account']['id'],
+                'description' => $request['debit_desc'],
+                'currency_id' => $request['currency_id'],
+                'debit' => $request['ammount'],
+                'ex_rate_id' => $request['currency_id'],
+            ];
+            $debitFinancialRecord->update($data);
+
+            DB::commit();
+            return ['msg' => 'expenses successfully inserted', $expense];
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**

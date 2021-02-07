@@ -56,7 +56,7 @@
                         <span>{{currency_title}}</span>
                       </div>
                     </template>
-                    <vs-input type="number" name="expense_ammount" v-validate="'required'" v-model="form.ammount" />
+                    <vs-input name="expense_ammount" v-validate="'required'" v-model="visualFields.ammount" @input="formatToEnPrice($event, form, 'ammount', visualFields)" />
                   </vx-input-group>
                 </div>
               </vs-col>
@@ -112,6 +112,9 @@ export default {
   },
   data() {
     return {
+      visualFields:{
+        ammount: 0
+      },
       form: new Form({
         serial_no: '',
         currency_id: 1,

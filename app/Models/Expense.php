@@ -20,4 +20,8 @@ class Expense extends Model
     {
         return $this->belongsTo(Currency::class, 'currency_id');
     }
+    public function exp_fr()
+    {
+        return 12;
+    }
 }
