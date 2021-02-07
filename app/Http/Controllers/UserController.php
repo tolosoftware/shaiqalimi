@@ -18,7 +18,9 @@ class UserController extends Controller
 
     public function user(Request $request)
     {
-        return $request->user();
+        $user = $request->user();
+        $user['permission_keys'] = $user->permissions->pluck('id')->toArray();
+        return $user;
     }
     /**
      * Display a listing of the resource.

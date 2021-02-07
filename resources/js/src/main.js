@@ -27,8 +27,10 @@ Vue.component(AlertError.name, AlertError)
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
-    //end
 
+import VueCryptojs from 'vue-cryptojs'
+Vue.use(VueCryptojs)
+    
 // Vue.use(require('vue-moment'))
 import moment from 'moment'
 moment.locale('fa');

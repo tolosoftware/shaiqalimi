@@ -35,7 +35,7 @@ export default {
     this.checkLogin();
     window.addEventListener('keydown', (e) => {
       if (e.key == 'Enter') {
-        if(!e.path.find(x => x.className === 'vs-textarea')){
+        if (!e.path.find(x => x.className === 'vs-textarea')) {
           this.loginJWT();
         }
       }
@@ -44,8 +44,9 @@ export default {
   methods: {
     checkLogin() {
       if (localStorage.getItem('token')) {
-        
-         this.$router.push({ path: '/dashboard' });
+        this.$router.push({
+          path: '/dashboard'
+        });
         // this.$router.go('/dashboard');
         this.$vs.notify({
           title: 'شما به سیستم از قبل دسترسی دارید',
@@ -62,7 +63,19 @@ export default {
       this.form.post('/oauth/token')
         .then((data) => {
           localStorage.setItem('token', data.data.access_token);
-          this.$router.push({ path: '/dashboard' });
+          this.axios.get('/api/user')
+            .then((response) => {
+              this.currentuserdata = response.data
+              localStorage.setItem('name', this.currentuserdata.firstName)
+              localStorage.setItem('lastname', this.currentuserdata.lastName)
+              localStorage.setItem('position', this.currentuserdata.position)
+              localStorage.setItem('image', this.currentuserdata.image)
+              localStorage.setItem('id', this.currentuserdata.id)
+              localStorage.setItem('user_permissions', this.currentuserdata.permission_keys)
+            });
+          this.$router.push({
+            path: '/dashboard'
+          });
           this.$vs.notify({
             title: 'به سیستم خوش آمدید',
             text: 'عملیه ورود موفقانه بود',

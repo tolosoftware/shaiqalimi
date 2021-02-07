@@ -68,11 +68,11 @@
           </vs-td>
 
           <vs-td>
-            <p class="product-category">{{ tr.title | title }}</p>
+            <p class="product-category">{{ tr.title }}</p>
           </vs-td>
 
           <vs-td>
-            <vs-chip :color="getOrderStatusColor(tr.ammount)" class="product-order-status">{{ (tr.ammount | title ) | NumThreeDigit }}</vs-chip>
+            <vs-chip :color="getOrderStatusColor(tr.ammount)" class="product-order-status">{{ (tr.ammount ) | NumThreeDigit }}</vs-chip>
           </vs-td>
 
           <vs-td>
@@ -89,8 +89,8 @@
 
           <vs-td class="whitespace-no-wrap">
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showStepsModal(tr.id)" />&nbsp;&nbsp;
-            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current cursor-pointer" @click.stop="$router.push({path: '/expense-edit/' + tr.id, params: {item: tr }}).catch(() => {})" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="deleteData(tr.id)" />
             <feather-icon icon="EyeIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="viewData(tr)" />
           </vs-td>
         </vs-tr>
@@ -220,11 +220,6 @@ export default {
         }
       })
 
-    },
-    editData(data) {
-      // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-      this.sidebarData = data;
-      this.toggleDataSidebar(true);
     },
     getOrderStatusColor(status) {
 
