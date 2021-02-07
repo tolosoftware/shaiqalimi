@@ -20,7 +20,6 @@
 <script>
 import themeConfig from '@/../themeConfig.js'
 import jwt from '@/http/requests/auth/jwt/index.js'
-import axios from 'axios'
 
 export default {
   data() {
@@ -43,16 +42,18 @@ export default {
       this.axios.get('/api/user')
         .then((response) => {
           this.currentuserdata = response.data
-
           localStorage.setItem('name', this.currentuserdata.firstName)
           localStorage.setItem('lastname', this.currentuserdata.lastName)
           localStorage.setItem('position', this.currentuserdata.position)
           localStorage.setItem('image', this.currentuserdata.image)
           localStorage.setItem('id', this.currentuserdata.id)
+          localStorage.setItem('user_permissions', this.currentuserdata.permission_keys)
 
         }).catch(() => {
-          
-          this.$router.push({ path: '/login' });
+
+          this.$router.push({
+            path: '/login'
+          });
           if (this.$route.name != 'login') {
             this.$vs.notify({
               title: ' شما به سیستم دسترسی ندارید!',
@@ -102,11 +103,10 @@ export default {
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty('--vh', `${vh}px`)
   },
+  beforeMount() {
+    this.loadcurrentuser();
+  },
   async created() {
-    // 
-    if (localStorage.getItem('id') == null) {
-      this.loadcurrentuser();
-    }
 
     // jwt
     jwt.init()

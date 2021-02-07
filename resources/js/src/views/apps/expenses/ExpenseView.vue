@@ -7,7 +7,7 @@
     </vs-col>
   </vs-row>
   <vs-row vs-w="12">
-    <vs-col :key="i" v-for="(field, i) in fields" vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
+    <vs-col :key="i" v-for="(field, i) in fields_display" vs-type="flex" vs-justify="right" vs-align="right" vs-lg="4" vs-sm="6" vs-xs="12">
       <h6 class="mb-5 mt-3 ml-2">
         <strong class="mr-4">
           {{ (typeof field === 'object') ? $t(field[0]) : $t(field) }}:
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      fields: [
+      fields_display: [
         'serial_no',
         'datetime',
         'title',

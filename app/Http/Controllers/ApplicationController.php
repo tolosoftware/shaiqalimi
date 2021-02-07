@@ -17,7 +17,7 @@ class ApplicationController extends Controller
     public function trancate_db()
     {
         $tables = DB::select('SHOW TABLES');
-        $ignore_tb = ['migrations', 'companies', 'account_types', 'accounts', 'currencies', 'exchange_rates', 'item_types', 'measurment_units', 'operations', 'users'];
+        $ignore_tb = ['oauth_refresh_tokens','oauth_personal_access_clients','oauth_clients','oauth_auth_codes','oauth_access_tokens','migrations', 'companies', 'account_types', 'accounts', 'currencies', 'exchange_rates', 'item_types', 'measurment_units', 'operations', 'users'];
         $clean_tables = [];
         // it do truncate all tables in database
         Schema::disableForeignKeyConstraints();

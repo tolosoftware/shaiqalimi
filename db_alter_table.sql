@@ -81,3 +81,4 @@ ALTER TABLE `stock_records` CHANGE `decrement_equiv` `decrement_equiv` DECIMAL(1
 ALTER TABLE `stock_records` CHANGE `increment_equiv` `increment_equiv` DECIMAL(18,2) NULL DEFAULT '0.00';
 =======
 >>>>>>> a4a333f0da876a93c807c2d7f12b0c367c9b62e3
+ALTER TABLE `users` CHANGE `image` `image` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;

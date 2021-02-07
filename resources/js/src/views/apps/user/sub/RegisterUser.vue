@@ -65,7 +65,7 @@
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-button class="w-full mt-6 input-height" @click.stop="setPrivilages(form)">صلاحیت های کابر</vs-button>
+            <vs-button class="w-full mt-6 input-height" @click.stop="setPrivileges(form)">صلاحیت های کابر</vs-button>
           </div>
         </vs-col>
 
@@ -117,7 +117,7 @@
     </div>
   </form>
   <vs-popup class="holamundo width-60" title="تنظیمات صلاحیت ها" :active.sync="privilegeModalActive">
-    <privilege-setting :source="form" @closeModal="privilegeModalActive = false" />
+    <privilege-setting ref="userprivilege" :source="[]" @closeModal="assignPrivileges" />
   </vs-popup>
 
 </vx-card>
@@ -171,14 +171,18 @@ export default {
         password: '',
         image: '',
         userleaders: null,
-        privilages: [],
+        privileges: [],
       })
     }
   },
 
   methods: {
-    setPrivilages(user) {
-        this.privilegeModalActive = true;
+    setPrivileges(user) {
+      this.$refs.userprivilege.getPermissions(null);
+    },
+    assignPrivileges(){
+      this.privilegeModalActive = !this.privilegeModalActive
+      this.form.privileges = this.$refs.userprivilege.privileges.filter((e) => e.assign === true)
     },
     loadUsers() {
       this.axios.get('/api/users').then(({
