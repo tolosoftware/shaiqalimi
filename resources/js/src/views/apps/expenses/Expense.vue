@@ -172,7 +172,7 @@ export default {
             .catch(() => {
               this.$vs.notify({
                 title: 'ثبت عملیه  ناموفق بود!',
-                text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                text: 'عملیه  ناکام شد لطفا دوباره تلاش نماید',
                 color: 'danger',
                 iconPack: 'feather',
                 icon: 'icon-check',

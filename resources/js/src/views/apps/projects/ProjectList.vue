@@ -48,7 +48,7 @@
       <vs-th sort-key="total_price">قیمت</vs-th>
       <vs-th sort-key="contract_end_date">تاریخ ختم</vs-th>
       <vs-th sort-key="contract_date">تاریخ قرارداد</vs-th>
-      <vs-th>نمظیمات</vs-th>
+      <vs-th>تنظیمات</vs-th>
     </template>
     <template slot-scope="{data}">
       <tbody>
