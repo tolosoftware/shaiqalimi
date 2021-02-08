@@ -49,11 +49,11 @@
               <label for class="ml-4 mr-4 mb-2"> حالت معامله</label>
               <div class="radio-group w-full">
                 <div class="w-1/2">
-                  <input type="radio" v-model="form.transaction_status" value="عاید" id="benifate" name="transaction" />
+                  <input type="radio" v-model="form.transaction_status" value="benifate" id="benifate" name="transaction" />
                   <label for="benifate" class="w-full text-center">عاید</label>
                 </div>
                 <div class="w-1/2">
-                  <input type="radio" v-model="form.transaction_status" value="امانت/عادی" id="basic" name="transaction" />
+                  <input type="radio" v-model="form.transaction_status" value="basic" id="basic" name="transaction" />
                   <label for="basic" class="w-full text-center">امانت/عادی</label>
                 </div>
               </div>
@@ -76,7 +76,7 @@
                     <span>{{currency_title}}</span>
                   </div>
                 </template>
-                <vs-input type="number" name="trans_ammount" v-validate="'required'" v-model="form.ammount" />
+                <vs-input name="trans_ammount" v-validate="'required'" v-model="visualFields.ammount" @input="formatToEnPrice($event, form, 'ammount', visualFields)" />
               </vx-input-group>
             </div>
           </vs-col>
@@ -139,7 +139,7 @@ export default {
         datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
         title: '',
         user_id: localStorage.getItem('id'),
-        transaction_status: 'عاید',
+        transaction_status: 'benifate',
         ammount: '0',
         credit_account: '',
         debit_account: '',
@@ -147,6 +147,9 @@ export default {
         debit_desc: '',
         description: ''
       }),
+      visualFields:{
+        ammount: 0
+      },
       currency_title: 'AFN',
       accounts: [],
       accountTypes: [],
@@ -171,6 +174,7 @@ export default {
     Validator.localize('en', this.dict);
     this.getAllAccountTypes()
     this.getAccounts();
+    this.loadTransaction();
   },
   methods: {
     addNewData() {
@@ -220,8 +224,6 @@ export default {
                 icon: 'icon-check',
                 position: 'top-right'
               })
-              this.form.reset();
-              this.$validator.reset();
             })
             .catch(() => {
               this.$vs.notify({
@@ -240,7 +242,18 @@ export default {
       })
 
     },
-
+    loadTransaction() {
+      this.axios.get('/api/transaction/' + this.edit_id)
+        .then((response) => {
+          this.form.serial_no = response.data.serial_no,
+            this.form.fill(response.data);
+            this.visualFields.ammount = this.formatToEnPriceSimple(response.data.ammount),
+            this.form.credit_desc = this.form.title,
+            this.form.debit_desc = this.form.title,
+            this.$vs.loading.close();
+          this.$Progress.set(100)
+        })
+    },
     getAccounts() {
       this.$Progress.start()
       this.axios.get('/api/account')
