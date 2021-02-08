@@ -1,15 +1,15 @@
 <template>
 <div>
   <!-- {{userid}} -->
-  <div class="vx-row mb-base">
+  <div class="vx-row mb-base" v-if="gPurchaseData['byDays'] && gSaleData['byDays']">
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-      <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" icon-right statistic="32476 AFN" statisticTitle="مصارف" :chartData="ordersRecevied.series" />
+      <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" :key="componentKey1" icon-right :statistic="formatToEnPriceSimple(gPurchaseData['total_af']) +  ' AFN'" statisticTitle="مصارف" :chartData="gPurchaseData['byDays'].series" />
     </div>
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-      <statistics-card-line class="md:mb-0 mb-base" icon="UserCheckIcon" icon-right statistic="1034567 AFN" statisticTitle="عواید" :chartData="ordersRecevied.series" color="success" />
+      <statistics-card-line class="md:mb-0 mb-base" icon="UserCheckIcon" :key="componentKey2" icon-right :statistic="formatToEnPriceSimple(gSaleData['total_af']) +  ' AFN'" statisticTitle="عواید" :chartData="gSaleData['byDays'].series" color="success" />
     </div>
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-      <statistics-card-line icon="MailIcon" icon-right statistic="76%" statisticTitle="میزان مفاد دهی" :chartData="ordersRecevied.series" color="warning" />
+      <statistics-card-line icon="MailIcon" icon-right :key="componentKey3" :statistic="formatToEnPriceSimple(gSaleData['total_af'] - gPurchaseData['total_af']) +  ' %'" statisticTitle="میزان مفاد دهی" :chartData="benefits.series" color="warning" />
     </div>
   </div>
   <div class="vx-row">
@@ -293,6 +293,9 @@ export default {
   data() {
     return {
       userid: localStorage.getItem('id'),
+      componentKey1: 0,
+      componentKey2: 0,
+      componentKey3: 0,
       apexChatData,
       analyticsData,
       revenueComparisonLine: {
@@ -397,24 +400,23 @@ export default {
           users: 97500
         }
       },
-
-      ordersRecevied: {
+      newsletter: {},
+      // Graphes data
+      gPurchaseData: [],
+      gSaleData: [],
+      benefits: {
         series: [{
-          name: 'روز قبل',
-          data: [60, 15, 58, 15, 74, 42, 82]
+          name: 'مفاددهی',
+          data: []
         }],
-        analyticsData: {
-          orders: 97500
-        }
       },
-
-      newsletter: {}
 
     }
 
   },
 
   created() {
+    console.log(this.revenueComparisonLine);
     // Start the Progress Bar
     this.$Progress.start()
     this.$vs.loading({
@@ -425,6 +427,34 @@ export default {
       this.$vs.loading.close()
       this.$Progress.set(95)
     }, 2000)
+    this.getPurchaseData();
+  },
+  methods: {
+    getPurchaseData() {
+      this.$Progress.start()
+      this.axios
+        .get("/api/graphs/purchase")
+        .then((data) => {
+          this.gPurchaseData = data.data;
+          this.componentKey1 += 1;
+          this.getSaleData();
+        })
+        .catch(() => {});
+    },
+    getSaleData() {
+      this.$Progress.start()
+      this.axios
+        .get("/api/graphs/sale-value")
+        .then((data) => {
+          this.gSaleData = data.data;
+          console.log(this.gSaleData['byDays'].series.data);
+          for (const [key, value] of Object.entries(this.gSaleData['byDays'].series[0].data)) {
+            this.benefits.series[0].data[key] = this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key];
+          }
+          this.componentKey2 += 1;
+        })
+        .catch(() => {});
+    },
   },
 }
 </script>

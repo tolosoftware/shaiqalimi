@@ -168,6 +168,7 @@ export default {
               })
               this.form.reset();
               this.$validator.reset();
+              this.getSerialNom();
             })
             .catch(() => {
               this.$vs.notify({

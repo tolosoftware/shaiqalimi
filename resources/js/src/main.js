@@ -187,6 +187,9 @@ Vue.use(MyPlugin)
 Vue.mixin({
     methods: {
         formatToEnPrice: function(value, sourceObject, field, fieldObject) {
+            if(!value){
+                return value;
+            }
             var nStr = value.replace(/[^0-9.]/g, '');
             if(nStr.length > 0 && nStr > 0){
                 nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
@@ -207,6 +210,9 @@ Vue.mixin({
             }
           },
         formatToEnPriceSimple: function(value) {
+            if(!value){
+                return value;
+            }
             var nStr = value.toString().replace(/[^0-9.]/g, '');
             if(nStr.length > 0 && nStr > 0){
                 nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
