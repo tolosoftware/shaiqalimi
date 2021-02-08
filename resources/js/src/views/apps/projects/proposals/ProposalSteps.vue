@@ -327,13 +327,13 @@
           <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
             <vs-row vs-w="12" vs-type="flex" vs-justify="center">
               <input type="radio" v-model="pStepForm.prop_recieve_or_allow" value="1" id="struct" name="prop_recieve_or_allow" />
-              <label for="struct" style="font-size:35px;" class="w-full text-center p-24">دریافت قرارداد</label>
+              <label for="struct" id="recieve" style="font-size:35px;" class="w-full text-center p-24">دریافت قرارداد</label>
             </vs-row>
           </vs-col>
           <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
             <vs-row vs-w="12" vs-type="flex" vs-justify="center">
               <input type="radio" v-model="pStepForm.prop_recieve_or_allow" value="2" id="specific" name="prop_recieve_or_allow" />
-              <label for="specific" style="font-size:35px;" class="w-full text-center p-12">واگذاری قرارداد</label>
+              <label for="specific" id="allowto" style="font-size:35px;" class="w-full text-center p-12">واگذاری قرارداد</label>
               <vs-divider><span for="winner">برنده قرار داد</span></vs-divider>
               <vs-input id="winner" autocomplete="off" v-model="pStepForm.winner" name="winner" class="w-full" />
             </vs-row>
@@ -531,3 +531,96 @@ export default {
   }
 }
 </script>
+
+<style>
+.con-vs-popup .vs-popup {
+  width: 900px;
+}
+
+.vue-form-wizard .navbar .navbar-nav>li>a.wizard-btn,
+.vue-form-wizard .wizard-btn {
+  min-width: 40px !important;
+}
+
+[dir] .vue-form-wizard .wizard-tab-content {
+  padding: 30px 20px 2px 10px !important;
+}
+
+.radio-group1 {
+  display: inline-flex;
+  overflow: visible;
+}
+
+.radio-group1 div:first-child label {
+  overflow: hidden;
+}
+
+[dir=ltr] .radio-group1 div:first-child label {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+
+}
+
+[dir=rtl] .radio-group1 div:first-child label {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+
+}
+
+.radio-group1 div:last-child label {
+  overflow: hidden;
+
+}
+
+[dir=ltr] .radio-group1 div:last-child label {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+
+}
+
+[dir=rtl] .radio-group1 div:last-child label {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+
+}
+
+.radio-group1 input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+.radio-group1 label {
+  display: inline-block;
+  font-weight: bold;
+  transition: 0.4s;
+}
+
+[dir] .radio-group1 label#recieve {
+  cursor: pointer;
+  padding: 30px 18px;
+  border: solid 1px rgba(var(--vs-success), 1);
+}
+
+[dir] .radio-group1 label#allowto {
+  cursor: pointer;
+  padding: 30px 18px;
+  border: solid 1px rgba(var(--vs-danger), 1);
+}
+
+.radio-group1 input[type=radio]:checked+label {
+  color: white;
+}
+
+[dir] .radio-group1 input[type=radio]:checked+label#recieve {
+  background: rgba(var(--vs-success), 1);
+  box-shadow: 0 8px 25px -8px #e85454;
+  border-color: rgba(var(--vs-success), 1);
+}
+
+[dir] .radio-group1 input[type=radio]:checked+label#allowto {
+  background: rgba(var(--vs-danger), 1);
+  box-shadow: 0 8px 25px -8px #e85454;
+  border-color: rgba(var(--vs-danger), 1);
+}
+</style>

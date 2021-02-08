@@ -1,7 +1,6 @@
 <template>
 <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index.sync="currentIndex" ref="wizard" finishButtonText="" @on-complete="submitForm">
   <tab-content title="معلومات عمومی قرارداد" class="mb-5" :before-change="validateStep1">
-
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">

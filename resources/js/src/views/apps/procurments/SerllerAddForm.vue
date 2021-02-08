@@ -223,6 +223,7 @@ export default {
                 position: 'top-right'
               })
             })
+            
         } else {
           
           // form have errors
