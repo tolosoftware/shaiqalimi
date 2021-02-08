@@ -40,7 +40,7 @@ export default {
           });
           this.$vs.notify({
             title: ' شما به سیستم دسترسی ندارید!',
-            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+            text: 'عملیه  ناکام شد لطفا دوباره تلاش نماید',
             color: 'danger',
             iconPack: 'feather',
             icon: 'icon-check',

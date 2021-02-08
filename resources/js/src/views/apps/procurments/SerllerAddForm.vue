@@ -216,7 +216,7 @@ export default {
             .catch(() => {
               this.$vs.notify({
                 title: 'عملیه ثبت نام فروشندهوفق بود!',
-                text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                text: 'عملیه  ناکام شد لطفا دوباره تلاش نماید',
                 color: 'danger',
                 iconPack: 'feather',
                 icon: 'icon-check',

@@ -5,7 +5,7 @@
     <vx-card>
       <div class="vx-row">
         <div class="vx-col w-1/2">
-          <h3>فورم ثبت معاملات تجارتی</h3>
+          <h3>فورم ویرایش معاملات تجارتی</h3>
         </div>
         <div class="vx-col w-1/2 float-left">
           <vs-button color="primary" type="filled" class="float-right ml-3" @click="addNewData">حساب جدید</vs-button>
@@ -98,7 +98,7 @@
             <vs-textarea label="تفصیلات کلی" v-model="form.description"></vs-textarea>
           </div>
         </div>
-        <vs-button :disabled="form.busy" class="mr-3 mb-2" @click.prevent="submitData">ثبت</vs-button>
+        <vs-button :disabled="form.busy" class="mr-3 mb-2" @click.prevent="submitData">آپدیت</vs-button>
         <vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
@@ -121,6 +121,7 @@ import {
 export default {
   data() {
     return {
+      edit_id: this.$route.params.id,
       accForm: new Form({
         type_id: '',
         name: '',
@@ -170,8 +171,6 @@ export default {
     Validator.localize('en', this.dict);
     this.getAllAccountTypes()
     this.getAccounts();
-    this.getSerialNom();
-
   },
   methods: {
     addNewData() {
@@ -211,10 +210,10 @@ export default {
     submitData() {
       this.$validator.validateAll('transactionForm').then(result => {
         if (result) {
-          this.form.post('/api/transaction')
+          this.form.patch('/api/transaction/' + this.edit_id)
             .then(() => {
               this.$vs.notify({
-                title: 'عملیه ثبت موفق بود!',
+                title: 'عملیه آپدیت موفق بود!',
                 text: 'عملیه موفقانه انجام شد',
                 color: 'success',
                 iconPack: 'feather',
@@ -226,8 +225,8 @@ export default {
             })
             .catch(() => {
               this.$vs.notify({
-                title: 'ثبت عملیه  ناموفق بود!',
-                text: 'عملیه  ناکام شد لطفا دوباره تلاش نماید',
+                title: 'آپدیت عملیه ناموفق بود!',
+                text: 'عملیه ناکام شد لطفا دوباره تلاش نماید',
                 color: 'danger',
                 iconPack: 'feather',
                 icon: 'icon-check',
@@ -244,20 +243,11 @@ export default {
 
     getAccounts() {
       this.$Progress.start()
-      // this.$vs.loading()
       this.axios.get('/api/account')
         .then((response) => {
           this.accounts = response.data;
-          // this.$vs.loading.close();
         })
     },
-
-    getSerialNom() {
-      this.axios.get('/api/transactionSerialnum')
-        .then((resp) => {
-          this.form.serial_no = resp.data;
-        });
-    }
   }
 }
 </script>
