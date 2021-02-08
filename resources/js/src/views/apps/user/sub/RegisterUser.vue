@@ -112,6 +112,13 @@
         </div>
       </div>
     </div>
+    <vs-list v-if="(errors.items.length > 0)">
+      <vs-list-header color="danger" title="مشکلات"></vs-list-header>
+      <div :key="indextr" v-for="(error, indextr) in errors.items">
+        <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
+      </div>
+      <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+    </vs-list>
   </form>
   <vs-popup class="holamundo width-60" title="تنظیمات صلاحیت ها" :active.sync="privilegeModalActive">
     <privilege-setting ref="userprivilege" :source="[]" @closeModal="assignPrivileges" />
@@ -123,12 +130,15 @@
 import vSelect from "vue-select";
 import Multiselect from 'vue-multiselect'
 import PrivilegeSetting from './PrivilegeSetting'
-
+import {
+  Validator
+} from 'vee-validate'
 export default {
   components: {
     PrivilegeSetting,
     "v-select": vSelect,
-    Multiselect
+    Multiselect,
+    Validator
   },
   data() {
     return {
@@ -201,30 +211,33 @@ export default {
     },
     submitData() {
       this.$validator.validateAll('userAddForm').then(result => {
-        this.form.post('/api/users')
-          .then(() => {
-            this.$vs.notify({
-              title: 'عملیه ثبت موفق بود!',
-              text: 'عملیه موفغانه انجام شد',
-              color: 'success',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
+        if (result) {
+          this.form.post('/api/users')
+            .then(() => {
+              this.$vs.notify({
+                title: 'عملیه ثبت موفق بود!',
+                text: 'عملیه موفغانه انجام شد',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.form.reset();
             })
-            this.form.reset();
-          })
-          .catch(() => {
-            this.$vs.notify({
-              title: 'عملیه ثبت ناموفق بود!',
-              text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-              color: 'danger',
-              iconPack: 'feather',
-              icon: 'icon-check',
-              position: 'top-right'
+            .catch(() => {
+              this.$vs.notify({
+                title: 'عملیه ثبت ناموفق بود!',
+                text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
             })
-          })
+        } else {
+          console.log('ERROR', 'FORMS HAS ERRORS')
+        }
       })
-
     },
 
     initValues() {
