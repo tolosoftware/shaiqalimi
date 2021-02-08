@@ -209,11 +209,11 @@ export default {
     },
     calcProgress(step) {
       if (this.sale.type == 's1') {
-        return ((step * 100) / 8).toFixed(2);
+        return ((step * 100) / 8).toFixed(4);
       } else if (this.sale.type == 's2') {
-        return ((step * 100) / 6).toFixed(2);
+        return ((step * 100) / 6).toFixed(4);
       } else if (this.sale.type == 's3') {
-        return ((step * 100) / 3).toFixed(2);
+        return ((step * 100) / 3).toFixed(4);
       } else {
         return 0;
       }

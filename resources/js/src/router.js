@@ -418,6 +418,30 @@ const router = new Router({
                         rule: "editor"
                     }
                 },
+                {
+                    path: "/accounts/edit/:id",
+                    name: "accounts-edit",
+                    component: () =>
+                        import("./views/apps/accounts/AccountEdit.vue"),
+                    meta: {
+                        permission: [1, 12],
+                        breadcrumb: [
+                            {
+                                title: "Home",
+                                url: "/"
+                            },
+                            {
+                                title: "حسابات",
+                                url: "/accounts"
+                            },
+                            {
+                                title: "ویرایش حسابات",
+                                active: true
+                            }
+                        ],
+                        rule: "editor"
+                    }
+                },
 
                 {
                     path: "/expenses",

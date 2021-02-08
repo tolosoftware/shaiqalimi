@@ -281,7 +281,7 @@ export default {
     },
     saleTotalCostFinal: function () {
       var x = parseFloat(this.sForm.total) - (this.sForm.total * (parseFloat(this.sForm.tax) / 100));
-      return this.formatToEnPriceSimple(x.toFixed(2));
+      return this.formatToEnPriceSimple(x.toFixed(4));
     },
   },
   methods: {
