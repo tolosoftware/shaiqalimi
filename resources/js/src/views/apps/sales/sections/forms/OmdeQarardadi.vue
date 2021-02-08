@@ -403,7 +403,7 @@ export default {
   computed: {
     saleTotalCostFinal: function () {
       var x = parseFloat(this.sForm.total) - (this.sForm.total * ((parseFloat(this.sForm.deposit) + parseFloat(this.sForm.tax)) / 100));
-      return this.formatToEnPriceSimple(x.toFixed(2));
+      return this.formatToEnPriceSimple(x.toFixed(4));
     },
     saleTotalCost: function () {
       var i_total = 0;
@@ -411,7 +411,7 @@ export default {
         i_total += item.total_price;
       });
 
-      this.sForm.total = (parseFloat(this.sForm.transport_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total)).toFixed(2);
+      this.sForm.total = (parseFloat(this.sForm.transport_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total)).toFixed(4);
       return this.formatToEnPriceSimple(this.sForm.total);
     }
     // isFormValid() {
