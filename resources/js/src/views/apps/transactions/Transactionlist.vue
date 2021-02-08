@@ -86,8 +86,8 @@
           </vs-td>
           <vs-td class="whitespace-no-wrap">
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showStepsModal(tr.id)" />&nbsp;&nbsp;
-            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current cursor-pointer" @click.stop="$router.push({path: '/transactions/edit/' + tr.id, params: {item: tr }}).catch(() => {})" />
+            <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>
       </tbody>
@@ -169,7 +169,7 @@ export default {
           this.isdata = true))
         .catch(() => {
           this.$vs.notify({
-            title: '  معلومات بارگیری نشد !',
+            title: 'معلومات بارگیری نشد !',
             text: 'عملیه بارگیری معلومات نام شد',
             color: 'danger',
             iconPack: 'feather',

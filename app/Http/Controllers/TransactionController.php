@@ -130,7 +130,13 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        return Transaction::with('user', 'currency')->find($id);
+        $transaction = Transaction::with('user', 'currency')->find($id);
+        $creditFinancialRecord = FinancialRecord::with('account')->where('type_id', $id)->where('credit', '>', 0)->where('type', 'TRA')->first();
+        $transaction['credit_account'] = $creditFinancialRecord->account;
+        $debitFinancialRecord = FinancialRecord::with('account')->where('type_id', $id)->where('debit', '>', 0)->where('type', 'TRA')->first();
+        $transaction['debit_account'] = $debitFinancialRecord->account;
+        return $transaction;
+
     }
 
     /**
@@ -153,7 +159,38 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+
+            $transaction = Transaction::find($id);
+            $transaction->update($request->all());
+
+            $creditFinancialRecord = FinancialRecord::where('type_id', $id)->where('credit', '>', 0)->where('type', 'TRA')->first();
+            $data = [
+                'account_id' => $request['credit_account']['id'],
+                'description' => $request['credit_desc'],
+                'currency_id' => $request['currency_id'],
+                'credit' => $request['ammount'],
+                'ex_rate_id' => $request['currency_id'],
+            ];
+            $creditFinancialRecord->update($data);
+
+            $debitFinancialRecord = FinancialRecord::where('type_id', $id)->where('debit', '>', 0)->where('type', 'TRA')->first();
+            $data = [
+                'account_id' => $request['debit_account']['id'],
+                'description' => $request['debit_desc'],
+                'currency_id' => $request['currency_id'],
+                'debit' => $request['ammount'],
+                'ex_rate_id' => $request['currency_id'],
+            ];
+            $debitFinancialRecord->update($data);
+
+            DB::commit();
+            return ['msg' => 'tran$transactions successfully inserted', $transaction];
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+
     }
 
     /**
@@ -166,8 +203,8 @@ class TransactionController extends Controller
     {
         DB::beginTransaction();
         try {
-            $expenses = Transaction::findOrFail($id);
-            $expenses->delete();
+            $transactions = Transaction::findOrFail($id);
+            $transactions->delete();
             $finanrecord = FinancialRecord::where('type_id', $id)->where('type', 'TRA')->get();
             if ($finanrecord) {
                 foreach ($finanrecord as $val) {

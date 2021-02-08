@@ -357,10 +357,10 @@ const router = new Router({
                     }
                 },
                 {
-                    path: "/transaction/:id/edit",
-                    name: "edit_transaction",
+                    path: "/transactions/edit/:id",
+                    name: "transaction_edit",
                     component: () =>
-                        import("./views/apps/transactions/Transaction.vue"),
+                        import("./views/apps/transactions/TransactionEdit.vue"),
                     meta: {
                         permission: [1, 13],
                         breadcrumb: [
@@ -372,20 +372,9 @@ const router = new Router({
                                 title: "ویرایش معاملات",
                                 active: true
                             }
-                        ]
+                        ],
+                        rule: "editor"
                     },
-                    rule: "editor"
-                },
-                {
-                    path: "/transactions/:filter",
-                    component: () =>
-                        import("./views/apps/transactions/Transaction.vue"),
-                    meta: {
-                        permission: [1, 13],
-                        rule: "editor",
-                        parent: "email",
-                        no_scroll: true
-                    }
                 },
                 {
                     path: "/tr/:id",
