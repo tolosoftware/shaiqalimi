@@ -1,18 +1,17 @@
 <template>
 <vx-card>
-  <form class="pl-4 pr-4 pb-2 pt-2" autocomplete="off">
+  <form class="pl-4 pr-4 pb-2 pt-2" autocomplete="off" data-vv-scope="userAddForm">
     <input autocomplete="off" name="hidden" type="text" style="display:none;">
-
     <div class="vx-row">
       <div class="vx-row w-2/3">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-input class="w-full" label="نام" v-model="form.firstName" />
+            <vs-input class="w-full" label="نام" name="firstname" v-validate="'required'" v-model="form.firstName" />
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-input class="w-full" label="تخلص" v-model="form.lastName" />
+            <vs-input class="w-full" label="تخلص" name="lastname" v-validate="'required'" v-model="form.lastName" />
           </div>
         </vs-col>
 
@@ -20,36 +19,36 @@
           <div class="w-full">
 
             <label for="text"><small>نوعیت کاربر</small> </label>
-            <v-select label="text" :options="usertypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.user_type" />
+            <v-select label="text" :options="usertypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="usertype" v-validate="'required'" v-model="form.user_type" />
           </div>
 
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-input class="w-full" type="text" label="پوسیشن" v-model="form.position" />
+            <vs-input class="w-full" type="text" label="پوسیشن" name="position" v-validate="'required'" v-model="form.position" />
           </div>
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-input class="w-full" type="email" label="ایمیل" v-model="form.email" />
+            <vs-input class="w-full" type="email" label="ایمیل" name="emailadress" v-validate="'required'" v-model="form.email" />
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-input class="w-full" type="text" label="شماره تماس" v-model="form.phone" />
+            <vs-input class="w-full" type="text" label="شماره تماس" name="phoneno" v-validate="'required'" v-model="form.phone" />
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-input class="w-full" type="text" label="آدرس" v-model="form.address" autocomplete="off" autofill="off" />
+            <vs-input class="w-full" type="text" label="آدرس" name="address" v-validate="'required'" v-model="form.address" autocomplete="off" autofill="off" />
           </div>
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-            <vs-input class="w-full" type="password" label="رمز عبور" v-model="form.password" />
+            <vs-input class="w-full" type="password" label="رمز عبور" name="passowrd" v-validate="'required'" v-model="form.password" />
           </div>
         </vs-col>
 
@@ -57,10 +56,9 @@
           <div class="w-full con-select-example">
 
             <label class="typo__label">مافوق برای کابر</label>
-            <v-select label="firstName" multiple v-model="form.userleaders" :options="users" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+            <v-select label="firstName" multiple name="userleaders" v-validate="'required'" v-model="form.userleaders" :options="users" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
               <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
             </v-select>
-
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
@@ -68,7 +66,6 @@
             <vs-button class="w-full mt-6 input-height" @click.stop="setPrivileges(form)">صلاحیت های کابر</vs-button>
           </div>
         </vs-col>
-
       </div>
       <div class="vx-col w-1/3">
         <!-- Product Image -->
@@ -119,7 +116,6 @@
   <vs-popup class="holamundo width-60" title="تنظیمات صلاحیت ها" :active.sync="privilegeModalActive">
     <privilege-setting ref="userprivilege" :source="[]" @closeModal="assignPrivileges" />
   </vs-popup>
-
 </vx-card>
 </template>
 
@@ -136,11 +132,9 @@ export default {
   },
   data() {
     return {
-
       users: [],
       user: null,
       privilegeModalActive: false,
-
       usertypes: [{
           text: 'آدمین',
           value: 0
@@ -172,7 +166,20 @@ export default {
         image: '',
         userleaders: null,
         privileges: [],
-      })
+      }),
+      uservalidatedata: {
+        custom: {
+          firstname: { required: ' نام استفاده کننده الزامی میباشد.' },
+          lastname: { required: ' تخلص استفاده کننده الزامی میباشد.' },
+          usertype: { required: ' نوع استفاده کننده الزامی میباشد.' },
+          position: { required: ' موقعیت استفاده کننده الزامی میباشد.' },
+          emailadress: { required: ' ایمیل استفاده کننده الزامی میباشد.' },
+          phoneno: { required: ' شماره تماس استفاده کننده الزامی میباشد.' },
+          address: { required: ' آدرس استفاده کننده الزامی میباشد.' },
+          passowrd: { required: ' رمز عبور استفاده کننده الزامی میباشد.' },
+          userleaders: { required: ' مافوق استفاده کننده الزامی میباشد.' },
+        }
+      }
     }
   },
 
@@ -180,7 +187,7 @@ export default {
     setPrivileges(user) {
       this.$refs.userprivilege.getPermissions(null);
     },
-    assignPrivileges(){
+    assignPrivileges() {
       this.privilegeModalActive = !this.privilegeModalActive
       this.form.privileges = this.$refs.userprivilege.privileges.filter((e) => e.assign === true)
     },
@@ -193,30 +200,31 @@ export default {
       this.form.reset();
     },
     submitData() {
-
-      this.form.post('/api/users')
-        .then(() => {
-          this.$vs.notify({
-            title: 'عملیه ثبت موفق بود!',
-            text: 'عملیه موفغانه انجام شد',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
+      this.$validator.validateAll('userAddForm').then(result => {
+        this.form.post('/api/users')
+          .then(() => {
+            this.$vs.notify({
+              title: 'عملیه ثبت موفق بود!',
+              text: 'عملیه موفغانه انجام شد',
+              color: 'success',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
+            this.form.reset();
           })
-          this.form.reset();
-        })
-
-        .catch(() => {
-          this.$vs.notify({
-            title: 'عملیه ثبت ناموفق بود!',
-            text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
-            color: 'danger',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
+          .catch(() => {
+            this.$vs.notify({
+              title: 'عملیه ثبت ناموفق بود!',
+              text: 'عملیه  ناکم شد لطفا دوباره تلاش نماید',
+              color: 'danger',
+              iconPack: 'feather',
+              icon: 'icon-check',
+              position: 'top-right'
+            })
           })
-        })
+      })
+
     },
 
     initValues() {
@@ -227,7 +235,6 @@ export default {
         const reader = new FileReader()
         reader.onload = e => {
           this.form.image = e.target.result
-
         }
         reader.readAsDataURL(input.target.files[0])
       }
@@ -235,6 +242,7 @@ export default {
   },
 
   created() {
+    Validator.localize('en', this.uservalidatedata);
     this.loadUsers();
   },
 }
