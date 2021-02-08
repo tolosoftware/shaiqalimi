@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Helper\Helper;
 
 use App\Models\Proposal;
+use App\Models\Participator;
+use App\Models\ProposalStep;
 use App\Models\SerialNumber;
 use App\Models\ProItem;
 use App\Models\ProData;
@@ -243,11 +245,77 @@ class ProposalController extends Controller
         $propsal = Proposal::latest()->first();
         return $propsal->id;
     }
-    public function changeStep($id, $stepNo)
+    public function changeStep(Request $request, $id)
     {
-        // return response(['id'=>$id,'stid'=>$stepNo]);
-        $proposal = Proposal::findOrFail($id);
-        $proposal->step = $stepNo;
-        $proposal->save();
+        $proposastep = ProposalStep::where(['proposal_id' => $id])->get();
+        if (sizeof($proposastep) == 1) {
+            if ($request->step == 2) {
+                foreach ($proposastep as $proposal) {
+                    $proposal->step = 2;
+                    $proposal->save();
+                }
+            } else if ($request->step == 3) {
+                foreach ($proposastep as $proposal) {
+                    $proposal->step = 3;
+                    $proposal->res_person = $request->res_person;
+                    $proposal->save();
+                }
+            } else if ($request->step == 4) {
+                foreach ($proposastep as $proposal) {
+                    $proposal->step = 4;
+                    $proposal->is_recieved_cont = $request->is_recieved_cont;
+                    $proposal->save();
+                }
+            } else if ($request->step == 5) {
+                foreach ($proposastep as $proposal) {
+                    $proposal->step = 5;
+                    $proposal->is_participated = $request->is_participated;
+                    $proposal->save();
+                }
+            } else if ($request->step == 6) {
+                foreach ($proposastep as $proposal) {
+                    $proposal->step = 6;
+                    // this is place for inserting participants
+                    $proposal->save();
+                }
+            } else if ($request->step == 7) {
+                foreach ($proposastep as $proposal) {
+                    $proposal->prop_recieved_or_allow = $request->prop_recieved_or_allow;
+                    $proposal->winner = $request->winner;
+                    $proposal->save();
+                }
+            }
+            return $proposastep;
+        } else if (sizeof($proposastep) == 0) {
+            $newProjectSt = ProposalStep::create([
+                'step' => 1,
+                'proposal_id' => $id,
+                'res_person' => $request['res_person'],
+                'is_recieved_cont' => $request['is_recieved_cont'],
+                'is_participated' => $request['is_participated'],
+                'prop_recieved_or_allow' => $request['prop_recieved_or_allow'],
+                'winner' => $request['winner']
+            ]);
+        }
+    }
+
+    public function getproposalStep($proposalid)
+    {
+        $proposaltep = ProposalStep::where(['proposal_id' => $proposalid])->get();
+        if (sizeof($proposaltep) >= 1) {
+            return $proposaltep;
+        } else {
+            return response(['status' => 'no']);
+        }
+        // 
+    }
+    public function getParticipators($id)
+    {
+        $participators = Participator::where(['proposal_id' => $id])->get();
+        if (sizeof($participators) >= 1) {
+            return $participators;
+        } else {
+            return response(['status' => 'no']);
+        }
     }
 }

@@ -54,8 +54,11 @@ Route::delete('sales/{sale}', 'SaleOneController@deleting');
 
 // Product Review
 Route::resource('project', 'ProjectController');
-Route::get('projectstchange/{id}/{stid}', 'ProjectController@changeStep');
-Route::get('proposlstchange/{id}/{stid}', 'ProposalController@changeStep');
+Route::post('projectstchange/{id}', 'ProjectController@changeStep');
+Route::get('projectstep/{id}', 'ProjectController@getprojectStep');
+Route::get('proposalstep/{id}', 'ProposalController@getproposalStep');
+Route::get('participators/{id}', 'ProposalController@getParticipators');
+Route::post('proposlstchange/{id}', 'ProposalController@changeStep');
 Route::get('procchange/{id}/{stid}', 'PurchaseController@changeStep');
 Route::get('expchange/{id}/{stid}', 'ExpensesController@changeStep');
 Route::get('tranchange/{id}/{stid}', 'TransactionController@changeStep');
