@@ -150,6 +150,17 @@ export default {
       selected: [],
       projects: [],
       project: [],
+      projectstep: [],
+      projectsteps: new Form({
+        step: 0,
+        project_id: 0,
+        statusActive: 2,
+        is_ekmalat_allowed: 0,
+        adminis_procedure: 0,
+        setting_and_baqyat: 0,
+        finishedcontract: 0,
+        mactob_sending: 0,
+      }),
       itemsPerPage: 5,
       isMounted: false,
       addNewDataSidebar: false,
@@ -183,19 +194,34 @@ export default {
     closeModel() {
       this.popupModalActive = false;
     },
+    getProjectStep(id) {
+      this.$Progress.start()
+      this.axios.get('/api/projectstep/' + id)
+        .then((response) => {
+          this.projectstep = response.data;
+          if (response.data.status == 'no') {
+            this.$refs.wizardModal.setWizardStep(1, this.projectsteps);
+          } else {
+            this.projectstep.forEach(item => {
+              this.$refs.wizardModal.setWizardStep(item.step, item);
+            })
+          }
+          this.$Progress.set(100);
+        }).catch(() => {});
+    },
     getThisProject(id) {
       this.$Progress.start()
       this.axios.get('/api/project/' + id)
         .then((response) => {
+          this.project = [];
           this.project = response.data;
-          this.$refs.wizardModal.setWizardStep(this.project.step);
-          // this.step = this.project.step;
-          // 
           this.$Progress.set(100);
         }).catch(() => {});
     },
     showStepsModal(id) {
+      this.project = [];
       this.getThisProject(id);
+      this.getProjectStep(id);
       this.popupModalActive = true;
     },
 
@@ -221,7 +247,6 @@ export default {
       // this.$vs.loading()
       this.pForm.get('/api/project').then((data) => {
           this.projects = data.data;
-          
           this.isdata = true;
           this.$Progress.set(100);
           // this.$vs.loading.close();
@@ -308,7 +333,7 @@ export default {
     printProject() {
       window.print();
     }
-  },
+  }
 };
 </script>
 

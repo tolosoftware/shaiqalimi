@@ -1,7 +1,7 @@
 <template>
 <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" back-button-text="قبلی" next-button-text="بعدی" :start-index.sync="currentIndex" ref="wizard" finishButtonText="" @on-complete="submitForm">
-  <tab-content title="معلومات عمومی قرارداد" class="mb-5" >
-  
+  <tab-content title="معلومات عمومی قرارداد" class="mb-5" :before-change="validateStep1">
+
     <form data-vv-scope="step-1">
       <vs-row vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -99,7 +99,7 @@
     </form>
   </tab-content>
   <tab-content title="اکمالات / مصارف " class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
-  
+
     <form data-vv-scope="step-2">
       <ekmalat :items="pForm.item" :form="pForm" :listOfFields="dict" ref="ekmalat"></ekmalat>
       <vs-row vs-w="12" class="mt-5">
@@ -565,10 +565,10 @@ export default {
       if (data) {
         if (data.pro_items.length) {
           this.$refs.ekmalat.resetArrays();
-          
+
           for (let [key, data] of Object.entries(data.pro_items)) {
             this.pForm.item[key] = data;
-            this.$refs.ekmalat.addRow({'key': key, 'data': data});
+            this.$refs.ekmalat.addRow({ 'key': key, 'data': data });
             this.$refs.ekmalat.operationChange(this.pForm.item[key].operation_id, key);
             this.$refs.ekmalat.itemSelected('', this.pForm.item[key].item_id.id, key, this.pForm.item[key].item_id.uom_id.acronym);
           }

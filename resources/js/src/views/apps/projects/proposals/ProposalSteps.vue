@@ -135,7 +135,7 @@
           <div class="vx-row">
             <vs-col vs-type="flex" class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
               <div class="mt-2 mr-5">
-                <vs-input label=" اسم شخص مسول را وارد نمایید" v-model="res_person" />
+                <vs-input label=" اسم شخص مسول را وارد نمایید" v-model="pStepForm.res_person" />
               </div>
               <div class="mr-5 pt-2 mt-5">
                 <vs-button class="float-right mr-5 mt-1" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ عریضه</vs-button>
@@ -187,7 +187,7 @@
               </p>
             </vs-col>
             <vs-col class="mb-2" vs-justify="right" vs-align="right" vs-w="12">
-              <vs-checkbox color="success" size="large" v-model="is_recieved_cont"><strong> شرطنامه دریافت گردید ؟ </strong></vs-checkbox>
+              <vs-checkbox color="success" size="large" v-model="pStepForm.is_recieved_cont"><strong> شرطنامه دریافت گردید ؟ </strong></vs-checkbox>
               <!--<vs-button size="small" color="success" icon="save" type="border" @click.prevent="submitForm" class="mb-2 mt-2 ml-1"> ویرایش معلومات </vs-button>-->
             </vs-col>
           </div>
@@ -208,7 +208,7 @@
         <vs-col class="pl-5" vs-lg="9" vs-sm="9" vs-xs="12">
         </vs-col>
         <vs-col class="pl-5" vs-lg="3" vs-sm="3" vs-xs="12">
-          <vs-checkbox color="success" class="float-left" size="large" v-model="is_participated"><strong> اشتراک میشود ؟ </strong></vs-checkbox>
+          <vs-checkbox color="success" class="float-left" size="large" v-model="pStepForm.is_participated"><strong> اشتراک میشود ؟ </strong></vs-checkbox>
         </vs-col>
       </vs-row>
       <vs-divider></vs-divider>
@@ -268,38 +268,38 @@
         <form>
           <div v-for="(i, index) in participators" :key="i.id">
             <vs-row vs-w="12">
-              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="6">
+                <div class="w-full pt-2 ml-1 mr-1 mb-3">
                   <vs-input autocomplete="off" label="نام شرکت" name="co_name" v-model="i.name" class="w-full" />
                 </div>
               </vs-col>
-              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                <div class="w-full pt-2 ml-3 mr-3 mb-3">
-                  <vs-input autocomplete="off" v-model="i.problems" label="مشابه / مشکلات" name="problems" class="w-full" />
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="6">
+                <div class="w-full pt-2 ml-1 mr-1 mb-3">
+                  <vs-input autocomplete="off" v-model="i.same_dificult" label="مشابه / مشکلات" name="same_dificult" class="w-full" />
                 </div>
               </vs-col>
-              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="6">
+                <div class="w-full pt-2 ml-1 mr-1 mb-3">
                   <vs-input autocomplete="off" v-model="i.statement" label="استیتمنت" name="statement" class="w-full" />
                 </div>
               </vs-col>
-              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="1" vs-xs="6">
-                <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="6">
+                <div class="w-full pt-2 ml-1 mr-1 mb-3">
                   <vs-input autocomplete="off" v-model="i.feyat" label="فیات" name="feyat" class="w-full" />
                 </div>
               </vs-col>
-              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="6">
+                <div class="w-full pt-2 ml-1 mr-1 mb-3">
                   <vs-input autocomplete="off" v-model="i.offer_price" label="قیمت آفر" name="offer_price" class="w-full" />
                 </div>
               </vs-col>
-              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="1" vs-xs="6">
-                <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="6">
+                <div class="w-full pt-2 ml-1 mr-1 mb-3">
                   <vs-input autocomplete="off" v-model="i.discount" label="تخفیف" name="discount" class="w-full" />
                 </div>
               </vs-col>
-              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="2" vs-sm="2" vs-xs="6">
-                <div class="w-full pt-2 ml-3 mr-3 mb-3">
+              <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="3" vs-xs="6">
+                <div class="w-full pt-2 ml-1 mr-1 mb-3">
                   <vs-input autocomplete="off" v-model="i.final_price" label="قیمت نهایی" name="final_price" class="w-full" />
                 </div>
               </vs-col>
@@ -317,7 +317,7 @@
       <vs-divider></vs-divider>
     </vs-row>
   </tab-content>
-  <tab-content title="نتیجه قرارداد" class="mb-5">
+  <tab-content title="نتیجه قرارداد" class="mb-5" :before-change="changePropStepStatus5">
     <vs-row vs-w="12" class="mb-1">
       <vs-row vs-w="12">
         <vs-divider>بررسی بخش نتیجه قرارداد</vs-divider>
@@ -326,16 +326,16 @@
         <div class="radio-group1 w-full">
           <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
             <vs-row vs-w="12" vs-type="flex" vs-justify="center">
-              <input type="radio" v-model="prop_recieve_or_allow" value="1" id="struct" name="prop_recieve_or_allow" />
+              <input type="radio" v-model="pStepForm.prop_recieve_or_allow" value="1" id="struct" name="prop_recieve_or_allow" />
               <label for="struct" style="font-size:35px;" class="w-full text-center p-24">دریافت قرارداد</label>
             </vs-row>
           </vs-col>
           <vs-col class="pr-5" vs-lg="6" vs-sm="6" vs-xs="12">
             <vs-row vs-w="12" vs-type="flex" vs-justify="center">
-              <input type="radio" v-model="prop_recieve_or_allow" value="2" id="specific" name="prop_recieve_or_allow" />
+              <input type="radio" v-model="pStepForm.prop_recieve_or_allow" value="2" id="specific" name="prop_recieve_or_allow" />
               <label for="specific" style="font-size:35px;" class="w-full text-center p-12">واگذاری قرارداد</label>
               <vs-divider><span for="winner">برنده قرار داد</span></vs-divider>
-              <vs-input id="winner" autocomplete="off" v-model="winner" name="winner" class="w-full" />
+              <vs-input id="winner" autocomplete="off" v-model="pStepForm.winner" name="winner" class="w-full" />
             </vs-row>
           </vs-col>
         </div>
@@ -343,7 +343,6 @@
       <vs-divider></vs-divider>
     </vs-row>
   </tab-content>
-
   <vs-button slot="prev">قبلی</vs-button>
   <vs-button slot="next">بعدی</vs-button>
   <vs-button slot="finish">بستن صحفه</vs-button>
@@ -362,24 +361,29 @@ import {
 } from 'vue-form-wizard';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 export default {
-  props: ['proposal'],
+  props: ['proposal', 'participators'],
   data() {
     return {
-      step: 0,
-      res_person: '',
-      winner: '',
-      is_recieved_cont: '',
-      is_participated: '',
-      prop_recieve_or_allow: 1,
-      participators: [{
-        name: '',
-        problems: '',
-        statement: '',
-        feyat: '',
-        offer_price: '',
-        discount: '',
-        final_price: ''
-      }],
+      firstloadstep: 0,
+      pStepForm: new Form({
+        step: 0,
+        proposal_id: '',
+        res_person: '',
+        is_recieved_cont: '',
+        is_participated: '',
+        prop_recieve_or_allow: 1,
+        winner: ''
+      }),
+      // participators: [{
+      //   proposal_id: this.pStepForm.proposal_id,
+      //   name: '',
+      //   same_dificult: '',
+      //   statement: '',
+      //   feyat: '',
+      //   offer_price: '',
+      //   discount: '',
+      //   final_price: ''
+      // }],
       aForm: new Form({
         item: [{
           item_id: "",
@@ -410,65 +414,87 @@ export default {
   created() {},
   computed: {},
   methods: {
-    changeItTo(id, st) {
+    changeItTo(proposalid, st) {
       this.$Progress.start()
-      this.axios.get('/api/proposlstchange/' + id + '/' + st)
+      this.pStepForm.post('/api/proposlstchange/' + proposalid)
         .then((response) => {
           this.$Progress.set(100);
-          this.$vs.notify({
-            title: 'موفقیت!',
-            text: ' مرحله موفقانه به ' + st + ' تغیر یافت.',
-            color: 'success',
-            iconPack: 'feather',
-            icon: 'icon-check',
-            position: 'top-right'
-          })
+          if (this.firstloadstep == 1) {
+            if (st == 7) {
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'تمام مراحل اعلان ختم گردید',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            } else {
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: ' مرحله موفقانه به ' + st + ' تغیر یافت.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }
+
+          } else if (this.firstloadstep > 1) {
+            this.firstloadstep = (this.firstloadstep - 1);
+          }
         }).catch(() => {});
     },
-
     changePropStepStatus() {
-      if (this.step == 1) {
-        this.step = 2;
-        this.changeItTo(this.proposal.id, this.step);
-      }
+      // if (this.step == 1) {
+      this.pStepForm.step = 2;
+      this.changeItTo(this.proposal.id, this.pStepForm.step);
+      // }
       return true;
     },
     changePropStepStatus1() {
-      if (this.step == 2) {
-        this.step = 3;
-        this.changeItTo(this.proposal.id, this.step);
-      }
+      // if (this.step == 2) {
+      this.pStepForm.step = 3;
+
+      this.changeItTo(this.proposal.id, this.pStepForm.step);
+      // }
       return true;
     },
     changePropStepStatus2() {
-      if (this.step == 3) {
-        this.step = 4;
-        this.changeItTo(this.proposal.id, this.step);
-      }
+      // if (this.step == 3) {
+      this.pStepForm.step = 4;
+      this.changeItTo(this.proposal.id, this.pStepForm.step);
+      // }
       return true;
     },
     changePropStepStatus3() {
-      if (this.step == 4) {
-        this.step = 5;
-        this.changeItTo(this.proposal.id, this.step);
-      }
+      // if (this.step == 4) {
+      this.pStepForm.step = 5;
+      this.changeItTo(this.proposal.id, this.pStepForm.step);
+      // }
       return true;
     },
     changePropStepStatus4() {
-      if (this.step == 5) {
-        this.step = 6;
-        this.changeItTo(this.proposal.id, this.step);
-      }
+      // // if (this.step == 5) {
+      this.pStepForm.step = 6;
+      this.changeItTo(this.proposal.id, this.pStepForm.step);
+      // }
       return true;
+    },
+    changePropStepStatus5() {
+      this.pStepForm.step = 7;
+      this.changeItTo(this.proposal.id, this.pStepForm.step);
+      this.formSubmitted();
     },
     cprint() {},
     formSubmitted() {
       this.$emit('closesteps');
     },
-    addRow() {
+    addRow(id) {
       this.participators.push({
+        proposal_id: this.pStepForm.proposal_id,
         name: '',
-        problems: '',
+        same_dificult: '',
         statement: '',
         feyat: '',
         offer_price: '',
@@ -479,13 +505,26 @@ export default {
     removeRow() {
       this.participators.splice(this.participators.length - 1, 1);
     },
-    setWizardStep1(index) {
-      this.step = index;
-      console.log('index', this.step);
+    setWizardStep1(index = 1, proposalstepdata) {
+      this.setProposalData(index, proposalstepdata);
+      console.log('Participators:', this.participators)
+      // this.setPropParticipators();
       this.$refs.wizarde.activateAll();
       this.$refs.wizarde.navigateToTab(index - 1);
-      // this.$refs.wizard.navigateToTab(2);
     },
+    setProposalData(index, pData) {
+      this.firstloadstep = index;
+      this.pStepForm.step = index;
+      this.pStepForm.proposal_id = pData.proposal_id;
+      this.pStepForm.res_person = pData.res_person;
+      this.pStepForm.is_recieved_cont = pData.is_recieved_cont;
+      this.pStepForm.is_participated = pData.is_participated;
+      this.pStepForm.prop_recieved_or_allow = pData.prop_recieved_or_allow;
+      this.pStepForm.winner = pData.winner;
+    },
+    setPropParticipators() {
+
+    }
   },
   mounted() {
 
