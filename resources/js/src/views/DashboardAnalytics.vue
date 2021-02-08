@@ -299,15 +299,7 @@ export default {
       apexChatData,
       analyticsData,
       revenueComparisonLine: {
-        series: [{
-            name: "ماه جاری",
-            data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600]
-          },
-          {
-            name: "ماه قبل",
-            data: [46000, 48000, 45500, 46600, 44500, 46500, 45000, 47000]
-          }
-        ],
+        series: [],
         chartOptions: {
           chart: {
             toolbar: {
@@ -410,6 +402,8 @@ export default {
           data: []
         }],
       },
+      gSaleDataLastMonth: [],
+      gSaleDataLastMonthKey: 0,
 
     }
 
@@ -428,6 +422,7 @@ export default {
       this.$Progress.set(95)
     }, 2000)
     this.getPurchaseData();
+    this.getSaleDataLastMonth();
   },
   methods: {
     getPurchaseData() {
@@ -452,6 +447,16 @@ export default {
             this.benefits.series[0].data[key] = this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key];
           }
           this.componentKey2 += 1;
+        })
+        .catch(() => {});
+    },
+    getSaleDataLastMonth() {
+      this.$Progress.start()
+      this.axios
+        .get("/api/graphs/sale-last-month-g")
+        .then((data) => {
+          this.gSaleDataLastMonth = data.data;
+          this.gSaleDataLastMonthKey += 1;
         })
         .catch(() => {});
     },

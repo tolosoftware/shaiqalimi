@@ -33,7 +33,7 @@ class GraphsController extends Controller
     foreach ($this->dates as $key => $date) {
       $fr = FinancialRecord::with('exchange_rate')
         ->where('debit', '>', 0)
-        ->where('type', 'EXP')
+        ->where('status', 'EXP')
         ->whereBetween('created_at', $date)
         ->get();
         $total_af = 0;
@@ -54,11 +54,11 @@ class GraphsController extends Controller
     foreach ($this->dates as $key => $date) {
       $fr = FinancialRecord::with('exchange_rate')
         ->where('debit', '>', 0)
-        ->where('type', 'sale')
+        ->where('status', 'INC')
         ->whereBetween('created_at', $date)
         ->get();
         $total_af = 0;
-        Helper::purchase_financial_records_balance($fr, $total_af, $total_usd);
+        Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
         $debitFinancialRecordByDays['data'][$key] = $total_af;
       $debitFinancialRecordByDays['name'] = 'عواید';
     }
@@ -68,6 +68,27 @@ class GraphsController extends Controller
     $total_usd = 0;
     Helper::sales_financial_records_balance($creditFinancialRecord, $total_af, $total_usd);
     return ['total_af' => $total_af, 'total_usd' => $total_usd, 'byDays' => ['series' => [$debitFinancialRecordByDays]]];
+
+  }
+  public function saleLastMonthG(Request $request)
+  {
+    $weeks[] = [date("Y-m-d", strtotime('-1 weeks')), date("Y-m-d", strtotime('0 weeks'))];
+    $weeks[] = [date("Y-m-d", strtotime('-2 weeks')), date("Y-m-d", strtotime('-1 weeks'))];
+    $weeks[] = [date("Y-m-d", strtotime('-3 weeks')), date("Y-m-d", strtotime('-2 weeks'))];
+    $weeks[] = [date("Y-m-d", strtotime('-4 weeks')), date("Y-m-d", strtotime('-3 weeks'))];
+    $debitFinancialRecordByDays = [];
+    foreach ($weeks as $key => $date) {
+      $fr = FinancialRecord::with('exchange_rate')
+        ->where('credit', '>', 0)
+        ->where('type', 'sale')
+        ->whereBetween('created_at', $date)
+        ->get();
+        $total_af = 0;
+        Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
+        $debitFinancialRecordByDays['data'][$key] = $total_af;
+    }
+
+    return ['byWeeks' => ['series' => [$debitFinancialRecordByDays]]];
 
   }
 }
