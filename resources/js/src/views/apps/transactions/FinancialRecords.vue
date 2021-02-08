@@ -14,7 +14,7 @@
   </div>
   <vs-alert class="balance_currency_value flex" v-if="fRData[currency_display]" :color="fRData[currency_display] > 0 ? 'success' : 'danger'" active="true">
     <span>بیلانس : </span>
-    <p dir="ltr">&nbsp;{{ fRData[currency_display].toFixed(2) | NumThreeDigit }}&nbsp;</p>
+    <p dir="ltr">&nbsp;{{ fRData[currency_display].toFixed(4) | NumThreeDigit }}&nbsp;</p>
     <span> {{ $t(currency_display) }}</span>
   </vs-alert>
   <vs-table class="w-full table-stripe" ref="table" pagination :max-items="itemsPerPage" :data="(fRData['fr']) ? fRData['fr'] : []">

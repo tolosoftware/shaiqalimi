@@ -491,7 +491,7 @@ export default {
         } else if (opr && opr.id == 3) {
           if (item_equivalent !== 0) {
             this.items[key].equivalent = this.items[key].ammount * item_equivalent;
-            this.items[key].equivalent = this.items[key].equivalent.toFixed(2);
+            this.items[key].equivalent = this.items[key].equivalent.toFixed(4);
             this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
           }
           this.items[key].total_price = this.items[key].equivalent * unit_price;
@@ -499,7 +499,7 @@ export default {
         } else if (opr && opr.id == 4) {
           if (item_equivalent !== 0) {
             this.items[key].ammount = this.items[key].equivalent / item_equivalent;
-            this.items[key].ammount = this.items[key].ammount.toFixed(2);
+            this.items[key].ammount = this.items[key].ammount.toFixed(4);
             this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
           }
           this.items[key].total_price = this.items[key].ammount * unit_price;
@@ -507,7 +507,7 @@ export default {
         } else if (opr && opr.id == 5) {
           if (item_equivalent !== 0) {
             this.items[key].equivalent = (this.items[key].ammount * density) * item_equivalent;
-            this.items[key].equivalent = this.items[key].equivalent.toFixed(2);
+            this.items[key].equivalent = this.items[key].equivalent.toFixed(4);
             this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
           }
           this.items[key].total_price = this.items[key].equivalent * unit_price;
@@ -515,7 +515,7 @@ export default {
         } else if (opr && opr.id == 6) {
           if (item_equivalent !== 0) {
             this.items[key].ammount = (this.items[key].equivalent * density) / item_equivalent;
-            this.items[key].ammount = this.items[key].ammount.toFixed(2);
+            this.items[key].ammount = this.items[key].ammount.toFixed(4);
             this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
           }
           this.items[key].total_price = this.items[key].ammount * unit_price;

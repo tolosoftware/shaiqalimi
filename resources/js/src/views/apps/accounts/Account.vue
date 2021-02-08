@@ -56,7 +56,7 @@
             <vs-td :data="tr" class="float-left">
               <p class="cursor-pointer" @click.stop="openFinancialRecords(tr)">
                 <vs-alert class="balance_currency_value flex p-0" v-if="tr[curr_display]" :color="tr[curr_display] > 0 ? 'success' : 'danger'" active="true">
-                  <p dir="ltr">&nbsp;{{ tr[curr_display].toFixed(2) | NumThreeDigit }}&nbsp;</p>
+                  <p dir="ltr">&nbsp;{{ tr[curr_display].toFixed(4) | NumThreeDigit }}&nbsp;</p>
                   <span>{{ $t(curr_display) }}</span>
                 </vs-alert>
               </p>
@@ -65,7 +65,7 @@
               <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
             </vs-td>
             <vs-td class="whitespace-no-wrap notupfromall">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" />
+              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="addNewData(tr)" />
               <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
               <!-- <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" /> -->
             </vs-td>

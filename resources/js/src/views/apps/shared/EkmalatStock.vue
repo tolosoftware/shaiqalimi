@@ -515,7 +515,7 @@ export default {
         } else if (opr && opr.id == 3) {
           if (item_increment_equiv !== 0) {
             this.items[key].increment_equiv = this.items[key].increment * item_increment_equiv;
-            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(2);
+            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(4);
             this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
           }
           this.items[key].total_price = this.items[key].increment_equiv * unit_price;
@@ -523,7 +523,7 @@ export default {
         } else if (opr && opr.id == 4) {
           if (item_increment_equiv !== 0) {
             this.items[key].increment = this.items[key].increment_equiv / item_increment_equiv;
-            this.items[key].increment = this.items[key].increment.toFixed(2);
+            this.items[key].increment = this.items[key].increment.toFixed(4);
             this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
           }
           this.items[key].total_price = this.items[key].increment * unit_price;
@@ -532,7 +532,7 @@ export default {
         } else if (opr && opr.id == 5) {
           if (item_increment_equiv !== 0) {
             this.items[key].increment_equiv = (this.items[key].increment * 1000) / density;
-            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(2);
+            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(4);
             this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
 
           }
@@ -541,7 +541,7 @@ export default {
         } else if (opr && opr.id == 6) {
           if (item_increment_equiv !== 0) {
             this.items[key].increment = (this.items[key].increment_equiv / 1000) * density;
-            this.items[key].increment = this.items[key].increment.toFixed(2);
+            this.items[key].increment = this.items[key].increment.toFixed(4);
             this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
           }
           this.items[key].total_price = this.items[key].increment * unit_price;
