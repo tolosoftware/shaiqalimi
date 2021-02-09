@@ -109,8 +109,6 @@ export default {
     tooltip: {
       x: { show: false },
     },
-
-    }
   }
 
 }
