@@ -210,10 +210,11 @@ Vue.mixin({
             }
           },
         formatToEnPriceSimple: function(value) {
+            const number_sign = Math.sign(value);
             if(!value){
                 return value;
             }
-            var nStr = value.toString().replace(/[^0-9.]/g, '');
+            var nStr = value.toFixed(4).toString().replace(/[^0-9.]/g, '');
             if(nStr.length > 0 && nStr > 0){
                 nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
                 nStr = nStr.replace(/\,/g, "");
@@ -225,7 +226,7 @@ Vue.mixin({
                   x1 = x1.replace(rgx, '$1' + ',' + '$2');
                 }
                 value = x1 + x2;
-                return value;
+                return number_sign + value;
             }else{
                 return nStr;
             }

@@ -25,7 +25,7 @@ class GraphsController extends Controller
     $this->dates[] = [date("Y-m-d", strtotime('-3 days')), date("Y-m-d", strtotime('-2 days'))];
     $this->dates[] = [date("Y-m-d", strtotime('-2 days')), date("Y-m-d", strtotime('-1 days'))];
     $this->dates[] = [date("Y-m-d", strtotime('-1 days')), date("Y-m-d", strtotime('0 days'))];
-    $this->dates[] = [date("Y-m-d", strtotime('0 days')), date("Y-m-d", strtotime('1 days'))];
+    // $this->dates[] = [date("Y-m-d", strtotime('0 days')), date("Y-m-d", strtotime('1 days'))];
   }
   public function purchase(Request $request)
   {
@@ -38,11 +38,16 @@ class GraphsController extends Controller
         ->get();
         $total_af = 0;
         Helper::purchase_financial_records_balance($fr, $total_af, $total_usd);
-      $debitFinancialRecordByDays['data'][$key] = $total_af;
-      $debitFinancialRecordByDays['name'] = 'مصارف';
+        $debitFinancialRecordByDays['data'][$key] = $total_af;
+        $debitFinancialRecordByDays['name'] = 'مصارف';
     }
-
-    $debitFinancialRecord = FinancialRecord::with('exchange_rate')->where('debit', '>', 0)->where('type', 'EXP')->get();
+    
+    $debitFinancialRecord = FinancialRecord::with('exchange_rate')
+    ->where('debit', '>', 0)
+    // ->where('type', 'EXP')
+    ->whereBetween('created_at', [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))])
+    ->where('status', 'EXP')
+    ->get();
     $total_af = 0;
     $total_usd = 0;
     Helper::purchase_financial_records_balance($debitFinancialRecord, $total_af, $total_usd);
@@ -50,34 +55,45 @@ class GraphsController extends Controller
   }
   public function saleValue(Request $request)
   {
-    $debitFinancialRecordByDays = [];
+    $creditFinancialRecordByDays = [];
     foreach ($this->dates as $key => $date) {
       $fr = FinancialRecord::with('exchange_rate')
-        ->where('debit', '>', 0)
+        ->where('credit', '>', 0)
         ->where('status', 'INC')
+        ->where('type', 'sale')
         ->whereBetween('created_at', $date)
         ->get();
         $total_af = 0;
+        $x []=  $fr;
         Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
-        $debitFinancialRecordByDays['data'][$key] = $total_af;
-      $debitFinancialRecordByDays['name'] = 'عواید';
+        $creditFinancialRecordByDays['data'][$key] = $total_af;
+      $creditFinancialRecordByDays['name'] = 'عواید';
     }
-
-    $creditFinancialRecord = FinancialRecord::with('exchange_rate')->where('credit', '>', 0)->where('type', 'sale')->get();
+    $creditFinancialRecord = FinancialRecord::with('exchange_rate')
+    ->where('credit', '>', 0)
+    ->where('status', 'INC')
+    ->where('type', 'sale')
+    ->whereBetween('created_at', [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))])
+    ->get();
     $total_af = 0;
     $total_usd = 0;
     Helper::sales_financial_records_balance($creditFinancialRecord, $total_af, $total_usd);
-    return ['total_af' => $total_af, 'total_usd' => $total_usd, 'byDays' => ['series' => [$debitFinancialRecordByDays]]];
+    return ['total_af' => $total_af, 'total_usd' => $total_usd, 'byDays' => ['series' => [$creditFinancialRecordByDays]]];
 
   }
   public function saleLastMonthG(Request $request)
   {
-    $weeks[] = [date("Y-m-d", strtotime('-1 weeks')), date("Y-m-d", strtotime('0 weeks'))];
-    $weeks[] = [date("Y-m-d", strtotime('-2 weeks')), date("Y-m-d", strtotime('-1 weeks'))];
-    $weeks[] = [date("Y-m-d", strtotime('-3 weeks')), date("Y-m-d", strtotime('-2 weeks'))];
-    $weeks[] = [date("Y-m-d", strtotime('-4 weeks')), date("Y-m-d", strtotime('-3 weeks'))];
-    $debitFinancialRecordByDays = [];
-    foreach ($weeks as $key => $date) {
+    $s1s3sales = Sale::whereIn('type', ['s1', 's3'])->get()->pluck('id');
+
+    $days[] = [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))];
+    $days[] = [date("Y-m-d", strtotime('-10 days')), date("Y-m-d", strtotime('-5 days'))];
+    $days[] = [date("Y-m-d", strtotime('-15 days')), date("Y-m-d", strtotime('-10 days'))];
+    $days[] = [date("Y-m-d", strtotime('-20 days')), date("Y-m-d", strtotime('-15 days'))];
+    $days[] = [date("Y-m-d", strtotime('-25 days')), date("Y-m-d", strtotime('-20 days'))];
+    $days[] = [date("Y-m-d", strtotime('-30 days')), date("Y-m-d", strtotime('-25 days'))];
+    $debitFinancialRecordBy5Days = [];
+    $debitFinancialRecordBy5DaysContract = [];
+    foreach ($days as $key => $date) {
       $fr = FinancialRecord::with('exchange_rate')
         ->where('credit', '>', 0)
         ->where('type', 'sale')
@@ -85,10 +101,24 @@ class GraphsController extends Controller
         ->get();
         $total_af = 0;
         Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
-        $debitFinancialRecordByDays['data'][$key] = $total_af;
+        $debitFinancialRecordBy5Days['data'][$key] = $total_af;
+        $debitFinancialRecordBy5Days['name'] = 'فروشات';
+    }
+    foreach ($days as $key => $date) {
+      $fr = FinancialRecord::with('exchange_rate')
+        ->where('credit', '>', 0)
+        ->where('type', 'sale')
+        ->whereIn('type_id', $s1s3sales)
+        ->whereBetween('created_at', $date)
+        ->get();
+        $total_af = 0;
+        Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
+
+        $debitFinancialRecordBy5DaysContract['data'][$key] = $total_af;
+        $debitFinancialRecordBy5DaysContract['name'] = 'فروشات قراردادها';
     }
 
-    return ['byWeeks' => ['series' => [$debitFinancialRecordByDays]]];
+    return [$debitFinancialRecordBy5Days, $debitFinancialRecordBy5DaysContract ];
 
   }
 }
