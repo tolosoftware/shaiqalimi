@@ -187,6 +187,7 @@ Vue.use(MyPlugin)
 Vue.mixin({
     methods: {
         formatToEnPrice: function(value, sourceObject, field, fieldObject) {
+            const number_sign = Math.sign(value);
             if(!value){
                 return value;
             }
@@ -204,17 +205,21 @@ Vue.mixin({
                 value = x1 + x2;
                 fieldObject[field] = value;
                 sourceObject[field] = value.replace(/[^0-9.]/g, '');
+                (number_sign < 0) ? sourceObject[field] = '-' + sourceObject[field] : undefined;
             }else{
                 fieldObject[field] = nStr;
                 sourceObject[field] = nStr;
             }
           },
-        formatToEnPriceSimple: function(value) {
+        formatToEnPriceSimple: function(value, floatRange = null) {
             const number_sign = Math.sign(value);
             if(!value){
                 return value;
             }
-            var nStr = value.toFixed(4).toString().replace(/[^0-9.]/g, '');
+            if (floatRange !== null) {
+                value = parseInt(value).toFixed(floatRange);
+            }
+            var nStr = value.toString().replace(/[^0-9.]/g, '');
             if(nStr.length > 0 && nStr > 0){
                 nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
                 nStr = nStr.replace(/\,/g, "");
@@ -226,7 +231,7 @@ Vue.mixin({
                   x1 = x1.replace(rgx, '$1' + ',' + '$2');
                 }
                 value = x1 + x2;
-                return number_sign + value;
+                return (number_sign < 0) ? '-' + value : value;
             }else{
                 return nStr;
             }

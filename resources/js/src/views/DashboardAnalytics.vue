@@ -1,15 +1,15 @@
 <template>
-<div>
+<div :key="rootKey">
   <!-- {{userid}} -->
   <div class="vx-row mb-base" v-if="gPurchaseData['byDays'] && gSaleData['byDays']">
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-      <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" :key="componentKey1" icon-right :statistic="formatToEnPriceSimple(gPurchaseData['total_af']) +  ' AFN'" statisticTitle="مصارف" :chartData="gPurchaseData['byDays'].series" />
+      <statistics-card-line class="md:mb-0 mb-base" icon="MonitorIcon" :key="componentKey1" icon-right :statistic="formatToEnPriceSimple(gPurchaseData['total_af'], 0) +  ' AFN'" statisticTitle="مصارف" :chartData="gPurchaseData['byDays'].series" />
     </div>
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-      <statistics-card-line class="md:mb-0 mb-base" icon="UserCheckIcon" :key="componentKey2" icon-right :statistic="formatToEnPriceSimple(gSaleData['total_af']) +  ' AFN'" statisticTitle="عواید" :chartData="gSaleData['byDays'].series" color="success" />
+      <statistics-card-line class="md:mb-0 mb-base" icon="UserCheckIcon" :key="componentKey2" icon-right :statistic="formatToEnPriceSimple(gSaleData['total_af'], 0) +  ' AFN'" statisticTitle="عواید" :chartData="gSaleData['byDays'].series" color="success" />
     </div>
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-      <statistics-card-line icon="MailIcon" icon-right :key="componentKey3" :statistic="benefitsAtAll +  ' %'" statisticTitle="میزان مفاد دهی" :chartData="benefits.series" color="warning" />
+      <statistics-card-line icon="MailIcon" icon-right :key="componentKey3" :statistic="formatToEnPriceSimple(benefitsAtAll, 0) +  ' %'" statisticTitle="میزان مفاد دهی" :chartData="benefits.series" color="warning" />
     </div>
   </div>
   <div class="vx-row">
@@ -25,7 +25,7 @@
           <span v-if="revenueComparisonLine.series.length > 0">
             <div class="flex">
               <div class="mr-6">
-                <p class="mb-1 font-semibold">مجموع فروشات </p>
+                <p class="mb-1 font-semibold text-success">مجموع فروشات </p>
                 <p class="text-3xl text-success">
                   {{ (revenueComparisonLine.series[0] && revenueComparisonLine.series[0].data) ? revenueComparisonLine.series[0].data.reduce((a, b) => a + b, 0) : 0 }}
                   <sup class="text-base mr-1">افغانی</sup>
@@ -135,6 +135,7 @@ export default {
   name: 'vx-dashboard',
   data() {
     return {
+      rootKey: 0,
       userid: localStorage.getItem('id'),
       componentKey1: 0,
       componentKey2: 0,
@@ -288,14 +289,13 @@ export default {
           this.gSaleData = data.data;
           for (const [key, value] of Object.entries(this.gSaleData['byDays'].series[0].data)) {
             if (this.gSaleData['byDays'].series[0].data[key] == 0) {
-              this.benefits.series[0].data[key] = ((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100).toFixed(2);              
+              this.benefits.series[0].data[key] = ((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100).toFixed(0);              
             }else{
-              this.benefits.series[0].data[key] = (((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100) / this.gSaleData['byDays'].series[0].data[key]).toFixed(2);
+              this.benefits.series[0].data[key] = (((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100) / this.gSaleData['byDays'].series[0].data[key]).toFixed(0);
             }
           }
           this.benefitsAtAll = this.formatToEnPriceSimple(((this.gSaleData['total_af'] - this.gPurchaseData['total_af']) * 100) / this.gSaleData['total_af']);
           this.componentKey3 += 1;
-
           this.componentKey2 += 1;
         })
         .catch(() => {});
