@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Expense;
 use App\Models\SerialNumber;
 use App\Models\FinancialRecord;
+use App\Models\ExchangeRate;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -54,6 +55,7 @@ class ExpensesController extends Controller
         try {
 
             $serial_number = SerialNumber::where('type', 'EXP')->latest()->first();
+            $exchange_id = ExchangeRate::where('currency_id', $request['currency_id'])->latest()->first()->id;
             if ($serial_number) {
                 if ($serial_number->value > $request['serial_no']) {
                     $request['serial_no'] = $serial_number->value + 1;
@@ -90,11 +92,11 @@ class ExpensesController extends Controller
                 'currency_id' => $request['currency_id'],
                 'credit' => $request['ammount'],
                 'debit' => 0,
-                'ex_rate_id' => $request['currency_id'],
+                'ex_rate_id' => $exchange_id,
                 'status' => 'INC'
 
             ];
-            FinancialRecord::create($data);
+            $financialRecord1 = FinancialRecord::create($data);
 
             // Create opening FR for the created Projet
             $data = [
@@ -105,15 +107,15 @@ class ExpensesController extends Controller
                 'currency_id' => $request['currency_id'],
                 'credit' => 0,
                 'debit' => $request['ammount'],
-                'ex_rate_id' => $request['currency_id'],
+                'ex_rate_id' => $exchange_id,
                 'status' => 'EXP'
 
             ];
-            FinancialRecord::create($data);
+            $financialRecord2 = FinancialRecord::create($data);
 
 
             DB::commit();
-            return ['msg' => 'expenses successfully inserted'];
+            return ['msg' => 'expenses successfully inserted', [$financialRecord1, $financialRecord2]];
         } catch (Exception $e) {
             DB::rollback();
         }

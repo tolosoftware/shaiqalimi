@@ -72,7 +72,7 @@ class TransactionController extends Controller
                 ]);
             }
 
-            Transaction::create([
+            $transaction = Transaction::create([
                 'serial_no' => $request['serial_no'],
                 'currency_id' => $request['currency_id'],
                 'datetime' => $request['datetime'],
@@ -82,8 +82,6 @@ class TransactionController extends Controller
                 'description' => $request['description'],
                 'user_id' => $request['user_id'],
             ]);
-
-            $transaction =  Transaction::latest()->first();
             // Create opening FR for the created Projet
             $data = [
                 'type' => 'TRA',
@@ -97,7 +95,7 @@ class TransactionController extends Controller
                 'status' => 'INC'
 
             ];
-            FinancialRecord::create($data);
+            $financialRecord1 = FinancialRecord::create($data);
 
             // Create opening FR for the created Projet
             $data = [
@@ -112,11 +110,11 @@ class TransactionController extends Controller
                 'status' => 'EXP'
 
             ];
-            FinancialRecord::create($data);
+            $financialRecord2 = FinancialRecord::create($data);
 
 
             DB::commit();
-            return ['msg' => 'purchase successfully inserted'];
+            return ['msg' => 'purchase successfully inserted', [$transaction, $financialRecord1, $financialRecord2 ]];
         } catch (Exception $e) {
             DB::rollback();
         }

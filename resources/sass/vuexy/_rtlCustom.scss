@@ -636,6 +636,9 @@ li.fuel-station > h3 {
         direction: ltr;
         float: left;
     }
+    .truncate h2 , .apexcharts-tooltip-text-value{
+        direction: ltr;
+    }
     .text-rtl-left.breadcrumb {
         margin-left: 0.5em;
         font-weight: bold;
