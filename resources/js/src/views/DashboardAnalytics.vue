@@ -27,14 +27,14 @@
               <div class="mr-6">
                 <p class="mb-1 font-semibold text-success">مجموع فروشات </p>
                 <p class="text-3xl text-success">
-                  {{ (revenueComparisonLine.series[0] && revenueComparisonLine.series[0].data) ? revenueComparisonLine.series[0].data.reduce((a, b) => a + b, 0) : 0 }}
+                  {{ (revenueComparisonLine.series[0] && revenueComparisonLine.series[0].data) ? formatToEnPriceSimple(revenueComparisonLine.series[0].data.reduce((a, b) => a + b, 0), 0) : 0 }}
                   <sup class="text-base mr-1">افغانی</sup>
                 </p>
               </div>
               <div>
                 <p class="mb-1 font-semibold">مجموع فروشات قراردادی</p>
                 <p class="text-3xl">
-                  {{ (revenueComparisonLine.series[0] && revenueComparisonLine.series[1].data) ? revenueComparisonLine.series[1].data.reduce((a, b) => a + b, 0) : 0 }}
+                  {{ (revenueComparisonLine.series[0] && revenueComparisonLine.series[1].data) ? formatToEnPriceSimple(revenueComparisonLine.series[1].data.reduce((a, b) => a + b, 0), 0) : 0 }}
                   <sup class="text-base mr-1">افغانی</sup>
                 </p>
               </div>
@@ -49,11 +49,12 @@
         <!---->
         <div class="vx-card__collapsible-content vs-con-loading__container">
           <div class="p-8 clearfix">
-            <div>
-              <h1><sup class="text-lg">$</sup> <span>22,597</span></h1>
-            </div>
-            <p class="mt-2 mb-8 text-xl font-medium text-success">
-              <span>+</span><span>5.2%</span><span class="ml-1">($956)</span>
+            <p class="text-3xl font-semibold">
+              {{ allSaleCount['thisMSales'] }}
+              <sup class="text-base mr-1">فروش در ماه جاری</sup>
+            </p>
+            <p class="mt-2 mb-8 text-xl font-medium text-success" style=" direction: ltr; text-align: right; " title="فی‌صدی تغییر در فروشات نسبت به ماه قبل">
+              <span>{{ (allSaleCount['lastMSales'] > 0) ? '+' : ''}}</span><span> {{ allSaleCount['lastMSales'] }}%</span>
             </p>
             <router-link to="/sales?tab=1">
               <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">لست فروشات</vs-button>
@@ -63,21 +64,17 @@
             </p>-->
           </div>
           <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
-            <div class="mb-4"><small>عواید: $56156</small>
-              <div class="vs-progress--background vs-progress-success" style="height: 5px;">
-                <div class="vs-progress--foreground" style="width: 50%;"></div>
-                <!---->
+            <div class="mb-4"><small>فروشات عمده: {{ allSaleCount['parchonMSales'] }}%</small>
+              <div class="vs-progress--background vs-progress-warning" style="height: 5px;">
+                <div class="vs-progress--foreground" :style="'width: ' + allSaleCount['parchonMSales'] +'%;'"></div>
               </div>
             </div>
-            <div><small>مدت زمان: 2 سال</small>
-              <div class="vs-progress--background vs-progress-warning" style="height: 5px;">
-                <div class="vs-progress--foreground" style="width: 50%;"></div>
-                <!---->
+            <div class="mb-4"><small>فروشات پرچون: {{ allSaleCount['omdeMSales'] }}%</small>
+              <div class="vs-progress--background vs-progress-success" style="height: 5px;">
+                <div class="vs-progress--foreground" :style="'width: ' + allSaleCount['omdeMSales'] +'%;'"></div>
               </div>
             </div>
           </div>
-          <!---->
-          <!---->
         </div>
         <div class="vx-card__code-container collapsed" style="max-height: 0px; display: none;">
           <div class="code-content">
@@ -197,7 +194,7 @@ export default {
             axisTicks: {
               show: false
             },
-            categories: ['0', '05', '10', '15', '20', '25', '30'].reverse(),
+            categories: ['1-5', '5-10', '10-15', '15-20', '20-25', '25-30'].reverse(),
             axisBorder: {
               show: false
             }
@@ -251,7 +248,8 @@ export default {
       },
       gSaleDataLastMonth: [],
       gSaleDataLastMonthKey: 0,
-
+      allSaleCount: null,
+      allSaleCountKeyC: 0,
     }
 
   },
@@ -268,6 +266,7 @@ export default {
     }, 2000)
     this.getPurchaseData();
     this.getSaleDataLastMonth();
+    this.allSalesCounterLastThisMonth();
   },
   methods: {
     getPurchaseData() {
@@ -289,8 +288,8 @@ export default {
           this.gSaleData = data.data;
           for (const [key, value] of Object.entries(this.gSaleData['byDays'].series[0].data)) {
             if (this.gSaleData['byDays'].series[0].data[key] == 0) {
-              this.benefits.series[0].data[key] = ((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100).toFixed(0);              
-            }else{
+              this.benefits.series[0].data[key] = ((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100).toFixed(0);
+            } else {
               this.benefits.series[0].data[key] = (((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100) / this.gSaleData['byDays'].series[0].data[key]).toFixed(0);
             }
           }
@@ -310,6 +309,18 @@ export default {
           // this.gSaleDataLastMonth = data.data;
           this.revenueComparisonLine.series = data.data;
           this.gSaleDataLastMonthKey += 1;
+        })
+        .catch(() => {});
+    },
+    allSalesCounterLastThisMonth() {
+      this.revenueComparisonLine.series = [];
+      this.gSaleDataLastMonthKey += 1;
+      this.$Progress.start()
+      this.axios
+        .get("/api/graphs/allsalecount")
+        .then((data) => {
+          this.allSaleCount = data.data;
+          this.allSaleCountKeyC += 1;
         })
         .catch(() => {});
     },
