@@ -36,18 +36,18 @@ class GraphsController extends Controller
         ->where('status', 'EXP')
         ->whereBetween('created_at', $date)
         ->get();
-        $total_af = 0;
-        Helper::purchase_financial_records_balance($fr, $total_af, $total_usd);
-        $debitFinancialRecordByDays['data'][$key] = $total_af;
-        $debitFinancialRecordByDays['name'] = 'مصارف';
+      $total_af = 0;
+      Helper::purchase_financial_records_balance($fr, $total_af, $total_usd);
+      $debitFinancialRecordByDays['data'][$key] = $total_af;
+      $debitFinancialRecordByDays['name'] = 'مصارف';
     }
-    
+
     $debitFinancialRecord = FinancialRecord::with('exchange_rate')
-    ->where('debit', '>', 0)
-    // ->where('type', 'EXP')
-    ->whereBetween('created_at', [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))])
-    ->where('status', 'EXP')
-    ->get();
+      ->where('debit', '>', 0)
+      // ->where('type', 'EXP')
+      ->whereBetween('created_at', [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))])
+      ->where('status', 'EXP')
+      ->get();
     $total_af = 0;
     $total_usd = 0;
     Helper::purchase_financial_records_balance($debitFinancialRecord, $total_af, $total_usd);
@@ -63,34 +63,33 @@ class GraphsController extends Controller
         ->where('type', 'sale')
         ->whereBetween('created_at', $date)
         ->get();
-        $total_af = 0;
-        $x []=  $fr;
-        Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
-        $creditFinancialRecordByDays['data'][$key] = $total_af;
+      $total_af = 0;
+      $x[] =  $fr;
+      Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
+      $creditFinancialRecordByDays['data'][$key] = $total_af;
       $creditFinancialRecordByDays['name'] = 'عواید';
     }
     $creditFinancialRecord = FinancialRecord::with('exchange_rate')
-    ->where('credit', '>', 0)
-    ->where('status', 'INC')
-    ->where('type', 'sale')
-    ->whereBetween('created_at', [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))])
-    ->get();
+      ->where('credit', '>', 0)
+      ->where('status', 'INC')
+      ->where('type', 'sale')
+      ->whereBetween('created_at', [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))])
+      ->get();
     $total_af = 0;
     $total_usd = 0;
     Helper::sales_financial_records_balance($creditFinancialRecord, $total_af, $total_usd);
     return ['total_af' => $total_af, 'total_usd' => $total_usd, 'byDays' => ['series' => [$creditFinancialRecordByDays]]];
-
   }
   public function saleLastMonthG(Request $request)
   {
     $s1s3sales = Sale::whereIn('type', ['s1', 's3'])->get()->pluck('id');
 
-    $days[] = [date("Y-m-d", strtotime('-5 days')), date("Y-m-d", strtotime('0 days'))];
-    $days[] = [date("Y-m-d", strtotime('-10 days')), date("Y-m-d", strtotime('-5 days'))];
-    $days[] = [date("Y-m-d", strtotime('-15 days')), date("Y-m-d", strtotime('-10 days'))];
-    $days[] = [date("Y-m-d", strtotime('-20 days')), date("Y-m-d", strtotime('-15 days'))];
-    $days[] = [date("Y-m-d", strtotime('-25 days')), date("Y-m-d", strtotime('-20 days'))];
-    $days[] = [date("Y-m-d", strtotime('-30 days')), date("Y-m-d", strtotime('-25 days'))];
+    $days[] = [date("Y-m-d", strtotime('-4 days')), date("Y-m-d", strtotime('1 days'))];
+    $days[] = [date("Y-m-d", strtotime('-9 days')), date("Y-m-d", strtotime('-4 days'))];
+    $days[] = [date("Y-m-d", strtotime('-14 days')), date("Y-m-d", strtotime('-9 days'))];
+    $days[] = [date("Y-m-d", strtotime('-19 days')), date("Y-m-d", strtotime('-14 days'))];
+    $days[] = [date("Y-m-d", strtotime('-24 days')), date("Y-m-d", strtotime('-19 days'))];
+    $days[] = [date("Y-m-d", strtotime('-29 days')), date("Y-m-d", strtotime('-24 days'))];
     $debitFinancialRecordBy5Days = [];
     $debitFinancialRecordBy5DaysContract = [];
     foreach ($days as $key => $date) {
@@ -99,10 +98,10 @@ class GraphsController extends Controller
         ->where('type', 'sale')
         ->whereBetween('created_at', $date)
         ->get();
-        $total_af = 0;
-        Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
-        $debitFinancialRecordBy5Days['data'][$key] = $total_af;
-        $debitFinancialRecordBy5Days['name'] = 'فروشات';
+      $total_af = 0;
+      Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
+      $debitFinancialRecordBy5Days['data'][$key] = $total_af;
+      $debitFinancialRecordBy5Days['name'] = 'فروشات';
     }
     foreach ($days as $key => $date) {
       $fr = FinancialRecord::with('exchange_rate')
@@ -111,14 +110,35 @@ class GraphsController extends Controller
         ->whereIn('type_id', $s1s3sales)
         ->whereBetween('created_at', $date)
         ->get();
-        $total_af = 0;
-        Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
+      $total_af = 0;
+      Helper::sales_financial_records_balance($fr, $total_af, $total_usd);
 
-        $debitFinancialRecordBy5DaysContract['data'][$key] = $total_af;
-        $debitFinancialRecordBy5DaysContract['name'] = 'فروشات قراردادها';
+      $debitFinancialRecordBy5DaysContract['data'][$key] = $total_af;
+      $debitFinancialRecordBy5DaysContract['name'] = 'فروشات قراردادها';
     }
 
-    return [$debitFinancialRecordBy5Days, $debitFinancialRecordBy5DaysContract ];
+    return [$debitFinancialRecordBy5Days, $debitFinancialRecordBy5DaysContract];
+  }
+  public function allSaleCount()
+  {
 
+    $lastMonthObject = new Carbon('last day of last month');
+    $lastMonthNum = $lastMonthObject->month;
+    $lastMonthLastDayNum = $lastMonthObject->day;
+    $currentDateDayNum = Carbon::now()->day;
+    $currentYear = Carbon::now()->year;
+    $lastMonthLastOrCurrentDay = Carbon::createFromDate($currentYear, $lastMonthNum, ($lastMonthLastDayNum >= $currentDateDayNum) ? $currentDateDayNum : $lastMonthLastDayNum)->toDateString();
+    $lastMonthFirstDay = Carbon::createFromDate($currentYear, $lastMonthNum, 1)->toDateString();
+
+    $thisMSales = Sale::whereMonth('created_at', Carbon::now()->month)->count();
+    $lastMSales = Sale::whereBetween('created_at', [$lastMonthFirstDay, $lastMonthLastOrCurrentDay])->count();
+    $omdeMSales = Sale::whereIn('type', ['s1', 's2'])->count();
+    $parchonMSales = Sale::whereIn('type', ['s3', 's4'])->count();
+    return [
+      'thisMSales' => $thisMSales,
+      'lastMSales' => round(($lastMSales != 0) ? ($thisMSales * 100) / $lastMSales : $thisMSales * 100, 2),
+      'omdeMSales' => round((($omdeMSales + $parchonMSales) != 0) ? ($omdeMSales * 100) / ($omdeMSales + $parchonMSales) : $omdeMSales * 100, 2),
+      'parchonMSales' => round((($omdeMSales + $parchonMSales) != 0) ? ($parchonMSales * 100) / ($omdeMSales + $parchonMSales) : $parchonMSales * 100, 2),
+    ];
   }
 }
