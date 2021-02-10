@@ -96,7 +96,10 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        return Account::with('financial_records')->find($account->id);
+        $account = Account::with('financial_records')->find($account->id);
+        $acc_type = Account::with('type')->first();
+        $account['account_type'] = $acc_type['type'];
+        return $account;
     }
 
     /**
@@ -119,29 +122,33 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        $this->validate($request, [
-            'type_id' => 'required',
-            'ref_code' => 'required',
-            'name' => 'required',
-        ]);
-        if (gettype($request->type_id) != 'integer') {
-            $request->type_id = $request['type_id']['id'];
-        }
 
-        $data = [
-            'user_id' => $request->user_id,
-            'type_id' => $request->type_id,
-            'name' => $request->name,
-            'ref_code' => $request->ref_code,
-            'status' => $request->status,
-            'description' => $request->description,
-            // 'system' => $request->system,    
-        ];
-        if ($new = Account::find($account->id)->update($data)) {
-            return $new;
-        } else {
-            return $new;
-        }
+        // $this->validate($request, [
+        //     'type_id' => 'required',
+        //     'ref_code' => 'required',
+        //     'name' => 'required',
+        // ]);
+        // if (gettype($request->type_id) != 'integer') {
+        //     // return response(['type ID:' => gettype($request['type_id'])]);
+        //     // return response(['type ID:' =>]);
+        //     $request->type_id = (int)$request->type_id;
+        return response(['ACC' => $request->type_id]);
+        // }
+
+        // $data = [
+        //     'user_id' => $request->user_id,
+        //     'type_id' => $request->type_id,
+        //     'name' => $request->name,
+        //     'ref_code' => $request->ref_code,
+        //     'status' => $request->status,
+        //     'description' => $request->description,
+        //     // 'system' => $request->system,    
+        // ];
+        // if ($update = Account::find($account->id)->update($data)) {
+        //     return $update;
+        // } else {
+        //     return $update;
+        // }
     }
 
     /**

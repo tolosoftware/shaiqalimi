@@ -134,18 +134,71 @@
           </div>
           <div class="vx-row">
             <vs-col vs-type="flex" class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-              <div class="mt-2 mr-5">
+
+              <!--<div class="mt-2 mr-5">
                 <vs-input label=" اسم شخص مسول را وارد نمایید" v-model="pStepForm.res_person" />
               </div>
-              <div class="mr-5 pt-2 mt-5">
-                <vs-button class="float-right mr-5 mt-1" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ عریضه</vs-button>
-              </div>
+              -->
             </vs-col>
           </div>
         </vs-col>
       </vs-row>
-      <vs-divider></vs-divider>
-      <div class="vx-row" vs-w="12"></div>
+      <vs-divider />
+      <vs-row vs-w="12">
+        <div class="w-full">
+          <quill-editor v-model="pStepForm.res_person" :options="editorOption">
+            <div id="toolbar" slot="toolbar">
+              <button class="ql-bold">Bold</button>
+              <button class="ql-italic">Italic</button>
+              <button class="ql-underline">Underline</button>
+
+              <select class="ql-size">
+                <option value="small"></option>
+                <option selected></option>
+                <option value="large"></option>
+                <option value="huge"></option>
+              </select>
+
+              <select class="ql-font">
+                <option selected="selected"></option>
+                <option value="serif"></option>
+                <option value="monospace"></option>
+              </select>
+
+              <select class="ql-align">
+                <option selected="justify"></option>
+                <option value="center"></option>
+                <option value="right"></option>
+              </select>
+
+              <select class="ql-header">
+                <option selected="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="5"></option>
+                <option value="6"></option>
+                <option value="false"></option>
+              </select>
+
+              <button class="ql-direction" value="rtl"></button>
+
+              <button class="ql-list" value="ordered"></button>
+
+              <button class="ql-list" value="bullet"></button>
+
+              <button class="ql-indent" value="+1"></button>
+
+              <button class="ql-indent" value="-1"></button>
+            </div>
+          </quill-editor>
+        </div>
+      </vs-row>
+    </vs-row>
+    <div class="pt-2 mt-1 mb-2 float-right">
+      <vs-button class="mr-1 mt-1" type="gradient" icon="print" @click="cprint">چاپ عریضه</vs-button>
+    </div>
+    <vs-row></vs-row>
     </vs-row>
   </tab-content>
   <tab-content title="دریافت شرطنامه/آفر" class="mb-5" :before-change="changePropStepStatus2">
@@ -354,6 +407,12 @@
 </template>
 
 <script>
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
+import Prism from 'vue-prism-component'
+
 import Ekmalat from "../../shared/Ekmalat.vue"
 import {
   FormWizard,
@@ -364,6 +423,12 @@ export default {
   props: ['proposal', 'participators'],
   data() {
     return {
+      editorOption: {
+        modules: {
+          toolbar: '#toolbar'
+        }
+      },
+      content: '',
       firstloadstep: 0,
       pStepForm: new Form({
         step: 0,
@@ -409,7 +474,9 @@ export default {
   components: {
     FormWizard,
     TabContent,
-    Ekmalat
+    Ekmalat,
+    quillEditor,
+    Prism
   },
   created() {},
   computed: {},
