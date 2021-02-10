@@ -134,18 +134,26 @@
           </div>
           <div class="vx-row">
             <vs-col vs-type="flex" class="mb-1" vs-justify="right" vs-align="right" vs-w="12">
-              <div class="mt-2 mr-5">
+
+              <!--<div class="mt-2 mr-5">
                 <vs-input label=" اسم شخص مسول را وارد نمایید" v-model="pStepForm.res_person" />
               </div>
-              <div class="mr-5 pt-2 mt-5">
-                <vs-button class="float-right mr-5 mt-1" type="gradient" icon="print" id="printBTN" @click="cprint">چاپ عریضه</vs-button>
-              </div>
+              -->
             </vs-col>
           </div>
         </vs-col>
       </vs-row>
-      <vs-divider></vs-divider>
-      <div class="vx-row" vs-w="12"></div>
+      <vs-divider />
+      <vs-row vs-w="12">
+        <div>
+          <quill-editor v-model="pStepForm.res_person"></quill-editor>
+        </div>
+      </vs-row>
+    </vs-row>
+    <div class="pt-2 mt-1 mb-2 float-right">
+      <vs-button class="mr-1 mt-1" type="gradient" icon="print" @click="cprint">چاپ عریضه</vs-button>
+    </div>
+    <vs-row></vs-row>
     </vs-row>
   </tab-content>
   <tab-content title="دریافت شرطنامه/آفر" class="mb-5" :before-change="changePropStepStatus2">
@@ -354,6 +362,12 @@
 </template>
 
 <script>
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
+import Prism from 'vue-prism-component'
+
 import Ekmalat from "../../shared/Ekmalat.vue"
 import {
   FormWizard,
@@ -364,6 +378,7 @@ export default {
   props: ['proposal', 'participators'],
   data() {
     return {
+      content: '',
       firstloadstep: 0,
       pStepForm: new Form({
         step: 0,
@@ -409,7 +424,9 @@ export default {
   components: {
     FormWizard,
     TabContent,
-    Ekmalat
+    Ekmalat,
+    quillEditor,
+    Prism
   },
   created() {},
   computed: {},

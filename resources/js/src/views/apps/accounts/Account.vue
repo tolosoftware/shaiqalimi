@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Accountadd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :accForm="accForm" :accountTypes="accountTypes" />
+  <Accountadd :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :accForm="accForm" :accountTypes="accountTypes" :editMode="editMode" />
   <vs-card>
     <div class="vx-row mb-3">
       <div class="vx-col w-1/2">
@@ -65,7 +65,7 @@
               <p>{{ (tr.status == 1) ? "فعال" :"غیرفعال"}} </p>
             </vs-td>
             <vs-td class="whitespace-no-wrap notupfromall">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="addNewData(tr)" />
+              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="cursor-pointer" @click.stop="editAccount(tr.id)" />
               <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="deleteData(tr.id)" />
               <!-- <feather-icon icon="DollarSignIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2 cursor-pointer" @click.stop="openFinancialRecords(tr)" /> -->
             </vs-td>
@@ -94,6 +94,7 @@ export default {
   },
   data: () => ({
     // Data Sidebar
+    editMode: false,
     isdata: false,
     curr_display: 'afn',
     addNewDataSidebar: false,
@@ -121,18 +122,17 @@ export default {
     this.getAllAccountTypes()
   },
   methods: {
-    findType(id) {
-      let name = '';
-      Object.keys(this.accountTypes).some(key => (this.accountTypes[key].id == id) ? name = this.accountTypes[key].title : null);
-      return name;
-    },
+
     editAccount(id) {
       this.$Progress.start()
+      this.editMode = true;
+      this.accForm.reset();
       this.axios.get('/api/account/' + id)
         .then((response) => {
           for (let [key, value] of Object.entries(response.data)) {
             this.accForm[key] = value;
           }
+          this.accForm.type_id = response.data.account_type;
           if (response.data.financial_records[0]) {
             this.accForm.credit = response.data.financial_records[0].credit;
             this.accForm.debit = response.data.financial_records[0].debit;
@@ -191,6 +191,8 @@ export default {
     },
     addNewData() {
       // this.editAccData = {};
+      this.accForm.reset();
+      this.editMode = false;
       this.toggleDataSidebar(true);
     },
     toggleDataSidebar(val = false) {
