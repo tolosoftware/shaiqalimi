@@ -158,7 +158,7 @@ export default {
         .get("/api/expenses/" + id)
         .then((data) => {
           this.expense = data.data;
-          this.$refs.wizardModalExpense.setWizardStepExpense(this.expense.step);
+          this.$refs.wizardModalExpense.setWizardStepExpense(this.expense);
           this.$Progress.set(100);
         })
         .catch(() => {});

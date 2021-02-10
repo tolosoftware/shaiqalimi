@@ -216,11 +216,14 @@ class ExpensesController extends Controller
             DB::rollback();
         }
     }
-    public function changeStep($id, $stepNo)
+    public function changeStep(Request $request, $id)
     {
-        // return response(['id'=>$id,'stid'=>$stepNo]);
         $expenses = Expense::findOrFail($id);
-        $expenses->step = $stepNo;
+        if ($request->step == 3) {
+            $expenses->is_approved = $request->is_approved;
+        } else {
+            $expenses->step = $request->step;
+        }
         $expenses->save();
     }
 }

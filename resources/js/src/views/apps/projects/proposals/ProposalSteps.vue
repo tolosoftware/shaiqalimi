@@ -145,8 +145,53 @@
       </vs-row>
       <vs-divider />
       <vs-row vs-w="12">
-        <div>
-          <quill-editor v-model="pStepForm.res_person"></quill-editor>
+        <div class="w-full">
+          <quill-editor v-model="pStepForm.res_person" :options="editorOption">
+            <div id="toolbar" slot="toolbar">
+              <button class="ql-bold">Bold</button>
+              <button class="ql-italic">Italic</button>
+              <button class="ql-underline">Underline</button>
+
+              <select class="ql-size">
+                <option value="small"></option>
+                <option selected></option>
+                <option value="large"></option>
+                <option value="huge"></option>
+              </select>
+
+              <select class="ql-font">
+                <option selected="selected"></option>
+                <option value="serif"></option>
+                <option value="monospace"></option>
+              </select>
+
+              <select class="ql-align">
+                <option selected="justify"></option>
+                <option value="center"></option>
+                <option value="right"></option>
+              </select>
+
+              <select class="ql-header">
+                <option selected="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="5"></option>
+                <option value="6"></option>
+                <option value="false"></option>
+              </select>
+
+              <button class="ql-direction" value="rtl"></button>
+
+              <button class="ql-list" value="ordered"></button>
+
+              <button class="ql-list" value="bullet"></button>
+
+              <button class="ql-indent" value="+1"></button>
+
+              <button class="ql-indent" value="-1"></button>
+            </div>
+          </quill-editor>
         </div>
       </vs-row>
     </vs-row>
@@ -378,6 +423,11 @@ export default {
   props: ['proposal', 'participators'],
   data() {
     return {
+      editorOption: {
+        modules: {
+          toolbar: '#toolbar'
+        }
+      },
       content: '',
       firstloadstep: 0,
       pStepForm: new Form({
