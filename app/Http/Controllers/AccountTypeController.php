@@ -22,7 +22,7 @@ class AccountTypeController extends Controller
     public function allAccounts()
     {
         // return 'x';
-        $accounts_types =  AccountType::with('accounts.financial_records.exchange_rate')
+        $accounts_types = AccountType::with('accounts.financial_records.exchange_rate')
         // ->has('accounts')
         // ->has('accounts.financial_records')
         // ->has('accounts.financial_records.exchange_rate')

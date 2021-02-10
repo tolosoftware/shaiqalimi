@@ -177,4 +177,24 @@ class Helper
             $total_usd += ($fr['credit'] * $rates['usd'])-($fr['debit'] * $rates['usd']);
         }
     }
+    public static function purchase_financial_records_balance($financial_records, &$total_af, &$total_usd){
+        foreach ($financial_records as $key => $fr) {
+            $rates['afn'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_afn'))->first();
+            $rates['usd'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_usd'))->first();
+            $rates['afn'] = ($rates['afn']['system_rate'] != 0) ? $rates['afn']['system_rate'] : 1;
+            $rates['usd'] = ($rates['usd']['system_rate'] != 0) ? $rates['usd']['system_rate'] : 1;
+            $total_af += $fr['debit'] / $rates['afn'];
+            $total_usd += $fr['debit'] * $rates['usd'];
+        }
+    }
+    public static function sales_financial_records_balance($financial_records, &$total_af, &$total_usd){
+        foreach ($financial_records as $key => $fr) {
+            $rates['afn'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_afn'))->first();
+            $rates['usd'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_usd'))->first();
+            $rates['afn'] = ($rates['afn']['system_rate'] != 0) ? $rates['afn']['system_rate'] : 1;
+            $rates['usd'] = ($rates['usd']['system_rate'] != 0) ? $rates['usd']['system_rate'] : 1;
+            $total_af += $fr['credit'] / $rates['afn'];
+            $total_usd += $fr['credit'] * $rates['usd'];
+        }
+    }
 }

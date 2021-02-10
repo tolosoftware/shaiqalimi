@@ -107,8 +107,8 @@ export default {
       }
     },
     tooltip: {
-      x: { show: false }
-    }
+      x: { show: false },
+    },
   }
 
 }
