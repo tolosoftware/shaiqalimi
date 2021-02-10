@@ -134,3 +134,4 @@ Route::get('sale/project/item-chart/{project_id}', 'ProjectController@projectIte
 Route::get('graphs/purchase', 'GraphsController@purchase');
 Route::get('graphs/sale-value', 'GraphsController@saleValue');
 Route::get('graphs/sale-last-month-g', 'GraphsController@saleLastMonthG');
+Route::get('graphs/allsalecount', 'GraphsController@allSaleCount');
