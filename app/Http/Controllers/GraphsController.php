@@ -225,12 +225,23 @@ class GraphsController extends Controller
     $valueTotal = [0, 0];
     foreach ($stacksdata as $key => $stock) {
       $valueTotal[0] += $stock['increment_equiv'];
-      $valueTotal[1] += $stock['decrement_equiv'];    
+      $valueTotal[1] += $stock['decrement_equiv'];
     }
     if ($storageCapacity === 0) {
       return 0;
     }
-    // return [$storageCapacity, $valueTotal];
-    return round((($storageCapacity + ($valueTotal[0] - $valueTotal[1])) * 100)/$storageCapacity, 0);
+    return round((($storageCapacity + ($valueTotal[0] - $valueTotal[1])) * 100) / $storageCapacity, 0);
+  }
+  public function storageItemsGraph()
+  {
+    $chartData[0] = [
+      'data' => [98, 34, 34, 34, 34, 34, 34, 34, 23],
+      'name' => 'asldfkjdsflk',
+    ];
+    $chartData[1] = [
+      'data' => [98, 134, 134, 134, 134, 134, 134, 134, 123],
+      'name' => 'asldfkjdsflk',
+    ];
+    return ['thisMonth' => 439, 'lastMonth' => 934, 'series' => $chartData];
   }
 }

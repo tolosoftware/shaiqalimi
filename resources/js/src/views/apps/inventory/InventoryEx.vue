@@ -19,25 +19,28 @@
           </template>-->
       <div class="vx-col w-full md:w-2/3 mb-base">
         <vx-card title="تغییرات در ذخایر">
+          <template slot="actions">
+            <feather-icon icon="RefreshCwIcon" svgClasses="w-6 h-6 text-primary" @click="storageItemsGraphData"></feather-icon>
+          </template>
           <div slot="no-body" class="p-6 pb-0">
-            <div class="flex" v-if="revenueComparisonLine.analyticsData">
+            <div class="flex">
               <div class="mr-6">
                 <p class="mb-1 font-semibold">{{$t('ThisMonth')}}</p>
-                <p class="text-3xl text-success">
+                <p class="text-3xl text-success" :key="revenueComparisonLineKey">
                   <sup class="text-base mr-1">{{$t('$')}}</sup>
-                  {{ revenueComparisonLine.analyticsData.thisMonth.toLocaleString() }}
+                  {{ revenueComparisonLine.thisMonth.toLocaleString() }}
                 </p>
               </div>
               <div>
                 <p class="mb-1 font-semibold">{{$t('LastMonth')}}</p>
-                <p class="text-3xl">
+                <p class="text-3xl" :key="revenueComparisonLineKey">
                   <sup class="text-base mr-1">{{$t('$')}}</sup>
-                  {{ revenueComparisonLine.analyticsData.lastMonth.toLocaleString() }}
+                  {{ revenueComparisonLine.lastMonth.toLocaleString() }}
                 </p>
               </div>
             </div>
-
             <vue-apex-charts
+              :key="revenueComparisonLineKey"
               type="line"
               height="266"
               :options="analyticsData.revenueComparisonLine.chartOptions"
@@ -293,6 +296,7 @@ export default {
   data() {
     return {
       totalStorageStations:'',
+      revenueComparisonLineKey: 0,
       // Sidebar
       addNewDataSidebar: false,
       transferSidebar: false,
@@ -305,20 +309,9 @@ export default {
       salesRadar: {},
       supportTracker: {},
       revenueComparisonLine: {
-        analyticsData: {
-          thisMonth: 86589,
-          lastMonth: 73683
-        },
-        series: [
-          {
-            name: 'ماه جاری',
-            data: [45000,47000,44800,47500,45500,48000,46500,48600]
-          },
-          {
-            name: 'ماه گذشته',
-            data: [46000,48000,45500,46600,44500,46500,45000,47000]
-          }
-        ]
+        thisMonth: 0,
+        lastMonth: 0,
+        series: []
       },
       goalOverviewRadialBar: {
         chartOptions: {
@@ -403,6 +396,7 @@ export default {
     this.$vs.loading();
     this.totalStorageStation();
     this.storageGraphData();
+    this.storageItemsGraphData();
     setTimeout(()=> {
         this.$vs.loading.close()
     }, 3000);
@@ -415,18 +409,22 @@ export default {
         .then((response) => {
           this.totalStorageStations=response.data;
           this.$Progress.set(100)
-          // this.$vs.loading.close();
+          this.$vs.loading.close();
         })
     },
     storageGraphData(){
-        // this.$vs.loading()
-      this.$Progress.start();
         this.axios.get('/api/graphs/storage_graph')
         .then((response) => {
           this.goalOverviewRadialBar.series = [response.data];
           this.storageGraphDataKey +=1;
-          this.$Progress.set(100)
           this.$vs.loading.close();
+        })
+    },
+    storageItemsGraphData(){
+        this.axios.get('/api/graphs/storage_items_graph')
+        .then((response) => {
+          this.revenueComparisonLine.series = response.data.series;
+          this.revenueComparisonLineKey +=1;
         })
     },
     ToggleTransfer() {
