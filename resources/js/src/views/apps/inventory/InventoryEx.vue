@@ -57,6 +57,7 @@
           <template slot="no-body">
             <div class="mt-10">
               <vue-apex-charts
+                :key="storageGraphDataKey"
                 v-if="goalOverviewRadialBar"
                 type="radialBar"
                 height="240"
@@ -375,7 +376,7 @@ export default {
             }
           }
         },
-        series: [83]
+        series: [0]
       },
 
       salesBarSession: {},
@@ -387,7 +388,7 @@ export default {
 
       browserStatistics: [],
       clientRetentionBar: {},
-
+      storageGraphDataKey: 0,
       analyticsData
     }
   },
@@ -401,10 +402,10 @@ export default {
   created() {   
     this.$vs.loading();
     this.totalStorageStation();
+    this.storageGraphData();
     setTimeout(()=> {
         this.$vs.loading.close()
-    }, 2000);
-    
+    }, 3000);
   },
   methods: {
     totalStorageStation(){
@@ -415,6 +416,17 @@ export default {
           this.totalStorageStations=response.data;
           this.$Progress.set(100)
           // this.$vs.loading.close();
+        })
+    },
+    storageGraphData(){
+        // this.$vs.loading()
+      this.$Progress.start();
+        this.axios.get('/api/graphs/storage_graph')
+        .then((response) => {
+          this.goalOverviewRadialBar.series = [response.data];
+          this.storageGraphDataKey +=1;
+          this.$Progress.set(100)
+          this.$vs.loading.close();
         })
     },
     ToggleTransfer() {

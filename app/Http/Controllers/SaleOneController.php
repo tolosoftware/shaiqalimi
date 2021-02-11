@@ -116,7 +116,7 @@ class SaleOneController extends Controller
             if ($newAcc) {
                 $stocks = [];
                 $totalmoney = 0;
-                $stocks = Helper::salesCreateStockRecords('sale', $request->item, $newSale, $storage, $request, $totalmoney, $storage['name'], $storage['id']);
+                $stocks = Helper::salesCreateStockRecords('sale', $request->item, $newSale, $storage, $request, $totalmoney, $request['source_type'], $storage['id']);
             }
 
             // Create the Notification

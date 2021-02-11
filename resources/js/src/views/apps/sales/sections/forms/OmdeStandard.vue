@@ -297,7 +297,7 @@ export default {
         bank_account: null,
         type: "s2",
         client_id: "", // The Id of the Client.
-        source_type: "client", // Type Client
+        source_type: "",
         user_id: localStorage.getItem('id'), //Get the current user id
         currency_id: 1,
         datatime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),

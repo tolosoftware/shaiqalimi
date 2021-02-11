@@ -91,11 +91,10 @@
   </vs-divider>
   <!--<ProjectList></ProjectList>-->
   <div class="vx-col w-full mb-base">
-    <vx-card title="احصائیه معاملات تجارتی دریک سال مالی">
+    <vx-card title="میزان عواید براساس اقلام (۹۰ روز اخیر)">
       <template slot="actions">
         <feather-icon icon="RefreshCwIcon" svgClasses="w-6 h-6 text-primary" @click="allItemsSalesPrice"></feather-icon>
       </template>
-
       <vue-apex-charts :key="mixedChartSalesKey" type="line" height="350" :options="mixedChartSales.chartOptions" :series="mixedChartSales.series"></vue-apex-charts>
     </vx-card>
   </div>
@@ -142,6 +141,9 @@ export default {
       mixedChartSales: {
         series: [],
         chartOptions: {
+          noData: {
+            text: 'بارگیری اطلاعات....'
+          },
           colors: themeColors,
           chart: {
             stacked: false
@@ -169,7 +171,7 @@ export default {
               stops: [0, 100, 100, 100]
             }
           },
-          labels: ['0', '10/1', '20/1', '30/1', '10/2', '20/2', '30/2', '10/3', '20/3', '30/3'].reverse(),
+          labels: ['10', '20', '30', '40', '50', '60', '70', '80', '90'].reverse(),
           markers: {
             size: 0
           },
@@ -205,6 +207,9 @@ export default {
       revenueComparisonLine: {
         series: [],
         chartOptions: {
+          noData: {
+            text: 'بارگیری اطلاعات....'
+          },
           chart: {
             toolbar: {
               show: false
