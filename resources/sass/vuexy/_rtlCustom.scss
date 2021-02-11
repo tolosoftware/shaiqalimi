@@ -599,6 +599,13 @@ li.fuel-station > h3 {
 }
 
 [dir] {
+    .apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker{
+        margin-left: 5px;
+    }
+    .direction-rtl{
+        direction: ltr !important;
+    }
+    .direction-ltr,
     .custom_number .vs-input--input {
         direction: ltr !important;
     }
