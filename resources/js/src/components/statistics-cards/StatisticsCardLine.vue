@@ -104,7 +104,9 @@ export default{
         'primary': '#A9A2F6',
         'success': '#55DD92',
         'warning': '#ffc085',
-        'danger': '#F97794'
+        'danger': '#F97794',
+        'blue': '#74a9fc',
+        'lightblue': '#47d1ff',
       }
 
       return gradientToColors[color] ? gradientToColors[color] : gradientToColors['primary']

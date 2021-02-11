@@ -65,10 +65,10 @@ class Helper
         $newFR = FinancialRecord::create($FRData);
 
         // Create opening FR for the created Sales
-        if($request->bank_account) {
+        if ($request->bank_account) {
             $bA_id = $request->bank_account;
-        }else{
-            $bA_id = ($request->currency_id == 1) ? config('app.cash_in_hand_afn') : config('app.cash_in_hand_usd');            
+        } else {
+            $bA_id = ($request->currency_id == 1) ? config('app.cash_in_hand_afn') : config('app.cash_in_hand_usd');
         }
         $FRdestinationAccount = [
             'type' => $type, // here the type of financial record is project
@@ -106,6 +106,7 @@ class Helper
                 'unit_price' => (array_key_exists("unit_price", $valueItem) && $valueItem['unit_price'] != null) ? $valueItem['unit_price'] : 0,
                 'total_price' => (array_key_exists("total_price", $valueItem) && $valueItem['total_price'] != null) ? $valueItem['total_price'] : 0,
                 'remark' => $request['description'],
+                'ex_rate_id' => ExchangeRate::latest()->first()->id,
             ]);
             $totalmoney = $totalmoney + $valueItem['total_price'];
         }
@@ -132,6 +133,7 @@ class Helper
                 'unit_price' => (array_key_exists("unit_price", $valueItem) && $valueItem['unit_price'] != null) ? $valueItem['unit_price'] : 0,
                 'total_price' => (array_key_exists("total_price", $valueItem) && $valueItem['total_price'] != null) ? $valueItem['total_price'] : 0,
                 'remark' => $request['description'],
+                'ex_rate_id' => ExchangeRate::latest()->first()->id,
             ]);
             $totalmoney = $totalmoney + $valueItem['total_price'];
         }
@@ -167,17 +169,19 @@ class Helper
         $TRSStockRecord->delete();
     }
 
-    public static function calc_account_balance($financial_records, &$total_af, &$total_usd){
+    public static function calc_account_balance($financial_records, &$total_af, &$total_usd)
+    {
         foreach ($financial_records as $key => $fr) {
             $rates['afn'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_afn'))->first();
             $rates['usd'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_usd'))->first();
             $rates['afn'] = ($rates['afn']['system_rate'] != 0) ? $rates['afn']['system_rate'] : 1;
             $rates['usd'] = ($rates['usd']['system_rate'] != 0) ? $rates['usd']['system_rate'] : 1;
-            $total_af += ($fr['credit'] / $rates['afn'])-($fr['debit'] / $rates['afn']);
-            $total_usd += ($fr['credit'] * $rates['usd'])-($fr['debit'] * $rates['usd']);
+            $total_af += ($fr['credit'] / $rates['afn']) - ($fr['debit'] / $rates['afn']);
+            $total_usd += ($fr['credit'] * $rates['usd']) - ($fr['debit'] * $rates['usd']);
         }
     }
-    public static function purchase_financial_records_balance($financial_records, &$total_af, &$total_usd){
+    public static function purchase_financial_records_balance($financial_records, &$total_af, &$total_usd)
+    {
         foreach ($financial_records as $key => $fr) {
             $rates['afn'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_afn'))->first();
             $rates['usd'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_usd'))->first();
@@ -187,7 +191,8 @@ class Helper
             $total_usd += $fr['debit'] * $rates['usd'];
         }
     }
-    public static function sales_financial_records_balance($financial_records, &$total_af, &$total_usd){
+    public static function sales_financial_records_balance($financial_records, &$total_af, &$total_usd)
+    {
         foreach ($financial_records as $key => $fr) {
             $rates['afn'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_afn'))->first();
             $rates['usd'] = ExchangeRate::where('counter', $fr['exchange_rate']['counter'])->where('currency_id', config('app.currency_usd'))->first();

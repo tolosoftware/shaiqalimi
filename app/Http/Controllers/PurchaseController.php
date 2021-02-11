@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use App\Models\User;
 use App\Helper\Helper;
+use App\Models\Storage;
 use App\Models\Purchase;
 use App\Models\StockRecord;
-use App\Models\FinancialRecord;
-use App\Models\SerialNumber;
+use App\Models\ExchangeRate;
 use App\Models\Notification;
-use App\Models\UserNotification;
-use App\Models\User;
-use App\Models\Storage;
-use App\Models\Item;
+use App\Models\SerialNumber;
+use Carbon\Carbon as Carbon;
 use Illuminate\Http\Request;
 
+use App\Models\FinancialRecord;
+use App\Models\UserNotification;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon as Carbon;
 
 class PurchaseController extends Controller
 {
@@ -107,6 +108,8 @@ class PurchaseController extends Controller
                     'unit_price' => $valueItem['unit_price'],
                     'total_price' => $valueItem['total_price'],
                     'remark' => $request['description'],
+                    'ex_rate_id' => ExchangeRate::latest()->first()->id,
+
                 ]);
 
                 $totalmony = $totalmony + $valueItem['total_price'];

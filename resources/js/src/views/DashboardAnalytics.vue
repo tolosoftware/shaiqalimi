@@ -9,7 +9,7 @@
       <statistics-card-line class="md:mb-0 mb-base" icon="UserCheckIcon" :key="componentKey2" icon-right :statistic="formatToEnPriceSimple(gSaleData['total_af'], 0) +  ' AFN'" statisticTitle="عواید" :chartData="gSaleData['byDays'].series" color="success" />
     </div>
     <div class="vx-col w-full md:w-1/3 lg:w-1/3 xl:w-1/3">
-      <statistics-card-line icon="MailIcon" icon-right :key="componentKey3" :statistic="formatToEnPriceSimple(benefitsAtAll, 0) +  ' %'" statisticTitle="میزان مفاد دهی" :chartData="benefits.series" color="warning" />
+      <statistics-card-line class="md:mb-0 mb-base" icon="MailIcon" icon-right :key="componentKey3" :statistic="formatToEnPriceSimple(benefitsAtAll, 0) +  ' %'" statisticTitle="میزان مفاد دهی" :chartData="benefits.series" colorTo="lightblue" color="blue" />
     </div>
   </div>
   <div class="vx-row">
@@ -49,11 +49,11 @@
         <!---->
         <div class="vx-card__collapsible-content vs-con-loading__container">
           <div class="p-8 clearfix">
-            <p class="text-3xl font-semibold">
+            <p class="text-3xl font-semibold" v-if="allSaleCount">
               {{ allSaleCount['thisMSales'] }}
               <sup class="text-base mr-1">فروش در ماه جاری</sup>
             </p>
-            <p class="mt-2 mb-8 text-xl font-medium text-success" style=" direction: ltr; text-align: right; " title="فی‌صدی تغییر در فروشات نسبت به ماه قبل">
+            <p v-if="allSaleCount" class="mt-2 mb-8 text-xl font-medium text-success" style=" direction: ltr; text-align: right; " title="فی‌صدی تغییر در فروشات نسبت به ماه قبل">
               <span>{{ (allSaleCount['lastMSales'] > 0) ? '+' : ''}}</span><span> {{ allSaleCount['lastMSales'] }}%</span>
             </p>
             <router-link to="/sales?tab=1">
@@ -63,7 +63,7 @@
               <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">بررسی فروشات</vs-button>
             </p>-->
           </div>
-          <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
+          <div v-if="allSaleCount" class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4"><small>فروشات عمده: {{ allSaleCount['parchonMSales'] }}%</small>
               <div class="vs-progress--background vs-progress-warning" style="height: 5px;">
                 <div class="vs-progress--foreground" :style="'width: ' + allSaleCount['parchonMSales'] +'%;'"></div>
@@ -92,10 +92,11 @@
   <!--<ProjectList></ProjectList>-->
   <div class="vx-col w-full mb-base">
     <vx-card title="احصائیه معاملات تجارتی دریک سال مالی">
-      <vue-apex-charts type="line" height="350" :options="apexChatData.mixedChart.chartOptions" :series="apexChatData.mixedChart.series"></vue-apex-charts>
-      <!--<template slot="codeContainer">
-        {{ apexChatData.mixedChartCode }}
-      </template>-->
+      <template slot="actions">
+        <feather-icon icon="RefreshCwIcon" svgClasses="w-6 h-6 text-primary" @click="allItemsSalesPrice"></feather-icon>
+      </template>
+
+      <vue-apex-charts :key="mixedChartSalesKey" type="line" height="350" :options="mixedChartSales.chartOptions" :series="mixedChartSales.series"></vue-apex-charts>
     </vx-card>
   </div>
 </div>
@@ -109,7 +110,6 @@ import 'echarts/lib/chart/line'
 import theme from './theme.json'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 import VueApexCharts from 'vue-apexcharts'
-import apexChatData from './apexChartData.js'
 
 // import ProjectList from './apps/projects/proposals/ProposalList.vue' 
 import LatestProjects from './apps/projects/LatestProjects.vue'
@@ -118,6 +118,7 @@ import analyticsData from './ui-elements/card/analyticsData.js'
 import TableLoading from './apps/shared/TableLoading'
 
 ECharts.registerTheme('ovilia-green', theme)
+const themeColors = ['#7367F0', '#28C76F', '#EA5455', '#FF9F43', '#1E9F43']
 
 export default {
   props: ["currentuser"],
@@ -137,7 +138,69 @@ export default {
       componentKey1: 0,
       componentKey2: 0,
       componentKey3: 0,
-      apexChatData,
+      mixedChartSalesKey: 0,
+      mixedChartSales: {
+        series: [],
+        chartOptions: {
+          colors: themeColors,
+          chart: {
+            stacked: false
+          },
+          stroke: {
+            width: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+            curve: 'smooth',
+            // curve: 'straight', 
+            // curve: 'stepline',
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: '50%'
+            }
+          },
+
+          fill: {
+            opacity: [0.85, 0.25, 1],
+            gradient: {
+              inverseColors: false,
+              shade: 'light',
+              type: 'vertical',
+              opacityFrom: 0.85,
+              opacityTo: 0.55,
+              stops: [0, 100, 100, 100]
+            }
+          },
+          labels: ['0', '10/1', '20/1', '30/1', '10/2', '20/2', '30/2', '10/3', '20/3', '30/3'].reverse(),
+          markers: {
+            size: 0
+          },
+          xaxis: {
+            type: 'string'
+          },
+          yaxis: {
+            min: 0,
+            max: 100,
+            labels: {
+              offsetX: -15,
+              formatter: (val) => {
+                return val + '%'
+              },
+            },
+          },
+          tooltip: {
+            shared: true,
+            intersect: false,
+            y: {
+              formatter(y) {
+                if (typeof y !== 'undefined') {
+                  return y.toFixed(0) + '%'
+                }
+                return y
+
+              }
+            }
+          }
+        }
+      },
       analyticsData,
       revenueComparisonLine: {
         series: [],
@@ -203,12 +266,11 @@ export default {
             // opposite: true,
             tickAmount: 5,
             labels: {
-              offsetX: 10,
               style: {
-                cssClass: 'text-grey fill-current'
+                cssClass: 'text-grey fill-current direction-ltr'
               },
               formatter(val) {
-                return val > 999 ? `${(val / 1000).toFixed(1)}k` : val
+                return val > 999 ? `${(val / 1000).toFixed(0)} k` : val
               }
             }
           },
@@ -267,6 +329,7 @@ export default {
     this.getPurchaseData();
     this.getSaleDataLastMonth();
     this.allSalesCounterLastThisMonth();
+    this.allItemsSalesPrice();
   },
   methods: {
     getPurchaseData() {
@@ -324,6 +387,18 @@ export default {
         })
         .catch(() => {});
     },
+    allItemsSalesPrice() {
+      this.mixedChartSales.series = [];
+      this.mixedChartSalesKey += 1;
+      this.axios
+        .get("/api/graphs/all-items-sales-price")
+        .then((data) => {
+          this.mixedChartSales.series = data.data;
+          this.mixedChartSalesKey += 1;
+        })
+        .catch(() => {});
+    },
+
   },
 }
 </script>

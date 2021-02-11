@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Sale;
+use App\Models\Item;
 
+use App\Models\Sale;
 use App\Helper\Helper;
+use App\Models\Currency;
 use App\Models\SaleOne;
 use App\Models\SaleTwo;
 use App\Models\Purchase;
 use App\Models\SaleFour;
+use App\Models\Transfer;
 use App\Models\SaleThree;
+use App\Models\StockRecord;
 use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
 use App\Models\FinancialRecord;
+use App\Models\Transaction;
 
 class GraphsController extends Controller
 {
@@ -140,5 +145,77 @@ class GraphsController extends Controller
       'omdeMSales' => round((($omdeMSales + $parchonMSales) != 0) ? ($omdeMSales * 100) / ($omdeMSales + $parchonMSales) : $omdeMSales * 100, 2),
       'parchonMSales' => round((($omdeMSales + $parchonMSales) != 0) ? ($parchonMSales * 100) / ($omdeMSales + $parchonMSales) : $parchonMSales * 100, 2),
     ];
+  }
+  public function allItemsSalesPrice()
+  {
+    $dates[] = ['-9 days', '1 days'];
+    $dates[] = ['-19 days', '-9 days'];
+    $dates[] = ['-29 days', '-19 days'];
+    $dates[] = ['-39 days', '-29 days'];
+    $dates[] = ['-49 days', '-39 days'];
+    $dates[] = ['-59 days', '-49 days'];
+    $dates[] = ['-69 days', '-59 days'];
+    $dates[] = ['-79 days', '-69 days'];
+    $dates[] = ['-89 days', '-79 days'];
+
+    $items = Item::with('type')->limit(5)->get();
+    $sr = [];
+    foreach ($items as $key => &$item) {
+      foreach (array_reverse($dates) as $dateKey => $date) {
+        $stacksdata = StockRecord::with('exchange_rate')
+          ->where('item_id', $item->id)
+          ->whereBetween('created_at', [date("Y-m-d", strtotime($date[0])), date("Y-m-d", strtotime($date[1]))])
+          ->get(['total_price', 'type_id', 'type', 'ex_rate_id']);
+        $stockrecord[$dateKey] = [];
+        foreach ($stacksdata as $key => $stock) {
+          if ($stock['type'] == 'sale') {
+            $stock['refrence'] = Sale::find($stock['type_id']);
+          } elseif ($stock['type'] == 'TRS') {
+            $stock['refrence'] = ['currency_id' => 1];
+          } elseif ($stock['type'] == 'purchase') {
+            $stock['refrence'] = Purchase::find($stock['type_id']);
+          }
+          $stockrecord[$dateKey][] = $stock;
+        }
+      }
+      $item['stocks'] = $stockrecord;
+    }
+    // return $items;
+    $chartData = [];
+    $itemValues = [];
+    foreach ($items as $itemKey => $item) {
+      foreach ($item['stocks'] as $keyA => $stockArray) {
+        $itemValue = 0;
+        foreach ($stockArray as $stock) {
+          if ($stock['refrence']['currency_id'] != 1) {
+            $itemValue += $stock['total_price'] * $stock['exchange_rate']['rate'];
+          } else {
+            $itemValue += $stock['total_price'];
+          }
+        }
+        $itemValues[$keyA] = $itemValue;
+      }
+      $chartData[$itemKey] = [
+        'data' => $this->array_avg($itemValues),
+        'name' => $item->type->type .'- '. $item->name,
+        'type' => 'line',
+      ];
+    }
+    return $chartData;
+  }
+
+  public function array_avg($array, $round = 0)
+  {
+      $total = array_sum($array);
+      if ($total !== 0) {
+        $percentages = [];
+        foreach($array as $key => $value) {
+            $percentages[$key] = ($value / $total) * 100;
+        }
+        return $percentages;  
+      }
+      else{
+        return [0, 0, 0, 0, 0, 0, 0, 0, 0];
+      }
   }
 }
