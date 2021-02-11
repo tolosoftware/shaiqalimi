@@ -13,7 +13,7 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
             <label for=""><small>انتخاب اعلان</small></label>
-            <v-select name="proposal_id" v-validate="'required'" :clearable="false" :get-option-label="option => option.serial_no + ' - ' + option.pro_data.title" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
+            <v-select name="proposal_id" :clearable="false" :get-option-label="option => option.serial_no + ' - ' + option.pro_data.title" @input="setProjectData" v-model="pForm.proposal_id" :options="proposals" :dir="$vs.rtl ? 'rtl' : 'ltr'">
               <!--<span slot="no-options">{{$t('WhoopsNothinghere')}}</span>-->
             </v-select>
             <span class="absolute text-danger alerttext">{{ errors.first('step-1.proposal_id') }}</span>

@@ -414,9 +414,6 @@ export default {
       this.sForm.total = (parseFloat(this.sForm.transport_cost) + parseFloat(this.sForm.service_cost) + parseFloat(i_total)).toFixed(4);
       return this.formatToEnPriceSimple(this.sForm.total);
     }
-    // isFormValid() {
-    //   // return !this.errors.any() && this.dataName && this.dataCategory && this.dataPrice > 0
-    // },
   },
   methods: {
     getProject() {

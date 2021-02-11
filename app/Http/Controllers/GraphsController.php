@@ -18,6 +18,7 @@ use App\Models\StockRecord;
 use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
 use App\Models\FinancialRecord;
+use App\Models\Storage;
 use App\Models\Transaction;
 
 class GraphsController extends Controller
@@ -197,8 +198,8 @@ class GraphsController extends Controller
       }
       $chartData[$itemKey] = [
         'data' => $this->array_avg($itemValues),
-        'name' => $item->type->type .'- '. $item->name,
-        'type' => 'line',
+        'name' => $item->type->type . '- ' . $item->name,
+        'type' => 'area',
       ];
     }
     return $chartData;
@@ -206,16 +207,30 @@ class GraphsController extends Controller
 
   public function array_avg($array, $round = 0)
   {
-      $total = array_sum($array);
-      if ($total !== 0) {
-        $percentages = [];
-        foreach($array as $key => $value) {
-            $percentages[$key] = ($value / $total) * 100;
-        }
-        return $percentages;  
+    $total = array_sum($array);
+    if ($total !== 0) {
+      $percentages = [];
+      foreach ($array as $key => $value) {
+        $percentages[$key] = ($value / $total) * 100;
       }
-      else{
-        return [0, 0, 0, 0, 0, 0, 0, 0, 0];
-      }
+      return $percentages;
+    } else {
+      return [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    }
+  }
+  public function storageGraph()
+  {
+    $storageCapacity = Storage::sum('capacity');
+    $stacksdata = StockRecord::where('source', 'STRG')->get()->toArray();
+    $valueTotal = [0, 0];
+    foreach ($stacksdata as $key => $stock) {
+      $valueTotal[0] += $stock['increment_equiv'];
+      $valueTotal[1] += $stock['decrement_equiv'];    
+    }
+    if ($storageCapacity === 0) {
+      return 0;
+    }
+    // return [$storageCapacity, $valueTotal];
+    return round((($storageCapacity + ($valueTotal[0] - $valueTotal[1])) * 100)/$storageCapacity, 0);
   }
 }
