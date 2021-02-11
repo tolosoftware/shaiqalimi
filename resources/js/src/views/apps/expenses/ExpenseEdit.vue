@@ -161,6 +161,7 @@ export default {
     loadExpense() {
       this.axios.get('/api/expenses/' + this.edit_id)
         .then((response) => {
+          // console.log('Credit- Account: ', response.data)
           this.form.serial_no = response.data.serial_no,
             this.form.currency_id = response.data.currency_id,
             this.form.datetime = response.data.datetime,

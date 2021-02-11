@@ -23,7 +23,6 @@
                         <!-- Add font size dropdown -->
                         <select class="ql-size">
                             <option value="small"></option>
-
                             <!-- Note a missing, thus falsy value, is used to reset to default -->
                             <option selected></option>
                             <option value="large"></option>
@@ -98,6 +97,7 @@ export default {
   data() {
     return {
       editorOption: {
+        
         modules: {
           toolbar: '#toolbar'
         }

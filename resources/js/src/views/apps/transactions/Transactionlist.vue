@@ -1,12 +1,3 @@
-<!-- =========================================================================================
-  File Name: DataListListView.vue
-  Description: Data List - List View
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
 <div id="data-list-list-view" class="data-list-container">
   <div v-if="!isdata">
@@ -153,7 +144,7 @@ export default {
         .get("/api/transaction/" + id)
         .then((data) => {
           this.transaction = data.data;
-          this.$refs.wizardModalTrans.setWizardStepTrans(this.transaction.step);
+          this.$refs.wizardModalTrans.setWizardStepTrans(this.transaction);
           this.$Progress.set(100);
         })
         .catch(() => {});

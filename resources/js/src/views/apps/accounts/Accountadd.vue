@@ -1,16 +1,8 @@
-<!-- =========================================================================================
-  File Name: AddNewDataSidebar.vue
-  Description: Add New Data - Sidebar component
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent click-not-close
-========================================================================================== -->
-
 <template>
 <vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
   <div class="mt-6 flex items-center justify-between px-6">
-    <h4>حساب جدید اضافه کنید</h4>
+    <h4 v-if="editMode">حساب مذکور را ویرایش کنید</h4>
+    <h4 v-if="!editMode">حساب جدید اضافه کنید</h4>
     <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
   </div>
   <vs-divider class="mb-0"></vs-divider>
@@ -25,7 +17,6 @@
         <vs-input label="ریفرینس کد" name="reference_code" v-validate="'required'" v-model="accForm.ref_code" type="number" class="mt-5 w-full" />
         <!-- NAME -->
         <vs-input label="عنوان" name="account_title" v-validate="'required'" v-model="accForm.name" class="mt-5 w-full" />
-
         <div class="vx-col mt-5">
           <label for="" class="ml-4 mr-4 mb-2">حالت</label>
           <div class="radio-group w-full">
@@ -83,7 +74,8 @@
   </component>
 
   <div class="flex flex-wrap items-center p-6" slot="footer">
-    <vs-button class="mr-6" :disabled="accForm.busy" @click="submitData">انجام</vs-button>
+    <vs-button v-if="!editMode" class="mr-6" :disabled="accForm.busy" @click="submitData">انجام</vs-button>
+    <vs-button v-if="editMode" class="mr-6" :disabled="accForm.busy" @click="editAccountData">ویرایش</vs-button>
     <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">بستن</vs-button>
   </div>
 </vs-sidebar>
@@ -97,7 +89,7 @@ import {
 } from 'vee-validate'
 
 export default {
-  props: ['isSidebarActive', 'accountTypes', 'accForm'],
+  props: ['isSidebarActive', 'accountTypes', 'accForm', 'editMode'],
   components: {
     VuePerfectScrollbar,
     "v-select": vSelect,
@@ -145,9 +137,51 @@ export default {
     },
   },
   methods: {
-    keydown($event) {
+    findType(id) {
+      let name = '';
+      Object.keys(this.accountTypes).some(key => (this.accountTypes[key].id == id) ? name = this.accountTypes[key].title : null);
+      return name;
     },
+    keydown($event) {},
     submitData() {
+      this.$validator.validateAll('accountForm').then(result => {
+        if (result) {
+          this.accForm.post('/api/account')
+            .then(({
+              accForm
+            }) => {
+              // Finish the Progress Bar
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'موفقانه ثبت شد.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+              this.accForm.reset();
+              this.$validator.reset();
+
+            }).catch((errors) => {
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        } else {
+
+          // form have errors
+        }
+      });
+
+    },
+    editAccountData() {
+      console.log('type id', this.accForm.type_id)
       this.$validator.validateAll('accountForm').then(result => {
         if (result) {
           if (this.accForm.id) {
@@ -155,44 +189,16 @@ export default {
               .then(({
                 accForm
               }) => {
-                // Finish the Progress Bar
                 this.$vs.notify({
                   title: 'موفقیت!',
-                  text: 'موفقانه ثبت شد.',
+                  text: ' حساب مذکور موفقانه ویرایش گردید .',
                   color: 'success',
                   iconPack: 'feather',
                   icon: 'icon-check',
                   position: 'top-right'
                 })
                 this.accForm.reset();
-                this.$validator.reset();
-
-              }).catch((errors) => {
-                this.$Progress.set(100)
-                this.$vs.notify({
-                  title: 'ناموفق!',
-                  text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-                  color: 'danger',
-                  iconPack: 'feather',
-                  icon: 'icon-cross',
-                  position: 'top-right'
-                })
-              });
-          } else {
-            this.accForm.post('/api/account')
-              .then(({
-                accForm
-              }) => {
-                // Finish the Progress Bar                
-                this.$vs.notify({
-                  title: 'موفقیت!',
-                  text: 'موفقانه ثبت شد.',
-                  color: 'success',
-                  iconPack: 'feather',
-                  icon: 'icon-check',
-                  position: 'top-right'
-                })
-                this.accForm.reset();
+                this.editMode = false;
                 this.$validator.reset();
               }).catch((errors) => {
                 this.$Progress.set(100)
@@ -205,14 +211,12 @@ export default {
                   position: 'top-right'
                 })
               });
-          }
+          } else {}
         } else {
-          
-          // form have errors
+          console.log('Error', 'Form has error')
         }
       });
-
-    },
+    }
   },
 };
 </script>

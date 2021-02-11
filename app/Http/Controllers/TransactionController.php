@@ -114,7 +114,7 @@ class TransactionController extends Controller
 
 
             DB::commit();
-            return ['msg' => 'purchase successfully inserted', [$transaction, $financialRecord1, $financialRecord2 ]];
+            return ['msg' => 'purchase successfully inserted', [$transaction, $financialRecord1, $financialRecord2]];
         } catch (Exception $e) {
             DB::rollback();
         }
@@ -134,7 +134,6 @@ class TransactionController extends Controller
         $debitFinancialRecord = FinancialRecord::with('account')->where('type_id', $id)->where('debit', '>', 0)->where('type', 'TRA')->first();
         $transaction['debit_account'] = $debitFinancialRecord->account;
         return $transaction;
-
     }
 
     /**
@@ -188,7 +187,6 @@ class TransactionController extends Controller
         } catch (Exception $e) {
             DB::rollback();
         }
-
     }
 
     /**
@@ -217,11 +215,15 @@ class TransactionController extends Controller
             DB::rollback();
         }
     }
-    public function changeStep($id, $stepNo)
+    public function changeStep(Request $request, $id)
     {
         // return response(['id'=>$id,'stid'=>$stepNo]);
         $transaction = Transaction::findOrFail($id);
-        $transaction->step = $stepNo;
+        if ($request->step == 3) {
+            $transaction->is_approved = $request->is_approved;
+        } else {
+            $transaction->step = $request->step;
+        }
         $transaction->save();
     }
 }

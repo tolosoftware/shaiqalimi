@@ -1,12 +1,3 @@
-<!-- =========================================================================================
-  File Name: AddNewDataSidebar.vue
-  Description: Add New Data - Sidebar component
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent click-not-close
-========================================================================================== -->
-
 <template>
 <vs-sidebar position-right parent="body" default-index="1" color="primary" class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
   <div class="mt-6 flex items-center justify-between px-6">
@@ -145,8 +136,7 @@ export default {
     },
   },
   methods: {
-    keydown($event) {
-    },
+    keydown($event) {},
     submitData() {
       this.$validator.validateAll('accountForm').then(result => {
         if (result) {
@@ -207,7 +197,7 @@ export default {
               });
           }
         } else {
-          
+
           // form have errors
         }
       });

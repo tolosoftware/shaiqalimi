@@ -217,7 +217,7 @@
               <vs-checkbox color="success" size="large" v-model="stepForm.adminis_procedure"><strong>طی مراحل اداری</strong></vs-checkbox>
             </div>
             <div class="p-2">
-              <vs-checkbox color="success" size="large" v-model="stepForm.setting_and_baqyat"><strong>دریافت تنظیمات و باقیات</strong></vs-checkbox>
+              <vs-checkbox color="success" size="large" v-model="stepForm.setting_and_baqyat"><strong>دریافت تضمینات و باقیات</strong></vs-checkbox>
             </div>
           </div>
         </vs-col>
