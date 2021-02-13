@@ -220,17 +220,57 @@ class GraphsController extends Controller
   }
   public function storageGraph()
   {
+
     $storageCapacity = Storage::sum('capacity');
     $stacksdata = StockRecord::where('source', 'STRG')->get()->toArray();
     $valueTotal = [0, 0];
     foreach ($stacksdata as $key => $stock) {
       $valueTotal[0] += $stock['increment_equiv'];
-      $valueTotal[1] += $stock['decrement_equiv'];    
+      $valueTotal[1] += $stock['decrement_equiv'];
     }
     if ($storageCapacity === 0) {
       return 0;
     }
-    // return [$storageCapacity, $valueTotal];
-    return round((($storageCapacity + ($valueTotal[0] - $valueTotal[1])) * 100)/$storageCapacity, 0);
+    return round((($storageCapacity + ($valueTotal[0] - $valueTotal[1])) * 100) / $storageCapacity, 0);
+  }
+  public function storageItemsGraph()
+  {
+    $dates[] = ['-4 days', '1 days'];
+    $dates[] = ['-9 days', '-4 days'];
+    $dates[] = ['-14 days', '-9 days'];
+    $dates[] = ['-19 days', '-14 days'];
+    $dates[] = ['-24 days', '-19 days'];
+    $dates[] = ['-29 days', '-24 days'];
+    $itemSaleValue = [];
+    $itemPurchaseValue = [];
+    $itemTon = Item::where('uom_equiv_id', 3)->get();
+    foreach (array_reverse($dates) as $dateKey => $date) {
+      $thisDate = [date("Y-m-d", strtotime($date[0])), date("Y-m-d", strtotime($date[1]))];
+      $itemSaleValue[$dateKey] = 0;
+      $itemPurchaseValue[$dateKey] = 0;
+      $stacksSales[$dateKey] = StockRecord::where('type', 'sale')
+        ->whereIn('item_id', $itemTon->pluck('id'))
+        ->whereBetween('created_at', $thisDate)
+        ->get();
+      $stacksPurchase[$dateKey] = StockRecord::where('type', 'purchase')
+        ->whereIn('item_id', $itemTon->pluck('id'))
+        ->whereBetween('created_at', $thisDate)
+        ->get();
+      foreach ($stacksSales[$dateKey] as $value) {
+        $itemSaleValue[$dateKey] += $value['decrement_equiv'];
+      }
+      foreach ($stacksPurchase[$dateKey] as $value) {
+        $itemPurchaseValue[$dateKey] += $value['increment_equiv'];
+      }
+    }
+    $chartData[0] = [
+      'data' => $itemSaleValue,
+      'name' => 'فروشات',
+    ];
+    $chartData[1] = [
+      'data' => $itemPurchaseValue,
+      'name' => 'خریداری',
+    ];
+    return ['thisMonth' => array_sum($itemSaleValue), 'lastMonth' => array_sum($itemPurchaseValue), 'series' => $chartData];
   }
 }

@@ -137,3 +137,4 @@ Route::get('graphs/sale-last-month-g', 'GraphsController@saleLastMonthG');
 Route::get('graphs/allsalecount', 'GraphsController@allSaleCount');
 Route::get('graphs/all-items-sales-price', 'GraphsController@allItemsSalesPrice');
 Route::get('graphs/storage_graph', 'GraphsController@storageGraph');
+Route::get('graphs/storage_items_graph', 'GraphsController@storageItemsGraph');
