@@ -64,7 +64,7 @@ class SaleThreeController extends Controller
                 'tax' => 'required',
                 'deposit' => 'required',
                 'total' => 'required',
-                'steps' => 'required',
+                // 'steps' => 'required',
                 // 'description' => 'required',
                 'item' => 'required',
             ]);

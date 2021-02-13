@@ -76,7 +76,7 @@ class SaleOneController extends Controller
                 'tax' => 'required',
                 'deposit' => 'required',
                 'total' => 'required',
-                'steps' => 'required',
+                // 'steps' => 'required',
                 'description' => 'required',
                 'type' => 'required',
                 'source_id' => 'required',

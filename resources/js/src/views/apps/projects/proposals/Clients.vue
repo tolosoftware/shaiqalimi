@@ -158,40 +158,46 @@
                 </div>
               </template>
 
-              <vs-input name="name" autocomplete="off" autofill="off" v-validate="'required|min:3'" label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
-              <!--<span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>-->
+              <vs-input name="name" autocomplete="off" autofill="off" v-validate="'required|min:3'" label="نام نهاد" class="mt-3 w-full" v-model="orgForm.name" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>
               <!--<has-error :form="orgForm" field="name"></has-error>-->
 
-              <vs-input name="email" autocomplete="off" autofill="off" v-validate="'required|email'" label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
+              <vs-input name="email" autocomplete="off" autofill="off" v-validate="'required|email'" label="ایمیل" type="email" class="mt-4 w-full" v-model="orgForm.email" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.email') }}</span>
               <!--<has-error :form="orgForm" field="email"></has-error>-->
 
-              <vs-input name="phone" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
+              <vs-input name="phone" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-4 w-full" v-model="orgForm.phone" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.phone') }}</span>
               <!--<has-error :form="orgForm" field="phone"></has-error>-->
 
-              <vs-input name="websitee" autocomplete="off" autofill="off" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
-              <!--<has-error :form="orgForm" v-validate="'required|min:2'"field="website"></has-error>-->
+              <vs-input name="websitee" autocomplete="off" autofill="off" v-validate="'required|min:2'" label="ویب سایت" type="text" class="mt-4 w-full" v-model="orgForm.website" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.websitee') }}</span>
+              <!--<has-error :form="orgForm" field="website"></has-error>-->
 
-              <vs-input name="address" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
+              <vs-input name="address" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-4 w-full" v-model="orgForm.address" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.address') }}</span>
               <!--<has-error :form="orgForm" field="address"></has-error>-->
               <!-- Upload -->
               <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
-              <div class="upload-img mt-3" v-if="!orgForm.logo">
-                <input type="file" name="logo" v-validate="'required'" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
-                <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان نهاد</vs-button>
-                <!--<has-error :form="orgForm" field="logo"></has-error>-->
+              <div class="upload-img mt-3 float-left" v-if="!orgForm.logo">
+                <input type="file" name="logo" class="hidden mt-4" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+                <vs-button icon="image" class="mt-4 mb-2" @click="$refs.uploadImgInput.click()">اپلود نشان نهاد</vs-button>
+                <!--<has-error :form="orgForm" field="logo"></has-error> 
+                <span class="absolute text-danger alerttext">{{ errors.first('clientForm.logo') }}</span>-->
+              </div>
+              <vs-divider></vs-divider>
+              <div class="items-center p-2 mt-2 float-left">
+                <vs-button type="border" color="success" :disabled="orgForm.busy" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
               </div>
             </div>
-            <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
-              <vs-button type="border" color="success" :disabled="orgForm.busy" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
-            </div>
-            <vs-list v-if="(errors.items.length > 0)">
+            <!--<vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
                 <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
               </div>
-              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-            </vs-list>
+              <vs-list-item title="" subtitle=""></vs-list-item> 
+            </vs-list>-->
           </form>
           <br><br>
         </div>
@@ -271,12 +277,12 @@ export default {
       // }
       dict: {
         custom: {
-          name: { required: ' اسم الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
-          email: { required: 'ایمیل الزامی میباشد', email: 'ایمیل باید به فارمت ایمیل وارد گردد.' },
+          name: { required: ' اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.', },
+          email: { required: 'ایمیل نهاد الزامی میباشد', email: 'ایمیل نهاد باید به فارمت ایمیل وارد گردد.' },
           phone: { required: 'شماره تماس الزامی میباشد', min: 'شماره تماس حد اقل 3 حرف باشد.' },
-          websitee: { required: 'آدرس ویب سایت الزامی میباشد', min: ' آدرس ویب سایت حداقل 2 حرف میباشد' },
-          address: { required: 'آدرس الزامی میباشد', min: 'حداقل آدرس 3 حرف است' },
-          logo: { required: 'نشان الزامی میباشد' }
+          websitee: { required: ' ویب سایت نهاد  الزامی میباشد', min: '  ویب سایت نهاد حداقل 2 حرف میباشد' },
+          address: { required: 'آدرس نهاد الزامی میباشد', min: 'حداقل آدرس 3 حرف است' },
+          // logo: { required: 'نشان الزامی میباشد' }
         }
       }
     }
@@ -451,8 +457,7 @@ export default {
               })
             });
         } else {
-          
-          
+
           // form have errors
         }
       })
