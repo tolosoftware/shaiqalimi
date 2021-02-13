@@ -37,6 +37,7 @@
         <vs-th>کود</vs-th>
         <vs-th>نام ذخیره</vs-th>
         <vs-th>مسول</vs-th>
+        <vs-th>ظرقیت</vs-th>
         <vs-th>بررسی</vs-th>
       </template>
       <template slot-scope="{data}">
@@ -50,10 +51,9 @@
           <vs-td>
             <span v-text="tr.manager" class="cursor-pointer" @click.stop="showStorageData(tr.id)"></span>
           </vs-td>
-          <!--<vs-td>
-            <span v-text="tr.phone"></span>
-          </vs-td>-->
-
+          <vs-td>
+            <span v-text="tr.capacity" class="cursor-pointer" @click.stop="showStorageData(tr.id)"></span>
+          </vs-td>
           <vs-td class="whitespace-no-wrap notupfromall">
             <feather-icon icon="MoreVerticalIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2 cursor-pointer" @click.stop="showStorageData(tr.id)" />
             <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" class="mr-2 cursor-pointer" @click.stop="editStorageData(tr)" />

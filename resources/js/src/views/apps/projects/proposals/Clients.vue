@@ -144,6 +144,7 @@
                   <!-- Image Container -->
                   <div class="img-container w-32 mx-auto flex items-center justify-center ml-5">
                     <img :src="orgForm.logo" alt="نشان نهاد" class="responsive">
+
                   </div>
                   <!-- Image upload Buttons -->
                   <div class="modify-img flex justify-between mt-5 pt-5 ml-4">
@@ -159,25 +160,30 @@
               </template>
 
               <vs-input name="name" autocomplete="off" autofill="off" v-validate="'required|min:3'" label="نام نهاد" class="mt-2 w-full" v-model="orgForm.name" />
-              <!--<span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>-->
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.name') }}</span>
               <!--<has-error :form="orgForm" field="name"></has-error>-->
 
               <vs-input name="email" autocomplete="off" autofill="off" v-validate="'required|email'" label="ایمیل" type="email" class="mt-2 w-full" v-model="orgForm.email" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.email') }}</span>
               <!--<has-error :form="orgForm" field="email"></has-error>-->
 
               <vs-input name="phone" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" شماره تماس " type="text" class="mt-2 w-full" v-model="orgForm.phone" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.phone') }}</span>
               <!--<has-error :form="orgForm" field="phone"></has-error>-->
 
               <vs-input name="websitee" autocomplete="off" autofill="off" label="ویب سایت" type="text" class="mt-2 w-full" v-model="orgForm.website" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.websitee') }}</span>
               <!--<has-error :form="orgForm" v-validate="'required|min:2'"field="website"></has-error>-->
 
               <vs-input name="address" autocomplete="off" autofill="off" v-validate="'required|min:3'" label=" آدرس" type="text" class="mt-2 w-full" v-model="orgForm.address" />
+              <span class="absolute text-danger alerttext">{{ errors.first('clientForm.address') }}</span>
               <!--<has-error :form="orgForm" field="address"></has-error>-->
               <!-- Upload -->
               <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
 
               <div class="upload-img mt-3" v-if="!orgForm.logo">
                 <input type="file" name="logo" v-validate="'required'" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+                <span class="absolute text-danger alerttext">{{ errors.first('clientForm.logo') }}</span>
                 <vs-button icon="image" @click="$refs.uploadImgInput.click()">اپلود نشان نهاد</vs-button>
                 <!--<has-error :form="orgForm" field="logo"></has-error>-->
               </div>
@@ -185,13 +191,13 @@
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
               <vs-button type="border" color="success" :disabled="orgForm.busy" class="mr-6" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
-            <vs-list v-if="(errors.items.length > 0)">
+            <!--<vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
                 <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
               </div>
-              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-            </vs-list>
+              <vs-list-item title="" subtitle=""></vs-list-item> 
+            </vs-list>-->
           </form>
           <br><br>
         </div>
@@ -451,8 +457,7 @@ export default {
               })
             });
         } else {
-          
-          
+
           // form have errors
         }
       })
