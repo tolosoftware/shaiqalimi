@@ -32,6 +32,10 @@ class StockRecord extends Model
     {
         return $this->belongsTo(Item::class, 'item_id');
     }
+    public function exchange_rate()
+    {
+        return $this->belongsTo(ExchangeRate::class, 'ex_rate_id');
+    }
     public function item_id()
     {
         return $this->belongsTo(Item::class, 'item_id');
@@ -56,6 +60,4 @@ class StockRecord extends Model
     {
         return $this->belongsTo(Storage::class, 'source_id');
     }
-
-  
 }

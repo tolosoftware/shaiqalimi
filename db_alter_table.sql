@@ -6,7 +6,7 @@ ALTER TABLE `proposals` ADD `receive_office` boolean NULL AFTER `financial_power
 ALTER TABLE `proposals` ADD `bank_distribute` boolean NULL AFTER `receive_office`;
 ALTER TABLE `pro_items` ADD `density` FLOAT (5, 5) NULL AFTER `equivalent`;
 ALTER TABLE `pro_items` ADD `density` FLOAT(5, 5) NULL AFTER `equivalent`;
-
+ALTER TABLE `stock_records` ADD `ex_rate_id` INT(10) NULL AFTER `remark`;
 
 -- Changes
 ALTER TABLE `projects` CHANGE `project_guarantee` `project_guarantee` BIGINT (20) NOT NULL;
@@ -38,3 +38,9 @@ ALTER TABLE `stock_records` CHANGE `increment` `increment` DECIMAL(18, 2) NULL D
 ALTER TABLE `stock_records` CHANGE `decrement_equiv` `decrement_equiv` DECIMAL(18, 2) NULL DEFAULT '0.00';
 ALTER TABLE `stock_records` CHANGE `increment_equiv` `increment_equiv` DECIMAL(18, 2) NULL DEFAULT '0.00';
 ALTER TABLE `users` CHANGE `image` `image` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `items` CHANGE `description` `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+
+ALTER TABLE `sales_fours` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
+ALTER TABLE `sales_threes` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
+ALTER TABLE `sales_twos` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
+ALTER TABLE `sales_ones` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;

@@ -300,7 +300,7 @@ export default {
         bank_account: null,
         type: "s3",
         source_id: "", // The Id of the storage.
-        source_type: "str", // Type storage
+        source_type: "", // Type storage
         user_id: localStorage.getItem('id'), //Get the current user id
         currency_id: 1,
         datatime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
