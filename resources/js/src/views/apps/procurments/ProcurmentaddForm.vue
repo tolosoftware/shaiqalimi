@@ -5,7 +5,7 @@
     <vx-card class="height-vh-80">
       <div class="vx-row">
         <div class="vx-col w-1/2">
-          <h3>فورم ثبت خریداری</h3> {{prForm.source}}
+          <h3>فورم ثبت خریداری</h3>
         </div>
         <div class="vx-col w-1/2">
           <vs-button type="filled" @click="addNewData" class="mt-5 float-right">ثبت فروشنده جدید</vs-button>
@@ -17,10 +17,8 @@
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3">
               <vs-input size="medium" v-validate="'required'" label="سریال نمبر" name="serialnumber" v-model="prForm.serial_no" class="w-full" disabled />
-              <span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span>
             </div>
           </vs-col>
-
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3">
               <label for>واحد پولی</label>
@@ -35,12 +33,13 @@
                 </div>
               </div>
             </div>
+            <span class="absolute text-danger alerttext">{{ errors.first('procurmentForm.currency') }}</span>
           </vs-col>
-
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
             <div class="w-full  ml-3 mr-3">
               <label for="date" class="mt-3"><small>تاریخ </small></label>
               <date-picker color="#e85454" name="procurment_date" v-validate="'required'" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="prForm.date_time" />
+              <span class="absolute text-danger alerttext">{{ errors.first('procurmentForm.procurment_date') }}</span>
             </div>
           </vs-col>
 
@@ -50,6 +49,7 @@
                 <small> نام فروشنده</small>
               </label>
               <v-select label="name" name="seller_name" v-validate="'required'" v-model="prForm.vendor_name" :options="allvendors" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="setVendordata" />
+              <span class="absolute text-danger alerttext">{{ errors.first('procurmentForm.seller_name') }}</span>
             </div>
           </vs-col>
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
@@ -70,15 +70,13 @@
                 <small>ذخیره اصلی</small>
               </label>
               <source-select :parentForm="prForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="prForm.source_id"></source-select>
+              <span class="absolute text-danger alerttext">{{ errors.first('procurmentForm.source') }}</span>
             </div>
           </vs-col>
-
         </vs-row>
         <br>
         <vs-divider />
-
         <EkmalatStock :items="prForm.item" :form="prForm" :currencyID="prForm.currency_id" :listOfFields="[]" :disabledFields="[]" :grid="[]" ref="ekmalat"></EkmalatStock>
-
         <vs-row vs-w="12">
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="12" vs-sm="12" vs-xs="12">
             <div class="w-full pt-2 ml-3 mr-3">
@@ -87,14 +85,14 @@
           </vs-col>
         </vs-row>
         <vs-button class="mr-3 mb-2" :disabled="prForm.busy" @click.prevent="submitData">ثبت</vs-button>
-        <div v-if="(errors.items.length > 0)">
+        <!--<div v-if="(errors.items.length > 0)">
           <vs-list v-if="showEr">
             <vs-list-header color="danger" title="مشکلات"></vs-list-header>
             <div :key="indextr" v-for="(err, indextr) in errors.items">
               <vs-list-item icon="verified_user" style="color:red;" :subtitle="err.msg"></vs-list-item>
             </div>
           </vs-list>
-        </div>
+        </div>-->
       </form>
     </vx-card>
   </div>
@@ -151,7 +149,6 @@ export default {
       }),
       dictp: {
         custom: {
-          serialnumber: { required: ' سریال نمبر خریداری الزامی میباشد.' },
           procurment_date: { required: ' تاریخ انجام خریداری الزامی میباشد.' },
           seller_name: { required: ' نام فروشنده الزامی میباشد.' },
           seller_phone: { required: ' شماره تماس فروشنده الزامی میباشد.' },

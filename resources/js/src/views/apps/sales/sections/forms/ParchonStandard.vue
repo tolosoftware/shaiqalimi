@@ -15,7 +15,6 @@
           </template>
           <vs-input disabled :value="sForm.serial_no" autocomplete="off" type="number" />
         </vx-input-group>
-
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
@@ -32,14 +31,17 @@
           </div>
         </div>
       </div>
+      <span class="absolute text-danger alerttext">{{ errors.first('s4Form.curency') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
       <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="sele_date" :auto-submit="true" size="large"></date-picker>
+      <span class="absolute text-danger alerttext">{{ errors.first('s4Form.sel_date') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <vs-input name="client_name" v-validate="'required|min:2'" v-model="sForm.client_name" class="w-full" label="نام" />
+        <span class="absolute text-danger alerttext">{{ errors.first('s4Form.client_name') }}</span>
       </div>
     </div>
   </div>
@@ -49,17 +51,18 @@
       <!-- This conpoment need the form source id and form source type field -->
       <label for=""><small>منبع</small></label>
       <source-select :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
+      <span class="absolute text-danger alerttext">{{ errors.first('s4Form.source') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <vs-input v-model="sForm.destination" name="destination" v-validate="'required|min:2'" class="w-full" label="مقصد" />
+        <span class="absolute text-danger alerttext">{{ errors.first('s4Form.destination') }}</span>
       </div>
     </div>
   </div>
 
   <!-- EkmalatStock -->
   <ekmalat-stock :items="sForm.item" :form="sForm" :currencyID="sForm.currency_id" :disabledFields="[]" :grid="[]" :listOfFields="[]" ref="ekmalat"></ekmalat-stock>
-
   <vs-row vs-w="12" class="mb-base">
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="3" vs-xs="12">
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -105,7 +108,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCost" name="sale_total_price" v-validate="'required'" autocomplete="off"/>
+          <vs-input disabled :value="saleTotalCost" name="sale_total_price" v-validate="'required'" autocomplete="off" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -136,7 +139,7 @@
               <span v-if="sForm.currency_id==2">USD</span>
             </div>
           </template>
-          <vs-input disabled :value="saleTotalCostFinal" name="sele_total_value" v-validate="'required'" autocomplete="off"/>
+          <vs-input disabled :value="saleTotalCostFinal" name="sele_total_value" v-validate="'required'" autocomplete="off" />
         </vx-input-group>
         <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
       </div>
@@ -145,7 +148,8 @@
   <div class="vx-row">
     <div class="w-full pt-2 ml-3 mr-3">
       <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
-        <bank-account-select :form="sForm"></bank-account-select>
+        <bank-account-select :form="sForm" name="bank_account" v-validate="'required'" v-model="sForm.bank_account"></bank-account-select><br>
+        <span class="absolute text-danger alerttext">{{ errors.first('s4Form.bank_account') }}</span>
       </vs-col>
     </div>
   </div>
@@ -161,12 +165,12 @@
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="sForm.reset()">پاک کردن فرم</vs-button>
     </div>
   </div>
-  <vs-list v-if="(errors.items.length > 0)">
+  <!--<vs-list v-if="(errors.items.length > 0)">
     <vs-list-header color="danger" title="مشکلات"></vs-list-header>
     <div :key="indextr" v-for="(error, indextr) in errors.items">
       <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
     </div>
-  </vs-list>
+  </vs-list> -->
 </form>
 </template>
 
@@ -192,7 +196,6 @@ export default {
     SourceSelect,
     BankAccountSelect,
     Validator
-
   },
   data() {
     return {
@@ -235,32 +238,16 @@ export default {
       items: [],
       dict: {
         custom: {
-          sele_date: {
-            required: ' تاریخ خریداری الزامی میباشد.'
-          },
-          client_name: {
-            required: 'اسم نهاد الزامی میباشد',
-            min: 'اسم نهاد باید بیشتر از 2 حرف باشد.'
-          },
-          destination: {
-            required: 'مقصد الزامی میباشد',
-            min: 'مقصد باید بیشتر از 2 حرف باشد.'
-          },
-          service_cost: {
-            required: 'مصارف خدمات الزامی میباشد .'
-          },
-          additional_cost: {
-            required: 'مصارف اضافی الزامی میباشد. '
-          },
-          sale_total_price: {
-            required: 'مصارف کلی فروش الزامی میباشد .'
-          },
-          tax: {
-            required: 'مالیه الزامی میباشد '
-          },
-          sele_total_value: {
-            required: 'قیمت کلی فروش الزامی میباشد .'
-          },
+          sele_date: { required: ' تاریخ خریداری الزامی میباشد.' },
+          client_name: { required: 'اسم نهاد الزامی میباشد', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.' },
+          source: { required: ' انتخاب منبع الزامی میباشد.' },
+          destination: { required: 'مقصد الزامی میباشد', min: 'مقصد باید بیشتر از 2 حرف باشد.' },
+          // service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
+          // additional_cost: { required: 'مصارف اضافی الزامی میباشد. ' },
+          // sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
+          // tax: { required: 'مالیه الزامی میباشد ' },
+          // sele_total_value: { required: 'قیمت کلی فروش الزامی میباشد .' },
+          bank_account: { required: 'انتخاب حساب بانکی الزامی میباشد.', min: 'حساب بانکی باید بیشتر از 2 حرف باشد.', },
         }
       }
       // End of sidebar items
@@ -285,7 +272,7 @@ export default {
     },
   },
   methods: {
-    update_items(matched_items){
+    update_items(matched_items) {
       this.$refs.ekmalat.getAllItems(matched_items);
     },
     submitForm() {
@@ -322,7 +309,7 @@ export default {
               })
             });
         } else {
-          
+
           // form have errors
         }
 

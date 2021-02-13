@@ -13,10 +13,13 @@
         <div class="vx-col mt-4">
           <label for=""><small>نوعیت</small></label>
           <v-select label="title" name="account_type" v-validate="'required'" v-model="accForm.type_id" :options="accountTypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <span class="absolute text-danger alerttext">{{ errors.first('accountForm.account_type') }}</span>
         </div>
         <vs-input label="ریفرینس کد" name="reference_code" v-validate="'required'" v-model="accForm.ref_code" type="number" class="mt-5 w-full" />
+        <span class="absolute text-danger alerttext">{{ errors.first('accountForm.reference_code') }}</span>
         <!-- NAME -->
         <vs-input label="عنوان" name="account_title" v-validate="'required'" v-model="accForm.name" class="mt-5 w-full" />
+        <span class="absolute text-danger alerttext">{{ errors.first('accountForm.account_title') }}</span>
         <div class="vx-col mt-5">
           <label for="" class="ml-4 mr-4 mb-2">حالت</label>
           <div class="radio-group w-full">
@@ -30,7 +33,6 @@
             </div>
           </div>
         </div>
-
         <!-- NAME -->
         <div class="vx-row mt-4">
           <div class="vx-col w-1/2 pt-4">
@@ -42,8 +44,8 @@
                   <span>َAFN</span>
                 </div>
               </template>
-
               <vs-input type="number" name="credit_account" v-validate="'required'" :disabled="accForm.id || accForm.debit > 0" v-model="accForm.credit" />
+              <span class="absolute text-danger alerttext">{{ errors.first('accountForm.credit_account') }}</span>
             </vx-input-group>
             <!-- /TITLE -->
           </div>
@@ -58,17 +60,18 @@
                 </div>
               </template>
               <vs-input type="number" name="debit_account" v-validate="'required'" :disabled="accForm.id || accForm.credit > 0" v-model="accForm.debit" />
+              <span class="absolute text-danger alerttext">{{ errors.first('accountForm.debit_account') }}</span>
             </vx-input-group>
             <!-- /TITLE -->
           </div>
         </div>
         <vs-textarea label="تفصیلات" v-model="accForm.description" />
-        <vs-list v-if="(errors.items.length > 0)">
+        <!--<vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
             <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
           </div>
-        </vs-list>
+        </vs-list>-->
       </div>
     </form>
   </component>
