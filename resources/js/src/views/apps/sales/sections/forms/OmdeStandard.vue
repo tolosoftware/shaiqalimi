@@ -102,8 +102,7 @@
             </template>
             <vs-input v-model="visualFields.transport_cost" @input="formatToEnPrice($event, sForm, 'transport_cost', visualFields)" autocomplete="off" v-validate="'required'" name="others" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.others') }}</span>
-          <has-error :form="sForm" field="others"></has-error>
+          <span class="absolute text-danger alerttext">{{ errors.first('s2Form.others') }}</span>
         </div>
       </vs-col>
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -118,8 +117,7 @@
             </template>
             <vs-input v-model="visualFields.service_cost" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" autocomplete="off" v-validate="'required'" name="service_cost" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
-          <has-error :form="sForm" field="service_cost"></has-error>
+          <span class="absolute text-danger alerttext">{{ errors.first('s2Form.service_cost') }}</span>
         </div>
       </vs-col>
     </vs-col>
@@ -136,7 +134,7 @@
             </template>
             <vs-input disabled :value="saleTotalCost" autocomplete="off" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s2Form.total') }}</span>
         </div>
       </vs-col>
     </vs-col>
@@ -151,8 +149,7 @@
           </template>
           <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
-        <has-error :form="sForm" field="tax"></has-error>
+        <span class="absolute text-danger alerttext">{{ errors.first('s2Form.tax') }}</span>
       </div>
     </vs-col>
 
@@ -169,7 +166,7 @@
             </template>
             <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s2Form.total') }}</span>
         </div>
       </vs-col>
     </vs-col>
@@ -332,6 +329,12 @@ export default {
           source: { required: ' انتخاب منبع الزامی میباشد.' },
           destination: { required: ' انتخاب مقصد الزامی میباشد.' },
           bank_account: { required: 'حساب بانکی الزامی میباشد.', min: 'حساب بانکی باید بیشتر از 2 حرف باشد.', },
+          others: { required: 'مصارف انتقالات ضروری است.' },
+          service_cost: { required: 'مصارف خدمات ضروری است.' },
+          // total: { required: '' },
+          tax: { required: 'مالیه ضروری است.' },
+          deposit: { required: 'مصارف تامینات ضروری است.' },
+          total_price: { required: '' }
         }
       }
     };

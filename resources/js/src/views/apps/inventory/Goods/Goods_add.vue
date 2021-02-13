@@ -10,30 +10,35 @@
     <div class="pt-6 pr-6 pl-6">
       <form data-vv-scope="goodsAddForm">
         <!-- CATEGORY -->
-        <div class="vx-col mt-4">
+        <div class="vx-col mt-4 pt-1">
           <label for=""><small>کتگوری</small></label>
           <v-select label="type" name="good_type" v-validate="'required'" :options="itemtype" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.type_id" />
+          <span class="absolute text-danger alerttext">{{ errors.first('goodsAddForm.good_type') }}</span>
         </div>
         <!-- CATEGORY -->
 
         <!-- NAME -->
-        <vs-input label=" نوعیت" class="mt-5 w-full" name="good_name" v-validate="'required'" v-model="form.name" />
+        <vs-input label=" نوعیت" class="mt-5 pt-1 w-full" name="good_name" v-validate="'required'" v-model="form.name" />
+        <span class="absolute text-danger alerttext">{{ errors.first('goodsAddForm.good_name') }}</span>
         <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
         <!-- NAME -->
-        <div class="vx-col mt-4">
+        <div class="vx-col mt-4 pt-1">
           <label for=""><small>واحد سنجش اصلی</small></label>
           <v-select label="title" name="good_uom" v-validate="'required'" :options="uom" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.uom_id" />
+          <span class="absolute text-danger alerttext">{{ errors.first('goodsAddForm.good_uom') }}</span>
         </div>
         <!-- CATEGORY -->
 
         <!-- NAME -->
-        <div class="vx-col mt-4">
+        <div class="vx-col mt-4 pt-1">
           <label for=""><small>واحد سنجش فرعی</small></label>
           <v-select label="title" name="good_uom_equiv" v-validate="'required'" :options="uom" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.uom_equiv_id" />
+          <span class="absolute text-danger alerttext">{{ errors.first('goodsAddForm.good_uom_equiv') }}</span>
         </div>
         <!-- NAME -->
         <!-- NAME -->
-        <vs-input label="مقدار معادل به واحد فرعی" class="mt-5 w-full" name="good_equivalent" v-validate="'required'" v-model="form.equivalent" />
+        <vs-input label="مقدار معادل به واحد فرعی" class="mt-5 pt-1 w-full" name="good_equivalent" v-validate="'required'" v-model="form.equivalent" />
+        <span class="absolute text-danger alerttext">{{ errors.first('goodsAddForm.good_equivalent') }}</span>
         <!-- <span class="text-danger text-sm" v-show="errors.has('item-name')">{{ errors.first('item-name') }}</span> -->
         <!-- NAME -->
         <div class="vx-col mt-4"></div>
@@ -41,13 +46,12 @@
         <div class="flex flex-wrap items-center p-6" slot="footer">
           <vs-button :disabled="form.busy" class="mr-6" @click="submitData">ثبت</vs-button>
           <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">لغو</vs-button>
-          <vs-list v-if="(errors.items.length > 0)">
+          <!--<vs-list v-if="(errors.items.length > 0)">
             <vs-list-header color="danger" title="مشکلات"></vs-list-header>
             <div :key="indextr" v-for="(error, indextr) in errors.items">
               <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
             </div>
-            <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-          </vs-list>
+          </vs-list> -->
         </div>
       </form>
     </div>
@@ -142,7 +146,7 @@ export default {
               })
             })
         } else {
-          
+
           // form have errors
         }
       })

@@ -9,6 +9,7 @@
       <div class="vx-row mb-6">
         <div class="vx-col w-full">
           <vs-input class="w-full" autocomplete="off" name="despenser_name" v-validate="'required'" type="text" v-model="dForm.name" label="نام" />
+          <span class="absolute text-danger alerttext">{{ errors.first('despenserAddForm.despenser_name') }}</span>
           <span v-if="errorShow">
             <h5 style="color:red"></h5>
           </span>
@@ -20,6 +21,7 @@
           <v-select label="name" name="despenser_storage" v-validate="'required'" multiple v-model="dForm.storage_id" :options="storages" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
             <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
           </v-select>
+          <span class="absolute text-danger alerttext">{{ errors.first('despenserAddForm.despenser_storage') }}</span>
         </div>
       </div>
       <div class="vx-row">
@@ -28,13 +30,12 @@
           <vs-button color="warning" type="border" class="mb-2" @click.stop="isSidebarActiveLocal = false">بستن فورم</vs-button>
         </div>
       </div>
-      <vs-list v-if="(errors.items.length > 0)">
+      <!-- <vs-list v-if="(errors.items.length > 0)">
         <vs-list-header color="danger" title="مشکلات"></vs-list-header>
         <div :key="indextr" v-for="(error, indextr) in errors.items">
           <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
         </div>
-        <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-      </vs-list>
+      </vs-list> -->
     </form>
   </div>
 </vs-sidebar>
@@ -184,7 +185,7 @@ export default {
             });
 
         } else {
-          
+
           // form have errors
         }
       })

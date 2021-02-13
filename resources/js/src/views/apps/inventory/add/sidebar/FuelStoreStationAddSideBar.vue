@@ -12,18 +12,21 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="station_name" v-validate="'required'" label="نام" v-model="form.name" />
+            <span class="absolute text-danger alerttext">{{ errors.first('StorageAddForm.station_name') }}</span>
           </div>
         </div>
 
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="station_supervisor" v-validate="'required'" label="مسؤل" v-model="form.supervisor" />
+            <span class="absolute text-danger alerttext">{{ errors.first('StorageAddForm.station_supervisor') }}</span>
           </div>
         </div>
 
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input type="number" name="station_capacity" v-validate="'required'" class="w-full" label="ظرفیت" v-model="form.capacity" />
+            <span class="absolute text-danger alerttext">{{ errors.first('StorageAddForm.station_capacity') }}</span>
           </div>
         </div>
 
@@ -33,6 +36,7 @@
             <v-select name="station_oum" v-validate="'required'" v-model="form.oum_id" label="title" :options="uom" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
               <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
             </v-select>
+            <span class="absolute text-danger alerttext">{{ errors.first('StorageAddForm.station_oum') }}</span>
           </div>
         </div>
 
@@ -42,13 +46,12 @@
             <vs-button color="warning" type="border" class="mb-2">پاک کردن فرم</vs-button>
           </div>
         </div>
-        <vs-list v-if="(errors.items.length > 0)">
+        <!--   <vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
             <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
           </div>
-          <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-        </vs-list>
+        </vs-list>-->
       </form>
     </div>
   </component>
@@ -139,7 +142,7 @@ export default {
             })
             .catch(() => {})
         } else {
-          
+
           // form have errors
         }
       })

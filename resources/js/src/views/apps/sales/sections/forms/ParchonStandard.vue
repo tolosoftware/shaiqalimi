@@ -77,7 +77,7 @@
             </template>
             <vs-input v-model="visualFields.service_cost" autocomplete="off" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" v-validate="'required'" name="service_cost" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s4Form.service_cost') }}</span>
           <has-error :form="sForm" field="service_cost"></has-error>
         </div>
       </vs-col>
@@ -93,7 +93,7 @@
             </template>
             <vs-input autocomplete="off" v-model="visualFields.additional_cost" @input="formatToEnPrice($event, sForm, 'additional_cost', visualFields)" v-validate="'required'" name="additional_cost" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.additional_cost') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s4Form.additional_cost') }}</span>
           <has-error :form="sForm" field="additional_cost"></has-error>
         </div>
       </vs-col>
@@ -110,7 +110,7 @@
           </template>
           <vs-input disabled :value="saleTotalCost" name="sale_total_price" v-validate="'required'" autocomplete="off" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s4Form.total') }}</span>
       </div>
     </vs-col>
 
@@ -125,7 +125,7 @@
           </template>
           <vs-input autocomplete="off" v-model="sForm.tax" type="number" v-validate="'required'" name="tax" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s4Form.tax') }}</span>
         <has-error :form="sForm" field="tax"></has-error>
       </div>
     </vs-col>
@@ -141,7 +141,7 @@
           </template>
           <vs-input disabled :value="saleTotalCostFinal" name="sele_total_value" v-validate="'required'" autocomplete="off" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s4Form.total') }}</span>
       </div>
     </vs-col>
   </vs-row>
@@ -242,11 +242,11 @@ export default {
           client_name: { required: 'اسم نهاد الزامی میباشد', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.' },
           source: { required: ' انتخاب منبع الزامی میباشد.' },
           destination: { required: 'مقصد الزامی میباشد', min: 'مقصد باید بیشتر از 2 حرف باشد.' },
-          // service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
-          // additional_cost: { required: 'مصارف اضافی الزامی میباشد. ' },
-          // sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
-          // tax: { required: 'مالیه الزامی میباشد ' },
-          // sele_total_value: { required: 'قیمت کلی فروش الزامی میباشد .' },
+          service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
+          additional_cost: { required: 'مصارف اضافی الزامی میباشد. ' },
+          sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
+          tax: { required: 'مالیه الزامی میباشد ' },
+          sele_total_value: { required: 'قیمت کلی فروش الزامی میباشد .' },
           bank_account: { required: 'انتخاب حساب بانکی الزامی میباشد.', min: 'حساب بانکی باید بیشتر از 2 حرف باشد.', },
         }
       }
