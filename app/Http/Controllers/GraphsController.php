@@ -220,6 +220,7 @@ class GraphsController extends Controller
   }
   public function storageGraph()
   {
+
     $storageCapacity = Storage::sum('capacity');
     $stacksdata = StockRecord::where('source', 'STRG')->get()->toArray();
     $valueTotal = [0, 0];
@@ -234,14 +235,42 @@ class GraphsController extends Controller
   }
   public function storageItemsGraph()
   {
+    $dates[] = ['-4 days', '1 days'];
+    $dates[] = ['-9 days', '-4 days'];
+    $dates[] = ['-14 days', '-9 days'];
+    $dates[] = ['-19 days', '-14 days'];
+    $dates[] = ['-24 days', '-19 days'];
+    $dates[] = ['-29 days', '-24 days'];
+    $itemSaleValue = [];
+    $itemPurchaseValue = [];
+    $itemTon = Item::where('uom_equiv_id', 3)->get();
+    foreach (array_reverse($dates) as $dateKey => $date) {
+      $thisDate = [date("Y-m-d", strtotime($date[0])), date("Y-m-d", strtotime($date[1]))];
+      $itemSaleValue[$dateKey] = 0;
+      $itemPurchaseValue[$dateKey] = 0;
+      $stacksSales[$dateKey] = StockRecord::where('type', 'sale')
+        ->whereIn('item_id', $itemTon->pluck('id'))
+        ->whereBetween('created_at', $thisDate)
+        ->get();
+      $stacksPurchase[$dateKey] = StockRecord::where('type', 'purchase')
+        ->whereIn('item_id', $itemTon->pluck('id'))
+        ->whereBetween('created_at', $thisDate)
+        ->get();
+      foreach ($stacksSales[$dateKey] as $value) {
+        $itemSaleValue[$dateKey] += $value['decrement_equiv'];
+      }
+      foreach ($stacksPurchase[$dateKey] as $value) {
+        $itemPurchaseValue[$dateKey] += $value['increment_equiv'];
+      }
+    }
     $chartData[0] = [
-      'data' => [98, 34, 34, 34, 34, 34, 34, 34, 23],
-      'name' => 'asldfkjdsflk',
+      'data' => $itemSaleValue,
+      'name' => 'فروشات',
     ];
     $chartData[1] = [
-      'data' => [98, 134, 134, 134, 134, 134, 134, 134, 123],
-      'name' => 'asldfkjdsflk',
+      'data' => $itemPurchaseValue,
+      'name' => 'خریداری',
     ];
-    return ['thisMonth' => 439, 'lastMonth' => 934, 'series' => $chartData];
+    return ['thisMonth' => array_sum($itemSaleValue), 'lastMonth' => array_sum($itemPurchaseValue), 'series' => $chartData];
   }
 }
