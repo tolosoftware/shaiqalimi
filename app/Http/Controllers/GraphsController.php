@@ -231,7 +231,9 @@ class GraphsController extends Controller
     if ($storageCapacity === 0) {
       return 0;
     }
-    return round((($storageCapacity + ($valueTotal[0] - $valueTotal[1])) * 100) / $storageCapacity, 0);
+    // return $valueTotal[0] - $valueTotal[1];
+    // return [$valueTotal, $storageCapacity];
+    return round((($valueTotal[0] - $valueTotal[1]) * 100) / $storageCapacity, 0);
   }
   public function storageItemsGraph()
   {

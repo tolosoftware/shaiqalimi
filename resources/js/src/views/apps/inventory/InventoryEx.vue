@@ -269,8 +269,8 @@ export default {
           },
           stroke: {
             curve: 'smooth',
-            dashArray: [0, 8],
-            width: [4, 2]
+            // dashArray: [0, 8],
+            width: [3,3]
           },
           grid: {
             borderColor: '#e7e7e7'
@@ -278,13 +278,13 @@ export default {
           legend: {
             show: false
           },
-          colors: ['#F97794', '#b8c2cc'],
+          colors: ['#F97788', '#b8c2cc'],
           fill: {
             type: 'gradient',
             gradient: {
               shade: 'dark',
               inverseColors: false,
-              gradientToColors: ['#7367F0', '#b8c2cc'],
+              gradientToColors: ['#7367F0', '#0CB1C4'],
               shadeIntensity: 1,
               type: 'horizontal',
               opacityFrom: 1,
@@ -319,7 +319,7 @@ export default {
                 cssClass: 'text-grey fill-current direction-ltr'
               },
               formatter(val) {
-                return val > 999 ? `${(val / 1000).toFixed(1)}k` : val
+                return val > 999 ? `${(val / 1000).toFixed(0)}k` : val
               }
             }
           },
