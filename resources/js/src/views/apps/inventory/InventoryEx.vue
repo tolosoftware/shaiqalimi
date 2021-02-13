@@ -229,8 +229,6 @@
 import VueApexCharts from 'vue-apexcharts'
 import DataViewSidebar from './DataViewSidebar.vue'
 import TransferViewSidebar from './TransferViewSidebar.vue'
-import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
-import analyticsData from './analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 
 export default {
@@ -399,12 +397,10 @@ export default {
       browserStatistics: [],
       clientRetentionBar: {},
       storageGraphDataKey: 0,
-      analyticsData
     }
   },
   components: {
     VueApexCharts,
-    StatisticsCardLine,
     ChangeTimeDurationDropdown,
     DataViewSidebar,
     TransferViewSidebar

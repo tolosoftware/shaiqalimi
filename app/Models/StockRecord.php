@@ -22,7 +22,8 @@ class StockRecord extends Model
         'operation_id',
         'unit_price',
         'total_price',
-        'remark'
+        'remark',
+        'ex_rate_id',
     ];
     public function operation()
     {

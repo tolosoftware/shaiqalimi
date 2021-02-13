@@ -91,6 +91,7 @@ class PurchaseController extends Controller
             $purchase =  Purchase::latest()->first();
             $totalmony = 0;
             foreach ($request->item as $valueItem) {
+                // return ExchangeRate::latest()->first()->id;
                 StockRecord::create([
                     'type' => "purchase",
                     'type_id' => $purchase->id,
