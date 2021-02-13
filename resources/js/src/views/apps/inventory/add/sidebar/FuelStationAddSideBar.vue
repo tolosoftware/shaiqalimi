@@ -15,22 +15,26 @@
             <div class="vx-row mb-6">
               <div class="vx-col w-full">
                 <vs-input class="w-full" name="st_name" v-validate="'required'" label="نام" v-model="form.name" />
+                <span class="absolute text-danger alerttext">{{ errors.first('fueStationAdForm.st_name') }}</span>
               </div>
             </div>
 
             <div class="vx-row mb-6">
               <div class="vx-col w-full">
                 <vs-input class="w-full" name="st_manager" v-validate="'required'" label="مسؤل" v-model="form.manager" />
+                <span class="absolute text-danger alerttext">{{ errors.first('fueStationAdForm.st_manager') }}</span>
               </div>
             </div>
             <div class="vx-row mb-6">
               <div class="vx-col w-full">
                 <vs-input class="w-full" name="st_phone" v-validate="'required'" label="آدرس" v-model="form.phone" />
+                <span class="absolute text-danger alerttext">{{ errors.first('fueStationAdForm.st_phone') }}</span>
               </div>
             </div>
             <div class="vx-row mb-6">
               <div class="vx-col w-full">
                 <vs-input class="w-full" name="st_address" v-validate="'required'" label="شماره" v-model="form.address" />
+                <span class="absolute text-danger alerttext">{{ errors.first('fueStationAdForm.st_address') }}</span>
               </div>
             </div>
 
@@ -40,19 +44,17 @@
                 <vs-button color="warning" type="border" class="mb-2" @click="input9 = input10 = input11 = input12 = ''; check3 = false;">پاک کردن فرم</vs-button>
               </div>
             </div>
-            <vs-list v-if="(errors.items.length > 0)">
+            <!--  <vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
                 <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
               </div>
-              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-            </vs-list>
+            </vs-list>-->
           </form>
         </div>
       </component>
     </vs-tab>
   </vs-tabs>
-
 </vs-sidebar>
 </template>
 
@@ -163,7 +165,7 @@ export default {
               })
             })
         } else {
-          
+
           // form have errors
         }
       })

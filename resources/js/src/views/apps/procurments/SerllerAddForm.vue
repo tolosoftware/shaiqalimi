@@ -95,21 +95,23 @@
         <div class="pt-6 pr-6 pl-6">
           <form data-vv-scope="sellerForm">
             <vs-input label="نام فروشنده" class="mt-5 w-full" name="sellername" v-validate="'required'" v-model="form.name" />
-            <has-error :form="form" field="name"></has-error>
+            <span class="absolute text-danger alerttext">{{ errors.first('sellerForm.sellername') }}</span>
+            <!--<has-error :form="form" field="name"></has-error>-->
             <vs-input label="شماره تماس" class="mt-5 w-full" name="sellerphone" v-validate="'required'" v-model="form.phone" />
-            <has-error :form="form" field="phone"></has-error>
+            <span class="absolute text-danger alerttext">{{ errors.first('sellerForm.sellerphone') }}</span>
+            <!--<has-error :form="form" field="phone"></has-error>-->
             <vs-input label="آدرس" class="mt-5 w-full" name="selleraddress" v-validate="'required|min:2'" v-model="form.address" />
-            <has-error :form="form" field="address"></has-error>
+            <span class="absolute text-danger alerttext">{{ errors.first('sellerForm.selleraddress') }}</span>
+            <!--<has-error :form="form" field="address"></has-error>-->
             <div class="flex flex-wrap items-center p-2 mt-3" slot="footer">
               <vs-button type="border" color="success" class="mr-6" :disabled="form.busy" @click="submitData" icon="save">ذخیره</vs-button>
             </div>
-            <vs-list v-if="(errors.items.length > 0)">
+            <!--<vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
                 <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
               </div>
-              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-            </vs-list>
+            </vs-list>-->
           </form>
         </div>
       </div>
@@ -223,9 +225,9 @@ export default {
                 position: 'top-right'
               })
             })
-            
+
         } else {
-          
+
           // form have errors
         }
       })

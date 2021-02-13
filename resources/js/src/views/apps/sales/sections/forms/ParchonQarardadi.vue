@@ -122,7 +122,7 @@
           </template>
           <vs-input v-model="visualFields.service_cost" autocomplete="off" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" v-validate="'required'" name="service_cost" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.service_cost') }}</span>
         <has-error :form="sForm" field="service_cost"></has-error>
       </div>
     </vs-col>
@@ -138,7 +138,7 @@
           </template>
           <vs-input disabled :value="saleTotalCost" autocomplete="off" v-validate="'required'" name="sale_total_price" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.sale_total_price') }}</span>
       </div>
     </vs-col>
 
@@ -154,7 +154,7 @@
             </template>
             <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s3Form.tax') }}</span>
           <has-error :form="sForm" field="tax"></has-error>
         </div>
       </vs-col>
@@ -169,7 +169,7 @@
             </template>
             <vs-input v-model="sForm.deposit" autocomplete="off" type="number" v-validate="'required'" name="deposit" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s3Form.deposit') }}</span>
           <has-error :form="sForm" field="deposit"></has-error>
         </div>
       </vs-col>
@@ -186,7 +186,7 @@
           </template>
           <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" name="sale_total_value" v-validate="'required'" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.sale_total_value') }}</span>
       </div>
     </vs-col>
   </vs-row>
@@ -334,13 +334,12 @@ export default {
           // driver_phone: { required: 'شماره تماس راننده الزامی میباشد .', min: 'شماره تماس راننده باید بیشتر از 2 حرف باشد.' },
           source: { required: ' انتخاب منبع الزامی میباشد.' },
           destination: { required: 'مقصد الزامی میباشد .', min: 'مقصد باید بیشتر از 2 حرف باشد.' },
-          // service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
-          // sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
-          // tax: { required: 'مالیه الزامی میباشد ' },
-          // deposit: { required: 'تامینات الزامی میباشد ' },
-          // sale_total_value: { required: 'قیمت نهایی فروش الزامی میباشد ' },
+          service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
+          sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
+          tax: { required: 'مالیه الزامی میباشد ' },
+          deposit: { required: 'تامینات الزامی میباشد ' },
+          sale_total_value: { required: 'قیمت نهایی فروش الزامی میباشد ' },
           bank_account: { required: 'حساب بانکی الزامی میباشد.', min: 'حساب بانکی باید بیشتر از 2 حرف باشد.', },
-
         }
       }
     };
