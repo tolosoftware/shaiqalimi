@@ -39,8 +39,16 @@ ALTER TABLE `stock_records` CHANGE `decrement_equiv` `decrement_equiv` DECIMAL(1
 ALTER TABLE `stock_records` CHANGE `increment_equiv` `increment_equiv` DECIMAL(18, 2) NULL DEFAULT '0.00';
 ALTER TABLE `users` CHANGE `image` `image` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `items` CHANGE `description` `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `purchases` CHANGE `description` `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `financial_records` CHANGE `description` `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 
 ALTER TABLE `sales_fours` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_threes` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_twos` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_ones` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
+
+ALTER TABLE `sales_fours` CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `sales_threes`  CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `sales_twos`  CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `sales_ones`  CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `stock_records`  CHANGE `remark` `remark` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;

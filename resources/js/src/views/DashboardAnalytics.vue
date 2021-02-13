@@ -88,7 +88,7 @@
     <LatestProjects></LatestProjects>
   </div>
   <br>
-  </vs-divider>
+  <vs-divider />
   <!--<ProjectList></ProjectList>-->
   <div class="vx-col w-full mb-base">
     <vx-card title="میزان عواید براساس اقلام (۹۰ روز اخیر)">
@@ -355,13 +355,14 @@ export default {
         .then((data) => {
           this.gSaleData = data.data;
           for (const [key, value] of Object.entries(this.gSaleData['byDays'].series[0].data)) {
-            if (this.gSaleData['byDays'].series[0].data[key] == 0) {
-              this.benefits.series[0].data[key] = ((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100).toFixed(0);
+            let currentVal = this.gSaleData['byDays'].series[0].data[key];
+            if (currentVal == 0) {
+              this.benefits.series[0].data[key] = ((currentVal - this.gPurchaseData['byDays'].series[0].data[key]) * 100).toFixed(0);
             } else {
-              this.benefits.series[0].data[key] = (((this.gSaleData['byDays'].series[0].data[key] - this.gPurchaseData['byDays'].series[0].data[key]) * 100) / this.gSaleData['byDays'].series[0].data[key]).toFixed(0);
+              this.benefits.series[0].data[key] = (((currentVal - this.gPurchaseData['byDays'].series[0].data[key]) * 100) / currentVal).toFixed(0);
             }
           }
-          this.benefitsAtAll = this.formatToEnPriceSimple(((this.gSaleData['total_af'] - this.gPurchaseData['total_af']) * 100) / this.gSaleData['total_af']);
+          this.benefitsAtAll = this.formatToEnPriceSimple(((this.gSaleData['total_af'] - this.gPurchaseData['total_af']) * 100) / (this.gSaleData['total_af']) ? this.gSaleData['total_af'] : 0);
           this.componentKey3 += 1;
           this.componentKey2 += 1;
         })
