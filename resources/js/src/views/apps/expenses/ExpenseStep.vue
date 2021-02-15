@@ -106,11 +106,12 @@ export default {
       this.$emit('closesteps');
     },
     setWizardStepExpense(expense) {
+      this.expForm.reset();
       this.expForm.step = expense.step;
       this.expForm.is_approved = expense.is_approved;
       this.current = expense.step - 1;
       this.$refs.wizardexpen.activateAll();
-      this.$refs.wizardexpen.navigateToTab(index - 1);
+      this.$refs.wizardexpen.navigateToTab(expense.step - 1);
     },
     changeItTo(id, st) {
       this.$Progress.start()

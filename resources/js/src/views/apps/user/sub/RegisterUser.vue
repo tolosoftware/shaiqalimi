@@ -7,58 +7,64 @@
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
             <vs-input class="w-full" label="نام" name="firstname" v-validate="'required'" v-model="form.firstName" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.firstname') }}</span>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
             <vs-input class="w-full" label="تخلص" name="lastname" v-validate="'required'" v-model="form.lastName" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.lastname') }}</span>
           </div>
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
-
             <label for="text"><small>نوعیت کاربر</small> </label>
             <v-select label="text" :options="usertypes" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="usertype" v-validate="'required'" v-model="form.user_type" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.usertype') }}</span>
           </div>
-
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
             <vs-input class="w-full" type="text" label="پوسیشن" name="position" v-validate="'required'" v-model="form.position" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.position') }}</span>
           </div>
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
             <vs-input class="w-full" type="email" label="ایمیل" name="emailadress" v-validate="'required'" v-model="form.email" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.emailadress') }}</span>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
             <vs-input class="w-full" type="text" label="شماره تماس" name="phoneno" v-validate="'required'" v-model="form.phone" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.phoneno') }}</span>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
             <vs-input class="w-full" type="text" label="آدرس" name="address" v-validate="'required'" v-model="form.address" autocomplete="off" autofill="off" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.address') }}</span>
           </div>
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full">
             <vs-input class="w-full" type="password" label="رمز عبور" name="passowrd" v-validate="'required'" v-model="form.password" />
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.passowrd') }}</span>
           </div>
         </vs-col>
 
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
           <div class="w-full con-select-example">
-
             <label class="typo__label">مافوق برای کابر</label>
             <v-select label="firstName" multiple name="userleaders" v-validate="'required'" v-model="form.userleaders" :options="users" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'">
               <span slot="no-options">{{$t('WhoopsNothinghere')}}</span>
             </v-select>
+            <span class="absolute text-danger alerttext">{{ errors.first('userAddForm.userleaders') }}</span>
           </div>
         </vs-col>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12" class="pl-4 pr-4 pb-2 pt-2">
@@ -112,12 +118,12 @@
         </div>
       </div>
     </div>
-    <vs-list v-if="(errors.items.length > 0)">
+    <!-- <vs-list v-if="(errors.items.length > 0)">
       <vs-list-header color="danger" title="مشکلات"></vs-list-header>
       <div :key="indextr" v-for="(error, indextr) in errors.items">
         <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
       </div>
-      <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
+       -->
     </vs-list>
   </form>
   <vs-popup class="holamundo width-60" title="تنظیمات صلاحیت ها" :active.sync="privilegeModalActive">

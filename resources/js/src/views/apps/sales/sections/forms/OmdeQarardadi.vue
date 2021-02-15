@@ -31,10 +31,12 @@
           </div>
         </div>
       </div>
+      <span class="absolute text-danger alerttext">{{ errors.first('s1Form.curency') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
       <date-picker v-model="sForm.datatime" inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" type="datetime" v-validate="'required'" :title="errors.first(`contract_date`)" v-bind:class="errors.first(`contract_date`) ? 'has-error' : ''" name="sel_date" :auto-submit="true" size="large"></date-picker>
+      <span class="absolute text-danger alerttext">{{ errors.first('s1Form.sel_date') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
@@ -44,6 +46,7 @@
             " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChangeContract">
           <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>
+        <span class="absolute text-danger alerttext">{{ errors.first('s1Form.contract') }}</span>
       </div>
     </div>
   </div>
@@ -75,10 +78,12 @@
       <!-- This conpoment need the form source id and form source type field -->
       <label for=""><small>منبع</small></label>
       <source-select :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
+      <span class="absolute text-danger alerttext">{{ errors.first('s1Form.source') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <vs-input v-model="sForm.destination" v-validate="'required'" :title="errors.first(`destination`)" v-bind:class="errors.first(`destination`) ? 'has-error' : ''" name="destination" class="w-full" label="مقصد" />
+        <span class="absolute text-danger alerttext">{{ errors.first('s1Form.destination') }}</span>
       </div>
     </div>
   </div>
@@ -99,9 +104,11 @@
             <vs-input v-model="visualFields.transport_cost" @input="formatToEnPrice($event, sForm, 'transport_cost', visualFields)" autocomplete="off" v-validate="'required'" name="others" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
-              errors.first("step-2.others")
+             errors.first('s1Form.others') }}</span>
+          <!--<span class="absolute text-danger alerttext">{{
+              errors.first("step-2.others") others,transit,total_price,tax,deposit,total_price
             }}</span>
-          <has-error :form="sForm" field="others"></has-error>
+          <has-error :form="sForm" field="others"></has-error> -->
         </div>
       </vs-col>
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -117,9 +124,8 @@
             <vs-input v-model="visualFields.service_cost" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" autocomplete="off" v-validate="'required'" name="transit" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
-              errors.first("step-2.transit")
+              errors.first("s1Form.transit")
             }}</span>
-          <has-error :form="sForm" field="transit"></has-error>
         </div>
       </vs-col>
     </vs-col>
@@ -137,7 +143,7 @@
             <vs-input disabled :value="saleTotalCost" autocomplete="off" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
-              errors.first("step-2.total_price")
+              errors.first("s1Form.total_price")
             }}</span>
         </div>
       </vs-col>
@@ -156,9 +162,8 @@
             <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
-              errors.first("step-2.tax")
+              errors.first("s1Form.tax")
             }}</span>
-          <has-error :form="sForm" field="tax"></has-error>
         </div>
       </vs-col>
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -174,9 +179,8 @@
             <vs-input v-model="sForm.deposit" autocomplete="off" type="number" v-validate="'required'" name="deposit" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
-              errors.first("step-2.deposit")
+              errors.first("s1Form.deposit")
             }}</span>
-          <has-error :form="sForm" field="deposit"></has-error>
         </div>
       </vs-col>
     </vs-col>
@@ -195,7 +199,7 @@
             <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" />
           </vx-input-group>
           <span class="absolute text-danger alerttext">{{
-              errors.first("step-2.total_price")
+              errors.first("s1Form.total_price")
             }}</span>
         </div>
       </vs-col>
@@ -204,7 +208,8 @@
   <div class="vx-row">
     <div class="w-full pt-2 ml-3 mr-3">
       <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
-        <bank-account-select :form="sForm"></bank-account-select>
+        <bank-account-select :form="sForm" name="bank_account" v-validate="'required'" v-model="sForm.bank_account"></bank-account-select><br>
+        <span class="absolute text-danger alerttext">{{ errors.first('s1Form.bank_account') }}</span>
       </vs-col>
     </div>
   </div>
@@ -214,7 +219,7 @@
       <vs-textarea v-model="sForm.description" class="mr-3 mb-1 w-full" />
     </div>
   </div>
-  <div class="vx-row official-process">
+  <!--<div class="vx-row official-process">
     <vs-collapse type="margin">
       <vs-collapse-item>
         <div slot="header">طی مراحل اداری</div>
@@ -233,20 +238,19 @@
         </ul>
       </vs-collapse-item>
     </vs-collapse>
-  </div>
+  </div> -->
   <div class="mt-10">
     <div class="vx-col w-full">
       <vs-button :disabled="sForm.busy" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
     </div>
   </div>
-  <vs-list v-if="(errors.items.length > 0)">
+  <!--<vs-list v-if="(errors.items.length > 0)">
     <vs-list-header color="danger" title="مشکلات"></vs-list-header>
     <div :key="indextr" v-for="(error, indextr) in errors.items">
       <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
     </div>
-    <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-  </vs-list>
+  </vs-list> -->
 </form>
 </template>
 
@@ -327,7 +331,7 @@ export default {
         deposit: "0",
         total: "0",
         steps: "0",
-        description: "توضیحات تاحال درج نشده",
+        description: "",
 
         // shared fields with other sales
         bank_account: null,
@@ -354,38 +358,24 @@ export default {
       field_data: [],
       dict: {
         custom: {
-          curency: {
-            required: ' واحد پولی الزامی میباشد.'
-          },
-          sel_date: {
-            required: ' تاریخ فروش الزامی میباشد.'
-          },
-          contract: {
-            required: ' انتخاب قرارداد الزامی میباشد.'
-          },
-          client_name: {
-            required: '  اسم نهاد الزامی میباشد.',
-            min: 'اسم نهاد باید بیشتر از 2 حرف باشد.',
-          },
+          curency: { required: ' واحد پولی الزامی میباشد.' },
+          sel_date: { required: ' تاریخ فروش الزامی میباشد.' },
+          contract: { required: ' انتخاب قرارداد الزامی میباشد.' },
+          // client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.', },
           // person_relation: { required: '  شخص ارتباطی الزامی میباشد.', min: 'اسم شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
-          phone_number: {
-            required: 'شماره تماس الزامی میباشد .',
-            min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.',
-          },
-          address: {
-            required: '  آدرس الزامی میباشد.',
-            min: 'آدرس باید بیشتر از 3 حرف باشد.',
-          },
-          source: {
-            required: ' انتخاب منبع الزامی میباشد.'
-          },
-          destination: {
-            required: ' انتخاب مقصد الزامی میباشد.'
-          },
-          // sel_date: { required: '  الزامی میباشد.', min: 'اسم باید بیشتر از 2 حرف باشد.', },
+          // phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.', },
+          // address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.', },
+          source: { required: ' انتخاب منبع الزامی میباشد.' },
+          destination: { required: ' انتخاب مقصد الزامی میباشد.' },
+          bank_account: { required: 'حساب بانکی الزامی میباشد.', min: 'حساب بانکی باید بیشتر از 2 حرف باشد.', },
+          others: { required: 'مصارف انتقالات ضروری است.' },
+          transit: { required: 'مصارف خدمات ضروری است.' },
+          // total_price: { required: '' },
+          tax: { required: 'مالیه ضروری است.' },
+          deposit: { required: 'مصارف تامینات ضروری است.' },
+          total_price: { required: '' }
         }
       }
-      // End of sidebar items
     };
   },
   created() {
@@ -473,7 +463,6 @@ export default {
       this.$refs.ekmalat.getAllItems(matched_items);
     },
     submitForm() {
-
       this.$validator.validateAll('s1Form').then(result => {
         if (result) {
           this.$Progress.start()
@@ -493,7 +482,6 @@ export default {
               this.sForm.reset();
               this.$validator.reset();
             }).catch((errors) => {
-              // 
               this.$vs.notify({
                 title: 'ناموفق!',
                 text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
@@ -503,10 +491,7 @@ export default {
                 position: 'top-right'
               })
             });
-        } else {
-
-          // form have errors
-        }
+        } else {}
       })
 
     },

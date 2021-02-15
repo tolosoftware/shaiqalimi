@@ -14,8 +14,8 @@
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <vs-input size="medium" v-validate="'required'" v-model="form.serial_no" label="سریال نمبر" name="serial_no" class="mt-5 w-full" placeholder="سریال نمبر" disabled />
-                  <!--<span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span> -->
-                  <has-error :form="form" field="serial_no"></has-error>
+                  <!--<span class="text-danger text-sm" v-show="errors.has('serialnumber')">{{ errors.first("serialnumber") }}</span> 
+                  <has-error :form="form" field="serial_no"></has-error>-->
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12" class="mt-4">
@@ -31,18 +31,21 @@
                       <label for="specific" class="w-full text-center">دالر</label>
                     </div>
                   </div>
-                  <has-error :form="form" field="status"></has-error>
+                  <span class="absolute text-danger alerttext">{{ errors.first('expensForm.currency_id') }}</span>
+                  <!--<has-error :form="form" field="status"></has-error> -->
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <label for="date" class="mt-3"><small>تاریخ </small></label>
                   <date-picker color="#e85454" name="expense_date" v-validate="'required'" input-format="YYYY/MM/DD HH:mm" format="jYYYY/jMM/jDD HH:mm" type="datetime" v-model="form.datetime" />
+                  <span class="absolute text-danger alerttext">{{ errors.first('expensForm.expense_date') }}</span>
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="8" vs-sm="6" vs-xs="12">
                 <div class="w-full  ml-3 mr-3">
                   <vs-input size="medium" name="expense_title" v-validate="'required|min:2'" v-model="form.title" @input="getTitle" label="عنوان مصارف" class="w-full" />
+                  <span class="absolute text-danger alerttext">{{ errors.first('expensForm.expense_title') }}</span>
                 </div>
               </vs-col>
               <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6" vs-xs="12" class="mt-5">
@@ -57,12 +60,14 @@
                       </div>
                     </template>
                     <vs-input name="expense_ammount" v-validate="'required'" v-model="visualFields.ammount" @input="formatToEnPrice($event, form, 'ammount', visualFields)" />
+                    <span class="absolute text-danger alerttext">{{ errors.first('expensForm.expense_ammount') }}</span>
                   </vx-input-group>
                 </div>
               </vs-col>
               <div class="vx-col w-1/3 mt-4">
                 <label for=""><small> حساب کریدیت</small></label>
                 <v-select size="large" label="name" name="credit_acc_expen" v-validate="'required'" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.credit_account" />
+                <span class="absolute text-danger alerttext">{{ errors.first('expensForm.credit_acc_expen') }}</span>
               </div>
               <div class="vx-col w-2/3">
                 <vs-input size="medium" label="تفصیلات " name="credit_acc_exp_desc" class="mt-5 w-full" v-model="form.credit_desc" />
@@ -70,6 +75,7 @@
               <div class="vx-col w-1/3 mt-4">
                 <label for=""><small> حساب دبت</small></label>
                 <v-select label="name" name="debit_acc_expen" v-validate="'required'" :options="accounts" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="form.debit_account" />
+                <span class="absolute text-danger alerttext">{{ errors.first('expensForm.debit_acc_expen') }}</span>
               </div>
               <div class="vx-col w-2/3">
                 <vs-input size="medium" label="تفصیلات " name="debit_acc_exp_desc" class="mt-5 w-full" v-model="form.debit_desc" />
@@ -78,14 +84,16 @@
                 <vs-textarea label="تفصیلات کلی" v-model="form.description"></vs-textarea>
               </div>
             </div>
-            <vs-button :disabled="form.busy" type="filled" @click.prevent="submitData" class="mt-5 block">ثبت</vs-button>
-            <vs-list v-if="(errors.items.length > 0)">
+            <vs-button :disabled="form.busy" type="filled" @click.prevent="submitData" class="mt-5 block float-left">ثبت</vs-button>
+            <p></p>
+            <vs-divider></vs-divider>
+            <!--  <vs-list v-if="(errors.items.length > 0)">
               <vs-list-header color="danger" title="مشکلات"></vs-list-header>
               <div :key="indextr" v-for="(error, indextr) in errors.items">
                 <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
               </div>
-              <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-            </vs-list>
+              <vs-list-item title="" subtitle=""></vs-list-item>
+            </vs-list> -->
           </form>
         </vx-card>
       </div>
@@ -112,7 +120,7 @@ export default {
   },
   data() {
     return {
-      visualFields:{
+      visualFields: {
         ammount: 0
       },
       form: new Form({
@@ -181,7 +189,7 @@ export default {
               })
             })
         } else {
-          
+
           // form have errors
         }
       });

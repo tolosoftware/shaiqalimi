@@ -15,7 +15,6 @@
           </template>
           <vs-input :value="sForm.serial_no" disabled autocomplete="off" placeholder="انتخاب قرارداد الزمی است." type="number" />
         </vx-input-group>
-
       </div>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
@@ -32,19 +31,22 @@
           </div>
         </div>
       </div>
+      <span class="absolute text-danger alerttext">{{ errors.first('s3Form.curency') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <label for="date" class="mt-3"><small>تاریخ</small></label>
       <date-picker inputFormat="jYYYY/jMM/jDD HH:mm" display-format="jYYYY/jMM/jDD hh:mm" color="#e85454" v-model="sForm.datatime" type="datetime" v-validate="'required'" name="sele_date" :auto-submit="true" size="large"></date-picker>
+      <span class="absolute text-danger alerttext">{{ errors.first('s3Form.sel_date') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <label for class="vs-input--label">انتخاب قراردادها</label>
         <v-select v-model="sForm.project_id" :get-option-label="
               (option) => option.serial_no + ' - ' + option.pro_data.title  + ' - ' + option.pro_data.company_id.sign
-            " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChange">
+            " name="contract" :options="contracts" :searchable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="onChange" v-validate="'required'">
           <span slot="no-options">{{ $t("WhoopsNothinghere") }}</span>
         </v-select>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.contract') }}</span>
       </div>
     </div>
   </div>
@@ -94,10 +96,12 @@
       <!-- This conpoment need the form source id and form source type field -->
       <label for=""><small>منبع</small></label>
       <source-select :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
+      <span class="absolute text-danger alerttext">{{ errors.first('s3Form.source') }}</span>
     </div>
     <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
         <vs-input name="destination" v-validate="'required|min:2'" v-model="sForm.destination" class="w-full" label="مقصد" />
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.destination') }}</span>
       </div>
     </div>
   </div>
@@ -118,7 +122,7 @@
           </template>
           <vs-input v-model="visualFields.service_cost" autocomplete="off" @input="formatToEnPrice($event, sForm, 'service_cost', visualFields)" v-validate="'required'" name="service_cost" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.service_cost') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.service_cost') }}</span>
         <has-error :form="sForm" field="service_cost"></has-error>
       </div>
     </vs-col>
@@ -134,13 +138,12 @@
           </template>
           <vs-input disabled :value="saleTotalCost" autocomplete="off" v-validate="'required'" name="sale_total_price" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.sale_total_price') }}</span>
       </div>
     </vs-col>
 
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="3" vs-sm="6" vs-xs="12">
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-
         <div class="w-full pt-2 ml-3 mr-3">
           <label for=""><small>مالیات</small></label>
           <vx-input-group class="number-rtl">
@@ -151,14 +154,12 @@
             </template>
             <vs-input v-model="sForm.tax" autocomplete="off" type="number" v-validate="'required'" name="tax" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.tax') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s3Form.tax') }}</span>
           <has-error :form="sForm" field="tax"></has-error>
         </div>
       </vs-col>
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
-
         <div class="w-full pt-2 mr-3">
-          <!-- TITLE -->
           <label for=""><small>تامینات</small></label>
           <vx-input-group class="number-rtl">
             <template slot="prepend">
@@ -168,7 +169,7 @@
             </template>
             <vs-input v-model="sForm.deposit" autocomplete="off" type="number" v-validate="'required'" name="deposit" />
           </vx-input-group>
-          <span class="absolute text-danger alerttext">{{ errors.first('step-2.deposit') }}</span>
+          <span class="absolute text-danger alerttext">{{ errors.first('s3Form.deposit') }}</span>
           <has-error :form="sForm" field="deposit"></has-error>
         </div>
       </vs-col>
@@ -185,14 +186,15 @@
           </template>
           <vs-input disabled :value="saleTotalCostFinal" autocomplete="off" name="sale_total_value" v-validate="'required'" />
         </vx-input-group>
-        <span class="absolute text-danger alerttext">{{ errors.first('step-2.total') }}</span>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.sale_total_value') }}</span>
       </div>
     </vs-col>
   </vs-row>
   <div class="vx-row">
     <div class="w-full pt-2 ml-3 mr-3">
       <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
-        <bank-account-select :form="sForm"></bank-account-select>
+        <bank-account-select :form="sForm" name="bank_account" v-validate="'required'" v-model="sForm.bank_account"></bank-account-select><br>
+        <span class="absolute text-danger alerttext">{{ errors.first('s3Form.bank_account') }}</span>
       </vs-col>
     </div>
   </div>
@@ -202,7 +204,7 @@
       <vs-textarea v-model="sForm.description" class="mr-3 mb-1 w-full" />
     </div>
   </div>
-  <div class="vx-row official-process">
+  <!--<div class="vx-row official-process">
     <vs-collapse type="margin">
       <vs-collapse-item>
         <div slot="header">طی مراحل اداری</div>
@@ -221,20 +223,19 @@
         </ul>
       </vs-collapse-item>
     </vs-collapse>
-  </div>
+  </div>-->
   <div class="mt-10">
     <div class="vx-col w-full">
       <vs-button :disabled="sForm.busy" @click.prevent="submitForm" class="mb-2">ثبت</vs-button>
       <vs-button color="warning" type="border" class="mb-2 ml-2" @click="resetForm">پاک کردن فرم</vs-button>
     </div>
   </div>
-  <vs-list v-if="(errors.items.length > 0)">
+  <!--<vs-list v-if="(errors.items.length > 0)">
     <vs-list-header color="danger" title="مشکلات"></vs-list-header>
     <div :key="indextr" v-for="(error, indextr) in errors.items">
       <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
     </div>
-    <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-  </vs-list>
+  </vs-list> -->
 </form>
 </template>
 
@@ -279,7 +280,7 @@ export default {
       ],
 
       userid: localStorage.getItem('id'),
-      visualFields:{
+      visualFields: {
         service_cost: 0,
       },
       sForm: new Form({
@@ -324,19 +325,21 @@ export default {
       dict: {
         custom: {
           sele_date: { required: ' تاریخ خریداری الزامی میباشد.' },
-          client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.' },
-          phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.' },
-          address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.' },
-          driver: { required: '  اسم راننده الزامی میباشد.', min: 'اسم راننده باید بیشتر از 2 حرف باشد.' },
-          plate_no: { required: '  نمبر پلیت راننده الزامی میباشد.', min: 'نمبر پلیت راننده باید بیشتر از 2 حرف باشد.' },
-          driver_phone: { required: 'شماره تماس راننده الزامی میباشد .', min: 'شماره تماس راننده باید بیشتر از 2 حرف باشد.' },
+          contract: { required: ' انتخاب اعلان الزامی میباشد.' },
+          // client_name: { required: '  اسم نهاد الزامی میباشد.', min: 'اسم نهاد باید بیشتر از 2 حرف باشد.' },
+          // phone_number: { required: 'شماره تماس الزامی میباشد .', min: 'شماره تماس شخص ارتباطی باید بیشتر از 2 حرف باشد.' },
+          // address: { required: '  آدرس الزامی میباشد.', min: 'آدرس باید بیشتر از 3 حرف باشد.' },
+          // driver: { required: '  اسم راننده الزامی میباشد.', min: 'اسم راننده باید بیشتر از 2 حرف باشد.' },
+          // plate_no: { required: '  نمبر پلیت راننده الزامی میباشد.', min: 'نمبر پلیت راننده باید بیشتر از 2 حرف باشد.' },
+          // driver_phone: { required: 'شماره تماس راننده الزامی میباشد .', min: 'شماره تماس راننده باید بیشتر از 2 حرف باشد.' },
+          source: { required: ' انتخاب منبع الزامی میباشد.' },
           destination: { required: 'مقصد الزامی میباشد .', min: 'مقصد باید بیشتر از 2 حرف باشد.' },
           service_cost: { required: 'مصارف خدمات الزامی میباشد .' },
           sale_total_price: { required: 'مصارف کلی فروش الزامی میباشد .' },
           tax: { required: 'مالیه الزامی میباشد ' },
           deposit: { required: 'تامینات الزامی میباشد ' },
-          sale_total_value: { required: 'قیمت نهایی فروش الزامی میباشد ' }
-
+          sale_total_value: { required: 'قیمت نهایی فروش الزامی میباشد ' },
+          bank_account: { required: 'حساب بانکی الزامی میباشد.', min: 'حساب بانکی باید بیشتر از 2 حرف باشد.', },
         }
       }
     };
@@ -377,7 +380,7 @@ export default {
         })
         .catch(() => {});
     },
-    update_items(matched_items){
+    update_items(matched_items) {
       this.$refs.ekmalat.getAllItems(matched_items);
     },
     onChange(contract) {
@@ -441,7 +444,7 @@ export default {
               })
             });
         } else {
-          
+
           // form have errors
         }
 

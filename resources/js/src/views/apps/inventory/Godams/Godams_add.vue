@@ -92,14 +92,18 @@
     <vs-tab label="ثبت گدام" icon-pack="feather" icon="icon-plus" class="leftScrol">
       <form data-vv-scope="godamForm">
         <div class="pt-1 pr-6 pl-6">
-          <vs-input label="نام گدام" name="inv_name" v-validate="'required'" class="mt-3 w-full" v-model="gForm.name" />
-          <has-error :form="gForm" field="name"></has-error>
-          <vs-input label=" آدرس" name="inv_address" v-validate="'required|min:3'" class="mt-3 w-full" v-model="gForm.address" />
-          <has-error :form="gForm" field="address"></has-error>
-          <vs-input label=" مسول" name="inv_responsible" v-validate="'required|min:2'" class="mt-3 w-full" v-model="gForm.manager" />
-          <has-error :form="gForm" field="manager"></has-error>
-          <vs-input label=" تماس" name="inv_phone" v-validate="'required'" class="mt-3 w-full" v-model="gForm.phone" />
-          <has-error :form="gForm" field="phone"></has-error>
+          <vs-input label="نام گدام" name="inv_name" v-validate="'required'" class="mt-3 pt-1 w-full" v-model="gForm.name" />
+          <span class="absolute text-danger alerttext">{{ errors.first('godamForm.inv_name') }}</span>
+          <!--<has-error :form="gForm" field="name"></has-error>-->
+          <vs-input label=" آدرس" name="inv_address" v-validate="'required|min:3'" class="mt-3 pt-1 w-full" v-model="gForm.address" />
+          <span class="absolute text-danger alerttext">{{ errors.first('godamForm.inv_address') }}</span>
+          <!--<has-error :form="gForm" field="address"></has-error>-->
+          <vs-input label=" مسول" name="inv_responsible" v-validate="'required|min:2'" class="mt-3 pt-1 w-full" v-model="gForm.manager" />
+          <span class="absolute text-danger alerttext">{{ errors.first('godamForm.inv_responsible') }}</span>
+          <!--<has-error :form="gForm" field="manager"></has-error>-->
+          <vs-input label=" تماس" name="inv_phone" v-validate="'required'" class="mt-3 pt-1 w-full" v-model="gForm.phone" />
+          <span class="absolute text-danger alerttext">{{ errors.first('godamForm.inv_phone') }}</span>
+          <!--<has-error :form="gForm" field="phone"></has-error>-->
           <div class="vx-col mt-5">
             <vs-textarea label="تفصیلات" v-model="gForm.description" />
             <has-error :form="gForm" field="description"></has-error>
@@ -108,13 +112,12 @@
         <div class="flex flex-wrap items-center p-6" slot="footer">
           <vs-button :disabled="gForm.busy" type="border" color="success" icon="save" class="mr-6" @click="submitGFormData()"><strong>ثبت گدام</strong></vs-button>
         </div>
-        <vs-list v-if="(errors.items.length > 0)">
+        <!--<vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
             <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
           </div>
-          <!--<vs-list-item title="" subtitle=""></vs-list-item> -->
-        </vs-list>
+        </vs-list> -->
       </form>
     </vs-tab>
   </vs-tabs>
@@ -223,7 +226,7 @@ export default {
             });
 
         } else {
-          
+
           // form have errors
         }
       })

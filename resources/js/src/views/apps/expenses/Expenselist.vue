@@ -164,10 +164,11 @@ export default {
         .catch(() => {});
     },
     showStepsModal(id) {
+      this.expense = [];
       this.getExpense(id);
       this.popupStepActive = true;
     },
-   
+
     loadExpenses() {
       this.axios.get('/api/expenses').then(({
           data

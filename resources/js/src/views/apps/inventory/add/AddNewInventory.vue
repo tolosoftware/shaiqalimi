@@ -6,36 +6,42 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="st_code" v-validate="'required'" type="text" label="کود" v-model="form.code" />
+            <span class="absolute text-danger alerttext">{{ errors.first('addnewInveForm.st_code') }}</span>
           </div>
         </div>
 
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="st_name" v-validate="'required|min:2'" label="عنوان" v-model="form.name" />
+            <span class="absolute text-danger alerttext">{{ errors.first('addnewInveForm.st_name') }}</span>
           </div>
         </div>
 
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="st_manager" v-validate="'required'" label="مسؤل" v-model="form.manager" />
+            <span class="absolute text-danger alerttext">{{ errors.first('addnewInveForm.st_manager') }}</span>
           </div>
         </div>
 
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="st_phone" v-validate="'required'" label="شماره" v-model="form.phone" />
+            <span class="absolute text-danger alerttext">{{ errors.first('addnewInveForm.st_phone') }}</span>
           </div>
         </div>
 
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="st_address" v-validate="'required|min:3'" label="آدرس" v-model="form.address" />
+            <span class="absolute text-danger alerttext">{{ errors.first('addnewInveForm.st_address') }}</span>
           </div>
         </div>
 
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <vs-input class="w-full" name="st_capacity" v-validate="'required'" label="ظرفیت" v-model="form.capacity" />
+            <span class="absolute text-danger alerttext">{{ errors.first('addnewInveForm.st_capacity') }}</span>
           </div>
         </div>
 
@@ -47,6 +53,7 @@
                 {{$t('WhoopsNothinghere')}}
               </span>
             </v-select>
+            <span class="absolute text-danger alerttext">{{ errors.first('addnewInveForm.st_oum_id') }}</span>
           </div>
         </div>
 
@@ -57,17 +64,16 @@
           </div>
         </div>
 
-        <vs-list v-if="(errors.items.length > 0)">
+        <!--<vs-list v-if="(errors.items.length > 0)">
           <vs-list-header color="danger" title="مشکلات"></vs-list-header>
           <div :key="indextr" v-for="(error, indextr) in errors.items">
             <vs-list-item icon="verified_user" style="color:red;" :subtitle="error.msg"></vs-list-item>
           </div>
-        </vs-list>
+        </vs-list>-->
       </form>
       <br>
     </div>
   </component>
-
 </vx-card>
 </template>
 
@@ -179,7 +185,7 @@ export default {
               })
             })
         } else {
-          
+
           // form have errors
         }
       })
