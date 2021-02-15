@@ -35,6 +35,9 @@ Route::resource('item', 'ItemController');
 Route::resource('uom', 'MeasurmentUnitController');
 Route::resource('storage', 'StorageController');
 Route::get('totalstorage', 'StorageController@totalstorage');
+
+Route::get('totalFGGT', 'StorageController@alltotals');
+
 Route::resource('fuelstation', 'FuelStationController');
 Route::get('latestfuelstation', 'FuelStationController@latest');
 Route::resource('fuelstorestation', 'FuelStationStorageController');

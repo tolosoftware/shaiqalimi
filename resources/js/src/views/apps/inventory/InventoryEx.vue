@@ -78,7 +78,7 @@
               </h1>
               <small>
                 <span class="text-grey">تعداد:</span>
-                <span>298</span>
+                <span>{{totalFuelStations}}</span>
               </small>
             </div>
             <!-- <p
@@ -92,7 +92,7 @@
               <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full">بررسی</vs-button>
             </router-link>
           </div>
-          <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
+          <!--<div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4">
               <small>درآمد: ۴۳۸۷ دالر</small>
               <vs-progress :percent="23" color="success"></vs-progress>
@@ -101,7 +101,7 @@
               <small>مدت زمان: ۲ سال</small>
               <vs-progress :percent="48" color="warning"></vs-progress>
             </div>
-          </div>
+          </div>-->
         </template>
       </vx-card>
     </div>
@@ -117,7 +117,7 @@
               </h1>
               <small>
                 <span class="text-grey">تعداد:</span>
-                <span>238</span>
+                <span>{{totalGoods}}</span>
               </small>
             </div>
             <!--<p
@@ -131,7 +131,7 @@
               <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full">بررسی</vs-button>
             </router-link>
           </div>
-          <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
+          <!--<div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4">
               <small>درآمد: ۴۳۸۷ دالر</small>
               <vs-progress :percent="34" color="success"></vs-progress>
@@ -140,7 +140,7 @@
               <small>مدت زمان: ۲ سال</small>
               <vs-progress :percent="32" color="warning"></vs-progress>
             </div>
-          </div>
+          </div>-->
         </template>
       </vx-card>
     </div>
@@ -156,7 +156,7 @@
               </h1>
               <small>
                 <span class="text-grey">اجناس:</span>
-                <span>3248</span>
+                <span>{{totalInventory}}</span>
               </small>
             </div>
             <!--<p
@@ -170,7 +170,7 @@
               <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full">مدیریت</vs-button>
             </router-link>
           </div>
-          <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
+          <!--<div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4">
               <small>درآمد: ۴۳۸۷ دالر</small>
               <vs-progress :percent="73" color="success"></vs-progress>
@@ -179,7 +179,7 @@
               <small>مدت زمان: ۲ سال</small>
               <vs-progress :percent="21" color="warning"></vs-progress>
             </div>
-          </div>
+          </div>-->
         </template>
       </vx-card>
     </div>
@@ -195,7 +195,7 @@
               </h1>
               <small>
                 <span class="text-grey">تعداد:</span>
-                <span>3248</span>
+                <span>{{totalTransfers}}</span>
               </small>
             </div>
             <!--<p
@@ -207,7 +207,7 @@
 
             <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full" @click="ToggleTransfer()">بررسی</vs-button>
           </div>
-          <div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
+          <!--<div class="p-8 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
             <div class="mb-4">
               <small>درآمد: ۴۳۸۷ دالر</small>
               <vs-progress :percent="73" color="success"></vs-progress>
@@ -216,7 +216,7 @@
               <small>مدت زمان: ۲ سال</small>
               <vs-progress :percent="21" color="warning"></vs-progress>
             </div>
-          </div>
+          </div>-->
         </template>
       </vx-card>
     </div>
@@ -238,6 +238,11 @@ export default {
   data() {
     return {
       totalStorageStations: '',
+      totalFuelStations: '',
+      totalGoods: '',
+      totalInventory: '',
+      totalTransfers: '',
+
       revenueComparisonLineKey: 0,
       // Sidebar
       addNewDataSidebar: false,
@@ -270,7 +275,7 @@ export default {
           stroke: {
             curve: 'smooth',
             // dashArray: [0, 8],
-            width: [3,3]
+            width: [3, 3]
           },
           grid: {
             borderColor: '#e7e7e7'
@@ -411,7 +416,7 @@ export default {
   },
   created() {
     this.$vs.loading();
-    this.totalStorageStation();
+    this.getTotalFGGT();
     this.storageGraphData();
     this.storageItemsGraphData();
     setTimeout(() => {
@@ -419,15 +424,19 @@ export default {
     }, 3000);
   },
   methods: {
-    totalStorageStation() {
-      // this.$vs.loading()
+    getTotalFGGT() {
       this.$Progress.start();
-      this.axios.get('/api/totalstorage')
+      this.axios.get('/api/totalFGGT')
         .then((response) => {
-          this.totalStorageStations = response.data;
+          this.totalStorageStations = response.data.storages;
+          this.totalFuelStations = response.data.fuelstations;
+          this.totalGoods = response.data.items;
+          this.totalInventory = response.data.inventories;
+          this.totalTransfers = response.data.transfers;
           this.$Progress.set(100)
           this.$vs.loading.close();
         })
+
     },
     storageGraphData() {
       this.axios.get('/api/graphs/storage_graph')
@@ -455,7 +464,7 @@ export default {
       this.toggleDataSidebar(true);
     },
     toggleDataSidebar(val = false) {
-      this.totalStorageStation();
+      this.getTotalFGGT();
       this.addNewDataSidebar = val
 
     },
