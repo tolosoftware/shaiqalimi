@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Helper\Helper;
 
 use App\Models\Storage;
@@ -9,6 +10,8 @@ use App\Models\Inventory;
 use App\Models\Fuel_despenser;
 use App\Models\StockRecord;
 use App\Models\Fuel_station_storage;
+use App\Models\Item;
+use App\Models\Transfer;
 use Illuminate\Http\Request;
 
 class StorageController extends Controller
@@ -55,7 +58,7 @@ class StorageController extends Controller
         ]);
         if ($storage) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
@@ -119,23 +122,23 @@ class StorageController extends Controller
         $source1 = Storage::selectRaw("id, name")->get();
         $source2 = Fuel_station::with(['fuel_despencers', 'fuel_station_storages'])->selectRaw("id, name")->get();
         $source3 = Inventory::selectRaw("id, name")->get();
-            
+
         $all = ['str' => $source1, 'fuel' => $source2, 'inv' => $source3];
-    
+
         return $all;
     }
-    public function allItemsOfSource(Request $request){
-        if($inc = StockRecord::where('source', $request->type)->where('source_id', $request->id)->get()
-        ){
+    public function allItemsOfSource(Request $request)
+    {
+        if ($inc = StockRecord::where('source', $request->type)->where('source_id', $request->id)->get()) {
             $items = [];
             foreach ($inc as $key => &$obj) {
-                    $items[] = [
-                        'id' => $obj->item_id,
-                        'value' => $obj->increment_equiv
-                    ];
+                $items[] = [
+                    'id' => $obj->item_id,
+                    'value' => $obj->increment_equiv
+                ];
             }
             // $return = array();
-            
+
             // foreach($items as $val) {
             //     $return[$val['id']] = (isset($return[$val['id']])) ? $return[$val['id']] + $val['value'] : $val['value']; 
             // }
@@ -153,11 +156,34 @@ class StorageController extends Controller
             //     'value' => 2100,
             // ],
             // ];
-            
-        }else{
-            
+
+        } else {
+
             return response(['status' => 'Not Found'], 404);
         }
+    }
+    public function alltotals()
+    {
 
+        $all = [];
+        $storages = Storage::all();
+        $fuelstaions = Fuel_station::all();
+        $items = Item::all();
+        $inventories = Inventory::all();
+        $transfers = Transfer::all();
+
+        $fuelstaionsCount = $fuelstaions->count();
+        $fuelCount = $storages->count();
+        $itemsCount = $items->count();
+        $inventoriesCount = $inventories->count();
+        $transfersCount = $transfers->count();
+
+        $all['fuelstations'] = $fuelstaionsCount;
+        $all['items'] = $itemsCount;
+        $all['inventories'] = $inventoriesCount;
+        $all['transfers'] = $transfersCount;
+        $all['storages'] = $fuelCount;
+
+        return $all;
     }
 }

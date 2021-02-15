@@ -13,13 +13,13 @@
       <div class="pb-6">
         <statistics-card-line icon="ShoppingBagIcon" statistic="97.5K" statisticTitle="قراردادهای اخیر" :chartData="ordersRecevied.series" color="warning" type="area"></statistics-card-line>
       </div>
-    </div>-->
+    </div> FileTextIcon  -->
     <div class="vx-col w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
       <statistics-card-line class="md:mb-0 mb-base" style="height:190px;" icon="ShoppingBagIcon" icon-right statistic="659.8k" statisticTitle="میزان تغیر قراردادهای اخیر " :chartData="ordersRecevied.series" color="success" />
     </div>
 
     <div class="vx-col w-full md:w-1/4 mb-base">
-      <vx-card title="قرارداد ها">
+      <vx-card title="قرارداد های فعال">
         <template slot="actions">
           <feather-icon icon="ServerIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
         </template>
@@ -27,14 +27,14 @@
           <div class="mt-4">
             <div class="flex justify-between">
               <div class="flex flex-col">
-                <span class="mb-1">گاز</span>
+                <span class="mb-1"></span>
                 <h4>۴۴%</h4>
               </div>
               <div class="flex flex-col text-right">
                 <span class="flex -mr-1">
-                  <span class="mr-1">زمان ورود</span>
+                  <span class="mr-1">سال</span>
                 </span>
-                <span class="text-grey">۱۲:۳۴</span>
+                <span class="text-grey">{{ new Date().getFullYear() }}</span>
               </div>
             </div>
             <vs-progress :percent="44" color="success"></vs-progress>
@@ -43,7 +43,7 @@
       </vx-card>
     </div>
     <div class="vx-col w-full md:w-1/4 mb-base">
-      <vx-card title="اعلانات">
+      <vx-card title="اعلانات موفق">
         <template slot="actions">
           <feather-icon icon="TruckIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
         </template>
@@ -51,14 +51,14 @@
           <div class="mt-4">
             <div class="flex justify-between">
               <div class="flex flex-col">
-                <span class="mb-1">موبلایل</span>
+                <span class="mb-1"></span>
                 <h4>۸۴%</h4>
               </div>
               <div class="flex flex-col text-right">
                 <span class="flex -mr-1">
-                  <span class="mr-1">زمان ورود</span>
+                  <span class="mr-1">سال</span>
                 </span>
-                <span class="text-grey">۰۸:۳۴</span>
+                <span class="text-grey">{{ new Date().getFullYear() }}</span>
               </div>
             </div>
             <vs-progress :percent="84"></vs-progress>
@@ -116,7 +116,6 @@ export default {
     StatisticsCardLine,
     VueApexCharts,
   },
-  created() {
-  }
+  created() {}
 }
 </script>

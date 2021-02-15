@@ -1,5 +1,5 @@
 <template>
-<form data-vv-scope="s2Form" :before-change="validateS2Add">
+<form data-vv-scope="s2Form">
   <div class="vx-row">
     <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
       <div class="vx-col w-full">
