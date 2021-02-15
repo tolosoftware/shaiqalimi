@@ -67,7 +67,7 @@ class SaleTwoController extends Controller
                 // 'deposit' => 'required',
                 'total' => 'required',
                 // 'steps' => 'required',
-                'description' => 'required',
+                // 'description' => 'required',
                 'type' => 'required',
                 'source_id' => 'required',
                 'source_type' => 'required',
