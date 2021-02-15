@@ -16,7 +16,9 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return Notification::latest()->get();
+        return Notification::with(['user_notification' => function ($q) {
+            $q->where('user_id', '=', auth()->guard('api')->user()->id);
+        }])->latest()->get();
     }
 
     /**

@@ -83,4 +83,12 @@ class UserNotificationController extends Controller
     {
         //
     }
+    public function pin(Request $request){
+        return Helper::pin_notification($request->notif_id);
+        return $request;   
+    }
+    public function noimportant(Request $request){
+        return Helper::important_notification($request->notif_id);
+        return $request;   
+    }
 }

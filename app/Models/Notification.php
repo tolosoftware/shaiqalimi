@@ -14,11 +14,14 @@ class Notification extends Model
     'exp_date',
     'action',
     'url',
-    'user_id'
+    'user_id',
+    'notif_number',
+    'notif_source',
+    'notif_source_id',
   ];
 
   public function user_notification()
   {
-    return $this->belongsTo(UserNotification::class, 'user_id');
+    return $this->belongsTo(UserNotification::class, 'id' , 'notification_id');
   }
 }

@@ -4,12 +4,12 @@
     <vs-tab :label="$t('Important')">
       <div class="vx-row">
         <!-- TITLE COLOR -->
-        <div v-for="item in ImportnatNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base">
+        <div v-for="item in importnatNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base">
           <vx-card :title="item.title" :title-color="item.type" :subtitle="item.subtitle" :time="moment([item.gen_date]).fromNow()" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
             <span class="item-time-ago cursor-pointer">
               <!--<feather-icon icon="BookmarkIcon" svgClasses="w-5 h-6 text-success" />-->
               <vs-button radius color="primary" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="close" style="margin-right:7px;" @click="removeFromImportant(item.id)"></vs-button>&nbsp;&nbsp;
-              <vs-button radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToImportant(item.id)"></vs-button>
+              <vs-button radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToPins(item.id)"></vs-button>
               <!--<feather-icon icon="XIcon" color="warning" svgClasses="w-5 h-6 hover:text-danger stroke-current" class="mr-2" /> -->&nbsp;&nbsp;
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
@@ -65,9 +65,6 @@ import {
 export default {
   //   name: 'vx-procurment',
   computed: {
-    ImportnatNotif: function () {
-      return this.cartItems.filter(i => i.type == 'success')
-    },
     allNotif: function () {
 
       return this.cartItems
@@ -75,6 +72,7 @@ export default {
   },
   data() {
     return {
+      importnatNotif: [],
       cartItems: [],
       removeFromI: false,
     }
@@ -90,11 +88,17 @@ export default {
     }, 2500);
   },
   methods: {
+    addToPins(id){
+       this.axios.post('/api/notif/pin', {notif_id: id})
+        .then((response) => {
+          console.log(response);
+        })
+    },
     getAllNotification() {
       this.axios.get('/api/notification')
         .then((response) => {
           this.cartItems = response.data;
-          // 
+          this.importnatNotif = this.cartItems.filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
         })
     },
     removeFromImportant(id) {
@@ -109,7 +113,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$Progress.start()
-          this.axios.get('/api/notification/' + id)
+          this.axios.post('/api/notif/no-important', {notif_id: id})
             .then(({
               data
             }) => {

@@ -3,19 +3,21 @@
 namespace App\Helper;
 
 use App\Models;
-use App\Models\SerialNumber;
-use App\Models\User;
-use App\Models\UserNotification;
-use App\Models\ExchangeRate;
-use App\Models\SaleOne;
+use Carbon\Carbon;
 use App\Models\Sale;
+use App\Models\User;
 use App\Models\Account;
-use App\Models\FinancialRecord;
-use App\Models\SaleFour;
-use App\Models\SaleThree;
+use App\Models\SaleOne;
 use App\Models\SaleTwo;
-use App\Models\StockRecord;
+use App\Models\SaleFour;
 use App\Models\Transfer;
+use App\Models\SaleThree;
+use App\Models\StockRecord;
+use App\Models\ExchangeRate;
+use App\Models\Notification;
+use App\Models\SerialNumber;
+use App\Models\FinancialRecord;
+use App\Models\UserNotification;
 
 class Helper
 {
@@ -202,4 +204,53 @@ class Helper
             $total_usd += $fr['credit'] * $rates['usd'];
         }
     }
+    public static function add_notification($notif_data)
+    {
+        $notif_data['gen_date'] = Carbon::now();
+        $resp = Notification::create($notif_data);
+        return $resp;
+    }
+    public static function user_notification_assign($user_id, $notification_id, $status = null, $pin = 0, $done = 0)
+    {
+        return UserNotification::create([
+            'user_id' => $user_id,
+            'notification_id' => $notification_id,
+            'status' => $status,
+            'pin' => $pin,
+            'done' => $done,
+        ]);
+    }
+    public static function clear_notification($notif_id)
+    {
+        $notif_data = UserNotification::find($notif_id);
+        $notif_data->update(['done' => 1]);
+        return $notif_data;
+    }
+    public static function pin_notification($notif_id)
+    {
+        $user_id = auth()->guard('api')->user()->id;
+        $notif_data = UserNotification::where('notification_id', $notif_id)->where('user_id', $user_id)->first();
+        $notif_data->update(['pin' => 1]);
+        return $notif_data;
+    }
+    public static function important_notification($notif_id)
+    {
+        $user_id = auth()->guard('api')->user()->id;
+        $notif_data = UserNotification::where('notification_id', $notif_id)->where('user_id', $user_id)->first();
+        $notif_data->update(['status' => 'not_im']);
+        return $notif_data;
+    }
 }
+
+// $notif_data = [
+//     'title' => 'خریداری جدید',
+//     'text' => 'یک خریداری جدید از ' . $request['vendor_name'] . ' به منبع ' . $request['source_id']['name'] . ' در سیستم ثبت گردید.',
+//     'type' => 'success',
+//     'exp_date' => Carbon::now()->endOfDay(),
+//     'action' => 'view',
+//     'url' => '/procurment',
+//     'user_id' => $request['user_id'],
+//     'status' => null,
+// ];
+// $notification = $this->add_notification($notif_data);
+// $this->user_notification_assign($value->id, $notification->id, 'nor');

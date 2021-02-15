@@ -151,39 +151,30 @@ class PurchaseController extends Controller
             ];
             FinancialRecord::create($datacasinhand);
 
-            //change needed
-
             //create nofifications
-
-            $nofication = [
+            $notif_data = [
                 'title' => 'خریداری جدید',
                 'text' => 'یک خریداری جدید از ' . $request['vendor_name'] . ' به منبع ' . $request['source_id']['name'] . ' در سیستم ثبت گردید.',
                 'type' => 'success',
-                'gen_date' => Carbon::now(),
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'view',
                 'url' => '/procurment',
                 'user_id' => $request['user_id'],
+                'status' => null,
+                'notif_number' => '',
+                'notif_source' => '',
+                'notif_source_id' => '',
             ];
-            $newNotif = Notification::create($nofication);
-            $notification = Notification::latest()->first();
+            $notification = $this->add_notification($notif_data);
             $user = User::all();
             foreach ($user as $value) {
                 if ($value->user_type == 1 || $value->user_type == 2) {
-                    UserNotification::create([
-                        'user_id' => $value->id,
-                        'notification_id' => $notification->id,
-                        'status' => 'nor',
-                        'pin' => 0,
-                        'done' => 0,
-                    ]);
+                    $this->user_notification_assign($value->id, $notification->id, 'nor');
                 }
             }
-
-
             DB::commit();
             return ['msg' => 'purchase successfully inserted'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
