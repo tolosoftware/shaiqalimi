@@ -22,6 +22,6 @@ class Notification extends Model
 
   public function user_notification()
   {
-    return $this->belongsTo(UserNotification::class, 'id' , 'notification_id');
+    return $this->belongsTo(UserNotification::class, 'id' , 'notification_id')->orderBy('id', 'asc');
   }
 }

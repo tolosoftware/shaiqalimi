@@ -2,15 +2,14 @@
 <div>
   <vs-tabs>
     <vs-tab :label="$t('Important')">
-      <div class="vx-row">
+      <div class="vx-row" :key="importantNotifKey">
         <!-- TITLE COLOR -->
         <div v-for="item in importnatNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base">
           <vx-card :title="item.title" :title-color="item.type" :subtitle="item.subtitle" :time="moment([item.gen_date]).fromNow()" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
             <span class="item-time-ago cursor-pointer">
-              <!--<feather-icon icon="BookmarkIcon" svgClasses="w-5 h-6 text-success" />-->
               <vs-button radius color="primary" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="close" style="margin-right:7px;" @click="removeFromImportant(item.id)"></vs-button>&nbsp;&nbsp;
-              <vs-button radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToPins(item.id)"></vs-button>
-              <!--<feather-icon icon="XIcon" color="warning" svgClasses="w-5 h-6 hover:text-danger stroke-current" class="mr-2" /> -->&nbsp;&nbsp;
+              <vs-button v-if="item.user_notification.pin == 0" title="سنجاق به بالا " radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToPins(item.id, false)"></vs-button>
+              <vs-button v-if="item.user_notification.pin == 1" title="برداشتن از بالا" radius color="success" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToPins(item.id, true)"></vs-button>
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
             <div slot="footer">
@@ -25,17 +24,14 @@
       </div>
     </vs-tab>
     <vs-tab :label="$t('All')">
-      <div class="vx-row">
+      <div class="vx-row" :key="standardNotifKey">
         <!-- TITLE COLOR -->
         <div v-for="item in allNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
           <vx-card :title="item.title" :title-color="item.type" :subtitle="item.subtitle" :time="moment([item.gen_date]).fromNow()" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
             <span class="item-time-ago" :style="'color:' + item.titleColor">
-              <!-- <feather-icon icon="CornerRightUpIcon" svgClasses="w-5 h-6 text-success"></feather-icon>&nbsp;&nbsp;
-              <vs-button radius color="primary" type="border" icon="search"></vs-button>
-              <feather-icon icon="XIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />--> &nbsp;
-              <!--<vs-icon size="2.1rem" icon="playlist_add"></vs-icon>-->
-              <vs-button radius color="primary" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="close" style="margin-right:7px;" @click="showWarn()"></vs-button>&nbsp;&nbsp;
-              <vs-button radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark"></vs-button>
+              <vs-button radius color="primary" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="close" style="margin-right:7px;" @click="removeFromUser(item.id)"></vs-button>&nbsp;&nbsp;
+              <vs-button v-if="item.user_notification.pin == 0" title="سنجاق به بالا " radius color="#7367F0" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToPins(item.id, false)"></vs-button>
+              <vs-button v-if="item.user_notification.pin == 1" title="برداشتن از بالا" radius color="success" size="small" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="bookmark" @click="addToPins(item.id, true)"></vs-button>
             </span>
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
             <div slot="footer">
@@ -75,6 +71,8 @@ export default {
       importnatNotif: [],
       cartItems: [],
       removeFromI: false,
+      importantNotifKey:0,
+      standardNotifKey:0,
     }
   },
   components: {
@@ -88,17 +86,19 @@ export default {
     }, 2500);
   },
   methods: {
-    addToPins(id){
-       this.axios.post('/api/notif/pin', {notif_id: id})
+    addToPins(id, unpin = false) {
+       this.axios.post('/api/notif/pin', {notif_id: id, unpin: unpin})
         .then((response) => {
-          console.log(response);
+          this.getAllNotification();
         })
     },
     getAllNotification() {
       this.axios.get('/api/notification')
         .then((response) => {
           this.cartItems = response.data;
-          this.importnatNotif = this.cartItems.filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
+          this.importnatNotif = Object.values(this.cartItems).filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
+          this.importantNotifKey +=1;
+          this.standardNotifKey +=1;
         })
     },
     removeFromImportant(id) {
@@ -122,6 +122,45 @@ export default {
               this.$vs.notify({
                 title: 'موفقیت!',
                 text: 'اعلامیه مذکور به لست عمومی انتقال نمود!.',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check',
+                position: 'top-right'
+              })
+            }).catch((errors) => {
+              this.$vs.notify({
+                title: 'ناموفق!',
+                text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                color: 'danger',
+                iconPack: 'feather',
+                icon: 'icon-cross',
+                position: 'top-right'
+              })
+            });
+        }
+      })
+    },
+    removeFromUser(id) {
+      swal.fire({
+        title: 'مطمیٔن هستید ؟',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(54 34 119)',
+        cancelButtonColor: 'rgb(229 83 85)',
+        confirmButtonText: '<span>بله !</span>',
+        cancelButtonText: '<span>خیر !</span>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$Progress.start()
+          this.axios.post('/api/notif/remove-notif-user', {notif_id: id})
+            .then(({
+              data
+            }) => {
+              this.getAllNotification();
+              this.$Progress.set(100)
+              this.$vs.notify({
+                title: 'موفقیت!',
+                text: 'اعلامیه مذکور از لیست شما حذف شد!.',
                 color: 'success',
                 iconPack: 'feather',
                 icon: 'icon-check',

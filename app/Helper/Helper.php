@@ -204,21 +204,41 @@ class Helper
             $total_usd += $fr['credit'] * $rates['usd'];
         }
     }
-    public static function add_notification($notif_data)
+    public static function add_notification($notif_data, $op = null, $ex_date = null)
     {
+        // die();
+        $q = Notification::where('notif_number', $notif_data['notif_number'])
+        ->where('notif_source', $notif_data['notif_source'])
+        ->where('notif_source_id', $notif_data['notif_source_id']);
+        if ($op && $ex_date) {
+            $q->where('exp_date', $op ,$ex_date);
+        }
+        $exist = $q->get();
+
+        if (count($exist)) {
+            return false;
+        }
         $notif_data['gen_date'] = Carbon::now();
         $resp = Notification::create($notif_data);
         return $resp;
     }
-    public static function user_notification_assign($user_id, $notification_id, $status = null, $pin = 0, $done = 0)
+    public static function user_notification_assign($permissions, $notification, $status = null, $pin = 0, $done = 0)
     {
-        return UserNotification::create([
-            'user_id' => $user_id,
-            'notification_id' => $notification_id,
-            'status' => $status,
-            'pin' => $pin,
-            'done' => $done,
-        ]);
+        if ($notification) {
+            $notification_id = $notification->id;
+        }else{
+            return false;
+        }
+        $users = User::permission($permissions)->get()->pluck('id');
+        foreach ($users as $uid) {
+            UserNotification::create([
+                'user_id' => $uid,
+                'notification_id' => $notification_id,
+                'status' => $status,
+                'pin' => $pin,
+                'done' => $done,
+            ]);
+        }
     }
     public static function clear_notification($notif_id)
     {
@@ -226,11 +246,12 @@ class Helper
         $notif_data->update(['done' => 1]);
         return $notif_data;
     }
-    public static function pin_notification($notif_id)
+    public static function pin_notification($data)
     {
+        $notif_id = $data->notif_id;
         $user_id = auth()->guard('api')->user()->id;
         $notif_data = UserNotification::where('notification_id', $notif_id)->where('user_id', $user_id)->first();
-        $notif_data->update(['pin' => 1]);
+        $notif_data->update(['pin' => ($data->unpin) ? 0 : 1]);
         return $notif_data;
     }
     public static function important_notification($notif_id)
@@ -239,6 +260,29 @@ class Helper
         $notif_data = UserNotification::where('notification_id', $notif_id)->where('user_id', $user_id)->first();
         $notif_data->update(['status' => 'not_im']);
         return $notif_data;
+    }
+
+    public static function currency_notif()
+    {
+        //create nofifications
+        $today_date = Carbon::today()->toDateString();
+        $notif_data = [
+            'title' => 'تنظیم نرخ اسعار',
+            'text' => 'نرخ اسعار برای امروز ' . $today_date . ' بروز رسانی نشده است.',
+            'type' => 'rem-a',
+            'exp_date' => Carbon::now()->endOfDay(),
+            'action' => 'btn-link',
+            'url' => '/setting',
+            'user_id' => 3,
+            // 'user_id' => auth()->guard('api')->user()->id,
+            'status' => null,
+            'notif_number' => '1',
+            'notif_source' => 'currency',
+            'notif_source_id' => '0',
+        ];
+        $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+        $user_notif = Helper::user_notification_assign('تنظیمات سیستم', $notification, 'nor');
+        return [$notification, $user_notif];
     }
 }
 

@@ -169,7 +169,7 @@ class PurchaseController extends Controller
             $user = User::all();
             foreach ($user as $value) {
                 if ($value->user_type == 1 || $value->user_type == 2) {
-                    $this->user_notification_assign($value->id, $notification->id, 'nor');
+                    $this->user_notification_assign('تنظیمات سیستم', $notification, 'nor');
                 }
             }
             DB::commit();
