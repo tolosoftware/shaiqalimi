@@ -7,8 +7,10 @@ use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Account;
+use App\Models\Company;
 use App\Models\SaleOne;
 use App\Models\SaleTwo;
+use App\Models\Proposal;
 use App\Models\SaleFour;
 use App\Models\Transfer;
 use App\Models\SaleThree;
@@ -18,6 +20,8 @@ use App\Models\Notification;
 use App\Models\SerialNumber;
 use App\Models\FinancialRecord;
 use App\Models\UserNotification;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class Helper
 {
@@ -208,10 +212,10 @@ class Helper
     {
         // die();
         $q = Notification::where('notif_number', $notif_data['notif_number'])
-        ->where('notif_source', $notif_data['notif_source'])
-        ->where('notif_source_id', $notif_data['notif_source_id']);
+            ->where('notif_source', $notif_data['notif_source'])
+            ->where('notif_source_id', $notif_data['notif_source_id']);
         if ($op && $ex_date) {
-            $q->where('exp_date', $op ,$ex_date);
+            $q->where('exp_date', $op, $ex_date);
         }
         $exist = $q->get();
 
@@ -226,7 +230,7 @@ class Helper
     {
         if ($notification) {
             $notification_id = $notification->id;
-        }else{
+        } else {
             return false;
         }
         $users = User::permission($permissions)->get()->pluck('id');
@@ -240,12 +244,6 @@ class Helper
             ]);
         }
     }
-    public static function clear_notification($notif_id)
-    {
-        $notif_data = UserNotification::find($notif_id);
-        $notif_data->update(['done' => 1]);
-        return $notif_data;
-    }
     public static function pin_notification($data)
     {
         $notif_id = $data->notif_id;
@@ -254,7 +252,7 @@ class Helper
         $notif_data->update(['pin' => ($data->unpin) ? 0 : 1]);
         return $notif_data;
     }
-    public static function important_notification($notif_id)
+    public static function clear_notification($notif_id)
     {
         $user_id = auth()->guard('api')->user()->id;
         $notif_data = UserNotification::where('notification_id', $notif_id)->where('user_id', $user_id)->first();
@@ -273,8 +271,7 @@ class Helper
             'exp_date' => Carbon::now()->endOfDay(),
             'action' => 'btn-link',
             'url' => '/setting',
-            'user_id' => 3,
-            // 'user_id' => auth()->guard('api')->user()->id,
+            'user_id' => auth()->guard('api')->user()->id,
             'status' => null,
             'notif_number' => '1',
             'notif_source' => 'currency',
@@ -283,6 +280,151 @@ class Helper
         $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
         $user_notif = Helper::user_notification_assign('تنظیمات سیستم', $notification, 'nor');
         return [$notification, $user_notif];
+    }
+
+    public static function offerGenNotifS2($proposal_id)
+    {
+        DB::beginTransaction();
+        try {
+            $q = Notification::where('notif_number', '2')
+                ->where('notif_source', 'offer')
+                ->where('notif_source_id', $proposal_id);
+            $notif = $q->first();
+            Helper::clear_notification($notif->id);
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($proposal_id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'درخواست شرطنامه (' . $sn . $co . ')',
+                'text' => 'آیا شرطنامهء اعلان ('. $proposal['pro_data']['title'] .')به دسترس قرار گرفت',
+                'type' => 'con-a',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-modal',
+                'url' => '/modal-yes-no',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '3',
+                'notif_source' => 'offer',
+                'notif_source_id' => $proposal_id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+            DB::commit();
+            // return true;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+    }
+    public static function offerGenNotifS3($proposal_id)
+    {
+        DB::beginTransaction();
+        try {
+            $q = Notification::where('notif_number', '3')
+                ->where('notif_source', 'offer')
+                ->where('notif_source_id', $proposal_id);
+            $notif = $q->first();
+            Helper::clear_notification($notif->id);
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($proposal_id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'تسلیمی آفر (' . $sn . $co . ')',
+                'text' => 'اعلان ('. $proposal['pro_data']['title'] .')آمادهء تسلیم دهی آفر میباشد.',
+                'type' => 'nor-a',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-modal',
+                'url' => '/modal-step-4',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '4',
+                'notif_source' => 'offer',
+                'notif_source_id' => $proposal_id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+            DB::commit();
+            // return true;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+    }
+    public static function offerGenNotifS4($proposal_id)
+    {
+        DB::beginTransaction();
+        try {
+            $q = Notification::where('notif_number', '4')
+                ->where('notif_source', 'offer')
+                ->where('notif_source_id', $proposal_id);
+            $notif = $q->first();
+            Helper::clear_notification($notif->id);
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($proposal_id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'اشتراک در داوطلبی (' . $sn . $co . ')',
+                'text' => 'جلسهء داوطلبی برای قرارداد ('. $proposal['pro_data']['title'] .') تا ۴ روز دیگر اجراء میگردد.',
+                'type' => 'rem-a',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-link',
+                'url' => '/offer-summury',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '5',
+                'notif_source' => 'offer',
+                'notif_source_id' => $proposal_id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+            DB::commit();
+            // return true;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+    }
+    public static function offerGenNotifS6($proposal_id)
+    {
+        DB::beginTransaction();
+        try {
+            $q = Notification::where('notif_number', '5')
+                ->where('notif_source', 'offer')
+                ->where('notif_source_id', $proposal_id);
+            $notif = $q->first();
+            Helper::clear_notification($notif->id);
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($proposal_id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'داوطلبی برای فردا (' . $sn . $co . ')',
+                'text' => 'فردا جلسهء داوطلبی برای قرارداد ('. $proposal['pro_data']['title'] .')صورت میگیرد.',
+                'type' => 'rem-b',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-link',
+                'url' => '/offer-summury',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '6',
+                'notif_source' => 'offer',
+                'notif_source_id' => $proposal_id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+            DB::commit();
+            // return true;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 }
 
