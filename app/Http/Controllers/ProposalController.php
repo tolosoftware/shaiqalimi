@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\Helper;
+use Carbon\Carbon;
 
+use App\Helper\Helper;
+use App\Models\ProData;
+use App\Models\ProItem;
+use App\Models\Currency;
 use App\Models\Proposal;
 use App\Models\Participator;
 use App\Models\ProposalStep;
-use App\Models\SerialNumber;
-use App\Models\ProItem;
-use App\Models\ProData;
-use App\Models\Currency;
-use Illuminate\Support\Facades\DB;
+use App\Models\Company;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class ProposalController extends Controller
 {
@@ -80,7 +82,6 @@ class ProposalController extends Controller
             $client_id = null;
             if (gettype($request->client_id) != 'integer') {
                 $request['client_id'] = $request->client_id['id'];
-                // return $request;
             }
             $resp = Proposal::create($request->all());
             $proData = [
@@ -116,10 +117,32 @@ class ProposalController extends Controller
                         'density' => $item['density'],
                         'total_price' => $item['total_price'],
                     ];
-
                     ProItem::create($item);
                 }
             }
+
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($resp->id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'آفر جدید(' . $sn . $co . ')',
+                'text' => 'اعلان (' . $proposal['pro_data']['title'] . ') آمادهء طی مراحل است.',
+                'type' => 'suc-b',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-modal',
+                'url' => '/model/step2',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '2',
+                'notif_source' => 'offer',
+                'notif_source_id' => $resp->id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+    
             DB::commit();
             return $resp;
         } catch (Exception $e) {
@@ -248,29 +271,34 @@ class ProposalController extends Controller
     public function changeStep(Request $request, $id)
     {
         $proposastep = ProposalStep::where(['proposal_id' => $id])->get();
+
         if (sizeof($proposastep) == 1) {
             if ($request->step == 2) {
                 foreach ($proposastep as $proposal) {
                     $proposal->step = 2;
                     $proposal->save();
+                    Helper::offerGenNotifS2($id);
                 }
             } else if ($request->step == 3) {
                 foreach ($proposastep as $proposal) {
                     $proposal->step = 3;
                     $proposal->res_person = $request->res_person;
                     $proposal->save();
+                    Helper::offerGenNotifS3($id);
                 }
             } else if ($request->step == 4) {
                 foreach ($proposastep as $proposal) {
                     $proposal->step = 4;
                     $proposal->is_recieved_cont = $request->is_recieved_cont;
                     $proposal->save();
+                    Helper::offerGenNotifS4($id);
                 }
             } else if ($request->step == 5) {
                 foreach ($proposastep as $proposal) {
                     $proposal->step = 5;
                     $proposal->is_participated = $request->is_participated;
                     $proposal->save();
+                    Helper::offerGenNotifS6($id);
                 }
             } else if ($request->step == 6) {
                 foreach ($proposastep as $proposal) {

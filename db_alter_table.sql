@@ -55,3 +55,7 @@ ALTER TABLE `stock_records`  CHANGE `remark` `remark` VARCHAR(191) CHARACTER SET
 ALTER TABLE `notifications` ADD `notif_number` INT(5) NULL AFTER `user_id`;
 ALTER TABLE `notifications` ADD `notif_source` VARCHAR(20) NULL AFTER `user_id`;
 ALTER TABLE `notifications` ADD `notif_source_id` INT(5) NULL AFTER `user_id`;
+ALTER TABLE `notifications` CHANGE `gen_date` `gen_date` DATETIME NOT NULL;
+ALTER TABLE `notifications` CHANGE `exp_date` `exp_date` DATETIME NOT NULL;
+ALTER TABLE `proposals_step` ADD `step` VARCHAR(10) NOT NULL AFTER `proposal_id`;
+ALTER TABLE `proposals_step` CHANGE `id` `id` INT(10) NOT NULL AUTO_INCREMENT;

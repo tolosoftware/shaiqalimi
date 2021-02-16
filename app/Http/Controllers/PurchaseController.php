@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\FinancialRecord;
 use App\Models\UserNotification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class PurchaseController extends Controller
 {
@@ -59,6 +60,7 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
+        // return Response::json([$request], 403);
         DB::beginTransaction();
         try {
 
@@ -80,7 +82,7 @@ class PurchaseController extends Controller
                 ]);
             }
 
-            Purchase::create([
+            $purchase = Purchase::create([
                 'serial_no' => $request['serial_no'],
                 'vendor_id' => $request['vendor_id'],
                 'date_time' => $request['date_time'],
@@ -88,7 +90,6 @@ class PurchaseController extends Controller
                 'description' => $request['description'],
                 'currency_id' => $request['currency_id'],
             ]);
-            $purchase =  Purchase::latest()->first();
             $totalmony = 0;
             foreach ($request->item as $valueItem) {
                 // return ExchangeRate::latest()->first()->id;
@@ -112,7 +113,6 @@ class PurchaseController extends Controller
                     'ex_rate_id' => ExchangeRate::latest()->first()->id,
 
                 ]);
-
                 $totalmony = $totalmony + $valueItem['total_price'];
             }
 
@@ -165,15 +165,16 @@ class PurchaseController extends Controller
                 'notif_source' => '',
                 'notif_source_id' => '',
             ];
-            $notification = $this->add_notification($notif_data);
-            $user = User::all();
-            foreach ($user as $value) {
-                if ($value->user_type == 1 || $value->user_type == 2) {
-                    $this->user_notification_assign('تنظیمات سیستم', $notification, 'nor');
-                }
-            }
+            // $notification = $this->add_notification($notif_data);
+            // $user = User::all();
+            // foreach ($user as $value) {
+            //     if ($value->user_type == 1 || $value->user_type == 2) {
+            //         $this->user_notification_assign('تنظیمات سیستم', $notification, 'nor');
+            //     }
+            // }
+
             DB::commit();
-            return ['msg' => 'purchase successfully inserted'];
+            return ['msg' => 'purchase successfully inserted', $purchase];
         } catch (\Exception $e) {
             DB::rollback();
         }
