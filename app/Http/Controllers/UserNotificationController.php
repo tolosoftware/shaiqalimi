@@ -79,8 +79,20 @@ class UserNotificationController extends Controller
      * @param  \App\Models\UserNotification  $userNotification
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserNotification $userNotification)
+    public function removeNotifUser(Request $request)
     {
-        //
+        $n = UserNotification::where('notification_id' , $request->notif_id)
+        ->where('user_id', auth()->guard('api')->user()->id)->first();
+        if ($n) {
+            return $n->delete();
+        }else{
+            return false;
+        }
+    }
+    public function pin(Request $request){
+        return Helper::pin_notification($request);
+    }
+    public function noimportant(Request $request){
+        return Helper::important_notification($request->notif_id);
     }
 }

@@ -141,3 +141,8 @@ Route::get('graphs/allsalecount', 'GraphsController@allSaleCount');
 Route::get('graphs/all-items-sales-price', 'GraphsController@allItemsSalesPrice');
 Route::get('graphs/storage_graph', 'GraphsController@storageGraph');
 Route::get('graphs/storage_items_graph', 'GraphsController@storageItemsGraph');
+
+// Notifications
+Route::post('notif/pin', 'UserNotificationController@pin');
+Route::post('notif/no-important', 'UserNotificationController@noimportant');
+Route::post('notif/remove-notif-user', 'UserNotificationController@removeNotifUser');

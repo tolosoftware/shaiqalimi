@@ -207,11 +207,12 @@ class GraphsController extends Controller
 
   public function array_avg($array, $round = 0)
   {
+    
     $total = array_sum($array);
     if ($total !== 0) {
       $percentages = [];
       foreach ($array as $key => $value) {
-        $percentages[$key] = ($value / $total) * 100;
+        $percentages[$key] = ($value * 100 ) / $total;
       }
       return $percentages;
     } else {

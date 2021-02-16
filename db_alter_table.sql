@@ -52,3 +52,6 @@ ALTER TABLE `sales_threes`  CHANGE `description` `description` VARCHAR(191) CHAR
 ALTER TABLE `sales_twos`  CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `sales_ones`  CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `stock_records`  CHANGE `remark` `remark` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `notifications` ADD `notif_number` INT(5) NULL AFTER `user_id`;
+ALTER TABLE `notifications` ADD `notif_source` VARCHAR(20) NULL AFTER `user_id`;
+ALTER TABLE `notifications` ADD `notif_source_id` INT(5) NULL AFTER `user_id`;

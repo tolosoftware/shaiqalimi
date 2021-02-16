@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\Helper;
+use Carbon\Carbon;
 
+use App\Models\User;
+use App\Helper\Helper;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,16 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return Notification::latest()->get();
+        // return Helper::currency_notif();
+
+        // auth()->guard('api')->user()->id
+        $ndata = Notification::with(['user_notification' => function ($q) {
+            $q->where('user_id', '=', 3);
+        }])
+        ->has('user_notification')
+        ->get()->sortByDesc('user_notification.pin')->toArray();
+        $x = array_values($ndata);
+        return array_filter($x, fn($value) => !is_null($value['user_notification']) && $value['user_notification'] !== '');
     }
 
     /**
@@ -87,4 +98,5 @@ class NotificationController extends Controller
     {
         //
     }
+
 }
