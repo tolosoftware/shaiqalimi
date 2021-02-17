@@ -305,12 +305,15 @@ class ProposalController extends Controller
                     $proposal->step = 6;
                     // this is place for inserting participants
                     $proposal->save();
+                    Helper::offerGenNotifS7($id);
                 }
             } else if ($request->step == 7) {
                 foreach ($proposastep as $proposal) {
                     $proposal->prop_recieved_or_allow = $request->prop_recieved_or_allow;
                     $proposal->winner = $request->winner;
                     $proposal->save();
+                    Helper::offerGenNotifS8($id);
+                    Helper::offerGenNotifS9($id);
                 }
             }
             return $proposastep;

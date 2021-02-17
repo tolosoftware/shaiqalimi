@@ -19,6 +19,7 @@ use App\Models\ExchangeRate;
 use App\Models\Notification;
 use App\Models\SerialNumber;
 use App\Models\FinancialRecord;
+use App\Models\Project;
 use App\Models\UserNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
@@ -210,7 +211,6 @@ class Helper
     }
     public static function add_notification($notif_data, $op = null, $ex_date = null)
     {
-        // die();
         $q = Notification::where('notif_number', $notif_data['notif_number'])
             ->where('notif_source', $notif_data['notif_source'])
             ->where('notif_source_id', $notif_data['notif_source_id']);
@@ -219,8 +219,17 @@ class Helper
         }
         $exist = $q->get();
 
-        if (count($exist)) {
+        if (count($exist) > 0) {
             return false;
+        }
+        if ($notif_data['notif_number'] == 1) {
+            $q = Notification::where('notif_number', $notif_data['notif_number'])
+                ->where('notif_source', $notif_data['notif_source'])
+                ->where('notif_source_id', $notif_data['notif_source_id']);
+            $exist = $q->get()->pluck('id');
+            foreach ($exist as $notif_id) {
+                Helper::clear_notification($notif_id);
+            }
         }
         $notif_data['gen_date'] = Carbon::now();
         $resp = Notification::create($notif_data);
@@ -228,7 +237,7 @@ class Helper
     }
     public static function user_notification_assign($permissions, $notification, $status = null, $pin = 0, $done = 0)
     {
-        if ($notification) {
+        if ($notification && gettype($notification) == 'object') {
             $notification_id = $notification->id;
         } else {
             return false;
@@ -256,7 +265,9 @@ class Helper
     {
         $user_id = auth()->guard('api')->user()->id;
         $notif_data = UserNotification::where('notification_id', $notif_id)->where('user_id', $user_id)->first();
-        $notif_data->update(['status' => 'not_im']);
+        if($notif_data) {
+            $notif_data->update(['status' => 'not_im']);
+        }
         return $notif_data;
     }
 
@@ -299,7 +310,7 @@ class Helper
             $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
             $notif_data = [
                 'title' => 'درخواست شرطنامه (' . $sn . $co . ')',
-                'text' => 'آیا شرطنامهء اعلان ('. $proposal['pro_data']['title'] .')به دسترس قرار گرفت',
+                'text' => 'آیا شرطنامهء اعلان (' . $proposal['pro_data']['title'] . ')به دسترس قرار گرفت?',
                 'type' => 'con-a',
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'btn-modal',
@@ -335,7 +346,7 @@ class Helper
             $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
             $notif_data = [
                 'title' => 'تسلیمی آفر (' . $sn . $co . ')',
-                'text' => 'اعلان ('. $proposal['pro_data']['title'] .')آمادهء تسلیم دهی آفر میباشد.',
+                'text' => 'اعلان (' . $proposal['pro_data']['title'] . ')آمادهء تسلیم دهی آفر میباشد.',
                 'type' => 'nor-a',
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'btn-modal',
@@ -371,7 +382,7 @@ class Helper
             $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
             $notif_data = [
                 'title' => 'اشتراک در داوطلبی (' . $sn . $co . ')',
-                'text' => 'جلسهء داوطلبی برای قرارداد ('. $proposal['pro_data']['title'] .') تا ۴ روز دیگر اجراء میگردد.',
+                'text' => 'جلسهء داوطلبی برای قرارداد (' . $proposal['pro_data']['title'] . ') تا ۴ روز دیگر اجراء میگردد.',
                 'type' => 'rem-a',
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'btn-link',
@@ -407,7 +418,7 @@ class Helper
             $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
             $notif_data = [
                 'title' => 'داوطلبی برای فردا (' . $sn . $co . ')',
-                'text' => 'فردا جلسهء داوطلبی برای قرارداد ('. $proposal['pro_data']['title'] .')صورت میگیرد.',
+                'text' => 'فردا جلسهء داوطلبی برای قرارداد (' . $proposal['pro_data']['title'] . ')صورت میگیرد.',
                 'type' => 'rem-b',
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'btn-link',
@@ -425,6 +436,205 @@ class Helper
         } catch (Exception $e) {
             DB::rollback();
         }
+    }
+    public static function offerGenNotifS7($proposal_id)
+    {
+        DB::beginTransaction();
+        try {
+            $q = Notification::where('notif_number', '6')
+                ->where('notif_source', 'offer')
+                ->where('notif_source_id', $proposal_id);
+            $notif = $q->first();
+            Helper::clear_notification($notif->id);
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($proposal_id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'معلومات داوطلبی  (' . $sn . $co . ')',
+                'text' => 'معلومات داوطلبی قرارداد (' . $proposal['pro_data']['title'] . ')را در سیستم درج کنید.',
+                'type' => 'nor-a',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-modal',
+                'url' => '/modal/step/5',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '7',
+                'notif_source' => 'offer',
+                'notif_source_id' => $proposal_id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+            DB::commit();
+            // return true;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+    }
+    public static function offerGenNotifS8($proposal_id)
+    {
+        DB::beginTransaction();
+        try {
+            $q = Notification::where('notif_number', '7')
+                ->where('notif_source', 'offer')
+                ->where('notif_source_id', $proposal_id);
+            $notif = $q->first();
+            Helper::clear_notification($notif->id);
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($proposal_id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'نتیجهء آفرگشایی  (' . $sn . $co . ')',
+                'text' => 'نتیجهء آفرگشایی قرارداد. (' . $proposal['pro_data']['title'] . ') را در سیستم ثبت کنید.',
+                'type' => 'nor-a',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-modal',
+                'url' => '/modal/step/6',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '8',
+                'notif_source' => 'offer',
+                'notif_source_id' => $proposal_id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+            DB::commit();
+            // return true;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+    }
+    public static function offerGenNotifS9($proposal_id)
+    {
+        DB::beginTransaction();
+        try {
+            $q = Notification::where('notif_number', '8')
+                ->where('notif_source', 'offer')
+                ->where('notif_source_id', $proposal_id);
+            $notif = $q->first();
+            Helper::clear_notification($notif->id);
+            $proposal = Proposal::with([
+                'pro_data.company_id'
+            ])->find($proposal_id);
+            $com = Company::find($proposal->pro_data->company_id);
+            $sn = strval($proposal['serial_no']);
+            $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+            $notif_data = [
+                'title' => 'نتیجهء آفرگشایی  (' . $sn . $co . ')',
+                'text' => 'نتیجهء آفرگشایی قرارداد. (' . $proposal['pro_data']['title'] . ') را در سیستم ثبت کنید.',
+                'type' => 'suc-a',
+                'exp_date' => Carbon::now()->endOfDay(),
+                'action' => 'btn-link',
+                'url' => '/projects',
+                'user_id' => auth()->guard('api')->user()->id,
+                'status' => null,
+                'notif_number' => '9',
+                'notif_source' => 'offer',
+                'notif_source_id' => $proposal_id,
+            ];
+            $notification = Helper::add_notification($notif_data, '>=', Carbon::now()->startOfDay());
+            Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
+            DB::commit();
+            // return true;
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+    }
+    public static function projectNotif10($project_id)
+    {
+        // $q = Notification::where('notif_number', '8')
+        //     ->where('notif_source', 'project')
+        //     ->where('notif_source_id', $project_id);
+        // $notif = $q->first();
+        // Helper::clear_notification($notif->id);
+        $project = Project::with([
+            'pro_data.company_id'
+        ])->find($project_id);
+        $com = Company::find($project->pro_data->company_id);
+        $sn = strval($project['serial_no']);
+        $co =  ($project['pro_data'] && $project['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+
+        $notif_data = [
+            'title' => 'قرارداد جدید (' . $sn . $co . ')',
+            'text' => 'قرارداد جدید (' . $project['pro_data']['title'] . ') در سیستم ثبت گردید.',
+            'type' => 'suc-b',
+            'exp_date' => Carbon::now()->endOfDay(),
+            'action' => 'btn-link',
+            'url' => '/project-summury/view/' . $project_id,
+            'user_id' => auth()->guard('api')->user()->id,
+            'status' => null,
+            'notif_number' => '10',
+            'notif_source' => 'project',
+            'notif_source_id' => $project_id,
+        ];
+        $notification = Helper::add_notification($notif_data);
+        Helper::user_notification_assign('مدیریت قراردادها', $notification, 'nor');
+        // return response($notification, 403);
+    }
+    public static function projectNotif11($project_id)
+    {
+        // $q = Notification::where('notif_number', '8')
+        //     ->where('notif_source', 'project')
+        //     ->where('notif_source_id', $project_id);
+        // $notif = $q->first();
+        // Helper::clear_notification($notif->id);
+        $project = Project::with([
+            'pro_data.company_id'
+        ])->find($project_id);
+        $com = Company::find($project->pro_data->company_id);
+        $sn = strval($project['serial_no']);
+        $co =  ($project['pro_data'] && $project['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+
+        $notif_data = [
+            'title' => 'قرارداد جدید (' . $sn . $co . ')',
+            'text' => 'قرارداد جدید (' . $project['pro_data']['title'] . ') آمادهء طی مراحل میباشد.',
+            'type' => 'suc-a',
+            'exp_date' => Carbon::now()->endOfDay(),
+            'action' => 'btn-modal',
+            'url' => '/modal/step/1',
+            'user_id' => auth()->guard('api')->user()->id,
+            'status' => null,
+            'notif_number' => '11',
+            'notif_source' => 'project',
+            'notif_source_id' => $project_id,
+        ];
+        $notification = Helper::add_notification($notif_data);
+        Helper::user_notification_assign('مدیریت قراردادها', $notification, 'nor');
+    }
+    public static function projectNotif12($project_id)
+    {
+        $q = Notification::where('notif_number', '11')
+            ->where('notif_source', 'project')
+            ->where('notif_source_id', $project_id);
+        $notif = $q->first();
+        Helper::clear_notification($notif->id);
+        $project = Project::with([
+            'pro_data.company_id'
+        ])->find($project_id);
+        $com = Company::find($project->pro_data->company_id);
+        $sn = strval($project['serial_no']);
+        $co =  ($project['pro_data'] && $project['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
+
+        $notif_data = [
+            'title' => 'اکمالات قرارداد (' . $sn . $co . ')',
+            'text' => 'قرارداد جدید (' . $project['pro_data']['title'] . ') آمادهء آغاز مرحله اکمالات میباشد.',
+            'type' => 'nor-a',
+            'exp_date' => Carbon::now()->endOfDay(),
+            'action' => 'btn-modal',
+            'url' => '/modal/step/2',
+            'user_id' => auth()->guard('api')->user()->id,
+            'status' => null,
+            'notif_number' => '12',
+            'notif_source' => 'project',
+            'notif_source_id' => $project_id,
+        ];
+        $notification = Helper::add_notification($notif_data);
+        Helper::user_notification_assign('مدیریت قراردادها', $notification, 'nor');
     }
 }
 
