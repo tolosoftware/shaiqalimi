@@ -14,7 +14,7 @@
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
             <div slot="footer">
               <vs-row>
-                <vs-button color="primary" size="small" icon="arrow_right_alt" class="pull-right">مشاهده</vs-button>
+                <vs-button @click="notifActionCenter(item)" color="primary" size="small" class="pull-right">{{ $t('notif_' + item.notif_number) }}</vs-button>
               </vs-row>
             </div>
           </vx-card>
@@ -29,7 +29,7 @@
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
             <div slot="footer">
               <vs-row>
-                <vs-button color="primary" size="small" icon="arrow_right_alt" class="pull-right">مشاهده</vs-button>
+                <vs-button @click="notifActionCenter(item)" color="primary" size="small" class="pull-right">{{ $t('notif_' + item.notif_number) }}</vs-button>
               </vs-row>
             </div>
           </vx-card>
@@ -50,8 +50,7 @@
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
             <div slot="footer">
               <vs-row>
-                <!--<vs-button line-position="top" color="primary" line-origin="right" type="line" size="small" icon="info"> برای دیدن جزییات اینجا را کلیک کنید !</vs-button> -->
-                <vs-button color="primary" size="small" icon="arrow_right_alt" class="pull-right">مشاهده</vs-button>
+                <vs-button @click="notifActionCenter(item)" color="primary" size="small" class="pull-right">{{ $t('notif_' + item.notif_number) }}</vs-button>
               </vs-row>
             </div>
           </vx-card>
@@ -67,7 +66,7 @@
             <div slot="footer">
               <vs-row>
                 <!--<vs-button line-position="top" color="primary" line-origin="right" type="line" size="small" icon="info"> برای دیدن جزییات اینجا را کلیک کنید !</vs-button> -->
-                <vs-button color="primary" size="small" icon="arrow_right_alt" class="pull-right">مشاهده</vs-button>
+                <vs-button @click="notifActionCenter(item)" color="primary" size="small" class="pull-right">{{ $t('notif_' + item.notif_number) }}</vs-button>
               </vs-row>
             </div>
           </vx-card>
@@ -77,10 +76,10 @@
       <!-- <vs-pagination :total="allNotif.length" :max="5" :value="1" @input="(val) => { val }" /> -->
     </vs-tab>
   </vs-tabs>
-  <!--<div class="demo-alignment mb-10">
-      <vs-button color="warning" type="filled" icon-pack="feather" icon="icon-star">Important</vs-button>
-      <vs-button color="primary" type="border" icon-pack="feather" icon="icon-check">All</vs-button>
-    </div>-->
+  <vs-popup class="holamundo" :title="vsPopupTitle" :active.sync="popupStepActive">
+    <vs-button @click="closeModel" ref="wizardModalProcur" color="primary" size="small" class="pull-right">Close</vs-button>
+  </vs-popup>
+
 </div>
 </template>
 
@@ -92,12 +91,14 @@ export default {
   //   name: 'vx-procurment',
   data() {
     return {
+      popupStepActive: false,
+      vsPopupTitle: '',
       importnatNotif: [],
       allNotif: [],
       cartItems: [],
       removeFromI: false,
-      importantNotifKey:0,
-      standardNotifKey:0,
+      importantNotifKey: 0,
+      standardNotifKey: 0,
     }
   },
   components: {
@@ -111,8 +112,14 @@ export default {
     }, 2500);
   },
   methods: {
+    closeModel() {
+      this.popupStepActive = false;
+    },
     addToPins(id, unpin = false) {
-       this.axios.post('/api/notif/pin', {notif_id: id, unpin: unpin})
+      this.axios.post('/api/notif/pin', {
+          notif_id: id,
+          unpin: unpin
+        })
         .then((response) => {
           this.getAllNotification();
         })
@@ -125,8 +132,8 @@ export default {
           this.allNotif[1] = Object.values(this.cartItems).filter(i => (i.user_notification) ? i.user_notification.pin != 1 : false)
           this.importnatNotif[0] = Object.values(this.allNotif[0]).filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
           this.importnatNotif[1] = Object.values(this.allNotif[1]).filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
-          this.importantNotifKey +=1;
-          this.standardNotifKey +=1;
+          this.importantNotifKey += 1;
+          this.standardNotifKey += 1;
         })
     },
     removeFromImportant(id) {
@@ -141,7 +148,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$Progress.start()
-          this.axios.post('/api/notif/no-important', {notif_id: id})
+          this.axios.post('/api/notif/no-important', {
+              notif_id: id
+            })
             .then(({
               data
             }) => {
@@ -180,7 +189,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$Progress.start()
-          this.axios.post('/api/notif/remove-notif-user', {notif_id: id})
+          this.axios.post('/api/notif/remove-notif-user', {
+              notif_id: id
+            })
             .then(({
               data
             }) => {
@@ -207,8 +218,13 @@ export default {
         }
       })
     },
-    addToImportant(id) {
-      alert('Clicked Row ID = ' + id);
+    notifActionCenter(item) {
+      if (item.action == 'btn-link') {
+        this.$router.push(item.url).catch(() => {})
+      } else if (item.action == 'btn-modal') {
+        this.vsPopupTitle = item.title;
+        this.popupStepActive = true;
+      }
     }
 
   }

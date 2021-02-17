@@ -281,7 +281,7 @@ class Helper
             'type' => 'rem-a',
             'exp_date' => Carbon::now()->endOfDay(),
             'action' => 'btn-link',
-            'url' => '/setting',
+            'url' => '/settings',
             'user_id' => auth()->guard('api')->user()->id,
             'status' => null,
             'notif_number' => '1',
@@ -325,7 +325,7 @@ class Helper
             Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
             DB::commit();
             // return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -361,7 +361,7 @@ class Helper
             Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
             DB::commit();
             // return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -386,7 +386,7 @@ class Helper
                 'type' => 'rem-a',
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'btn-link',
-                'url' => '/offer-summury',
+                'url' => "/proposal/" . $proposal_id,
                 'user_id' => auth()->guard('api')->user()->id,
                 'status' => null,
                 'notif_number' => '5',
@@ -397,7 +397,7 @@ class Helper
             Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
             DB::commit();
             // return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -422,7 +422,7 @@ class Helper
                 'type' => 'rem-b',
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'btn-link',
-                'url' => '/offer-summury',
+                'url' => "/proposal/" . $proposal_id,
                 'user_id' => auth()->guard('api')->user()->id,
                 'status' => null,
                 'notif_number' => '6',
@@ -433,7 +433,7 @@ class Helper
             Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
             DB::commit();
             // return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -469,7 +469,7 @@ class Helper
             Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
             DB::commit();
             // return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -505,7 +505,7 @@ class Helper
             Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
             DB::commit();
             // return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -525,12 +525,12 @@ class Helper
             $sn = strval($proposal['serial_no']);
             $co =  ($proposal['pro_data'] && $proposal['pro_data']['company_id']) ? ' - ' . $com['sign'] : '';
             $notif_data = [
-                'title' => 'نتیجهء آفرگشایی  (' . $sn . $co . ')',
-                'text' => 'نتیجهء آفرگشایی قرارداد. (' . $proposal['pro_data']['title'] . ') را در سیستم ثبت کنید.',
+                'title' => 'دریافت قرارداد اعلان (' . $sn . $co . ')',
+                'text' => 'قرارداد اعلان (' . $proposal['pro_data']['title'] . ') را در سیستم ثبت کنید.',
                 'type' => 'suc-a',
                 'exp_date' => Carbon::now()->endOfDay(),
                 'action' => 'btn-link',
-                'url' => '/projects',
+                'url' => '/projects/add',
                 'user_id' => auth()->guard('api')->user()->id,
                 'status' => null,
                 'notif_number' => '9',
@@ -541,7 +541,7 @@ class Helper
             Helper::user_notification_assign('مدیریت آفرها', $notification, 'nor');
             DB::commit();
             // return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -565,7 +565,7 @@ class Helper
             'type' => 'suc-b',
             'exp_date' => Carbon::now()->endOfDay(),
             'action' => 'btn-link',
-            'url' => '/project-summury/view/' . $project_id,
+            'url' => '/projects/project/' . $project_id,
             'user_id' => auth()->guard('api')->user()->id,
             'status' => null,
             'notif_number' => '10',

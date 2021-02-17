@@ -26,7 +26,6 @@ class NotificationController extends Controller
         ->has('user_notification')
         ->get()
         ->sortByDesc('gen_date')
-        // ->sortByDesc('user_notification.pin')
         ->toArray();
         $x = array_values($ndata);
         return array_filter($x, fn($value) => !is_null($value['user_notification']) && $value['user_notification'] !== '');

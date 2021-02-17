@@ -41,7 +41,9 @@ class ProjectController extends Controller
             'pro_items.item_id.type',
             'pro_items.unit_id',
             'pro_items.uom_equiv_id',
-        ])->latest()->get();;
+        ])->whereHas('pro_data', function ($query) {
+            return $query->where('project_id', '!=', null);
+        })->latest()->get();;
     }
 
     /**
