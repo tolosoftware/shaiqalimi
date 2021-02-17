@@ -230,7 +230,10 @@ class ProjectController extends Controller
                 foreach ($projectstep as $project) {
                     $project->step = 2;
                     $project->statusActive = $request->statusActive;
-                    $project->save();
+                    $resp = $project->save();
+                    if($resp){
+                        Helper::projectNotif12($id);
+                    }
                 }
             } else if ($request->step == 3) {
                 foreach ($projectstep as $project) {

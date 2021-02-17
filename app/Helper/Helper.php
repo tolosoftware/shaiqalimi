@@ -547,11 +547,6 @@ class Helper
     }
     public static function projectNotif10($project_id)
     {
-        // $q = Notification::where('notif_number', '8')
-        //     ->where('notif_source', 'project')
-        //     ->where('notif_source_id', $project_id);
-        // $notif = $q->first();
-        // Helper::clear_notification($notif->id);
         $project = Project::with([
             'pro_data.company_id'
         ])->find($project_id);
@@ -578,11 +573,6 @@ class Helper
     }
     public static function projectNotif11($project_id)
     {
-        // $q = Notification::where('notif_number', '8')
-        //     ->where('notif_source', 'project')
-        //     ->where('notif_source_id', $project_id);
-        // $notif = $q->first();
-        // Helper::clear_notification($notif->id);
         $project = Project::with([
             'pro_data.company_id'
         ])->find($project_id);
@@ -609,6 +599,11 @@ class Helper
     public static function projectNotif12($project_id)
     {
         $q = Notification::where('notif_number', '11')
+            ->where('notif_source', 'project')
+            ->where('notif_source_id', $project_id);
+        $notif = $q->first();
+        Helper::clear_notification($notif->id);
+        $q = Notification::where('notif_number', '10')
             ->where('notif_source', 'project')
             ->where('notif_source_id', $project_id);
         $notif = $q->first();

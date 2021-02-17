@@ -162,7 +162,6 @@
 <script>
 import TableLoading from './../../shared/TableLoading.vue'
 import DataViewSidebar from './../DataViewSidebar.vue'
-import moduleDataList from './../data-list/moduleDataList.js'
 import vueEasyPrint from "vue-easy-print";
 import ProposalSteps from "./ProposalSteps.vue"
 
