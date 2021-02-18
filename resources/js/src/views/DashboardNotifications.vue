@@ -41,7 +41,7 @@
         </div>
       </div>
       <!-- PAGINATION -->
-      <vs-pagination :total="Math.ceil(allNotif.length/15)" v-model="currentPage" @input="changePageNotif" class="mt-base"></vs-pagination>
+      <vs-pagination :total="Math.ceil(allNotif.length/15)" max="5" v-model="currentPage" @input="changePageNotif" class="mt-base"></vs-pagination>
     </vs-tab>
   </vs-tabs>
   <vs-popup class="holamundo" :title="vsPopupTitle" :active.sync="popupStepActiveProposal">

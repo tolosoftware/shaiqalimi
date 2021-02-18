@@ -5842,6 +5842,14 @@ li.fuel-station > h3 {
   background: #d5f4e3 !important;
 }
 
+.hover-move-up {
+  transition: all 0.3s ease;
+}
+
+[dir] .hover-move-up:hover {
+  transform: translateY(-4px) !important;
+}
+
 @media print {
   [dir=ltr] #print-this {
     direction: ltr !important;
