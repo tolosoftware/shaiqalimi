@@ -133,7 +133,7 @@
     <div class="vx-col w-full md:w-1/3 mb-base hover-move-up cursor-pointer" @click="popupReport = true">
       <vx-card>
         <div class="mt-base mb-base flex">
-          <feather-icon icon="UsersIcon" svgClasses="w-12 h-12 text-darkgrey"></feather-icon>
+          <feather-icon icon="FileTextIcon" svgClasses="w-12 h-12 text-darkgrey"></feather-icon>
           <strong class="text-3xl ml-2 pt-2">صورت حساب</strong>
         </div>
         <div class="mb-base">

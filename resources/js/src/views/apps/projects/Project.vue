@@ -17,7 +17,7 @@
         <!-- RIGHT COL -->
         <div class="vx-col w-full lg:w-1/2 xl:w-1/2 flex flex-col lg:mb-0 mb-base">
 
-          <div class="img-container w-33 mx-auto flex items-center justify-center ml-5">
+          <div class="img-container w-33 mx-auto flex items-center justify-center ">
             <img :src="announceimg" alt="اعلانات" class="responsive">
           </div>
           <!--
@@ -58,7 +58,7 @@
 
         <!-- RIGHT COL -->
         <div class="vx-col w-full lg:w-1/2 xl:w-1/2 flex flex-col lg:mb-0 mb-base">
-          <div class="img-container w-33 mx-auto flex items-center justify-center ml-5">
+          <div class="img-container w-33 mx-auto flex items-center justify-center ">
             <img :src="contractimg" alt="قراردادها" class="responsive">
           </div>
           <!--<change-time-duration-dropdown class="self-end" />
