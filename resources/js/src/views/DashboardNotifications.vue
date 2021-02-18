@@ -14,19 +14,17 @@
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
             <div slot="footer">
               <vs-row>
-                <vs-button color="primary" size="small" icon="arrow_right_alt" class="pull-right">مشاهده</vs-button>
+                <vs-button @click="notifActionCenter(item)" color="primary" size="small" class="pull-right" :title="'notif_' + item.notif_number">{{ $t('notif_' + item.notif_number) }}</vs-button>
               </vs-row>
             </div>
           </vx-card>
         </div>
-        <!-- PAGINATION -->
-
       </div>
     </vs-tab>
     <vs-tab :label="$t('All')">
       <div class="vx-row" :key="standardNotifKey">
         <!-- TITLE COLOR -->
-        <div v-for="item in allNotif" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
+        <div v-for="item in allNotif.slice((currentPage - 1) * 15 , currentPage * 15)" :key="item.id" class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/3 mb-base cursor-pointer">
           <vx-card :title="item.title" :title-color="item.type" :subtitle="item.subtitle" :time="moment(item.gen_date).fromNow()" :content-color="item.contentColor" :subtitle-color="item.subtitleColor" :card-background="item.cardBackground">
             <span class="item-time-ago" :style="'color:' + item.titleColor">
               <vs-button radius color="primary" size="small" title="حذف کامل" svgClasses="w-2 h-3 hover:text-danger" type="border" icon="close" style="margin-right:7px;" @click="removeFromUser(item.id)"></vs-button>&nbsp;&nbsp;
@@ -36,21 +34,23 @@
             <p class="mb-3 notification-desc" style=" -webkit-box-orient: vertical; ">{{item.text}}</p>
             <div slot="footer">
               <vs-row>
-                <!--<vs-button line-position="top" color="primary" line-origin="right" type="line" size="small" icon="info"> برای دیدن جزییات اینجا را کلیک کنید !</vs-button> -->
-                <vs-button color="primary" size="small" icon="arrow_right_alt" class="pull-right">مشاهده</vs-button>
+                <vs-button @click="notifActionCenter(item)" color="primary" size="small" class="pull-right" :title="'notif_' + item.notif_number">{{ $t('notif_' + item.notif_number) }}</vs-button>
               </vs-row>
             </div>
           </vx-card>
         </div>
       </div>
       <!-- PAGINATION -->
-      <!-- <vs-pagination :total="allNotif.length" :max="5" :value="1" @input="(val) => { val }" /> -->
+      <vs-pagination :total="Math.ceil(allNotif.length/15)" max="5" v-model="currentPage" @input="changePageNotif" class="mt-base"></vs-pagination>
     </vs-tab>
   </vs-tabs>
-  <!--<div class="demo-alignment mb-10">
-      <vs-button color="warning" type="filled" icon-pack="feather" icon="icon-star">Important</vs-button>
-      <vs-button color="primary" type="border" icon-pack="feather" icon="icon-check">All</vs-button>
-    </div>-->
+  <vs-popup class="holamundo" :title="vsPopupTitle" :active.sync="popupStepActiveProposal">
+    <ProposalSteps @closesteps="closeModel" ref="wizardModal1" :participators="participators" :proposal="proposal"></ProposalSteps>
+  </vs-popup>
+  <vs-popup class="holamundo" :title="vsPopupTitle" :active.sync="popupStepActiveProject">
+    <ProjectSteps @closesteps="closeModel" ref="wizardModal" :project="project"></ProjectSteps>
+  </vs-popup>
+
 </div>
 </template>
 
@@ -58,36 +58,61 @@
 import {
   AirplayIcon
 } from 'vue-feather-icons'
-export default {
-  //   name: 'vx-procurment',
-  computed: {
-    allNotif: function () {
+import ProposalSteps from "./apps/projects/proposals/ProposalSteps"
+import ProjectSteps from "./apps/projects/ProjectSteps"
 
-      return this.cartItems
-    }
-  },
+export default {
   data() {
     return {
+      range: [],
+      popupStepActiveProposal: false,
+      popupStepActiveProject: false,
+      vsPopupTitle: '',
       importnatNotif: [],
-      cartItems: [],
+      allNotif: [],
       removeFromI: false,
-      importantNotifKey:0,
-      standardNotifKey:0,
+      importantNotifKey: 0,
+      standardNotifKey: 0,
+      proposal: null,
+      project: null,
+      participators: [],
+      proposalstep: [],
+      currentPage: 1,
+      proposalsteps: new Form({
+        step: 0,
+        proposal_id: 0,
+        res_person: '',
+        is_recieved_cont: 0,
+        is_participated: 0,
+        prop_recieved_or_allow: 0,
+        winner: ''
+      }),
+
     }
   },
   components: {
-    AirplayIcon
+    AirplayIcon,
+    ProposalSteps,
+    ProjectSteps
   },
   created() {
-    this.$vs.loading();
     this.getAllNotification();
-    setTimeout(() => {
-      this.$vs.loading.close()
-    }, 2500);
   },
   methods: {
+    changePageNotif(val) {
+      this.range = [(val - 1) * 15 , val * 15];
+      console.log();
+    },
+    closeModel() {
+      this.getAllNotification();
+      this.popupStepActiveProposal = false;
+      this.popupStepActiveProject = false;
+    },
     addToPins(id, unpin = false) {
-       this.axios.post('/api/notif/pin', {notif_id: id, unpin: unpin})
+      this.axios.post('/api/notif/pin', {
+          notif_id: id,
+          unpin: unpin
+        })
         .then((response) => {
           this.getAllNotification();
         })
@@ -95,11 +120,20 @@ export default {
     getAllNotification() {
       this.axios.get('/api/notification')
         .then((response) => {
-          this.cartItems = response.data;
-          this.importnatNotif = Object.values(this.cartItems).filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
-          this.importantNotifKey +=1;
-          this.standardNotifKey +=1;
+          this.allNotif[0] = Object.values(response.data).filter(i => (i.user_notification) ? i.user_notification.pin != 0 : false)
+          this.allNotif[1] = Object.values(response.data).filter(i => (i.user_notification) ? i.user_notification.pin != 1 : false)
+          this.importnatNotif[0] = Object.values(this.allNotif[0]).filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
+          this.importnatNotif[1] = Object.values(this.allNotif[1]).filter(i => (i.user_notification) ? i.user_notification.status != 'not_im' : false)
+          this.importnatNotif = this.importnatNotif[0].concat(this.importnatNotif[1]);
+          this.allNotif = this.allNotif[0].concat(this.allNotif[1]);
+          this.importantNotifKey += 1;
+          this.standardNotifKey += 1;
+          this.$vs.loading.close();
         })
+        .catch((errors) => {
+          this.$vs.loading.close();
+        })
+
     },
     removeFromImportant(id) {
       swal.fire({
@@ -113,7 +147,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$Progress.start()
-          this.axios.post('/api/notif/no-important', {notif_id: id})
+          this.axios.post('/api/notif/no-important', {
+              notif_id: id
+            })
             .then(({
               data
             }) => {
@@ -152,7 +188,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$Progress.start()
-          this.axios.post('/api/notif/remove-notif-user', {notif_id: id})
+          this.axios.post('/api/notif/remove-notif-user', {
+              notif_id: id
+            })
             .then(({
               data
             }) => {
@@ -179,9 +217,88 @@ export default {
         }
       })
     },
-    addToImportant(id) {
-      alert('Clicked Row ID = ' + id);
-    }
+    notifActionCenter(item) {
+      if (item.action == 'btn-link') {
+        this.$router.push(item.url).catch(() => {})
+      } else if (item.action == 'btn-modal') {
+        this.vsPopupTitle = item.title;
+        if (item.notif_source == 'offer') {
+          this.showCheckModalProposal(item.notif_source_id);
+        } else if (item.notif_source == 'project') {
+          this.showStepsModalProject(item.notif_source_id);
+        }
+      }
+    },
+    showCheckModalProposal(id) {
+      this.proposalstep = [];
+      this.getProposal(id);
+      this.getParticipators(id);
+      this.getProposlStep(id);
+      this.popupStepActiveProposal = true;
+    },
+    getProposlStep(id) {
+      this.$Progress.start()
+      this.axios.get('/api/proposalstep/' + id)
+        .then((response) => {
+          this.proposalstep = response.data;
+          if (response.data.status == 'no') {
+            this.$refs.wizardModal1.setWizardStep1(1, this.proposalsteps);
+          } else {
+            this.proposalstep.forEach(item => {
+              this.$refs.wizardModal1.setWizardStep1(item.step, item);
+            })
+          }
+          this.$Progress.set(100);
+        }).catch(() => {});
+    },
+    getProposal(id) {
+      this.axios
+        .get("/api/proposal/" + id)
+        .then((response) => {
+          this.proposal = [];
+          this.proposal = response.data;
+        })
+        .catch(() => {});
+    },
+    getParticipators(proposalid) {
+      this.axios
+        .get("/api/participators/" + proposalid)
+        .then((response) => {
+          this.participators = [];
+          this.participators = response.data;
+        })
+        .catch(() => {});
+    },
+    showStepsModalProject(id) {
+      this.project = [];
+      this.getThisProject(id);
+      this.getProjectStep(id);
+      this.popupStepActiveProject = true;
+    },
+    getProjectStep(id) {
+      this.$Progress.start()
+      this.axios.get('/api/projectstep/' + id)
+        .then((response) => {
+          this.projectstep = response.data;
+          if (response.data.status == 'no') {
+            this.$refs.wizardModal.setWizardStep(1, this.projectsteps);
+          } else {
+            this.projectstep.forEach(item => {
+              this.$refs.wizardModal.setWizardStep(item.step, item);
+            })
+          }
+          this.$Progress.set(100);
+        }).catch(() => {});
+    },
+    getThisProject(id) {
+      this.$Progress.start()
+      this.axios.get('/api/project/' + id)
+        .then((response) => {
+          this.project = [];
+          this.project = response.data;
+          this.$Progress.set(100);
+        }).catch(() => {});
+    },
 
   }
 }

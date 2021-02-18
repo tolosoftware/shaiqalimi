@@ -745,3 +745,14 @@ li.fuel-station > h3 {
 .item-time-ago .vs-button-success {
     background: #d5f4e3!important
 }
+.hover-move-up{
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.hover-move-up:hover{
+    -webkit-transform: translateY(-4px) !important;
+    transform: translateY(-4px) !important;
+    .vx-card{
+        // box-shadow: 0px 4px 25px 0px rgb(0 0 0 / 0%) !important;
+    }
+}

@@ -41,7 +41,9 @@ class ProjectController extends Controller
             'pro_items.item_id.type',
             'pro_items.unit_id',
             'pro_items.uom_equiv_id',
-        ])->latest()->get();;
+        ])->whereHas('pro_data', function ($query) {
+            return $query->where('project_id', '!=', null);
+        })->latest()->get();;
     }
 
     /**
@@ -93,7 +95,7 @@ class ProjectController extends Controller
             $serial_no = Helper::getSerialNo('pro-' . $company_sign, 'pro');
             $request['serial_no'] = $serial_no->value;
 
-            $resp = Project::create($request->all());
+            $project = Project::create($request->all());
 
             if ($request['proposal_id']) {
 
@@ -111,12 +113,12 @@ class ProjectController extends Controller
                     'total_price' => 1000,
                     'total_price' => $request->total_price,
                     // 'proposal_id' => null,
-                    'project_id' => $resp->id,
+                    'project_id' => $project->id,
                 ];
                 ProData::where('proposal_id', $request['proposal_id'])->update($proData);
             } else {
                 $proData = [
-                    'project_id' => $resp->id,
+                    'project_id' => $project->id,
                     'client_id' => $request->client_id,
                     'company_id' => $request->company_id['id'],
                     'title' => $request->title,
@@ -140,7 +142,7 @@ class ProjectController extends Controller
                         'unit_id' => $item['item_id']['uom_id']['id'],
                         'uom_equiv_id' => $item['item_id']['uom_equiv_id']['id'],
                         'item_id' => $item['item_id']['id'],
-                        'project_id' => $resp->id,
+                        'project_id' => $project->id,
                         'operation_id' => $item['operation_id']['id'],
                         'ammount' => $item['ammount'],
                         'unit_price' => $item['unit_price'],
@@ -159,7 +161,7 @@ class ProjectController extends Controller
                 'user_id' => $request->user_id,
                 'type_id' => config('app.contract_account_type'),
                 'name' => $request->title,
-                'ref_code' => $resp->id,
+                'ref_code' => $project->id,
                 'status' => 1,
                 'description' => $request->title,
                 // 'system' => $request->system,    
@@ -168,9 +170,9 @@ class ProjectController extends Controller
                 // Create opening FR for the created Projet
                 $data = [
                     'type' => 'project', // here the type of financial record is project
-                    'type_id' => $resp->id, //Project Id will be used here as type id
+                    'type_id' => $project->id, //Project Id will be used here as type id
                     'account_id' => $new->id,
-                    'description' => 'Dynamically Created For Project.' . $resp->id,
+                    'description' => 'Dynamically Created For Project.' . $project->id,
                     'currency_id' => config('app.currency_afn'),
                     'credit' => $request->pr_worth,
                     'debit' => 0,
@@ -180,7 +182,9 @@ class ProjectController extends Controller
                 FinancialRecord::create($data);
             }
             DB::commit();
-            return $resp;
+            Helper::projectNotif10($project['id']);
+            Helper::projectNotif11($project['id']);
+            return $project;
         } catch (Exception $e) {
             DB::rollback();
         }
@@ -226,7 +230,10 @@ class ProjectController extends Controller
                 foreach ($projectstep as $project) {
                     $project->step = 2;
                     $project->statusActive = $request->statusActive;
-                    $project->save();
+                    $resp = $project->save();
+                    if($resp){
+                        Helper::projectNotif12($id);
+                    }
                 }
             } else if ($request->step == 3) {
                 foreach ($projectstep as $project) {

@@ -683,6 +683,10 @@ const router = new Router({
                     name: "report",
                     component: () => import("./views/apps/reports/Report.vue"),
                     meta: {
+                        breadcrumb: [
+                            { title: "Home", url: "/" },
+                            { title: "راپورها", active: true }
+                        ],
                         permission: [1, 6],
                         rule: "editor"
                     }
