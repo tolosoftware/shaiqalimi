@@ -96,6 +96,7 @@ export default {
     ProjectSteps
   },
   created() {
+      this.$vs.loading();
     this.getAllNotification();
   },
   methods: {

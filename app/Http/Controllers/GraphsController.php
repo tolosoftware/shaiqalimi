@@ -197,10 +197,23 @@ class GraphsController extends Controller
         $itemValues[$keyA] = $itemValue;
       }
       $chartData[$itemKey] = [
-        'data' => $this->array_avg($itemValues),
+        'data' => $itemValues,
+        // 'data' => $this->array_avg($itemValues),
         'name' => $item->type->type . '- ' . $item->name,
         'type' => 'area',
       ];
+    }
+    $rootLen = count($chartData);
+    for ($i=0; $i < count($chartData[0]['data']); $i++) {
+      $sum = 0;
+      for ($j=0; $j < $rootLen; $j++) { 
+        $sum += $chartData[$j]['data'][$i];
+      }
+      if($sum > 0){
+        for ($j=0; $j < $rootLen; $j++) { 
+          $chartData[$j]['data'][$i] *= 100 / $sum;
+        }
+      }
     }
     return $chartData;
   }

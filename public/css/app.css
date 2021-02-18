@@ -5768,6 +5768,10 @@ li.fuel-station > h3 {
   padding: 1rem !important;
 }
 
+[dir] .apexcharts-legend-marker {
+  margin-left: 4px !important;
+}
+
 .serial_no_reference {
   white-space: nowrap;
 }
