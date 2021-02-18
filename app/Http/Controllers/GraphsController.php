@@ -7,6 +7,7 @@ use App\Models\Item;
 
 use App\Models\Sale;
 use App\Helper\Helper;
+use App\Models\ProData;
 use App\Models\Project;
 use App\Models\SaleOne;
 use App\Models\SaleTwo;
@@ -21,8 +22,8 @@ use App\Models\StockRecord;
 use App\Models\Transaction;
 use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
+use App\Models\Projects_Step;
 use App\Models\FinancialRecord;
-use App\Models\ProData;
 
 class GraphsController extends Controller
 {
@@ -321,12 +322,19 @@ class GraphsController extends Controller
       'name' => 'قرارداد',
     ];
     $thisYear = Carbon::create(Carbon::now()->year);
-    $activePro = Project::where('created_at', '>', $thisYear)->count();
+    $activePro = Project::where('created_at', '>', $thisYear)
+    ->whereIn('id', Projects_Step::where('statusActive', 1)->get()->pluck('id'))->count();
+    $allProj = Project::where('created_at', '>', $thisYear)->count();
+
     $successProp = ProData::where('proposal_id', '<>', null)
       ->where('project_id', '<>', null)
       ->where('created_at', '>', $thisYear)->count();
     $allProp = Proposal::where('created_at', '>', $thisYear)->count();
 
-    return ['active' => $activePro, 'successPro' => ($successProp / (($allProp != 0) ? $allProp : 1) * 100), 'contractsChange' => $contractsChange];
+    return [
+      'active' => round(($activePro / (($allProj != 0) ? $allProj : 1) * 100)),
+      'successPro' => round(($successProp / (($allProp != 0) ? $allProp : 1) * 100)),
+      'contractsChange' => $contractsChange
+    ];
   }
 }
