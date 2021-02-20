@@ -191,7 +191,7 @@ Vue.mixin({
             if(!value){
                 return value;
             }
-            var nStr = value.replace(/[^0-9.]/g, '');
+            var nStr = value.replace(/[^0-9.]/g, '').replace(/\.?0+$/, '');
             if(nStr.length > 0 && nStr > 0){
                 nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
                 nStr = nStr.replace(/\,/g, "");
@@ -219,7 +219,7 @@ Vue.mixin({
             if (floatRange !== null) {
                 value = parseInt(value).toFixed(floatRange);
             }
-            var nStr = value.toString().replace(/[^0-9.]/g, '');
+            var nStr = value.toString().replace(/[^0-9.]/g, '').replace(/\.?0+$/, '');
             if(nStr.length > 0 && nStr > 0){
                 nStr = (nStr > 0) ? nStr.replace(/^0+/, '') : nStr;
                 nStr = nStr.replace(/\,/g, "");

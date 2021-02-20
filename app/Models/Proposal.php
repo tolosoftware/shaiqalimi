@@ -21,7 +21,7 @@ class Proposal extends Model
         'financial_power',
         'receive_office',
         'bank_distribute',
-        'user_id'
+        'user_id',
     ];
 
     public function user()

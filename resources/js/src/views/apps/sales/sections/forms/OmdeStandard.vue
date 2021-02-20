@@ -310,7 +310,7 @@ export default {
           increment: "",
           unit_price: "0",
           total_price: "",
-          density: null,
+          density: 1,
         }],
       }),
       items: [],

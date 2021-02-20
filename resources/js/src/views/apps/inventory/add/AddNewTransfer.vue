@@ -183,7 +183,7 @@ export default {
           increment: "",
           unit_price: 0,
           total_price: 0,
-          density: null,
+          density: 1,
         }],
 
       }),
@@ -255,7 +255,7 @@ export default {
             increment: "",
             unit_price: "0",
             total_price: "0",
-            density: null,
+            density: 1,
           }];
         })
     },

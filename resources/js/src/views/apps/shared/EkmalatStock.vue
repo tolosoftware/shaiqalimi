@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       operations: [],
-      density: null,
+      density: 1,
       item_types: [],
       mesure_unit: [],
       goods: [],

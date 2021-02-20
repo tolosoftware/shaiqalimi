@@ -5333,6 +5333,10 @@ text {
   margin: unset !important;
 }
 
+[dir] .number-utf8 input {
+  font-family: "YekanWeb" !important;
+}
+
 [dir] .number-rtl input {
   font-family: "YekanWeb" !important;
   direction: ltr !important;

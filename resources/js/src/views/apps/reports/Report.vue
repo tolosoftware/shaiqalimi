@@ -22,7 +22,7 @@
   </div>
   <vs-divider />
   <div class="vx-row mt-base">
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card>
         <div class="mt-base mb-base flex justify-between">
           <div>
@@ -33,7 +33,7 @@
         </div>
       </vx-card>
     </div>
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card>
         <div class="mt-base mb-base flex justify-between">
           <div>
@@ -44,7 +44,7 @@
         </div>
       </vx-card>
     </div>
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card title-color="#fff" content-color="#fff" card-background="linear-gradient(120deg ,rgba(247,97,161,0.5), rgba(140,27,171,.8))">
         <div class="mt-base mb-base flex justify-between">
           <div>
@@ -55,7 +55,7 @@
         </div>
       </vx-card>
     </div>
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card title-color="#fff" content-color="#fff" card-background="linear-gradient(to right, #56ab2f, #a8e063)">
         <div class="mt-base mb-base flex justify-between">
           <div>

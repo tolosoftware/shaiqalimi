@@ -112,7 +112,8 @@ export default {
       form: new Form({
         serial_no: '',
         currency_id: 1,
-        datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
+        datetime: '',
+        // datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
         title: '',
         user_id: localStorage.getItem('id'),
         ammount: '0',

@@ -269,7 +269,7 @@ const router = new Router({
                     name: "proposal-edit",
                     component: () =>
                         import(
-                            "./views/apps/projects/proposals/ProposalDetail.vue"
+                            "./views/apps/projects/proposals/EditProposal.vue"
                         ),
                     meta: {
                         permission: [1, 10],
