@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       operations: [],
-      density: 1,
+      density: 0,
       item_types: [],
       mesure_unit: [],
       goods: [],
@@ -158,7 +158,7 @@ export default {
         ammount: "3",
         unit_price: "302",
         total_price: "906",
-        density: 1,
+        density: 0,
       });
     },
     findUom(id, field){

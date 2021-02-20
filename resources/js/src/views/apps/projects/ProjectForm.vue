@@ -441,7 +441,7 @@ export default {
           ammount: 0,
           unit_price: 0,
           total_price: 0,
-          density: 1,
+          density: 0,
         }],
 
         deposit: 0,
@@ -698,7 +698,7 @@ export default {
         ammount: "3",
         unit_price: "302",
         total_price: "906",
-        density: 1,
+        density: 0,
       })
     },
     validateStep1() {

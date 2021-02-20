@@ -152,7 +152,7 @@ export default {
   data() {
     return {
       operations: [],
-      density: 1,
+      density: 0,
       item_types: [],
       mesure_unit: [],
       goods: [],
