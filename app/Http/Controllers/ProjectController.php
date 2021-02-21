@@ -41,9 +41,11 @@ class ProjectController extends Controller
             'pro_items.item_id.type',
             'pro_items.unit_id',
             'pro_items.uom_equiv_id',
-        ])->whereHas('pro_data', function ($query) {
-            return $query->where('project_id', '!=', null);
-        })->latest()->get();;
+        ])
+            ->whereHas('pro_data', function ($query) {
+                return $query->where('project_id', '!=', null);
+            })
+            ->latest()->get();
     }
 
     /**
@@ -110,7 +112,6 @@ class ProjectController extends Controller
                     'transit' => $request->transit,
                     'others' => $request->others,
                     'currency_id' => $default_afn,
-                    'total_price' => 1000,
                     'total_price' => $request->total_price,
                     // 'proposal_id' => null,
                     'project_id' => $project->id,
@@ -156,7 +157,6 @@ class ProjectController extends Controller
             }
 
             // Create the Account beside the project
-            // $typeId = AccountType::latest()->first()->id;
             $data = [
                 'user_id' => $request->user_id,
                 'type_id' => config('app.contract_account_type'),
@@ -166,12 +166,12 @@ class ProjectController extends Controller
                 'description' => $request->title,
                 // 'system' => $request->system,    
             ];
-            if ($new = Account::create($data)) {
+            if ($account = Account::create($data)) {
                 // Create opening FR for the created Projet
                 $data = [
                     'type' => 'project', // here the type of financial record is project
                     'type_id' => $project->id, //Project Id will be used here as type id
-                    'account_id' => $new->id,
+                    'account_id' => $account->id,
                     'description' => 'Dynamically Created For Project.' . $project->id,
                     'currency_id' => config('app.currency_afn'),
                     'credit' => $request->pr_worth,
@@ -185,7 +185,7 @@ class ProjectController extends Controller
             Helper::projectNotif10($project['id']);
             Helper::projectNotif11($project['id']);
             return $project;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -231,7 +231,7 @@ class ProjectController extends Controller
                     $project->step = 2;
                     $project->statusActive = $request->statusActive;
                     $resp = $project->save();
-                    if($resp){
+                    if ($resp) {
                         Helper::projectNotif12($id);
                     }
                 }
@@ -294,12 +294,103 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $id)
     {
-        if ($project->update($request->all())) {
+        $default_afn = Currency::where('sign_en', 'AFN')->first()->id;
+        DB::beginTransaction();
+        try {
+            if (gettype($request->client_id) != 'integer') {
+                $request['client_id'] = $request->client_id['id'];
+            }
+            if (gettype($request->proposal_id) != 'integer') {
+                $request['proposal_id'] = ($request->proposal_id) ? $request->proposal_id['id'] : null;
+            }
+            // Get The last serial number for the proposal.
+            $company_sign = $request->company_id['sign'];
+            $serial_no = Helper::getSerialNo('pro-' . $company_sign, 'pro');
+            $request['serial_no'] = $serial_no->value;
+
+            $project = Project::find($id);
+            $project->update($request->all());
+
+            if ($request['proposal_id']) {
+
+                $proData = [
+                    'client_id' => $request->client_id,
+                    'title' => $request->title,
+                    'company_id' => $request->company_id['id'],
+                    'reference_no' => $request->reference_no,
+                    'pr_worth' => $request->pr_worth,
+                    'deposit' => $request->deposit,
+                    'tax' => $request->tax,
+                    'transit' => $request->transit,
+                    'others' => $request->others,
+                    'total_price' => $request->total_price,
+                    'project_id' => $project->id,
+                ];
+                ProData::where('proposal_id', $request['proposal_id'])->update($proData);
+            } else {
+                ProData::where('project_id', $id)->delete();
+                $proData = [
+                    'project_id' => $project->id,
+                    'client_id' => $request->client_id,
+                    'company_id' => $request->company_id['id'],
+                    'title' => $request->title,
+                    'reference_no' => $request->reference_no,
+                    'pr_worth' => $request->pr_worth,
+                    'deposit' => $request->deposit,
+                    'tax' => $request->tax,
+                    'transit' => $request->transit,
+                    'others' => $request->others,
+                    'currency_id' => $default_afn,
+                    'total_price' => $request->total_price,
+                ];
+                ProData::create($proData);
+            }
+
+            // Create Pro Items Record for selected Items
+            ProItem::where('project_id', $id)->delete();
+            foreach ($request->item as $key => $item) {
+                if (gettype($item['item_id']) != 'integer') {
+
+                    $item = [
+                        'unit_id' => $item['item_id']['uom_id']['id'],
+                        'uom_equiv_id' => $item['item_id']['uom_equiv_id']['id'],
+                        'item_id' => $item['item_id']['id'],
+                        'project_id' => $project->id,
+                        'operation_id' => $item['operation_id']['id'],
+                        'ammount' => $item['ammount'],
+                        'unit_price' => $item['unit_price'],
+                        'equivalent' => $item['equivalent'],
+                        'density' => $item['density'],
+                        'total_price' => $item['total_price'],
+                    ];
+                    ProItem::create($item);
+                }
+            }
+
+            if ($account = Account::
+                where('ref_code', $project->id)
+                ->where('type_id', config('app.contract_account_type'))
+                ->latest()->first()) {
+                $projectFR = FinancialRecord::where('type_id', $project->id)
+                ->where('account_id', $account->id)
+                ->where('type', 'project')
+                ->first();
+                $data = [
+                    'credit' => $request->pr_worth,
+                    'debit' => 0,
+                    'ex_rate_id' => ExchangeRate::latest()->first()->id,
+                ];
+                $projectFR->update($data);
+            }
+            
+            DB::commit();
+            // Helper::projectNotif10($project['id']);
+            // Helper::projectNotif11($project['id']);
             return $project;
-        } else {
-            return 0;
+        } catch (\Exception $e) {
+            DB::rollback();
         }
     }
 
@@ -322,22 +413,25 @@ class ProjectController extends Controller
     }
     public function latestProject()
     {
-        // return Project::latest()->limit(3)->get();
         return Project::with([
             'pro_data',
             'pro_items'
-        ])->latest()->limit(3)->get();
+        ])
+            ->whereHas('pro_data', function ($query) {
+                return $query->where('project_id', '!=', null);
+            })
+            ->latest()->limit(3)->get();
     }
     public function activeProject()
     {
-        // return Project::with([
-        //     'pro_data',
-        //     'pro_items'
-        // ])->where('active', 1)->limit(3)->get();
         return Project::with([
             'pro_data',
             'pro_items'
-        ])->latest()->limit(3)->get();
+        ])
+            ->whereHas('pro_data', function ($query) {
+                return $query->where('project_id', '!=', null);
+            })
+            ->where('status', 'A')->latest()->limit(3)->get();
     }
     public function projectSales($id)
     {

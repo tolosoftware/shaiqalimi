@@ -87,9 +87,7 @@
           <vs-td class="whitespace-no-wrap notupfromall">
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showStepsModal(tr.id)" />&nbsp;&nbsp;
             <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
-            <!--<router-link class="product-name font-medium truncate"> -->
-            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
-            <!--</router-link> -->
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" @click.stop="goToEdit(tr)"/>
             <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>

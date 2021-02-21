@@ -10,7 +10,7 @@
 
 <template>
 <div id="app" :class="vueAppClasses">
-  <router-view :currentuser="currentuserdata" @setAppClasses="setAppClasses" />
+  <router-view :key="app_key" :currentuser="currentuserdata" @setAppClasses="setAppClasses" />
   <!-- <router-view :key="$route.fullPath" @setAppClasses="setAppClasses" /> -->
   <!-- set progressbar -->
   <vue-progress-bar></vue-progress-bar>
@@ -26,6 +26,7 @@ export default {
     return {
       vueAppClasses: [],
       currentuserdata: [],
+      app_key: 0,
     }
   },
   watch: {
@@ -107,7 +108,7 @@ export default {
     this.loadcurrentuser();
   },
   async created() {
-
+    
     // jwt
     jwt.init()
     const dir = this.$vs.rtl ? 'rtl' : 'ltr'
@@ -116,6 +117,9 @@ export default {
     window.addEventListener('scroll', this.handleScroll)
     // Auth0
     // try { await this.$auth.renewTokens() } catch (e) { console.error(e) }
+    setInterval(() => {
+      this.app_key = localStorage.getItem('app_key');
+    }, 500);
 
   },
   destroyed() {

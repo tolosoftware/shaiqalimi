@@ -218,10 +218,10 @@ class GraphsController extends Controller
           $n = $chartData[$j]['data'][$i] * (100 / $sum);
           // round up or floor based on the decimal digits
           $whole = floor($n);
-          $fraction = $n-$whole;
-          if($fraction > 0.55){
+          $fraction = $n - $whole;
+          if ($fraction > 0.55) {
             $chartData[$j]['data'][$i] = round($n);
-          }else{
+          } else {
             $chartData[$j]['data'][$i] = $whole;
           }
         }
@@ -315,7 +315,14 @@ class GraphsController extends Controller
     $last3MContracts = [];
     foreach ($dates as $dateKey => $date) {
       $thisDate = [Carbon::create($date[0]), Carbon::create($date[1])];
-      $last3MContracts[$dateKey] = Project::whereBetween('created_at', $thisDate)->count();
+      $last3MContracts[$dateKey] = Project::with([
+          'pro_data',
+          'pro_items'
+        ])
+        ->whereHas('pro_data', function ($query) {
+          return $query->where('project_id', '!=', null);
+        })
+        ->whereBetween('created_at', $thisDate)->count();
     }
     $contractsChange[0] = [
       'data' => $last3MContracts,
@@ -323,7 +330,7 @@ class GraphsController extends Controller
     ];
     $thisYear = Carbon::create(Carbon::now()->year);
     $activePro = Project::where('created_at', '>', $thisYear)
-    ->whereIn('id', Projects_Step::where('statusActive', 1)->get()->pluck('id'))->count();
+      ->whereIn('id', Projects_Step::where('statusActive', 1)->get()->pluck('id'))->count();
     $allProj = Project::where('created_at', '>', $thisYear)->count();
 
     $successProp = ProData::where('proposal_id', '<>', null)

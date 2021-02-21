@@ -84,7 +84,7 @@
           <vs-td class="whitespace-no-wrap notupfromall">
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showCheckModal(tr.id)" />
             <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="showPrintData(tr.id)" />
-            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" />
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current" @click.stop="$router.push({path: `/projects/proposal/${tr.id}/edit`})" />
             <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
           </vs-td>
         </vs-tr>
@@ -116,8 +116,7 @@
               </vs-td>
               <vs-td>
                 <router-link v-if="tr.pro_data" class="font-medium truncate" :to="{
-                  path: '/projects/proposal/${tr.id}',
-                  name: 'proposal-edit',
+                  url: `/projects/proposal/${tr.id}/edit`,
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
                   <!-- <img :src="tr.img" class="product-img" /> -->
@@ -128,8 +127,7 @@
               <vs-td>
                 <div v-if="tr.pro_data">
                   <router-link class="font-medium truncate" :to="{
-                  path: '/projects/proposal/${tr.id}',
-                  name: 'proposal-edit',
+                  path: `/projects/proposal/${tr.id}`,
                   params: { id: tr.id, dyTitle: tr.title },
                 }">
                     {{ tr.pro_data.title }}</router-link>

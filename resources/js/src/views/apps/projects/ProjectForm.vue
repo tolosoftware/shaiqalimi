@@ -567,7 +567,10 @@ export default {
 
           for (let [key, data] of Object.entries(data.pro_items)) {
             this.pForm.item[key] = data;
-            this.$refs.ekmalat.addRow({ 'key': key, 'data': data });
+            this.$refs.ekmalat.addRow({
+              'key': key,
+              'data': data
+            });
             this.$refs.ekmalat.operationChange(this.pForm.item[key].operation_id, key);
             this.$refs.ekmalat.itemSelected('', this.pForm.item[key].item_id.id, key, this.pForm.item[key].item_id.uom_id.acronym);
           }
@@ -733,38 +736,64 @@ export default {
           showCancelButton: true,
           confirmButtonColor: 'rgb(54 34 119)',
           cancelButtonColor: 'rgb(229 83 85)',
-          confirmButtonText: '<span>بله، ذخیره شود!</span>',
+          confirmButtonText: '<span>بله، '+ (this.$route.params.id) ? 'آپدیت ' : 'ذخیره ' +' شود!</span>',
           cancelButtonText: '<span>خیر، لغو عملیه!</span>'
         }).then((result) => {
           if (result.isConfirmed) {
             this.$Progress.start()
-            this.pForm.post('/api/project')
-              .then(({
-                data
-              }) => {
-                // Finish the Progress Bar
-                // this.$refs.wizard.reset();
-                // this.pForm.reset();
-                // this.errors.clear();
-                this.$Progress.set(100)
-                this.$vs.notify({
-                  title: 'موفقیت!',
-                  text: 'قرارداد موفقانه ثبت شد.',
-                  color: 'success',
-                  iconPack: 'feather',
-                  icon: 'icon-check',
-                  position: 'top-right'
-                })
-              }).catch((errors) => {
-                this.$vs.notify({
-                  title: 'ناموفق!',
-                  text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
-                  color: 'danger',
-                  iconPack: 'feather',
-                  icon: 'icon-cross',
-                  position: 'top-right'
-                })
-              });
+            if (this.$route.params.id) {
+              this.pForm.patch('/api/project/' + this.$route.params.id)
+                .then(({
+                  data
+                }) => {
+                  this.$Progress.set(100)
+                  this.$vs.notify({
+                    title: 'موفقیت!',
+                    text: 'قرارداد موفقانه آپدیت شد.',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check',
+                    position: 'top-right'
+                  })
+                }).catch((errors) => {
+                  this.$vs.notify({
+                    title: 'ناموفق!',
+                    text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    icon: 'icon-cross',
+                    position: 'top-right'
+                  })
+                });
+            } else {
+              this.pForm.post('/api/project')
+                .then(({
+                  data
+                }) => {
+                  // Finish the Progress Bar
+                  this.$refs.wizard.reset();
+                  this.pForm.reset();
+                  this.errors.clear();
+                  this.$Progress.set(100)
+                  this.$vs.notify({
+                    title: 'موفقیت!',
+                    text: 'قرارداد موفقانه ثبت شد.',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check',
+                    position: 'top-right'
+                  })
+                }).catch((errors) => {
+                  this.$vs.notify({
+                    title: 'ناموفق!',
+                    text: 'لطفاً معلومات را چک کنید و دوباره امتحان کنید!',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    icon: 'icon-cross',
+                    position: 'top-right'
+                  })
+                });
+            }
           }
         })
 
@@ -783,7 +812,7 @@ export default {
     getProject() {
       this.axios.get('/api/project/' + this.$route.params.id)
         .then((response) => {
-          this.setPFromValue(response.data);
+          this.setProjectDataEdit(response.data);
           this.$Progress.set(100)
         })
     },
@@ -805,13 +834,66 @@ export default {
       if (resp.pro_items) {
         this.pForm.item = resp.pro_items;
       }
-      // 
-
       this.pForm.client_id = resp.pro_data.client;
     },
     companySelected(data) {
       this.pForm.company_id = data;
       this.getNextSerialNo(data.sign);
+    },
+    setProjectDataEdit(pdata) {
+      let p = pdata;
+      let pd = p.pro_data;
+      this.pForm.client_id = pd.client,
+        this.pForm.serial_no = p.serial_no,
+        this.pForm.company_id = pd.company_id,
+        this.pForm.offer_guarantee_type = p.offer_guarantee_type,
+        this.pForm.total_price = pd.total_price,
+        this.pForm.proposal_id = p.proposal_id,
+        this.pForm.title = pd.title,
+        this.pForm.reference_no = pd.reference_no,
+        this.pForm.contract_end_date = p.contract_end_date,
+        this.pForm.contract_end_date = p.contract_end_date,
+        this.pForm.project_guarantee = p.project_guarantee,
+        this.pForm.discount = pd.discount,
+        this.pForm.deposit = pd.deposit,
+        this.pForm.tax = pd.tax,
+        this.pForm.others = pd.others,
+        this.pForm.pr_worth = pd.pr_worth,
+        this.pForm.transit = pd.transit,
+        this.visualFields = {
+          others: this.formatToEnPriceSimple(pd['others']),
+          pr_worth: this.formatToEnPriceSimple(pd['pr_worth']),
+          transit: this.formatToEnPriceSimple(pd['transit']),
+          total_price: this.formatToEnPriceSimple(pd['total_price']),
+          project_guarantee: this.formatToEnPriceSimple(p['project_guarantee']),
+        };
+      if (p.pro_items.length) {
+        if(this.$refs.ekmalat){
+          this.$refs.ekmalat.resetArrays();
+        }
+
+        for (let [key, data] of Object.entries(p.pro_items)) {
+          this.pForm['item'][key] = data;
+          this.$refs.ekmalat.addRow({
+            'key': key,
+            'data': data
+          });
+          this.$refs.ekmalat.operationChange(this.pForm.item[key].operation_id, key);
+          this.$refs.ekmalat.itemSelected('', this.pForm.item[key].item_id.id, key, this.pForm.item[key].item_id.uom_id.acronym);
+        }
+      } else {
+        this.pForm.item = [{
+          item_id: "",
+          unit_id: "",
+          operation_id: null,
+          equivalent: "",
+          ammount: 0,
+          unit_price: 0,
+          total_price: 0,
+          density: "1.00",
+        }];
+      }
+
     }
   },
   // End Of methods
