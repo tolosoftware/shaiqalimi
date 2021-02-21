@@ -46,6 +46,7 @@ ALTER TABLE `sales_fours` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_threes` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_twos` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_ones` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
+ALTER TABLE `fuel_station_storages` CHANGE `capacity` `capacity` INT(20) NULL DEFAULT NULL;
 
 ALTER TABLE `sales_fours` CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `sales_threes`  CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;

@@ -50,7 +50,8 @@ const router = new Router({
                         permission: [1, 2],
                         breadcrumb: [{ title: "Dashboard", active: true }],
                         rule: "editor"
-                    }                },
+                    }
+                },
                 {
                     path: "/dashboard",
                     name: "dashboard",
@@ -261,7 +262,7 @@ const router = new Router({
                                 active: true
                             }
                         ],
-                        rule: "editor",
+                        rule: "editor"
                     }
                 },
                 {
@@ -337,6 +338,110 @@ const router = new Router({
                     }
                 },
                 {
+                    path: "sales/sale/:id/edit/s1",
+                    name: "sales-edit-1",
+                    component: () =>
+                        import(
+                            "./views/apps/sales/sections/editforms/EditOmdeQarardadi.vue"
+                        ),
+                    meta: {
+                        permission: [1, 11],
+                        breadcrumb: [
+                            {
+                                title: "Home",
+                                url: "/"
+                            },
+                            {
+                                title: "فروشات",
+                                url: "/sales"
+                            },
+                            {
+                                title: "ویرایش فروشات",
+                                active: true
+                            }
+                        ],
+                        rule: "editor"
+                    }
+                },
+                {
+                    path: "sales/sale/:id/edit/s2",
+                    name: "sales-edit-2",
+                    component: () =>
+                        import(
+                            "./views/apps/sales/sections/editforms/EditOmdeStandard.vue"
+                        ),
+                    meta: {
+                        permission: [1, 11],
+                        breadcrumb: [
+                            {
+                                title: "Home",
+                                url: "/"
+                            },
+                            {
+                                title: "فروشات",
+                                url: "/sales"
+                            },
+                            {
+                                title: "ویرایش فروشات",
+                                active: true
+                            }
+                        ],
+                        rule: "editor"
+                    }
+                },
+                {
+                    path: "sales/sale/:id/edit/s3",
+                    name: "sales-edit-3",
+                    component: () =>
+                        import(
+                            "./views/apps/sales/sections/editforms/EditParchonQarardadi.vue"
+                        ),
+                    meta: {
+                        permission: [1, 11],
+                        breadcrumb: [
+                            {
+                                title: "Home",
+                                url: "/"
+                            },
+                            {
+                                title: "فروشات",
+                                url: "/sales"
+                            },
+                            {
+                                title: "ویرایش فروشات",
+                                active: true
+                            }
+                        ],
+                        rule: "editor"
+                    }
+                },
+                {
+                    path: "sales/sale/:id/edit/s4",
+                    name: "sales-edit-4",
+                    component: () =>
+                        import(
+                            "./views/apps/sales/sections/editforms/EditParchonStandard.vue"
+                        ),
+                    meta: {
+                        permission: [1, 11],
+                        breadcrumb: [
+                            {
+                                title: "Home",
+                                url: "/"
+                            },
+                            {
+                                title: "فروشات",
+                                url: "/sales"
+                            },
+                            {
+                                title: "ویرایش فروشات",
+                                active: true
+                            }
+                        ],
+                        rule: "editor"
+                    }
+                },
+                {
                     path: "/transactions",
                     name: "transactions",
                     component: () =>
@@ -374,7 +479,7 @@ const router = new Router({
                             }
                         ],
                         rule: "editor"
-                    },
+                    }
                 },
                 {
                     path: "/tr/:id",

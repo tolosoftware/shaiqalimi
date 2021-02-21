@@ -86,7 +86,7 @@
           <vs-td>
             <feather-icon icon="CheckSquareIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showCheckModal(tr.sales_id)" />&nbsp;&nbsp;
             <feather-icon icon="PrinterIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="showPrintData(tr.id)" />&nbsp;&nbsp;
-            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current cursor-pointer" />
+            <feather-icon icon="EditIcon" svgClasses="w-6 h-6 hover:text-primary stroke-current cursor-pointer" @click.stop="goToEdit(tr)"/>
             <feather-icon icon="TrashIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="deleteData(tr.sales_id)" />
             <feather-icon icon="EyeIcon" svgClasses="w-6 h-6 hover:text-danger stroke-current cursor-pointer" class="ml-2" @click.stop="viewData(tr)" />
           </vs-td>
@@ -340,7 +340,18 @@ export default {
     },
     toggleDataSidebar(val = false) {
       this.addNewDataSidebar = val
-    }
+    },
+    goToEdit(data) {
+      this.$router
+        .push({
+          path: `/sales/sale/${data.sales_id}/edit/${data.type}`,
+          params: {
+            id: data.id,
+            dyTitle: data.title
+          },
+        })
+        .catch(() => {});
+    },
   },
   created() {
     this.getAllSales();

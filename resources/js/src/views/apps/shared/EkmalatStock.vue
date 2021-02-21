@@ -248,11 +248,11 @@ export default {
     getAllItems(matched_items, filter = true) {
       this.axios.get("/api/items").then((response) => {
         this.goods = response.data;
-          if (filter) {
-            this.goods = this.goods.filter((elem) => matched_items.find(({
-              id
-            }) => elem.id === id));
-          }
+        if (filter) {
+          this.goods = this.goods.filter((elem) => matched_items.find(({
+            id
+          }) => elem.id === id));
+        }
         this.getAllUnites();
         this.resetItemsData();
       });
@@ -495,57 +495,60 @@ export default {
   // End Of methods
   computed: {
     itemsTotalPrice: function () {
-      var x = this.listOfFields.increment + this.listOfFields.increment_equiv + this.listOfFields.unit_price + this.listOfFields.total_price;
-      for (const key of Object.keys(this.items)) {
-        let item_increment_equiv = (this.items[key].item_id.increment_equiv) ? this.items[key].item_id.increment_equiv : this.items[key].item_id.equivalent;
-        let opr = this.items[key].operation_id;
+      if (this.listOfFields) {
+        var x = this.listOfFields.increment + this.listOfFields.increment_equiv + this.listOfFields.unit_price + this.listOfFields.total_price;
 
-        let unit_price = this.items[key].unit_price;
-        let density = this.items[key].density;
-        if (opr && opr.id == 1) {
-          this.items[key].total_price = this.items[key].increment * unit_price;
-          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
-          this.items[key].increment_equiv = 0;
-          this.visualFields[key].increment_equiv = 0;
-        } else if (opr && opr.id == 2) {
-          this.items[key].total_price = this.items[key].increment_equiv * unit_price;
-          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
-          this.items[key].increment = 0;
-          this.visualFields[key].increment = 0;
-        } else if (opr && opr.id == 3) {
-          if (item_increment_equiv !== 0) {
-            this.items[key].increment_equiv = this.items[key].increment * item_increment_equiv;
-            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(4);
-            this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
-          }
-          this.items[key].total_price = this.items[key].increment_equiv * unit_price;
-          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
-        } else if (opr && opr.id == 4) {
-          if (item_increment_equiv !== 0) {
-            this.items[key].increment = this.items[key].increment_equiv / item_increment_equiv;
-            this.items[key].increment = this.items[key].increment.toFixed(4);
-            this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
-          }
-          this.items[key].total_price = this.items[key].increment * unit_price;
-          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+        for (const key of Object.keys(this.items)) {
+          let item_increment_equiv = (this.items[key].item_id.increment_equiv) ? this.items[key].item_id.increment_equiv : this.items[key].item_id.equivalent;
+          let opr = this.items[key].operation_id;
 
-        } else if (opr && opr.id == 5) {
-          if (item_increment_equiv !== 0) {
-            this.items[key].increment_equiv = (this.items[key].increment * 1000) / density;
-            this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(4);
-            this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
+          let unit_price = this.items[key].unit_price;
+          let density = this.items[key].density;
+          if (opr && opr.id == 1) {
+            this.items[key].total_price = this.items[key].increment * unit_price;
+            this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+            this.items[key].increment_equiv = 0;
+            this.visualFields[key].increment_equiv = 0;
+          } else if (opr && opr.id == 2) {
+            this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+            this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+            this.items[key].increment = 0;
+            this.visualFields[key].increment = 0;
+          } else if (opr && opr.id == 3) {
+            if (item_increment_equiv !== 0) {
+              this.items[key].increment_equiv = this.items[key].increment * item_increment_equiv;
+              this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(4);
+              this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
+            }
+            this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+            this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+          } else if (opr && opr.id == 4) {
+            if (item_increment_equiv !== 0) {
+              this.items[key].increment = this.items[key].increment_equiv / item_increment_equiv;
+              this.items[key].increment = this.items[key].increment.toFixed(4);
+              this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
+            }
+            this.items[key].total_price = this.items[key].increment * unit_price;
+            this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
 
+          } else if (opr && opr.id == 5) {
+            if (item_increment_equiv !== 0) {
+              this.items[key].increment_equiv = (this.items[key].increment * 1000) / density;
+              this.items[key].increment_equiv = this.items[key].increment_equiv.toFixed(4);
+              this.visualFields[key].increment_equiv = this.formatToEnPriceSimple(this.items[key].increment_equiv);
+
+            }
+            this.items[key].total_price = this.items[key].increment_equiv * unit_price;
+            this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+          } else if (opr && opr.id == 6) {
+            if (item_increment_equiv !== 0) {
+              this.items[key].increment = (this.items[key].increment_equiv / 1000) * density;
+              this.items[key].increment = this.items[key].increment.toFixed(4);
+              this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
+            }
+            this.items[key].total_price = this.items[key].increment * unit_price;
+            this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
           }
-          this.items[key].total_price = this.items[key].increment_equiv * unit_price;
-          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
-        } else if (opr && opr.id == 6) {
-          if (item_increment_equiv !== 0) {
-            this.items[key].increment = (this.items[key].increment_equiv / 1000) * density;
-            this.items[key].increment = this.items[key].increment.toFixed(4);
-            this.visualFields[key].increment = this.formatToEnPriceSimple(this.items[key].increment);
-          }
-          this.items[key].total_price = this.items[key].increment * unit_price;
-          this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
         }
       }
 

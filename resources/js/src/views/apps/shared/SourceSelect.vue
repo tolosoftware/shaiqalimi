@@ -51,6 +51,9 @@ export default {
       this.parentForm.source_type = type;
       this.parentForm.source = type
       if (parent) {
+        this.sources.foreach(e => {
+          console.log(e);
+        })
         this.selection = parent.name + ' - ' + this.parentForm.source_id.name;
       } else {
         this.selection = this.parentForm.source_id.name;

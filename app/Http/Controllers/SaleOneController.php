@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\Helper;
-
-use App\Models\SaleOne;
 use App\Models\Sale;
+use App\Helper\Helper;
 use App\Models\Account;
+
 use App\Models\ProItem;
-use App\Models\SerialNumber;
-use App\Models\AccountType;
-use App\Models\ExchangeRate;
-use App\Models\FinancialRecord;
-use App\Models\Currency;
 use App\Models\Project;
-use App\Models\Notification;
+use App\Models\SaleOne;
+use App\Models\Currency;
+use App\Models\AccountType;
 use App\Models\StockRecord;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\ExchangeRate;
+use App\Models\Notification;
+use App\Models\SerialNumber;
 use Carbon\Carbon as Carbon;
+use Illuminate\Http\Request;
+use App\Models\FinancialRecord;
+use Illuminate\Support\Facades\DB;
 
 class SaleOneController extends Controller
 {
@@ -33,11 +33,8 @@ class SaleOneController extends Controller
         $sales1 = Sale::with(['saleS1.project', 'source'])->get();
         $sales2 = Sale::with(['saleS2.storage', 'source'])->get();
 
-        // //both arrays will be merged including duplicates
         // $result = array_merge( $sales1, $sales2 );
-        // //duplicate objects will be removed
         // $result = array_map("unserialize", array_unique(array_map("serialize", $result)));
-        // //array is sorted on the bases of id
         // sort( $result );
 
         return [$sales1, $sales2];
@@ -69,18 +66,18 @@ class SaleOneController extends Controller
                 // 'title' => 'required|min:2',
                 // 'formula' => 'required|min:2',
                 // 'serial_no' => 'required',
-                'project_id' => 'required',
+                // 'steps' => 'required',
+                // 'description' => 'required',
                 // 'destination' => 'required',
+                // 'source_type' => 'required',
+                'project_id' => 'required',
                 'transport_cost' => 'required',
                 'service_cost' => 'required',
                 'tax' => 'required',
                 'deposit' => 'required',
                 'total' => 'required',
-                // 'steps' => 'required',
-                // 'description' => 'required',
                 'type' => 'required',
                 'source_id' => 'required',
-                // 'source_type' => 'required',
                 'user_id' => 'required',
                 'currency_id' => 'required',
                 'datatime' => 'required',
@@ -93,10 +90,8 @@ class SaleOneController extends Controller
             foreach (['source_id', 'project_id'] as $key) {
                 $request[$key] = $request[$key]['id'];
             }
-            // return $request;
             $newSale = Sale::create($request->all());
             $request['sales_id'] = $newSale->id;
-            // return $request;
             $newSaleOne = SaleOne::create($request->all());
 
             // $typeId = AccountType::latest()->first()->id;
@@ -140,7 +135,7 @@ class SaleOneController extends Controller
             }
             DB::commit();
             return [$newSale, $newSaleOne, $newAcc, $newFR, $newNotif, $stocks];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
         }
     }
@@ -211,9 +206,21 @@ class SaleOneController extends Controller
      * @param  \App\SaleOne  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function edit(SaleOne $saleOne)
+    public function edit($id)
     {
-        //
+        $sale = Sale::with([
+            'source_id', 'saleS1.project',
+            'saleS1.project.pro_data.client',
+            'saleS1.project.pro_data.company_id',
+            'saleS1.project.pro_items.item_id',
+            'saleS1.project.pro_items.operation_id',
+            'saleS1.project.pro_items.item_id.uom_equiv_id',
+            'saleS1.project.pro_items.item_id.uom_id',
+            'saleS1.project.pro_items.item_id.type',
+            'saleS1.project.proposal_id.pro_data.client'
+        ])->find($id);
+        // $sale['items'] = StockRecord::where('type', 'sale')->where('type_id', $id)->get();
+        return $sale;
     }
 
     /**
@@ -223,9 +230,71 @@ class SaleOneController extends Controller
      * @param  \App\SaleOne  $saleOne
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SaleOne $saleOne)
+    public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            // $serial_no = Helper::getSerialNo('proj-' . $request->project_id['id'], 'sale');
+            $this->validate($request, [
+                'project_id' => 'required',
+                'transport_cost' => 'required',
+                'service_cost' => 'required',
+                'tax' => 'required',
+                'deposit' => 'required',
+                'total' => 'required',
+                'type' => 'required',
+                'source_id' => 'required',
+                'user_id' => 'required',
+                'currency_id' => 'required',
+                'datatime' => 'required',
+                'item' => 'required',
+            ]);
+
+            $project = $request->project_id;
+            $storage = $request->source_id;
+            foreach (['source_id', 'project_id'] as $key) {
+                $request[$key] = $request[$key]['id'];
+            }
+            $rootSale = Sale::find($id);
+            $rootSale->update($request->all());
+
+            $saleOne = SaleOne::where('sales_id', $id)->first();
+            $request['sales_id'] = $rootSale->id;
+            $saleOne = $saleOne->update($request->all());
+            $projectAcc = Account::where('type_id', config('app.contract_account_type'))->where('ref_code', $project['id'])->first();
+            if ($projectAcc) {
+                $newFR = Helper::createDoubleFR('sale', $rootSale, $projectAcc, $request);
+            }
+            if ($projectAcc) {
+                $stocks = [];
+                $totalmoney = 0;
+                $stocks = Helper::salesCreateStockRecords('sale', $request->item, $rootSale, $storage, $request, $totalmoney, $request['source_type'], $storage['id']);
+            }
+
+            // Create the Notification
+            // if ($newFR) {
+            //     $client_name = $project['pro_data']['client']['name'];
+            //     $item_name = $storage['name'];
+            //     $nofication = [
+            //         'title' => 'فروشات جدید',
+            //         'text' => 'یک فروش جدید از ' . $item_name . ' برای ' . $client_name . ' در سیستم ثبت گردید.',
+            //         'type' => 'normal',
+            //         'gen_date' => Carbon::now(),
+            //         'exp_date' => Carbon::now()->endOfDay(),
+            //         'action' => 'view',
+            //         'url' => 'sales?list',
+            //         'user_id' => $request->user_id,
+            //     ];
+            //     $newNotif = Notification::create($nofication);
+            //     if ($newNotif) {
+            //         Helper::createUserAssign($newNotif->id, "nor");
+            //     }
+            // }
+            DB::commit();
+            return [$rootSale, $saleOne, $projectAcc, $newFR, $stocks];
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**
