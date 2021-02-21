@@ -27,6 +27,13 @@ export default {
     this.getBankAccounts();
   },
   methods:{
+    findAndSet(id){
+      this.bankAccounts.forEach(e => {
+        if (e.id === id) {
+          this.bankAccountSelected(e)
+        }
+      })
+    },
     bankAccountSelected(data){
       this.selected = data;
       this.form.bank_account = data.id

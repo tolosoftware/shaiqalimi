@@ -574,7 +574,6 @@ export default {
     },
     setWizardStep1(index = 1, proposalstepdata) {
       this.setProposalData(index, proposalstepdata);
-      console.log('Participators:', this.participators)
       // this.setPropParticipators();
       this.$refs.wizarde.activateAll();
       this.$refs.wizarde.navigateToTab(index - 1);

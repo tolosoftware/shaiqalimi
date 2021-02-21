@@ -496,6 +496,58 @@ export default {
   computed: {
     itemsTotalPrice: function () {
       if (this.listOfFields) {
+      // var x = this.listOfFields.increment + this.listOfFields.increment_equiv + this.listOfFields.unit_price + this.listOfFields.total_price;
+      // for (const key of Object.keys(this.items)) {
+      //   let item_equivalent = this.items[key].item_id.equivalent;
+      //   let opr = this.items[key].operation_id;
+
+      //   let unit_price = this.items[key].unit_price;
+      //   this.items[key].density = this.items[key].density*1;
+      //   let density = this.items[key].density;
+
+      //   if (opr && opr.id == 1) {
+      //     this.items[key].total_price = this.items[key].ammount * unit_price;
+      //     this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+      //     this.items[key].equivalent = 0;
+      //   } else if (opr && opr.id == 2) {
+      //     this.items[key].total_price = this.items[key].equivalent * unit_price;
+      //     this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+      //     this.items[key].ammount = 0;
+      //   } else if (opr && opr.id == 3) {
+      //     if (item_equivalent !== 0) {
+      //       this.items[key].equivalent = this.items[key].ammount * item_equivalent;
+      //       this.items[key].equivalent = this.items[key].equivalent.toFixed(4);
+      //       this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
+      //     }
+      //     this.items[key].total_price = this.items[key].equivalent * unit_price;
+      //     this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+      //   } else if (opr && opr.id == 4) {
+      //     if (item_equivalent !== 0) {
+      //       this.items[key].ammount = this.items[key].equivalent / item_equivalent;
+      //       this.items[key].ammount = this.items[key].ammount.toFixed(4);
+      //       this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
+      //     }
+      //     this.items[key].total_price = this.items[key].ammount * unit_price;
+      //     this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+      //   } else if (opr && opr.id == 5) {
+      //     if (item_equivalent !== 0) {
+      //       this.items[key].equivalent = (this.items[key].ammount * density) * item_equivalent;
+      //       this.items[key].equivalent = this.items[key].equivalent.toFixed(4);
+      //       this.visualFields[key].equivalent = this.formatToEnPriceSimple(this.items[key].equivalent);
+      //     }
+      //     this.items[key].total_price = this.items[key].equivalent * unit_price;
+      //     this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+      //   } else if (opr && opr.id == 6) {
+      //     if (item_equivalent !== 0) {
+      //       this.items[key].ammount = (this.items[key].equivalent * density) / item_equivalent;
+      //       this.items[key].ammount = this.items[key].ammount.toFixed(4);
+      //       this.visualFields[key].ammount = this.formatToEnPriceSimple(this.items[key].ammount);
+      //     }
+      //     this.items[key].total_price = this.items[key].ammount * unit_price;
+      //     this.visualFields[key].total_price = this.formatToEnPriceSimple(this.items[key].total_price);
+      //   }
+
+      // }
         var x = this.listOfFields.increment + this.listOfFields.increment_equiv + this.listOfFields.unit_price + this.listOfFields.total_price;
 
         for (const key of Object.keys(this.items)) {

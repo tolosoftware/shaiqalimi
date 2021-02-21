@@ -9,7 +9,9 @@ use App\Models\Account;
 use App\Models\ProItem;
 use App\Models\Project;
 use App\Models\SaleOne;
+use App\Models\Storage;
 use App\Models\Currency;
+use App\Models\Inventory;
 use App\Models\AccountType;
 use App\Models\StockRecord;
 use App\Models\ExchangeRate;
@@ -17,8 +19,10 @@ use App\Models\Notification;
 use App\Models\SerialNumber;
 use Carbon\Carbon as Carbon;
 use Illuminate\Http\Request;
+use App\Models\Fuel_despenser;
 use App\Models\FinancialRecord;
 use Illuminate\Support\Facades\DB;
+use App\Models\Fuel_station_storage;
 
 class SaleOneController extends Controller
 {
@@ -209,7 +213,7 @@ class SaleOneController extends Controller
     public function edit($id)
     {
         $sale = Sale::with([
-            'source_id', 'saleS1.project',
+            'saleS1.project',
             'saleS1.project.pro_data.client',
             'saleS1.project.pro_data.company_id',
             'saleS1.project.pro_items.item_id',
@@ -220,6 +224,20 @@ class SaleOneController extends Controller
             'saleS1.project.proposal_id.pro_data.client'
         ])->find($id);
         // $sale['items'] = StockRecord::where('type', 'sale')->where('type_id', $id)->get();
+
+        if ($sale->source_type == "FDSP") {
+            $sale->source_id = Fuel_despenser::find($sale->source_id);
+        } else
+        if ($sale->source_type == "FSTR") {
+            $sale->source_id = Fuel_station_storage::find($sale->source_id);
+        } else
+        if ($sale->source_type == "STOK") {
+            $sale->source_id = Inventory::find($sale->source_id);
+        } else
+        if ($sale->source_type == "STRG") {
+            $sale->source_id = Storage::find($sale->source_id);
+        }
+
         return $sale;
     }
 

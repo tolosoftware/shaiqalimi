@@ -45,15 +45,51 @@ export default {
     this.getStorages();
   },
   methods: {
+    findAndSet(data, type) {
+      if (type == 'FSTR') {
+        let mainStation = data.station_id;
+        this.sources.fuel.forEach(e => {
+          if (e.id === mainStation) {
+            let f_station = e;
+            f_station['fuel_station_storages'].forEach(ee => {
+              if (ee.id === data.id) {
+                this.ddSelected(ee, type, f_station)
+              }
+            })
+          }
+        })
+      } else if (type == 'FDSP') {
+        let mainStation = data.station_id;
+        this.sources.fuel.forEach(e => {
+          if (e.id === mainStation) {
+            let f_station = e;
+            f_station['fuel_despencers'].forEach(ee => {
+              if (ee.id === data.id) {
+                this.ddSelected(ee, type, f_station)
+              }
+            })
+          }
+        });
+      } else if (type == 'STOK') {
+        this.sources.inv.forEach(ee => {
+          if (ee.id === data.id) {
+            this.ddSelected(ee, type)
+          }
+        })
+      } else {
+        this.sources.str.forEach(ee => {
+          if (ee.id === data.id) {
+            this.ddSelected(ee, type)
+          }
+        })
+      }
+    },
     ddSelected(data, type, parent = null) {
       this.getStorageItems(type, data.id);
       this.parentForm.source_id = data;
       this.parentForm.source_type = type;
       this.parentForm.source = type
       if (parent) {
-        this.sources.foreach(e => {
-          console.log(e);
-        })
         this.selection = parent.name + ' - ' + this.parentForm.source_id.name;
       } else {
         this.selection = this.parentForm.source_id.name;

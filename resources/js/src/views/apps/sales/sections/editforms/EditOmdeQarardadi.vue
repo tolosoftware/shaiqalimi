@@ -78,7 +78,7 @@
       <div class="sm:w-1 md:w-1/2 lg:w-1/4 xl:w-1/4 pr-3 pb-2 pt-3">
         <!-- This conpoment need the form source id and form source type field -->
         <label for=""><small>منبع</small></label>
-        <source-select ref="source_select" :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
+        <source-select ref="str" :parentForm="sForm" @updateItems="update_items" name="source" v-validate="'required'" v-model="sForm.source_id"></source-select>
         <span class="absolute text-danger alerttext">{{ errors.first('s1Form.source') }}</span>
       </div>
       <div class="sm:w-1 md:w-1/2 lg:w-3/4 xl:w-3/4 pr-3 pb-2 pt-3">
@@ -89,7 +89,7 @@
       </div>
     </div>
     <!-- EkmalatStock -->
-    <ekmalat-stock :items="sForm.item" :form="sForm" :currencyID="sForm.currency_id" :listOfFields="[]" :disabledFields="[]" :grid="[]" ref="ekmalat"></ekmalat-stock>
+    <ekmalat-stock :items="sForm.item" :form="sForm" :currencyID="sForm.currency_id" :listOfFields="sdict" :disabledFields="[]" :grid="[]" ref="ekmalat"></ekmalat-stock>
     <vs-row vs-w="12" class="mb-base">
       <vs-col vs-type="flex" vs-w="3">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-lg="6" vs-sm="6" vs-xs="12">
@@ -209,7 +209,7 @@
     <div class="vx-row">
       <div class="w-full pt-2 ml-3 mr-3">
         <vs-col vs-align="right" vs-lg="3" class="pl-4" vs-sm="3" vs-xs="12">
-          <bank-account-select :form="sForm" name="bank_account" v-validate="'required'" v-model="sForm.bank_account"></bank-account-select><br>
+          <bank-account-select ref="bas" :form="sForm" name="bank_account" v-validate="'required'" v-model="sForm.bank_account"></bank-account-select><br>
           <span class="absolute text-danger alerttext">{{ errors.first('s1Form.bank_account') }}</span>
         </vs-col>
       </div>
@@ -373,7 +373,60 @@ export default {
             required: ''
           }
         }
-      }
+      },
+      sdict: {
+        custom: {
+          company_id: {
+            required: 'سریال نمبر الزامی میباشد.',
+            number: 'سریال نمبر باید نمبر باشد.'
+          },
+          proposal_id: {
+            required: 'انتخاب اعلان الزامی میباشد.',
+          },
+          contract_date: {
+            required: 'تاریخ عقد قرارداد را انتخاب کنید.'
+          },
+          client_id: {
+            required: 'نهاد را انتخاب کنید.'
+          },
+          title: {
+            required: 'عنوان قرراداد الزامی است.'
+          },
+          reference_no: {
+            required: 'شماره شناسایی قرارداد ضروری است.'
+          },
+          contract_end_date: {
+            required: 'تاریخ ختم قرارداد الزامی است.'
+          },
+          bidding_date: {
+            required: 'تاریخ آفرگشایی الزامی است.'
+          },
+          bidding_address: {
+            required: 'آدرس آفرگشایی الزامی است.'
+          },
+          project_guarantee: {
+            required: 'تضمین قرارداد الزامی است'
+          },
+          deposit: {
+            required: 'فیصدی تامینات را وارد کنید.',
+          },
+          tax: {
+            required: 'فیصدی مالیه را وارد کنید',
+          },
+          others: {
+            required: 'قیمت متفرقه بالای قرارداد را وارد کنید.',
+          },
+          pr_worth: {
+            required: 'ارزش قرارداد الزامی است.',
+          },
+          transit: {
+            required: 'قیمت انتقالات را وارد کنید.',
+          },
+          total_price: {
+            required: '',
+          },
+        }
+      },
     };
   },
   created() {
@@ -387,6 +440,9 @@ export default {
         }
       }
     })
+    setTimeout(() => {
+      this.$vs.loading.close()  
+    }, 5000);
   },
   computed: {
     saleTotalCostFinal: function () {
@@ -544,14 +600,20 @@ export default {
       this.visualFields.tax = ds.tax;
       this.visualFields.deposit = ds.deposit;
       this.visualFields.total = ds.total;
-
-      // this.sForm.bank_account = d.bank_account;
+      
+      if(this.$refs.bas){
+        this.$refs.bas.findAndSet(d.bank_account);
+      }
+      if(this.$refs.str){
+        this.$refs.str.findAndSet(d.source_id, d.source_type);
+      }
       // this.sForm.type = d.type;
       // this.sForm.source_id = d.source_id;
       // this.sForm.source_type = d.source_type;
 
       this.sForm.currency_id = d.currency_id;
       this.sForm.datatime = d.datatime;
+      this.$vs.loading.close()
     },
   },
 };

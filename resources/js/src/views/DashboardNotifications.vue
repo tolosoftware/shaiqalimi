@@ -102,7 +102,6 @@ export default {
   methods: {
     changePageNotif(val) {
       this.range = [(val - 1) * 15 , val * 15];
-      console.log();
     },
     closeModel() {
       this.getAllNotification();

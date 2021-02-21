@@ -78,7 +78,6 @@ export default {
     },
     setWizardStepTransf(index) {
       this.step = index;
-      console.log('step', this.step);
       this.$refs.wizardtranf.activateAll();
       this.$refs.wizardtranf.navigateToTab(index - 1);
     },

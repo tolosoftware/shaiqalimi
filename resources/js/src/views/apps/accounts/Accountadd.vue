@@ -184,7 +184,6 @@ export default {
 
     },
     editAccountData() {
-      console.log('type id', this.accForm.type_id)
       this.$validator.validateAll('accountForm').then(result => {
         if (result) {
           if (this.accForm.id) {
