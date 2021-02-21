@@ -79,7 +79,6 @@ export default {
     },
     setWizardStepProc(index) {
       this.step = index;
-      console.log('step', this.step);
       this.$refs.wizardproc.activateAll();
       this.$refs.wizardproc.navigateToTab(index - 1);
       // this.$refs.wizard.navigateToTab(2);

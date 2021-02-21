@@ -619,7 +619,7 @@ export default {
           ammount: "0",
           unit_price: "0",
           total_price: "0",
-          density: null,
+          density: 0,
         }],
         deposit: '0',
         tax: '0',

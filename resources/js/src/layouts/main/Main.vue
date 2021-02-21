@@ -97,7 +97,7 @@
                     icon-pack="feather"
                     icon="icon-refresh-cw"
                     class="ml-2"
-                    @click="$router.go(0)"
+                    @click="changePath"
                   ></vs-button>
                   <!-- ‌Backbutton -->
                   <vs-button
@@ -155,7 +155,6 @@ import themeConfig from '@/../themeConfig.js'
 import VNavMenu from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue'
 
 const VxTour = () => import('@/components/VxTour.vue')
-
 export default {
   components: {
     BackToTop,
@@ -261,6 +260,9 @@ export default {
     windowWidth() {return this.$store.state.windowWidth}
   },
   methods: {
+    changePath(){
+      localStorage.setItem('app_key', Date.now())
+    },
     changeRouteTitle(title) {
       this.routeTitle = title
     },

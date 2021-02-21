@@ -17,12 +17,12 @@
         <!-- RIGHT COL -->
         <div class="vx-col w-full lg:w-1/2 xl:w-1/2 flex flex-col lg:mb-0 mb-base">
 
-          <div class="img-container w-33 mx-auto flex items-center justify-center ml-5">
+          <!-- <div class="img-container w-33 mx-auto flex items-center justify-center ">
             <img :src="announceimg" alt="اعلانات" class="responsive">
-          </div>
-          <!--
+          </div> -->
+          
          <change-time-duration-dropdown class="self-end" />
-          <vue-apex-charts type="bar" height="200" :options="analyticsData.salesBar.chartOptions" :series="salesBarSession.series" v-if="salesBarSession.series" />-->
+          <vue-apex-charts type="bar" height="200" :options="analyticsData.salesBar.chartOptions" :series="salesBarSession.series" v-if="salesBarSession.series" />
         </div>
       </div>
       <vs-divider class="my-6"></vs-divider>
@@ -35,14 +35,14 @@
           <small>اعلانات موجود: 73</small>
           <vs-progress class="block mt-1" :percent="90" color="success"></vs-progress>
         </div>
-        <div class="vx-col w-1/2 mb-3">
+        <!-- <div class="vx-col w-1/2 mb-3">
           <small>اعلانات جدید: ۱۰۰</small>
           <vs-progress class="block mt-1" :percent="60" color="warning"></vs-progress>
         </div>
         <div class="vx-col w-1/2 mb-3">
           <small>افزایش یافته: ۷۸%</small>
           <vs-progress class="block mt-1" :percent="70" color="danger"></vs-progress>
-        </div>
+        </div> -->
       </div>
     </vx-card>
   </div>
@@ -58,12 +58,12 @@
 
         <!-- RIGHT COL -->
         <div class="vx-col w-full lg:w-1/2 xl:w-1/2 flex flex-col lg:mb-0 mb-base">
-          <div class="img-container w-33 mx-auto flex items-center justify-center ml-5">
+          <!-- <div class="img-container w-33 mx-auto flex items-center justify-center ">
             <img :src="contractimg" alt="قراردادها" class="responsive">
-          </div>
-          <!--<change-time-duration-dropdown class="self-end" />
+          </div> -->
+          <change-time-duration-dropdown class="self-end" />
           <vue-apex-charts type="bar" height="200" :options="analyticsData.salesBar.chartOptions" :series="salesBarSession.series" v-if="salesBarSession.series" />
-          -->
+         
         </div>
       </div>
 
@@ -79,10 +79,10 @@
             <vs-button icon-pack="feather" icon="icon-chevrons-left" icon-after class="shadow-md w-full lg:mt-0 mt-4">مدیریت قراردادها</vs-button>
           </router-link>
         </div>
-        <div class="vx-col w-1/2 mb-3">
+        <!-- <div class="vx-col w-1/2 mb-3">
           <small>قراردادها این ماه: ۸</small>
           <vs-progress class="block mt-1" :percent="70" color="danger"></vs-progress>
-        </div>
+        </div> -->
       </div>
     </vx-card>
   </div>

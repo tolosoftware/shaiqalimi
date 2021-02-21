@@ -112,7 +112,8 @@ export default {
       form: new Form({
         serial_no: '',
         currency_id: 1,
-        datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
+        datetime: '',
+        // datetime: this.momentj().format('jYYYY/jMM/jDD HH:mm'),
         title: '',
         user_id: localStorage.getItem('id'),
         ammount: '0',
@@ -161,7 +162,6 @@ export default {
     loadExpense() {
       this.axios.get('/api/expenses/' + this.edit_id)
         .then((response) => {
-          // console.log('Credit- Account: ', response.data)
           this.form.serial_no = response.data.serial_no,
             this.form.currency_id = response.data.currency_id,
             this.form.datetime = response.data.datetime,

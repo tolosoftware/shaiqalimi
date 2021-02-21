@@ -7,7 +7,7 @@ ALTER TABLE `proposals` ADD `bank_distribute` boolean NULL AFTER `receive_office
 ALTER TABLE `pro_items` ADD `density` FLOAT (5, 5) NULL AFTER `equivalent`;
 ALTER TABLE `pro_items` ADD `density` FLOAT(5, 5) NULL AFTER `equivalent`;
 ALTER TABLE `stock_records` ADD `ex_rate_id` INT(10) NULL AFTER `remark`;
-
+ALTER TABLE `pro_data` ADD `discount` INT(10) NULL DEFAULT '0' AFTER `others`;
 -- Changes
 ALTER TABLE `projects` CHANGE `project_guarantee` `project_guarantee` BIGINT (20) NOT NULL;
 ALTER TABLE `pro_data` CHANGE `total_price` `total_price` BIGINT (20) NOT NULL;
@@ -46,6 +46,7 @@ ALTER TABLE `sales_fours` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_threes` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_twos` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
 ALTER TABLE `sales_ones` CHANGE `steps` `steps` DECIMAL(11) NULL DEFAULT NULL;
+ALTER TABLE `fuel_station_storages` CHANGE `capacity` `capacity` INT(20) NULL DEFAULT NULL;
 
 ALTER TABLE `sales_fours` CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `sales_threes`  CHANGE `description` `description` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
@@ -59,3 +60,4 @@ ALTER TABLE `notifications` CHANGE `gen_date` `gen_date` DATETIME NOT NULL;
 ALTER TABLE `notifications` CHANGE `exp_date` `exp_date` DATETIME NOT NULL;
 ALTER TABLE `proposals_step` ADD `step` VARCHAR(10) NOT NULL AFTER `proposal_id`;
 ALTER TABLE `proposals_step` CHANGE `id` `id` INT(10) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `pro_items` CHANGE `density` `density` FLOAT(20,5) NULL DEFAULT NULL;

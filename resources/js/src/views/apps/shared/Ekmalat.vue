@@ -62,7 +62,7 @@
         </vs-col>
         <vs-col vs-type="flex" v-if="is_active[index].density" vs-justify="center" vs-align="center" vs-lg="1" vs-sm="6" vs-xs="12">
           <div class="w-full pt-2 ml-3 mr-3">
-            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full" />
+            <vs-input type="number" v-validate="'required'" :title="errors.first(`step-3.density_${index}`)" :class="errors.first(`step-3.density_${index}`) ? 'has-error' : ''" :name="`density_${index}`" v-model="i.density" label="ثقلت" class="w-full number-rtl" />
             <has-error :form="form" field="density"></has-error>
             <!--<span class="text-danger text-sm" v-show="errors.has('reference_no')">{{ errors.first('reference_no') }}</span>-->
           </div>
@@ -152,7 +152,7 @@ export default {
   data() {
     return {
       operations: [],
-      density: null,
+      density: 0,
       item_types: [],
       mesure_unit: [],
       goods: [],
@@ -260,12 +260,12 @@ export default {
             eqv_uom: true,
             reverse: false,
           });
-          // this.visualFields.push({
-          //   equivalent: "0",
-          //   ammount: "0",
-          //   unit_price: "0",
-          //   total_price: "0",
-          // })
+          this.visualFields.push({
+            equivalent: "0",
+            ammount: "0",
+            unit_price: "0",
+            total_price: "0",
+          })
 
         }
       });
@@ -275,9 +275,9 @@ export default {
       let resp = new Promise((resolve, reject) => {
         this.$validator.validateAll("step-3").then((result) => {
           if (result) {
-            // this.addRow();
+            this.addRow();
           } else {
-            // reject('correct all values')
+            reject('correct all values')
           }
         });
       });
@@ -478,6 +478,7 @@ export default {
         let opr = this.items[key].operation_id;
 
         let unit_price = this.items[key].unit_price;
+        this.items[key].density = this.items[key].density*1;
         let density = this.items[key].density;
 
         if (opr && opr.id == 1) {

@@ -22,7 +22,7 @@
   </div>
   <vs-divider />
   <div class="vx-row mt-base">
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card>
         <div class="mt-base mb-base flex justify-between">
           <div>
@@ -33,7 +33,7 @@
         </div>
       </vx-card>
     </div>
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card>
         <div class="mt-base mb-base flex justify-between">
           <div>
@@ -44,7 +44,7 @@
         </div>
       </vx-card>
     </div>
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card title-color="#fff" content-color="#fff" card-background="linear-gradient(120deg ,rgba(247,97,161,0.5), rgba(140,27,171,.8))">
         <div class="mt-base mb-base flex justify-between">
           <div>
@@ -55,7 +55,7 @@
         </div>
       </vx-card>
     </div>
-    <div class="vx-col w-full md:w-1/4 mb-base hover-move-up">
+    <div class="vx-col w-full md:w-1/4 mb-base">
       <vx-card title-color="#fff" content-color="#fff" card-background="linear-gradient(to right, #56ab2f, #a8e063)">
         <div class="mt-base mb-base flex justify-between">
           <div>
@@ -133,7 +133,7 @@
     <div class="vx-col w-full md:w-1/3 mb-base hover-move-up cursor-pointer" @click="popupReport = true">
       <vx-card>
         <div class="mt-base mb-base flex">
-          <feather-icon icon="UsersIcon" svgClasses="w-12 h-12 text-darkgrey"></feather-icon>
+          <feather-icon icon="FileTextIcon" svgClasses="w-12 h-12 text-darkgrey"></feather-icon>
           <strong class="text-3xl ml-2 pt-2">صورت حساب</strong>
         </div>
         <div class="mb-base">

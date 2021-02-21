@@ -25,7 +25,7 @@
       <!--<vs-th>تنظیمات</vs-th> -->
     </template>
     <template slot-scope="{data}">
-      <tbody>
+      <tbody v-if="projects.length">
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
           <vs-td class="pl-2 text-center">
             {{ indextr + 1 }}
@@ -46,14 +46,14 @@
 
           <vs-td>
             <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
-            <p>{{ tr.project_guarantee | NumThreeDigit }} افغانی</p>
+            <p>{{ formatToEnPriceSimple(tr.project_guarantee) }} افغانی</p>
           </vs-td>
 
           <vs-td>
-            <p v-if="tr.pro_data">{{ tr.pro_data.pr_worth | NumThreeDigit }}</p>
+            <p v-if="tr.pro_data">{{ formatToEnPriceSimple(tr.pro_data.pr_worth) }}</p>
           </vs-td>
           <vs-td>
-            <p v-if="tr.pro_data">{{ tr.pro_data.total_total_price | NumThreeDigit }} افغانی</p>
+            <p v-if="tr.pro_data">{{ formatToEnPriceSimple(tr.pro_data.total_total_price) }} افغانی</p>
           </vs-td>
           <vs-td>
             <p>{{ tr.contract_end_date }}</p>
@@ -61,17 +61,6 @@
           <vs-td>
             <p>{{ tr.contract_date }}</p>
           </vs-td>
-          <!--
-          <vs-td class="whitespace-no-wrap notupfromall">
-            <router-link class="product-name font-medium truncate" :to="{
-                  path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
-            </router-link>
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
-          </vs-td>-->
         </vs-tr>
       </tbody>
     </template>
@@ -81,13 +70,6 @@
 </template>
 
 <script>
-import DataViewSidebar from "./DataViewSidebar.vue";
-import {
-  Form,
-  HasError,
-  AlertError
-} from 'vform'
-
 export default {
   name: "vx-project-list",
   data() {

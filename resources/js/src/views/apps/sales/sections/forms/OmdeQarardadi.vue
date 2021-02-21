@@ -350,7 +350,7 @@ export default {
           increment: "",
           unit_price: "",
           total_price: "",
-          density: null,
+          density: 0,
         }],
       }),
       items: [],

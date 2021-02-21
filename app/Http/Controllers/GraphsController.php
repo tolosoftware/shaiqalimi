@@ -7,19 +7,23 @@ use App\Models\Item;
 
 use App\Models\Sale;
 use App\Helper\Helper;
-use App\Models\Currency;
+use App\Models\ProData;
+use App\Models\Project;
 use App\Models\SaleOne;
 use App\Models\SaleTwo;
+use App\Models\Storage;
+use App\Models\Currency;
+use App\Models\Proposal;
 use App\Models\Purchase;
 use App\Models\SaleFour;
 use App\Models\Transfer;
 use App\Models\SaleThree;
 use App\Models\StockRecord;
+use App\Models\Transaction;
 use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
+use App\Models\Projects_Step;
 use App\Models\FinancialRecord;
-use App\Models\Storage;
-use App\Models\Transaction;
 
 class GraphsController extends Controller
 {
@@ -197,22 +201,43 @@ class GraphsController extends Controller
         $itemValues[$keyA] = $itemValue;
       }
       $chartData[$itemKey] = [
-        'data' => $this->array_avg($itemValues),
+        'data' => $itemValues,
+        // 'data' => $this->array_avg($itemValues),
         'name' => $item->type->type . '- ' . $item->name,
         'type' => 'area',
       ];
+    }
+    $rootLen = count($chartData);
+    for ($i = 0; $i < count($chartData[0]['data']); $i++) {
+      $sum = 0;
+      for ($j = 0; $j < $rootLen; $j++) {
+        $sum += $chartData[$j]['data'][$i];
+      }
+      if ($sum > 0) {
+        for ($j = 0; $j < $rootLen; $j++) {
+          $n = $chartData[$j]['data'][$i] * (100 / $sum);
+          // round up or floor based on the decimal digits
+          $whole = floor($n);
+          $fraction = $n - $whole;
+          if ($fraction > 0.55) {
+            $chartData[$j]['data'][$i] = round($n);
+          } else {
+            $chartData[$j]['data'][$i] = $whole;
+          }
+        }
+      }
     }
     return $chartData;
   }
 
   public function array_avg($array, $round = 0)
   {
-    
+
     $total = array_sum($array);
     if ($total !== 0) {
       $percentages = [];
       foreach ($array as $key => $value) {
-        $percentages[$key] = ($value * 100 ) / $total;
+        $percentages[$key] = ($value * 100) / $total;
       }
       return $percentages;
     } else {
@@ -275,5 +300,48 @@ class GraphsController extends Controller
       'name' => 'خریداری',
     ];
     return ['thisMonth' => array_sum($itemSaleValue), 'lastMonth' => array_sum($itemPurchaseValue), 'series' => $chartData];
+  }
+
+  public static function contractsGraphs()
+  {
+    $dates = [
+      ['-83 days', '-70 days'],
+      ['-69 days', '-56 days'],
+      ['-55 days', '-42 days'],
+      ['-41 days', '-28 days'],
+      ['-27 days', '-14 days'],
+      ['-13 days', '1 days'],
+    ];
+    $last3MContracts = [];
+    foreach ($dates as $dateKey => $date) {
+      $thisDate = [Carbon::create($date[0]), Carbon::create($date[1])];
+      $last3MContracts[$dateKey] = Project::with([
+          'pro_data',
+          'pro_items'
+        ])
+        ->whereHas('pro_data', function ($query) {
+          return $query->where('project_id', '!=', null);
+        })
+        ->whereBetween('created_at', $thisDate)->count();
+    }
+    $contractsChange[0] = [
+      'data' => $last3MContracts,
+      'name' => 'قرارداد',
+    ];
+    $thisYear = Carbon::create(Carbon::now()->year);
+    $activePro = Project::where('created_at', '>', $thisYear)
+      ->whereIn('id', Projects_Step::where('statusActive', 1)->get()->pluck('id'))->count();
+    $allProj = Project::where('created_at', '>', $thisYear)->count();
+
+    $successProp = ProData::where('proposal_id', '<>', null)
+      ->where('project_id', '<>', null)
+      ->where('created_at', '>', $thisYear)->count();
+    $allProp = Proposal::where('created_at', '>', $thisYear)->count();
+
+    return [
+      'active' => round(($activePro / (($allProj != 0) ? $allProj : 1) * 100)),
+      'successPro' => round(($successProp / (($allProp != 0) ? $allProp : 1) * 100)),
+      'contractsChange' => $contractsChange
+    ];
   }
 }

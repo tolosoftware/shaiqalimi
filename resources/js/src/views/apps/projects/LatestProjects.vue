@@ -36,13 +36,13 @@
           </vs-td>
           <vs-td>
             <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
-            <p>{{ tr.project_guarantee | NumThreeDigit }} افغانی</p>
+            <p>{{ formatToEnPriceSimple(tr.project_guarantee) }} افغانی</p>
           </vs-td>
           <vs-td>
-            <p v-if="tr.pro_data">{{ tr.pro_data.pr_worth | NumThreeDigit }}</p>
+            <p v-if="tr.pro_data">{{ formatToEnPriceSimple(tr.pro_data.pr_worth) }}</p>
           </vs-td>
           <vs-td>
-            <p v-if="tr.pro_data">{{ tr.pro_data.total_total_price | NumThreeDigit }} افغانی</p>
+            <p v-if="tr.pro_data">{{ formatToEnPriceSimple(tr.pro_data.total_total_price) }} افغانی</p>
           </vs-td>
           <vs-td>
             <p>{{ tr.contract_end_date }}</p>
@@ -50,18 +50,7 @@
           <vs-td>
             <p>{{ tr.contract_date }}</p>
           </vs-td>
-
-          <!--<vs-td class="whitespace-no-wrap notupfromall">
-            <router-link class="product-name font-medium truncate" :to="{
-                  path: '/projects/project/${tr.id}',
-                  name: 'project-edit',
-                  params: { id: tr.id, dyTitle: tr.title },
-                }">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
-            </router-link>
-            <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
-          </vs-td> -->
-        </vs-tr>
+       </vs-tr>
       </tbody>
     </template>
   </vs-table>
@@ -69,13 +58,6 @@
 </template>
 
 <script>
-import DataViewSidebar from "./DataViewSidebar.vue";
-import {
-  Form,
-  HasError,
-  AlertError
-} from 'vform'
-
 export default {
   name: "vx-project-list",
   data() {
@@ -97,10 +79,6 @@ export default {
       let name = '';
       Object.keys(this.clients).some(key => (this.clients[key].id == id) ? name = this.clients[key].name : null);
       return name;
-      // this.axios.get('/api/client/' + id).then((response) => {
-      //   this.name = response.data;
-      // })
-
     },
     // for Organs that implement the ad
     getAllClients() {
@@ -121,81 +99,10 @@ export default {
         .catch(() => {});
     },
 
-    // Start Custom
-    // goTo(data) {
-    //   this.$router
-    //     .push({
-    //       path: "/projects/project/${data.id}",
-    //       name: "project-view",
-    //       params: {
-    //         id: data.id,
-    //         dyTitle: data.title
-    //       },
-    //     })
-    //     .catch(() => {});
-    // },
-    // goToEdit(data) {
-    //   this.$router
-    //     .push({
-    //       path: "/projects/project/${data.id}/edit",
-    //       name: "project-edit",
-    //       params: {
-    //         id: data.id,
-    //         dyTitle: data.title
-    //       },
-    //     })
-    //     .catch(() => {});
-    // },
-    // // End Custom
     addNewData() {
       this.sidebarData = {};
       this.toggleDataSidebar(true);
     },
-    // deleteData(id, title) {
-    //   swal.fire({
-    //     title: 'آیا مطمئن هستید؟',
-    //     text: "پروژه حذف خواهد شد",
-    //     icon: 'question',
-    //     showCancelButton: true,
-    //     confirmButtonColor: 'rgb(54 34 119)',
-    //     cancelButtonColor: 'rgb(229 83 85)',
-    //     confirmButtonText: '<span>بله، حذف شود!</span>',
-    //     cancelButtonText: '<span>خیر، لغو عملیه!</span>'
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       this.pForm.delete('/api/project/' + id).then((id) => {
-    //           swal.fire({
-    //             title: 'عملیه موفقانه انجام شد.',
-    //             text: "پروژه از سیستم پاک شد!",
-    //             icon: 'success',
-    //           })
-    //           this.getProject();
-    //         })
-    //         .catch(() => {});
-    //     }
-    //   })
-    // },
-    // editData(data) {
-    //   // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-    //   this.sidebarData = data;
-    //   this.toggleDataSidebar(true);
-    // },
-    // getOrderStatusColor(pr_worth) {
-    //   if (pr_worth === "on_hold") return "warning";
-    //   if (pr_worth === "delivered") return "success";
-    //   if (pr_worth === "canceled") return "danger";
-    //   return "primary";
-    // },
-    // getPopularityColor(num) {
-    //   if (num > 90) return "success";
-    //   if (num > 70) return "primary";
-    //   if (num >= 50) return "warning";
-    //   if (num < 50) return "danger";
-    //   return "primary";
-    // },
-    // toggleDataSidebar(val = false) {
-    //   this.addNewDataSidebar = val;
-    // },
   },
   mounted() {
     this.isMounted = false;

@@ -137,7 +137,7 @@ export default {
           ammount: "",
           unit_price: "",
           total_price: "",
-          density: null,
+          density: 0,
         }],
 
       }),

@@ -5333,6 +5333,10 @@ text {
   margin: unset !important;
 }
 
+[dir] .number-utf8 input {
+  font-family: "YekanWeb" !important;
+}
+
 [dir] .number-rtl input {
   font-family: "YekanWeb" !important;
   direction: ltr !important;
@@ -5766,6 +5770,10 @@ li.fuel-station > h3 {
 
 [dir] .balance_list_currency_toggle .radio-group label {
   padding: 1rem !important;
+}
+
+[dir] .apexcharts-legend-marker {
+  margin-left: 4px !important;
 }
 
 .serial_no_reference {

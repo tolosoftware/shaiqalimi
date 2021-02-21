@@ -19,6 +19,7 @@ class ProData extends Model
     'tax',
     'transit',
     'others',
+    'discount',
     'currency_id',
     'total_price'
   ];
